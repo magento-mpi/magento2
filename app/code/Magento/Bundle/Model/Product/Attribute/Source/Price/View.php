@@ -116,6 +116,7 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View
      */
     public function getFlatUpdateSelect($store)
     {
-        return $this->_entityAttribute->getFlatUpdateSelect($this->getAttribute(), $store, false);
+        return $this->_entityAttribute->create('Magento_Eav_Model_Resource_Entity_Attribute_Option')
+            ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

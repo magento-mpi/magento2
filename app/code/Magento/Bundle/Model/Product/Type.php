@@ -110,7 +110,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * @var Magento_Bundle_Model_Resource_Selection_CollectionFactory
      */
-    protected $_bundleSelectionCollection;
+    protected $_bundleCollection;
 
     /**
      * @var Magento_Bundle_Model_Resource_BundleFactory
@@ -125,7 +125,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     /**
      * @param Magento_Bundle_Model_SelectionFactory $bundleModelSelection
      * @param Magento_Bundle_Model_Resource_BundleFactory $bundleFactory
-     * @param Magento_Bundle_Model_Resource_Selection_CollectionFactory $bundleSelectionCollection
+     * @param Magento_Bundle_Model_Resource_Selection_CollectionFactory $bundleCollection
      * @param Magento_Catalog_Model_Config $config
      * @param Magento_Bundle_Model_Resource_Selection $bundleSelection
      * @param Magento_Bundle_Model_OptionFactory $bundleOption
@@ -143,7 +143,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     public function __construct(
         Magento_Bundle_Model_SelectionFactory $bundleModelSelection,
         Magento_Bundle_Model_Resource_BundleFactory $bundleFactory,
-        Magento_Bundle_Model_Resource_Selection_CollectionFactory $bundleSelectionCollection,
+        Magento_Bundle_Model_Resource_Selection_CollectionFactory $bundleCollection,
         Magento_Catalog_Model_Config $config,
         Magento_Bundle_Model_Resource_Selection $bundleSelection,
         Magento_Bundle_Model_OptionFactory $bundleOption,
@@ -164,7 +164,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $this->_bundleOption = $bundleOption;
         $this->_bundleSelection = $bundleSelection;
         $this->_config = $config;
-        $this->_bundleSelectionCollection = $bundleSelectionCollection;
+        $this->_bundleCollection = $bundleCollection;
         $this->_bundleFactory = $bundleFactory;
         $this->_bundleModelSelection = $bundleModelSelection;
         parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
@@ -351,7 +351,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     {
         parent::save($product);
         /* @var $resource Magento_Bundle_Model_Resource_Bundle */
-        $resource = $this->_bundleFactory;
+        $resource = $this->_bundleFactory->create('Magento_Bundle_Model_Resource_Bundle');
 
         $options = $product->getBundleOptionsData();
         if ($options) {
@@ -362,7 +362,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                     unset($option['option_id']);
                 }
 
-                $optionModel = $this->_bundleOption
+                $optionModel = $this->_bundleOption->create('Magento_Bundle_Model_Option')
                     ->setData($option)
                     ->setParentId($product->getId())
                     ->setStoreId($product->getStoreId());
@@ -388,7 +388,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                             $selection['is_default'] = 0;
                         }
 
-                        $selectionModel = $this->_bundleModelSelection
+                        $selectionModel = $this->_bundleModelSelection->create('Magento_Bundle_Model_Selection')
                             ->setData($selection)
                             ->setOptionId($options[$index]['option_id'])
                             ->setWebsiteId($this->_storeManager->getStore($product->getStoreId())->getWebsiteId())
@@ -449,7 +449,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     public function getOptionsCollection($product)
     {
         if (!$product->hasData($this->_keyOptionsCollection)) {
-            $optionsCollection = $this->_bundleOption->getResourceCollection()
+            $optionsCollection = $this->_bundleOption->create('Magento_Bundle_Model_Option')->getResourceCollection()
                 ->setProductIdFilter($product->getId())
                 ->setPositionOrder();
 
@@ -477,7 +477,8 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $key = $this->_keySelectionsCollection . $keyOptionIds;
         if (!$product->hasData($key)) {
             $storeId = $product->getStoreId();
-            $selectionsCollection = $this->_bundleSelectionCollection
+            $selectionsCollection = $this->_bundleCollection
+                ->create('Magento_Bundle_Model_Resource_Selection_Collection')
                 ->addAttributeToSelect($this->_config->getProductAttributes())
                 ->addAttributeToSelect('tax_class_id') //used for calculation item taxes in Bundle with Dynamic Price
                 ->setFlag('require_stock_items', true)
@@ -806,7 +807,8 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
 
         if (!$usedSelections || serialize($usedSelectionsIds) != serialize($selectionIds)) {
             $storeId = $product->getStoreId();
-            $usedSelections = $this->_bundleSelectionCollection
+            $usedSelections = $this->_bundleCollection
+                ->create('Magento_Bundle_Model_Resource_Selection_Collection')
                 ->addAttributeToSelect('*')
                 ->setFlag('require_stock_items', true)
                 ->addStoreFilter($this->getStoreFilter($product))
@@ -840,7 +842,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $usedOptionsIds  = $product->getData($this->_keyUsedOptionsIds);
 
         if (!$usedOptions || serialize($usedOptionsIds) != serialize($optionIds)) {
-            $usedOptions = $this->_bundleOption->getResourceCollection()
+            $usedOptions = $this->_bundleOption->create('Magento_Bundle_Model_Option')->getResourceCollection()
                 ->setProductIdFilter($product->getId())
                 ->setPositionOrder()
                 ->joinValues($this->_storeManager->getStore()->getId())
@@ -984,7 +986,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     {
         $searchData = parent::getSearchableData($product);
 
-        $optionSearchData = $this->_bundleOption
+        $optionSearchData = $this->_bundleOption->create('Magento_Bundle_Model_Option')
             ->getSearchableData($product->getId(), $product->getStoreId());
         if ($optionSearchData) {
             $searchData = array_merge($searchData, $optionSearchData);

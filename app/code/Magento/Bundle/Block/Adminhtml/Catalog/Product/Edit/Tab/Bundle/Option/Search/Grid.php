@@ -45,7 +45,6 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Bundle_Helper_Data $bundleData,
         Magento_Core_Helper_Data $coreData,
@@ -104,7 +103,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_productFactory->getCollection()
+        $collection = $this->_productFactory->create('Magento_Catalog_Model_Product')->getCollection()
             ->setOrder('id')
             ->setStore($this->getStore())
             ->addAttributeToSelect('name')
