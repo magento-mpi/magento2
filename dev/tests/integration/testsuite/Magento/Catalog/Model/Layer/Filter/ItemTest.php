@@ -55,8 +55,7 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $request Magento_TestFramework_Request */
         $request = $objectManager->get('Magento_TestFramework_Request');
-        $action = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
+        $action = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Core_Controller_Front_Action',
             array(
                 'request' => $request,

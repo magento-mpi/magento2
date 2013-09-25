@@ -14,7 +14,7 @@ require __DIR__ . '/../../../Magento/Catalog/_files/product_configurable.php';
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->load(1);
 /* Create simple products per each option */
 /** @var $options Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection */
@@ -31,7 +31,7 @@ $requestInfo = new Magento_Object(array(
 
 /** @var $cart Magento_Checkout_Model_Cart */
 $cart = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Checkout_Model_Cart');
+    ->create('Magento_Checkout_Model_Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 

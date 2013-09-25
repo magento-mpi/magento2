@@ -10,7 +10,7 @@
  */
 
 $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Quote');
+    ->create('Magento_Sales_Model_Quote');
 $quote->load('test01', 'reserved_order_id');
 
 $payment = $quote->getPayment();

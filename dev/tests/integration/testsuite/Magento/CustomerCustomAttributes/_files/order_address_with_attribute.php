@@ -20,15 +20,15 @@ $connection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('M
 $connection->commitTransparentTransaction();
 
 $entityType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Eav_Model_Config')->getEntityType('customer_address');
+    ->create('Magento_Eav_Model_Config')->getEntityType('customer_address');
 /** @var $entityType Magento_Eav_Model_Entity_Type */
 
 $attributeSet = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Eav_Model_Entity_Attribute_Set');
+    ->create('Magento_Eav_Model_Entity_Attribute_Set');
 /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
 
 $attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Attribute',
+    ->create('Magento_Customer_Model_Attribute',
     array(
         'data' => array(
             'frontend_input'     => 'text',
@@ -51,7 +51,7 @@ $attribute->save();
 
 $addressData = include(__DIR__ . '/../../../Magento/Sales/_files/address_data.php');
 $billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Address', array('data' => $addressData));
+    ->create('Magento_Sales_Model_Order_Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 $billingAddress->setData($attribute->getAttributeCode(), 'fixture_attribute_custom_value');
 $billingAddress->save();

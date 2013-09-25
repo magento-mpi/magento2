@@ -26,8 +26,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
     public function testPrepareLayout($blockAttributes, $expected)
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Core_Model_Layout',
             array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
         );
@@ -206,13 +205,13 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
         $urlRewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Url_Rewrite');
         /** @var $category Magento_Catalog_Model_Category */
-        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category',
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_Catalog_Model_Category',
             array('data' => array('entity_id' => 1, 'name' => 'Test category'))
         );
         /** @var $existingUrlRewrite Magento_Core_Model_Url_Rewrite */
-        $existingUrlRewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Url_Rewrite',
+        $existingUrlRewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_Core_Model_Url_Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
 

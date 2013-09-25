@@ -13,7 +13,7 @@ $conditions = serialize(array());
 
 /** @var $rule Magento_Reminder_Model_Rule */
 $rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Reminder_Model_Rule');
+    ->create('Magento_Reminder_Model_Rule');
 $rule->setData(array(
     'name' => 'Rule 1',
     'description' => 'Rule 1 Desc',
@@ -29,7 +29,7 @@ $rule->setData(array(
 ))->save();
 
 $rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Reminder_Model_Rule');
+    ->create('Magento_Reminder_Model_Rule');
 $rule->setData(array(
     'name' => 'Rule 2',
     'description' => 'Rule 2 Desc',

@@ -193,16 +193,15 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
     public function testInitFormAddsFieldsets()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
-                'Magento_Core_Controller_Front_Action',
-                array(
-                    'request' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                        ->get('Magento_Core_Controller_Request_Http'),
-                    'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                        ->get('Magento_Core_Model_App')->getResponse()
-                )
-            );
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_Core_Controller_Front_Action',
+            array(
+                'request' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Controller_Request_Http'),
+                'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_App')->getResponse()
+            )
+        );
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Controller_Request_Http')
             ->setParam('section', 'general');
         /** @var $block Magento_Backend_Block_System_Config_Form */

@@ -11,7 +11,7 @@
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -33,6 +33,6 @@ $product->setTypeId('simple')
     ->save();
 
 $customDesignProduct = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product', array('data' => $product->getData()));
+    ->create('Magento_Catalog_Model_Product', array('data' => $product->getData()));
 $customDesignProduct->setId(2)->setCustomDesign('magento_blank')
     ->save();

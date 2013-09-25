@@ -12,7 +12,7 @@
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
 $review = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Review_Model_Review', array(
+    ->create('Magento_Review_Model_Review', array(
     'data' => array(
         'nickname' => 'Nickname',
         'title'    => 'Review Summary',
@@ -34,7 +34,7 @@ $review
     ->save();
 
 $review = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Review_Model_Review', array(
+    ->create('Magento_Review_Model_Review', array(
     'data' => array(
         'nickname' => 'Nickname',
         'title'    => '2 filter first review',
@@ -56,7 +56,7 @@ $review
     ->save();
 
 $review = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Review_Model_Review', array(
+    ->create('Magento_Review_Model_Review', array(
     'data' => array(
         'nickname' => 'Nickname',
         'title'    => '1 filter second review',

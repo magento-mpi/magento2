@@ -76,11 +76,11 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
                 'filesystem' => new Magento_Filesystem(new Magento_Filesystem_Adapter_Local),
             )),
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory'),
+                ->create('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory'),
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Widget_Grid_SubTotals'),
+                ->create('Magento_Backend_Model_Widget_Grid_SubTotals'),
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Widget_Grid_Totals'),
+                ->create('Magento_Backend_Model_Widget_Grid_Totals'),
         ));
     }
 

@@ -27,8 +27,7 @@ class Magento_Adminhtml_Block_Urlrewrite_EditTest extends PHPUnit_Framework_Test
     {
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Core_Model_Layout',
             array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
         );
@@ -143,8 +142,8 @@ class Magento_Adminhtml_Block_Urlrewrite_EditTest extends PHPUnit_Framework_Test
         $urlRewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Url_Rewrite');
         /** @var $existingUrlRewrite Magento_Core_Model_Url_Rewrite */
-        $existingUrlRewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Url_Rewrite',
+        $existingUrlRewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_Core_Model_Url_Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
 

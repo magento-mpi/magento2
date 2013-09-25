@@ -14,7 +14,7 @@ $installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
     ->create('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 $attributeSetId = $installer->getAttributeSetId('catalog_product', 'Default');
 $entityModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Eav_Model_Entity');
+    ->create('Magento_Eav_Model_Entity');
 $entityTypeId = $entityModel->setType(Magento_Catalog_Model_Product::ENTITY)->getTypeId();
 $groupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
 

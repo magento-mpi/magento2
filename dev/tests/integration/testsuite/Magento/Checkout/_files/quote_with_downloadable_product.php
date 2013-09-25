@@ -13,12 +13,12 @@ require __DIR__ . '/../../../Magento/Downloadable/_files/product.php';
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->load(1);
 
 /** @var $linkCollection Magento_Downloadable_Model_Resource_Link_Collection */
 $linkCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Downloadable_Model_Link')->getCollection()
+    ->create('Magento_Downloadable_Model_Link')->getCollection()
     ->addProductToFilter($product->getId())
     ->addTitleToResult($product->getStoreId())
     ->addPriceToResult($product->getStore()->getWebsiteId());
@@ -33,7 +33,7 @@ $requestInfo = new Magento_Object(array(
 
 /** @var $cart Magento_Checkout_Model_Cart */
 $cart = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Checkout_Model_Cart');
+    ->create('Magento_Checkout_Model_Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 

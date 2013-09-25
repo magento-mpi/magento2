@@ -11,7 +11,7 @@
 
 /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
 $operation = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+    ->create('Magento_ScheduledImportExport_Model_Scheduled_Operation');
 
 $data = array(
     'operation_type'    => 'export',

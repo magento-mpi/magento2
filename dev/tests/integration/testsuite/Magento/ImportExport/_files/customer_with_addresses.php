@@ -12,7 +12,7 @@ $customers = array();
 
 //Create customer
 $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+    ->create('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(1)
     ->setEntityTypeId(1)
@@ -29,7 +29,7 @@ $customer->isObjectNew(true);
 
 // Create address
 $address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+    ->create('Magento_Customer_Model_Address');
 //  default_billing and default_shipping information would not be saved, it is needed only for simple check
 $address->addData(array(
     'firstname'         => 'Betsy',
@@ -56,7 +56,7 @@ $customer->save();
 $customers[] = $customer;
 
 $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+    ->create('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(2)
     ->setEntityTypeId(1)
@@ -72,7 +72,7 @@ $customer->setWebsiteId(1)
 $customer->isObjectNew(true);
 
 $address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+    ->create('Magento_Customer_Model_Address');
 $address->addData(array(
     'firstname'         => 'Anthony',
     'lastname'          => 'Nealy',
@@ -88,7 +88,7 @@ $address->addData(array(
 $customer->addAddress($address);
 
 $address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+    ->create('Magento_Customer_Model_Address');
 $address->addData(array(
     'firstname'         => 'Anthony',
     'lastname'          => 'Nealy',
@@ -112,7 +112,7 @@ $customer->save();
 $customers[] = $customer;
 
 $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+    ->create('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(3)
     ->setEntityTypeId(1)
@@ -128,7 +128,7 @@ $customer->setWebsiteId(1)
 $customer->isObjectNew(true);
 
 $address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+    ->create('Magento_Customer_Model_Address');
 $address->addData(array(
     'firstname'         => 'Lori',
     'lastname'          => 'Banks',

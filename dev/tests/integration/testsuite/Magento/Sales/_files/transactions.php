@@ -10,11 +10,11 @@
  */
 
 $payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Payment');
+    ->create('Magento_Sales_Model_Order_Payment');
 $payment->setMethod('checkmo');
 
 $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+    ->create('Magento_Sales_Model_Order');
 $order->setIncrementId('100000001')
     ->setSubtotal(100)
     ->setBaseSubtotal(100)

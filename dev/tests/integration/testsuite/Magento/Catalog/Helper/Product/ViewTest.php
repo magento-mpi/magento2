@@ -42,8 +42,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
         );
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
-        $this->_controller = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
+        $this->_controller = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Catalog_Controller_Product',
             array(
                 'context'  => $context,

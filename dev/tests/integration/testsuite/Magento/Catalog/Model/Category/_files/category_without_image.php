@@ -14,7 +14,7 @@
  */
 /** @var $category Magento_Catalog_Model_Category */
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setName('Category Without Image 1')
     ->setParentId(2)
     ->setLevel(2)

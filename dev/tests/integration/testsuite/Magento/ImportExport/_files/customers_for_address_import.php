@@ -10,7 +10,7 @@
  */
 //Create customer
 $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+    ->create('Magento_Customer_Model_Customer');
 $customer
     ->setWebsiteId(0)
     ->setEntityId(1)
@@ -29,7 +29,7 @@ $customer->save();
 
 // Create and set addresses
 $addressFirst = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+    ->create('Magento_Customer_Model_Address');
 $addressFirst->addData(array(
     'entity_id'         => 1,
     'firstname'         => 'Betsy',
@@ -46,7 +46,7 @@ $customer->addAddress($addressFirst);
 $customer->setDefaultBilling($addressFirst->getId());
 
 $addressSecond = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+    ->create('Magento_Customer_Model_Address');
 $addressSecond->addData(array(
     'entity_id'         => 2,
     'firstname'         => 'Anthony',

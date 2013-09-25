@@ -26,7 +26,7 @@ foreach ($files as $file) {
 
 /** @var $registration Magento_Core_Model_Theme_Registration */
 $registration = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Theme_Registration');
+    ->create('Magento_Core_Model_Theme_Registration');
 $registration->register(
     $designDir,
     implode(DIRECTORY_SEPARATOR, array('*', '*', 'theme.xml'))

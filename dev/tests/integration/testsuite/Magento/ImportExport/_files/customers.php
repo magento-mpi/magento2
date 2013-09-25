@@ -11,7 +11,7 @@
 $customers = array();
 
 $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+    ->create('Magento_Customer_Model_Customer');
 
 $customer->setWebsiteId(1)
     ->setEntityId(1)
@@ -31,7 +31,7 @@ $customer->save();
 $customers[] = $customer;
 
 $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+    ->create('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(2)
     ->setEntityTypeId(1)
@@ -50,7 +50,7 @@ $customer->save();
 $customers[] = $customer;
 
 $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+    ->create('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(3)
     ->setEntityTypeId(1)

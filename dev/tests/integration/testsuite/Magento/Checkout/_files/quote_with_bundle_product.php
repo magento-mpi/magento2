@@ -13,7 +13,7 @@ require __DIR__ . '/../../../Magento/Bundle/_files/product.php';
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->load(3);
 
 /** @var $typeInstance Magento_Bundle_Model_Product_Type */
@@ -41,7 +41,7 @@ $requestInfo = new Magento_Object(array(
 
 /** @var $cart Magento_Checkout_Model_Cart */
 $cart = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Checkout_Model_Cart');
+    ->create('Magento_Checkout_Model_Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 

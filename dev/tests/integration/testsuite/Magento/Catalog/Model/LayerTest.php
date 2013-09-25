@@ -57,26 +57,24 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->getState()
             ->addFilter(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
                     'Magento_Catalog_Model_Layer_Filter_Item',
                     array(
                         'data' => array(
                             'filter' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Category'),
+                                ->create('Magento_Catalog_Model_Layer_Filter_Category'),
                             'value'  => 'expected-value-string',
                         )
                     )
                 )
             )
             ->addFilter(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
                     'Magento_Catalog_Model_Layer_Filter_Item',
                     array(
                         'data' => array(
                             'filter' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Layer_Filter_Decimal'),
+                                ->create('Magento_Catalog_Model_Layer_Filter_Decimal'),
                             'value'  => 1234,
                         )
                     )

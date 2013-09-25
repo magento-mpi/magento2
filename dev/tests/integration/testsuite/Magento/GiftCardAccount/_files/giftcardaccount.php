@@ -11,7 +11,7 @@
 
 /** @var $model Magento_GiftCardAccount_Model_Giftcardaccount */
 $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_GiftCardAccount_Model_Giftcardaccount');
+    ->create('Magento_GiftCardAccount_Model_Giftcardaccount');
 $model->setCode('giftcardaccount_fixture')
     ->setStatus(Magento_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED)
     ->setState(Magento_GiftCardAccount_Model_Giftcardaccount::STATE_AVAILABLE)

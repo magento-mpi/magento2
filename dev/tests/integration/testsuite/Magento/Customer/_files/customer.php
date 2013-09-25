@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+    ->create('Magento_Customer_Model_Customer');
 $customer
     ->setWebsiteId(1)
     ->setEntityId(1)

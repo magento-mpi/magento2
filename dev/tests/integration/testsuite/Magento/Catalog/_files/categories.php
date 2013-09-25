@@ -16,7 +16,7 @@ $installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
  */
 /** @var $category Magento_Catalog_Model_Category */
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(3)
     ->setName('Category 1')
     ->setParentId(2) /**/
@@ -29,7 +29,7 @@ $category->setId(3)
     ->save();
 
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(4)
     ->setName('Category 1.1')
     ->setParentId(3) /**/
@@ -43,7 +43,7 @@ $category->setId(4)
     ->save();
 
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(5)
     ->setName('Category 1.1.1')
     ->setParentId(4) /**/
@@ -58,7 +58,7 @@ $category->setId(5)
     ->save();
 
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(6)
     ->setName('Category 2')
     ->setParentId(2) /**/
@@ -71,7 +71,7 @@ $category->setId(6)
     ->save();
 
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(7)
     ->setName('Movable')
     ->setParentId(2) /**/
@@ -84,7 +84,7 @@ $category->setId(7)
     ->save();
 
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(8)
     ->setName('Inactive')
     ->setParentId(2) /**/
@@ -98,7 +98,7 @@ $category->setId(8)
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
@@ -117,7 +117,7 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->save();
 
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(2)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))

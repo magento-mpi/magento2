@@ -11,7 +11,7 @@
 
 /** @var $category Magento_Catalog_Model_Category */
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(3)
     ->setName('Category 1')
     ->setParentId(2) /**/
@@ -24,7 +24,7 @@ $category->setId(3)
     ->save();
 
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(4)
     ->setName('Category 2')
     ->setParentId(2) /**/
@@ -37,7 +37,7 @@ $category->setId(4)
     ->save();
 
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(5)
     ->setName('Old Root')
     ->setParentId(1) /**/
@@ -51,7 +51,7 @@ $category->setId(5)
 
 
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)

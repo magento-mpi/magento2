@@ -55,8 +55,7 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
         $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
         $this->_block = $this->_blockFactory->createBlock($this->_formClass, array(
-            'context' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
+            'context' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
                 'Magento_Backend_Block_Template_Context',
                 array('urlBuilder' => $this->_urlBuilder)
             )

@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_StoreTest extends PHPUnit_F
         $registryData = array(
             'store_type' => 'store',
             'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store'),
+                ->create('Magento_Core_Model_Store'),
             'store_action' => 'add'
         );
         /** @var $objectManager Magento_TestFramework_ObjectManager */
@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_StoreTest extends PHPUnit_F
         }
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
+        $layout = $objectManager->get('Magento_Core_Model_Layout');
 
         $this->_block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit_Form_Store');
 

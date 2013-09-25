@@ -11,7 +11,7 @@
 
 /** @var $block Magento_Cms_Model_Block */
 $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Cms_Model_Block');
+    ->create('Magento_Cms_Model_Block');
 $block->setTitle('CMS Block Title')
     ->setIdentifier('fixture_block')
     ->setContent('<h1>Fixture Block Title</h1>

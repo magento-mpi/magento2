@@ -13,7 +13,7 @@ $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Mage
     ->getAnyStoreView()->getId();
 /** @var $change Magento_Core_Model_Design */
 $change = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Design');
+    ->create('Magento_Core_Model_Design');
 $change->setStoreId($storeId)
     ->setDesign('magento_blank')
     ->setDateFrom('2001-01-01 01:01:01')

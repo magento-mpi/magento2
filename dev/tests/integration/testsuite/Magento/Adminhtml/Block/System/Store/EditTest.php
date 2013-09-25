@@ -115,7 +115,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
                 array(
                     'store_type' => 'website',
                     'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Website'),
+                        ->create('Magento_Core_Model_Website'),
                     'store_action' => 'add'
                 ),
                 'New Web Site'
@@ -124,7 +124,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
                 array(
                     'store_type' => 'website',
                     'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Website'),
+                        ->create('Magento_Core_Model_Website'),
                     'store_action' => 'edit'
                 ),
                 'Edit Web Site'
@@ -133,7 +133,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
                 array(
                     'store_type' => 'group',
                     'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store_Group'),
+                        ->create('Magento_Core_Model_Store_Group'),
                     'store_action' => 'add'
                 ),
                 'New Store'
@@ -142,7 +142,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
                 array(
                     'store_type' => 'group',
                     'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store_Group'),
+                        ->create('Magento_Core_Model_Store_Group'),
                     'store_action' => 'edit'
                 ),
                 'Edit Store'
@@ -151,7 +151,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
                 array(
                     'store_type' => 'store',
                     'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store'),
+                        ->create('Magento_Core_Model_Store'),
                     'store_action' => 'add'
                 ),
                 'New Store View'
@@ -160,7 +160,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
                 array(
                     'store_type' => 'store',
                     'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store'),
+                        ->create('Magento_Core_Model_Store'),
                     'store_action' => 'edit'
                 ),
                 'Edit Store View'

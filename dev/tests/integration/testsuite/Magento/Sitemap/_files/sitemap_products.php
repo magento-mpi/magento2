@@ -21,7 +21,7 @@ $filesystem->copy(__DIR__ . '/magento_image_sitemap.png', $baseTmpMediaPath . '/
 $filesystem->copy(__DIR__ . '/second_image.png', $baseTmpMediaPath . '/second_image.png');
 
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)
@@ -35,7 +35,7 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->save();
 
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(2)
     ->setAttributeSetId(4)
@@ -50,7 +50,7 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->save();
 
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(3)
     ->setAttributeSetId(4)
@@ -65,7 +65,7 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->save();
 
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(4)
     ->setAttributeSetId(4)
@@ -85,7 +85,7 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->save();
 
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(5)
     ->setAttributeSetId(4)

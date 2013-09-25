@@ -30,8 +30,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_AccordionTest extends PHPUn
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_customer', $customer);
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
+        $layout = $objectManager->create(
             'Magento_Core_Model_Layout',
             array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
         );

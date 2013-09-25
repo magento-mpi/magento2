@@ -8,7 +8,7 @@
 
 /** @var Magento_Sales_Model_Order_Status $status */
 $status = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Status');
+    ->create('Magento_Sales_Model_Order_Status');
 //status for state new
 $status->setData('status', 'custom_new_status')
     ->setData('label', 'Test Status')

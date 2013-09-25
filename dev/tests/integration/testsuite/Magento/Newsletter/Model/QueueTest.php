@@ -73,14 +73,13 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             $subscriberOne, $subscriberTwo
         ));
 
-        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
-                'Magento_Newsletter_Model_Queue',
-                array(
-                    'filter' => $filter, 
-                    'data' => array('email_template' => $emailTemplate)
-                )
-            );
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_Newsletter_Model_Queue',
+            array(
+                'filter' => $filter,
+                'data' => array('email_template' => $emailTemplate)
+            )
+        );
         $queue->load('Subject', 'newsletter_subject'); // fixture
         $queue->sendPerSubscriber();
     }

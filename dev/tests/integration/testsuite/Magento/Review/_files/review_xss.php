@@ -12,7 +12,7 @@
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple_xss.php';
 
 $review = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Review_Model_Review');
+    ->create('Magento_Review_Model_Review');
 $review->setEntityId($review->getEntityIdByCode(Magento_Review_Model_Review::ENTITY_PRODUCT_CODE))
     ->setEntityPkValue(1) // the last product from the fixture file included above
     ->setStatusId(Magento_Review_Model_Review::STATUS_PENDING)

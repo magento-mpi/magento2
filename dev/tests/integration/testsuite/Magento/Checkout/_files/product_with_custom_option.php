@@ -12,7 +12,7 @@
 require __DIR__ . '/../../Checkout/_files/simple_product.php';
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->load(1);
 
 /** @var $product Magento_Catalog_Model_Product */
@@ -39,7 +39,7 @@ $product->setCanSaveCustomOptions(true)
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->load(1);
 $optionId = key($product->getOptions());
 

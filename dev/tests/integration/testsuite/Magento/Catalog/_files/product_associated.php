@@ -12,7 +12,7 @@
 /* Create simple product */
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)

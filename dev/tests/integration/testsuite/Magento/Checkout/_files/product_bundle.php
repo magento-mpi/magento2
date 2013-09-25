@@ -13,7 +13,7 @@ require __DIR__ . '/../../Checkout/_files/simple_product.php';
 
 /** @var $bundleProduct Magento_Catalog_Model_Product */
 $bundleProduct = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $bundleProduct->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE)
     ->setId(3)
     ->setAttributeSetId(4)
@@ -64,7 +64,7 @@ $bundleProduct->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE)
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->load($bundleProduct->getId());
 
 /** @var $typeInstance Magento_Bundle_Model_Product_Type */

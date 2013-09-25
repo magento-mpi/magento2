@@ -38,8 +38,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extend
 
         $product = clone $productWithOptions;
         /** @var $option Magento_Catalog_Model_Product_Option */
-        $option = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
+        $option = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Catalog_Model_Product_Option',
             array('data' => array('id' => 1, 'title' => 'some_title'))
         );

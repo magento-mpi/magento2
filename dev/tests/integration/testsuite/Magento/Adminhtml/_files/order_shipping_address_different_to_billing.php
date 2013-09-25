@@ -10,8 +10,8 @@
  */
 
 /** @var $billingAddress Magento_Sales_Model_Order_Address */
-$billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Address',
+$billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+    'Magento_Sales_Model_Order_Address',
     array(
         'data' => array(
             'firstname'  => 'guest',
@@ -41,8 +41,7 @@ $order->setIncrementId('100000002');
 $order->save();
 
 /** @var $payment Magento_Sales_Model_Order_Payment */
-$payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Payment');
+$payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Sales_Model_Order_Payment');
 $payment->setMethod('checkmo');
 
 $order = $clonedOrder;

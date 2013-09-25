@@ -8,5 +8,5 @@
 
 /** @var $cache Magento_Core_Model_Cache */
 $cache = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Cache');
+    ->create('Magento_Core_Model_Cache');
 $cache->clean(array(Magento_Core_Model_Design::CACHE_TAG));

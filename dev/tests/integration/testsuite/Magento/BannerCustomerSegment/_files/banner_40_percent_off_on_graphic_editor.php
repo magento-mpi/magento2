@@ -11,17 +11,17 @@ require __DIR__ . '/../../../Magento/CustomerSegment/_files/segment_designers.ph
 
 /** @var Magento_SalesRule_Model_Rule $rule */
 $rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_SalesRule_Model_Rule');
+    ->create('Magento_SalesRule_Model_Rule');
 $rule->load('40% Off on Large Orders', 'name');
 
 /** @var $segment Magento_CustomerSegment_Model_Segment */
 $segment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CustomerSegment_Model_Segment');
+    ->create('Magento_CustomerSegment_Model_Segment');
 $segment->load('Designers', 'name');
 
 /** @var Magento_Banner_Model_Banner $banner */
 $banner = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Banner_Model_Banner');
+    ->create('Magento_Banner_Model_Banner');
 $banner->setData(array(
     'name' => 'Get 40% Off on Graphic Editors',
     'is_enabled' => Magento_Banner_Model_Banner::STATUS_ENABLED,

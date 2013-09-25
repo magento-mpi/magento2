@@ -35,7 +35,7 @@ $product->load(1);
 
 $addressData = include(__DIR__ . '/address_data.php');
 $billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Quote_Address', array('data' => $addressData));
+    ->create('Magento_Sales_Model_Quote_Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -43,7 +43,7 @@ $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
 $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Quote');
+    ->create('Magento_Sales_Model_Quote');
 $quote->setCustomerIsGuest(true)
     ->setStoreId(
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')

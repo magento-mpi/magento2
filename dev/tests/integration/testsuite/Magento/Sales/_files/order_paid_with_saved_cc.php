@@ -12,7 +12,7 @@
 $addressData = include(__DIR__ . '/address_data.php');
 
 $billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Address', array('data' => $addressData));
+    ->create('Magento_Sales_Model_Order_Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -20,7 +20,7 @@ $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
 $payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Payment');
+    ->create('Magento_Sales_Model_Order_Payment');
 $payment->setMethod('ccsave')
     ->setCcExpMonth('5')
     ->setCcLast4('0005')
@@ -28,7 +28,7 @@ $payment->setMethod('ccsave')
     ->setCcExpYear('2016');
 
 $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+    ->create('Magento_Sales_Model_Order');
 $order->setIncrementId('100000001')
     ->setSubtotal(100)
     ->setBaseSubtotal(100)

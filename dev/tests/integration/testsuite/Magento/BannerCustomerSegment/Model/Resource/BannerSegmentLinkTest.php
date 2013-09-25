@@ -139,7 +139,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
         foreach ($segmentNames as $segmentName) {
             /** @var $segment Magento_CustomerSegment_Model_Segment */
             $segment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CustomerSegment_Model_Segment');
+                ->create('Magento_CustomerSegment_Model_Segment');
             $segment->load($segmentName, 'name');
             $result[] = $segment->getId();
         }

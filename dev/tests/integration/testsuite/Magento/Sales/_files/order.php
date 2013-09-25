@@ -14,7 +14,7 @@ require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
 $addressData = include(__DIR__ . '/address_data.php');
 $billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Address', array('data' => $addressData));
+    ->create('Magento_Sales_Model_Order_Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -22,17 +22,17 @@ $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
 $payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Payment');
+    ->create('Magento_Sales_Model_Order_Payment');
 $payment->setMethod('checkmo');
 
 /** @var Magento_Sales_Model_Order_Item $orderItem */
 $orderItem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Item');
+    ->create('Magento_Sales_Model_Order_Item');
 $orderItem->setProductId($product->getId())->setQtyOrdered(2);
 
 /** @var Magento_Sales_Model_Order $order */
 $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order');
+    ->create('Magento_Sales_Model_Order');
 $order->setIncrementId('100000001')
     ->setState(Magento_Sales_Model_Order::STATE_PROCESSING)
     ->setSubtotal(100)

@@ -30,14 +30,12 @@ if ('websites' == $scope) {
 $role->save();
 
 /** @var $rule Magento_User_Model_Rules */
-$rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_Rules');
+$rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_Rules');
 $rule->setRoleId($role->getId())
     ->setResources(array('Magento_Adminhtml::all'))
     ->saveRel();
 
-$user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Model_User');
+$user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_User');
 $user->setData(array(
     'firstname' => 'firstname',
     'lastname'  => 'lastname',

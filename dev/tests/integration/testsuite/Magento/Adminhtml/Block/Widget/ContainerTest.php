@@ -56,8 +56,7 @@ class Magento_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_Tes
     protected function _buildBlock($titles)
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Core_Model_Layout',
             array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
         );

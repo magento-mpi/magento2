@@ -64,13 +64,12 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     {
         $this->_importConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_ImportExport_Model_Import_Config');
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create(
-                'Magento_ImportExport_Model_Import',
-                array(
-                    'importConfig' => $this->_importConfig,
-                )
-            );
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_ImportExport_Model_Import',
+            array(
+                'importConfig' => $this->_importConfig,
+            )
+        );
     }
 
     /**

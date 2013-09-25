@@ -64,7 +64,7 @@ $billingData = array(
 );
 
 $billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Quote_Address', array('data' => $billingData));
+    ->create('Magento_Sales_Model_Quote_Address', array('data' => $billingData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -74,7 +74,7 @@ $shippingAddress->setCollectShippingRates(true);
 
 /** @var $quote Magento_Sales_Model_Quote */
 $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Quote');
+    ->create('Magento_Sales_Model_Quote');
 $quote->setCustomerIsGuest(true)
     ->setStoreId(
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
@@ -89,14 +89,14 @@ $quote->getShippingAddress()->setCollectShippingRates(true);
 $quote->collectTotals()->save();
 
 $payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Order_Payment');
+    ->create('Magento_Sales_Model_Order_Payment');
 $payment->setMethod(Magento_Paypal_Model_Config::METHOD_WPS);
 
 $quote->getPayment()->setMethod(Magento_Paypal_Model_Config::METHOD_WPS);
 
 /** @var $service Magento_Sales_Model_Service_Quote */
 $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
+    ->create('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
 $service->setOrderData(array('increment_id' => '100000001'));
 $service->submitAll();
 

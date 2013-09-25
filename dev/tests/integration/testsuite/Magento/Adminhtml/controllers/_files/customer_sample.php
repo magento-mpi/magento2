@@ -9,8 +9,7 @@
  * @license     {license_link}
  */
 /** @var Magento_Customer_Model_Customer $customer */
-$customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+$customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Customer_Model_Customer');
 
 $customerData = array(
     'group_id' => 1,
@@ -25,8 +24,7 @@ $customer->setData($customerData);
 $customer->setId(1);
 
 /** @var Magento_Customer_Model_Address $addressOne  */
-$addressOne = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+$addressOne = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Customer_Model_Address');
 $addressOneData = array(
     'firstname' => 'test firstname',
     'lastname' => 'test lastname',
@@ -41,8 +39,7 @@ $addressOne->setData($addressOneData);
 $customer->addAddress($addressOne);
 
 /** @var Magento_Customer_Model_Address $addressTwo  */
-$addressTwo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+$addressTwo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Customer_Model_Address');
 $addressTwoData = array(
     'firstname' => 'test firstname',
     'lastname' => 'test lastname',
@@ -57,8 +54,7 @@ $addressTwo->setData($addressTwoData);
 $customer->addAddress($addressTwo);
 
 /** @var Magento_Customer_Model_Address $addressThree  */
-$addressThree = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Address');
+$addressThree = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Customer_Model_Address');
 $addressThreeData = array(
     'firstname' => 'removed firstname',
     'lastname' => 'removed lastname',

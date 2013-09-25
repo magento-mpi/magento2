@@ -23,7 +23,7 @@ $installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
  */
 /** @var $category Magento_Catalog_Model_Category */
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(3)
     ->setName('Root Category')
     ->setParentId(2) /**/
@@ -36,7 +36,7 @@ $category->setId(3)
     ->save();
 
 $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Category');
+    ->create('Magento_Catalog_Model_Category');
 $category->setId(4)
     ->setName('PLN Category')
     ->setParentId(3)
@@ -52,7 +52,7 @@ $category->setId(4)
 $lastProductId = 0;
 foreach ($prices as $price) {
     $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
     $productId = $lastProductId + 1;
     $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
         ->setId($productId)

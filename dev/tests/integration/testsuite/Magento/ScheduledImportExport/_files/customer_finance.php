@@ -12,7 +12,7 @@
 // add new website
 /** @var $website Magento_Core_Model_Website */
 $website = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Website');
+    ->create('Magento_Core_Model_Website');
 $website->setCode('finance_website')
     ->setName('Finance Website');
 $website->save();
@@ -22,7 +22,7 @@ Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Mo
 // create test customer
 /** @var $customer Magento_Customer_Model_Customer */
 $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Customer');
+    ->create('Magento_Customer_Model_Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
@@ -54,7 +54,7 @@ foreach ($websites as $website) {
 
     /** @var $customerBalance Magento_CustomerBalance_Model_Balance */
     $customerBalance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CustomerBalance_Model_Balance');
+    ->create('Magento_CustomerBalance_Model_Balance');
     $customerBalance->setCustomerId($customer->getId());
     $customerBalanceAmount = 50 + $increment;
     $registerKey = 'customer_balance_' . $website->getCode();
@@ -66,7 +66,7 @@ foreach ($websites as $website) {
 
     /** @var $rewardPoints Magento_Reward_Model_Reward */
     $rewardPoints = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Reward_Model_Reward');
+    ->create('Magento_Reward_Model_Reward');
     $rewardPoints->setCustomerId($customer->getId());
     $rewardPointsBalance = 100 + $increment;
     $registerKey = 'reward_point_balance_' . $website->getCode();

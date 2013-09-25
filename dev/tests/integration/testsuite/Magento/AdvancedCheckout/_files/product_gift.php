@@ -11,7 +11,7 @@
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD)
     ->setId(1)
     ->setAttributeSetId(4)
@@ -38,7 +38,7 @@ $product->setTypeId(Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_G
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->load(1);
 
 $requestInfo = new Magento_Object(array(

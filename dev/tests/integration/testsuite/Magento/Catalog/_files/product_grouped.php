@@ -11,7 +11,7 @@ require __DIR__ . '/product_virtual.php';
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+    ->create('Magento_Catalog_Model_Product');
 $product->isObjectNew(true);
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_GROUPED)
     ->setId(9)

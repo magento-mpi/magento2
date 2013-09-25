@@ -82,7 +82,7 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         foreach ($expected as $group => $expectedData) {
             $_configDataObject = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Backend_Model_Config');
+                ->create('Magento_Backend_Model_Config');
             $_configData = $_configDataObject->setSection($group)->setWebsite('base')
                 ->load();
             if (array_key_exists('payment/payflow_link/pwd', $_configData)) {

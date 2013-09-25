@@ -22,10 +22,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends 
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')
-            ->register('current_product', Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product'));
+            ->register('current_product', $objectManager->create('Magento_Catalog_Model_Product'));
         /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+        $block = $objectManager->get('Magento_Core_Model_Layout')
             ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config');
         $this->assertEquals(array(), $block->getSelectedAttributes());
     }
@@ -39,18 +38,15 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends 
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')
-            ->register('current_product', Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product')->load(1));
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
-            ->createBlock('Magento_Core_Block_Text', 'head');
-        $usedAttribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
-                    ->getEntityType('catalog_product')->getId(),
-                'test_configurable'
-            );
+            ->register('current_product', $objectManager->create('Magento_Catalog_Model_Product')->load(1));
+        $objectManager->get('Magento_Core_Model_Layout')->createBlock('Magento_Core_Block_Text', 'head');
+        $usedAttribute = $objectManager->get('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+                ->getEntityType('catalog_product')->getId(),
+            'test_configurable'
+        );
         /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+        $block = $objectManager->get('Magento_Core_Model_Layout')
             ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config');
         $selectedAttributes = $block->getSelectedAttributes();
         $this->assertEquals(array($usedAttribute->getId()), array_keys($selectedAttributes));

@@ -21,7 +21,7 @@ foreach ($designChanges as $designChangeData) {
     $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
         ->get('Magento_Core_Model_StoreManagerInterface')->getStore($designChangeData['store'])->getId();
     $change = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Design');
+        ->create('Magento_Core_Model_Design');
     $change->setStoreId($storeId)
         ->setDesign($designChangeData['design'])
         ->setDateFrom($designChangeData['date'])

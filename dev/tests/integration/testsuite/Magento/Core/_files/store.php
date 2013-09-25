@@ -10,7 +10,7 @@
  */
 
 $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Store');
+    ->create('Magento_Core_Model_Store');
 $websiteId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
     ->getWebsite()->getId();
 $groupId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
