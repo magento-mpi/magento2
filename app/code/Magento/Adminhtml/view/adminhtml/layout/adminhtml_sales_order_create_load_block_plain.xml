@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root">
+    <referenceBlock name="root">
         <container name="content" label="Content"/>
-    </reference>
+    </referenceBlock>
 </layout>

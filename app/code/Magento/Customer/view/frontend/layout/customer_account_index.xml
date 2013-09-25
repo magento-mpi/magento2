@@ -9,12 +9,12 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Dashboard" type="page" parent="customer_account">
     <update handle="customer_account"/>
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">2columns-left.phtml</argument>
         </action>
-    </reference>
-    <reference name="my.account.wrapper">
+    </referenceBlock>
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento_Customer_Block_Account_Dashboard" name="customer_account_dashboard" template="account/dashboard.phtml">
             <block class="Magento_Customer_Block_Account_Dashboard_Hello" name="customer_account_dashboard_hello" as="hello" template="account/dashboard/hello.phtml"/>
             <block class="Magento_Core_Block_Template" name="customer_account_dashboard_top" as="top"/>
@@ -22,5 +22,5 @@
             <block class="Magento_Customer_Block_Account_Dashboard_Newsletter" name="customer_account_dashboard_newsletter" as="newsletter" template="account/dashboard/newsletter.phtml"/>
             <block class="Magento_Customer_Block_Account_Dashboard_Address" name="customer_account_dashboard_address" as="address" template="account/dashboard/address.phtml"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>
