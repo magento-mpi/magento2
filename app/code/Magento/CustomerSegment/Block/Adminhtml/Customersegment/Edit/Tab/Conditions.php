@@ -19,7 +19,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condition
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
-     * @var Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset
+     * @var Magento_Backend_Block_Widget_Form_Renderer_Fieldset
      */
     protected $_fieldset;
 
@@ -29,7 +29,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condition
     protected $_conditions;
 
     /**
-     * @param Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset $fieldset
+     * @param Magento_Backend_Block_Widget_Form_Renderer_Fieldset $fieldset
      * @param Magento_Rule_Block_Conditions $conditions
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
@@ -38,7 +38,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condition
      * @param array $data
      */
     public function __construct(
-        Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset $fieldset,
+        Magento_Backend_Block_Widget_Form_Renderer_Fieldset $fieldset,
         Magento_Rule_Block_Conditions $conditions,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
@@ -67,7 +67,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condition
         $params = array('apply_to' => $model->getApplyTo());
         $url = $this->getUrl('*/customersegment/newConditionHtml/form/segment_conditions_fieldset', $params);
 
-        $renderer = $this->_fieldset->setTemplate('promo/fieldset.phtml')
+        $renderer = $this->_fieldset->setTemplate('Magento_Adminhtml::promo/fieldset.phtml')
             ->setNewChildUrl($url);
 
         $fieldset = $form->addFieldset('conditions_fieldset', array(
