@@ -3,13 +3,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Persistent
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./persistent.xsd">
+<config>
     <instances>
         <blocks>
             <reference id="welcome">
