@@ -380,7 +380,8 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         );
 
         if ($calculatedSign != $params['oauth_signature']) {
-            throw new Magento_Oauth_Exception('Invalid signature.', Magento_Oauth_Helper_Service::ERR_SIGNATURE_INVALID);
+            throw new Magento_Oauth_Exception(
+                'Invalid signature.', Magento_Oauth_Helper_Service::ERR_SIGNATURE_INVALID);
         }
     }
 
