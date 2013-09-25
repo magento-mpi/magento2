@@ -5,26 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Directory\Helper;
 
-class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Directory\Model\Resource\Country\Collection|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Resource\Country\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_countryCollection;
 
     /**
-     * @var \Magento\Directory\Model\Resource\Region\Collection\Factory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Resource\Region\Collection\Factory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_regionCollection;
 
     /**
-     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreHelper;
 
     /**
-     * @var \Magento\Core\Model\Store|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_store;
 
@@ -70,7 +71,7 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
             new \Magento\Object(array('country_id' => 'Country1')),
             new \Magento\Object(array('country_id' => 'Country2')),
         );
-        $countryIterator = new ArrayIterator($countries);
+        $countryIterator = new \ArrayIterator($countries);
         $this->_countryCollection->expects($this->atLeastOnce())
             ->method('getIterator')
             ->will($this->returnValue($countryIterator));
@@ -86,7 +87,7 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
                 array('country_id' => 'Country2', 'region_id' => 'r3', 'code' => 'r3-code', 'name' => 'r3-name')
             ),
         );
-        $regionIterator = new ArrayIterator($regions);
+        $regionIterator = new \ArrayIterator($regions);
 
         $this->_regionCollection->expects($this->once())
             ->method('addCountryFilter')
@@ -122,7 +123,7 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
         );
         $this->_coreHelper->expects($this->once())
             ->method('jsonEncode')
-            ->with(new PHPUnit_Framework_Constraint_IsIdentical($expectedDataToEncode))
+            ->with(new \PHPUnit_Framework_Constraint_IsIdentical($expectedDataToEncode))
             ->will($this->returnValue('encoded_json'));
 
         // Test

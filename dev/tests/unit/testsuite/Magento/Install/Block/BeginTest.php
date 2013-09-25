@@ -8,16 +8,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Install\Block;
 
 /**
  * Test class for \Magento\Install\Block\Begin
  */
-class Magento_Install_Block_BeginTest extends PHPUnit_Framework_TestCase
+class BeginTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Get block model
      *
-     * @param PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem $contextFileSystem
+     * @param \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem $contextFileSystem
      * @param string|null $fileName
      * @return \Magento\Install\Block\Begin
      */

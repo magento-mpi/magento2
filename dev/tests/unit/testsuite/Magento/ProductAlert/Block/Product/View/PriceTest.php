@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Block\Product\View;
 
 /**
  * Test class for \Magento\ProductAlert\Block\Product\View\Price
  */
-class Magento_ProductAlert_Block_Product_View_PriceTest extends PHPUnit_Framework_TestCase
+class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

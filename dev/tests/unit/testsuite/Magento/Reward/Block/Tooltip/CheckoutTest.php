@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Reward_Block_Tooltip_CheckoutTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reward\Block\Tooltip;
+
+class CheckoutTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareLayout()
     {

@@ -7,11 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cron\Model;
 
 /**
  * Class \Magento\Cron\Model\ObserverTest
  */
-class Magento_Cron_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Cron\Model\Observer
@@ -19,26 +20,26 @@ class Magento_Cron_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected $_observer;
 
     /**
-     * @var \Magento\Core\Model\ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\App|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\App|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_app;
 
     /**
-     * @var \Magento\Cron\Model\Config|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cron\Model\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\Store\Config|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreStoreConfig;
 
-    /** @var \Magento\Cron\Model\Resource\Schedule\Collection|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Cron\Model\Resource\Schedule\Collection|\PHPUnit_Framework_MockObject_MockObject */
     protected $_collection;
 
     /**

@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cron\Model;
 
 /**
  * Class \Magento\Cron\Model\Config
  */
-class Magento_Cron_Model_ConfigTest extends PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Cron\Model\Config\Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cron\Model\Config\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configData;
 

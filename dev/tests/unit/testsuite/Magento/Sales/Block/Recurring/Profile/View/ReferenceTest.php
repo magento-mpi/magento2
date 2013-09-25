@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Recurring\Profile\View;
 
 /**
  * Test class for \Magento\Sales\Block\Recurring\Profile\View\Reference
  */
-class Magento_Sales_Block_Recurring_Profile_View_ReferenceTest extends PHPUnit_Framework_TestCase
+class ReferenceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Block\Recurring\Profile\View\Reference

@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Filter\Template;
 
-class Magento_Filter_Template_SimpleTest extends PHPUnit_Framework_TestCase
+class SimpleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Filter\Template\Simple

@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Block\Product\View;
 
 /**
  * Test class for \Magento\ProductAlert\Block\Product\View\Stock
  */
-class Magento_ProductAlert_Block_Product_View_StockTest extends PHPUnit_Framework_TestCase
+class StockTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

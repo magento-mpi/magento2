@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
+namespace Magento\Invitation\Block;
+
+class LinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

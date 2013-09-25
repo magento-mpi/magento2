@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Guest;
 
 /**
  * Test class for \Magento\Sales\Block\Guest\Link
  */
-class Magento_Sales_Block_Guest_LinkTest extends PHPUnit_Framework_TestCase
+class LinkTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {

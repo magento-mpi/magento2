@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Options
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_OptionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
+
+class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

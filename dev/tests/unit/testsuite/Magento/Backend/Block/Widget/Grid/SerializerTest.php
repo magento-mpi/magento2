@@ -8,8 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid;
 
-class Magento_Backend_Block_Widget_Grid_SerializerTest extends PHPUnit_Framework_TestCase
+class SerializerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout

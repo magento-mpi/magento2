@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Block;
 
-class Magento_GoogleShopping_Block_SiteVerificationTest extends PHPUnit_Framework_TestCase
+class SiteVerificationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\GoogleShopping\Block\SiteVerification */
     protected $_object;

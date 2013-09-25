@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Block\Customer;
 
-class Magento_Reward_Block_Customer_AccountLinkTest extends PHPUnit_Framework_TestCase
+class AccountLinkTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -15,7 +16,7 @@ class Magento_Reward_Block_Customer_AccountLinkTest extends PHPUnit_Framework_Te
 
     public function testToHtml()
     {
-        /** @var \Magento\Reward\Helper\Data|PHPUnit_Framework_MockObject_MockObject $helper */
+        /** @var \Magento\Reward\Helper\Data|\PHPUnit_Framework_MockObject_MockObject $helper */
         $helper =
             $this->getMockBuilder('Magento\Reward\Helper\Data')->disableOriginalConstructor()->getMock();
 

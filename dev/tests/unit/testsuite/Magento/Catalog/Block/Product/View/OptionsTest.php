@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Product\View;
 
 /**
  * Test class for \Magento\Catalog\Block\Product\View\Options
  */
-class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_TestCase
+class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

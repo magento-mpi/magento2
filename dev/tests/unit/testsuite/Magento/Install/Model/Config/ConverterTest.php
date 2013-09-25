@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Install_Model_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Model\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -22,7 +24,7 @@ class Magento_Install_Model_Config_ConverterTest extends PHPUnit_Framework_TestC
 
     public function testConvert()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $xmlFile = __DIR__ . '/_files/install_wizard.xml';
         $dom->loadXML(file_get_contents($xmlFile));
 

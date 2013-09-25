@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Checkout_Block_Cart_SidebarTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Block\Cart;
+
+class SidebarTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\TestFramework\Helper\ObjectManager */
     protected $_objectManager;

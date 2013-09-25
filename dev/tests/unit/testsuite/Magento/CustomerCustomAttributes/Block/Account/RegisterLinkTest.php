@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_CustomerCustomAttributes_Block_Account_RegisterLinkTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerCustomAttributes\Block\Account;
+
+class RegisterLinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
@@ -19,7 +21,7 @@ class Magento_CustomerCustomAttributes_Block_Account_RegisterLinkTest extends PH
 
     public function testToHtml()
     {
-        /** @var \Magento\AdvancedCheckout\Helper\Data|PHPUnit_Framework_MockObject_MockObject $customerHelper */
+        /** @var \Magento\AdvancedCheckout\Helper\Data|\PHPUnit_Framework_MockObject_MockObject $customerHelper */
         $customerHelper = $this->getMockBuilder('Magento\AdvancedCheckout\Helper\Data')
             ->disableOriginalConstructor()->getMock();
 

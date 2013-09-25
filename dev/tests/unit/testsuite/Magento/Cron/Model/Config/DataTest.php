@@ -7,26 +7,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cron\Model\Config;
 
-class Magento_Cron_Model_Config_DataTest extends PHPUnit_Framework_TestCase
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Cron\Model\Config\Reader\Xml|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cron\Model\Config\Reader\Xml|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_reader;
 
     /**
-     * @var \Magento\Core\Model\Config\Scope|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Config\Scope|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_scope;
 
     /**
-     * @var \Magento\Core\Model\Cache\Type\Config|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Cache\Type\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cache;
 
     /**
-     * @var \Magento\Cron\Model\Config\Reader\Db|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cron\Model\Config\Reader\Db|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dbReader;
 

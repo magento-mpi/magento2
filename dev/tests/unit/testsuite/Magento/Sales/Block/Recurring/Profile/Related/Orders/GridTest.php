@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Recurring\Profile\Related\Orders;
 
 /**
  * Test class for \Magento\Sales\Block\Recurring\Profile\Related\Orders\Grid
  */
-class Magento_Sales_Block_Recurring_Profile_Related_Orders_GridTest extends PHPUnit_Framework_TestCase
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

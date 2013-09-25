@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Checkout_Block_Cart_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Block\Cart;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\TestFramework\Helper\ObjectManager */
     protected $_objectManager;
@@ -45,7 +47,7 @@ class Magento_Checkout_Block_Cart_AbstractTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      * @expectedExceptionMessage Renderer for type "some-type" does not exist.
      */
     public function testGetItemRendererThrowsExceptionForNonexistentRenderer()

@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Helper;
 
-class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testRemoveTags()
     {

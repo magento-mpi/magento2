@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cron\Model\Config\Converter;
 
-class Magento_Cron_Model_Config_Converter_DbTest extends PHPUnit_Framework_TestCase
+class DbTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Cron\Model\Config\Converter\Db

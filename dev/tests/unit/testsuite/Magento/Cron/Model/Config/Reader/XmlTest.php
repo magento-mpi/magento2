@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cron\Model\Config\Reader;
 
-class Magento_Cron_Model_Config_Reader_XmlTest extends PHPUnit_Framework_TestCase
+class XmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Cron\Model\Config\Reader\Xml

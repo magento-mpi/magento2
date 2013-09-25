@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Account;
 
 /**
  * Test class for \Magento\Customer\Block\Account\AuthorizationLink
  */
-class Magento_Customer_Block_Account_AuthorizationLinkTest extends PHPUnit_Framework_TestCase
+class AuthorizationLinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

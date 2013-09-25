@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Account;
 
 /**
  * Test class for \Magento\Customer\Block\Account\RegisterLink
  */
-class Magento_Customer_Block_Account_RegisterLinkTest extends PHPUnit_Framework_TestCase
+class RegisterLinkTest extends \PHPUnit_Framework_TestCase
 {
 
     /**

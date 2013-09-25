@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Sales\Items\Order\View;
+namespace Magento\Adminhtml\Block\Sales\Order\View;
 
 class GiftmessageTest extends \PHPUnit_Framework_TestCase
 {

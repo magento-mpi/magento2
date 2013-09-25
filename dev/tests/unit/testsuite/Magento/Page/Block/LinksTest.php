@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Page_Block_LinksTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Block;
+
+class LinksTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

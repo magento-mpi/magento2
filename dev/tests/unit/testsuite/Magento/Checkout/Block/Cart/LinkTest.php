@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Checkout_Block_Cart_LinkTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Block\Cart;
+
+class LinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager

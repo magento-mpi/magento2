@@ -8,8 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product;
 
-class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
+class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Product types config values
