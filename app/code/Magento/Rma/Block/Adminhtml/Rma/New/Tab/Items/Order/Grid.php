@@ -10,12 +10,7 @@
 
 /**
  * Admin RMA create order grid block
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     extends Magento_Backend_Block_Widget_Grid_Extended
 {
@@ -40,14 +35,24 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
      *
      * @var Magento_Rma_Helper_Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
 
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Rma_Model_Resource_ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
 
     /**
      * @param Magento_Rma_Helper_Data $rmaData
@@ -56,6 +61,8 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Rma_Model_Resource_ItemFactory $itemFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
@@ -65,10 +72,14 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Rma_Model_Resource_ItemFactory $itemFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $coreRegistry;
+        $this->_itemFactory = $itemFactory;
+        $this->_productFactory = $productFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -92,14 +103,10 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected function _prepareCollection()
     {
         $orderId = $this->_coreRegistry->registry('current_order')->getId();
-
-        /** @var $collection Magento_Rma_Model_Resource_Item */
-
-        $orderItemsCollection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
-            ->getOrderItemsCollection($orderId);
-
+        /** @var $resourceItem Magento_Rma_Model_Resource_Item */
+        $resourceItem = $this->_itemFactory->create();
+        $orderItemsCollection = $resourceItem->getOrderItemsCollection($orderId);
         $this->setCollection($orderItemsCollection);
-
         return parent::_prepareCollection();
     }
 
@@ -114,11 +121,13 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected function _afterLoadCollection()
     {
         $orderId = $this->_coreRegistry->registry('current_order')->getId();
-        $itemsInActiveRmaArray = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
-            ->getItemsIdsByOrder($orderId);
+        /** @var $resourceItem Magento_Rma_Model_Resource_Item */
+        $resourceItem = $this->_itemFactory->create();
+        $itemsInActiveRmaArray = $resourceItem->getItemsIdsByOrder($orderId);
 
-        $fullItemsCollection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
-            ->getOrderItemsCollection($orderId);
+        /** @var $resourceItem Magento_Rma_Model_Resource_Item */
+        $resourceItem = $this->_itemFactory->create();
+        $fullItemsCollection = $resourceItem->getOrderItemsCollection($orderId);
         /**
          * contains data that defines possibility of return for an order item
          * array value ['self'] refers to item's own rules
@@ -127,7 +136,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         $parent = array();
 
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = $this->_productFactory->create();
 
         foreach ($fullItemsCollection as $item) {
             $allowed = true;

@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Address Attribute General Tab Block
- *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
     extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
@@ -25,7 +20,12 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
      *
      * @var Magento_CustomerCustomAttributes_Helper_Data
      */
-    protected $_customerData = null;
+    protected $_customerData;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_sourceFactory;
 
     /**
      * @param Magento_Data_Form_Factory $formFactory
@@ -35,6 +35,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
+     * @param Magento_Backend_Model_Config_Source_YesnoFactory $sourceFactory
      * @param array $data
      */
     public function __construct(
@@ -45,9 +46,11 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
+        Magento_Backend_Model_Config_Source_YesnoFactory $sourceFactory,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
+        $this->_sourceFactory = $sourceFactory;
         parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $attributeConfig, $data);
     }
 
@@ -170,7 +173,9 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
             'date_format' => $this->_customerData->getDateFormat()
         ), 'date_range_min');
 
-        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        /** @var $source Magento_Backend_Model_Config_Source_Yesno */
+        $source = $this->_sourceFactory->create();
+        $yesnoSource = $source->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => __('Frontend Properties')

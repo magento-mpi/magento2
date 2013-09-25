@@ -38,12 +38,20 @@ class Magento_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_
     protected $_giftWrappingData = null;
 
     /**
+     * @var Magento_GiftWrapping_Model_WrappingFactory
+     */
+    protected $_wrappingFactory;
+
+    /**
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory
      */
     public function __construct(
-        Magento_GiftWrapping_Helper_Data $giftWrappingData
+        Magento_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory
     ) {
         $this->_giftWrappingData = $giftWrappingData;
+        $this->_wrappingFactory = $wrappingFactory;
         $this->setCode('giftwrapping');
     }
 
@@ -187,7 +195,8 @@ class Magento_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_
      */
     protected function _getWrapping($wrappingId, $store)
     {
-        $wrapping = Mage::getModel('Magento_GiftWrapping_Model_Wrapping');
+        /** @var Magento_GiftWrapping_Model_Wrapping $wrapping */
+        $wrapping = $this->_wrappingFactory->create();
         $wrapping->setStoreId($store->getId());
         $wrapping->load($wrappingId);
         return $wrapping;

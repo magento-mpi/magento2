@@ -8,10 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit" name="connect_extension_edit"/>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs" name="connect_extension_edit_tabs">
             <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package" name="tab_package" template="extension/custom/package.phtml"/>
             <block class="Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release" name="tab_release" template="extension/custom/release.phtml"/>
@@ -44,5 +44,5 @@
                 <argument name="block" xsi:type="string">tab_local</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

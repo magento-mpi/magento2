@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
@@ -44,12 +44,12 @@
                 <argument name="file" xsi:type="string">Magento_Cms::js/tiny_mce_form_submit.js</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
     <update handle="editor"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Cms_Page_Edit" name="cms_page_edit"/>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento_Adminhtml_Block_Cms_Page_Edit_Tabs" name="cms_page_edit_tabs">
             <block class="Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main" name="cms_page_edit_tab_main"/>
             <block class="Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content" name="cms_page_edit_tab_content"/>
@@ -72,5 +72,5 @@
                 <argument name="block" xsi:type="string">cms_page_edit_tab_meta</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>
