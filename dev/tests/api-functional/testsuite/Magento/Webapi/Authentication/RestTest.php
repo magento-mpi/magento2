@@ -52,8 +52,8 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
     public static function consumerFixture($date = null)
     {
         $consumerCredentials = Magento_TestFramework_Authentication_OauthHelper::geConsumerCredentials($date);
-        self::$_consumerKey = $consumerCredentials['consumer_key'];
-        self::$_consumerSecret = $consumerCredentials['consumer_secret'];
+        self::$_consumerKey = $consumerCredentials['key'];
+        self::$_consumerSecret = $consumerCredentials['secret'];
         self::$_verifier = $consumerCredentials['verifier'];
         self::$_consumer = $consumerCredentials['consumer'];
         self::$_token = $consumerCredentials['token'];

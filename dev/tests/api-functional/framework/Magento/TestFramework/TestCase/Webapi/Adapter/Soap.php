@@ -78,7 +78,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
         $token = Magento_TestFramework_Authentication_OauthHelper::getAccessToken();
         $opts = array(
             'http'=>array(
-                'header'=>"Authorization: Bearer " . $token['token_key']
+                'header'=>"Authorization: Bearer " . $token['key']
             )
         );
         $context = stream_context_create($opts);

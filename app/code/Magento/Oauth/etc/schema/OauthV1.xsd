@@ -478,9 +478,9 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="ValidateAccessTokenRequest">
+    <xsd:complexType name="ValidateAccessTokenRequestRequest">
         <xsd:annotation>
-            <xsd:documentation>Request container for the ValidateAccessToken call.</xsd:documentation>
+            <xsd:documentation>Request container for the ValidateAccessTokenRequest call.</xsd:documentation>
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
@@ -491,7 +491,7 @@
                         <inf:min/>
                         <inf:max/>
                         <inf:callInfo>
-                            <inf:callName>ValidateAccessToken</inf:callName>
+                            <inf:callName>ValidateAccessTokenRequest</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -504,7 +504,7 @@
                         <inf:min/>
                         <inf:max/>
                         <inf:callInfo>
-                            <inf:callName>ValidateAccessToken</inf:callName>
+                            <inf:callName>ValidateAccessTokenRequest</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -517,7 +517,7 @@
                         <inf:min/>
                         <inf:max/>
                         <inf:callInfo>
-                            <inf:callName>ValidateAccessToken</inf:callName>
+                            <inf:callName>ValidateAccessTokenRequest</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -530,7 +530,7 @@
                         <inf:min/>
                         <inf:max/>
                         <inf:callInfo>
-                            <inf:callName>ValidateAccessToken</inf:callName>
+                            <inf:callName>ValidateAccessTokenRequest</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -543,7 +543,7 @@
                         <inf:min/>
                         <inf:max/>
                         <inf:callInfo>
-                            <inf:callName>ValidateAccessToken</inf:callName>
+                            <inf:callName>ValidateAccessTokenRequest</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -556,7 +556,7 @@
                         <inf:min/>
                         <inf:max/>
                         <inf:callInfo>
-                            <inf:callName>ValidateAccessToken</inf:callName>
+                            <inf:callName>ValidateAccessTokenRequest</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -569,7 +569,7 @@
                         <inf:min/>
                         <inf:max/>
                         <inf:callInfo>
-                            <inf:callName>ValidateAccessToken</inf:callName>
+                            <inf:callName>ValidateAccessTokenRequest</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -582,7 +582,7 @@
                         <inf:min/>
                         <inf:max/>
                         <inf:callInfo>
-                            <inf:callName>ValidateAccessToken</inf:callName>
+                            <inf:callName>ValidateAccessTokenRequest</inf:callName>
                             <inf:requiredInput>Yes</inf:requiredInput>
                         </inf:callInfo>
                     </xsd:appinfo>
@@ -591,6 +591,49 @@
             <xsd:element name="request_url" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>The url of the current request</xsd:documentation>
+                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                        <inf:min/>
+                        <inf:max/>
+                        <inf:callInfo>
+                            <inf:callName>ValidateAccessTokenRequest</inf:callName>
+                            <inf:requiredInput>Yes</inf:requiredInput>
+                        </inf:callInfo>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ValidateAccessTokenRequestResponse">
+        <xsd:annotation>
+            <xsd:documentation>Response container for the ValidateAccessTokenRequest call.</xsd:documentation>
+            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="isValid" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>True or false depending of the access token request validation.</xsd:documentation>
+                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
+                        <inf:maxLength/>
+                        <inf:callInfo>
+                            <inf:callName>ValidateAccessTokenRequest</inf:callName>
+                            <inf:returned>Always</inf:returned>
+                        </inf:callInfo>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ValidateAccessTokenRequest">
+        <xsd:annotation>
+            <xsd:documentation>Request container for the ValidateAccessToken call.</xsd:documentation>
+            <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="token" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>The access token that needs to be validated.</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:min/>
                         <inf:max/>
@@ -612,7 +655,7 @@
         <xsd:sequence>
             <xsd:element name="isValid" type="xsd:boolean">
                 <xsd:annotation>
-                    <xsd:documentation>The Access Token that provides access to protected resources.</xsd:documentation>
+                    <xsd:documentation>True or false depending on the validity.</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:maxLength/>
                         <inf:callInfo>

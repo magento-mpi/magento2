@@ -261,9 +261,9 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     /**
      * {@inheritdoc}
      */
-    public function validateAccessToken($oauthToken)
+    public function validateAccessToken($request)
     {
-        $token = $this->_getToken($oauthToken);
+        $token = $this->_getToken($request['token']);
 
         //Make sure a consumer is associated with the token
         $this->_getConsumer($token->getConsumerId());

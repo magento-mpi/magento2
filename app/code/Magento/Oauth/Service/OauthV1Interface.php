@@ -109,9 +109,14 @@ interface Magento_Oauth_Service_OauthV1Interface
     /**
      * Validate an access token string.
      *
-     * @param string $token valid access token
+     * @param array $request containing valid access token
+     * <pre>
+     *  array (
+     *       'token' => 'a6aa81cc3e65e2960a4879392445e718'
+     * )
+     * </pre>
      * @return boolean true if requested access token exists, is associated with a consumer and is valid
      * @throws Magento_Oauth_Exception
      */
-    public function validateAccessToken($token);
+    public function validateAccessToken($request);
 }

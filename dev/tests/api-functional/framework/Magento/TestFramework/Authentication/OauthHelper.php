@@ -16,8 +16,8 @@ class Magento_TestFramework_Authentication_OauthHelper
      * @return array
      * <pre>
      * array (
-     *   'consumer_key' => 'ajdsjashgdkahsdlkjasldkjals',
-     *   'consumer_secret' => 'alsjdlaskjdlaksjdlasjkdlas',
+     *   'key' => 'ajdsjashgdkahsdlkjasldkjals', //consumer key
+     *   'secret' => 'alsjdlaskjdlaksjdlasjkdlas', //consumer secret
      *   'verifier' => 'oiudioqueoiquweoiqwueoqwuii'
      *   'consumer' => $consumer, // retrieved consumer Model
      *   'token' => $token // retrieved token Model
@@ -56,8 +56,8 @@ class Magento_TestFramework_Authentication_OauthHelper
         $verifier = $token->createVerifierToken($consumer->getId())->getVerifier();
 
         return array (
-            'consumer_key' => $consumerKey,
-            'consumer_secret' => $consumerSecret,
+            'key' => $consumerKey,
+            'secret' => $consumerSecret,
             'verifier' => $verifier,
             'consumer' => $consumer,
             'token' => $token
@@ -69,8 +69,8 @@ class Magento_TestFramework_Authentication_OauthHelper
      * @return array comprising of token  key and secret
      * <pre>
      * array (
-     *   'token_key' => 'ajdsjashgdkahsdlkjasldkjals',
-     *   'token_secret' => 'alsjdlaskjdlaksjdlasjkdlas',
+     *   'key' => 'ajdsjashgdkahsdlkjasldkjals', //token key
+     *   'secret' => 'alsjdlaskjdlaksjdlasjkdlas', //token secret
      *   'token_client' => $oauthClient // Magento_TestFramework_Authentication_Rest_OauthClient instance used to fetch
      *                                      the access token
      *   );
@@ -80,7 +80,7 @@ class Magento_TestFramework_Authentication_OauthHelper
     {
         $consumerCredentials = self::geConsumerCredentials();
         $credentials = new OAuth\Common\Consumer\Credentials(
-            $consumerCredentials['consumer_key'], $consumerCredentials['consumer_secret'], TESTS_BASE_URL);
+            $consumerCredentials['key'], $consumerCredentials['secret'], TESTS_BASE_URL);
         /** @var $oAuthClient Magento_TestFramework_Authentication_Rest_OauthClient */
         $oAuthClient = new Magento_TestFramework_Authentication_Rest_OauthClient($credentials);
         $requestToken = $oAuthClient->requestRequestToken();
@@ -91,8 +91,8 @@ class Magento_TestFramework_Authentication_OauthHelper
         );
 
         return array (
-            'token_key' => $accessToken->getAccessToken(),
-            'token_secret' => $accessToken->getAccessTokenSecret(),
+            'key' => $accessToken->getAccessToken(),
+            'secret' => $accessToken->getAccessTokenSecret(),
             'oauth_client' => $oAuthClient
         );
     }

@@ -106,7 +106,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
                 );
                 $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
             } else {
-                $this->_oauthService->validateAccessToken($this->_getAccessToken());
+                $this->_oauthService->validateAccessToken(array('token' => $this->_getAccessToken()));
                 $responseBody = $this->_soapServer->handle();
                 $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }
