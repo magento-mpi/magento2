@@ -9,7 +9,7 @@
  */
 
 
-namespace Magento\Filter\Array;
+namespace Magento\Filter\GridArray;
 
 class Grid extends \Magento\Filter\ArrayFilter
 {
