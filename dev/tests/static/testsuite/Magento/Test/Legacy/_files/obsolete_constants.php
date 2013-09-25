@@ -126,6 +126,8 @@ return array(
     ),
     array('XML_PATH_INDEXER_DATA', 'Magento_Index_Model_Process'),
     array('XML_PATH_INSTALL_DATE', 'Mage_Core_Model_App', 'Mage_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
+    array('XML_PATH_EXTERNAL_CACHE_CONTROLS', 'Magento_PageCache_Helper_Data'),
+    array('XML_PATH_EXTERNAL_CACHE_CONTROL', 'Magento_PageCache_Helper_Data'),
     array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
     array('XML_PATH_PRODUCT_ATTRIBUTES', 'Magento_Wishlist_Model_Config'),
     array('XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES', 'Magento_Catalog_Model_Config'),

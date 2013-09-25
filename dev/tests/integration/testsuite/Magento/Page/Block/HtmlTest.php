@@ -39,9 +39,16 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
             'storeConfig' => $storeConfig,
             'urlBuilder' => $urlBuilder,
         ));
-
+        $storeManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface');
+        $locale = $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false);
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Page_Block_Html', array('context' => $context));
+            ->create('Magento_Page_Block_Html', array(
+                'storeManager'  => $storeManager,
+                'locale'        => $locale,
+                'urlHelperMock' => $urlHelperMock,
+                'context'       => $context
+            ));
 
         $this->assertEquals($returnValue, $block->getPrintLogoUrl());
     }

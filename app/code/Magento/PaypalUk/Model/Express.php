@@ -33,6 +33,36 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
     protected $_ecInstance = null;
 
     /**
+     * @var Magento_Core_Model_Url
+     */
+    protected $_urlModel;
+
+    /**
+     * @var Magento_Paypal_Model_InfoFactory
+     */
+    protected $_paypalInfoFactory;
+
+    /**
+     * @param Magento_Paypal_Model_InfoFactory $paypalInfoFactory
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Paypal_Model_InfoFactory $paypalInfoFactory,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        $this->_paypalInfoFactory = $paypalInfoFactory;
+    }
+
+    /**
      * EC PE won't be available if the EC is available
      *
      * @param Magento_Sales_Model_Quote $quote
@@ -70,7 +100,7 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
                 $api->getTransactionId())
         ;
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        $this->_paypalInfoFactory->create('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 
     /**
@@ -82,6 +112,6 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
      */
     public function getCheckoutRedirectUrl()
     {
-        return Mage::getUrl('paypaluk/express/start');
+        return $this->_urlModel->getUrl('paypaluk/express/start');
     }
 }

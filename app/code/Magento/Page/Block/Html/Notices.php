@@ -18,6 +18,27 @@
 class Magento_Page_Block_Html_Notices extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_Core_Model_Url
+     */
+    protected $_urlModel;
+
+    /**
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_urlModel = $urlModel;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Check if noscript notice should be displayed
      *
      * @return boolean
@@ -44,6 +65,6 @@ class Magento_Page_Block_Html_Notices extends Magento_Core_Block_Template
      */
     public function getPrivacyPolicyLink()
     {
-        return Mage::getUrl('privacy-policy-cookie-restriction-mode');
+        return $this->_urlModel->getUrl('privacy-policy-cookie-restriction-mode');
     }
 }

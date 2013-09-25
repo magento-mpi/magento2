@@ -37,6 +37,20 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
     const TRANSPORT_PAYFLOW_TXN_ID = 'payflow_trxid';
 
     /**
+     * @var Magento_Paypal_Model_InfoFactory
+     */
+    protected $_paypalInfoFactory;
+
+    /**
+     * @param Magento_Paypal_Model_InfoFactory $paypalInfoFactory
+     */
+    public function __construct(
+        Magento_Paypal_Model_InfoFactory $paypalInfoFactory
+    ) {
+        $this->_paypalInfoFactory = $paypalInfoFactory;
+    }
+
+    /**
      * Refund a capture transaction
      *
      * @param Magento_Object $payment
@@ -93,7 +107,7 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getTransactionId())
         );
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        $this->_paypalInfoFactory->create('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 
     /**
@@ -106,9 +120,7 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
      */
     public function fetchTransactionInfo(Magento_Payment_Model_Info $payment, $transactionId)
     {
-        Mage::throwException(
-            __('Fetch transaction details method does not exists in PaypalUK')
-        );
+        throw new Magento_Core_Exception(__('Fetch transaction details method does not exists in PaypalUK'));
     }
 
     /**
@@ -130,6 +142,6 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getTransactionId())
         );
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        $this->_paypalInfoFactory->create('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 }
