@@ -176,7 +176,6 @@ EXPECTED_MESSAGE;
         $this->_wsdlGeneratorMock->expects($this->any())
             ->method('generate')
             ->will($this->returnValue($wsdl));
-        $this->_oauthServiceMock->expects($this->once())->method('validateAccessToken');
 
         $this->_soapController->dispatch();
         $this->assertEquals($wsdl, $this->_responseMock->getBody());
@@ -194,12 +193,13 @@ EXPECTED_MESSAGE;
         $this->_soapServerMock->expects($this->any())
             ->method('handle')
             ->will($this->returnValue($soapResponse));
-        // TODO: Should be changed after authentication is enabled
+        $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth access_token';
         $this->_oauthServiceMock->expects($this->once())
             ->method('validateAccessToken')
-            ->will($this->returnValue(true));;
+            ->will($this->returnValue(true));
 
         $this->_soapController->dispatch();
+        unset($_SERVER['HTTP_AUTHORIZATION']);
         $this->assertEquals($soapResponse, $this->_responseMock->getBody());
     }
 
