@@ -47,7 +47,8 @@ class Magento_GiftRegistry_Model_Config_DataTest extends PHPUnit_Framework_TestC
     public function testGet()
     {
         $this->_configScopeMock->expects($this->once())->method('getCurrentScope')->will($this->returnValue('global'));
-        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue(array()));
+        $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(false));
+        $this->_readerMock->expects($this->any())->method('read')->will($this->returnValue(array()));
 
         $this->assertEquals(array(), $this->_model->get());
     }
