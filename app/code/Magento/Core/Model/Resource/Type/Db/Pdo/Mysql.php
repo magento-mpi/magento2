@@ -47,7 +47,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
         $username,
         $password,
         $dbName,
-        array $profiler,
+        array $profiler = array(),
         $initStatements = 'SET NAMES utf8',
         $type = 'pdo_mysql',
         $isActive = true

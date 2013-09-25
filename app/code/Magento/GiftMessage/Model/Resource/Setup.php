@@ -23,8 +23,9 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
      */
     protected $_catalogSetupFactory;
 
-     /**
+    /**
      * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Resource_Setup_Context $context
@@ -34,6 +35,7 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
      */
     public function __construct(
         Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
+        Magento_Core_Model_Config $config,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Setup_Context $context,
@@ -42,7 +44,7 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
         $connectionName = ''
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        parent::__construct($coreData, $cache, $context, $resourceName, $moduleName, $connectionName);
+        parent::__construct($config, $coreData, $cache, $context, $resourceName, $moduleName, $connectionName);
     }
 
 

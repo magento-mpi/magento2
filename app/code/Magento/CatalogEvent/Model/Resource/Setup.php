@@ -20,6 +20,7 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
 
     /**
      * @param Magento_Cms_Model_BlockFactory $modelBlockFactory
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Resource_Setup_Context $context
@@ -29,6 +30,7 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
      */
     public function __construct(
         Magento_Cms_Model_BlockFactory $modelBlockFactory,
+        Magento_Core_Model_Config $config,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Setup_Context $context,
@@ -37,7 +39,7 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
         $connectionName = ''
     ) {
         $this->_blockFactory = $modelBlockFactory;
-        parent::__construct($coreData, $cache, $context, $resourceName, $moduleName, $connectionName);
+        parent::__construct($config, $coreData, $cache, $context, $resourceName, $moduleName, $connectionName);
     }
 
 

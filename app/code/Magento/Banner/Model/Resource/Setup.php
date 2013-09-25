@@ -37,6 +37,7 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @param Magento_Core_Model_Resource_Theme_Collection $themeCollection
      * @param Magento_Widget_Model_Widget_InstanceFactory $widgetFactory
      * @param Magento_Banner_Model_BannerFactory $bannerFactory
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Resource_Setup_Context $context
@@ -48,6 +49,7 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         Magento_Core_Model_Resource_Theme_Collection $themeCollection,
         Magento_Widget_Model_Widget_InstanceFactory $widgetFactory,
         Magento_Banner_Model_BannerFactory $bannerFactory,
+        Magento_Core_Model_Config $config,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Setup_Context $context,
@@ -58,6 +60,6 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;
         $this->_themeCollection = $themeCollection;
-        parent::__construct($coreData, $cache, $context, $resourceName, $moduleName, $connectionName);
+        parent::__construct($config, $coreData, $cache, $context, $resourceName, $moduleName, $connectionName);
     }
 }

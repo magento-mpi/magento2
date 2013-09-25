@@ -38,7 +38,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @var Magento_DB_Adapter_Pdo_Mysql
      */
-    protected $_connection;
+    protected $_connection = null;
     /**
      * Tables cache array
      *
@@ -101,8 +101,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         $this->_modulesReader = $context->getModulesReader();
         $this->_resourceName = $resourceName;
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
-        $this->_connection = $this->_resourceModel->getConnection($connectionName ?: $this->_connectionName);
-
+        $this->_connectionName = $connectionName ?: $this->_connectionName;
     }
 
     /**
@@ -112,6 +111,9 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      */
     public function getConnection()
     {
+        if (null === $this->_connection) {
+            $this->_connection = $this->_resourceModel->getConnection($this->_connectionName);
+        }
         return $this->_connection;
     }
 

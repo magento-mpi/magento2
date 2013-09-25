@@ -38,4 +38,6 @@
             </value>
         </param>
     </type>
+    <virtualType name="customer_read" type="default_read" />
+    <virtualType name="customer_write" type="default_write" />
 </config>

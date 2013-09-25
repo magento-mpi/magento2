@@ -24,6 +24,12 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     protected $_coreData;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Resource_Setup_Context $context
@@ -32,6 +38,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @param string $connectionName
      */
     public function __construct(
+        Magento_Core_Model_Config $config,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Setup_Context $context,
@@ -39,6 +46,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
         $moduleName = 'Magento_Sales',
         $connectionName = ''
     ) {
+        $this->_config = $config;
         $this->_coreData = $coreData;
         parent::__construct($cache, $context, $resourceName, $moduleName, $connectionName);
     }

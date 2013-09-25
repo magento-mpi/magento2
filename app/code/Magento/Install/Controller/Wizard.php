@@ -14,6 +14,29 @@
 class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Action
 {
     /**
+     * @var string
+     */
+    protected $_installDate;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Model_View_DesignInterface $viewDesign
+     * @param Magento_Core_Model_Theme_CollectionFactory $collectionFactory
+     * @param string $installDate
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Config_Scope $configScope,
+        Magento_Core_Model_View_DesignInterface $viewDesign,
+        Magento_Core_Model_Theme_CollectionFactory $collectionFactory,
+        $installDate = ''
+    ) {
+        $this->_installDate = $installDate;
+        parent::__construct($context, $configScope, $viewDesign, $collectionFactory);
+    }
+
+    /**
      * Perform necessary checks for all actions
      *
      * Redirect out if system is already installed
@@ -414,8 +437,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
     {
         $this->_checkIfInstalled();
 
-        $date = (string)$this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/install/date');
-        if ($date !== Magento_Install_Model_Installer_Config::TMP_INSTALL_DATE_VALUE) {
+        if ($this->_installDate !== Magento_Install_Model_Installer_Config::TMP_INSTALL_DATE_VALUE) {
             $this->_redirect('*/*');
             return;
         }

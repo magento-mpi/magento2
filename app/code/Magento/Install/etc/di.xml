@@ -63,4 +63,9 @@
         </param>
     </type>
     <virtualType name="install" type="default_setup" />
+    <type name="Magento_Install_Controller_Wizard">
+        <param name="installData">
+            <value type="argument">Magento_Core_Model_App_State::PARAM_INSTALL_DATE</value>
+        </param>
+    </type>
 </config>

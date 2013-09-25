@@ -10,11 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <install>
-            <date />
-        </install>
-    </global>
     <default>
         <system>
             <filesystem>
