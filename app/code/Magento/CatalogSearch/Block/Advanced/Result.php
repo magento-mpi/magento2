@@ -78,7 +78,7 @@ class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Tem
             $breadcrumbs->addCrumb('home', array(
                 'label'=>__('Home'),
                 'title'=>__('Go to Home Page'),
-                'link'=>$this->_storeManager->getStore()->getBaseUrl()
+                'link' => $this->_storeManager->getStore()->getBaseUrl(),
             ))->addCrumb('search', array(
                 'label'=>__('Catalog Advanced Search'),
                 'link'=>$this->getUrl('*/*/')

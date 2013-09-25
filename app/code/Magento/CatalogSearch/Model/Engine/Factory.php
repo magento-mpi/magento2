@@ -29,7 +29,7 @@ class Magento_CatalogSearch_Model_Engine_Factory
     }
 
     /**
-     * Create template filter
+     * Create search engine
      *
      * @param string $className
      * @param array $data

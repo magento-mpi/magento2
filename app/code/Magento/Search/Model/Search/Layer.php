@@ -38,7 +38,6 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -49,7 +48,6 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Search_Helper_Data $searchData,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_searchData = $searchData;

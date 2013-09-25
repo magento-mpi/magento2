@@ -95,7 +95,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
             $breadcrumbs->addCrumb('home', array(
                 'label' => __('Home'),
                 'title' => __('Go to Home Page'),
-                'link'  => $this->_storeManager->getStore()->getBaseUrl()
+                'link'  => $this->_storeManager->getStore()->getBaseUrl(),
             ))->addCrumb('search', array(
                 'label' => $title,
                 'title' => $title

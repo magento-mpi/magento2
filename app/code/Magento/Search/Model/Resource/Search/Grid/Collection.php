@@ -21,7 +21,7 @@ class Magento_Search_Model_Resource_Search_Grid_Collection
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
@@ -31,7 +31,7 @@ class Magento_Search_Model_Resource_Search_Grid_Collection
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper,
         Magento_Core_Model_Registry $registry,
         $resource = null
     ) {
