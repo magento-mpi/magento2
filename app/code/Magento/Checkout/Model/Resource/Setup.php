@@ -25,29 +25,24 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
 
     /**
      * @param Magento_Customer_Helper_Address $customerAddress
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param array $moduleConfiguration
-     * @param $resourceName
+     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
         Magento_Customer_Helper_Address $customerAddress,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
-        array $moduleConfiguration,
-        $resourceName
+        Magento_Core_Model_Resource_Setup_Context $context,
+        $resourceName,
+        $moduleName = 'Magento_Checkout',
+        $connectionName = ''
     ) {
         $this->_customerAddress = $customerAddress;
-        parent::__construct($logger, $eventManager, $resource, $modulesReader,
-            $cache, $moduleConfiguration, $resourceName
-        );
+        parent::__construct($cache, $context, $resourceName, $moduleName, $connectionName);
     }
+
 
     /**
      * @return Magento_Customer_Helper_Address

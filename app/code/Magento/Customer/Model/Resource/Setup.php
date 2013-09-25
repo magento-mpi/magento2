@@ -19,6 +19,23 @@
 class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
 {
     /**
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
+     */
+    public function __construct(
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Setup_Context $context,
+        $resourceName,
+        $moduleName = 'Magento_Customer',
+        $connectionName = ''
+    ) {
+        parent::__construct($cache, $context, $resourceName, $moduleName, $connectionName);
+    }
+
+    /**
      * Prepare customer attribute values to save in additional table
      *
      * @param array $attr

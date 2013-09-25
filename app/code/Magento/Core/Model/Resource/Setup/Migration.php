@@ -129,93 +129,29 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Data $helper
-     * @param $resourceName
-     * @param array $data
+     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Data $helper,
+        Magento_Core_Model_Resource_Setup_Context $context,
         $resourceName,
-        array $data = array()
+        $moduleName = 'Magento_Core',
+        $connectionName = ''
     ) {
-        $this->_config = $config;
         $this->_filesystem = $filesystem;
         $this->_coreHelper = $helper;
-        if (!isset($data['resource_config'])
-            || !isset($data['connection_config'])
-            || !isset($data['module_config'])
-            || !isset($data['connection'])
-        ) {
-            parent::__construct(
-                $logger, $eventManager, $moduleList, $resource, $modulesReader, $resourceName
-            );
-        } else {
-            $this->_resourceModel = $resource;
-            $this->_resourceName = $resourceName;
+        $this->_baseDir = Mage::getBaseDir();
+        $this->_pathToMapFile = $config->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
 
-            if (isset($data['connection'])) {
-                $this->_conn = $data['connection'];
-            }
-
-            $this->_initConfigs($data);
-        }
-
-        if (isset($data['base_dir'])) {
-            $this->_baseDir = $data['base_dir'];
-        } else {
-            $this->_baseDir = Mage::getBaseDir();
-        }
-
-        $this->_initAliasesMapConfiguration($data);
-    }
-
-    /**
-     * Init configs
-     *
-     * @param array $data
-     */
-    protected function _initConfigs(array $data = array())
-    {
-        if (isset($data['module_config'])) {
-            $this->_moduleConfig = $data['module_config'];
-        }
-    }
-
-    /**
-     * Init aliases map configuration
-     *
-     * @param array $data
-     */
-    protected function _initAliasesMapConfiguration(array $data = array())
-    {
-        if (isset($data['path_to_map_file'])) {
-            $this->_pathToMapFile = $data['path_to_map_file'];
-        } else {
-            $this->_pathToMapFile = $this->_config->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
-        }
-
-        if (isset($data['aliases_map'])) {
-            $this->_aliasesMap = $data['aliases_map'];
-        }
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
     /**

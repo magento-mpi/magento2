@@ -53,7 +53,6 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
                 'table'                          => 'magento_rma_item_entity',
                 'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
                 'additional_attribute_table'     => 'magento_rma_item_eav_attribute',
-                'increment_per_store'            => 1,
                 'entity_attribute_collection'    => null,
                 'increment_per_store'            => 1,
                 'attributes'                     => array(

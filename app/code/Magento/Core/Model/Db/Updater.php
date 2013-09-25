@@ -118,7 +118,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
         $this->_appState->setUpdateMode(true);
 
         $afterApplyUpdates = array();
-        foreach ($this->_moduleList->getModules() as $moduleName => $moduleConfiguration) {
+        foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
             foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
                 $className = isset($this->_resourceList[$resourceName])
                     ? $this->_resourceList[$resourceName]
@@ -128,7 +128,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
                     $className,
                     array(
                         'resourceName' => $resourceName,
-                        'moduleConfiguration' => $moduleConfiguration,
+                        'moduleName' => $moduleName,
                     )
                 );
                 $setupClass->applyUpdates();
@@ -157,13 +157,13 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
         if (!$this->_isUpdatedSchema) {
             return;
         }
-        foreach ($this->_moduleList->getModules() as $moduleName => $moduleConfiguration) {
+        foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
             foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
                 $className = isset($this->_resourceList[$resourceName])
                     ? $this->_resourceList[$resourceName]
                     : $this->_defaultClass;
                 $setupClass = $this->_factory->create($className, array('resourceName' => $resourceName,
-                    'moduleConfiguration' => $moduleConfiguration,));
+                    'moduleName' => $moduleName,));
                 $setupClass->applyDataUpdates();
             }
         }

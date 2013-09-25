@@ -219,7 +219,7 @@ class Magento_Install_Model_Installer extends Magento_Object
          */
         /** @var $setupModel Magento_Core_Model_Resource_Setup */
         $setupModel = $this->_setupFactory->create(
-            'Magento_Core_Model_Resource_Setup', array('resourceName' => 'core_setup')
+            'Magento_Core_Model_Resource_Setup', array('resourceName' => 'core_setup', 'moduleName' => 'Magento_Core')
         );
 
         if (!empty($data['use_rewrites'])) {

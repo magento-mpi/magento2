@@ -22,7 +22,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Setup module configuration object
      *
-     * @var Magento_Simplexml_Element
+     * @var array
      */
     protected $_moduleConfig;
 
@@ -38,7 +38,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @var Magento_DB_Adapter_Pdo_Mysql
      */
-    protected $_conn;
+    protected $_connection;
     /**
      * Tables cache array
      *
@@ -77,36 +77,32 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param array $moduleConfiguration
+     * Connection instance name
+     *
+     * @var string
+     */
+    protected $_connectionName = 'core_setup';
+
+    /**
+     * @param Magento_Core_Model_Resource_Setup_Context $context
      * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        array $moduleConfiguration,
-        $resourceName
+        Magento_Core_Model_Resource_Setup_Context $context,
+        $resourceName,
+        $moduleName,
+        $connectionName = ''
     ) {
-        $this->_eventManager = $eventManager;
-        $this->_resourceModel = $resource;
+        $this->_eventManager = $context->getEventManager();
+        $this->_resourceModel = $context->getResourceModel();
+        $this->_logger = $context->getLogger();
+        $this->_modulesReader = $context->getModulesReader();
         $this->_resourceName = $resourceName;
-        $this->_modulesReader = $modulesReader;
+        $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
+        $this->_connection = $this->_resourceModel->getConnection($connectionName ?: $this->_connectionName);
 
-        $this->_moduleConfig = $moduleConfiguration;
-        $connection = $this->_resourceModel->getConnection($this->_resourceName);
-        /**
-         * If module setup configuration was not loaded
-         */
-        if (!$connection) {
-            $connection = $this->_resourceModel->getConnection($this->_resourceName);
-        }
-        $this->_conn = $connection;
-        $this->_logger = $logger;
     }
 
     /**
@@ -116,7 +112,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      */
     public function getConnection()
     {
-        return $this->_conn;
+        return $this->_connection;
     }
 
     /**

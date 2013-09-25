@@ -27,8 +27,8 @@ class Magento_Tax_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     protected function _loadTableData($table)
     {
         $table = $this->getTable($table);
-        $select = $this->_conn->select();
+        $select = $this->_connection->select();
         $select->from($table);
-        return $this->_conn->fetchAll($select);
+        return $this->_connection->fetchAll($select);
     }
 }
