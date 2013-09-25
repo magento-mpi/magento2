@@ -766,7 +766,6 @@ return array(
     array('_getPageTrackingCode', 'Magento_GoogleAnalytics_Block_Ga', 'getPageTrackingCode'),
     array('_getOrdersTrackingCode', 'Magento_GoogleAnalytics_Block_Ga', 'getOrdersTrackingCode'),
     array('_toJson', 'Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes', 'jsonFormat'),
-    array('_getFlag', 'Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items'),
     array('_getConfig', 'Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items'),
     array('_getSession', 'Magento_GoogleShopping_Model_MassOperations'),
     array('_getStore', 'Magento_GoogleShopping_Block_Adminhtml_Items_Item'),

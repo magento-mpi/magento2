@@ -45,6 +45,7 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
         Magento_GoogleShopping_Helper_Data $gsData,
         array $data = array()
     ) {
+        $this->_date = $date;
         $this->_gsData = $gsData;
         parent::__construct($logAdapterFactory, $coreRegistry, $config, $data);
     }

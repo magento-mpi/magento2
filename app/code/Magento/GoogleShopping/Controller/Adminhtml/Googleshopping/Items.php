@@ -94,11 +94,21 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
     }
 
     /**
+     * Retrieve synchronization process mutex
+     *
+     * @return Magento_GoogleShopping_Model_Flag
+     */
+    protected function _getFlag()
+    {
+        return $this->_objectManager->get('Magento_GoogleShopping_Model_Flag')->loadSelf();
+    }
+
+    /**
      * Add (export) several products to Google Content
      */
     public function massAddAction()
     {
-        $flag = $this->_objectManager->get('Magento_GoogleShopping_Model_Flag');
+        $flag = $this->_getFlag();
         if ($flag->isLocked()) {
             return;
         }
@@ -140,7 +150,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
      */
     public function massDeleteAction()
     {
-        $flag = $this->_objectManager->get('Magento_GoogleShopping_Model_Flag');
+        $flag = $this->_getFlag();
         if ($flag->isLocked()) {
             return;
         }
@@ -180,7 +190,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
      */
     public function refreshAction()
     {
-        $flag = $this->_objectManager->get('Magento_GoogleShopping_Model_Flag');
+        $flag = $this->_getFlag();
         if ($flag->isLocked()) {
             return;
         }
@@ -258,7 +268,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
         if ($this->getRequest()->isAjax()) {
             $this->getResponse()->setHeader('Content-Type', 'application/json');
             $params = array(
-                'is_running' => $this->_objectManager->get('Magento_GoogleShopping_Model_Flag')->isLocked()
+                'is_running' => $this->_getFlag()->isLocked()
             );
             return $this->getResponse()->setBody(
                 $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($params)
