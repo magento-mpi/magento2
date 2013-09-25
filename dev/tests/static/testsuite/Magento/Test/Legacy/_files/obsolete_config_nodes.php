@@ -20,6 +20,8 @@ return array(
     '/config/global/blocks/*/class'            => '',
     '/config/global/models/*/resourceModel'    => '',
     '/config/global/payment'                   => 'Move them to payment.xml.',
+    '/config/global/payment/cc/types/*/validator' =>
+        'This configuration moved to Di configuration of Magento_Centinel_Model_StateFactory',
     '/config/adminhtml/menu'                   => 'Move them to adminhtml.xml.',
     '/config/adminhtml/acl'                    => 'Move them to adminhtml.xml.',
     '/config/*[self::global|self::adminhtml|self::frontend]/di' => 'This configuration moved to di.xml file',
