@@ -60,7 +60,7 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
         if ($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('rss/wishlist/active')) {
             $wishlist = $this->_getWishlist();
             if ($wishlist && ($wishlist->getVisibility()
-                || Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)
+                || $this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)
                     && $wishlist->getCustomerId() == $this->_getCustomer()->getId())
             ) {
                 $this->getResponse()->setHeader('Content-Type', 'text/xml; charset=UTF-8');
@@ -108,7 +108,7 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
             $data   = explode(',', $params);
             $customerId    = abs(intval($data[0]));
             if ($customerId
-                && ($customerId == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) ) {
+                && ($customerId == $this->_objectManager->get('Magento_Customer_Model_Session')->getCustomerId()) ) {
                 $this->_customer->load($customerId);
             }
         }

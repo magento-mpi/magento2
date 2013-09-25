@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="downloadable" label="Downloadable Product" modelInstance="Magento_Downloadable_Model_Product_Type" composite='false' isQty="true" canUseQtyDecimals="true">
+        <priceModel instance="Magento_Downloadable_Model_Product_Price" />
+        <indexerModel instance="Magento_Downloadable_Model_Resource_Indexer_Price" />
+    </type>
+    <type name="configurable">
+        <allowProductTypes>
+            <type name="downloadable" />
+        </allowProductTypes>
+    </type>
+    <type name="grouped">
+        <allowProductTypes>
+            <type name="downloadable" />
+        </allowProductTypes>
+    </type>
+</config>

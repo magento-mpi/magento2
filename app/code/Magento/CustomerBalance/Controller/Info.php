@@ -23,7 +23,7 @@ class Magento_CustomerBalance_Controller_Info extends Magento_Core_Controller_Fr
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }

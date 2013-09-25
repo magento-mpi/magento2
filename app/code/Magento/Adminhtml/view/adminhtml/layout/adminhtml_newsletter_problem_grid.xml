@@ -10,5 +10,5 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_newsletter_problem_block"/>
-    <container label="Newsletter Problem Block" name="adminhtml.newsletter.problem.container" output="1"/>
+    <block class="Magento_Backend_Block_Widget_Grid_Container" name="adminhtml.newsletter.problem.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
 </layout>

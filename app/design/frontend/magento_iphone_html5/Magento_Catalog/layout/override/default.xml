@@ -8,18 +8,18 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="top.container">
+    <referenceContainer name="top.container">
         <block class="Magento_Cms_Block_Block" name="cms.top.callout" before="-">
             <action method="setBlockId">
                 <argument name="block_id" xsi:type="string">top_callout</argument>
             </action>
         </block>
-    </reference>
-    <reference name="right">
+    </referenceContainer>
+    <referenceContainer name="right">
         <block class="Magento_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
-    </reference>
+    </referenceContainer>
     <block class="Magento_Catalog_Block_Product_Price_Template" name="catalog_product_price_template"/>
-    <reference name="catalog_product_price_template">
+    <referenceBlock name="catalog_product_price_template">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">msrp</argument>
             <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
@@ -35,5 +35,5 @@
             <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
             <argument name="template" xsi:type="string">product/price_msrp_noform.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

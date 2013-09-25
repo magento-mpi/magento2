@@ -54,11 +54,6 @@
             </email>
         </template>
     </global>
-    <frontend>
-        <secure_url>
-            <customer>/customer/</customer>
-        </secure_url>
-    </frontend>
     <default>
         <customer>
             <account_share>

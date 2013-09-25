@@ -1110,7 +1110,7 @@
 "Wrong transaction ID specified.","ID de transacción especificada errónea."
 "XML","XML"
 "XML data is invalid.","dato XML inválido"
-"XML object is not instance of ""Varien_Simplexml_Element"".","El objeto XML no es un caso de ""Varien_Simplexml_Element""."
+"XML object is not instance of ""Magento_Simplexml_Element"".","El objeto XML no es un caso de ""Magento_Simplexml_Element""."
 "YTD","YTD"
 "Year","Año"
 "Yes","Sí"

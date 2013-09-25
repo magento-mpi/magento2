@@ -25,18 +25,26 @@ class Magento_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Magen
     protected $_giftWrappingData = null;
 
     /**
+     * @var Magento_GiftWrapping_Model_WrappingFactory
+     */
+    protected $_wrappingFactory;
+
+    /**
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory
      * @param array $data
      */
     public function __construct(
         Magento_GiftWrapping_Helper_Data $giftWrappingData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
+        $this->_wrappingFactory = $wrappingFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -58,7 +66,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link extends Magen
     public function getDesign()
     {
         if ($this->getItem()->getGwId()) {
-            $wrappingModel = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')
+            $wrappingModel = $this->_wrappingFactory->create()
                 ->load($this->getItem()->getGwId());
             if ($wrappingModel->getId()) {
                 return $this->escapeHtml($wrappingModel->getDesign());

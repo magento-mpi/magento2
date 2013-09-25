@@ -18,14 +18,6 @@
                 </setup>
             </fullpagecache_setup>
         </resources>
-        <ignore_user_agents>
-            <cache_crawler>MagentoCrawler</cache_crawler>
-        </ignore_user_agents>
-        <widget>
-            <related_cache_types>
-                <full_page />
-            </related_cache_types>
-        </widget>
     </global>
     <adminhtml>
         <cache>

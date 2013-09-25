@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Sales Address abstract resource
- *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_CustomerCustomAttributes_Model_Resource_Sales_Address_Abstract
     extends Magento_CustomerCustomAttributes_Model_Resource_Sales_Abstract

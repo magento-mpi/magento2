@@ -9,9 +9,9 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="popup"/>
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">admin/overlay_popup.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

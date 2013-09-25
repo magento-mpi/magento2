@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="shipment_items">
+    <referenceBlock name="shipment_items">
         <block class="Magento_Bundle_Block_Sales_Order_Items_Renderer" as="bundle" template="sales/order/shipment/items/renderer.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -1110,7 +1110,7 @@
 "Wrong transaction ID specified.","Verkeerde transactie ID gespecificeerd."
 "XML","XML"
 "XML data is invalid.","XML data is ongeldig."
-"XML object is not instance of ""Varien_Simplexml_Element"".","XML object is geen voorbeeld van ""Varien_Simplexml_Element""."
+"XML object is not instance of ""Magento_Simplexml_Element"".","XML object is geen voorbeeld van ""Magento_Simplexml_Element""."
 "YTD","YTD"
 "Year","Jaar"
 "Yes","Ja"

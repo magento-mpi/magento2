@@ -24,7 +24,7 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
         'PRODUCT_TYPE_virtual', 'PRODUCT_TYPE_downloadable', 'PRODUCT_TYPE_giftcard',
         'catalog_category_default', 'catalog_category_layered', 'catalog_category_layered_nochildren',
         'customer_logged_in', 'customer_logged_out', 'customer_logged_in_psc_handle', 'customer_logged_out_psc_handle',
-        'cms_page', 'sku_failed_products_handle', 'catalog_product_send'
+        'cms_page', 'sku_failed_products_handle', 'catalog_product_send', 'reference'
     );
 
     /**
@@ -89,17 +89,17 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
 
         $this->_testObsoleteReferences($layoutXml);
 
-        $selectorHeadBlock = '(name()="block" or name()="reference") and '
+        $selectorHeadBlock = '(name()="block" or name()="referenceBlock") and '
             . '(@name="head" or @name="convert_root_head" or @name="vde_head")';
         $this->assertSame(array(),
             $layoutXml->xpath(
                 '//block[@class="Magento_Page_Block_Html_Head_Css" '
-                    . 'or @class="Magento_Page_Block_Html_Head_Link" '
-                    . 'or @class="Magento_Page_Block_Html_Head_Script"]'
-                    . '/parent::*[not(' . $selectorHeadBlock . ')]'
+                . 'or @class="Magento_Page_Block_Html_Head_Link" '
+                . 'or @class="Magento_Page_Block_Html_Head_Script"]'
+                . '/parent::*[not(' . $selectorHeadBlock . ')]'
             ),
             'Blocks Magento_Page_Block_Html_Head_{Css,Link,Script} are allowed within the "head" block only. '
-                . 'Verify integrity of the nodes nesting.'
+            . 'Verify integrity of the nodes nesting.'
         );
         $this->assertSame(array(),
             $layoutXml->xpath('/layout//*[@output="toHtml"]'), 'output="toHtml" is obsolete. Use output="1"'

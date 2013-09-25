@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
-        <reference name="product.info">
-            <reference name="alert.urls">
+    <referenceContainer name="content">
+        <referenceBlock name="product.info">
+            <referenceContainer name="alert.urls">
                 <block class="Magento_ProductAlert_Block_Product_View_Price" name="productalert.price" as="productalert_price" template="product/view.phtml">
                     <action method="setHtmlClass">
                         <argument name="value" xsi:type="string">alert-price link-price-alert</argument>
@@ -27,7 +27,7 @@
                         <argument translate="true" name="value" xsi:type="string">Sign up to be notified when this product is back in stock.</argument>
                     </action>
                 </block>
-            </reference>
-        </reference>
-    </reference>
+            </referenceContainer>
+        </referenceBlock>
+    </referenceContainer>
 </layout>

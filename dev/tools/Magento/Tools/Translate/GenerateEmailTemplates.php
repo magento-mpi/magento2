@@ -442,7 +442,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
             'outputName' => $outputName,
         );*/
 
-        $csv = new Varien_File_Csv();
+        $csv = new Magento_File_Csv();
         $strings1 = $this->separateTranslations($csv->getData($this->_arguments['inputName1']));
         $strings2 = $this->separateTranslations($csv->getData($this->_arguments['inputName2']));
         $resultArray = array();
