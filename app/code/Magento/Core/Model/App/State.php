@@ -122,4 +122,14 @@ class Magento_Core_Model_App_State
     {
         return Mage::getIsSerializable();
     }
+
+    /**
+     * Set install date
+     *
+     * @param string $date
+     */
+    public function setInstallDate($date)
+    {
+        $this->_installDate = $date;
+    }
 }

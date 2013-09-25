@@ -444,6 +444,10 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
 
         $this->_getInstaller()->finish();
 
+        /** @var Magento_Core_Model_App_State $appState */
+        $appState = $this->_objectManager->get('Magento_Core_Model_App_State');
+        $appState->setInstallDate($this->_installDate);
+
         $this->_objectManager->get('Magento_AdminNotification_Model_Survey')->saveSurveyViewed(true);
 
         $this->_prepareLayout();
