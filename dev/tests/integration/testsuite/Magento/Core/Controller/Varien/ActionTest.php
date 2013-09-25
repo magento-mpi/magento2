@@ -173,6 +173,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      * @param array $expected
      *
      * @magentoAppIsolation enabled
+     * @magentoConfigFixture global/dev/page_type/render_inherited 1
      * @dataProvider addActionLayoutHandlesInheritedDataProvider
      */
     public function testAddActionLayoutHandlesInherited($route, $controller, $action, $expected)
