@@ -107,7 +107,7 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getTransactionId())
         );
-        $this->_paypalInfoFactory->create('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        $this->_paypalInfoFactory->create()->importToPayment($api, $payment);
     }
 
     /**
@@ -142,6 +142,6 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getTransactionId())
         );
-        $this->_paypalInfoFactory->create('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        $this->_paypalInfoFactory->create()->importToPayment($api, $payment);
     }
 }
