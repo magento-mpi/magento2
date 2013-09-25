@@ -27,7 +27,8 @@ class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_Test
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $sampleResFactory = $this->getMock('Magento_Downloadable_Model_Resource_SampleFactory', array(), array(), '', false);
+        $sampleResFactory = $this->getMock(
+            'Magento_Downloadable_Model_Resource_SampleFactory', array(), array(), '', false);
         $linkResource = $this->getMock('Magento_Downloadable_Model_Resource_Link', array(), array(), '', false);
         $linksFactory = $this->getMock('Magento_Downloadable_Model_Resource_Link_Collection_Factory',
             array(), array(), '', false

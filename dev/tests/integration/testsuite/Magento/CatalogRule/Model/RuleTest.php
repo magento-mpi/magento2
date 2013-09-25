@@ -43,13 +43,18 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false);
         $formFactoryMock = $this->getMock('Magento_Data_Form_Factory',
             array(), array(), '', false);
+        $localeMock = $this->getMock('Magento_Core_Model_LocaleInterface',
+            array(), array(), '', false);
         $ctlgRuleHlprMock = $this->getMock('Magento_CatalogRule_Helper_Data',
             array('__construct'), array(), '', false);
         /** @var $catalogRule Magento_CatalogRule_Model_Rule */
         $catalogRule = $this->getMock(
             'Magento_CatalogRule_Model_Rule',
             array('_getRulesFromProduct'),
-            array($ctlgRuleHlprMock, $cacheTypesListMock, $formFactoryMock, $contextMock, $registryMock, $resourceMock)
+            array(
+                $ctlgRuleHlprMock, $cacheTypesListMock, $formFactoryMock,
+                $contextMock, $registryMock, $localeMock, $resourceMock
+            )
         );
 
         $catalogRule->expects(self::any())
