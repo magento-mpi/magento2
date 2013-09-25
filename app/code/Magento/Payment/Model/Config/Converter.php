@@ -80,13 +80,6 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
             $b['order'] = 0;
         }
 
-        if ($a['order'] == $b['order']) {
-            return 0;
-        } else if ($a['order'] > $b['order']) {
-            return 1;
-        } else {
-            return -1;
-        }
-
+        return $a['order'] - $b['order'];
     }
 }
