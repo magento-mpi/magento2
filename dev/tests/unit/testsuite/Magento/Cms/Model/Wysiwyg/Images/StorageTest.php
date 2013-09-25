@@ -69,6 +69,16 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
      */
     protected $_uploaderFactoryMock;
 
+    /**
+     * @var Magento_Backend_Model_Session|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_sessionMock;
+
+    /**
+     * @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_backendUrlMock;
+
     protected function setUp()
     {
         $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
@@ -87,6 +97,8 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
         $this->_directoryDatabaseFactoryMock = $this->getMock(
             'Magento_Core_Model_File_Storage_Directory_DatabaseFactory');
         $this->_uploaderFactoryMock = $this->getMock('Magento_Core_Model_File_UploaderFactory');
+        $this->_sessionMock = $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false);
+        $this->_backendUrlMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
 
         $this->_imageHelperMock->expects($this->once())
             ->method('getStorageRoot')
@@ -102,6 +114,8 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Cms_Model_Wysiwyg_Images_Storage', array(
+            'session' => $this->_sessionMock,
+            'backendUrl' => $this->_backendUrlMock,
             'cmsWysiwygImages' => $this->_imageHelperMock,
             'coreFileStorageDb' => $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '',
                 false),

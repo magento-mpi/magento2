@@ -44,6 +44,11 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
     protected $_design;
 
     /**
+     * @var Magento_Cms_Model_Page
+     */
+    protected $_page;
+
+    /**
      * @var Magento_Core_Model_Session_Pool
      */
     protected $_sessionPool;
@@ -80,10 +85,11 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
      * Construct
      *
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Session_Pool $sessionFactory
+     * @param Magento_Cms_Model_Page $page
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Page_Helper_Layout $pageLayout
      * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Session_Pool $sessionFactory
      * @param Magento_Core_Model_UrlInterface $url
      * @param Magento_Cms_Model_PageFactory $pageFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -91,25 +97,27 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Session_Pool $sessionFactory,
+        Magento_Cms_Model_Page $page,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Page_Helper_Layout $pageLayout,
         Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Session_Pool $sessionFactory,
         Magento_Core_Model_UrlInterface $url,
         Magento_Cms_Model_PageFactory $pageFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LocaleInterface $locale
     ) {
-        parent::__construct($context);
+        $this->_sessionPool = $sessionFactory;
+        // used singleton (instead factory) because there exist dependencies on Magento_Cms_Helper_Page
+        $this->_page = $page;
         $this->_eventManager = $eventManager;
         $this->_pageLayout = $pageLayout;
         $this->_design = $design;
-        $this->_sessionPool = $sessionFactory;
         $this->_url = $url;
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
-        $this->_page = $pageFactory->create();
+        parent::__construct($context);
     }
 
     /**

@@ -24,6 +24,11 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
     protected $_filterProvider;
 
     /**
+     * @var Magento_Cms_Model_Page
+     */
+    protected $_page;
+
+    /**
      * Store manager
      *
      * @var Magento_Core_Model_StoreManagerInterface
@@ -41,6 +46,7 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
      * Construct
      *
      * @param Magento_Core_Block_Context $context
+     * @param Magento_Cms_Model_Page $page
      * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Cms_Model_PageFactory $pageFactory
@@ -48,12 +54,15 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
      */
     public function __construct(
         Magento_Core_Block_Context $context,
+        Magento_Cms_Model_Page $page,
         Magento_Cms_Model_Template_FilterProvider $filterProvider,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Cms_Model_PageFactory $pageFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
+        // used singleton (instead factory) because there exist dependencies on Magento_Cms_Helper_Page
+        $this->_page = $page;
         $this->_filterProvider = $filterProvider;
         $this->_storeManager = $storeManager;
         $this->_pageFactory = $pageFactory;
@@ -67,11 +76,13 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
     public function getPage()
     {
         if (!$this->hasData('page')) {
-            /** @var Magento_Cms_Model_Page $page */
-            $page = $this->_pageFactory->create();
             if ($this->getPageId()) {
+                /** @var Magento_Cms_Model_Page $page */
+                $page = $this->_pageFactory->create();
                 $page->setStoreId($this->_storeManager->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
+            } else {
+                $page = $this->_page;
             }
             $this->setData('page', $page);
         }

@@ -20,13 +20,6 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
     implements Magento_CatalogSearch_Model_Resource_EngineInterface
 {
     /**
-     * Catalog search data
-     *
-     * @var Magento_CatalogSearch_Helper_Data
-     */
-    protected $_catalogSearchData = null;
-
-    /**
      * Catalog product visibility
      *
      * @var Magento_Catalog_Model_Product_Visibility
@@ -34,21 +27,38 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
     protected $_catalogProductVisibility;
 
     /**
-     * Fulltext collection factory
+     * Catalog search fulltext coll factory
      *
      * @var Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory
      */
-    protected $_fulltextCollectionFactory;
+    protected $_catalogSearchFulltextCollFactory;
 
     /**
-     * Advanced collection factory
+     * Catalog search advanced coll factory
      *
      * @var Magento_CatalogSearch_Model_Resource_Advanced_CollectionFactory
      */
-    protected $_advancedCollectionFactory;
+    protected $_catalogSearchAdvancedCollFactory;
 
     /**
-     * CatalogSearch resource helper
+     * @var Magento_CatalogSearch_Model_Resource_Advanced
+     */
+    protected $_searchResource;
+
+    /**
+     * @var Magento_CatalogSearch_Model_Resource_Advanced
+     */
+    protected $_searchResourceCollection;
+
+    /**
+     * Catalog search data
+     *
+     * @var Magento_CatalogSearch_Helper_Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Catalog search data
      *
      * @var Magento_CatalogSearch_Model_Resource_Helper_Mysql4
      */
@@ -57,13 +67,14 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
     /**
      * Construct
      *
+     * @param Magento_Core_Model_Resource $resource
      * @param Magento_CatalogSearch_Model_Resource_Advanced_CollectionFactory $catalogSearchAdvancedCollFactory
      * @param Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $catalogSearchFulltextCollFactory
      * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
      * @param Magento_CatalogSearch_Model_Resource_Advanced $searchResource
      * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $searchResourceCollection
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,    
@@ -147,7 +158,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      */
     public function getAllowedVisibility()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSearchIds();
+        return $this->_catalogProductVisibility->getVisibleInSearchIds();
     }
 
     /**

@@ -49,27 +49,25 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
 
     /**
      * Construct
-     * 
+     *
      * @param Magento_CatalogSearch_Model_Layer $layer
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_CatalogSearch_Model_Layer $catalogSearchLayer
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_CatalogSearch_Model_Layer $layer,
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_CatalogSearch_Model_Layer $catalogSearchLayer,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {

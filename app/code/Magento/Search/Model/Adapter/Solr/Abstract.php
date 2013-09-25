@@ -82,39 +82,49 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected $_eavConfig;
 
     /**
-     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
+     * Construct
+     *
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
+     * @param Magento_Search_Model_Resource_Index $resourceIndex
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Search_Helper_ClientInterface $clientHelper
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param array $options
+     * @throws Magento_Core_Exception
      */
     public function __construct(
-        Magento_Eav_Model_Config $eavConfig,
         Magento_Customer_Model_Session $customerSession,
         Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice,
-        Magento_Search_Model_Client_FactoryInterface $clientFactory,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Search_Model_Client_FactoryInterface $clientFactory,
-        Magento_Search_Helper_ClientInterface $clientHelper,
-        Magento_Core_Model_Registry $registry,
         Magento_Search_Model_Resource_Index $resourceIndex,
         Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
         Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection,
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Search_Model_Client_FactoryInterface $clientFactory,
+        Magento_Search_Helper_ClientInterface $clientHelper,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         $options = array()
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
-        $this->_log = $logger;
         $this->_clientFactory = $clientFactory;
         $this->_clientHelper = $clientHelper;
         $this->_coreRegistry = $registry;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection);
+        parent::__construct($customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
+            $logger, $storeManager, $cache);
         try {
             $this->_connect($options);
         } catch (Exception $e) {

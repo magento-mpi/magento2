@@ -91,21 +91,21 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      *
      * @var Magento_CatalogSearch_Helper_Data
      */
-    protected $_catalogSearchData = null;
+    protected $_catalogSearchData;
 
     /**
      * Core string
      *
      * @var Magento_Core_Helper_String
      */
-    protected $_coreString = null;
+    protected $_coreString;
 
     /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Core store config
@@ -115,6 +115,23 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     protected $_coreStoreConfig;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * CatalogSearch resource helper
+     *
+     * @var Magento_CatalogSearch_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Resource $resource
      * @param Magento_Catalog_Model_Product_Type $catalogProductType
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Catalog_Model_Product_Status $catalogProductStatus
@@ -123,45 +140,23 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
         Magento_Catalog_Model_Product_Type $catalogProductType,
         Magento_Eav_Model_Config $eavConfig,
         Magento_Catalog_Model_Product_Status $catalogProductStatus,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $productAttributeCollFactory,
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_String $coreString,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_String $coreString,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
-    
-    
-        Magento_Catalog_Model_Product_Type $catalogProductType,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Catalog_Model_Product_Status $catalogProductStatus,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $productAttributeCollFactory,
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_String $coreString,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-        
-        
-        Magento_Catalog_Model_Product_Type $catalogProductType,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Catalog_Model_Product_Status $catalogProductStatus,
-        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $productAttributeCollFactory,
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_String $coreString,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
     ) {
         $this->_catalogProductType = $catalogProductType;
         $this->_eavConfig = $eavConfig;
@@ -172,6 +167,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
         $this->_coreString = $coreString;
         $this->_catalogSearchData = $catalogSearchData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
         $this->_resourceHelper = $resourceHelper;
         parent::__construct($resource);
     }

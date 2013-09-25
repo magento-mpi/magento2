@@ -175,11 +175,14 @@ abstract class Magento_Search_Model_Adapter_Abstract
     protected $_logger;
 
     /**
+     * Construct
+     *
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
      * @param Magento_Search_Model_Resource_Index $resourceIndex
      * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
      * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_CacheInterface $cache
      */
@@ -1196,9 +1199,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
     protected function _getIndexableAttributeParams()
     {
         if ($this->_indexableAttributeParams === null) {
-            $attributeCollection = $this->_attributeCollection
-                    ->addToIndexFilter()
-                    ->getItems();
+            $attributeCollection = $this->_attributeCollection->addToIndexFilter()->getItems();
 
             $this->_indexableAttributeParams = array();
             foreach ($attributeCollection as $item) {

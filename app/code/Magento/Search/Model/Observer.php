@@ -82,6 +82,8 @@ class Magento_Search_Model_Observer
     protected $_request;
 
     /**
+     * Construct
+     *
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $eavEntityAttributeOptionCollFactory
      * @param Magento_Search_Model_Resource_RecommendationsFactory $searchRecommendationsFactory
      * @param Magento_Search_Model_Search_Layer $searchSearchLayer

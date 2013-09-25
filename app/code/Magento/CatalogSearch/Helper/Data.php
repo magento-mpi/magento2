@@ -83,8 +83,8 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Context $context,
+        Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_CatalogSearch_Model_QueryFactory $queryFactory
     ) {

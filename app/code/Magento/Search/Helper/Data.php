@@ -103,18 +103,20 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_storeManager;
 
     /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
+        Magento_Core_Helper_Context $context,
         Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_LocaleInterface $locale,

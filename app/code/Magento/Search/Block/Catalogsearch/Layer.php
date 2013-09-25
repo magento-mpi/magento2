@@ -33,33 +33,36 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
 
     /**
      * Construct
-     * 
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_Search_Model_Search_Layer $searchLayer
+     *
      * @param Magento_CatalogSearch_Model_Layer $layer
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_CatalogSearch_Model_Layer $catalogSearchLayer
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Search_Helper_Data $searchData
+     * @param Magento_Search_Model_Search_Layer $searchLayer
      * @param array $data
      */
     public function __construct(
-        Magento_Search_Helper_Data $searchData,
-        Magento_Search_Model_Search_Layer $searchLayer,
         Magento_CatalogSearch_Model_Layer $layer,
-        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_CatalogSearch_Model_Layer $catalogSearchLayer,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Registry $registry,
+        Magento_Search_Helper_Data $searchData,
+        Magento_Search_Model_Search_Layer $searchLayer,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
         $this->_searchLayer = $searchLayer;
-        parent::__construct(
-            $layer, $engineProvider, $catalogSearchData, $coreData, $context, $registry, $data
-        );
+        parent::__construct($layer, $coreData, $context, $engineProvider, $catalogSearchData, $catalogSearchLayer,
+            $storeManager, $registry, $data);
     }
 
     /**

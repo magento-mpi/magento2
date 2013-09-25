@@ -60,17 +60,17 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
     /**
      * Construct
      * 
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Catalog_Model_Layer_Filter_Price_Algorithm $priceAlgorithm
      * @param Magento_Search_Model_Resource_Engine $resourceEngine
-     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_CacheInterface $cache
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Catalog_Model_Layer_Filter_Price_Algorithm $priceAlgorithm,
         Magento_Search_Model_Resource_Engine $resourceEngine,
-        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_CacheInterface $cache,
         array $data = array()

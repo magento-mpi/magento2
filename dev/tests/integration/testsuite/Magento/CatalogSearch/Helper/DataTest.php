@@ -54,10 +54,9 @@ class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
             array('getQueryText'),
             array(
                 $objectManager->get('Magento_Core_Helper_Context'),
-                $objectManager->get('Magento_CatalogSearch_Model_QueryFactory'),
                 $objectManager->get('Magento_Core_Helper_String'),
-                $objectManager->get('Magento_Core_Model_Store_Config'),
-                $objectManager->get('Magento_CatalogSearch_Model_Engine_Factory'),
+                $objectManager->get('Magento_Core_Model_Store_ConfigInterface'),
+                $objectManager->get('Magento_CatalogSearch_Model_QueryFactory'),
         ));
         $mock->expects($this->any())
             ->method('getQueryText')

@@ -14,7 +14,6 @@
  */
 class Magento_Logging_Model_Observer
 {
-
     /**
      * Instance of Magento_Logging_Model_Logging
      *
@@ -62,21 +61,6 @@ class Magento_Logging_Model_Observer
      * @var Magento_Logging_Model_FlagFactory
      */
     protected $_flagFactory;
-
-    /**
-     * @var Magento_Logging_Model_Config
-     */
-    protected $_config;
-
-    /**
-     * @var Magento_User_Model_User
-     */
-    protected $_user;
-
-    /**
-     * @var Magento_Logging_Model_Event
-     */
-    protected $_event;
 
     /**
      * Construct

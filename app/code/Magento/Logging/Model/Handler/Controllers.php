@@ -77,6 +77,9 @@ class Magento_Logging_Model_Handler_Controllers
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $actionAttribute
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Zend_Controller_Response_Http $response
+     * @param Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory
      */
     public function __construct(
         Magento_Backend_Model_Config_Structure $structureConfig,
@@ -84,7 +87,10 @@ class Magento_Logging_Model_Handler_Controllers
         Magento_Logging_Helper_Data $loggingData,
         Magento_Core_Helper_Data $coreData,
         Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $actionAttribute,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Controller_Request_Http $request,
+        Zend_Controller_Response_Http $response,
+        Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory
     ) {
         $this->_structureConfig = $structureConfig;
         $this->_session = $session;
@@ -92,6 +98,9 @@ class Magento_Logging_Model_Handler_Controllers
         $this->_loggingData = $loggingData;
         $this->_coreData = $coreData;
         $this->_actionAttribute = $actionAttribute;
+        $this->_request = $request;
+        $this->_response = $response;
+        $this->_eventChangesFactory = $eventChangesFactory;
     }
 
     /**
