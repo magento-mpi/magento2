@@ -39,7 +39,7 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
     /**
      * Init storage
      *
-     * @return Magento_Adminhtml_Cms_Page_Wysiwyg_ImagesController
+     * @return Magento_Adminhtml_Controller_Cms_Wysiwyg_Images
      */
     protected function _initAction()
     {
@@ -215,7 +215,7 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
     /**
      * Save current path in session
      *
-     * @return Magento_Adminhtml_Cms_Page_Wysiwyg_ImagesController
+     * @return Magento_Adminhtml_Controller_Cms_Wysiwyg_Images
      */
     protected function _saveSessionCurrentPath()
     {

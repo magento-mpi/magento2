@@ -51,6 +51,12 @@
 * Install segment was moved from config.xml to di.xml for next configuration nodes:
   * config/install/databases
   * config/install/eula_file
+* Сrontab segment improvements:
+  * crontab configurations were moved from config.xml to new crontab.xml with new format
+  * XSD validation schema for crontab.xml was added
+* Install segment was moved from config.xml to di.xml for next configuration nodes:
+  * config/install/databases
+  * config/install/eula_file
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
@@ -123,6 +129,8 @@
   * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
   * Eliminated Mage::throwException from Magento_Media module
   * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
+  * Eliminated Mage:: static methods in Magento_Cms, Magento_Log, Magento_Rating, Magento_Rss, Magento_Rule, Magento_CatalogRule, Magento_SalesRule, Magento_Weee, Magento_Captcha, Magento_CatalogInventory
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed inability to create gift registry on frontend

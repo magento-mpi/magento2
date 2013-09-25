@@ -9,7 +9,7 @@
 /**
  * Cms resource setup
  */
-class Magento_Cms_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+class Magento_Cms_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup_Generic
 {
     /**
      * Block factory
@@ -28,6 +28,7 @@ class Magento_Cms_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
     /**
      * Construct
      *
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -40,6 +41,7 @@ class Magento_Cms_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
      * @param Magento_Cms_Model_PageFactory $pageFactory
      */
     public function __construct(
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -51,8 +53,8 @@ class Magento_Cms_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
         Magento_Cms_Model_BlockFactory $blockFactory,
         Magento_Cms_Model_PageFactory $pageFactory
     ) {
-        parent::__construct($logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
-            $resourceName);
+        parent::__construct($migrationFactory, $logger, $eventManager, $resourcesConfig, $config, $moduleList,
+            $resource, $modulesReader, $resourceName);
 
         $this->_blockFactory = $blockFactory;
         $this->_pageFactory = $pageFactory;

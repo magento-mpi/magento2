@@ -19,6 +19,7 @@
             <module name="Magento_Log"/>
         </sequence>
         <depends>
+            <module name="Magento_Catalog"/>
             <module name="Magento_Customer"/>
             <module name="Magento_Adminhtml"/>
             <module name="Magento_Rule"/>

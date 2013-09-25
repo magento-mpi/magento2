@@ -55,30 +55,21 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
     /**
      * Initialize connect to Solr Client
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Search_Helper_ClientInterface $clientHelper
-     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
-     * @param array $options
+     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Search_Helper_ClientInterface $clientHelper
+     * @param  $options
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Search_Model_Client_FactoryInterface $clientFactory,
-        Magento_Search_Helper_ClientInterface $clientHelper,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_CatalogInventory_Helper_Data $ctlgInventData,
+        Magento_Search_Model_Client_FactoryInterface $clientFactory,
+        Magento_Core_Model_Logger $logger,
+        Magento_Search_Helper_ClientInterface $clientHelper,
         $options = array()
     ) {
-        parent::__construct($logger, $storeManager, $cache, $clientFactory, $clientHelper, $registry, $coreStoreConfig,
-            $options);
         $this->_ctlgInventData = $ctlgInventData;
+        parent::__construct($clientFactory, $logger, $clientHelper, $options);
     }
 
     protected function _search($query, $params = array())

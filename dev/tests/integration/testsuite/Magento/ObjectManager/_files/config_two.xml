@@ -37,7 +37,7 @@
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
         <plugin name="one" sortOrder="800"/>
     </virtualType>
-    <type name="Varien_Data_Collection_Db_FetchStrategy_Cache">
+    <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cacheTags">
             <value>
                 <const type='const'>Magento_Core_Model_Website::CACHE_TAG</const>

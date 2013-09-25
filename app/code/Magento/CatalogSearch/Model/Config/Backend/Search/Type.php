@@ -59,7 +59,7 @@ class Magento_CatalogSearch_Model_Config_Backend_Search_Type extends Magento_Cor
     protected function _afterSave()
     {
         $newValue = $this->getValue();
-        $oldValue = $this->_coreConfig->getValue(
+        $oldValue = $this->_config->getValue(
             Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()

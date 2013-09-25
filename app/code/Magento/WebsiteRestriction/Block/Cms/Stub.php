@@ -24,6 +24,7 @@ class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
     /**
      * Construct
      *
+     * @param Magento_Cms_Model_Page $page
      * @param Magento_Core_Block_Context $context
      * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
      * @param Magento_Cms_Model_PageFactory $pageFactory
@@ -32,6 +33,7 @@ class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
      * @param array $data
      */
     public function __construct(
+        Magento_Cms_Model_Page $page,
         Magento_Core_Block_Context $context,
         Magento_Cms_Model_Template_FilterProvider $filterProvider,
         Magento_Cms_Model_PageFactory $pageFactory,
@@ -41,6 +43,7 @@ class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
     ) {
         parent::__construct($context, $filterProvider, $storeManager, $pageFactory, $data);
         $this->_coreRegistry = $registry;
+        parent::__construct($page, $filterProvider, $context, $data);
     }
 
     /**

@@ -139,7 +139,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
     public function massRemoveAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $removedFromArchive = Mage::getSingleton('Magento_SalesArchive_Model_Archive')
+        $removedFromArchive = $this->_objectManager->get('Magento_SalesArchive_Model_Archive')
             ->removeOrdersFromArchiveById($orderIds);
 
         $removedFromArchiveCount = count($removedFromArchive);
@@ -159,7 +159,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
     public function massAddAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $archivedIds = Mage::getSingleton('Magento_SalesArchive_Model_Archive')
+        $archivedIds = $this->_objectManager->get('Magento_SalesArchive_Model_Archive')
             ->archiveOrdersById($orderIds);
 
         $archivedCount = count($archivedIds);
@@ -178,7 +178,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
     {
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $archivedIds = Mage::getSingleton('Magento_SalesArchive_Model_Archive')
+            $archivedIds = $this->_objectManager->get('Magento_SalesArchive_Model_Archive')
                 ->archiveOrdersById($orderId);
             $this->_getSession()->addSuccess(__('We have archived the order.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
@@ -195,7 +195,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
     {
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $orderIds = Mage::getSingleton('Magento_SalesArchive_Model_Archive')
+            $orderIds = $this->_objectManager->get('Magento_SalesArchive_Model_Archive')
                 ->removeOrdersFromArchiveById($orderId);
             $this->_getSession()->addSuccess(__('We have removed the order from the archive.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));

@@ -47,16 +47,16 @@ class Magento_Tools_Translate_DirectoryFilter extends FilterIterator
 
 class Magento_Tools_Translate_Translate {
     /**
-     * Object of MultyGetopt
+     * Object of Magento_Tools_Translate_MultyGetopt
      *
-     * @var MultyGetopt
+     * @var Magento_Tools_Translate_MultyGetopt
      */
     static private $opts;
 
     /**
-     * Object of Varien_File_Csv_multy
+     * Object of Magento_File_CsvMulty
      *
-     * @var Varien_File_Csv_Multy
+     * @var Magento_File_CsvMulty
      */
     static private $csv;
 
@@ -578,7 +578,7 @@ class Magento_Tools_Translate_Translate {
         unset($xml);
         if(is_array($arr)){
             foreach ($arr as $val){
-                if(is_a($val,"Varien_Simplexml_Element")){
+                if(is_a($val,"Magento_Simplexml_Element")){
                     $attr = $val->attributes();
                     $transl = $attr['translate'];
                     $transl = explode(' ', (string)$transl);

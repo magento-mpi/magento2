@@ -33,36 +33,29 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
     protected $_ctlgInventData = null;
 
     /**
-     * Construct
-     *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
      * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Search_Helper_ClientInterface $clientHelper
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
      * @param array $options
-     * @throws Magento_Core_Exception
+     * @throws Exception
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_CacheInterface $cache,
+        Magento_CatalogInventory_Helper_Data $ctlgInventData,
         Magento_Search_Model_Client_FactoryInterface $clientFactory,
+        Magento_Core_Model_Logger $logger,
         Magento_Search_Helper_ClientInterface $clientHelper,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_CatalogInventory_Helper_Data $ctlgInventData,
         $options = array()
     ) {
-        if (!extension_loaded('solr')) {
-            throw new Magento_Core_Exception('Solr extension not enabled!');
-        }
-        parent::__construct($logger, $storeManager, $cache, $clientFactory, $clientHelper, $registry, $coreStoreConfig,
-            $options);
         $this->_ctlgInventData = $ctlgInventData;
+        if (!extension_loaded('solr')) {
+            throw new Exception('Solr extension not enabled!');
+        }
+        parent::__construct($clientFactory, $logger, $clientHelper, $registry, $coreStoreConfig, $options);
     }
 
     /**

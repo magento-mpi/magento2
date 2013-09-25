@@ -43,9 +43,9 @@ class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminht
         Magento_Core_Model_Registry $coreRegistry,
         Magento_CatalogSearch_Model_QueryFactory $queryFactory
     ) {
-        parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_queryFactory = $queryFactory;
+        parent::__construct($context);        
     }
 
     /**
@@ -56,18 +56,19 @@ class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminht
         $id = $this->getRequest()->getParam('id');
         /** @var Magento_CatalogSearch_Model_Query $model */
         $model = $this->_queryFactory->create();
+        $backendSession = $this->_objectManager->get('Magento_Adminhtml_Model_Session');
 
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This search no longer exists.'));
+                $backendSession->addError(__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPageData(true);
+        $data = $backendSession->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }

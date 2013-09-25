@@ -67,13 +67,11 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
     public function getPage()
     {
         if (!$this->hasData('page')) {
+            /** @var Magento_Cms_Model_Page $page */
+            $page = $this->_pageFactory->create();
             if ($this->getPageId()) {
-                /** @var Magento_Cms_Model_Page $page */
-                $page = $this->_pageFactory->create();
                 $page->setStoreId($this->_storeManager->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
-            } else {
-                $page = Mage::getSingleton('Magento_Cms_Model_Page');
             }
             $this->setData('page', $page);
         }

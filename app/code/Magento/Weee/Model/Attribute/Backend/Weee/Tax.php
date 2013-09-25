@@ -10,18 +10,44 @@
 
 class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Model_Product_Attribute_Backend_Price
 {
+    /**
+     * @var Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax
+     */
+    protected $_attributeTax;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Directory_Helper_Data
+     */
+    protected $_directoryHelper;
+
+    /**
+     * @param Magento_Directory_Helper_Data $directoryHelper
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax $attributeTax
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(
+        Magento_Directory_Helper_Data $directoryHelper,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax $attributeTax,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Logger $logger
+    ) {
+        $this->_directoryHelper = $directoryHelper;
+        $this->_storeManager = $storeManager;
+        $this->_attributeTax = $attributeTax;
+        parent::__construct($catalogData, $logger);
+    }
+
     public static function getBackendModelName()
     {
         return 'Magento_Weee_Model_Attribute_Backend_Weee_Tax';
-    }
-    /**
-     * Retrieve resource model
-     *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Weee
-     */
-    protected function _getResource()
-    {
-        return Mage::getResourceSingleton('Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax');
     }
 
     /**
@@ -47,7 +73,7 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
             $key1 = implode('-', array($tax['website_id'], $tax['country'], $state));
 
             if (!empty($dup[$key1])) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('We found a duplicate website, country, and state tax.')
                 );
             }
@@ -64,11 +90,12 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
      */
     public function afterLoad($object)
     {
-        $data = $this->_getResource()->loadProductData($object, $this->getAttribute());
+        $data = $this->_attributeTax->loadProductData($object, $this->getAttribute());
 
         foreach ($data as $i=>$row) {
             if ($data[$i]['website_id'] == 0) {
-                $rate = Mage::app()->getStore()->getBaseCurrency()->getRate(Mage::app()->getBaseCurrencyCode());
+                $rate = $this->_storeManager->getStore()
+                    ->getBaseCurrency()->getRate($this->_directoryHelper->getBaseCurrencyCode());
                 if ($rate) {
                     $data[$i]['website_value'] = $data[$i]['value']/$rate;
                 } else {
@@ -91,7 +118,7 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
             return $this;
         }
 
-        $this->_getResource()->deleteProductData($object, $this->getAttribute());
+        $this->_attributeTax->deleteProductData($object, $this->getAttribute());
         $taxes = $object->getData($this->getAttribute()->getName());
 
         if (!is_array($taxes)) {
@@ -116,7 +143,7 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
             $data['value']        = $tax['price'];
             $data['attribute_id'] = $this->getAttribute()->getId();
 
-            $this->_getResource()->insertProductData($object, $data);
+            $this->_attributeTax->insertProductData($object, $data);
         }
 
         return $this;
@@ -124,13 +151,13 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
 
     public function afterDelete($object)
     {
-        $this->_getResource()->deleteProductData($object, $this->getAttribute());
+        $this->_attributeTax->deleteProductData($object, $this->getAttribute());
         return $this;
     }
 
     public function getTable()
     {
-        return $this->_getResource()->getTable('weee_tax');
+        return $this->_attributeTax->getTable('weee_tax');
     }
 }
 

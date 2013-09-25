@@ -45,7 +45,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Current search engine
      *
-     * @var object|Magento_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @var Magento_CatalogSearch_Model_Resource_EngineInterface
      */
     protected $_engine;
 
@@ -55,6 +55,27 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
      * @var Magento_CatalogSearch_Model_Resource_Advanced_Collection
      */
     protected $_productCollection;
+
+    /**
+     * Initialize dependencies
+     *
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Attribute collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     */
+    protected $_attributeCollectionFactory;
 
     /**
      * Store manager
@@ -78,43 +99,20 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     protected $_currencyFactory;
 
     /**
-     * Catalog config
-     *
-     * @var Magento_Catalog_Model_Config
-     */
-    protected $_catalogConfig;
-
-    /**
-     * Catalog product visibility
-     *
-     * @var Magento_Catalog_Model_Product_Visibility
-     */
-    protected $_catalogProductVisibility;
-
-    /**
-     * Attribute collection factory
-     *
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
-     */
-    protected $_attributeCollectionFactory;
-
-    /**
-     * Initialize dependencies
-     *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrCollFactory
      * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
      * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_CatalogSearch_Helper_Data $helper
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
+        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
@@ -124,10 +122,15 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CatalogSearch_Helper_Data $helper,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_attributeCollectionFactory = $attributeCollectionFactory;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_engine = $engineProvider->get();
+        parent::__construct(
+            $context, $registry, $this->_engine->getResource(), $this->_engine->getResourceCollection(), $data
+        );
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_catalogConfig = $catalogConfig;

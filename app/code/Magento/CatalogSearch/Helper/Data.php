@@ -19,13 +19,6 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     const MAX_QUERY_LEN  = 200;
 
     /**
-     * Default search engine
-     *
-     * @var string
-     */
-    const DEFAULT_SEARCH_ENGINE = 'Magento_CatalogSearch_Model_Resource_Fulltext_Engine';
-
-    /**
      * Query object
      *
      * @var Magento_CatalogSearch_Model_Query
@@ -70,7 +63,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -82,32 +75,22 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_queryFactory;
 
     /**
-     * Engine factory
-     *
-     * @var Magento_CatalogSearch_Model_Engine_Factory
-     */
-    protected $_engineFactory;
-
-    /**
      * Construct
-     *
+     * 
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
      * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_CatalogSearch_Model_Engine_Factory $engineFactory
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_CatalogSearch_Model_QueryFactory $queryFactory,
         Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_CatalogSearch_Model_Engine_Factory $engineFactory
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_CatalogSearch_Model_QueryFactory $queryFactory
     ) {
-        $this->_queryFactory = $queryFactory;
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_engineFactory = $engineFactory;
+        $this->_queryFactory = $queryFactory;
         parent::__construct($context);
     }
 
@@ -361,34 +344,5 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
             }
         }
         return join($separator, $_index);
-    }
-
-    /**
-     * Get current search engine resource model
-     *
-     * @return object
-     */
-    public function getEngine()
-    {
-        if (!$this->_engine) {
-            $engine = $this->_coreStoreConfig->getConfig('catalog/search/engine');
-
-            /**
-             * This needed if there already was saved in configuration some none-default engine
-             * and module of that engine was disabled after that.
-             * Problem is in this engine in database configuration still set.
-             */
-            if ($engine) {
-                $model = $this->_engineFactory->create($engine);
-                if ($model && $model->test()) {
-                    $this->_engine = $model;
-                }
-            }
-            if (!$this->_engine) {
-                $this->_engine = $this->_engineFactory->create(self::DEFAULT_SEARCH_ENGINE);
-            }
-        }
-
-        return $this->_engine;
     }
 }

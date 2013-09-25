@@ -29,6 +29,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     protected $_productFactory;
 
     /**
+     * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -39,6 +40,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
      * @param array $data
      */
     public function __construct(
+        Magento_Data_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -49,6 +51,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
         array $data = array()
     ) {
         parent::__construct(
+            $collectionFactory,
             $coreData,
             $context,
             $storeManager,

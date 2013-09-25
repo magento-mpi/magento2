@@ -54,6 +54,8 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
     {
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $session = $objectManager->get('Magento_Backend_Model_Session');
+        $backendUrl = $objectManager->get('Magento_Backend_Model_Url');
         $imageFactory = $objectManager->get('Magento_Core_Model_Image_AdapterFactory');
         $viewUrl = $objectManager->get('Magento_Core_Model_View_Url');
         $imageHelper = $objectManager->get('Magento_Cms_Helper_Wysiwyg_Images');
@@ -66,6 +68,8 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
         $uploaderFactory = $objectManager->get('Magento_Core_Model_File_UploaderFactory');
 
         $model = new Magento_Cms_Model_Wysiwyg_Images_Storage(
+            $session,
+            $backendUrl,
             $imageHelper,
             $coreFileStorageDb,
             $filesystem,

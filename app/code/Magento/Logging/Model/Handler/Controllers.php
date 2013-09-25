@@ -2,6 +2,8 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,7 +30,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * @var Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
      */
-    protected $_adminhtmlActionAttribute = null;
+    protected $_actionAttribute = null;
 
     /**
      * Core registry
@@ -36,6 +38,16 @@ class Magento_Logging_Model_Handler_Controllers
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
+
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_Backend_Model_Config_Structure
+     */
+    protected $_structureConfig;
 
     /**
      * Request
@@ -59,32 +71,27 @@ class Magento_Logging_Model_Handler_Controllers
     protected $_eventChangesFactory;
 
     /**
-     * Construct
-     *
+     * @param Magento_Backend_Model_Config_Structure $structureConfig
+     * @param Magento_Backend_Model_Session $session
      * @param Magento_Logging_Helper_Data $loggingData
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute
+     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $actionAttribute
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Zend_Controller_Response_Http $response
-     * @param Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory
      */
     public function __construct(
+        Magento_Backend_Model_Config_Structure $structureConfig,
+        Magento_Backend_Model_Session $session,
         Magento_Logging_Helper_Data $loggingData,
         Magento_Core_Helper_Data $coreData,
-        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Controller_Request_Http $request,
-        Zend_Controller_Response_Http $response,
-        Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory
+        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $actionAttribute,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_structureConfig = $structureConfig;
+        $this->_session = $session;
         $this->_coreRegistry = $coreRegistry;
         $this->_loggingData = $loggingData;
         $this->_coreData = $coreData;
-        $this->_adminhtmlActionAttribute = $adminhtmlActionAttribute;
-        $this->_request = $request;
-        $this->_response = $response;
-        $this->_eventChangesFactory = $eventChangesFactory;
+        $this->_actionAttribute = $actionAttribute;
     }
 
     /**
@@ -152,10 +159,7 @@ class Magento_Logging_Model_Handler_Controllers
         $change = $this->_eventChangesFactory->create();
 
         //Collect skip encrypted fields
-        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
-
-        $encryptedNodePaths = $configStructure->getFieldPathsByAttribute(
+        $encryptedNodePaths = $this->_structureConfig->getFieldPathsByAttribute(
             'backend_model',
             'Magento_Backend_Model_Config_Backend_Encrypted'
         );
@@ -230,7 +234,7 @@ class Magento_Logging_Model_Handler_Controllers
                 $info = $this->_request->getParam('email');
             }
             $success = true;
-            $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+            $messages = $this->_session->getMessages()->getLastAddedMessage();
             if ($messages) {
                 $success = 'error' != $messages->getType();
             }
@@ -307,7 +311,7 @@ class Magento_Logging_Model_Handler_Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = $this->_adminhtmlActionAttribute->prepareFilterString($filter);
+            $filterData = $this->_actionAttribute->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 
@@ -384,7 +388,7 @@ class Magento_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = $this->_session->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -405,7 +409,7 @@ class Magento_Logging_Model_Handler_Controllers
         $change = $this->_eventChangesFactory->create();
         $products = $this->_request->getParam('product');
         if (!$products) {
-            $products = $this->_adminhtmlActionAttribute->getProductIds();
+            $products = $this->_actionAttribute->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
@@ -619,7 +623,7 @@ class Magento_Logging_Model_Handler_Controllers
             ->setOriginalData(array())
             ->setResultData(array('rates' => implode(', ', $values))));
         $success = true;
-        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = $this->_session->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -647,7 +651,7 @@ class Magento_Logging_Model_Handler_Controllers
         }
 
         $success = true;
-        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = $this->_session->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -667,7 +671,7 @@ class Magento_Logging_Model_Handler_Controllers
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = $this->_session->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -703,7 +707,7 @@ class Magento_Logging_Model_Handler_Controllers
         if ($this->_request->getParam('action')) {
             $message .= ucfirst($this->_request->getParam('action')) . ' action: ';
         }
-        $message .= Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()->getCode();
+        $message .= $this->_session->getMessages()->getLastAddedMessage()->getCode();
         return $eventModel->setInfo($message);
     }
 

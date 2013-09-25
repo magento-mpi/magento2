@@ -297,16 +297,6 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * Storage model singleton
-     *
-     * @return Magento_Cms_Model_Page_Wysiwyg_Images_Storage
-     */
-    public function getStorage()
-    {
-        return Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage');
-    }
-
-    /**
      * Encode string to valid HTML id element, based on base64 encoding
      *
      * @param string $string

@@ -42,6 +42,11 @@ class Magento_Cms_Block_Widget_Page_Link
     protected $_anchorText;
 
     /**
+     * @var Magento_Cms_Model_Resource_Page
+     */
+    protected $_resourcePage;
+
+    /**
      * Cms page
      *
      * @var Magento_Cms_Helper_Page
@@ -60,6 +65,7 @@ class Magento_Cms_Block_Widget_Page_Link
      *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Cms_Model_Resource_Page $resourcePage
      * @param Magento_Cms_Helper_Page $cmsPage
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
@@ -67,11 +73,13 @@ class Magento_Cms_Block_Widget_Page_Link
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Cms_Model_Resource_Page $resourcePage,
         Magento_Cms_Helper_Page $cmsPage,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
+        $this->_resourcePage = $resourcePage;
         $this->_cmsPage = $cmsPage;
         $this->_storeManager = $storeManager;
     }
@@ -110,11 +118,9 @@ class Magento_Cms_Block_Widget_Page_Link
                 // compare to null used here bc user can specify blank title
                 $this->_title = $this->getData('title');
             } else if ($this->getData('page_id')) {
-                $this->_title = Mage::getResourceSingleton('Magento_Cms_Model_Resource_Page')
-                    ->getCmsPageTitleById($this->getData('page_id'));
+                $this->_title = $this->_resourcePage->getCmsPageTitleById($this->getData('page_id'));
             } else if ($this->getData('href')) {
-                $this->_title = Mage::getResourceSingleton('Magento_Cms_Model_Resource_Page')
-                    ->setStore($this->_storeManager->getStore())
+                $this->_title = $this->_resourcePage->setStore($this->_storeManager->getStore())
                     ->getCmsPageTitleByIdentifier($this->getData('href'));
             }
         }
@@ -136,12 +142,10 @@ class Magento_Cms_Block_Widget_Page_Link
         } else if ($this->getTitle()) {
             $this->_anchorText = $this->getTitle();
         } else if ($this->getData('href')) {
-            $this->_anchorText = Mage::getResourceSingleton('Magento_Cms_Model_Resource_Page')
-                ->setStore($this->_storeManager->getStore())
+            $this->_anchorText = $this->_resourcePage->setStore($this->_storeManager->getStore())
                 ->getCmsPageTitleByIdentifier($this->getData('href'));
         } else if ($this->getData('page_id')) {
-            $this->_anchorText = Mage::getResourceSingleton('Magento_Cms_Model_Resource_Page')
-                ->getCmsPageTitleById($this->getData('page_id'));
+            $this->_anchorText = $this->_resourcePage->getCmsPageTitleById($this->getData('page_id'));
         } else {
             $this->_anchorText = $this->getData('href');
         }

@@ -100,8 +100,7 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
     public function match(Magento_Core_Controller_Request_Http $request)
     {
         if (!$this->_configPrimary->getInstallDate()) {
-            $this->_response
-                ->setRedirect($this->_url->getUrl('install'))
+            $this->_response->setRedirect($this->_url->getUrl('install'))
                 ->sendResponse();
             exit;
         }
@@ -119,8 +118,7 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
         $identifier = $condition->getIdentifier();
 
         if ($condition->getRedirectUrl()) {
-            Mage::getSingleton('Magento_Core_Controller_Response_Http')
-                ->setRedirect($condition->getRedirectUrl())
+            $this->_response->setRedirect($condition->getRedirectUrl())
                 ->sendResponse();
             $request->setDispatched(true);
             return $this->_controllerFactory->createController('Magento_Core_Controller_Varien_Action_Redirect',

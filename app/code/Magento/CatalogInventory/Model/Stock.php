@@ -49,8 +49,12 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
     protected $_stockItemFactory;
 
     /**
-     * Construct
-     * 
+     * @var Magento_CatalogInventory_Model_Resource_Stock_Item_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_CatalogInventory_Model_Resource_Stock_Item_CollectionFactory $collectionFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
@@ -61,6 +65,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogInventory_Model_Resource_Stock_Item_CollectionFactory $collectionFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
@@ -71,7 +76,8 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        
+
+        $this->_collectionFactory = $collectionFactory;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_storeManager = $storeManager;
         $this->_stockItemFactory = $stockItemFactory;
@@ -123,7 +129,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
      */
     public function getItemCollection()
     {
-        return Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock_Item_Collection')
+        return $this->_collectionFactory->create()
             ->addStockFilter($this->getId());
     }
 
@@ -131,6 +137,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
      * Prepare array($productId=>$qty) based on array($productId => array('qty'=>$qty, 'item'=>$stockItem))
      *
      * @param array $items
+     * @return array
      */
     protected function _prepareProductQtys($items)
     {
@@ -215,8 +222,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
                     $stockItem->save();
                 }
             }
-        }
-        else {
+        } else {
             throw new Magento_Core_Exception(__('We cannot specify a product identifier for the order item.'));
         }
         return $this;
