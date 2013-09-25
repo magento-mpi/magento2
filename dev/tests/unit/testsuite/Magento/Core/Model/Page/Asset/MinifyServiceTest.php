@@ -33,7 +33,7 @@ class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_
         $this->_storeConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
-        $this->_appState = $this->getMock('Magento_Core_Model_App_State');
+        $this->_appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
 
         $this->_model = new Magento_Core_Model_Page_Asset_MinifyService($this->_storeConfig, $this->_objectManager,
             $dirs, $this->_appState);

@@ -34,17 +34,14 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
      * Constructor
      *
      * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Config $coreConfig
      * @param string $cryptKey
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Config $coreConfig,
         $cryptKey
     ) {
         parent::__construct(
             $objectManager,
-            $coreConfig,
             $cryptKey
         );
         // load all possible keys

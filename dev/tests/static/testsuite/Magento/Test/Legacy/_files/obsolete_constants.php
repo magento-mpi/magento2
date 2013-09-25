@@ -111,6 +111,7 @@ return array(
     ),
     array('XML_PATH_ALLOW_MAP_UPDATE', 'Mage_Core_Model_Design_PackageInterface'),
     array('XML_PATH_BACKEND_FRONTNAME', 'Mage_Backend_Helper_Data'),
+    array('XML_PATH_BACKEND_AREA_FRONTNAME', 'Mage_Backend_Helper_Data'),
     array('XML_PATH_CACHE_BETA_TYPES'),
     array('XML_PATH_CHECK_EXTENSIONS', 'Magento_Install_Model_Config'),
     array('XML_PATH_CONTEXT_MENU_LAYOUTS', 'Magento_VersionsCms_Model_Hierarchy_Config'),

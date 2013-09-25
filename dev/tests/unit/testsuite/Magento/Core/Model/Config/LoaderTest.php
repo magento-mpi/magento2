@@ -28,11 +28,6 @@ class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_loaderLocalMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_baseConfigMock;
 
     protected function setUp()
@@ -45,18 +40,13 @@ class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
             'Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false
         );
 
-        $this->_loaderLocalMock = $this->getMock(
-            'Magento_Core_Model_Config_Loader_Local', array(), array(), '', false, false
-        );
-
         $this->_baseConfigMock = $this->getMock(
             'Magento_Core_Model_Config_Base', array(), array(), '', false, false
         );
 
         $this->_model = new Magento_Core_Model_Config_Loader(
             $this->_primaryConfigMock,
-            $this->_modulesReaderMock,
-            $this->_loaderLocalMock
+            $this->_modulesReaderMock
         );
     }
 
@@ -73,9 +63,6 @@ class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
         $this->_modulesReaderMock->expects($this->once())
             ->method('loadModulesConfiguration')
             ->with(array('config.xml'), $this->_baseConfigMock);
-
-        /** Test preventing overriding of local configuration */
-        $this->_loaderLocalMock->expects($this->once())->method('load')->with($this->_baseConfigMock);
 
         /** Test merging of all config data */
         $this->_baseConfigMock->expects($this->once())->method('applyExtends');

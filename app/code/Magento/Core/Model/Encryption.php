@@ -35,11 +35,6 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
     protected $_objectManager = null;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
      * Cryptographic key
      *
      * @var string
@@ -48,16 +43,13 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Config $coreConfig
      * @param string $cryptKey
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Config $coreConfig,
         $cryptKey
     ) {
         $this->_objectManager = $objectManager;
-        $this->_coreConfig = $coreConfig;
         $this->_cryptKey = $cryptKey;
     }
 
