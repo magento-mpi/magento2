@@ -81,7 +81,7 @@ class Magento_Test_Integrity_Magento_Payment_Config_ReferentialTest extends PHPU
         }
     }
 
-    public function testTemplateExists()
+    public function testGroupsExists()
     {
         $missing = array_diff(self::$_registeredGroups, self::$_usedGroups);
 
