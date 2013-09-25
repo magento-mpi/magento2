@@ -218,9 +218,28 @@
         </param>
     </type>
     <virtualType name="default_setup" type="Magento_Core_Model_Resource_Type_Db_Pdo_Mysql" />
-    <virtualType name="default_read" type="default_setup" />
-    <virtualType name="default_write" type="default_setup" />
-    <virtualType name="core_read" type="default_read" />
-    <virtualType name="core_write" type="default_write" />
-    <virtualType name="core_setup" type="default_setup" />
+    <type name="Magento_Core_Model_Resource_ConnectionPool">
+        <param name="connectionList">
+            <value>
+                <default_setup>
+                    <instance>Magento_Core_Model_Resource_Type_Db_Pdo_Mysql</instance>
+                </default_setup>
+                <default_read>
+                    <use>default_setup</use>
+                </default_read>
+                <default_write>
+                    <use>default_setup</use>
+                </default_write>
+                <core_read>
+                    <use>default_read</use>
+                </core_read>
+                <core_write>
+                    <use>default_write</use>
+                </core_write>
+                <core_setup>
+                    <use>default_setup</use>
+                </core_setup>
+            </value>
+        </param>
+    </type>
 </config>

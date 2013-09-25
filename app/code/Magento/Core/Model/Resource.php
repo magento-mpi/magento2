@@ -49,9 +49,9 @@ class Magento_Core_Model_Resource
     protected $_cache;
 
     /**
-     * @var Magento_Core_Model_ConnectionAdapterFactory
+     * @var Magento_Core_Model_Resource_ConnectionPool
      */
-    protected $_connAdapterFactory;
+    protected $_connectionPool;
 
     /**
      * @var array
@@ -65,15 +65,15 @@ class Magento_Core_Model_Resource
 
     /**
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_ConnectionAdapterFactory $connAdapterFactory
+     * @param Magento_Core_Model_Resource_ConnectionPool $connectionPool
      * @param string $tablePrefix
      */
     public function __construct(
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_ConnectionAdapterFactory $connAdapterFactory,
+        Magento_Core_Model_Resource_ConnectionPool $connectionPool,
         $tablePrefix = ''
     ) {
-        $this->_connAdapterFactory = $connAdapterFactory;
+        $this->_connectionPool = $connectionPool;
         $this->_cache = $cache;
         $this->_tablePrefix = $tablePrefix;
     }
@@ -121,17 +121,16 @@ class Magento_Core_Model_Resource
     /**
      * Create new connection adapter instance
      *
-     * @param string $connAdapterName
+     * @param string $name
      * @param array $params
-     * @return Magento_Core_Model_Resource_ConnectionAdapterInterface|null
+     * @return Magento_DB_Adapter_Interface|null
      */
-    protected function _newConnection($connAdapterName, array $params = array())
+    protected function _newConnection($name, array $params = array())
     {
         $connection = null;
         // try to get connection adapter and create connection
-        if ($connAdapterName) {
-            $connectionAdapter = $this->_connAdapterFactory->create($connAdapterName, $params);
-            $connection = $connectionAdapter->getConnection();
+        if ($name) {
+            $connection = $this->_connectionPool->get($name, $params);
         }
 
         return $connection;
