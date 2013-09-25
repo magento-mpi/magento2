@@ -78,8 +78,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
         $token = Magento_TestFramework_Authentication_OauthHelper::getAccessToken();
         $opts = array(
             'http'=>array(
-                'header'=>"Authorization: Bearer " . $token['token_key']."\r\n" .
-                "Cookie: XDEBUG_SESSION=PHPSTORM\r\n"
+                'header'=>"Authorization: Bearer " . $token['token_key']
             )
         );
         $context = stream_context_create($opts);
