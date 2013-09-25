@@ -31,6 +31,21 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     );
 
     /**
+     * @var Magento_Search_Model_Resource_Engine
+     */
+    protected $_resourceEngine;
+
+    /**
+     * @param Magento_Search_Model_Resource_Engine $resourceEngine
+     */
+    public function __construct(
+        Magento_Search_Model_Resource_Engine $resourceEngine
+    ) {
+        $this->_resourceEngine = $resourceEngine;
+        parent::__construct();
+    }
+
+    /**
      * Empty construct
      */
     protected function _construct()
@@ -84,8 +99,7 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
             $value = array($value);
         }
 
-        $field = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine')
-                ->getSearchEngineFieldName($attribute, 'nav');
+        $field = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
             $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
@@ -118,8 +132,7 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     public function addRatedPriceFilter($collection, $attribute, $value, $rate = 1)
     {
         $collection->addPriceData();
-        $fieldName = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine')
-                ->getSearchEngineFieldName($attribute);
+        $fieldName = $this->_resourceEngine->getSearchEngineFieldName($attribute);
         $collection->addSearchParam(array($fieldName => $value));
 
         return true;

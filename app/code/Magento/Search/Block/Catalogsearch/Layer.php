@@ -22,10 +22,20 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      *
      * @var Magento_Search_Helper_Data
      */
-    protected $_searchData = null;
+    protected $_searchData;
+
+    /**
+     * Extended search layer
+     *
+     * @var Magento_Search_Model_Search_Layer
+     */
+    protected $_searchLayer;
 
     /**
      * @param Magento_Search_Helper_Data $searchData
+     * @param Magento_Search_Model_Search_Layer $searchLayer
+     * @param Magento_CatalogSearch_Model_Layer $layer
+     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
@@ -34,6 +44,9 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      */
     public function __construct(
         Magento_Search_Helper_Data $searchData,
+        Magento_Search_Model_Search_Layer $searchLayer,
+        Magento_CatalogSearch_Model_Layer $layer,
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
@@ -41,7 +54,10 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        parent::__construct($catalogSearchData, $coreData, $context, $registry, $data);
+        $this->_searchLayer = $searchLayer;
+        parent::__construct(
+            $layer, $engineProvider, $catalogSearchData, $coreData, $context, $registry, $data
+        );
     }
 
     /**
@@ -66,8 +82,9 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      */
     protected function _prepareLayout()
     {
-        $helper = $this->_searchData;
-        if ($helper->isThirdPartSearchEngine() && $helper->getIsEngineAvailableForNavigation(false)) {
+        if ($this->_searchData->isThirdPartSearchEngine()
+            && $this->_searchData->getIsEngineAvailableForNavigation(false)
+        ) {
             $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
                 ->setLayer($this->getLayer());
 
@@ -114,8 +131,7 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      */
     public function canShowBlock()
     {
-        $helper = $this->_searchData;
-        if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
+        if ($this->_searchData->isThirdPartSearchEngine() && $this->_searchData->isActiveEngine()) {
             return ($this->canShowOptions() || count($this->getLayer()->getState()->getFilters()));
         }
         return parent::canShowBlock();
@@ -128,9 +144,8 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      */
     public function getLayer()
     {
-        $helper = $this->_searchData;
-        if ($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) {
-            return Mage::getSingleton('Magento_Search_Model_Search_Layer');
+        if ($this->_searchData->isThirdPartSearchEngine() && $this->_searchData->isActiveEngine()) {
+            return $this->_searchLayer;
         }
 
         return parent::getLayer();

@@ -15,6 +15,7 @@
             <catalogrule_setup>
                 <setup>
                     <module>Magento_CatalogRule</module>
+                    <class>Magento_Core_Model_Resource_Setup_Generic</class>
                 </setup>
             </catalogrule_setup>
         </resources>

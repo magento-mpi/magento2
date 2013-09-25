@@ -22,6 +22,52 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
     protected $_className = 'Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_Payment';
 
     /**
+     * @var Magento_CustomerBalance_Model_BalanceFactory
+     */
+    protected $_balanceFactoryMock;
+
+    /**
+     * @var Magento_Adminhtml_Model_Session_Quote
+     */
+    protected $_sessionQuoteMock;
+
+    /**
+     * @var Magento_Adminhtml_Model_Sales_Order_Create
+     */
+    protected $_orderCreateMock;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManagerMock;
+
+    /**
+     * initialize arguments for construct
+     */
+    public function setUp()
+    {
+        $this->_balanceFactoryMock = $this->getMock(
+            'Magento_CustomerBalance_Model_BalanceFactory', array('create'), array(), '', false
+        );
+        $this->_balanceFactoryMock->expects($this->any())
+            ->method('create')
+            ->will(
+                $this->returnValue(
+                    $this->getMock('Magento_CustomerBalance_Model_Balance', array(), array(), '', false)
+                )
+            );
+        $this->_sessionQuoteMock = $this->getMock(
+            'Magento_Adminhtml_Model_Session_Quote', array(), array(), '', false
+        );
+        $this->_orderCreateMock = $this->getMock(
+            'Magento_Adminhtml_Model_Sales_Order_Create', array(), array(), '', false
+        );
+        $this->_storeManagerMock = $this->getMock(
+            'Magento_Core_Model_StoreManagerInterface', array(), array(), '', false
+        );
+    }
+
+    /**
      * Test Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_Payment::getBalance()
      * Check case when customer balance is disabled
      */
@@ -48,7 +94,14 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
             ->method('getHelperFactory')
             ->will($this->returnValue($helperFactoryMock));
 
-        $arguments = array($coreDataMock, $contextMock);
+        $arguments = array(
+            $this->_balanceFactoryMock,
+            $this->_sessionQuoteMock,
+            $this->_orderCreateMock,
+            $this->_storeManagerMock,
+            $coreDataMock,
+            $contextMock
+        );
         $objectMock = $this->getMockBuilder($this->_className)
             ->setConstructorArgs($arguments, array())
             ->setMethods(array('_getStoreManagerModel', '_getOrderCreateModel', '_getBalanceInstance'))
@@ -104,7 +157,14 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
 
         $coreDataMock = $this->_getCoreDataMock();
 
-        $arguments = array($coreDataMock, $contextMock);
+        $arguments = array(
+            $this->_balanceFactoryMock,
+            $this->_sessionQuoteMock,
+            $this->_orderCreateMock,
+            $this->_storeManagerMock,
+            $coreDataMock,
+            $contextMock
+        );
         $objectMock = $this->getMockBuilder($this->_className)
             ->setConstructorArgs($arguments, array())
             ->setMethods(array('_getStoreManagerModel', '_getOrderCreateModel', '_getBalanceInstance'))
@@ -155,7 +215,14 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
 
         $coreDataMock = $this->_getCoreDataMock();
 
-        $arguments = array($coreDataMock, $contextMock);
+        $arguments = array(
+            $this->_balanceFactoryMock,
+            $this->_sessionQuoteMock,
+            $this->_orderCreateMock,
+            $this->_storeManagerMock,
+            $coreDataMock,
+            $contextMock
+        );
         $objectMock = $this->getMockBuilder($this->_className)
             ->setConstructorArgs($arguments, array())
             ->setMethods(array('_getStoreManagerModel', '_getOrderCreateModel', '_getBalanceInstance'))

@@ -19,4 +19,15 @@
         </param>
     </type>
     <type name="Magento_CatalogRule_Model_Resource_Rule_Collection" shared="false" />
+    <type name="Magento_CatalogRule_Model_Observer">
+        <param name="resourceRule">
+            <instance type="Magento_CatalogRule_Model_Resource_Rule_Proxy" />
+        </param>
+        <param name="customerSession">
+            <instance type="Magento_Customer_Model_Session_Proxy" />
+        </param>
+        <param name="backendSession">
+            <instance type="Magento_Backend_Model_Session_Proxy" />
+        </param>
+    </type>
 </config>

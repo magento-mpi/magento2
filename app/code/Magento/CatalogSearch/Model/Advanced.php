@@ -45,7 +45,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Current search engine
      *
-     * @var object|Magento_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @var Magento_CatalogSearch_Model_Resource_EngineInterface
      */
     protected $_engine;
 
@@ -59,24 +59,51 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Initialize dependencies
      *
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig = null;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_catalogProductVisibility = null;
+
+    /**
+     * Catalog product attribute coll factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     */
+    protected $_catalogProductAttributeCollFactory = null;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrCollFactory
+     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_CatalogSearch_Helper_Data $helper
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrCollFactory,
+        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_CatalogSearch_Helper_Data $helper,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_engine = $helper->getEngine();
-        $this->_setResourceModel($this->_engine->getResourceName());
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_catalogProductAttributeCollFactory = $prodAttrCollFactory;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_engine = $engineProvider->get();
+        parent::__construct(
+            $context, $registry, $this->_engine->getResource(), $this->_engine->getResourceCollection(), $data
+        );
     }
 
     /**
@@ -90,7 +117,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
             $product = Mage::getModel('Magento_Catalog_Model_Product');
-            $attributes = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
+            $attributes = $this->_catalogProductAttributeCollFactory->create()
                 ->addHasOptionsFilter()
                 ->addDisplayInAdvancedSearchFilter()
                 ->addStoreLabel(Mage::app()->getStore()->getId())
@@ -276,12 +303,12 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
      */
     public function prepareProductCollection($collection)
     {
-        $collection->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
+        $collection->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
             ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSearchIds());
+            ->setVisibility($this->_catalogProductVisibility->getVisibleInSearchIds());
 
         return $this;
     }

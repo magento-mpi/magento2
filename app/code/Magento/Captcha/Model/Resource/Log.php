@@ -28,6 +28,13 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
     const TYPE_LOGIN = 2;
 
     /**
+     * Core Date
+     *
+     * @var Magento_Core_Model_Date
+     */
+    protected $_coreDate;
+
+    /**
      * Core http
      *
      * @var Magento_Core_Helper_Http
@@ -35,17 +42,16 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
     protected $_coreHttp = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
+     * @param Magento_Core_Model_Date $coreDate
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_Date $coreDate,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_coreDate = $coreDate;
         $this->_coreHttp = $coreHttp;
         parent::__construct($resource);
     }
@@ -67,12 +73,12 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
      */
     public function logAttempt($login)
     {
-        if ($login != null){
+        if ($login != null) {
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
                 array(
                      'type' => self::TYPE_LOGIN, 'value' => $login, 'count' => 1,
-                     'updated_at' => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()
+                     'updated_at' => $this->_coreDate->gmtDate()
                 ),
                 array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
             );
@@ -83,7 +89,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
                 $this->getMainTable(),
                 array(
                      'type' => self::TYPE_REMOTE_ADDRESS, 'value' => $ip, 'count' => 1,
-                     'updated_at' => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()
+                     'updated_at' => $this->_coreDate->gmtDate()
                 ),
                 array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
             );
@@ -158,7 +164,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
     {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('updated_at < ?' => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate(null, time() - 60*30))
+            array('updated_at < ?' => $this->_coreDate->gmtDate(null, time() - 60*30))
         );
     }
 }

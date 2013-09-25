@@ -29,11 +29,93 @@ class Magento_CatalogRule_Model_Observer
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_CatalogRule_Model_Rule_Product_Price
+     */
+    protected $_productPrice;
+
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var Magento_CatalogRule_Model_RuleFactory
+     */
+    protected $_ruleFactory;
+
+    /**
+     * @var Magento_CatalogRule_Model_FlagFactory
+     */
+    protected $_flagFactory;
+
+    /**
+     * @var Magento_CatalogRule_Model_Resource_Rule_CollectionFactory
+     */
+    protected $_ruleCollFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_CatalogRule_Model_Resource_RuleFactory
+     */
+    protected $_resourceRuleFactory;
+
+    /**
+     * @var Magento_CatalogRule_Model_Resource_Rule
+     */
+    protected $_resourceRule;
+
+    /**
+     * @param Magento_CatalogRule_Model_Resource_RuleFactory $resourceRuleFactory
+     * @param Magento_CatalogRule_Model_Resource_Rule $resourceRule
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_CatalogRule_Model_RuleFactory $ruleFactory
+     * @param Magento_CatalogRule_Model_Resource_Rule_CollectionFactory $ruleCollFactory
+     * @param Magento_CatalogRule_Model_FlagFactory $flagFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_CatalogRule_Model_Rule_Product_Price $productPrice
      * @param Magento_Core_Model_Registry $coreRegistry
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_CatalogRule_Model_Resource_RuleFactory $resourceRuleFactory,
+        Magento_CatalogRule_Model_Resource_Rule $resourceRule,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_CatalogRule_Model_RuleFactory $ruleFactory,
+        Magento_CatalogRule_Model_Resource_Rule_CollectionFactory $ruleCollFactory,
+        Magento_CatalogRule_Model_FlagFactory $flagFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Backend_Model_Session $backendSession,
+        Magento_CatalogRule_Model_Rule_Product_Price $productPrice,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_resourceRule = $resourceRule;
+        $this->_resourceRuleFactory = $resourceRuleFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_ruleFactory = $ruleFactory;
+        $this->_flagFactory = $flagFactory;
+        $this->_ruleCollFactory = $ruleCollFactory;
+        $this->_customerSession = $customerSession;
+        $this->_backendSession = $backendSession;
+        $this->_productPrice = $productPrice;
         $this->_coreRegistry = $coreRegistry;
     }
 
@@ -52,7 +134,7 @@ class Magento_CatalogRule_Model_Observer
 
         $productWebsiteIds = $product->getWebsiteIds();
 
-        $rules = Mage::getModel('Magento_CatalogRule_Model_Rule')->getCollection()
+        $rules = $this->_ruleCollFactory->create()
             ->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {
@@ -73,9 +155,9 @@ class Magento_CatalogRule_Model_Observer
      */
     public function applyAllRules($observer)
     {
-        $resource = Mage::getResourceSingleton('Magento_CatalogRule_Model_Resource_Rule');
-        $resource->applyAllRulesForDateRange($resource->formatDate(mktime(0,0,0)));
-        Mage::getModel('Magento_CatalogRule_Model_Flag')->loadSelf()
+        $this->_resourceRule->applyAllRulesForDateRange($this->_resourceRule->formatDate(mktime(0,0,0)));
+        $this->_flagFactory->create()
+            ->loadSelf()
             ->setState(0)
             ->save();
 
@@ -93,8 +175,9 @@ class Magento_CatalogRule_Model_Observer
      */
     public function processApplyAll(Magento_Event_Observer $observer)
     {
-        Mage::getModel('Magento_CatalogRule_Model_Rule')->applyAll();
-        Mage::getModel('Magento_CatalogRule_Model_Flag')->loadSelf()
+        $this->_ruleFactory->create()->applyAll();
+        $this->_flagFactory->create()
+            ->loadSelf()
             ->setState(0)
             ->save();
         return $this;
@@ -116,13 +199,13 @@ class Magento_CatalogRule_Model_Observer
         if ($observer->hasDate()) {
             $date = $observer->getEvent()->getDate();
         } else {
-            $date = Mage::app()->getLocale()->storeTimeStamp($storeId);
+            $date = $this->_locale->storeTimeStamp($storeId);
         }
 
         if ($observer->hasWebsiteId()) {
             $wId = $observer->getEvent()->getWebsiteId();
         } else {
-            $wId = Mage::app()->getStore($storeId)->getWebsiteId();
+            $wId = $this->_storeManager->getStore($storeId)->getWebsiteId();
         }
 
         if ($observer->hasCustomerGroupId()) {
@@ -130,12 +213,12 @@ class Magento_CatalogRule_Model_Observer
         } elseif ($product->hasCustomerGroupId()) {
             $gId = $product->getCustomerGroupId();
         } else {
-            $gId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            $gId = $this->_customerSession->getCustomerGroupId();
         }
 
         $key = "$date|$wId|$gId|$pId";
         if (!isset($this->_rulePrices[$key])) {
-            $rulePrice = Mage::getResourceModel('Magento_CatalogRule_Model_Resource_Rule')
+            $rulePrice = $this->_resourceRuleFactory->create()
                 ->getRulePrice($date, $wId, $gId, $pId);
             $this->_rulePrices[$key] = $rulePrice;
         }
@@ -157,7 +240,7 @@ class Magento_CatalogRule_Model_Observer
     {
         $product = $observer->getEvent()->getProduct();
         $storeId = $product->getStoreId();
-        $date = Mage::app()->getLocale()->storeDate($storeId);
+        $date = $this->_locale->storeDate($storeId);
         $key = false;
 
         $ruleData = $this->_coreRegistry->registry('rule_data');
@@ -176,7 +259,7 @@ class Magento_CatalogRule_Model_Observer
 
         if ($key) {
             if (!isset($this->_rulePrices[$key])) {
-                $rulePrice = Mage::getResourceModel('Magento_CatalogRule_Model_Resource_Rule')
+                $rulePrice = $this->_resourceRuleFactory->create()
                     ->getRulePrice($date, $wId, $gId, $pId);
                 $this->_rulePrices[$key] = $rulePrice;
             }
@@ -203,7 +286,7 @@ class Magento_CatalogRule_Model_Observer
             && $product->getConfigurablePrice() !== null
         ) {
             $configurablePrice = $product->getConfigurablePrice();
-            $productPriceRule = Mage::getModel('Magento_CatalogRule_Model_Rule')
+            $productPriceRule = $this->_ruleFactory->create()
                 ->calcProductPriceRule($product, $configurablePrice);
             if ($productPriceRule !== null) {
                 $product->setConfigurablePrice($productPriceRule);
@@ -225,7 +308,7 @@ class Magento_CatalogRule_Model_Observer
      */
     public function dailyCatalogUpdate($observer)
     {
-        Mage::getResourceSingleton('Magento_CatalogRule_Model_Resource_Rule')->applyAllRulesForDateRange();
+        $this->_resourceRule->applyAllRulesForDateRange();
 
         return $this;
     }
@@ -255,9 +338,9 @@ class Magento_CatalogRule_Model_Observer
         $websiteDate        = $observer->getEvent()->getWebsiteDate();
         $updateFields       = $observer->getEvent()->getUpdateFields();
 
-        Mage::getSingleton('Magento_CatalogRule_Model_Rule_Product_Price')
-            ->applyPriceRuleToIndexTable($select, $indexTable, $entityId, $customerGroupId, $websiteId,
-                $updateFields, $websiteDate);
+        $this->_productPrice->applyPriceRuleToIndexTable(
+            $select, $indexTable, $entityId, $customerGroupId, $websiteId, $updateFields, $websiteDate
+        );
 
         return $this;
     }
@@ -273,7 +356,7 @@ class Magento_CatalogRule_Model_Observer
     protected function _checkCatalogRulesAvailability($attributeCode)
     {
         /* @var $collection Magento_CatalogRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getResourceModel('Magento_CatalogRule_Model_Resource_Rule_Collection')
+        $collection = $this->_ruleCollFactory->create()
             ->addAttributeInConditionFilter($attributeCode);
 
         $disabledRulesCount = 0;
@@ -288,9 +371,10 @@ class Magento_CatalogRule_Model_Observer
         }
 
         if ($disabledRulesCount) {
-            Mage::getModel('Magento_CatalogRule_Model_Rule')->applyAll();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(
-                __('%1 Catalog Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode));
+            $this->_ruleFactory->create()->applyAll();
+            $this->_backendSession->addWarning(
+                __('%1 Catalog Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode)
+            );
         }
 
         return $this;
@@ -356,15 +440,13 @@ class Magento_CatalogRule_Model_Observer
     {
         /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
         $collection = $observer->getEvent()->getCollection();
-        $store      = Mage::app()->getStore($observer->getEvent()->getStoreId());
+        $store      = $this->_storeManager->getStore($observer->getEvent()->getStoreId());
         $websiteId  = $store->getWebsiteId();
         if ($observer->getEvent()->hasCustomerGroupId()) {
             $groupId = $observer->getEvent()->getCustomerGroupId();
         } else {
-            /* @var $session Magento_Customer_Model_Session */
-            $session = Mage::getSingleton('Magento_Customer_Model_Session');
-            if ($session->isLoggedIn()) {
-                $groupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            if ($this->_customerSession->isLoggedIn()) {
+                $groupId = $this->_customerSession->getCustomerGroupId();
             } else {
                 $groupId = Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
             }
@@ -372,7 +454,7 @@ class Magento_CatalogRule_Model_Observer
         if ($observer->getEvent()->hasDate()) {
             $date = $observer->getEvent()->getDate();
         } else {
-            $date = Mage::app()->getLocale()->storeTimeStamp($store);
+            $date = $this->_locale->storeTimeStamp($store);
         }
 
         $productIds = array();
@@ -385,7 +467,7 @@ class Magento_CatalogRule_Model_Observer
         }
 
         if ($productIds) {
-            $rulePrices = Mage::getResourceModel('Magento_CatalogRule_Model_Resource_Rule')
+            $rulePrices = $this->_resourceRuleFactory->create()
                 ->getRulePrices($date, $websiteId, $groupId, $productIds);
             foreach ($productIds as $productId) {
                 $key = implode('|', array($date, $websiteId, $groupId, $productId));
@@ -410,12 +492,12 @@ class Magento_CatalogRule_Model_Observer
             return;
         }
 
-        $rules = Mage::getModel('Magento_CatalogRule_Model_Rule')->getCollection()
+        $rules = $this->_ruleCollFactory->create()
             ->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {
             $rule->setProductsFilter($affectedEntityIds);
-            Mage::getResourceSingleton('Magento_CatalogRule_Model_Resource_Rule')->updateRuleProductData($rule);
+            $this->_resourceRule->updateRuleProductData($rule);
         }
     }
 }

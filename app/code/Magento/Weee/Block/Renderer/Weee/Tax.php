@@ -32,17 +32,41 @@ class Magento_Weee_Block_Renderer_Weee_Tax
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Directory_Model_Config_Source_Country
+     */
+    protected $_sourceCountry;
+
+    /**
+     * @var Magento_Directory_Helper_Data
+     */
+    protected $_directoryHelper;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Directory_Model_Config_Source_Country $sourceCountry
+     * @param Magento_Directory_Helper_Data $directoryHelper
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Directory_Model_Config_Source_Country $sourceCountry,
+        Magento_Directory_Helper_Data $directoryHelper,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_sourceCountry = $sourceCountry;
+        $this->_directoryHelper = $directoryHelper;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -125,13 +149,13 @@ class Magento_Weee_Block_Renderer_Weee_Tax
 
     public function isMultiWebsites()
     {
-        return !Mage::app()->hasSingleStore();
+        return !$this->_storeManager->hasSingleStore();
     }
 
     public function getCountries()
     {
         if (is_null($this->_countries)) {
-            $this->_countries = Mage::getModel('Magento_Directory_Model_Config_Source_Country')->toOptionArray();
+            $this->_countries = $this->_sourceCountry->toOptionArray();
         }
 
         return $this->_countries;
@@ -145,18 +169,18 @@ class Magento_Weee_Block_Renderer_Weee_Tax
         $websites = array();
         $websites[0] = array(
             'name'     => __('All Websites'),
-            'currency' => Mage::app()->getBaseCurrencyCode()
+            'currency' => $this->_directoryHelper->getBaseCurrencyCode()
         );
 
-        if (!Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
+        if (!$this->_storeManager->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             if ($storeId = $this->getProduct()->getStoreId()) {
-                $website = Mage::app()->getStore($storeId)->getWebsite();
+                $website = $this->_storeManager->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'     => $website->getName(),
                     'currency' => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
-                foreach (Mage::app()->getWebsites() as $website) {
+                foreach ($this->_storeManager->getWebsites() as $website) {
                     if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
                         continue;
                     }
