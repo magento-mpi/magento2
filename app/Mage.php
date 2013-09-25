@@ -105,13 +105,6 @@ final class Mage
     static private $_appRoot;
 
     /**
-     * Application model
-     *
-     * @var Magento_Core_Model_App
-     */
-    static private $_app;
-
-    /**
      * Is downloader flag
      *
      * @var bool
@@ -198,18 +191,6 @@ final class Mage
     public static function setEdition($edition)
     {
         self::$_currentEdition = $edition;
-    }
-
-    /**
-     * Set all my static data to defaults
-     *
-     */
-    public static function reset()
-    {
-        self::$_appRoot         = null;
-        self::$_app             = null;
-        self::$_isDownloader    = false;
-        // do not reset $headersSentThrowsException
     }
 
     /**
@@ -407,10 +388,7 @@ final class Mage
      */
     public static function app()
     {
-        if (null === self::$_app) {
-            self::$_app = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
-        }
-        return self::$_app;
+        return Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
     }
 
     /**

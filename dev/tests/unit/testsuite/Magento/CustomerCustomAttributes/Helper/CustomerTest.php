@@ -47,16 +47,7 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
         $objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($abstractHelperMock));
-        Mage::reset();
         Magento_Core_Model_ObjectManager::setInstance($objectManagerMock);
-    }
-
-    /**
-     * Clean up after test
-     */
-    protected function tearDown()
-    {
-        Mage::reset();
     }
 
     /**

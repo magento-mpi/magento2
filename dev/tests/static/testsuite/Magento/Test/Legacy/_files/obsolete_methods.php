@@ -839,4 +839,5 @@ return array(
     array('_getOrderCreateModel', 'Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment'),
     array('_getCustomer', 'Magento_Reward_Block_Customer_Reward_Subscription'),
     array('objects', 'Mage'),
+    array('reset', 'Mage'),
 );

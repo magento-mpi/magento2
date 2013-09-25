@@ -366,7 +366,6 @@ class Magento_TestFramework_Application
         $resource = $objectManager->get('Magento_Core_Model_Registry')
             ->registry('_singleton/Magento_Core_Model_Resource');
 
-        Mage::reset();
         Magento_Data_Form::setElementRenderer(null);
         Magento_Data_Form::setFieldsetRenderer(null);
         Magento_Data_Form::setFieldsetElementRenderer(null);
