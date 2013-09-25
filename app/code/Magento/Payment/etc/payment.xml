@@ -38,6 +38,8 @@
         </type>
     </credit_cards>
     <groups>
-        <label>Offline Payment Methods</label>
+        <group id="offline">
+            <label>Offline Payment Methods</label>
+        </group>
     </groups>
 </payment>

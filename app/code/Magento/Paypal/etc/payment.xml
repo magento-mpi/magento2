@@ -20,7 +20,9 @@
         </type>
     </credit_cards>
     <groups>
-        <label>PayPal</label>
+        <group id="paypal">
+            <label>PayPal</label>
+        </group>
     </groups>
 </payment>
 
