@@ -31,14 +31,21 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
      */
     protected $_observer;
 
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
     protected function setUp()
     {
-        $this->_observer = Mage::getModel('Magento_CustomerCustomAttributes_Model_Observer');
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_observer = $this->_objectManager->create('Magento_CustomerCustomAttributes_Model_Observer');
     }
 
     public function testSalesOrderAddressCollectionAfterLoad()
     {
-        $address = Mage::getModel('Magento_Sales_Model_Order_Address');
+        /** @var $address Magento_Sales_Model_Order_Address */
+        $address = $this->_objectManager->create('Magento_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
 
         $entity = new Magento_Object(array('id' => $address->getId()));
@@ -60,7 +67,7 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
 
     public function testSalesOrderAddressAfterLoad()
     {
-        $address = Mage::getModel('Magento_Sales_Model_Order_Address');
+        $address = $this->_objectManager->create('Magento_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
         $arguments = $this->_prepareConstructorArguments();
 

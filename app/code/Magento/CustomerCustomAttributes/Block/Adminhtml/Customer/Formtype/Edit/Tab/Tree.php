@@ -12,29 +12,53 @@
  * Form Type Edit General Tab Block
  */
 class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Form_Fieldset_CollectionFactory
+     */
+    protected $_fieldsetFactory;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Form_Element_CollectionFactory
+     */
+    protected $_elementsFactory;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Eav_Model_Resource_Form_Fieldset_CollectionFactory $fieldsetFactory
+     * @param Magento_Eav_Model_Resource_Form_Element_CollectionFactory $elementsFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Eav_Model_Resource_Form_Fieldset_CollectionFactory $fieldsetFactory,
+        Magento_Eav_Model_Resource_Form_Element_CollectionFactory $elementsFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_storeManager = $storeManager;
+        $this->_fieldsetFactory = $fieldsetFactory;
+        $this->_elementsFactory = $elementsFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -93,7 +117,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
     public function getStores()
     {
         if (!$this->hasData('stores')) {
-            $this->setData('stores', Mage::app()->getStores(false));
+            $this->setData('stores', $this->_storeManager->getStores(false));
         }
         return $this->_getData('stores');
     }
@@ -122,13 +146,14 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
     public function getAttributesJson()
     {
         $nodes = array();
+        /** @var $fieldsetCollection Magento_Eav_Model_Resource_Form_Fieldset_Collection */
+        $fieldsetCollection = $this->_fieldsetFactory->create();
+        $fieldsetCollection->addTypeFilter($this->_getFormType())->setSortOrder();
 
-        $fieldsetCollection = Mage::getModel('Magento_Eav_Model_Form_Fieldset')->getCollection()
-            ->addTypeFilter($this->_getFormType())
-            ->setSortOrder();
-        $elementCollection = Mage::getModel('Magento_Eav_Model_Form_Element')->getCollection()
-            ->addTypeFilter($this->_getFormType())
-            ->setSortOrder();
+        /** @var $elementCollection Magento_Eav_Model_Resource_Form_Element_Collection */
+        $elementCollection  = $this->_elementsFactory->create();
+        $elementCollection = $elementCollection->addTypeFilter($this->_getFormType())->setSortOrder();
+
         foreach ($fieldsetCollection as $fieldset) {
             /* @var $fieldset Magento_Eav_Model_Form_Fieldset */
             $node = array(

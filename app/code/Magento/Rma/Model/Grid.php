@@ -10,13 +10,34 @@
 
 /**
  * RMA model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Grid extends Magento_Core_Model_Abstract
 {
+    /**
+     * @var Magento_Rma_Model_Rma_Source_StatusFactory
+     */
+    protected $_statusFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Rma_Model_Rma_Source_StatusFactory $statusFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Rma_Model_Rma_Source_StatusFactory $statusFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_statusFactory = $statusFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     /**
      * Init resource model
      */
@@ -52,7 +73,9 @@ class Magento_Rma_Model_Grid extends Magento_Core_Model_Abstract
     public function getStatusLabel()
     {
         if (is_null(parent::getStatusLabel())) {
-            $this->setStatusLabel(Mage::getModel('Magento_Rma_Model_Rma_Source_Status')->getItemLabel($this->getStatus()));
+            /** @var $sourceStatus Magento_Rma_Model_Rma_Source_Status */
+            $sourceStatus = $this->_statusFactory->create();
+            $this->setStatusLabel($sourceStatus->getItemLabel($this->getStatus()));
         }
         return parent::getStatusLabel();
     }
