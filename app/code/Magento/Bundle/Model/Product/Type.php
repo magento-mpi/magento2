@@ -351,7 +351,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     {
         parent::save($product);
         /* @var $resource Magento_Bundle_Model_Resource_Bundle */
-        $resource = $this->_bundleFactory->create('Magento_Bundle_Model_Resource_Bundle');
+        $resource = $this->_bundleFactory->create();
 
         $options = $product->getBundleOptionsData();
         if ($options) {
@@ -362,7 +362,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                     unset($option['option_id']);
                 }
 
-                $optionModel = $this->_bundleOption->create('Magento_Bundle_Model_Option')
+                $optionModel = $this->_bundleOption->create()
                     ->setData($option)
                     ->setParentId($product->getId())
                     ->setStoreId($product->getStoreId());
@@ -388,7 +388,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                             $selection['is_default'] = 0;
                         }
 
-                        $selectionModel = $this->_bundleModelSelection->create('Magento_Bundle_Model_Selection')
+                        $selectionModel = $this->_bundleModelSelection->create()
                             ->setData($selection)
                             ->setOptionId($options[$index]['option_id'])
                             ->setWebsiteId($this->_storeManager->getStore($product->getStoreId())->getWebsiteId())
@@ -449,7 +449,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     public function getOptionsCollection($product)
     {
         if (!$product->hasData($this->_keyOptionsCollection)) {
-            $optionsCollection = $this->_bundleOption->create('Magento_Bundle_Model_Option')->getResourceCollection()
+            $optionsCollection = $this->_bundleOption->create()->getResourceCollection()
                 ->setProductIdFilter($product->getId())
                 ->setPositionOrder();
 
@@ -478,7 +478,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         if (!$product->hasData($key)) {
             $storeId = $product->getStoreId();
             $selectionsCollection = $this->_bundleCollection
-                ->create('Magento_Bundle_Model_Resource_Selection_Collection')
+                ->create()
                 ->addAttributeToSelect($this->_config->getProductAttributes())
                 ->addAttributeToSelect('tax_class_id') //used for calculation item taxes in Bundle with Dynamic Price
                 ->setFlag('require_stock_items', true)
@@ -808,7 +808,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         if (!$usedSelections || serialize($usedSelectionsIds) != serialize($selectionIds)) {
             $storeId = $product->getStoreId();
             $usedSelections = $this->_bundleCollection
-                ->create('Magento_Bundle_Model_Resource_Selection_Collection')
+                ->create()
                 ->addAttributeToSelect('*')
                 ->setFlag('require_stock_items', true)
                 ->addStoreFilter($this->getStoreFilter($product))
@@ -842,7 +842,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $usedOptionsIds  = $product->getData($this->_keyUsedOptionsIds);
 
         if (!$usedOptions || serialize($usedOptionsIds) != serialize($optionIds)) {
-            $usedOptions = $this->_bundleOption->create('Magento_Bundle_Model_Option')->getResourceCollection()
+            $usedOptions = $this->_bundleOption->create()->getResourceCollection()
                 ->setProductIdFilter($product->getId())
                 ->setPositionOrder()
                 ->joinValues($this->_storeManager->getStore()->getId())
@@ -986,7 +986,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     {
         $searchData = parent::getSearchableData($product);
 
-        $optionSearchData = $this->_bundleOption->create('Magento_Bundle_Model_Option')
+        $optionSearchData = $this->_bundleOption->create()
             ->getSearchableData($product->getId(), $product->getStoreId());
         if ($optionSearchData) {
             $searchData = array_merge($searchData, $optionSearchData);

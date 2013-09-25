@@ -122,7 +122,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
         /* @var $taxHelper Magento_Tax_Helper_Data */
         $taxHelper = $this->_taxData;
         /* @var $bundlePriceModel Magento_Bundle_Model_Product_Price */
-        $bundlePriceModel = $this->_productPrice->create('Magento_Bundle_Model_Product_Price');
+        $bundlePriceModel = $this->_productPrice->create();
 
         if ($preConfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
             $preConfiguredValues = $currentProduct->getPreconfiguredValues();

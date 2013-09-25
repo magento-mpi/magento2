@@ -103,7 +103,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_productFactory->create('Magento_Catalog_Model_Product')->getCollection()
+        $collection = $this->_productFactory->create()->getCollection()
             ->setOrder('id')
             ->setStore($this->getStore())
             ->addAttributeToSelect('name')

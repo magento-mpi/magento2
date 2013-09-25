@@ -146,7 +146,7 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            foreach ($this->_customerGroup->create('Magento_Customer_Model_Group')->getCollection() as $group) {
+            foreach ($this->_customerGroup->create()->getCollection() as $group) {
                 $this->_customerGroups[$group->getId()] = $group;
             }
         }
@@ -532,7 +532,7 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
         $storeTimeStamp = $this->_locale->storeTimeStamp($store);
         $finalPrice     = $this->_calculateSpecialPrice($priceData['price'], $priceData, $website);
 
-        $rulePrice = $this->_catalogRuleFactory->create('Magento_CatalogRule_Model_Resource_Rule')
+        $rulePrice = $this->_catalogRuleFactory->create()
             ->getRulePrice($storeTimeStamp, $website->getId(), $customerGroup->getId(), $productId);
 
         if ($rulePrice !== null && $rulePrice !== false) {
