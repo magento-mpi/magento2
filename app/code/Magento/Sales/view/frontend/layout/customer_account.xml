@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer-account-navigation">
+    <referenceBlock name="customer_account_navigation">
         <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-billing-agreements-link">
             <arguments>
                 <argument name="path" xsi:type="string">sales/billing_agreement</argument>
@@ -27,9 +27,8 @@
                 <argument name="label" xsi:type="string">Recurring Profiles</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="left">
-        <block class="Magento_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder"
-               template="reorder/sidebar.phtml"/>
-    </reference>
+    </referenceBlock>
+    <referenceContainer name="left">
+        <block class="Magento_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
+    </referenceContainer>
 </layout>

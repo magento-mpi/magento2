@@ -13,11 +13,11 @@
         <container name="after_body_start" as="after_body_start" label="Page Top"/>
         <container name="content" as="content" label="Main Content Area (Print Version)"/>
     </block>
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="magento-translate-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/translate.js</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

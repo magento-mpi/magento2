@@ -108,6 +108,8 @@
   * New arguments format, which introduce argument types implemented
   * Translation specified just on the level of node which is going to be translated
   * XSD validation for Layouts XML added
+  * Referential integrity check with XSD introduced
+  * Added ability to update containers via references
   * Type casting for all kind of types (url, option, array and simple types) added
   * Covered introduced argument types with integrity test
   * Types restrictions was implemented

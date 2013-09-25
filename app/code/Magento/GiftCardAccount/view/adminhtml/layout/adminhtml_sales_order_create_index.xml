@@ -8,10 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="js">
+    <referenceContainer name="js">
         <block class="Magento_Adminhtml_Block_Template" template="Magento_GiftCardAccount::sales/order/create/js.phtml" name="giftcardaccount_js"/>
-    </reference>
-    <reference name="items_grid">
+    </referenceContainer>
+    <referenceBlock name="items_grid">
         <block class="Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment" template="sales/order/create/items.phtml" name="giftcardaccount" after="-"/>
-    </reference>
+    </referenceBlock>
 </layout>

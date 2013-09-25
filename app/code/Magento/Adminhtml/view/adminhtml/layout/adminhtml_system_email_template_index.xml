@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_system_email_template_grid_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_System_Email_Template" name="adminhtml.system.email.template.container"/>
-    </reference>
+    </referenceContainer>
 </layout>
