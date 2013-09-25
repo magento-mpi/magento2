@@ -51,8 +51,9 @@ class Magento_Install_Model_Installer_Db_Mysql4 extends Magento_Install_Model_In
         /** @var $resourceModel Magento_Core_Model_Resource */
         $resourceModel = Mage::getModel('Magento_Core_Model_Resource');
         $connection = $resourceModel->getConnection(Magento_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
-        $connection->query('DROP DATABASE IF EXISTS ' . $this->_connectionData['dbname']);
-        $connection->query('CREATE DATABASE ' . $this->_connectionData['dbname']);
+        $connectionConfig = $connection->getConfig();
+        $connection->query('DROP DATABASE IF EXISTS ' . $connectionConfig['dbname']);
+        $connection->query('CREATE DATABASE ' . $connectionConfig['dbname']);
 
         return $this;
     }
