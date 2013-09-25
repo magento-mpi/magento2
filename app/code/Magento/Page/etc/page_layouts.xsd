@@ -19,6 +19,14 @@
                 <xs:element name="layouts" type="layoutsType" />
             </xs:sequence>
         </xs:complexType>
+        <xs:key name="layout-id">
+            <xs:selector xpath="layouts/layout" />
+            <xs:field xpath="@id" />
+        </xs:key>
+        <xs:keyref refer="layout-id" name="layout-ref">
+            <xs:selector xpath="layouts" />
+            <xs:field xpath="@default" />
+        </xs:keyref>
     </xs:element>
 
     <xs:complexType name="layoutsType">
@@ -30,7 +38,7 @@
         <xs:sequence maxOccurs="unbounded">
             <xs:element name="layout" type="layoutType" />
         </xs:sequence>
-        <xs:attribute name="default" use="required" type="xs:string" />
+        <xs:attribute name="default" use="required" type="xs:IDREF" />
     </xs:complexType>
 
     <xs:complexType name="layoutType">
