@@ -18,8 +18,8 @@ class Magento_Oauth_Helper_Service extends Magento_Core_Helper_Abstract
     const XML_PATH_CLEANUP_EXPIRATION_PERIOD = 'oauth/cleanup/expiration_period';
     /**#@-*/
 
-    /**#@+
-     * Consumer config settings
+    /**
+     * Consumer xpath settings
      */
     const XML_PATH_CONSUMER_EXPIRATION_PERIOD = 'oauth/consumer/expiration_period';
 

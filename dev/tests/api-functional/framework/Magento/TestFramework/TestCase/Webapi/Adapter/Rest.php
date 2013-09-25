@@ -54,8 +54,8 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
         $curlClient = new Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient();
         $oauthHeader = $oAuthClient
             ->buildOauthHeaderForApiRequest($curlClient->constructResourceUrl($resourcePath),
-                                            $token['token_key'],
-                                            $token['token_secret'],
+                                            $token['key'],
+                                            $token['secret'],
                                             ($httpMethod == 'PUT' || $httpMethod == 'POST') ? $arguments : array(),
                                             $httpMethod);
         switch ($httpMethod) {

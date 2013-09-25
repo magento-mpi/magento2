@@ -9,7 +9,6 @@
  */
 class Magento_TestFramework_Authentication_OauthHelper
 {
-
     /**
      * Generate authentication credentials
      * @param string $date consumer creation date
@@ -24,7 +23,7 @@ class Magento_TestFramework_Authentication_OauthHelper
      *   );
      * </pre>
      */
-    public static function geConsumerCredentials($date = null)
+    public static function getConsumerCredentials($date = null)
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
@@ -71,14 +70,14 @@ class Magento_TestFramework_Authentication_OauthHelper
      * array (
      *   'key' => 'ajdsjashgdkahsdlkjasldkjals', //token key
      *   'secret' => 'alsjdlaskjdlaksjdlasjkdlas', //token secret
-     *   'token_client' => $oauthClient // Magento_TestFramework_Authentication_Rest_OauthClient instance used to fetch
+     *   'oauth_client' => $oauthClient // Magento_TestFramework_Authentication_Rest_OauthClient instance used to fetch
      *                                      the access token
      *   );
      * </pre>
      */
     public static function getAccessToken()
     {
-        $consumerCredentials = self::geConsumerCredentials();
+        $consumerCredentials = self::getConsumerCredentials();
         $credentials = new OAuth\Common\Consumer\Credentials(
             $consumerCredentials['key'], $consumerCredentials['secret'], TESTS_BASE_URL);
         /** @var $oAuthClient Magento_TestFramework_Authentication_Rest_OauthClient */

@@ -660,7 +660,8 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
         $this->_setupNonce();
         $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_ACCESS);
 
-        $this->assertTrue($this->_service->validateAccessTokenRequest($this->_getAccessTokenRequiredParams()));
+        $this->assertTrue($this->_service->validateAccessTokenRequest
+                              ($this->_getAccessTokenRequiredParams())['isValid']);
     }
 
     /**
@@ -674,6 +675,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
         $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_REQUEST);
 
         $this->_service->validateAccessToken(['token' => $this->_oauthToken]);
+        $this->_service->validateAccessToken(array('token' => self::OAUTH_TOKEN));
     }
 
     /**
@@ -694,7 +696,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
         $this->_setupConsumer();
         $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_ACCESS);
 
-        $this->assertTrue($this->_service->validateAccessToken(['token' => $this->_oauthToken]));
+        $this->assertTrue($this->_service->validateAccessToken(array('token' => self::OAUTH_TOKEN))['isValid']);
     }
 
     protected function _getAccessTokenRequiredParams(array $amendments = [])

@@ -27,7 +27,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     private $_tokenFactory;
 
     /** @var  Magento_Oauth_Helper_Service */
-    protected $_helperData;
+    protected $_serviceHelper;
 
     /** @var  Magento_Core_Model_StoreManagerInterface */
     protected $_storeManager;
@@ -42,7 +42,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
      * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Magento_Oauth_Model_Nonce_Factory $nonceFactory
      * @param Magento_Oauth_Model_Token_Factory $tokenFactory
-     * @param Magento_Oauth_Helper_Service $helperData
+     * @param Magento_Oauth_Helper_Service $serviceHelper
      * @param Magento_Core_Model_StoreManagerInterface
      * @param Magento_HTTP_ZendClient
      * @param Zend_Oauth_Http_Utility $httpUtility
@@ -51,7 +51,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         Magento_Oauth_Model_Consumer_Factory $consumerFactory,
         Magento_Oauth_Model_Nonce_Factory $nonceFactory,
         Magento_Oauth_Model_Token_Factory $tokenFactory,
-        Magento_Oauth_Helper_Service $helperData,
+        Magento_Oauth_Helper_Service $serviceHelper,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_HTTP_ZendClient $httpClient,
         Zend_Oauth_Http_Utility $httpUtility
@@ -60,7 +60,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         $this->_nonceFactory = $nonceFactory;
         $this->_tokenFactory = $tokenFactory;
         $this->_storeManager = $storeManager;
-        $this->_helperData = $helperData;
+        $this->_serviceHelper = $serviceHelper;
         $this->_httpClient = $httpClient;
         $this->_httpUtility = $httpUtility;
     }
@@ -130,7 +130,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         // must use consumer within expiration period
 
         $consumerTS = strtotime($consumer->getCreatedAt());
-        if (time() - $consumerTS > $this->_helperData->getConsumerExpirationPeriod()) {
+        if (time() - $consumerTS > $this->_serviceHelper->getConsumerExpirationPeriod()) {
             throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Service::ERR_CONSUMER_KEY_INVALID);
         }
 
@@ -257,7 +257,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         );
 
         // If no exceptions were raised return as a valid token
-        return true;
+        return array('isValid' => true);
     }
 
     /**
@@ -277,7 +277,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Service::ERR_TOKEN_REVOKED);
         }
 
-        return true;
+        return array('isValid' => true);
     }
 
 
