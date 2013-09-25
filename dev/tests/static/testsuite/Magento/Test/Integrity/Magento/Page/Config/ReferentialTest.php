@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Page_Model_Config_ReferentialTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Magento_Page_Config_ReferentialTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var array string[] $_templates Array of templates referenced from page_layouts
