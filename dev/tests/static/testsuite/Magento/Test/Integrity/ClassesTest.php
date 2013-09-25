@@ -212,7 +212,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         }
 
         // if no class declaration found for $file, then skip this file
-        if (!preg_match($classPattern, $contents, $classNameMatch) != 0) {
+        if (preg_match($classPattern, $contents, $classNameMatch) == 0) {
             return;
         }
 
@@ -232,17 +232,19 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     protected function _assertClassNamespace($file, $relativePath, $contents, $className)
     {
-        $namespacePattern = '/(Maged|Magento|Zend)\/[a-zA-Z]+[^\.]+/';
+        $namespacePattern = '/(Magento|Zend)\/[a-zA-Z]+[^\.]+/';
         $formalPattern = '/^namespace\s[a-zA-Z]+(\\\\[a-zA-Z0-9]+)*/m';
 
         $namespaceMatch = array();
         $formalNamespaceArray = array();
         $namespaceFolders = null;
 
-        if (preg_match($namespacePattern, $relativePath, $namespaceMatch) != 0) {
-            $namespaceFolders = $namespaceMatch[0];
+        // if no namespace pattern found according to the path of the file, skip the file
+        if (preg_match($namespacePattern, $relativePath, $namespaceMatch) == 0) {
+            return;
         }
 
+        $namespaceFolders = $namespaceMatch[0];
         $classParts = explode('/', $namespaceFolders);
         array_pop($classParts);
         $expectedNamespace = implode('\\', $classParts);
