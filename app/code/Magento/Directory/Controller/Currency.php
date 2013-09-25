@@ -10,18 +10,17 @@
 
 /**
  * Currency controller
- *
- * @category   Magento
- * @package    Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Directory_Controller_Currency extends Magento_Core_Controller_Front_Action
 {
     public function switchAction()
     {
-        if ($curency = (string) $this->getRequest()->getParam('currency')) {
-            Mage::app()->getStore()->setCurrentCurrencyCode($curency);
+        /** @var Magento_Core_Model_StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface');
+        $currency = (string)$this->getRequest()->getParam('currency');
+        if ($currency) {
+            $storeManager->getStore()->setCurrentCurrencyCode($currency);
         }
-        $this->_redirectReferer(Mage::getBaseUrl());
+        $this->_redirectReferer($storeManager->getStore()->getBaseUrl());
     }
 }

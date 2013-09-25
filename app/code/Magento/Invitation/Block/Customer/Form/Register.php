@@ -29,6 +29,9 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
+     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
      * @param array $data
      */
     public function __construct(
@@ -36,10 +39,21 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
+        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($configCacheType, $coreData, $context, $data);
+        parent::__construct(
+            $configCacheType,
+            $coreData,
+            $context,
+            $storeManager,
+            $regionCollFactory,
+            $countryCollFactory,
+            $data
+        );
     }
 
     /**
