@@ -28,7 +28,7 @@ class Magento_Bundle_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $bundleModelSelection = $this->getMock('Magento_Bundle_Model_SelectionFactory', array(), array(), '', false);
         $bundleFactory = $this->getMock('Magento_Bundle_Model_Resource_BundleFactory', array(), array(), '', false);
-        $bundleSelectionCollection = $this->getMock(
+        $bundleCollection = $this->getMock(
             'Magento_Bundle_Model_Resource_Selection_CollectionFactory',
             array(),
             array(),
@@ -42,7 +42,7 @@ class Magento_Bundle_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
         $this->_model = new Magento_Bundle_Model_Product_Type(
             $bundleModelSelection,
             $bundleFactory,
-            $bundleSelectionCollection,
+            $bundleCollection,
             $config,
             $bundleSelection,
             $bundleOption,

@@ -77,16 +77,6 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve the cookie model instance
-     *
-     * @return Magento_Core_Model_Cookie
-     */
-    protected function _getCookie()
-    {
-        return $this->_cookie;
-    }
-
-    /**
      * Check whether external cache is enabled
      *
      * @return bool
