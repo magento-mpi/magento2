@@ -11,7 +11,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Annotation_ApiDataFixture
+class Magento_TestFramework_Annotation_ApiDataFixture
 {
     /**
      * @var string

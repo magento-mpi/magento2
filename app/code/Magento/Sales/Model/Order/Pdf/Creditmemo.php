@@ -43,41 +43,41 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('SKU'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('SKU'), 12, true, true),
             'feed'  => 255,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('Total (ex)'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('Total (ex)'), 12, true, true),
             'feed'  => 330,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('Discount'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('Discount'), 12, true, true),
             'feed'  => 380,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('Qty'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('Qty'), 12, true, true),
             'feed'  => 445,
             'align' => 'right',
             //'width' => 30,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('Tax'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('Tax'), 12, true, true),
             'feed'  => 495,
             'align' => 'right',
             //'width' => 45,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->str_split(__('Total (inc)'), 12, true, true),
+            'text'  => $this->_coreString->strSplit(__('Total (inc)'), 12, true, true),
             'feed'  => 565,
             'align' => 'right'
         );

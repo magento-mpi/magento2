@@ -20,7 +20,7 @@
     $_category  = $this->getCurrentCategory();
 ?>
 <div class="page-title category-title">
-<?php if($this->IsRssCatalogEnable()): ?>
+<?php if($this->isRssCatalogEnable()): ?>
     <a href="<?php echo $this->getRssLink() ?>" title="<?php echo __('Subscribe to RSS Feed') ?>" class="rss-feed"><?php echo __('Subscribe to RSS Feed') ?></a>
 <?php endif; ?>
     <h1><?php echo $_helper->categoryAttribute($_category, $this->getCurrentCategory()->getName(), 'name') ?></h1>

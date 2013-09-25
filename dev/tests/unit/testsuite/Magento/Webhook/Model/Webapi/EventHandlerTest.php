@@ -46,7 +46,7 @@ class EventHandlerTest extends \PHPUnit_Framework_TestCase
         $this->_eventHandler->userChanged($user);
     }
 
-    public function testUserChanged_noSubscription()
+    public function testUserChangedNoSubscription()
     {
         $this->_setMockSubscriptions(array());
         $user = $this->_createMockUser(1);
@@ -66,7 +66,7 @@ class EventHandlerTest extends \PHPUnit_Framework_TestCase
         $this->_eventHandler->roleChanged($role);
     }
 
-    public function testRoleChanged_twoUsers()
+    public function testRoleChangedTwoUsers()
     {
         $subscription = $this->_createMockSubscription();
         $this->_setMockSubscriptions($subscription);
@@ -78,7 +78,7 @@ class EventHandlerTest extends \PHPUnit_Framework_TestCase
         $this->_eventHandler->roleChanged($role);
     }
 
-    public function testRoleChanged_twoSubscriptions()
+    public function testRoleChangedTwoSubscriptions()
     {
         $subscriptions = array($this->_createMockSubscription(), $this->_createMockSubscription());
         $this->_setMockSubscriptions($subscriptions);

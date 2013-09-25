@@ -79,7 +79,7 @@ class View extends \Magento\Core\Block\Template
             /**
              * want to show rss feed in the url
              */
-            if ($this->IsRssCatalogEnable() && $this->IsTopCategory()) {
+            if ($this->isRssCatalogEnable() && $this->isTopCategory()) {
                 $title = __('%1 RSS Feed',$this->getCurrentCategory()->getName());
                 $headBlock->addRss($title, $this->getRssLink());
             }
@@ -92,12 +92,12 @@ class View extends \Magento\Core\Block\Template
         return $this;
     }
 
-    public function IsRssCatalogEnable()
+    public function isRssCatalogEnable()
     {
         return $this->_storeConfig->getConfig('rss/catalog/category');
     }
 
-    public function IsTopCategory()
+    public function isTopCategory()
     {
         return $this->getCurrentCategory()->getLevel()==2;
     }

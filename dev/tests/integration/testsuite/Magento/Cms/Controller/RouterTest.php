@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Controller;
+
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -34,11 +34,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test _adaptResizeValues with null as a value one of parameters
+     * Test adaptResizeValues with null as a value one of parameters
      *
-     * @dataProvider _adaptResizeValuesDataProvider
+     * @dataProvider adaptResizeValuesDataProvider
      */
-    public function test_adaptResizeValues($width, $height, $expectedResult)
+    public function testAdaptResizeValues($width, $height, $expectedResult)
     {
         $method = new \ReflectionMethod($this->_model, '_adaptResizeValues');
         $method->setAccessible(true);
@@ -51,7 +51,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function _adaptResizeValuesDataProvider()
+    public function adaptResizeValuesDataProvider()
     {
 
         $expected = array(
@@ -78,9 +78,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider _prepareDestinationDataProvider
+     * @dataProvider prepareDestinationDataProvider
      */
-    public function test_prepareDestination($destination, $newName, $expectedResult)
+    public function testPrepareDestination($destination, $newName, $expectedResult)
     {
         $property = new \ReflectionProperty(get_class($this->_model), '_fileSrcPath');
         $property->setAccessible(true);
@@ -98,7 +98,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function _prepareDestinationDataProvider()
+    public function prepareDestinationDataProvider()
     {
         return array(
             array(__DIR__, 'name.txt', __DIR__ . DIRECTORY_SEPARATOR . 'name.txt'),

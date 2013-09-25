@@ -65,13 +65,13 @@ class Invoice
         // draw Product name
         $stringHelper = $this->_coreString;
         $lines[0] = array(array(
-            'text' => $stringHelper->str_split($item->getName(), 35, true, true),
+            'text' => $stringHelper->strSplit($item->getName(), 35, true, true),
             'feed' => 35,
         ));
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => $stringHelper->str_split($this->getSku($item), 17),
+            'text'  => $stringHelper->strSplit($this->getSku($item), 17),
             'feed'  => 290,
             'align' => 'right'
         );
@@ -135,7 +135,7 @@ class Invoice
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => $stringHelper->str_split(strip_tags($option['label']), 40, true, true),
+                    'text' => $stringHelper->strSplit(strip_tags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
@@ -149,7 +149,7 @@ class Invoice
                     $values = explode(', ', $_printValue);
                     foreach ($values as $value) {
                         $lines[][] = array(
-                            'text' => $stringHelper->str_split($value, 30, true, true),
+                            'text' => $stringHelper->strSplit($value, 30, true, true),
                             'feed' => 40
                         );
                     }
@@ -162,7 +162,7 @@ class Invoice
 
         // draw Links title
         $lines[][] = array(
-            'text' => $stringHelper->str_split($this->getLinksTitle(), 70, true, true),
+            'text' => $stringHelper->strSplit($this->getLinksTitle(), 70, true, true),
             'font' => 'italic',
             'feed' => 35
         );
@@ -170,7 +170,7 @@ class Invoice
         // draw Links
         foreach ($_purchasedItems as $_link) {
             $lines[][] = array(
-                'text' => $stringHelper->str_split($_link->getLinkTitle(), 50, true, true),
+                'text' => $stringHelper->strSplit($_link->getLinkTitle(), 50, true, true),
                 'feed' => 40
             );
         }

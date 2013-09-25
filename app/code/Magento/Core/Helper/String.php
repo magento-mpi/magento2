@@ -95,7 +95,7 @@ class String extends \Magento\Core\Helper\AbstractHelper
      */
     public function splitInjection($str, $length = 50, $needle = '-', $insert = ' ')
     {
-        $str = $this->str_split($str, $length);
+        $str = $this->strSplit($str, $length);
         $newStr = '';
         foreach ($str as $part) {
             if ($this->strlen($part) >= $length) {
@@ -143,7 +143,7 @@ class String extends \Magento\Core\Helper\AbstractHelper
      * @param string $wordSeparatorRegex
      * @return array
      */
-    public function str_split($str, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
+    public function strSplit($str, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
     {
         $result = array();
         $strlen = $this->strlen($str);
@@ -196,7 +196,7 @@ class String extends \Magento\Core\Helper\AbstractHelper
                 }
                 // break too long part recursively
                 else {
-                    foreach ($this->str_split($part, $length, false, $trim, $wordSeparatorRegex) as $subpart) {
+                    foreach ($this->strSplit($part, $length, false, $trim, $wordSeparatorRegex) as $subpart) {
                         $i++;
                         $result[$i] = $subpart;
                     }
