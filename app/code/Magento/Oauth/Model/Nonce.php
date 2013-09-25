@@ -21,12 +21,12 @@ class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
     /**
      * Oauth data
      *
-     * @var Magento_Oauth_Helper_Data
+     * @var Magento_Oauth_Helper_Service
      */
     protected $_oauthData = null;
 
     /**
-     * @param Magento_Oauth_Helper_Data $oauthData
+     * @param Magento_Oauth_Helper_Service $oauthData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -34,7 +34,7 @@ class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
-        Magento_Oauth_Helper_Data $oauthData,
+        Magento_Oauth_Helper_Service $oauthData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,

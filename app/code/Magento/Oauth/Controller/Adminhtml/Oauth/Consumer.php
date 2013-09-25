@@ -38,14 +38,14 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
     /** @var Magento_Oauth_Service_OauthV1Interface */
     private $_oauthService;
 
-    /** @var Magento_Oauth_Helper_Data */
+    /** @var Magento_Oauth_Helper_Service */
     protected $_oauthHelper;
 
     /**
      * Class constructor
      *
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Oauth_Helper_Data $oauthHelper
+     * @param Magento_Oauth_Helper_Service $oauthHelper
      * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Magento_Oauth_Service_OauthV1Interface $oauthService
      * @param Magento_Backend_Controller_Context $context
@@ -53,7 +53,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
      */
     public function __construct(
         Magento_Core_Model_Registry $registry,
-        Magento_Oauth_Helper_Data $oauthHelper,
+        Magento_Oauth_Helper_Service $oauthHelper,
         Magento_Oauth_Model_Consumer_Factory $consumerFactory,
         Magento_Oauth_Service_OauthV1Interface $oauthService,
         Magento_Backend_Controller_Context $context,

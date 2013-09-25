@@ -30,8 +30,8 @@ class Magento_TestFramework_Authentication_OauthHelper
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $oauthService Magento_Oauth_Service_OauthV1 */
         $oauthService = $objectManager->get('Magento_Oauth_Service_OauthV1');
-        /** @var $oauthHelper Magento_Oauth_Helper_Data */
-        $oauthHelper = $objectManager->get('Magento_Oauth_Helper_Data');
+        /** @var $oauthHelper Magento_Oauth_Helper_Service */
+        $oauthHelper = $objectManager->get('Magento_Oauth_Helper_Service');
 
         $consumerKey = $oauthHelper->generateConsumerKey();
         $consumerSecret = $oauthHelper->generateConsumerSecret();

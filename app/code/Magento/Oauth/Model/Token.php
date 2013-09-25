@@ -62,7 +62,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     const USER_TYPE_ADMIN = 'admin';
     const USER_TYPE_CUSTOMER = 'customer';
 
-    /** @var Magento_Oauth_Helper_Data */
+    /** @var Magento_Oauth_Helper_Service */
     protected $_oauthData;
 
     /** @var Magento_Oauth_Model_Consumer_Factory */
@@ -70,7 +70,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
-     * @param Magento_Oauth_Helper_Data $oauthData
+     * @param Magento_Oauth_Helper_Service $oauthData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -79,7 +79,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Oauth_Model_Consumer_Factory $consumerFactory,
-        Magento_Oauth_Helper_Data $oauthData,
+        Magento_Oauth_Helper_Service $oauthData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
@@ -135,7 +135,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
                 'token' => $this->_oauthData->generateToken(),
                 'secret' => $this->_oauthData->generateTokenSecret(),
                 'verifier' => $this->_oauthData->generateVerifier(),
-                'callback_url' => Magento_Oauth_Helper_Data::CALLBACK_ESTABLISHED
+                'callback_url' => Magento_Oauth_Helper_Service::CALLBACK_ESTABLISHED
             ));
             $this->save();
         }
@@ -269,7 +269,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     {
         /** @var $validatorUrl Magento_Core_Model_Url_Validator */
         $validatorUrl = Mage::getSingleton('Magento_Core_Model_Url_Validator');
-        if (Magento_Oauth_Helper_Data::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
+        if (Magento_Oauth_Helper_Service::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
             && !$validatorUrl->isValid($this->getCallbackUrl())
         ) {
             $messages = $validatorUrl->getMessages();

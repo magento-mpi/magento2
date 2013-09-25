@@ -40,7 +40,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     /** @var Magento_Oauth_Service_OauthV1Interface */
     protected $_oauthService;
 
-    /** @var  Magento_Oauth_Helper_Data */
+    /** @var  Magento_Oauth_Helper_Service */
     protected $_oauthHelper;
 
     /**
@@ -54,7 +54,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_App $application
      * @param Magento_Oauth_Service_OauthV1Interface $oauthService
-     * @param Magento_Oauth_Helper_Data $oauthHelper
+     * @param Magento_Oauth_Helper_Service $oauthHelper
      */
     public function __construct(
         Magento_Webapi_Controller_Soap_Request $request,
@@ -65,7 +65,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_App $application,
         Magento_Oauth_Service_OauthV1Interface $oauthService,
-        Magento_Oauth_Helper_Data $oauthHelper
+        Magento_Oauth_Helper_Service $oauthHelper
     ) {
         $this->_request = $request;
         $this->_response = $response;

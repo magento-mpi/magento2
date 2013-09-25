@@ -36,7 +36,7 @@ class Magento_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Oauth_Service_OauthV1 */
     protected $_oauthServiceMock;
 
-    /** @var Magento_Oauth_Helper_Data */
+    /** @var Magento_Oauth_Helper_Service */
     protected $_oauthHelperMock;
 
     /**
@@ -87,7 +87,7 @@ class Magento_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_oauthHelperMock = $this->getMockBuilder('Magento_Oauth_Helper_Data')
+        $this->_oauthHelperMock = $this->getMockBuilder('Magento_Oauth_Helper_Service')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -176,7 +176,7 @@ EXPECTED_MESSAGE;
         $this->_wsdlGeneratorMock->expects($this->any())
             ->method('generate')
             ->will($this->returnValue($wsdl));
-        $this->_oauthServiceMock->expects($this->never())->method('validateAccessToken');
+        $this->_oauthServiceMock->expects($this->once())->method('validateAccessToken');
 
         $this->_soapController->dispatch();
         $this->assertEquals($wsdl, $this->_responseMock->getBody());
@@ -195,7 +195,9 @@ EXPECTED_MESSAGE;
             ->method('handle')
             ->will($this->returnValue($soapResponse));
         // TODO: Should be changed after authentication is enabled
-        $this->_oauthServiceMock->expects($this->never())->method('validateAccessToken');
+        $this->_oauthServiceMock->expects($this->once())
+            ->method('validateAccessToken')
+            ->will($this->returnValue(true));;
 
         $this->_soapController->dispatch();
         $this->assertEquals($soapResponse, $this->_responseMock->getBody());

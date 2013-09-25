@@ -24,7 +24,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     /** @var Magento_Oauth_Model_Token */
     private $_tokenMock;
 
-    /** @var Magento_Oauth_Helper_Data */
+    /** @var Magento_Oauth_Helper_Service */
     private $_helperMock;
 
     /** @var Magento_Core_Model_StoreManagerInterface */
@@ -93,7 +93,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_tokenMock));
 
-        $this->_helperMock = $this->getMockBuilder('Magento_Oauth_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Magento_Oauth_Helper_Service')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_storeManagerMock = $this->getMockBuilder('Magento_Core_Model_StoreManagerInterface')
@@ -204,7 +204,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_VERSION_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_VERSION_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 1
      */
@@ -214,7 +214,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_CONSUMER_KEY_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 8
      */
@@ -224,7 +224,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_CONSUMER_KEY_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 8
      */
@@ -242,7 +242,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_INVALID
+     * Magento_Oauth_Helper_Service::ERR_CONSUMER_KEY_INVALID
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 17
      */
@@ -289,7 +289,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_TIMESTAMP_REFUSED
+     * Magento_Oauth_Helper_Service::ERR_TIMESTAMP_REFUSED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 4
      * @dataProvider dataProviderForGetRequestTokenNonceTimestampRefusedTest
@@ -337,7 +337,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_NONCE_USED
+     * Magento_Oauth_Helper_Service::ERR_NONCE_USED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 5
      */
@@ -356,7 +356,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_PARAMETER_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_PARAMETER_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 3
      */
@@ -376,7 +376,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
 
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_NONCE_USED
+     * Magento_Oauth_Helper_Service::ERR_NONCE_USED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 5
      */
@@ -414,7 +414,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_TOKEN_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 12
      */
@@ -434,7 +434,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_TOKEN_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 12
      */
@@ -455,7 +455,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
 
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_SIGNATURE_METHOD_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_SIGNATURE_METHOD_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 6
      */
@@ -478,7 +478,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_SIGNATURE_INVALID
+     * Magento_Oauth_Helper_Service::ERR_SIGNATURE_INVALID
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 7
      */
@@ -494,7 +494,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
             'oauth_consumer_key' => str_repeat('0', Magento_Oauth_Model_Consumer::KEY_LENGTH),
             'oauth_nonce' => '',
             'oauth_timestamp' => time(),
-            'oauth_signature_method' => Magento_Oauth_Helper_Data::SIGNATURE_SHA1,
+            'oauth_signature_method' => Magento_Oauth_Helper_Service::SIGNATURE_SHA1,
             'http_method' => '',
             'request_url' => 'http://magento.ll',
             'oauth_signature' => 'invalid_signature'
@@ -516,7 +516,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
             'oauth_consumer_key' => str_repeat('0', Magento_Oauth_Model_Consumer::KEY_LENGTH),
             'oauth_nonce' => '',
             'oauth_timestamp' => time(),
-            'oauth_signature_method' => Magento_Oauth_Helper_Data::SIGNATURE_SHA1,
+            'oauth_signature_method' => Magento_Oauth_Helper_Service::SIGNATURE_SHA1,
             'http_method' => '',
             'request_url' => 'http://magento.ll',
             'oauth_signature' => $signature
@@ -529,7 +529,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_VERSION_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_VERSION_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 1
      */
@@ -539,7 +539,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_PARAMETER_ABSENT
+     * Magento_Oauth_Helper_Service::ERR_PARAMETER_ABSENT
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 2
      */
@@ -558,7 +558,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_TOKEN_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 12
      */
@@ -568,7 +568,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_SIGNATURE_METHOD_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_SIGNATURE_METHOD_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 6
      */
@@ -580,7 +580,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_TOKEN_USED
+     * Magento_Oauth_Helper_Service::ERR_TOKEN_USED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 9
      */
@@ -594,7 +594,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED
+     * Magento_Oauth_Helper_Service::ERR_TOKEN_REJECTED
      * @expectedException Magento_Oauth_Exception
      * @expectedExceptionCode 12
      */
@@ -612,7 +612,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
         $requiredParams = [
             'oauth_consumer_key' => str_repeat('0', Magento_Oauth_Model_Consumer::KEY_LENGTH),
             'oauth_signature' => '',
-            'oauth_signature_method' => (string)Magento_Oauth_Helper_Data::SIGNATURE_SHA1,
+            'oauth_signature_method' => (string)Magento_Oauth_Helper_Service::SIGNATURE_SHA1,
             'oauth_nonce' => '',
             'oauth_timestamp' => (string)time(),
             'oauth_token' => str_repeat('0', Magento_Oauth_Model_Token::LENGTH_TOKEN),
