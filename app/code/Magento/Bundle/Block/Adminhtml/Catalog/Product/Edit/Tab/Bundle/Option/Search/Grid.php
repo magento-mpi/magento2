@@ -31,11 +31,6 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
     protected $_productFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Bundle_Helper_Data $bundleData
      * @param Magento_Core_Helper_Data $coreData
@@ -55,7 +50,6 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
     ) {
         $this->_bundleData = $bundleData;
         $this->_productFactory = $productFactory;
-        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
