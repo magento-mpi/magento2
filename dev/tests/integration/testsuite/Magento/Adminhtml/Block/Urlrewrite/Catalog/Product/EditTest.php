@@ -254,6 +254,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUni
     /**
      * Data provider
      *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @return array
      */
     public function prepareLayoutDataProvider()
