@@ -108,6 +108,60 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_relatedCacheTypes;
 
     /**
+     * @var Magento_Core_Model_Resource_Iterator
+     */
+    protected $_resourceIterator;
+
+    /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_CatalogRule_Model_Rule_Condition_CombineFactory
+     */
+    protected $_combineFactory;
+
+    /**
+     * @var Magento_CatalogRule_Model_Rule_Action_CollectionFactory
+     */
+    protected $_actionCollFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_CatalogRule_Model_Rule_Condition_CombineFactory $combineFactory
+     * @param Magento_CatalogRule_Model_Rule_Action_CollectionFactory $actionCollFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_Resource_Iterator $resourceIterator
+     * @param Magento_Index_Model_Indexer $indexer
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_CatalogRule_Helper_Data $catalogRuleData
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypesList
      * @param Magento_Data_Form_Factory $formFactory
@@ -117,8 +171,19 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $relatedCacheTypes
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_CatalogRule_Model_Rule_Condition_CombineFactory $combineFactory,
+        Magento_CatalogRule_Model_Rule_Action_CollectionFactory $actionCollFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_Resource_Iterator $resourceIterator,
+        Magento_Index_Model_Indexer $indexer,
+        Magento_Customer_Model_Session $customerSession,
         Magento_CatalogRule_Helper_Data $catalogRuleData,
         Magento_Core_Model_Cache_TypeListInterface $cacheTypesList,
         Magento_Data_Form_Factory $formFactory,
@@ -129,6 +194,15 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         array $relatedCacheTypes = array(),
         array $data = array()
     ) {
+        $this->_productCollFactory = $productCollFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_combineFactory = $combineFactory;
+        $this->_actionCollFactory = $actionCollFactory;
+        $this->_productFactory = $productFactory;
+        $this->_resourceIterator = $resourceIterator;
+        $this->_indexer = $indexer;
+        $this->_customerSession = $customerSession;
         $this->_catalogRuleData = $catalogRuleData;
         $this->_cacheTypesList = $cacheTypesList;
         $this->_relatedCacheTypes = $relatedCacheTypes;
@@ -152,7 +226,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Magento_CatalogRule_Model_Rule_Condition_Combine');
+        return $this->_combineFactory->create();
     }
 
     /**
@@ -162,7 +236,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Magento_CatalogRule_Model_Rule_Action_Collection');
+        return $this->_actionCollFactory->create();
     }
 
     /**
@@ -215,19 +289,19 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
 
             if ($this->getWebsiteIds()) {
                 /** @var $productCollection Magento_Catalog_Model_Resource_Product_Collection */
-                $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+                $productCollection = $this->_productCollFactory->create();
                 $productCollection->addWebsiteFilter($this->getWebsiteIds());
                 if ($this->_productsFilter) {
                     $productCollection->addIdFilter($this->_productsFilter);
                 }
                 $this->getConditions()->collectValidatedAttributes($productCollection);
 
-                Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+                $this->_resourceIterator->walk(
                     $productCollection->getSelect(),
                     array(array($this, 'callbackValidateProduct')),
                     array(
                         'attributes' => $this->getCollectedAttributes(),
-                        'product'    => Mage::getModel('Magento_Catalog_Model_Product'),
+                        'product'    => $this->_productFactory->create(),
                     )
                 );
             }
@@ -263,7 +337,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     public function applyToProduct($product, $websiteIds = null)
     {
         if (is_numeric($product)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($product);
+            $product = $this->_productFactory->create()->load($product);
         }
         if (is_null($websiteIds)) {
             $websiteIds = $this->getWebsiteIds();
@@ -281,7 +355,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         $this->getResourceCollection()->walk(array($this->_getResource(), 'updateRuleProductData'));
         $this->_getResource()->applyAllRulesForDateRange();
         $this->_invalidateCache();
-        $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalog_product_price');
+        $indexProcess = $this->_indexer->getProcessByCode('catalog_product_price');
         if ($indexProcess) {
             $indexProcess->reindexAll();
         }
@@ -305,7 +379,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         }
 
         if ($productId) {
-            Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+            $this->_indexer->processEntityAction(
                 new Magento_Object(array('id' => $productId)),
                 Magento_Catalog_Model_Product::ENTITY,
                 Magento_Catalog_Model_Product_Indexer_Price::EVENT_TYPE_REINDEX_PRICE
@@ -325,13 +399,13 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         $priceRules = null;
         $productId  = $product->getId();
         $storeId    = $product->getStoreId();
-        $websiteId  = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId  = $this->_storeManager->getStore($storeId)->getWebsiteId();
         if ($product->hasCustomerGroupId()) {
             $customerGroupId = $product->getCustomerGroupId();
         } else {
-            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
-        $dateTs     = Mage::app()->getLocale()->storeTimeStamp($storeId);
+        $dateTs     = $this->_locale->storeTimeStamp($storeId);
         $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";
 
         if (!array_key_exists($cacheKey, self::$_priceRulesData)) {

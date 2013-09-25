@@ -317,7 +317,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
      *
      * @param mixed $attribute
      * @param mixed $condition
-     * @return Magento_Eav_Model_Entity_Collection_Abstract|\Varien_Data_Collection_Db
+     * @return Magento_Eav_Model_Entity_Collection_Abstract|Magento_Data_Collection_Db
      */
     public function addFieldToFilter($attribute, $condition = null)
     {

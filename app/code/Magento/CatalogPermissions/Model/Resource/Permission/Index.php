@@ -79,17 +79,41 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_Resource_Website_CollectionFactory
+     */
+    protected $_websiteCollFactory;
+
+    /**
+     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     */
+    protected $_groupCollFactory;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource_Website_CollectionFactory $websiteCollFactory
+     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource_Website_CollectionFactory $websiteCollFactory,
+        Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory,
         Magento_CatalogPermissions_Helper_Data $catalogPermData,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_groupCollFactory = $groupCollFactory;
+        $this->_websiteCollFactory = $websiteCollFactory;
         $this->_catalogPermData = $catalogPermData;
         parent::__construct($resource);
         $this->_storeManager = $storeManager;
@@ -138,11 +162,11 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
             ))
             ->where('permission.category_id IN (?)', $categoryIds);
 
-        $websiteIds = Mage::getModel('Magento_Core_Model_Website')->getCollection()
+        $websiteIds = $this->_websiteCollFactory->create()
             ->addFieldToFilter('website_id', array('neq'=>0))
             ->getAllIds();
 
-        $customerGroupIds = Mage::getModel('Magento_Customer_Model_Group')->getCollection()
+        $customerGroupIds = $this->_groupCollFactory->create()
             ->getAllIds();
 
         $notEmptyWhere = array();
@@ -279,7 +303,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         $readAdapter = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
         /* @var $isActive Magento_Eav_Model_Entity_Attribute */
-        $isActive = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_category', 'is_active');
+        $isActive = $this->_eavConfig->getAttribute('catalog_category', 'is_active');
 
         $selectCategory = $readAdapter->select()
             ->from(
@@ -896,7 +920,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         }
 
         $collection->getSelect()->joinLeft(
-            array('permission_index'=>$this->getTable('enterprise_catalogpermissions_index')),
+            array('permission_index'=>$this->getTable('magento_catalogpermissions_index')),
             'permission_index.category_id = ' . $tableAlias . '.entity_id'
             . ' AND ' . $adapter->quoteInto('permission_index.website_id = ?', $websiteId)
             . ' AND ' . $adapter->quoteInto('permission_index.customer_group_id = ?', $customerGroupId),
@@ -951,7 +975,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         } else {
             $collection->getSelect()
                 ->joinLeft(
-                    array('permission_index_product' => $this->getTable('enterprise_catalogpermissions_index_product')),
+                    array('permission_index_product' => $this->getTable('magento_catalogpermissions_index_product')),
                     $condition,
                     array('grant_catalog_category_view',
                         'grant_catalog_product_price',
@@ -1023,7 +1047,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
-            ->from($this->getTable('enterprise_catalogpermissions_index_product'),
+            ->from($this->getTable('magento_catalogpermissions_index_product'),
                 array(
                     'grant_catalog_category_view',
                     'grant_catalog_product_price',
@@ -1070,7 +1094,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         }
 
         $select = $adapter->select()
-            ->from($this->getTable('enterprise_catalogpermissions_index_product'),
+            ->from($this->getTable('magento_catalogpermissions_index_product'),
                 array(
                     'product_id',
                     'grant_catalog_category_view',

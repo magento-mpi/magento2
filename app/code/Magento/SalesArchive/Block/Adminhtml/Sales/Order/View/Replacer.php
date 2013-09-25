@@ -15,6 +15,29 @@
 class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
     extends Magento_Adminhtml_Block_Sales_Order_Abstract
 {
+    /**
+     * @var Magento_SalesArchive_Model_Config
+     */
+    protected $_archiveConfig;
+
+    /**
+     * @param Magento_SalesArchive_Model_Config $archiveConfig
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_SalesArchive_Model_Config $archiveConfig,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_archiveConfig = $archiveConfig;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
     protected function _prepareLayout()
     {
         if ($this->getOrder()->getIsArchived()) {
@@ -43,7 +66,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
                 ));
             }
         } elseif ($this->getOrder()->getIsMoveable() !== false) {
-            $isActive = Mage::getSingleton('Magento_SalesArchive_Model_Config')->isArchiveActive();
+            $isActive = $this->_archiveConfig->isArchiveActive();
             if ($isActive) {
                 $archiveUrl = $this->getUrl(
                     '*/sales_archive/add',

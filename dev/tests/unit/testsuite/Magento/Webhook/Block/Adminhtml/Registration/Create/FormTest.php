@@ -45,10 +45,10 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
         $this->_setStub($collectionMock, 'getSelect', $selectMock);
 
         $arguments = array(
+            $this->_registry,
+            $this->_formFactoryMock,
             $this->_coreData,
             $this->_context,
-            $this->_registry,
-            $this->_formFactoryMock
         );
 
         $methods = array(

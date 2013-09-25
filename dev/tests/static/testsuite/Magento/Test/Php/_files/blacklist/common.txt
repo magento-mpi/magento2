@@ -119,7 +119,6 @@ lib/Magento/Data/Collection/Db.php
 lib/Magento/Data/Collection/Db/FetchStrategy/Cache.php
 lib/Magento/Data/Collection/Db/FetchStrategy/Query.php
 lib/Magento/Data/Collection/Db/FetchStrategyInterface.php
-lib/Magento/Data/Collection/Factory.php
 lib/Magento/Data/Collection/Filesystem.php
 lib/Magento/Data/Form.php
 lib/Magento/Data/Form/Abstract.php
