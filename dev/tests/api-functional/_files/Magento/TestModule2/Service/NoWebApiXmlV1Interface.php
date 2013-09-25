@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_TestModule2_Service_AllSoapNoRestV1Interface
+namespace Magento\TestModule2\Service;
+
+interface NoWebApiXmlV1Interface
 {
     /**
      * Return a single item.
@@ -16,11 +18,12 @@ interface Magento_TestModule2_Service_AllSoapNoRestV1Interface
     public function item($request);
 
     /**
+     * TODO: Nested complexType XSD references not supported yet. Need to fix it.
      * Return multiple items.
      *
      * @return array
      */
-    public function items();
+    //public function items();
 
     /**
      * Create an item.

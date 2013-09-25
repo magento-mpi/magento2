@@ -9,7 +9,9 @@
 /**
  * Class to test routing based on Service Versioning(for a new version V2 of an existing V1 service)
  */
-class Magento_Webapi_Routing_ServiceVersionV2Test extends Magento_Webapi_Routing_ServiceVersionV1Test
+namespace Magento\Webapi\Routing;
+
+class ServiceVersionV2Test extends \Magento\Webapi\Routing\ServiceVersionV1Test
 {
 
     /**

@@ -8,11 +8,11 @@
  */
 -->
 <config>
-    <service class="Magento_TestModule2_Service_SubsetRestV1Interface" baseUrl="/V1/testModule2SubsetRest">
+    <service class="Magento\TestModule2\Service\SubsetRestV1Interface" baseUrl="/V1/testModule2SubsetRest">
         <rest-route httpMethod="GET" method="item">/:id</rest-route>
         <rest-route httpMethod="GET" method="items"></rest-route>
     </service>
-    <service class="Magento_TestModule2_Service_AllSoapNoRestV1Interface"/>
+    <service class="Magento\TestModule2\Service\AllSoapNoRestV1Interface"/>
     <!-- NOTE : Deliberately commenting this out to demonstrate that if no entry is present here, the API will not be exposed via both REST and SOAP -->
-    <!-- <service class="Magento_TestModule2_Service_NoWebApiXmlV1Interface"/> -->
+    <!-- <service class="Magento\TestModule2\Service\NoWebApiXmlV1Interface"/> -->
 </config>

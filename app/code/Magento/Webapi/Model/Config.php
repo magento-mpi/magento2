@@ -30,7 +30,7 @@ class Config
     /**
      * Pattern for Web API interface name.
      */
-    const SERVICE_CLASS_PATTERN = '/^(.+?)_(.+?)_Service(_.+)+(V\d+)Interface$/';
+    const SERVICE_CLASS_PATTERN = '/^(.+?)\\\\(.+?)\\\\Service(\\\\.+)+(V\d+)Interface$/';
 
     /**
      * @var \Magento\Core\Model\Cache\Type\Config
@@ -38,7 +38,7 @@ class Config
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Webapi\Model\Config_Reader
+     * @var \Magento\Webapi\Model\Config\Reader
      */
     protected $_reader;
 
@@ -86,14 +86,14 @@ class Config
     /**
      * Reader object initialization
      *
-     * @return \Magento\Webapi\Model\Config_Reader
+     * @return \Magento\Webapi\Model\Config\Reader
      */
     protected function _getReader()
     {
         if (null === $this->_reader) {
             $configFiles = $this->_getConfigFile();
             $this->_reader = $this->_objectManager->create(
-                'Magento\Webapi\Model\Config_Reader',
+                'Magento\Webapi\Model\Config\Reader',
                 array('configFiles' => $configFiles)
             );
         }

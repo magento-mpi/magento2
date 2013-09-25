@@ -273,7 +273,7 @@ class Config
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
-            $serviceNameParts = explode('_', trim($matches[3], '_'));
+            $serviceNameParts = explode('\\', trim($matches[3], '\\'));
             if ($moduleName == $serviceNameParts[0]) {
                 /** Avoid duplication of words in service name */
                 $moduleName = '';

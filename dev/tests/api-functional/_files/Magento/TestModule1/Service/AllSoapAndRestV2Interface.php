@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-interface Magento_TestModule1_Service_AllSoapAndRestV2Interface extends Magento_TestModule1_Service_AllSoapAndRestV1Interface
+namespace Magento\TestModule1\Service;
+
+interface AllSoapAndRestV2Interface extends \Magento\TestModule1\Service\AllSoapAndRestV1Interface
 {
 
     /**

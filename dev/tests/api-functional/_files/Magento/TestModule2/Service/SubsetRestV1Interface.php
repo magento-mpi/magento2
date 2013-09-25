@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_TestModule2_Service_SubsetRestV1Interface
+namespace Magento\TestModule2\Service;
+
+interface SubsetRestV1Interface
 {
     /**
      * Return a single item.

@@ -9,13 +9,15 @@
 /**
  * Class to test Core Web API routing
  */
-class Magento_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_WebapiAbstract
+namespace Magento\Webapi\Routing;
+
+class CoreRoutingTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     public function testBasicRoutingPathAutoDetection()
     {
         $itemId = 1;
         $serviceInfo = array(
-            'serviceInterface' => 'Magento_TestModule1_Service_AllSoapAndRestV1Interface',
+            'serviceInterface' => 'Magento\TestModule1\Service\AllSoapAndRestV1Interface',
             'method' => 'item',
             'entityId' => $itemId
         );
@@ -46,7 +48,7 @@ class Magento_Webapi_Routing_CoreRoutingTest extends Magento_Test_TestCase_Webap
     {
         $this->_markTestAsSoapOnly();
         $serviceInfo = array(
-            'serviceInterface' => 'Magento_TestModule3_Service_ErrorV1Interface',
+            'serviceInterface' => 'Magento\TestModule3\Service\ErrorV1Interface',
             'method' => 'serviceException',
         );
         $this->setExpectedException(
