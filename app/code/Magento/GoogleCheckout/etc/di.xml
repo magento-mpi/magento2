@@ -26,7 +26,7 @@
     <type name="Magento_Core_Model_Db_Updater">
         <param name="resourceList">
             <value>
-                <googlecheckout_setup>Magento_Sales_Model_Resource_Setup</googlecheckout_setup>
+                <googlecheckout_setup>Magento_Catalog_Model_Resource_Setup</googlecheckout_setup>
             </value>
         </param>
     </type>
