@@ -41,7 +41,7 @@ class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_Tes
     {
         $this->_protFactoryMock = $this->getMock('Magento_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
-        $this->_dirsMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
+        $this->_dirsMock = $this->getMock('Magento_Core_Model_Module_Dir', array(), array(), '', false, false);
         $this->_baseConfigMock = $this->getMock('Magento_Core_Model_Config_Base', array(), array(), '', false, false);
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
 

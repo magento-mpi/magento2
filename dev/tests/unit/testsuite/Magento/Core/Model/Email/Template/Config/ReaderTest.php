@@ -13,29 +13,19 @@ class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framew
     protected $_model;
 
     /**
-     * @var Magento_Config_FileResolverInterface|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_fileResolverMock;
-
-    /**
      * @var Magento_Catalog_Model_Attribute_Config_Converter|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_converter;
 
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_SchemaLocator
+     * @var Magento_Core_Model_Module_Dir_ReverseResolver|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_schemaLocator;
-
-    /**
-     * @var Magento_Config_ValidationStateInterface|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_validationState;
+    protected $_moduleNameResolver;
 
     protected function setUp()
     {
-        $this->_fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
-        $this->_fileResolverMock
+        $fileResolver = $this->getMock('Magento_Config_FileResolverInterface');
+        $fileResolver
             ->expects($this->once())
             ->method('get')
             ->with('email_templates.xml', 'scope')
@@ -55,22 +45,38 @@ class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framew
             ->method('getModuleDir')->with('etc', 'Magento_Core')
             ->will($this->returnValue('stub'))
         ;
-        $this->_schemaLocator = new Magento_Core_Model_Email_Template_Config_SchemaLocator($moduleReader);
+        $schemaLocator = new Magento_Core_Model_Email_Template_Config_SchemaLocator($moduleReader);
 
-        $this->_validationState = $this->getMock('Magento_Config_ValidationStateInterface');
-        $this->_validationState->expects($this->once())->method('isValidated')->will($this->returnValue(false));
+        $validationState = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationState->expects($this->once())->method('isValidated')->will($this->returnValue(false));
+
+        $this->_moduleNameResolver = $this->getMock(
+            'Magento_Core_Model_Module_Dir_ReverseResolver', array(), array(), '', false
+        );
 
         $this->_model = new Magento_Core_Model_Email_Template_Config_Reader(
-            $this->_fileResolverMock,
+            $fileResolver,
             $this->_converter,
-            $this->_schemaLocator,
-            $this->_validationState
+            $schemaLocator,
+            $validationState,
+            $this->_moduleNameResolver
         );
     }
 
     public function testRead()
     {
-        $expectedResult = new stdClass();
+        $this->_moduleNameResolver
+            ->expects($this->at(0))
+            ->method('getModuleName')
+            ->with(__DIR__ . '/_files/Fixture/ModuleOne/etc/email_templates_one.xml')
+            ->will($this->returnValue('Fixture_ModuleOne'))
+        ;
+        $this->_moduleNameResolver
+            ->expects($this->at(1))
+            ->method('getModuleName')
+            ->with(__DIR__ . '/_files/Fixture/ModuleTwo/etc/email_templates_two.xml')
+            ->will($this->returnValue('Fixture_ModuleTwo'))
+        ;
         $constraint = function (DOMDOcument $actual) {
             try {
                 $expected = __DIR__ . '/_files/email_templates_merged.xml';
@@ -80,6 +86,7 @@ class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framew
                 return false;
             }
         };
+        $expectedResult = new stdClass();
         $this->_converter
             ->expects($this->once())
             ->method('convert')

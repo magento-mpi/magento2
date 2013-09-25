@@ -36,9 +36,9 @@ class Magento_Widget_Model_Config_FileResolverTest extends PHPUnit_Framework_Tes
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $moduleReader = $objectManager->create('Magento_Core_Model_Config_Modules_Reader', array(
-            'dirs' => $this->_applicationDirsMock,
             'moduleList' => $moduleListMock
         ));
+        $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
         $this->_object = $objectManager->create('Magento_Widget_Model_Config_FileResolver', array(
             'moduleReader' => $moduleReader,
             'applicationDirs' => $this->_applicationDirsMock
