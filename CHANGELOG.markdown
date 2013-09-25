@@ -133,6 +133,7 @@
   * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
   * Eliminated Mage::helper and Mage::dispatchEvent in code
   * Eliminated Mage:: static methods in Magento_Cms, Magento_Log, Magento_Rating, Magento_Rss, Magento_Rule, Magento_CatalogRule, Magento_SalesRule, Magento_Weee, Magento_Captcha, Magento_CatalogInventory
+  * Eliminated Mage:: static methods in Magento_GoogleShopping, Magento_Page, Magento_PageCache, Magento_PaypalUk, Magento_Bundle
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed inability to create gift registry on frontend
