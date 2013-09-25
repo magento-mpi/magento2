@@ -32,11 +32,17 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     protected $_importExportData = null;
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param Magento_ImportExport_Helper_Data $importExportData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -45,9 +51,11 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;
+        $this->_locale = $locale;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -82,8 +90,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
             'name'         => $this->getFilterElementName($attribute->getAttributeCode()) . '[]',
             'id'           => $this->getFilterElementId($attribute->getAttributeCode()),
             'class'        => 'input-text input-text-range-date',
-            'date_format'  => Mage::app()->getLocale()
-                ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
+            'date_format'  => $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif')
         );
         /** @var $selectBlock Magento_Core_Block_Html_Date */
