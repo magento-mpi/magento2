@@ -1,5 +1,19 @@
 <?php
 /**
+ * Converter that dom to array converting all attributes to general array items.
+ * Examlpe:
+ * <node attr="val">
+ *     <subnode>val2<subnode>
+ * </node>
+ *
+ * is converted to
+ *
+ * array(
+ *     'node' => array(
+ *         'attr' => 'wal',
+ *         'subnode' => 'val2'
+ *     )
+ * )
  * {license_notice}
  *
  * @copyright {copyright}
@@ -7,13 +21,10 @@
  */
 class Magento_Config_Converter_Dom_Flat implements Magento_Config_ConverterInterface
 {
-    const ATTRIBUTES = '__attributes__';
-    const CONTENT = '__content__';
-
     /**
      * Convert dom node tree to array
      *
-     * @param $source
+     * @param DOMNode $source
      * @return array
      */
     public function convert($source)
