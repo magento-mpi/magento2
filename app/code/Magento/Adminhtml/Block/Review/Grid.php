@@ -45,12 +45,12 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Review_Model_Resource_Review_Product_Collection
+     * @var Magento_Review_Model_Resource_Review_Product_CollectionFactory
      */
     protected $_prodCollFactory;
 
     /**
-     * @param Magento_Review_Model_Resource_Review_Product_Collection $prodCollFactory
+     * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $prodCollFactory
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Review_Helper_Action_Pager $reviewActionPager
      * @param Magento_Core_Helper_Data $coreData
@@ -61,7 +61,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
      * @param array $data
      */
     public function __construct(
-        Magento_Review_Model_Resource_Review_Product_Collection $prodCollFactory,
+        Magento_Review_Model_Resource_Review_Product_CollectionFactory $prodCollFactory,
         Magento_Review_Helper_Data $reviewData,
         Magento_Review_Helper_Action_Pager $reviewActionPager,
         Magento_Core_Helper_Data $coreData,
