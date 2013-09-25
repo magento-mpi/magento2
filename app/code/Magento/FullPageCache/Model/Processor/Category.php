@@ -49,13 +49,32 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Catalog_Model_Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * @param Magento_FullPageCache_Model_Processor $fpcProcessor
+     * @param Magento_Core_Model_Session $coreSession
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_FullPageCache_Model_Container_PlaceholderFactory $placeholderFactory
+     * @param Magento_FullPageCache_Model_ContainerFactory $containerFactory
+     * @param Magento_Catalog_Model_Session $catalogSession
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_FullPageCache_Model_Processor $fpcProcessor,
+        Magento_Core_Model_Session $coreSession,
+        Magento_Core_Model_App_State $appState,
+        Magento_FullPageCache_Model_Container_PlaceholderFactory $placeholderFactory,
+        Magento_FullPageCache_Model_ContainerFactory $containerFactory,
+        Magento_Catalog_Model_Session $catalogSession,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        parent::__construct($fpcProcessor, $coreSession, $appState, $placeholderFactory, $containerFactory);
+        $this->_catalogSession = $catalogSession;
         $this->_catalogData = $catalogData;
         $this->_coreStoreConfig = $coreStoreConfig;
     }
@@ -135,7 +154,7 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
     protected function _getSessionParams()
     {
         $params = array();
-        $data   = Mage::getSingleton('Magento_Catalog_Model_Session')->getData();
+        $data   = $this->_catalogSession->getData();
         foreach ($this->_paramsMap as $sessionParam => $queryParam) {
             if (isset($data[$sessionParam])) {
                 $params[$queryParam] = $data[$sessionParam];
@@ -156,11 +175,10 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
         }
 
         if (is_array($queryParams) && !empty($queryParams)) {
-            $session = Mage::getSingleton('Magento_Catalog_Model_Session');
             $flipParamsMap = array_flip($this->_paramsMap);
             foreach ($queryParams as $key => $value) {
                 if (in_array($key, $this->_paramsMap)) {
-                    $session->setData($flipParamsMap[$key], $value);
+                    $this->_catalogSession->setData($flipParamsMap[$key], $value);
                 }
             }
         }

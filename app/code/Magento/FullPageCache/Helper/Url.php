@@ -19,11 +19,20 @@ class Magento_FullPageCache_Helper_Url
     protected $_urlHelper;
 
     /**
-     * @param Magento_Core_Helper_Url $urlHelper
+     * @var Magento_Core_Model_Session
      */
-    public function __construct(Magento_Core_Helper_Url $urlHelper)
-    {
+    protected $_coreSession;
+
+    /**
+     * @param Magento_Core_Helper_Url $urlHelper
+     * @param Magento_Core_Model_Session $coreSession
+     */
+    public function __construct(
+        Magento_Core_Helper_Url $urlHelper,
+        Magento_Core_Model_Session $coreSession
+    ) {
         $this->_urlHelper = $urlHelper;
+        $this->_coreSession = $coreSession;
     }
 
     /**
@@ -42,17 +51,15 @@ class Magento_FullPageCache_Helper_Url
      * @param  string $content
      * @return bool
      */
-    public static function replaceSid(&$content)
+    public function replaceSid(&$content)
     {
         if (!$content) {
             return false;
         }
-        /** @var $session Magento_Core_Model_Session */
-        $session = Mage::getSingleton('Magento_Core_Model_Session');
         $replacementCount = 0;
         $content = str_replace(
-            $session->getSessionIdQueryParam() . '=' . $session->getSessionId(),
-            $session->getSessionIdQueryParam() . '=' . self::_getSidMarker(),
+            $this->_coreSession->getSessionIdQueryParam() . '=' . $this->_coreSession->getSessionId(),
+            $this->_coreSession->getSessionIdQueryParam() . '=' . self::_getSidMarker(),
             $content, $replacementCount);
         return ($replacementCount > 0);
     }

@@ -23,6 +23,52 @@ class Magento_FullPageCache_Model_Processor_Default implements Magento_FullPageC
     protected $_noCacheGetParams = array('___store', '___from_store');
 
     /**
+     * @var Magento_FullPageCache_Model_Processor
+     */
+    protected $_fpcProcessor;
+
+    /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_coreSession;
+
+    /**
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
+     * @var Magento_FullPageCache_Model_Container_PlaceholderFactory
+     */
+    protected $_placeholderFactory;
+
+    /**
+     * @var Magento_FullPageCache_Model_ContainerFactory
+     */
+    protected $_containerFactory;
+
+    /**
+     * @param Magento_FullPageCache_Model_Processor $fpcProcessor
+     * @param Magento_Core_Model_Session $coreSession
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_FullPageCache_Model_Container_PlaceholderFactory $placeholderFactory
+     * @param Magento_FullPageCache_Model_ContainerFactory $containerFactory
+     */
+    public function __construct(
+        Magento_FullPageCache_Model_Processor $fpcProcessor,
+        Magento_Core_Model_Session $coreSession,
+        Magento_Core_Model_App_State $appState,
+        Magento_FullPageCache_Model_Container_PlaceholderFactory $placeholderFactory,
+        Magento_FullPageCache_Model_ContainerFactory $containerFactory
+    ) {
+        $this->_fpcProcessor = $fpcProcessor;
+        $this->_coreSession = $coreSession;
+        $this->_appState = $appState;
+        $this->_placeholderFactory = $placeholderFactory;
+        $this->_containerFactory = $containerFactory;
+    }
+
+    /**
      * Check if request can be cached
      *
      * @param Zend_Controller_Request_Http $request
@@ -35,7 +81,7 @@ class Magento_FullPageCache_Model_Processor_Default implements Magento_FullPageC
                 return false;
             }
         }
-        if (Mage::getSingleton('Magento_Core_Model_Session')->getNoCacheFlag()) {
+        if ($this->_coreSession->getNoCacheFlag()) {
             return false;
         }
         return true;
@@ -62,8 +108,7 @@ class Magento_FullPageCache_Model_Processor_Default implements Magento_FullPageC
         $placeholders = array_unique($placeholders[1]);
         try {
             foreach ($placeholders as $definition) {
-                $this->_placeholder = Mage::getModel('Magento_FullPageCache_Model_Container_Placeholder',
-                    array('definition' => $definition));
+                $this->_placeholder = $this->_placeholderFactory->create($definition);
                 $content = preg_replace_callback($this->_placeholder->getPattern(),
                     array($this, '_getPlaceholderReplacer'), $content);
             }
@@ -99,9 +144,9 @@ class Magento_FullPageCache_Model_Processor_Default implements Magento_FullPageC
          * In developer mode blocks will be rendered separately
          * This should simplify debugging _renderBlock()
          */
-        if ($container && !Mage::getIsDeveloperMode()) {
-            $container = Mage::getModel($container, array('placeholder' => $this->_placeholder));
-            $container->setProcessor(Mage::getSingleton('Magento_FullPageCache_Model_Processor'));
+        if ($container && ($this->_appState->getMode() != Magento_Core_Model_App_State::MODE_DEVELOPER)) {
+            $container = $this->_containerFactory->create($container, array('placeholder' => $this->_placeholder));
+            $container->setProcessor($this->_fpcProcessor);
             $blockContent = $matches[1];
             $container->saveCache($blockContent);
         }

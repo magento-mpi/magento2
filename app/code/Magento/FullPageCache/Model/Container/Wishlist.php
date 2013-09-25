@@ -46,11 +46,11 @@ class Magento_FullPageCache_Model_Container_Wishlist extends Magento_FullPageCac
         $template = $this->_placeholder->getAttribute('template');
 
         /** @var $block Magento_Core_Block_Template */
-        $block = Mage::app()->getLayout()->createBlock($block);
+        $block = $this->_layout->createBlock($block);
         $block->setTemplate($template);
 
         /** @var $blockPrice Magento_Catalog_Block_Product_Price_Template */
-        $blockPrice = Mage::app()->getLayout()
+        $blockPrice = $this->_layout
             ->createBlock('Magento_Catalog_Block_Product_Price_Template', 'catalog_product_price_template');
         $blockPrice->addPriceBlockType('msrp', 'Magento_Catalog_Block_Product_Price', 'catalog/product/price_msrp.phtml');
 

@@ -8,4 +8,5 @@
 return array(
     'Invitation',
     'GiftCardAccount',
+    'FullPageCache',
 );

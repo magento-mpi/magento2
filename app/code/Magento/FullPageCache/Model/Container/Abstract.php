@@ -57,12 +57,18 @@ abstract class Magento_FullPageCache_Model_Container_Abstract implements Magento
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_FullPageCache_Helper_Url $urlHelper
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Layout $layout
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -70,7 +76,8 @@ abstract class Magento_FullPageCache_Model_Container_Abstract implements Magento
         Magento_FullPageCache_Model_Container_Placeholder $placeholder,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_FullPageCache_Helper_Url $urlHelper,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Layout $layout
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_placeholder = $placeholder;
@@ -78,6 +85,7 @@ abstract class Magento_FullPageCache_Model_Container_Abstract implements Magento
         $this->_eventManager = $eventManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_urlHelper = $urlHelper;
+        $this->_layout = $layout;
     }
 
     /**
@@ -129,7 +137,7 @@ abstract class Magento_FullPageCache_Model_Container_Abstract implements Magento
         }
 
         if ($this->_coreStoreConfig->getConfig(Magento_FullPageCache_Model_Processor::XML_PATH_CACHE_DEBUG)) {
-            $debugBlock = Mage::app()->getLayout()->createBlock('Magento_FullPageCache_Block_Debug');
+            $debugBlock = $this->_layout->createBlock('Magento_FullPageCache_Block_Debug');
             $debugBlock->setDynamicBlockContent($blockContent);
             $this->_applyToContent($content, $debugBlock->toHtml());
         } else {
@@ -213,7 +221,7 @@ abstract class Magento_FullPageCache_Model_Container_Abstract implements Magento
         /**
          * Replace all occurrences of session_id with unique marker
          */
-        Magento_FullPageCache_Helper_Url::replaceSid($data);
+        $this->_urlHelper->replaceSid($data);
 
         $this->_fpcCache->save($data, $id, $tags, $lifetime);
         return $this;
@@ -303,9 +311,9 @@ abstract class Magento_FullPageCache_Model_Container_Abstract implements Magento
     protected function _getPlaceHolderBlock()
     {
         $blockName = $this->_placeholder->getAttribute('block');
-        $block = Mage::app()->getLayout()->createBlock($blockName);
+        $block = $this->_layout->createBlock($blockName);
         $block->setTemplate($this->_placeholder->getAttribute('template'));
-        $block->setLayout(Mage::app()->getLayout());
+        $block->setLayout($this->_layout);
         $block->setSkipRenderTag(true);
         return $block;
     }
