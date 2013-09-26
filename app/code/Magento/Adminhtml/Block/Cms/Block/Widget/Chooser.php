@@ -18,6 +18,39 @@
 class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * @var Magento_Cms_Model_BlockFactory
+     */
+    protected $_blockFactory;
+
+    /**
+     * @var Magento_Cms_Model_Resource_Block_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Cms_Model_BlockFactory $blockFactory
+     * @param Magento_Cms_Model_Resource_Block_CollectionFactory $collectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Cms_Model_BlockFactory $blockFactory,
+        Magento_Cms_Model_Resource_Block_CollectionFactory $collectionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_blockFactory = $blockFactory;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block construction, prepare grid params
      */
     protected function _construct()
@@ -49,7 +82,7 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
 
 
         if ($element->getValue()) {
-            $block = Mage::getModel('Magento_Cms_Model_Block')->load($element->getValue());
+            $block = $this->_blockFactory->create()->load($element->getValue());
             if ($block->getId()) {
                 $chooser->setLabel($block->getTitle());
             }
@@ -87,9 +120,7 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Cms_Model_Block')->getCollection();
-        /* @var $collection Magento_Cms_Model_Resource_Block_Collection */
-        $this->setCollection($collection);
+        $this->setCollection($this->_collectionFactory->create());
         return parent::_prepareCollection();
     }
 

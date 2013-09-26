@@ -17,6 +17,46 @@
  */
 class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * @var Magento_Cms_Model_Resource_Page_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Magento_Cms_Model_Page
+     */
+    protected $_cmsPage;
+
+    /**
+     * @var Magento_Page_Model_Source_Layout
+     */
+    protected $_pageLayout;
+
+    /**
+     * @param Magento_Page_Model_Source_Layout $pageLayout
+     * @param Magento_Cms_Model_Page $cmsPage
+     * @param Magento_Cms_Model_Resource_Page_CollectionFactory $collectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Page_Model_Source_Layout $pageLayout,
+        Magento_Cms_Model_Page $cmsPage,
+        Magento_Cms_Model_Resource_Page_CollectionFactory $collectionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_cmsPage = $cmsPage;
+        $this->_pageLayout = $pageLayout;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -28,7 +68,7 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Cms_Model_Page')->getCollection();
+        $collection = $this->_collectionFactory->create();
         /* @var $collection Magento_Cms_Model_Resource_Page_Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);
@@ -58,13 +98,13 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
             'header'    => __('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Page_Model_Source_Layout')->getOptions(),
+            'options'   => $this->_pageLayout->getOpstions(),
         ));
 
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'        => __('Store View'),
                 'index'         => 'store_id',
@@ -81,7 +121,7 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
             'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Cms_Model_Page')->getAvailableStatuses()
+            'options'   => $this->_cmsPage->getAvailableStatuses()
         ));
 
         $this->addColumn('creation_time', array(
