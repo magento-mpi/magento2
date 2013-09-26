@@ -96,7 +96,7 @@
                         <argument name="getter" xsi:type="string">getMessage</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="filter" xsi:type="string">0</argument>
-                        <argument name="renderer" xsi:type="string">Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid_Column_Renderer_Reason</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\History\Grid\Column\Renderer\Reason</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="created_at">

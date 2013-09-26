@@ -26,7 +26,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
+        /** @var \Magento\TestFramework\ObjectManager  $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
