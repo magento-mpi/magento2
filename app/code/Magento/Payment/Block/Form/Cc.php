@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 
 class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
 {
@@ -17,13 +14,28 @@ class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
     protected $_template = 'Magento_Payment::form/cc.phtml';
 
     /**
-     * Retrieve payment configuration object
+     * Payment config model
      *
-     * @return Magento_Payment_Model_Config
+     * @var Magento_Payment_Model_Config
      */
-    protected function _getConfig()
-    {
-        return Mage::getSingleton('Magento_Payment_Model_Config');
+    protected $_paymentConfig;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Payment_Model_Config $paymentConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Payment_Model_Config $paymentConfig,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_paymentConfig = $paymentConfig;
     }
 
     /**
@@ -33,7 +45,7 @@ class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
      */
     public function getCcAvailableTypes()
     {
-        $types = $this->_getConfig()->getCcTypes();
+        $types = $this->_paymentConfig->getCcTypes();
         if ($method = $this->getMethod()) {
             $availableTypes = $method->getConfigData('cctypes');
             if ($availableTypes) {
@@ -58,7 +70,7 @@ class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
         $months = $this->getData('cc_months');
         if (is_null($months)) {
             $months[0] =  __('Month');
-            $months = array_merge($months, $this->_getConfig()->getMonths());
+            $months = array_merge($months, $this->_paymentConfig->getMonths());
             $this->setData('cc_months', $months);
         }
         return $months;
@@ -73,7 +85,7 @@ class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
     {
         $years = $this->getData('cc_years');
         if (is_null($years)) {
-            $years = $this->_getConfig()->getYears();
+            $years = $this->_paymentConfig->getYears();
             $years = array(0=>__('Year'))+$years;
             $this->setData('cc_years', $years);
         }

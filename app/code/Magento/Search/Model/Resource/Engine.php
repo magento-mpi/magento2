@@ -95,6 +95,15 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
     protected $_coreStoreConfig;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     * 
      * @param Magento_Search_Model_Resource_CollectionFactory $searchCollFactory
      * @param Magento_CatalogSearch_Model_Resource_Fulltext $catalogSearchResourceFulltext
      * @param Magento_Search_Model_Resource_Index $searchResourceIndex
@@ -102,6 +111,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
      * @param Magento_Search_Model_AdapterInterface $adapter
      * @param Magento_Search_Model_Resource_Advanced $searchResource
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Search_Model_Resource_CollectionFactory $searchCollFactory,
@@ -110,7 +120,8 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
         Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
         Magento_Search_Model_AdapterInterface $adapter,
         Magento_Search_Model_Resource_Advanced $searchResource,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_searchCollFactory = $searchCollFactory;
         $this->_catalogSearchResourceFulltext = $catalogSearchResourceFulltext;
@@ -119,6 +130,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
         $this->_adapter = $adapter;
         $this->_searchResource = $searchResource;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
         $this->_initAdapter();
     }
 
@@ -275,7 +287,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
         }
 
         if (is_null($storeIds) || $storeIds == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
-            $storeIds = array_keys(Mage::app()->getStores());
+            $storeIds = array_keys($this->_storeManager->getStores());
         } else {
             $storeIds = (array) $storeIds;
         }

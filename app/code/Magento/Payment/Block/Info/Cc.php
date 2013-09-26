@@ -14,13 +14,49 @@
 class Magento_Payment_Block_Info_Cc extends Magento_Payment_Block_Info
 {
     /**
+     * Locale model
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Payment config model
+     *
+     * @var Magento_Payment_Model_Config
+     */
+    protected $_paymentConfig;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Payment_Model_Config $paymentConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Payment_Model_Config $paymentConfig,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $storeManager, $data);
+        $this->_locale = $locale;
+        $this->_paymentConfig = $paymentConfig;
+    }
+    /**
      * Retrieve credit card type name
      *
      * @return string
      */
     public function getCcTypeName()
     {
-        $types = Mage::getSingleton('Magento_Payment_Model_Config')->getCcTypes();
+        $types = $this->_paymentConfig->getCcTypes();
         $ccType = $this->getInfo()->getCcType();
         if (isset($types[$ccType])) {
             return $types[$ccType];
@@ -59,7 +95,7 @@ class Magento_Payment_Block_Info_Cc extends Magento_Payment_Block_Info
      */
     public function getCcExpDate()
     {
-        $date = Mage::app()->getLocale()->date(0);
+        $date = $this->_locale->date(0);
         $date->setYear($this->getInfo()->getCcExpYear());
         $date->setMonth($this->getInfo()->getCcExpMonth());
         return $date;
