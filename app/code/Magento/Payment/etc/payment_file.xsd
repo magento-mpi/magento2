@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
-* {license_notice}
-*
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 -->
 <xs:schema elementFormDefault="qualified"
     xmlns:xs="http://www.w3.org/2001/XMLSchema">
