@@ -197,7 +197,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
      * @param Magento_GiftRegistry_Model_Resource_Entity $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param Magento_GiftRegistry_Model_Resource_Entity_Collection $resourceCollection
      * @param Magento_GiftRegistry_Model_Type $type
      * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
      * @param Magento_GiftRegistry_Model_Item $itemModel
@@ -224,8 +224,6 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Email_TemplateFactory $templateFactory,
-        Magento_GiftRegistry_Model_Resource_Entity $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
         Magento_GiftRegistry_Model_Type $type,
         Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
         Magento_GiftRegistry_Model_Item $itemModel,
@@ -241,6 +239,8 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         Magento_Logging_Model_Event_ChangesFactory $loggingEventChangesFactory,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_GiftRegistry_Model_Resource_Entity $resource = null,
+        Magento_GiftRegistry_Model_Resource_Entity_Collection $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
