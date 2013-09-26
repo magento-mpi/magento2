@@ -34,6 +34,15 @@ return array(
     array('CONFIG_XML_PATH_DISPLAY_TAX_COLUMN'),
     array('CONFIG_XML_PATH_DISPLAY_ZERO_TAX'),
     array('CONFIG_XML_PATH_SHOW_IN_CATALOG'),
+    array('DEFAULT_SETUP_RESOURCE', 'Mage_Core_Model_Resource',
+        'Magento_Core_Model_Config_Resource::DEFAULT_SETUP_CONNECTION'
+    ),
+    array('DEFAULT_READ_RESOURCE', 'Mage_Core_Model_Resource',
+        'Magento_Core_Model_Config_Resource::DEFAULT_READ_CONNECTION'
+    ),
+    array('DEFAULT_WRITE_RESOURCE', 'Mage_Core_Model_Resource',
+        'Magento_Core_Model_Config_Resource::DEFAULT_WRITE_CONNECTION'
+    ),
     array('DEFAULT_CURRENCY', 'Magento_Core_Model_Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_CURRENCY'),
     array('DEFAULT_ERROR_HANDLER', 'Magento_Core_Model_App', 'Mage::DEFAULT_ERROR_HANDLER'),
     array('DEFAULT_LOCALE', 'Magento_Core_Model_Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE'),
