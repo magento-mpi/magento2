@@ -29,20 +29,6 @@ class Magento_Core_Model_Config_Local
     public function __construct(Magento_Core_Model_Config_Loader_Local $loader)
     {
         $this->_data = $loader->load();
-        if (isset($this->_data['resource'])) {
-            if (isset($this->_data['resource']['name'])) {
-                $this->_data['resource'] = array($this->_data['resource']);
-            }
-            foreach ($this->_data['resource'] as $resourceVal) {
-                $resourceConfig = array(
-                    'type' => isset($resourceVal['extend']) ? $resourceVal['extend']
-                        : 'Magento_Core_Model_Resource_Type_Db_Pdo_Mysql',
-                    'parameters' => $resourceVal['connection']
-                );
-                $this->_configuration[$resourceVal['name']] = $resourceConfig;
-            }
-        }
-        unset($this->_data['resource']);
     }
 
     /**
@@ -50,8 +36,9 @@ class Magento_Core_Model_Config_Local
      */
     public function getParams()
     {
-        unset($this->_data['resource']);
         $stack = $this->_data;
+        unset($stack['resource']);
+        unset($stack['connection']);
         $separator = '.';
         $parameters = array();
 
@@ -75,10 +62,25 @@ class Magento_Core_Model_Config_Local
     }
 
     /**
+     * Retrieve connection configuration by connection name
+     *
+     * @param string $connectionName
      * @return array
      */
-    public function getConfiguration()
+    public function getConnection($connectionName)
     {
-        return $this->_configuration;
+        return isset($this->_data['connection'][$connectionName])
+            ? $this->_data['connection'][$connectionName]
+            : null;
+    }
+
+    /**
+     * Retrieve resources
+     *
+     * @return array
+     */
+    public function getResources()
+    {
+        return isset($this->_data['resource']) ? $this->_data['resource'] : array();
     }
 }

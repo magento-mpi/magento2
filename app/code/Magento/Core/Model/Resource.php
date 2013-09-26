@@ -35,16 +35,16 @@ class Magento_Core_Model_Resource
     /**
      * Resource config
      *
-     * @var Magento_Core_Model_Config_Resource
+     * @var Magento_Core_Model_Config_ResourceInterface
      */
     protected $_resourceConfig;
 
     /**
      * Resource connection adapter factory
      *
-     * @var Magento_Core_Model_ConnectionAdapterFactory
+     * @var Magento_Core_Model_Resource_ConnectionFactory
      */
-    protected $_adapterFactory;
+    protected $_connectionFactory;
 
     /**
      * Application cache
@@ -60,18 +60,18 @@ class Magento_Core_Model_Resource
 
     /**
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
-     * @param Magento_Core_Model_ConnectionAdapterFactory $adapterFactory
+     * @param Magento_Core_Model_Config_ResourceInterface $resourceConfig
+     * @param Magento_Core_Model_Resource_ConnectionFactory $adapterFactory
      * @param string $tablePrefix
      */
     public function __construct(
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Config_Resource $resourceConfig,
-        Magento_Core_Model_ConnectionAdapterFactory $adapterFactory,
+        Magento_Core_Model_Config_ResourceInterface $resourceConfig,
+        Magento_Core_Model_Resource_ConnectionFactory $adapterFactory,
         $tablePrefix = ''
     ) {
         $this->_resourceConfig = $resourceConfig;
-        $this->_adapterFactory = $adapterFactory;
+        $this->_connectionFactory = $adapterFactory;
         $this->_cache = $cache;
         $this->_tablePrefix = $tablePrefix;
     }
@@ -87,6 +87,14 @@ class Magento_Core_Model_Resource
     }
 
     /**
+     * @param Magento_Core_Model_Config_ResourceInterface $resourceConfig
+     */
+    public function setConfig(Magento_Core_Model_Config_ResourceInterface $resourceConfig)
+    {
+        $this->_resourceConfig = $resourceConfig;
+    }
+
+    /**
      * Retrieve connection to resource specified by $resourceName
      *
      * @param string $resourceName
@@ -99,9 +107,10 @@ class Magento_Core_Model_Resource
             return $this->_connections[$connectionName];
         }
 
-        $adapter = $this->_adapterFactory->create($connectionName);
-
-        $connection = $adapter->getConnection();
+        $connection = $this->_connectionFactory->create($connectionName);
+        if (!$connection) {
+            return false;
+        }
         $connection->setCacheAdapter($this->_cache->getFrontend());
 
         $this->_connections[$connectionName] = $connection;
@@ -146,7 +155,7 @@ class Magento_Core_Model_Resource
         if ($tableSuffix) {
             $tableName .= '_' . $tableSuffix;
         }
-        return $this->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_READ_RESOURCE)
+        return $this->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_READ_CONNECTION)
             ->getTableName($tableName);
     }
 
@@ -202,7 +211,7 @@ class Magento_Core_Model_Resource
      */
     public function getIdxName($tableName, $fields, $indexType = Magento_DB_Adapter_Interface::INDEX_TYPE_INDEX)
     {
-        return $this->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_READ_RESOURCE)
+        return $this->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_READ_CONNECTION)
             ->getIndexName($this->getTableName($tableName), $fields, $indexType);
     }
 
@@ -217,7 +226,7 @@ class Magento_Core_Model_Resource
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return $this->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_READ_RESOURCE)
+        return $this->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_READ_CONNECTION)
             ->getForeignKeyName($this->getTableName($priTableName), $priColumnName,
                 $this->getTableName($refTableName), $refColumnName);
     }

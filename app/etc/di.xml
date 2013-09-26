@@ -217,21 +217,9 @@
             </value>
         </param>
     </type>
-    <virtualType name="default_setup" type="Magento_Core_Model_Resource_Type_Db_Pdo_Mysql" />
-    <type name="Magento_Core_Model_Resource_ConnectionPool">
-        <param name="connectionList">
-            <value>
-                <default_setup>
-                    <instance>Magento_Core_Model_Resource_Type_Db_Pdo_Mysql</instance>
-                </default_setup>
-                <default_read>
-                    <use>default_setup</use>
-                </default_read>
-                <default_write>
-                    <use>default_setup</use>
-                </default_write>
-
-            </value>
+    <type name="Magento_Core_Model_Resource">
+        <param name="resourceConfig">
+            <instance type="Magento_Core_Model_Config_Resource_Primary" />
         </param>
     </type>
 </config>

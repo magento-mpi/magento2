@@ -200,15 +200,6 @@ class Magento_Install_Model_Installer extends Magento_Object
             ->setConfigData($data)
             ->install();
 
-        /** @var $primaryConfig  Magento_Core_Model_Config_Primary*/
-        $primaryConfig = Mage::getSingleton('Magento_Core_Model_Config_Primary');
-        $localConfig = new Magento_Core_Model_Config_Local(new Magento_Core_Model_Config_Loader_Local(
-            $primaryConfig->getDirectories()->getDir(Magento_Core_Model_Dir::CONFIG),
-            $primaryConfig->getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG),
-            $primaryConfig->getParam(Mage::PARAM_CUSTOM_LOCAL_FILE)
-        ));
-        $this->_objectManager->configure($localConfig->getConfiguration());
-
         /** @var $config Magento_Core_Model_Config */
         $config = Mage::getSingleton('Magento_Core_Model_Config');
         $config->reloadConfig();

@@ -167,6 +167,4 @@
             </value>
         </param>
     </type>
-    <virtualType name="catalog_read" type="default_read" />
-    <virtualType name="catalog_write" type="default_write" />
 </config>

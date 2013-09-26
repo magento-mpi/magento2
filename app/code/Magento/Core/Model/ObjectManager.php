@@ -88,7 +88,6 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
 
         parent::__construct($factory, $config, $sharedInstances);
         $primaryConfig->configure($this);
-        $this->configure($localConfig->getConfiguration());
         self::setInstance($this);
 
         Magento_Profiler::start('global_primary');
@@ -153,6 +152,7 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
         ));
         $this->_config->setCache($this->get('Magento_Core_Model_ObjectManager_ConfigCache'));
         $this->configure($this->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global'));
+        $this->get('Magento_Core_Model_Resource')->setConfig($this->get('Magento_Core_Model_Config_Resource'));
 
         self::setInstance($this);
     }

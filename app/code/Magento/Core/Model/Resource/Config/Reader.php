@@ -54,7 +54,7 @@ class Magento_Core_Model_Resource_Config_Reader extends Magento_Config_Reader_Fi
     public function read($scope = null)
     {
         $data = parent::read();
-        $data = array_replace($data, $this->_configLocal->getConfiguration());
+        $data = array_replace($data, $this->_configLocal->getResources());
 
         return $data;
     }

@@ -39,17 +39,12 @@
         <!-- DB model layer. Used to determine names of resource helpers and
             specific installs/upgrades for a DB vendor. -->
         <model>{{db_model}}</model>
-        <!-- Legacy: type of DB connection. If you have extensions for Magento 1.6 and earlier, then put
-            'pdo_mysql' there for backwards compatibility. -->
-        <type>{{db_type}}</type>
-        <!-- Specific type of PDO being used. MySQL doesn't have specifics, so it should be empty. -->
-        <pdoType>{{db_pdo_type}}</pdoType>
+        <adapter>Magento_Core_Model_Resource_Type_Db_Pdo_Mysql</adapter>
         <!-- Connection activation. Default connection is last level of fallback, thus
             it must be always left active.  -->
         <active>1</active>
     </connection>
     <resource name="default_setup" connection="default"/>
-    </resource>
     <!-- Session storage method. Can be 'files' (default), 'db', 'memcache', 'memcached', 'eaccelerator'. -->
     <session_save>{{session_save}}</session_save>
     <backend>

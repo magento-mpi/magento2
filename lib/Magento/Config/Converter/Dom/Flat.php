@@ -22,12 +22,28 @@
 class Magento_Config_Converter_Dom_Flat implements Magento_Config_ConverterInterface
 {
     /**
+     * Node identifier attributes
+     *
+     * @var array
+     */
+    protected $_idAttributes;
+
+    /**
+     * @param $idAttributes
+     */
+    public function __construct($idAttributes)
+    {
+        $this->_idAttributes = $idAttributes;
+    }
+
+    /**
      * Convert dom node tree to array
      *
      * @param DOMNode $source
+     * @param string $path
      * @return array
      */
-    public function convert($source)
+    public function convert($source, $path = '')
     {
         $nodeListData = array();
 
@@ -41,29 +57,30 @@ class Magento_Config_Converter_Dom_Flat implements Magento_Config_ConverterInter
                         $nodeData[$attribute->nodeName] = $attribute->nodeValue;
                     }
                 }
-                $childrenData = $this->convert($node);
+                $fullPath = $path . '/' . $node->nodeName;
+                $childrenData = $this->convert($node, $fullPath);
 
                 if (is_array($childrenData)) {
                     $nodeData = array_merge($nodeData, $childrenData);
-                } else {
-                    $nodeData = $childrenData;
-                }
-                if (is_array($nodeData) && ! count($nodeData)) {
-                    $nodeData = null;
-                }
-                if (isset($nodeListData[$node->nodeName])) {
-                    if (is_array($nodeListData[$node->nodeName]) && isset($nodeListData[$node->nodeName][0])) {
-                        $nodeListData[$node->nodeName][] = $nodeData;
+                    if (!count($nodeData)) {
+                        $nodeListData[$node->nodeName] = $nodeData;
+                    } else if (isset($this->_idAttributes[$fullPath])) {
+                        $nodeListData[$node->nodeName][$nodeData[$this->_idAttributes[$fullPath]]] = $nodeData;
                     } else {
-                        $nodeListData[$node->nodeName] = array($nodeListData[$node->nodeName], $nodeData);
+                        $nodeListData[$node->nodeName] = $nodeData;
                     }
                 } else {
+                    if (count($nodeData)) {
+                        $nodeData['value'] = $childrenData;
+                    } else {
+                        $nodeData = $childrenData;
+                    }
                     $nodeListData[$node->nodeName] = $nodeData;
                 }
             } elseif ($node->nodeType == XML_CDATA_SECTION_NODE
                 || ($node->nodeType == XML_TEXT_NODE && trim($node->nodeValue) != '')
             ) {
-                return $node->nodeValue;
+                return (string) $node->nodeValue;
             }
         }
         return $nodeListData;

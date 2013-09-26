@@ -39,7 +39,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
      * @param array $profiler
      * @param string $initStatements
      * @param string $type
-     * @param bool $isActive
+     * @param bool $active
      */
     public function __construct(
         Magento_Core_Model_Dir $dirs,
@@ -50,7 +50,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
         array $profiler = array(),
         $initStatements = 'SET NAMES utf8',
         $type = 'pdo_mysql',
-        $isActive = true
+        $active = false
     ) {
         $this->_dirs = $dirs;
         $this->_connectionConfig = array(
@@ -65,7 +65,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
         $this->_host = $host;
         $this->_type = $type;
         $this->_initStatements = $initStatements;
-        $this->_isActive = $isActive;
+        $this->_isActive = !($active === 'false' || $active === '0');
         parent::__construct();
     }
 

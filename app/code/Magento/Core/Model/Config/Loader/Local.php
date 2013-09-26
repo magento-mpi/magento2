@@ -36,6 +36,13 @@ class Magento_Core_Model_Config_Loader_Local
     protected $_customConfig;
 
     /**
+     * Configuration identifier attributes
+     *
+     * @var array
+     */
+    protected $_idAttributes = array('/config/resource' => 'name', '/config/connection' => 'name');
+
+    /**
      * @param string $configDirectory
      * @param string $customConfig
      * @param string $customFile
@@ -54,7 +61,7 @@ class Magento_Core_Model_Config_Loader_Local
      */
     public function load()
     {
-        $localConfig = new Magento_Config_Dom('<config/>', array('/config/resource' => 'name'));
+        $localConfig = new Magento_Config_Dom('<config/>', $this->_idAttributes);
 
         $localConfigFile = $this->_dir . DIRECTORY_SEPARATOR . self::LOCAL_CONFIG_FILE;
         if (file_exists($localConfigFile)) {
@@ -72,7 +79,7 @@ class Magento_Core_Model_Config_Loader_Local
         if ($this->_customConfig) {
             $localConfig->merge($this->_customConfig);
         }
-        $converter = new Magento_Config_Converter_Dom_Flat();
+        $converter = new Magento_Config_Converter_Dom_Flat($this->_idAttributes);
 
         $result = $converter->convert($localConfig->getDom());
         return isset($result['config']) ? $result['config'] : array();

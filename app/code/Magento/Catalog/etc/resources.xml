@@ -1,3 +1,0 @@
-<config>
-    <resource name="catalog_read" extends="default_read" />
-</config>

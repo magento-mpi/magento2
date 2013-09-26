@@ -20,5 +20,4 @@
             </value>
         </param>
     </type>
-    <virtualType name="eav_read" type="default_read" />
 </config>

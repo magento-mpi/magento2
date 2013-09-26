@@ -12,7 +12,7 @@ class Magento_Core_Model_Config_Resource extends Magento_Config_Data_Scoped
 {
     const DEFAULT_READ_CONNECTION  = 'read';
     const DEFAULT_WRITE_CONNECTION = 'write';
-    const DEFAULT_SETUP_CONNECTION = 'setup';
+    const DEFAULT_SETUP_CONNECTION = 'default';
 
     /**
      * @param Magento_Core_Model_Resource_Config_Reader $reader
@@ -39,14 +39,14 @@ class Magento_Core_Model_Config_Resource extends Magento_Config_Data_Scoped
     {
         $connectionName = self::DEFAULT_SETUP_CONNECTION;
 
-        if (!isset($this->_data[$resourceName])) {
+        if (!isset($this->_connectionNames[$resourceName])) {
 
             $resourcesConfig = $this->get();
             $pointerResourceName = $resourceName;
             while (true) {
                 if (isset($resourcesConfig[$pointerResourceName]['connection'])) {
                     $connectionName = $resourcesConfig[$pointerResourceName]['connection'];
-                    $this->_data[$resourceName] = $connectionName;
+                    $this->_connectionNames[$resourceName] = $connectionName;
                     break;
                 } elseif (isset($resourcesConfig[$pointerResourceName]['extends'])) {
                     $pointerResourceName = $resourcesConfig[$pointerResourceName]['extends'];
@@ -55,7 +55,7 @@ class Magento_Core_Model_Config_Resource extends Magento_Config_Data_Scoped
                 }
             }
         } else {
-            $connectionName = $this->_data[$resourceName];
+            $connectionName = $this->_connectionNames[$resourceName];
         }
 
         return $connectionName;
