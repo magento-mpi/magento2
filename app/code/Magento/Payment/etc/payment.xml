@@ -12,28 +12,28 @@
 <payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Payment/etc/payment.xsd">
     <credit_cards>
-        <type code="AE" order="0">
+        <type id="AE" order="0">
             <label>American Express</label>
         </type>
-        <type code="VI" order="10">
+        <type id="VI" order="10">
             <label>Visa</label>
         </type>
-        <type code="MC" order="20">
+        <type id="MC" order="20">
             <label>MasterCard</label>
         </type>
-        <type code="DI" order="30">
+        <type id="DI" order="30">
             <label>Discover</label>
         </type>
-        <type code="SM" order="40">
+        <type id="SM" order="40">
             <label>Maestro/Switch</label>
         </type>
-        <type code="SO" order="45">
+        <type id="SO" order="45">
             <label>Solo</label>
         </type>
-        <type code="JCB" order="50">
+        <type id="JCB" order="50">
             <label>JCB</label>
         </type>
-        <type code="OT" order="1000">
+        <type id="OT" order="1000">
             <label>Other</label>
         </type>
     </credit_cards>

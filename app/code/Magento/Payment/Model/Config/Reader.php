@@ -15,7 +15,7 @@ class Magento_Payment_Model_Config_Reader extends Magento_Config_Reader_Filesyst
      * @var array
      */
     protected $_idAttributes = array(
-        '/payment/credit_cards/type' => 'code',
+        '/payment/credit_cards/type' => 'id',
         '/payment/groups/group' => 'id',
     );
 }
