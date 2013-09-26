@@ -8,3 +8,4 @@ dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/AdminGwsConfigFil
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/WebsiteRestrictionConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/MenuHierarchyConfigFilesTest.php
 dev/tests/unit/testsuite/Magento/VersionsCms
+dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/GiftRegistryConfigFileTest.php
