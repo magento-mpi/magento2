@@ -12,10 +12,6 @@
  * Sales Order Total PDF model
  *
  * @method Magento_Sales_Model_Order getOrder()
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
 {
@@ -30,9 +26,9 @@ class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
     protected $_taxCalculation;
 
     /**
-     * @var Magento_Tax_Model_Sales_Order_Tax
+     * @var Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory
      */
-    protected $_taxOrder;
+    protected $_taxOrdersFactory;
 
     /**
      * Initialize dependencies
@@ -40,19 +36,19 @@ class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Tax_Helper_Data $taxHelper
      * @param Magento_Tax_Model_Calculation $taxCalculation
-     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
         Magento_Tax_Helper_Data $taxHelper,
         Magento_Tax_Model_Calculation $taxCalculation,
-        Magento_ObjectManager $objectManager,
+        Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory,
         array $data = array()
     ){
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;
-        $this->_taxOrder = $objectManager->create('Magento_Tax_Model_Sales_Order_Tax');
+        $this->_taxOrdersFactory = $ordersFactory;
         parent::__construct($context, $data);
     }
 
@@ -116,7 +112,9 @@ class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
                 $tax['font_size'] = $fontSize;
             }
         } else {
-            $rates = $this->_taxOrder->getCollection()->loadByOrder($this->getOrder())->toArray();
+            /** @var $orders Magento_Tax_Model_Resource_Sales_Order_Tax_Collection */
+            $orders = $this->_taxOrdersFactory->create();
+            $rates = $orders->loadByOrder($this->getOrder())->toArray();
             $fullInfo = $this->_taxCalculation->reproduceProcess($rates['items']);
             $tax_info = array();
 

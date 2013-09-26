@@ -12,6 +12,16 @@
 class Magento_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Magento_TestFramework_ObjectManager
+     */
+    protected $_objectManager;
+
+    protected function setUp()
+    {
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+    }
+
+    /**
      * Test setClassTypeFilter with correct Class Type
      *
      * @param $classType
@@ -22,7 +32,7 @@ class Magento_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit
      */
     public function testSetClassTypeFilter($classType, $elementId, $expected)
     {
-        $collection = Mage::getModel('Magento_Tax_Model_Resource_Calculation_Rule_Collection');
+        $collection = $this->_objectManager->create('Magento_Tax_Model_Resource_Calculation_Rule_Collection');
         $collection->setClassTypeFilter($classType, $elementId);
         $this->assertRegExp($expected, (string)$collection->getSelect());
     }
@@ -44,7 +54,7 @@ class Magento_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit
      */
     public function testSetClassTypeFilterWithWrongType()
     {
-        $collection = Mage::getModel('Magento_Tax_Model_Resource_Calculation_Rule_Collection');
+        $collection = $this->_objectManager->create('Magento_Tax_Model_Resource_Calculation_Rule_Collection');
         $collection->setClassTypeFilter('WrongType', 1);
     }
 }

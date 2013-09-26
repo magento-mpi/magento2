@@ -10,8 +10,6 @@
 
 /**
  * Tax Calculation Model
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
 {
@@ -31,8 +29,12 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     protected $_rateCache                       = array();
     protected $_rateCalculationProcess          = array();
 
-    protected $_customer                        = null;
-    protected $_defaultCustomerTaxClass         = null;
+    /**
+     * @var Magento_Customer_Model_Customer|bool
+     */
+    protected $_customer;
+
+    protected $_defaultCustomerTaxClass;
 
     /**
      * Customer data
@@ -49,10 +51,40 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Customer_Model_GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_Tax_Model_Resource_Class_CollectionFactory
+     */
+    protected $_classesFactory;
+
+    /**
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_GroupFactory $groupFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Tax_Model_Resource_Class_CollectionFactory $classesFactory
      * @param Magento_Tax_Model_Resource_Calculation $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -62,12 +94,22 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_GroupFactory $groupFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Tax_Model_Resource_Class_CollectionFactory $classesFactory,
         Magento_Tax_Model_Resource_Calculation $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_groupFactory = $groupFactory;
+        $this->_customerSession = $customerSession;
+        $this->_customerFactory = $customerFactory;
+        $this->_classesFactory = $classesFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -92,7 +134,9 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     {
         if ($this->_defaultCustomerTaxClass === null) {
             $defaultCustomerGroup = $this->_customerData->getDefaultCustomerGroupId($store);
-            $this->_defaultCustomerTaxClass = Mage::getModel('Magento_Customer_Model_Group')->getTaxClassId($defaultCustomerGroup);
+            /** @var $customerGroup Magento_Customer_Model_Group */
+            $customerGroup = $this->_groupFactory->create();
+            $this->_defaultCustomerTaxClass = $customerGroup->getTaxClassId($defaultCustomerGroup);
         }
         return $this->_defaultCustomerTaxClass;
     }
@@ -100,16 +144,17 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     /**
      * Get customer object
      *
-     * @return  Magento_Customer_Model_Customer | false
+     * @return  Magento_Customer_Model_Customer|bool
      */
     public function getCustomer()
     {
         if ($this->_customer === null) {
-            $session = Mage::getSingleton('Magento_Customer_Model_Session');
-            if ($session->isLoggedIn()) {
-                $this->_customer = $session->getCustomer();
-            } elseif ($session->getCustomerId()) {
-                $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')->load($session->getCustomerId());
+            if ($this->_customerSession->isLoggedIn()) {
+                $this->_customer = $this->_customerSession->getCustomer();
+            } elseif ($this->_customerSession->getCustomerId()) {
+                /** @var $customer Magento_Customer_Model_Customer */
+                $customer = $this->_customerFactory->create();
+                $this->_customer = $customer->load($this->_customerSession->getCustomerId());
             } else {
                 $this->_customer = false;
             }
@@ -426,14 +471,14 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     protected function _getRates($request, $fieldName, $type)
     {
         $result = array();
-        $classes = Mage::getModel('Magento_Tax_Model_Class')->getCollection()
-            ->addFieldToFilter('class_type', $type)
-            ->load();
+        /** @var $classes Magento_Tax_Model_Resource_Class_Collection */
+        $classes = $this->_classesFactory->create();
+        $classes->addFieldToFilter('class_type', $type)->load();
+        /** @var $class Magento_Tax_Model_Class */
         foreach ($classes as $class) {
             $request->setData($fieldName, $class->getId());
             $result[$class->getId()] = $this->getRate($request);
         }
-
         return $result;
     }
 
@@ -525,7 +570,7 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
      */
     public function round($price)
     {
-        return Mage::app()->getStore()->roundPrice($price);
+        return $this->_storeManager->getStore()->roundPrice($price);
     }
 
     /**

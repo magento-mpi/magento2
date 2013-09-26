@@ -25,7 +25,12 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      * @var Magento_Tax_Model_Config
      */
     protected $_config      = null;
-    protected $_calculator  = null;
+
+    /**
+     * @var Magento_Tax_Model_Calculation
+     */
+    protected $_calculation;
+
     protected $_displayTaxColumn;
     protected $_taxData;
     protected $_priceIncludesTax;
@@ -62,26 +67,61 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-    
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Eav_Model_Entity_AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @var Magento_Tax_Model_Resource_Sales_Order_Tax_ItemFactory
+     */
+    protected $_taxItemFactory;
+
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Tax_Model_Config $taxConfig
+     * @param Magento_Tax_Model_Calculation $calculation
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Entity_AttributeFactory $attributeFactory
+     * @param Magento_Tax_Model_Resource_Sales_Order_Tax_ItemFactory $taxItemFactory
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Tax_Model_Config $taxConfig
+        Magento_Tax_Model_Config $taxConfig,
+        Magento_Tax_Model_Calculation $calculation,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Entity_AttributeFactory $attributeFactory,
+        Magento_Tax_Model_Resource_Sales_Order_Tax_ItemFactory $taxItemFactory
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_config = $taxConfig;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
+        $this->_calculation = $calculation;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_attributeFactory = $attributeFactory;
+        $this->_taxItemFactory = $taxItemFactory;
     }
 
     /**
@@ -115,10 +155,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCalculator()
     {
-        if ($this->_calculator === null) {
-            $this->_calculator = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        }
-        return $this->_calculator;
+        return $this->_calculation;
     }
 
     /**
@@ -128,11 +165,11 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      * @param   null|string $format
      * @return  float|string
      */
-    public function getProductPrice($product, $format=null)
+    public function getProductPrice($product, $format = null)
     {
         try {
             $value = $product->getPrice();
-            $value = Mage::app()->getStore()->convertPrice($value, $format);
+            $value = $this->_storeManager->getStore()->convertPrice($value, $format);
         } catch (Exception $e){
             $value = $e->getMessage();
         }
@@ -145,7 +182,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      * @param   mix $store
      * @return  bool
      */
-    public function priceIncludesTax($store=null)
+    public function priceIncludesTax($store = null)
     {
         return $this->_config->priceIncludesTax($store) || $this->_config->getNeedUseShippingExcludeTax();
     }
@@ -365,11 +402,11 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPriceFormat($store = null)
     {
-        Mage::app()->getLocale()->emulate($store);
-        $priceFormat = Mage::app()->getLocale()->getJsPriceFormat();
-        Mage::app()->getLocale()->revert();
+        $this->_locale->emulate($store);
+        $priceFormat = $this->_locale->getJsPriceFormat();
+        $this->_locale->revert();
         if ($store) {
-            $priceFormat['pattern'] = Mage::app()->getStore($store)->getCurrentCurrency()->getOutputFormat();
+            $priceFormat['pattern'] = $this->_storeManager->getStore($store)->getCurrentCurrency()->getOutputFormat();
         }
         return $this->_coreData->jsonEncode($priceFormat);
     }
@@ -380,9 +417,11 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      * array(
      *      value_{$productTaxVlassId} => $rate
      * )
+     *
+     * @param null string|$store
      * @return string
      */
-    public function getAllRatesByProductClass($store=null)
+    public function getAllRatesByProductClass($store = null)
     {
         return $this->_getAllRatesByProductClass($store);
     }
@@ -394,18 +433,18 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      * array(
      *      value_{$productTaxVlassId} => $rate
      * )
+     *
+     * @param string|null $store
      * @return string
      */
-    protected function _getAllRatesByProductClass($store=null)
+    protected function _getAllRatesByProductClass($store = null)
     {
         $result = array();
-        $calc = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        $rates = $calc->getRatesForAllProductTaxClasses($calc->getRateOriginRequest($store));
-
-        foreach ($rates as $class=>$rate) {
+        $originRate = $this->_calculation->getRateOriginRequest($store);
+        $rates = $this->_calculation->getRatesForAllProductTaxClasses($originRate);
+        foreach ($rates as $class => $rate) {
             $result["value_{$class}"] = $rate;
         }
-
         return $this->_coreData->jsonEncode($result);
     }
 
@@ -428,7 +467,7 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
         if (!$price) {
             return $price;
         }
-        $store = Mage::app()->getStore($store);
+        $store = $this->_storeManager->getStore($store);
         if (!$this->needPriceConversion($store)) {
             return $store->roundPrice($price);
         }
@@ -442,16 +481,13 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
         $taxClassId = $product->getTaxClassId();
         if (is_null($percent)) {
             if ($taxClassId) {
-                $request = Mage::getSingleton('Magento_Tax_Model_Calculation')
-                    ->getRateRequest($shippingAddress, $billingAddress, $ctc, $store);
-                $percent = Mage::getSingleton('Magento_Tax_Model_Calculation')
-                    ->getRate($request->setProductClassId($taxClassId));
+                $request = $this->_calculation->getRateRequest($shippingAddress, $billingAddress, $ctc, $store);
+                $percent = $this->_calculation->getRate($request->setProductClassId($taxClassId));
             }
         }
         if ($taxClassId && $priceIncludesTax) {
-            $request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(false, false, false, $store);
-            $includingPercent = Mage::getSingleton('Magento_Tax_Model_Calculation')
-                ->getRate($request->setProductClassId($taxClassId));
+            $request = $this->_calculation->getRateRequest(false, false, false, $store);
+            $includingPercent = $this->_calculation->getRate($request->setProductClassId($taxClassId));
         }
 
         if ($percent === false || is_null($percent)) {
@@ -564,12 +600,11 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function _calculatePrice($price, $percent, $type)
     {
-        $calculator = Mage::getSingleton('Magento_Tax_Model_Calculation');
         if ($type) {
-            $taxAmount = $calculator->calcTaxAmount($price, $percent, false, false);
+            $taxAmount = $this->_calculation->calcTaxAmount($price, $percent, false, false);
             return $price + $taxAmount;
         } else {
-            $taxAmount = $calculator->calcTaxAmount($price, $percent, true, false);
+            $taxAmount = $this->_calculation->calcTaxAmount($price, $percent, true, false);
             return $price - $taxAmount;
         }
     }
@@ -644,22 +679,22 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
             return '';
         }
 
-        $request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(false, false, false);
-        $defaultTaxes = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRatesForAllProductTaxClasses($request);
+        $request = $this->_calculation->getRateRequest(false, false, false);
+        $defaultTaxes = $this->_calculation->getRatesForAllProductTaxClasses($request);
 
-        $request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest();
-        $currentTaxes = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRatesForAllProductTaxClasses($request);
+        $request = $this->_calculation->getRateRequest();
+        $currentTaxes = $this->_calculation->getRatesForAllProductTaxClasses($request);
 
         $defaultTaxString = $currentTaxString = '';
 
         $rateToVariable = array(
-                            'defaultTaxString'=>'defaultTaxes',
-                            'currentTaxString'=>'currentTaxes',
-                            );
-        foreach ($rateToVariable as $rateVariable=>$rateArray) {
+            'defaultTaxString' => 'defaultTaxes',
+            'currentTaxString' => 'currentTaxes',
+        );
+        foreach ($rateToVariable as $rateVariable => $rateArray) {
             if ($$rateArray && is_array($$rateArray)) {
                 $$rateVariable = '';
-                foreach ($$rateArray as $classId=>$rate) {
+                foreach ($$rateArray as $classId => $rate) {
                     if ($rate) {
                         $$rateVariable .= sprintf("WHEN %d THEN %12.4f ", $classId, $rate/100);
                     }
@@ -698,8 +733,9 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function joinTaxClass($select, $storeId, $priceTable = 'main_table')
     {
-        $taxClassAttribute = Mage::getModel('Magento_Eav_Model_Entity_Attribute')
-            ->loadByCode(Magento_Catalog_Model_Product::ENTITY, 'tax_class_id');
+        /** @var $taxClassAttribute Magento_Eav_Model_Entity_Attribute */
+        $taxClassAttribute = $this->_attributeFactory->create();
+        $taxClassAttribute->loadByCode(Magento_Catalog_Model_Product::ENTITY, 'tax_class_id');
         $joinConditionD = implode(' AND ',array(
             "tax_class_d.entity_id = {$priceTable}.entity_id",
             $select->getAdapter()->quoteInto('tax_class_d.attribute_id = ?', (int)$taxClassAttribute->getId()),
@@ -820,11 +856,13 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
 
         $taxClassAmount = array();
         if ($current && $source) {
+            /** @var $item Magento_Sales_Model_Order_Item */
             foreach($current->getItemsCollection() as $item) {
-                $taxCollection = Mage::getResourceModel('Magento_Tax_Model_Resource_Sales_Order_Tax_Item')
-                    ->getTaxItemsByItemId(
-                        $item->getOrderItemId() ? $item->getOrderItemId() : $item->getItemId()
-                    );
+                /** @var $taxCollection Magento_Tax_Model_Resource_Sales_Order_Tax_Item */
+                $taxCollection = $this->_taxItemFactory->create();
+                $taxCollection->getTaxItemsByItemId(
+                    $item->getOrderItemId() ? $item->getOrderItemId() : $item->getItemId()
+                );
 
                 foreach ($taxCollection as $tax) {
                     $taxClassId = $tax['tax_id'];
@@ -897,10 +935,9 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
                     $taxClassAmount[0]['hidden_tax_amount'] = $current->getShippingHiddenTaxAmount();
                 }
                 $taxClassAmount[0]['title']             = __('Shipping & Handling Tax');
-                $taxClassAmount[0]['percent']           = NULL;
+                $taxClassAmount[0]['percent']           = null;
             }
         }
-
         return $taxClassAmount;
     }
 

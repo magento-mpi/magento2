@@ -17,12 +17,7 @@
  * @method Magento_Tax_Model_Class setClassName(string $value)
  * @method string getClassType()
  * @method Magento_Tax_Model_Class setClassType(string $value)
- *
- * @category    Magento
- * @package     Magento_Tax
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Tax_Model_Class extends Magento_Core_Model_Abstract
 {
     /**
@@ -74,18 +69,18 @@ class Magento_Tax_Model_Class extends Magento_Core_Model_Abstract
     public function checkClassCanBeDeleted()
     {
         if (!$this->getId()) {
-            Mage::throwException(__('This class no longer exists.'));
+            throw new Magento_Core_Exception(__('This class no longer exists.'));
         }
 
         $typeModel = $this->_classFactory->create($this);
 
         if ($typeModel->getAssignedToRules()->getSize() > 0) {
-            Mage::throwException(__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
+            throw new Magento_Core_Exception(__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
         }
 
         $objectCount = $typeModel->getAssignedToObjects()->getSize();
         if ($objectCount > 0) {
-            Mage::throwException(__('You cannot delete this tax class because it is used for %1 %2(s).', $objectCount, $typeModel->getObjectTypeName()));
+            throw new Magento_Core_Exception(__('You cannot delete this tax class because it is used for %1 %2(s).', $objectCount, $typeModel->getObjectTypeName()));
         }
 
         return true;

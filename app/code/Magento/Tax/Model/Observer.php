@@ -10,8 +10,6 @@
 
 /**
  * Tax Event Observer
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Tax_Model_Observer
 {
@@ -20,15 +18,55 @@ class Magento_Tax_Model_Observer
      *
      * @var Magento_Tax_Helper_Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
+
+    /**
+     * @var Magento_Tax_Model_Sales_Order_TaxFactory
+     */
+    protected $_orderTaxFactory;
+
+    /**
+     * @var Magento_Tax_Model_Sales_Order_Tax_ItemFactory
+     */
+    protected $_taxItemFactory;
+
+    /**
+     * @var Magento_Tax_Model_Calculation
+     */
+    protected $_calculation;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Tax_Model_Resource_Report_TaxFactory
+     */
+    protected $_reportTaxFactory;
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Tax_Model_Sales_Order_TaxFactory $orderTaxFactory
+     * @param Magento_Tax_Model_Sales_Order_Tax_ItemFactory $taxItemFactory
+     * @param Magento_Tax_Model_Calculation $calculation
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Tax_Model_Resource_Report_TaxFactory $reportTaxFactory
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Tax_Model_Sales_Order_TaxFactory $orderTaxFactory,
+        Magento_Tax_Model_Sales_Order_Tax_ItemFactory $taxItemFactory,
+        Magento_Tax_Model_Calculation $calculation,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Tax_Model_Resource_Report_TaxFactory $reportTaxFactory
     ) {
         $this->_taxData = $taxData;
+        $this->_orderTaxFactory = $orderTaxFactory;
+        $this->_taxItemFactory = $taxItemFactory;
+        $this->_calculation = $calculation;
+        $this->_locale = $locale;
+        $this->_reportTaxFactory = $reportTaxFactory;
     }
 
     /**
@@ -129,7 +167,9 @@ class Magento_Tax_Model_Observer
                     'base_real_amount'  => $baseRealAmount,
                 );
 
-                $result = Mage::getModel('Magento_Tax_Model_Sales_Order_Tax')->setData($data)->save();
+                /** @var $orderTax Magento_Tax_Model_Sales_Order_Tax */
+                $orderTax = $this->_orderTaxFactory->create();
+                $result = $orderTax->setData($data)->save();
 
                 if (isset($ratesIdQuoteItemId[$id])) {
                     foreach ($ratesIdQuoteItemId[$id] as $quoteItemId) {
@@ -141,7 +181,9 @@ class Magento_Tax_Model_Observer
                                     'tax_id'        => $result->getTaxId(),
                                     'tax_percent'   => $quoteItemId['percent']
                                 );
-                                Mage::getModel('Magento_Tax_Model_Sales_Order_Tax_Item')->setData($data)->save();
+                                /** @var $taxItem Magento_Tax_Model_Sales_Order_Tax_Item */
+                                $taxItem = $this->_taxItemFactory->create();
+                                $taxItem->setData($data)->save();
                             }
                         }
                     }
@@ -168,14 +210,14 @@ class Magento_Tax_Model_Observer
         }
 
         if ($collection->requireTaxPercent()) {
-            $request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest();
+            $request = $this->_calculation->getRateRequest();
             foreach ($collection as $item) {
                 if (null === $item->getTaxClassId()) {
                     $item->setTaxClassId($item->getMinimalTaxClassId());
                 }
                 if (!isset($classToRate[$item->getTaxClassId()])) {
                     $request->setProductClassId($item->getTaxClassId());
-                    $classToRate[$item->getTaxClassId()] = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($request);
+                    $classToRate[$item->getTaxClassId()] = $this->_calculation->getRate($request);
                 }
                 $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
             }
@@ -192,11 +234,13 @@ class Magento_Tax_Model_Observer
      */
     public function aggregateSalesReportTaxData($schedule)
     {
-        Mage::app()->getLocale()->emulate(0);
-        $currentDate = Mage::app()->getLocale()->date();
+        $this->_locale->emulate(0);
+        $currentDate = $this->_locale->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('Magento_Tax_Model_Resource_Report_Tax')->aggregate($date);
-        Mage::app()->getLocale()->revert();
+        /** @var $reportTax Magento_Tax_Model_Resource_Report_Tax */
+        $reportTax = $this->_reportTaxFactory->create();
+        $reportTax->aggregate($date);
+        $this->_locale->revert();
         return $this;
     }
 
