@@ -19,6 +19,45 @@
 class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Resource_Fulltext
 {
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Core resource helper
+     *
+     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_String $coreString,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+    ) {
+        parent::__construct($eventManager, $coreString, $catalogSearchData, $resource, $coreStoreConfig);
+        $this->_storeManager = $storeManager;
+        $this->_resourceHelper = $resourceHelper;
+    }
+
+    /**
      * Return array of price data per customer and website by products
      *
      * @param   null|array $productIds
@@ -56,7 +95,7 @@ class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Re
     {
         $priceProductsIndexData = $this->_getCatalogProductPriceData($productIds);
 
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
         if (!isset($priceProductsIndexData[$websiteId])) {
             return array();
         }
@@ -164,11 +203,9 @@ class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Re
             ->where('product_id IN (?)', $productIds)
             ->where('store_id = ?', $storeId)
             ->group('product_id');
-        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $helper */
-        $helper = Mage::getResourceHelper('Magento_Core');
-        $helper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
-        $helper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');
-        $helper->addGroupConcatColumn($select, 'positions', array('category_id', 'position'), ' ', '_');
+        $this->_resourceHelper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
+        $this->_resourceHelper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');
+        $this->_resourceHelper->addGroupConcatColumn($select, 'positions', array('category_id', 'position'), ' ', '_');
 
         $result = array();
         foreach ($adapter->fetchAll($select) as $row) {

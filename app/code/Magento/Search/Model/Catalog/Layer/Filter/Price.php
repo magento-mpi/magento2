@@ -44,19 +44,41 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
     protected $_priceAlgorithm;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Cache
+     *
+     * @var Magento_Core_Model_CacheInterface
+     */
+    protected $_cache;
+
+    /**
+     * Construct
+     * 
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Catalog_Model_Layer_Filter_Price_Algorithm $priceAlgorithm
      * @param Magento_Search_Model_Resource_Engine $resourceEngine
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_CacheInterface $cache
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Catalog_Model_Layer_Filter_Price_Algorithm $priceAlgorithm,
         Magento_Search_Model_Resource_Engine $resourceEngine,
-        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_CacheInterface $cache,
         array $data = array()
     ) {
         $this->_priceAlgorithm = $priceAlgorithm;
         $this->_resourceEngine = $resourceEngine;
+        $this->_storeManager = $storeManager;
+        $this->_cache = $cache;
         parent::__construct($coreRegistry, $data);
     }
 
@@ -93,7 +115,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
             return array();
         }
 
-        $isAuto = (Mage::app()->getStore()
+        $isAuto = ($this->_storeManager->getStore()
             ->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED);
         if (!$isAuto && $this->getInterval()) {
             return array();
@@ -204,7 +226,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
         $uniquePart = strtoupper(md5(serialize($searchParams . '_' . $this->getCurrencyRate())));
         $cacheKey = 'MAXPRICE_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
-        $cachedData = Mage::app()->loadCache($cacheKey);
+        $cachedData = $this->_cache->load($cacheKey);
         if (!$cachedData) {
             $stats = $this->getLayer()->getProductCollection()->getStats($this->_getFilterField());
 
@@ -218,7 +240,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
             $cachedData = $max;
             $tags = $this->getLayer()->getStateTags();
             $tags[] = self::CACHE_TAG;
-            Mage::app()->saveCache($cachedData, $cacheKey, $tags);
+            $this->_cache->save($cachedData, $cacheKey, $tags);
         }
 
         return $cachedData;
@@ -238,7 +260,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
             . $this->getCurrencyRate() . '_' . $intervalParams)));
         $cacheKey = 'PRICE_SEPARATORS_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
-        $cachedData = Mage::app()->loadCache($cacheKey);
+        $cachedData = $this->_cache->load($cacheKey);
         if (!$cachedData) {
             $statistics = $this->getLayer()->getProductCollection()->getStats($this->_getFilterField());
             $statistics = $statistics[$this->_getFilterField()];
@@ -272,7 +294,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
 
             $tags = $this->getLayer()->getStateTags();
             $tags[] = self::CACHE_TAG;
-            Mage::app()->saveCache($cachedData, $cacheKey, $tags);
+            $this->_cache->save($cachedData, $cacheKey, $tags);
         }
 
         if (!$cachedData) {
@@ -367,7 +389,8 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
      */
     public function addFacetCondition()
     {
-        if (Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED) {
+        $range = $this->_storeManager->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION);
+        if (self::RANGE_CALCULATION_IMPROVED == $range) {
             return $this->_addCalculatedFacetCondition();
         }
 

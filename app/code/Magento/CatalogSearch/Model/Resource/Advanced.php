@@ -26,13 +26,25 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Event_Manager $eventManager
     ) {
+        $this->_storeManager = $storeManager;
         $this->_eventManager = $eventManager;
         parent::__construct($resource);
     }
@@ -63,7 +75,7 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
         $eventArgs = array(
             'select'          => $select,
             'table'           => 'price_index',
-            'store_id'        => Mage::app()->getStore()->getId(),
+            'store_id'        => $this->_storeManager->getStore()->getId(),
             'response_object' => $response
         );
 
@@ -161,7 +173,7 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
         }
 
         $tableAlias = 'a_' . $attribute->getAttributeId();
-        $storeId    = Mage::app()->getStore()->getId();
+        $storeId    = $this->_storeManager->getStore()->getId();
         $select     = $collection->getSelect();
 
         if (is_array($value)) {

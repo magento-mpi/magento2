@@ -36,13 +36,25 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     protected $_resourceEngine;
 
     /**
+     * Locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Construct
+     *
      * @param Magento_Search_Model_Resource_Engine $resourceEngine
+     * @param Magento_Core_Model_LocaleInterface $locale
      */
     public function __construct(
-        Magento_Search_Model_Resource_Engine $resourceEngine
+        Magento_Search_Model_Resource_Engine $resourceEngine,
+        Magento_Core_Model_LocaleInterface $locale
     ) {
-        $this->_resourceEngine = $resourceEngine;
         parent::__construct();
+        $this->_resourceEngine = $resourceEngine;
+        $this->_locale = $locale;
     }
 
     /**
@@ -102,7 +114,7 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
         $field = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
-            $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
             foreach ($value as &$val) {
                 if (!is_empty_date($val)) {
                     $date = new Zend_Date($val, $format);
