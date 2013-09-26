@@ -11,10 +11,34 @@
 
 class Magento_Checkout_Block_Success extends Magento_Core_Block_Template
 {
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        array $data = array()
+    ) {
+        $this->_orderFactory = $orderFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
+     * @return int
+     */
     public function getRealOrderId()
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order')->load($this->getLastOrderId());
-        #print_r($order->getData());
+        /** @var Magento_Sales_Model_Order $order */
+        $order = $this->_orderFactory()->create()->load($this->getLastOrderId());
         return $order->getIncrementId();
     }
 }

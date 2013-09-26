@@ -28,24 +28,35 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     protected $_taxData = null;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Resource_Url $catalogUrlBuilder
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Tax_Helper_Data $taxData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Resource_Url $catalogUrlBuilder,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_Core_Model_Registry $registry,
+        Magento_Tax_Helper_Data $taxData,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
         $this->_coreRegistry = $registry;
-        parent::__construct($catalogData, $coreData, $context, $data);
+        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $storeManager,
+            $catalogUrlBuilder, $urlBuilder, $data);
     }
 
     /**

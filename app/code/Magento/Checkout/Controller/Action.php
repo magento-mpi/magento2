@@ -15,6 +15,23 @@
 abstract class Magento_Checkout_Controller_Action extends Magento_Core_Controller_Front_Action
 {
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Customer_Model_Session $customerSession
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($context);
+    }
+
+    /**
      * Make sure customer is valid, if logged in
      * By default will add error messages and redirect to customer edit form
      *
@@ -24,13 +41,13 @@ abstract class Magento_Checkout_Controller_Action extends Magento_Core_Controlle
      */
     protected function _preDispatchValidateCustomer($redirect = true, $addErrors = true)
     {
-        $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        $customer = $this->_customerSession->getCustomer();
         if ($customer && $customer->getId()) {
             $validationResult = $customer->validate();
             if ((true !== $validationResult) && is_array($validationResult)) {
                 if ($addErrors) {
                     foreach ($validationResult as $error) {
-                        Mage::getSingleton('Magento_Customer_Model_Session')->addError($error);
+                        $this->_customerSession->addError($error);
                     }
                 }
                 if ($redirect) {

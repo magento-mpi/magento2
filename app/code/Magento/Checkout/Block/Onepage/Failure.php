@@ -11,9 +11,30 @@
 
 class Magento_Checkout_Block_Onepage_Failure extends Magento_Core_Block_Template
 {
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getRealOrderId()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getLastRealOrderId();
+        return $this->_checkoutSession->getLastRealOrderId();
     }
 
     /**
@@ -23,8 +44,7 @@ class Magento_Checkout_Block_Onepage_Failure extends Magento_Core_Block_Template
      */
     public function getErrorMessage ()
     {
-        $error = Mage::getSingleton('Magento_Checkout_Model_Session')->getErrorMessage();
-        // Mage::getSingleton('Magento_Checkout_Model_Session')->unsErrorMessage();
+        $error = $this->_checkoutSession->getErrorMessage();
         return $error;
     }
 
@@ -35,6 +55,6 @@ class Magento_Checkout_Block_Onepage_Failure extends Magento_Core_Block_Template
      */
     public function getContinueShoppingUrl()
     {
-        return Mage::getUrl('checkout/cart');
+        return $this->getUrl('checkout/cart');
     }
 }

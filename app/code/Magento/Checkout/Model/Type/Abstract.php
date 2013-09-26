@@ -18,6 +18,39 @@
 abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
 {
     /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        array $data = array()
+    ) {
+        parent::__construct();
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        $this->_orderFactory = $orderFactory;
+    }
+
+    /**
      * Retrieve checkout session model
      *
      * @return Magento_Checkout_Model_Session
@@ -26,7 +59,7 @@ abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
     {
         $checkout = $this->getData('checkout_session');
         if (is_null($checkout)) {
-            $checkout = Mage::getSingleton('Magento_Checkout_Model_Session');
+            $checkout = $this->_checkoutSession;
             $this->setData('checkout_session', $checkout);
         }
         return $checkout;
@@ -59,12 +92,7 @@ abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
      */
     public function getCustomerSession()
     {
-        $customer = $this->getData('customer_session');
-        if (is_null($customer)) {
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session');
-            $this->setData('customer_session', $customer);
-        }
-        return $customer;
+        return $this->_customerSession;
     }
 
     /**
@@ -74,7 +102,7 @@ abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
      */
     public function getCustomer()
     {
-        return $this->getCustomerSession()->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     /**
@@ -123,7 +151,8 @@ abstract class Magento_Checkout_Model_Type_Abstract extends Magento_Object
 
     protected function _createOrderFromAddress($address)
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order')->createFromQuoteAddress($address)
+        $order = $this->_orderFactory->create()
+            ->createFromQuoteAddress($address)
             ->setCustomerId($this->getCustomer()->getId())
             ->setGlobalCurrencyCode('USD')
             ->setBaseCurrencyCode('USD')

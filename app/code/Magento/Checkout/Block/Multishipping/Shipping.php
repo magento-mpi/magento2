@@ -26,15 +26,18 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
      * @param Magento_Filter_Object_GridFactory $filterGridFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Type_Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
         Magento_Filter_Object_GridFactory $filterGridFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Type_Multishipping $multishipping,
         array $data = array()
     ) {
         $this->_filterGridFactory = $filterGridFactory;
+        $this->_multishipping = $multishipping;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -45,7 +48,7 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        return $this->_multishipping;
     }
 
     protected function _prepareLayout()

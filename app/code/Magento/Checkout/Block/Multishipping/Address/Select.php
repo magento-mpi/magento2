@@ -24,17 +24,12 @@ class Magento_Checkout_Block_Multishipping_Address_Select extends Magento_Checko
         }
         return parent::_prepareLayout();
     }
-    
-    protected function _getCheckout()
-    {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
-    }
-    
+
     public function getAddressCollection()
     {
         $collection = $this->getData('address_collection');
         if (is_null($collection)) {
-            $collection = $this->_getCheckout()->getCustomer()->getAddresses();
+            $collection = $this->_multishipping->getCustomer()->getAddresses();
             $this->setData('address_collection', $collection);
         }
         return $collection;
@@ -42,29 +37,29 @@ class Magento_Checkout_Block_Multishipping_Address_Select extends Magento_Checko
     
     public function isAddressDefaultBilling($address)
     {
-        return $address->getId() == $this->_getCheckout()->getCustomer()->getDefaultBilling();
+        return $address->getId() == $this->_multishipping->getCustomer()->getDefaultBilling();
     }
     
     public function isAddressDefaultShipping($address)
     {
-        return $address->getId() == $this->_getCheckout()->getCustomer()->getDefaultShipping();
+        return $address->getId() == $this->_multishipping->getCustomer()->getDefaultShipping();
     }
     
     public function getEditAddressUrl($address)
     {
         return $this->getUrl('*/*/editAddress', array('id'=>$address->getId()));
     }
-    
+
     public function getSetAddressUrl($address)
     {
         return $this->getUrl('*/*/setBilling', array('id'=>$address->getId()));
     }
-    
+
     public function getAddNewUrl()
     {
         return $this->getUrl('*/*/newBilling');
     }
-    
+
     public function getBackUrl()
     {
         return $this->getUrl('*/multishipping/billing');

@@ -18,21 +18,23 @@ class Magento_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Checkou
     protected $_giftCardCtlgProdConfigur = null;
 
     /**
-     * @param Magento_GiftCard_Helper_Catalog_Product_Configuration $giftCardCtlgProdConfigur
      * @param Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_GiftCard_Helper_Catalog_Product_Configuration $giftCardCtlgProdConfigur
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        Magento_GiftCard_Helper_Catalog_Product_Configuration $giftCardCtlgProdConfigur,
         Magento_Catalog_Helper_Product_Configuration $ctlgProdConfigur,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_GiftCard_Helper_Catalog_Product_Configuration $giftCardCtlgProdConfigur,
+        Magento_Checkout_Model_Session $checkoutSession,
         array $data = array()
     ) {
         $this->_giftCardCtlgProdConfigur = $giftCardCtlgProdConfigur;
-        parent::__construct($ctlgProdConfigur, $coreData, $context, $data);
+        parent::__construct($ctlgProdConfigur, $coreData, $context, $checkoutSession, $data);
     }
 
     /**
