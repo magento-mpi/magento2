@@ -48,7 +48,8 @@ class Magento_Core_Model_Resource_Config_ReaderTest extends PHPUnit_Framework_Te
 
         $this->_fileResolverMock = $this->getMock('Magento_Config_FileResolverInterface');
         $this->_validationStateMock = $this->getMock('Magento_Config_ValidationStateInterface');
-        $this->_schemaLocatorMock = $this->getMock('Magento_Config_SchemaLocatorInterface');
+        $this->_schemaLocatorMock = $this->getMock('Magento_Core_Model_Resource_Config_SchemaLocator',
+            array(), array(), '', false);
 
         $this->_converterMock = $this->getMock(
             'Magento_Core_Model_Resource_Config_Converter', array(), array(), '', false
