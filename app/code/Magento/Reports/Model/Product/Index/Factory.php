@@ -17,7 +17,7 @@ class Magento_Reports_Model_Product_Index_Factory
      */
     protected $_typeClasses = array(
         self::TYPE_COMPARED => 'Magento_Reports_Model_Product_Index_Compared',
-        self::TYPE_COMPARED => 'Magento_Reports_Model_Product_Index_Viewed'
+        self::TYPE_VIEWED => 'Magento_Reports_Model_Product_Index_Viewed'
     );
 
     /**
