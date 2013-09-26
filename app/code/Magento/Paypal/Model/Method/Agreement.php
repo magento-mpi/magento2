@@ -81,9 +81,9 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
-        Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
         Magento_Core_Model_UrlInterface $urlBuilder,
         Magento_Paypal_Model_CartFactory $cartFactory,
         array $data = array()
@@ -97,6 +97,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
             $paymentData,
             $coreStoreConfig,
             $logAdapterFactory,
+            $agreementFactory,
             $data
         );
         $proInstance = array_shift($data);
@@ -262,7 +263,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Cancel payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Method_Agreement
      */
     public function cancel(Magento_Object $payment)
@@ -274,7 +275,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Whether payment can be reviewed
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Payment_Model_Info|\Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function canReviewPayment(Magento_Payment_Model_Info $payment)
@@ -285,7 +286,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Attempt to accept a pending payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Payment_Model_Info|\Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function acceptPayment(Magento_Payment_Model_Info $payment)
@@ -297,7 +298,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Attempt to deny a pending payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Payment_Model_Info|\Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function denyPayment(Magento_Payment_Model_Info $payment)
@@ -363,7 +364,10 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
         return $this;
     }
 
-
+    /**
+     * @param object $quote
+     * @return bool
+     */
     protected function _isAvailable($quote)
     {
         return $this->_pro->getConfig()->isMethodAvailable($this->_code);
