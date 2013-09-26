@@ -10,11 +10,6 @@
  */
 -->
 <config>
-    <frontend>
-        <default>
-            <router>catalog</router>
-        </default>
-    </frontend>
     <default>
         <catalog>
             <navigation>
