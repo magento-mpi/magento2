@@ -13,4 +13,9 @@
             <instance type="Magento_Authorization_Proxy" />
         </param>
     </type>
+    <type name="Magento_Core_Helper_Data">
+        <param name="encryptor">
+            <instance type="Magento_Pci_Model_Encryption" />
+        </param>
+    </type>
 </config>

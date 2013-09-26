@@ -52,18 +52,28 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * Array of available external cache controls
+     *
+     * @var array
+     */
+    protected $_cacheControls;
+
+    /**
      * Initialize 'no cache' cookie locking
      *
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $cacheControls
      */
     function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $cacheControls = array()
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_isNoCacheCookieLocked = (bool)$this->_getCookie()->get(self::NO_CACHE_LOCK_COOKIE);
+        $this->_cacheControls = $cacheControls;
     }
 
     /**
@@ -93,8 +103,7 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCacheControls()
     {
-        $controls = Mage::app()->getConfig()->getNode(self::XML_PATH_EXTERNAL_CACHE_CONTROLS);
-        return $controls->asCanonicalArray();
+        return $this->_cacheControls;
     }
 
     /**
@@ -107,7 +116,7 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $usedControl = $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_CONTROL);
         if ($usedControl) {
-            foreach ($this->getCacheControls() as $control => $info) {
+            foreach ($this->_cacheControls as $control => $info) {
                 if ($control == $usedControl && !empty($info['class'])) {
                     return Mage::getSingleton($info['class']);
                 }

@@ -35,6 +35,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Encryption $encryptor
      */
     public function __construct(
         Magento_Core_Model_Registry $coreRegistry,
@@ -42,10 +43,11 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Encryption $encryptor
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     /**

@@ -955,6 +955,8 @@ return array(
     array('Mage_Sales_Model_Order_Api'),
     array('Mage_Sales_Model_Order_Creditmemo_Api_V2'),
     array('Mage_Sales_Model_Order_Creditmemo_Api'),
+    array('Magento_Search_Model_Client_Solr_Factory'),
+    array('Magento_Search_Model_Client_SolrClient_Factory'),
     array('Magento_ImportExport_Model_Config'),
     array('Magento_Data_Collection_Factory', 'Magento_Data_CollectionFactory'),
 );

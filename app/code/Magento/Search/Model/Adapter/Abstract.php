@@ -296,6 +296,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
      *
      * @param   string $field
      * @param   string $suffix
+     * @param   int  $storeId
      *
      * @return  string
      */

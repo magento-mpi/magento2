@@ -99,5 +99,10 @@ return array(
     '/config/adminhtml/design' => 'Configurations moved to DI file settings',
     '/config/frontend/design' => 'Configurations moved to DI file settings',
     '/config/crontab' => 'All cron configurations moved to crontab.xml',
+    '/config/global/areas' => 'Configurations moved to DI file settings',
+    '/config/global/configurators' => 'Solr proxy classes uses instead',
     '/config/vde' => 'Was moved to di',
+    '/config/global/ignoredModules' => 'Was replaced using di',
+    '/config/global/helpers' => 'Was replaced using di',
+    '/config/global/external_cache' => 'Was replaced using di',
 );

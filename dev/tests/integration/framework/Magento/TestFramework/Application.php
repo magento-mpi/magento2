@@ -190,6 +190,11 @@ class Magento_TestFramework_Application
             $config->configure($objectManager);
             $objectManager->addSharedInstance($config, 'Magento_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Magento_Core_Model_Dir');
+            $objectManager->configure(array(
+                'preferences' => array(
+                    'Magento_Core_Model_Cookie' => 'Magento_TestFramework_Cookie'
+                )
+            ));
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
             /** @var $configResource Magento_Core_Model_Config_Resource */
             $configResource = $objectManager->get('Magento_Core_Model_Config_Resource');

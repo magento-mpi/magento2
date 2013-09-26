@@ -2,6 +2,10 @@
 /**
  * Application configuration object. Used to access configuration when application is initialized and installed.
  *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,6 +14,7 @@
 
 
 /**
+ * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -106,12 +111,13 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     protected $_storeCollection;
 
     /**
-     * @param Magento_Core_Model_ObjectManager $objectManager
+     * @param Magento_Core_Model_ObjectManager           $objectManager
      * @param Magento_Core_Model_Config_StorageInterface $storage
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Core_Model_Config_SectionPool $sectionPool
+     * @param Magento_Core_Model_Config_Modules_Reader   $moduleReader
+     * @param Magento_Core_Model_ModuleListInterface     $moduleList
+     * @param Magento_Config_ScopeInterface              $configScope
+     * @param Magento_Core_Model_Config_SectionPool      $sectionPool
+     * @param array                                      $areas
      */
     public function __construct(
         Magento_Core_Model_ObjectManager $objectManager,
@@ -119,7 +125,8 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Config_ScopeInterface $configScope,
-        Magento_Core_Model_Config_SectionPool $sectionPool
+        Magento_Core_Model_Config_SectionPool $sectionPool,
+        array $areas = array()
     ) {
         Magento_Profiler::start('config_load');
         $this->_objectManager = $objectManager;
@@ -129,28 +136,8 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         $this->_moduleList = $moduleList;
         $this->_configScope = $configScope;
         $this->_sectionPool = $sectionPool;
+        $this->_allowedAreas = $areas;
         Magento_Profiler::stop('config_load');
-    }
-
-    /**
-     * Load allowed areas from config
-     *
-     * @return Magento_Core_Model_Config
-     */
-    protected function _loadAreas()
-    {
-        $this->_allowedAreas = array();
-        $nodeAreas = $this->getNode('global/areas');
-        if (is_object($nodeAreas)) {
-            foreach ($nodeAreas->asArray() as $areaCode => $areaInfo) {
-                if (empty($areaCode)) {
-                    continue;
-                }
-                $this->_allowedAreas[$areaCode] = $areaInfo;
-            }
-        }
-
-        return $this;
     }
 
     /**
@@ -210,9 +197,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      */
     public function getAreas()
     {
-        if (is_null($this->_allowedAreas) ) {
-            $this->_loadAreas();
-        }
         return $this->_allowedAreas;
     }
 
