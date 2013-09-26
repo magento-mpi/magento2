@@ -98,6 +98,7 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_UrlInterface $urlBuilder
@@ -108,13 +109,20 @@ class Magento_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_UrlInterface $urlBuilder,
         Magento_Paypal_Model_CartFactory $cartFactory,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        parent::__construct(
+            $eventManager,
+            $paymentData,
+            $coreStoreConfig,
+            $logAdapterFactory,
+            $data
+        );
         $this->_proTypeFactory = $proTypeFactory;
         $this->_storeManager = $storeManager;
         $this->_urlBuilder = $urlBuilder;

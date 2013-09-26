@@ -15,7 +15,8 @@
  * @package     Magento_ScheduledImportExport
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Block_Adminhtml_System_Config_Clean extends Magento_Backend_Block_System_Config_Form_Field
+class Magento_ScheduledImportExport_Block_Adminhtml_System_Config_Clean
+    extends Magento_Backend_Block_System_Config_Form_Field
 {
     /**
      * Remove scope label

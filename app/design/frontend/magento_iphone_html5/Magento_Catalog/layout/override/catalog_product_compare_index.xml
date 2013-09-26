@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product Compare List" type="page" parent="default">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">popup.phtml</argument>
         </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="scriptaculous-scriptaculous-js">
             <arguments>
                 <argument name="file" xsi:type="string">scriptaculous/scriptaculous.js</argument>
@@ -24,9 +24,9 @@
                 <argument name="file" xsi:type="string">varien/product.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Catalog_Block_Product_Compare_List" name="catalog.compare.list" template="product/compare/list.phtml"/>
-    </reference>
+    </referenceContainer>
     <update handle="MAP_popup"/>
 </layout>

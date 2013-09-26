@@ -10,12 +10,12 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Recurring Profile View" type="page" parent="sales_recurring_profile_view__tabs">
     <update handle="customer_account"/>
     <update handle="sales_recurring_profile_view__tabs"/>
-    <reference name="sales.recurring.profile.view.tab.profile">
+    <referenceBlock name="sales.recurring.profile.view.tab.profile">
         <action method="setIsViewCurrent">
             <argument name="v" xsi:type="string">1</argument>
         </action>
-    </reference>
-    <reference name="sales.recurring.profile.view">
+    </referenceBlock>
+    <referenceBlock name="sales.recurring.profile.view">
         <block class="Magento_Sales_Block_Recurring_Profile_View_Reference" name="sales.recurring.profile.view.general" as="general" template="recurring/profile/view/info.phtml">
             <action method="addToParentGroup">
                 <argument name="value" xsi:type="string">info_blocks_row_1</argument>
@@ -85,5 +85,5 @@
                 <argument translate="true" name="value" xsi:type="string">Shipping Address</argument>
             </action>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

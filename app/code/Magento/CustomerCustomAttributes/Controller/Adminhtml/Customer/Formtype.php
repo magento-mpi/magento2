@@ -11,28 +11,58 @@
 
 /**
  * Admihtml Manage Form Types Controller
- *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype extends Magento_Adminhtml_Controller_Action
+class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype
+    extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Eav_Model_Form_TypeFactory
+     */
+    protected $_formTypeFactory;
+
+    /**
+     * @var Magento_Eav_Model_Form_FieldsetFactory
+     */
+    protected $_fieldsetFactory;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Form_Fieldset_CollectionFactory
+     */
+    protected $_fieldsetsFactory;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Form_Element_CollectionFactory
+     */
+    protected $_elementsFactory;
 
     /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Eav_Model_Form_TypeFactory $formTypeFactory
+     * @param Magento_Eav_Model_Form_FieldsetFactory $fieldsetFactory
+     * @param Magento_Eav_Model_Resource_Form_Fieldset_CollectionFactory $fieldsetsFactory
+     * @param Magento_Eav_Model_Resource_Form_Element_CollectionFactory $elementsFactory
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Eav_Model_Form_TypeFactory $formTypeFactory,
+        Magento_Eav_Model_Form_FieldsetFactory $fieldsetFactory,
+        Magento_Eav_Model_Resource_Form_Fieldset_CollectionFactory $fieldsetsFactory,
+        Magento_Eav_Model_Resource_Form_Element_CollectionFactory $elementsFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_formTypeFactory = $formTypeFactory;
+        $this->_fieldsetFactory = $fieldsetFactory;
+        $this->_fieldsetsFactory = $fieldsetsFactory;
+        $this->_elementsFactory = $elementsFactory;
         parent::__construct($context);
     }
 
@@ -69,7 +99,8 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
      */
     protected function _initFormType()
     {
-        $model  = Mage::getModel('Magento_Eav_Model_Form_Type');
+        /** @var $model Magento_Eav_Model_Form_Type */
+        $model = $this->_formTypeFactory->create();
         $typeId = $this->getRequest()->getParam('type_id');
         if (is_numeric($typeId)) {
             $model->load($typeId);
@@ -105,7 +136,8 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
         if ($skeleton->getId()) {
             try {
                 $hasError = false;
-                $formType = Mage::getModel('Magento_Eav_Model_Form_Type');
+                /** @var $formType Magento_Eav_Model_Form_Type */
+                $formType = $this->_formTypeFactory->create();
                 $formType->addData(array(
                     'code'          => $skeleton->getCode(),
                     'label'         => $this->getRequest()->getPost('label'),
@@ -155,12 +187,13 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
      */
     protected function _saveTreeData($formType, array $data)
     {
-        $fieldsetCollection = Mage::getModel('Magento_Eav_Model_Form_Fieldset')->getCollection()
-            ->addTypeFilter($formType)
-            ->setSortOrder();
-        $elementCollection = Mage::getModel('Magento_Eav_Model_Form_Element')->getCollection()
-            ->addTypeFilter($formType)
-            ->setSortOrder();
+        /** @var $fieldsetCollection Magento_Eav_Model_Resource_Form_Fieldset_Collection */
+        $fieldsetCollection = $this->_fieldsetsFactory->create();
+        $fieldsetCollection->addTypeFilter($formType)->setSortOrder();
+
+        /** @var $elementCollection Magento_Eav_Model_Resource_Form_Element_Collection */
+        $elementCollection = $this->_elementsFactory->create();
+        $elementCollection->addTypeFilter($formType)->setSortOrder();
 
         $fsUpdate   = array();
         $fsInsert   = array();
@@ -197,7 +230,8 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
         // insert new fieldsets
         $fsMap = array();
         foreach ($fsInsert as $fsData) {
-            $fieldset = Mage::getModel('Magento_Eav_Model_Form_Fieldset');
+            /** @var $fieldset Magento_Eav_Model_Form_Fieldset */
+            $fieldset = $this->_fieldsetFactory->create();
             $fieldset->setTypeId($formType->getId())
                 ->setCode($fsData['code'])
                 ->setLabels($fsData['labels'])

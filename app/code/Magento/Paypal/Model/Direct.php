@@ -83,8 +83,12 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Centinel_Model_Service $centinelService
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -98,8 +102,12 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Centinel_Model_Service $centinelService,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -108,7 +116,17 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
         Magento_Paypal_Model_CartFactory $cartFactory,
         array $data = array()
     ) {
-        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
+        parent::__construct(
+            $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $data
+        );
         $this->_proTypeFactory = $proTypeFactory;
         $this->_storeManager = $storeManager;
         $this->_urlBuilder = $urlBuilder;

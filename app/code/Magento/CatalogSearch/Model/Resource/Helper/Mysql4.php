@@ -18,6 +18,15 @@
  */
 class Magento_CatalogSearch_Model_Resource_Helper_Mysql4 extends Magento_Eav_Model_Resource_Helper_Mysql4
 {
+    /**
+     * Construct
+     *
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'Magento_CatalogSearch')
+    {
+        parent::__construct($modulePrefix);
+    }
 
     /**
      * Join information for usin full text search

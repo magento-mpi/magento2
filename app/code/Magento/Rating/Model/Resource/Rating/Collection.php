@@ -14,6 +14,7 @@
  * @category    Magento
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
@@ -25,6 +26,12 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
     protected $_app;
 
     /**
+     * @var Magento_Rating_Model_Resource_Rating_Option_CollectionFactory
+     */
+    protected $_optionCollectionFactory;
+
+    /**
+     * @param Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $optionCollectionFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
@@ -34,6 +41,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
      * @throws InvalidArgumentException
      */
     public function __construct(
+        Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $optionCollectionFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
@@ -41,6 +49,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
         Magento_Core_Model_Resource_Db_Abstract $resource = null,
         $data = array()
     ) {
+        $this->_optionCollectionFactory = $optionCollectionFactory;
         $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
 
         if (!($this->_app instanceof Magento_Core_Model_App)) {
@@ -150,7 +159,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
         $arrRatingId = $this->getColumnValues('rating_id');
 
         if (!empty($arrRatingId)) {
-            $collection = Mage::getResourceModel('Magento_Rating_Model_Resource_Rating_Option_Collection')
+            $collection = $this->_optionCollectionFactory->create()
                 ->addRatingFilter($arrRatingId)
                 ->setPositionOrder()
                 ->load();

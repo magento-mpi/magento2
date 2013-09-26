@@ -24,17 +24,48 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
     protected $_filterProvider;
 
     /**
+     * @var Magento_Cms_Model_Page
+     */
+    protected $_page;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Page factory
+     *
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Block_Context $context
+     * @param Magento_Cms_Model_Page $page
      * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Cms_Model_PageFactory $pageFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Context $context,
+        Magento_Cms_Model_Page $page,
         Magento_Cms_Model_Template_FilterProvider $filterProvider,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Cms_Model_PageFactory $pageFactory,
         array $data = array()
     ) {
-        $this->_filterProvider = $filterProvider;
         parent::__construct($context, $data);
+        // used singleton (instead factory) because there exist dependencies on Magento_Cms_Helper_Page
+        $this->_page = $page;
+        $this->_filterProvider = $filterProvider;
+        $this->_storeManager = $storeManager;
+        $this->_pageFactory = $pageFactory;
     }
 
     /**
@@ -46,11 +77,12 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
     {
         if (!$this->hasData('page')) {
             if ($this->getPageId()) {
-                $page = Mage::getModel('Magento_Cms_Model_Page')
-                    ->setStoreId(Mage::app()->getStore()->getId())
+                /** @var Magento_Cms_Model_Page $page */
+                $page = $this->_pageFactory->create();
+                $page->setStoreId($this->_storeManager->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
             } else {
-                $page = Mage::getSingleton('Magento_Cms_Model_Page');
+                $page = $this->_page;
             }
             $this->setData('page', $page);
         }
@@ -71,7 +103,8 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
             && ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs'))
             && ($page->getIdentifier()!==$this->_storeConfig->getConfig('web/default/cms_home_page'))
             && ($page->getIdentifier()!==$this->_storeConfig->getConfig('web/default/cms_no_route'))) {
-                $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
+                $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'),
+                    'link' => $this->_storeManager->getStore()->getBaseUrl()));
                 $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));
         }
 

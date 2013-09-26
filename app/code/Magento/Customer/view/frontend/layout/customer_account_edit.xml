@@ -9,17 +9,12 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer Account Edit Form" type="page" parent="customer_account">
     <update handle="customer_account"/>
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setHeaderTitle">
             <argument translate="true" name="title" xsi:type="string">Edit Account Info</argument>
         </action>
-    </reference>
-    <reference name="my.account.wrapper">
+    </referenceBlock>
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento_Customer_Block_Form_Edit" name="customer_edit" template="form/edit.phtml"/>
-    </reference>
-    <reference name="left">
-        <action method="unsetChild">
-            <argument name="name" xsi:type="string">left.permanent.callout</argument>
-        </action>
-    </reference>
+    </referenceContainer>
 </layout>

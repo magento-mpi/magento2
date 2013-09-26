@@ -77,7 +77,7 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
         $this->_formatterMock->expects($this->once())->method('parseString')
             ->will(
                 $this->returnCallback(
-                    function($xml) {
+                    function ($xml) {
                         $dom = new DOMDocument();
                         $dom->loadXML($xml);
                         $dom->preserveWhiteSpace = false;

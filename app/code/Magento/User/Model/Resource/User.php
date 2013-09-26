@@ -2,19 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * ACL user resource
- *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_User_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abstract
 {
@@ -24,13 +17,27 @@ class Magento_User_Model_Resource_User extends Magento_Core_Model_Resource_Db_Ab
     protected $_aclCache;
 
     /**
+     * Role model
+     *
+     * @var Magento_User_Model_RoleFactory
+     */
+    protected $_roleFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Acl_CacheInterface $aclCache
+     * @param Magento_User_Model_RoleFactory $roleFactory
      */
-    public function __construct(Magento_Core_Model_Resource $resource, Magento_Acl_CacheInterface $aclCache)
-    {
-        $this->_aclCache = $aclCache;
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Acl_CacheInterface $aclCache,
+        Magento_User_Model_RoleFactory $roleFactory
+    ) {
         parent::__construct($resource);
+        $this->_aclCache = $aclCache;
+        $this->_roleFactory = $roleFactory;
     }
 
     /**
@@ -196,7 +203,8 @@ class Magento_User_Model_Resource_User extends Magento_Core_Model_Resource_Db_Ab
     protected function _createUserRole($parentId, Magento_User_Model_User $user)
     {
         if ($parentId > 0) {
-            $parentRole = Mage::getModel('Magento_User_Model_Role')->load($parentId);
+            /** @var Magento_User_Model_Role $parentRole */
+            $parentRole = $this->_roleFactory->create()->load($parentId);
         } else {
             $role = new Magento_Object();
             $role->setTreeLevel(0);

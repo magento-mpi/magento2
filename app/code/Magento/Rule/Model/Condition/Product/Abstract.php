@@ -50,15 +50,39 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
     protected $_backendData = null;
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product
+     */
+    protected $_productResource;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory
+     */
+    protected $_eavEntitySetFactory;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavEntitySetFactory
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavEntitySetFactory,
         Magento_Backend_Helper_Data $backendData,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_productResource = $productResource;
+        $this->_eavEntitySetFactory = $eavEntitySetFactory;
         $this->_backendData = $backendData;
         parent::__construct($context, $data);
     }
@@ -89,12 +113,11 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
     public function getAttributeObject()
     {
         try {
-            $obj = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $this->getAttribute());
+            $obj = $this->_eavConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, $this->getAttribute());
         }
         catch (Exception $e) {
             $obj = new Magento_Object();
-            $obj->setEntity(Mage::getResourceSingleton('Magento_Catalog_Model_Product'))
+            $obj->setEntity($this->_productResource)
                 ->setFrontendInput('text');
         }
         return $obj;
@@ -118,9 +141,7 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product')
-            ->loadAllAttributes()
-            ->getAttributesByCode();
+        $productAttributes = $this->_productResource->loadAllAttributes()->getAttributesByCode();
 
         $attributes = array();
         foreach ($productAttributes as $attribute) {
@@ -161,9 +182,9 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
         // Get array of select options. It will be used as source for hashed options
         $selectOptions = null;
         if ($this->getAttribute() === 'attribute_set_id') {
-            $entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')
+            $entityTypeId = $this->_eavConfig
                 ->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
-            $selectOptions = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+            $selectOptions = $this->_eavEntitySetFactory->create()
                 ->setEntityTypeFilter($entityTypeId)
                 ->load()
                 ->toOptionArray();

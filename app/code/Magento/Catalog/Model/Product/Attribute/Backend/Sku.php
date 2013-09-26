@@ -34,11 +34,14 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
 
     /**
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_coreString = $coreString;
+        parent::__construct($logger);
     }
 
     /**

@@ -43,41 +43,64 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Adminhtml data
      *
      * @var Magento_Backend_Helper_Data
      */
-    protected $_backendData = null;
+    protected $_backendData;
 
     /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Dir
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
+        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Backend_Helper_Data $backendData,
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Filesystem $filesystem
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Dir $dir
     ) {
+        parent::__construct($context);
         $this->_eventManager = $eventManager;
         $this->_backendData = $backendData;
         $this->_coreData = $coreData;
-        parent::__construct($context);
         $this->_filesystem = $filesystem;
+        $this->_dir = $dir;
+        $this->_storeManager = $storeManager;
+
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($this->getStorageRoot());
         $this->_filesystem->setWorkingDirectory($this->getStorageRoot());
@@ -102,8 +125,8 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      */
     public function getStorageRoot()
     {
-        return Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA) . DS . Magento_Cms_Model_Wysiwyg_Config::IMAGE_DIRECTORY
-            . DS;
+        return $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DS
+            . Magento_Cms_Model_Wysiwyg_Config::IMAGE_DIRECTORY . DS;
     }
 
     /**
@@ -113,7 +136,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      */
     public function getBaseUrl()
     {
-        return Mage::getBaseUrl('media') . '/';
+        return $this->_storeManager->getStore()->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA) . '/';
     }
 
     /**
@@ -206,7 +229,8 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     public function getImageHtmlDeclaration($filename, $renderAsTag = false)
     {
         $fileurl = $this->getCurrentUrl() . $filename;
-        $mediaPath = str_replace(Mage::getBaseUrl('media'), '', $fileurl);
+        $mediaUrl = $this->_storeManager->getStore()->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA);
+        $mediaPath = str_replace($mediaUrl, '', $fileurl);
         $directive = sprintf('{{media url="%s"}}', $mediaPath);
         if ($renderAsTag) {
             $html = sprintf('<img src="%s" alt="" />', $this->isUsingStaticUrlsAllowed() ? $fileurl : $directive);
@@ -228,8 +252,8 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      * Return path of the current selected directory or root directory for startup
      * Try to create target directory if it doesn't exist
      *
-     * @throws Magento_Core_Exception
      * @return string
+     * @throws Magento_Core_Exception
      */
     public function getCurrentPath()
     {
@@ -248,7 +272,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
                 }
             } catch (Magento_Filesystem_Exception $e) {
                 $message = __('The directory %1 is not writable by server.', $currentPath);
-                Mage::throwException($message);
+                throw new Magento_Core_Exception($message);
             }
             $this->_currentPath = $currentPath;
         }
@@ -263,22 +287,13 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     public function getCurrentUrl()
     {
         if (!$this->_currentUrl) {
-            $path = str_replace(Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA), '', $this->getCurrentPath());
+            $path = str_replace($this->_dir->getDir(Magento_Core_Model_Dir::MEDIA), '', $this->getCurrentPath());
             $path = trim($path, DS);
-            $this->_currentUrl = Mage::app()->getStore($this->_storeId)->getBaseUrl('media') .
-                                 $this->convertPathToUrl($path) . '/';
+            $mediaUrl = $this->_storeManager->getStore($this->_storeId)
+                ->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA);
+            $this->_currentUrl = $mediaUrl . $this->convertPathToUrl($path) . '/';
         }
         return $this->_currentUrl;
-    }
-
-    /**
-     * Storage model singleton
-     *
-     * @return Magento_Cms_Model_Page_Wysiwyg_Images_Storage
-     */
-    public function getStorage()
-    {
-        return Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage');
     }
 
     /**

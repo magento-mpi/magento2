@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="sales.order.grid.massaction">
+    <referenceBlock name="sales.order.grid.massaction">
         <arguments>
             <argument name="options" xsi:type="array">
                 <updater>Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater</updater>
@@ -18,8 +18,8 @@
                 </item>
             </argument>
         </arguments>
-    </reference>
-    <reference name="sales_order.grid.container">
+    </referenceBlock>
+    <referenceBlock name="sales_order.grid.container">
         <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button" name="sales_order.grid.archive.button"/>
-    </reference>
+    </referenceBlock>
 </layout>

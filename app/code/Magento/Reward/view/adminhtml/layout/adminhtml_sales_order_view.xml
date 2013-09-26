@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="order_totals">
+    <referenceBlock name="order_totals">
         <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward_points" template="Magento_Reward::sales/order/total.phtml">
             <action method="setBeforeCondition">
                 <argument name="condition" xsi:type="string">customerbalance</argument>
@@ -22,5 +22,5 @@
                 <argument name="condition" xsi:type="string">last</argument>
             </action>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

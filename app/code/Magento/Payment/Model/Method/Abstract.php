@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -111,21 +109,33 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     protected $_eventManager;
 
     /**
+     * Log adapter factory
+     *
+     * @var Magento_Core_Model_Log_AdapterFactory
+     */
+    protected $_logAdapterFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
+        parent::__construct($data);
         $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($data);
+        $this->_logAdapterFactory = $logAdapterFactory;
     }
 
     /**
@@ -349,11 +359,12 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * Retrieve payment method code
      *
      * @return string
+     * @throws Magento_Core_Exception
      */
     public function getCode()
     {
         if (empty($this->_code)) {
-            Mage::throwException(__('We cannot retrieve the payment method code.'));
+            throw new Magento_Core_Exception(__('We cannot retrieve the payment method code.'));
         }
         return $this->_code;
     }
@@ -382,12 +393,13 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * Retrieve payment iformation model object
      *
      * @return Magento_Payment_Model_Info
+     * @throws Magento_Core_Exception
      */
     public function getInfoInstance()
     {
         $instance = $this->getData('info_instance');
         if (!($instance instanceof Magento_Payment_Model_Info)) {
-            Mage::throwException(__('We cannot retrieve the payment information object instance.'));
+            throw new Magento_Core_Exception(__('We cannot retrieve the payment information object instance.'));
         }
         return $instance;
     }
@@ -396,6 +408,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * Validate payment method information object
      *
      * @return Magento_Payment_Model_Abstract
+     * @throws Magento_Core_Exception
      */
     public function validate()
     {
@@ -409,7 +422,9 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
              $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
          }
          if (!$this->canUseForCountry($billingCountry)) {
-             Mage::throwException(__('You can\'t use the payment type you selected to make payments to the billing country.'));
+             throw new Magento_Core_Exception(
+                 __('You can\'t use the payment type you selected to make payments to the billing country.')
+             );
          }
          return $this;
     }
@@ -421,11 +436,12 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * @param float $amount
      *
      * @return Magento_Payment_Model_Abstract
+     * @throws Magento_Core_Exception
      */
     public function order(Magento_Object $payment, $amount)
     {
         if (!$this->canOrder()) {
-            Mage::throwException(__('The order action is not available.'));
+            throw new Magento_Core_Exception(__('The order action is not available.'));
         }
         return $this;
     }
@@ -437,11 +453,12 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * @param float $amount
      *
      * @return Magento_Payment_Model_Abstract
+     * @throws Magento_Core_Exception
      */
     public function authorize(Magento_Object $payment, $amount)
     {
         if (!$this->canAuthorize()) {
-            Mage::throwException(__('The authorize action is not available.'));
+            throw new Magento_Core_Exception(__('The authorize action is not available.'));
         }
         return $this;
     }
@@ -453,11 +470,12 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * @param float $amount
      *
      * @return Magento_Payment_Model_Abstract
+     * @throws Magento_Core_Exception
      */
     public function capture(Magento_Object $payment, $amount)
     {
         if (!$this->canCapture()) {
-            Mage::throwException(__('Th capture action is not available.'));
+            throw new Magento_Core_Exception(__('Th capture action is not available.'));
         }
 
         return $this;
@@ -500,11 +518,12 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * @param float $amount
      *
      * @return Magento_Payment_Model_Abstract
+     * @throws Magento_Core_Exception
      */
     public function refund(Magento_Object $payment, $amount)
     {
         if (!$this->canRefund()) {
-            Mage::throwException(__('The refund action is not available.'));
+            throw new Magento_Core_Exception(__('The refund action is not available.'));
         }
         return $this;
     }
@@ -539,11 +558,12 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * @param Magento_Object $payment
      *
      * @return Magento_Payment_Model_Abstract
+     * @throws Magento_Core_Exception
      */
     public function void(Magento_Object $payment)
     {
         if (!$this->canVoid($payment)) {
-            Mage::throwException(__('Void action is not available.'));
+            throw new Magento_Core_Exception(__('Void action is not available.'));
         }
         return $this;
     }
@@ -570,7 +590,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     public function acceptPayment(Magento_Payment_Model_Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            Mage::throwException(__('The payment review action is unavailable.'));
+            throw new Magento_Core_Exception(__('The payment review action is unavailable.'));
         }
         return false;
     }
@@ -585,7 +605,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     public function denyPayment(Magento_Payment_Model_Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            Mage::throwException(__('The payment review action is unavailable.'));
+            throw new Magento_Core_Exception(__('The payment review action is unavailable.'));
         }
         return false;
     }
@@ -762,7 +782,8 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => 'payment_' . $this->getCode() . '.log'))
+            $this->_logAdapterFactory
+                ->create(array('fileName' => 'payment_' . $this->getCode() . '.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

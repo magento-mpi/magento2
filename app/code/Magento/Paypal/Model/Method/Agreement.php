@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -66,6 +64,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
      * @param Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
@@ -77,6 +76,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
         Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
@@ -88,7 +88,13 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
         $this->_agreementFactory = $agreementFactory;
         $this->_urlBuilder = $urlBuilder;
         $this->_cartFactory = $cartFactory;
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        parent::__construct(
+            $eventManager,
+            $paymentData,
+            $coreStoreConfig,
+            $logAdapterFactory,
+            $data
+        );
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof Magento_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;

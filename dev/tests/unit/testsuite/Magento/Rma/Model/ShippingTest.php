@@ -19,7 +19,19 @@ class Magento_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_Rma_Model_Shipping');
+
+        $orderFactory = $this->getMock('Magento_Sales_Model_OrderFactory', array('create'), array(), '', false);
+        $regionFactory = $this->getMock('Magento_Directory_Model_RegionFactory', array('create'), array(), '', false);
+        $returnFactory = $this->getMock('Magento_Shipping_Model_Shipment_ReturnFactory',
+            array('create'), array(), '', false);
+        $rmaFactory = $this->getMock('Magento_Rma_Model_RmaFactory', array('create'), array(), '', false);
+
+        $this->_model = $objectManagerHelper->getObject('Magento_Rma_Model_Shipping', array(
+            'orderFactory'  => $orderFactory,
+            'regionFactory' => $regionFactory,
+            'returnFactory' => $returnFactory,
+            'rmaFactory'    => $rmaFactory
+        ));
     }
 
     /**
