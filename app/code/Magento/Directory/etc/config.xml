@@ -11,16 +11,6 @@
 -->
 <config>
     <global>
-        <currency>
-            <import>
-                <services>
-                    <webservicex>
-                        <name>Webservicex</name>
-                        <model>Magento_Directory_Model_Currency_Import_Webservicex</model>
-                    </webservicex>
-                </services>
-            </import>
-        </currency>
         <resources>
             <directory_setup>
                 <setup>
