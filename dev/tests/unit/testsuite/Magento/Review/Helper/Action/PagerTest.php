@@ -34,9 +34,7 @@ class Magento_Review_Helper_Action_PagerTest extends PHPUnit_Framework_TestCase
         $contextMock = $this->getMock(
             'Magento_Core_Helper_Context', array('getTranslator', 'getModuleManager', 'getRequest'), array(), '', false
         );
-        $this->_helper = $this->getMock(
-            'Magento_Review_Helper_Action_Pager', array('__construct'), array($sessionMock, $contextMock)
-        );
+        $this->_helper = new Magento_Review_Helper_Action_Pager($sessionMock, $contextMock);
         $this->_helper->setStorageId('reviews');
     }
 

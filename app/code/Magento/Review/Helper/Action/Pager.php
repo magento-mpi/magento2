@@ -33,12 +33,12 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
     protected $_backendSession;
 
     /**
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Backend_Model_Session $backendSession
+        Magento_Backend_Model_Session $backendSession,
+        Magento_Core_Helper_Context $context
     ) {
         $this->_backendSession = $backendSession;
         parent::__construct($context);
