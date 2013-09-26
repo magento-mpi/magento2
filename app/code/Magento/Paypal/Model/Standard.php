@@ -83,6 +83,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_Session_Generic $paypalSession
      * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Core_Model_UrlInterface $urlBuilder
@@ -99,6 +100,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_Session_Generic $paypalSession,
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Core_Model_UrlInterface $urlBuilder,
@@ -117,9 +119,7 @@ class Magento_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstrac
         $this->_apiStandardFactory = $apiStandardFactory;
         $this->_cartFactory = $cartFactory;
         $this->_configFactory = $configFactory;
-        parent::__construct(
-            $eventManager, $paymentData, $coreStoreConfig, $data
-        );
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
 
     /**
