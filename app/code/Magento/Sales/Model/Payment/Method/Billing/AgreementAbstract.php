@@ -39,6 +39,7 @@ abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
      * @param array $data
      */
@@ -46,16 +47,12 @@ abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
         array $data = array()
     ) {
-        parent::__construct(
-            $eventManager,
-            $paymentData,
-            $coreStoreConfig,
-            $data
-        );
         $this->_agreementFactory = $agreementFactory;
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
 
     /**
