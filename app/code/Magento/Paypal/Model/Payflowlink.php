@@ -122,12 +122,15 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
     protected $_websiteFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Centinel_Model_Service $centinelService
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Paypal_Model_ConfigFactory $configFactory
      * @param Magento_Paypal_Model_Payflow_RequestFactory $requestFactory
@@ -140,12 +143,15 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Centinel_Model_Service $centinelService,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Paypal_Model_ConfigFactory $configFactory,
         Magento_Paypal_Model_Payflow_RequestFactory $requestFactory,
@@ -161,12 +167,15 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
         $this->_requestHttp = $requestHttp;
         $this->_websiteFactory = $websiteFactory;
         parent::__construct(
-            $eventManager,
-            $coreData,
-            $moduleList,
-            $coreStoreConfig,
-            $paymentData,
             $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $coreData,
             $storeManager,
             $configFactory,
             $data

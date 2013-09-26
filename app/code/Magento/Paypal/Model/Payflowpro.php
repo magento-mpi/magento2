@@ -125,6 +125,8 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Paypal_Model_ConfigFactory $configFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,

@@ -89,7 +89,6 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Centinel_Model_Service $centinelService
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_UrlInterface $urlBuilder
@@ -108,7 +107,6 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Centinel_Model_Service $centinelService,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_UrlInterface $urlBuilder,

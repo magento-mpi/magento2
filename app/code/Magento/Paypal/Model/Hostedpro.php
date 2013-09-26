@@ -62,9 +62,12 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Centinel_Model_Service $centinelService
      * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_UrlInterface $urlBuilder
@@ -78,9 +81,12 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Centinel_Model_Service $centinelService,
         Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_UrlInterface $urlBuilder,
@@ -91,8 +97,20 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
     ) {
         $this->_hostedproRequestFactory = $hostedproRequestFactory;
         parent::__construct(
-            $logger, $eventManager, $moduleList, $paymentData, $coreStoreConfig, $proTypeFactory, $storeManager,
-            $urlBuilder, $requestHttp, $cartFactory, $data
+            $logger,
+            $eventManager,
+            $coreStoreConfig,
+            $moduleList,
+            $paymentData,
+            $logAdapterFactory,
+            $locale,
+            $centinelService,
+            $proTypeFactory,
+            $storeManager,
+            $urlBuilder,
+            $requestHttp,
+            $cartFactory,
+            $data
         );
     }
 

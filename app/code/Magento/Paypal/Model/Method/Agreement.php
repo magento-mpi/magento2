@@ -71,6 +71,8 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
      * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param Magento_Paypal_Model_CartFactory $cartFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
