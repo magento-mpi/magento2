@@ -23,13 +23,14 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
      * @var string
      */
     protected $_defaultElementType = 'text';
-
+    
     /**
      * @var Magento_Widget_Model_Widget
      */
     protected $_widget;
 
     /**
+     * @var Magento_Widget_Model_Widget_Instance_OptionsFactory
      * @var Magento_Core_Model_Option_ArrayPool
      */
     protected $_sourceModelPool;

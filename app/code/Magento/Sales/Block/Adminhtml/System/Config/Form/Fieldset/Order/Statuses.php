@@ -27,6 +27,25 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     protected $_values;
 
     /**
+     * @var Magento_Sales_Model_Resource_Order_Status_CollectionFactory
+     */
+    protected $_orderStatusCollection;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Sales_Model_Resource_Order_Status_CollectionFactory $orderStatusCollection,
+        array $data = array()
+    ) {
+        $this->_orderStatusCollection = $orderStatusCollection;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
@@ -34,7 +53,7 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     {
         $html = '';
 
-        $statuses = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_Collection')->load()->toOptionHash();
+        $statuses = $this->_orderStatusCollection->create()->load()->toOptionHash();
 
         foreach ($statuses as $id => $status) {
             $html.= $this->_getFieldHtml($element, $id, $status);
@@ -59,7 +78,8 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = Mage::getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
+            $this->_fieldRenderer = $this->getLayout()
+                ->getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
         }
         return $this->_fieldRenderer;
     }

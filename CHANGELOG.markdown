@@ -144,6 +144,17 @@
   * Eliminated Mage:: static methods in Magento_Usa
   * Eliminated Mage:: static methods in Magento_ProductAlert
   * Eliminated Mage:: static methods in Magento_Directory
+  * Eliminated Mage:: static methods in Magento_SalesRule
+  * Eliminated Mage:: static methods in Magento_Sales
+  * Eliminated Mage:: static methods in Magento_Rule
+  * Eliminated Mage:: static methods in Magento_Rss
+  * Eliminated Mage:: static methods in Magento_Review
+  * Eliminated Mage:: static methods in Magento_Widget
+  * Eliminated Mage:: static methods in Magento_Directory
+  * Eliminated Mage:: static methods in Magento_Sitemap
+  * Eliminated Mage:: static methods in Magento_Theme
+  * Eliminated Mage:: static methods in Magento_Rating
+  * Eliminated Mage:: static methods in Magento_Downloadable
   * Eliminated Mage:: static methods in Centinel, Connect, Contacts, GiftMessage, GoogleAnalytics
   * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
   * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module

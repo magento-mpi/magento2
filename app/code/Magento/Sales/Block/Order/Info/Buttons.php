@@ -11,14 +11,12 @@
 
 /**
  * Block of links in Order view page
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'order/info/buttons.phtml';
 
     /**
@@ -29,18 +27,26 @@ class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Customer_Model_Session $customerSession
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Customer_Model_Session $customerSession,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -57,12 +63,12 @@ class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
     /**
      * Get url for printing order
      *
-     * @param Magento_Sales_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return string
      */
     public function getPrintUrl($order)
     {
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if (!$this->_customerSession->isLoggedIn()) {
             return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
         }
         return $this->getUrl('sales/order/print', array('order_id' => $order->getId()));
@@ -71,12 +77,12 @@ class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
     /**
      * Get url for reorder action
      *
-     * @param Magento_Sales_Order $order
+     * @param Magento_Sales_Model_Order $order
      * @return string
      */
     public function getReorderUrl($order)
     {
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if (!$this->_customerSession->isLoggedIn()) {
             return $this->getUrl('sales/guest/reorder', array('order_id' => $order->getId()));
         }
         return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));

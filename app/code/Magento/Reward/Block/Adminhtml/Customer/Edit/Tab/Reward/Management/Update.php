@@ -20,6 +20,39 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_System_StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_System_StoreFactory $storeFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_System_StoreFactory $storeFactory,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_storeFactory = $storeFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Getter
      *
      * @return Magento_Customer_Model_Customer
@@ -44,7 +77,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
             'legend' => __('Update Reward Points Balance')
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $fieldset->addField('store', 'select', array(
                 'name'  => 'store_id',
                 'title' => __('Store'),
@@ -97,14 +130,13 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
     {
         $customer = $this->getCustomer();
         if (!$customer->getWebsiteId()
-            || Mage::app()->hasSingleStore()
+            || $this->_storeManager->hasSingleStore()
             || $customer->getSharingConfig()->isGlobalScope())
         {
-            return Mage::getModel('Magento_Core_Model_System_Store')->getStoreValuesForForm();
+            return $this->_storeFactory->create()->getStoreValuesForForm();
         }
 
-        $stores = Mage::getModel('Magento_Core_Model_System_Store')
-            ->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
+        $stores = $this->_storeFactory->create()->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
         $values = array();
 
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');

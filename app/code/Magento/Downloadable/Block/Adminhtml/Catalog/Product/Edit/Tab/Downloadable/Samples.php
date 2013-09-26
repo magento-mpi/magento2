@@ -51,7 +51,17 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Downloadable_Model_Sample
+     */
+    protected $_sampleModel;
+
+    /**
+     * @var Magento_Backend_Model_UrlFactory
+     */
+    protected $_urlFactory;
 
     /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
@@ -60,6 +70,8 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Downloadable_Model_Sample $sampleModel
+     * @param Magento_Backend_Model_UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
@@ -69,12 +81,17 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Downloadable_Model_Sample $sampleModel,
+        Magento_Backend_Model_UrlFactory $urlFactory,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
         $this->_storeManager = $storeManager;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_sampleModel = $sampleModel;
+        $this->_urlFactory = $urlFactory;
+
         parent::__construct($coreData, $context, $data);
     }
 
@@ -137,7 +154,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
                 'sort_order' => $item->getSortOrder(),
             );
             $file = $fileHelper->getFilePath(
-                Magento_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
+                $this->_sampleModel->getBasePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && !is_file($file)) {
                 $this->_coreFileStorageDb->saveFileToFilesystem($file);
@@ -213,9 +230,10 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getConfigJson()
     {
-        $this->getConfig()->setUrl(Mage::getModel('Magento_Backend_Model_Url')
+        $url = $this->_urlFactory->create()
             ->addSessionParam()
-            ->getUrl('*/downloadable_file/upload', array('type' => 'samples', '_secure' => true)));
+            ->getUrl('*/downloadable_file/upload', array('type' => 'samples', '_secure' => true));
+        $this->getConfig()->setUrl($url);
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('samples');
         $this->getConfig()->setFilters(array(
