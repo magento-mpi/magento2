@@ -25,6 +25,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Newsletter_Model_Resource_Queue_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Newsletter_Model_Resource_Queue_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -33,6 +39,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
      * @param array $data
      */
     public function __construct(
+        Magento_Newsletter_Model_Resource_Queue_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -41,6 +48,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -65,7 +73,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
     protected function _prepareCollection()
     {
         /** @var $collection Magento_Newsletter_Model_Resource_Queue_Collection */
-        $collection = Mage::getResourceModel('Magento_Newsletter_Model_Resource_Queue_Collection')
+        $collection = $this->_collectionFactory->create()
             ->addTemplateInfo()
             ->addSubscriberFilter($this->_coreRegistry->registry('subscriber')->getId());
 
