@@ -17,11 +17,21 @@ class Magento_Index_Model_Indexer_Config_SchemaLocator implements Magento_Config
     protected $_schema = null;
 
     /**
+     * Path to corresponding XSD file with validation rules for separate config files
+     *
+     * @var string
+     */
+    protected $_perFileSchema = null;
+
+    /**
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Index') . DIRECTORY_SEPARATOR . 'indexers.xsd';
+        $this->_schema
+            = $moduleReader->getModuleDir('etc', 'Magento_Index') . DIRECTORY_SEPARATOR . 'indexers_merged.xsd';
+        $this->_perFileSchema
+            = $moduleReader->getModuleDir('etc', 'Magento_Index') . DIRECTORY_SEPARATOR . 'indexers.xsd';
     }
 
     /**
@@ -41,6 +51,6 @@ class Magento_Index_Model_Indexer_Config_SchemaLocator implements Magento_Config
      */
     public function getPerFileSchema()
     {
-        return null;
+        return $this->_perFileSchema;
     }
 }

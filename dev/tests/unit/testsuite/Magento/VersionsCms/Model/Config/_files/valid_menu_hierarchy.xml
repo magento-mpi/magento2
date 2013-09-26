@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menuLayout name="name_one" label="Label Name" handle="handle_name" isDefault="true" />
+    <menuLayout name="name_two" handle="node_one_two">
+        <pageLayout handle="node_one_two" />
+    </menuLayout>
+</config>
