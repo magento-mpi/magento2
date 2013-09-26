@@ -41,7 +41,6 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
-        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $modulesConfig,
@@ -49,14 +48,14 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_Resource_Resource $resourceResource,
-        Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
         Magento_Core_Model_Theme_CollectionFactory $themeFactory,
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Core_Helper_Data $coreData,
         $resourceName
     ) {
         parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader, $cache,
+            $logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader,
             $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
         );
         $this->_coreData = $coreData;

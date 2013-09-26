@@ -25,14 +25,15 @@ class Magento_GiftWrapping_Model_Resource_Setup extends Magento_Sales_Model_Reso
 
     /**
      * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $modulesConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Resource $resourceResource
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
+     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Catalog_Model_Product_TypeFactory $productTypeFactory
      * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
@@ -40,14 +41,15 @@ class Magento_GiftWrapping_Model_Resource_Setup extends Magento_Sales_Model_Reso
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
-        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $modulesConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Catalog_Model_Product_TypeFactory $productTypeFactory,
         Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
@@ -55,8 +57,9 @@ class Magento_GiftWrapping_Model_Resource_Setup extends Magento_Sales_Model_Reso
     ) {
         $this->_productTypeFactory = $productTypeFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
-            $resource, $modulesReader, $cache, $migrationFactory, $resourceName);
+        parent::__construct($logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
+            $resource, $modulesReader, $resourceResource, $themeResourceFactory, $themeFactory,
+            $migrationFactory, $resourceName);
     }
 
     /**

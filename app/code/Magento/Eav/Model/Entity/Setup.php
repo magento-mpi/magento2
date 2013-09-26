@@ -48,11 +48,11 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Resource $resourceResource,
         Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
         Magento_Core_Model_Theme_CollectionFactory $themeFactory,
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Core_Model_CacheInterface $cache,
         $resourceName
     ) {
         parent::__construct(

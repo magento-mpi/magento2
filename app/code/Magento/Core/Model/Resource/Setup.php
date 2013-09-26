@@ -124,12 +124,17 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_migrationFactory;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Resource_Resource $resourceResource
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
+     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
      */
     public function __construct(
@@ -147,12 +152,26 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         $resourceName
     ) {
         $this->_config = $config;
+        if(get_class($resourcesConfig) !== "Magento_Core_Model_Config_Resource"){
+            foreach(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 20) as $a) {
+                var_dump($a['file']);
+            }
+            var_dump(get_class($resourcesConfig));
+            exit;
+        }
         $resourcesConfig->setConfig($config);
         $this->_eventManager = $eventManager;
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
         $this->_modulesReader = $modulesReader;
         $this->_resourceConfig = $resourcesConfig->getResourceConfig($resourceName);
+        if(get_class($resourceResource) !== "Magento_Core_Model_Resource_Resource"){
+            foreach(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 20) as $a) {
+                var_dump($a['file']);
+            }
+            var_dump(get_class($resourceResource));
+            exit;
+        }
         $this->_resourceResource = $resourceResource;
         $this->_themeResourceFactory = $themeResourceFactory;
         $this->_themeFactory = $themeFactory;

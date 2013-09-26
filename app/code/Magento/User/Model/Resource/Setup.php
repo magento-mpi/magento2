@@ -52,6 +52,10 @@ class Magento_User_Model_Resource_Setup extends Magento_Core_Model_Resource_Setu
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Resource_Resource $resourceResource
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
+     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
      * @param Magento_User_Model_Resource_Role_CollectionFactory $roleCollectionFactory
      * @param Magento_User_Model_Resource_Rules_CollectionFactory $rulesCollectionFactory
@@ -68,14 +72,20 @@ class Magento_User_Model_Resource_Setup extends Magento_Core_Model_Resource_Setu
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName,
         Magento_User_Model_Resource_Role_CollectionFactory $roleCollectionFactory,
         Magento_User_Model_Resource_Rules_CollectionFactory $rulesCollectionFactory,
         Magento_User_Model_RoleFactory $roleFactory,
         Magento_User_Model_RulesFactory $rulesFactory
     ) {
-        parent::__construct($logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
-            $resourceName);
+        parent::__construct(
+            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
+            $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
+        );
         $this->_roleCollectionFactory = $roleCollectionFactory;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
         $this->_roleFactory = $roleFactory;

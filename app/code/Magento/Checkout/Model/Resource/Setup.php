@@ -57,7 +57,7 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
     ) {
         parent::__construct(
             $logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader,
-            $cache, $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
+            $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
         );
         $this->_customerAddress = $customerAddress;
     }

@@ -28,6 +28,10 @@ class Magento_Newsletter_Model_Resource_Setup extends Magento_Core_Model_Resourc
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Resource_Resource $resourceResource
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
+     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param string $resourceName
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $setupMigrationFactory
      */
@@ -39,11 +43,15 @@ class Magento_Newsletter_Model_Resource_Setup extends Magento_Core_Model_Resourc
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName,
         Magento_Core_Model_Resource_Setup_MigrationFactory $setupMigrationFactory
     ) {
-        parent::__construct($logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
-            $resourceName);
+        parent::__construct($logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource,
+            $modulesReader, $resourceResource, $themeResourceFactory, $themeFactory, $resourceName);
 
         $this->_setupMigration = $setupMigrationFactory->create(array('resourceName' => 'core_setup'));
     }

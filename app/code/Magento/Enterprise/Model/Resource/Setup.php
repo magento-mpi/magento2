@@ -28,6 +28,10 @@ class Magento_Enterprise_Model_Resource_Setup extends Magento_Core_Model_Resourc
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Resource_Resource $resourceResource
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
+     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
      * @param Magento_Cms_Model_BlockFactory $modelBlockFactory
      */
@@ -39,11 +43,15 @@ class Magento_Enterprise_Model_Resource_Setup extends Magento_Core_Model_Resourc
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName,
         Magento_Cms_Model_BlockFactory $modelBlockFactory
     ) {
         parent::__construct($logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource,
-            $modulesReader, $resourceName);
+            $modulesReader, $resourceResource, $themeResourceFactory, $themeFactory, $resourceName);
 
         $this->_modelBlockFactory = $modelBlockFactory;
     }
