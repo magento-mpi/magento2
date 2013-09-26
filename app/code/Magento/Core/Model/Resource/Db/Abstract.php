@@ -270,21 +270,21 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     }
 
     /**
-     * Get connection by name or type
+     * Get connection by resource name
      *
-     * @param string $connectionName
+     * @param string $resourceName
      * @return Magento_DB_Adapter_Interface|bool
      */
-    protected function _getConnection($connectionName)
+    protected function _getConnection($resourceName)
     {
-        if (isset($this->_connections[$connectionName])) {
-            return $this->_connections[$connectionName];
+        if (isset($this->_connections[$resourceName])) {
+            return $this->_connections[$resourceName];
         }
-        $connectionNameFull = ($this->_resourcePrefix ? $this->_resourcePrefix . '_' : '') . $connectionName;
-        $connectionInstance = $this->_resources->getConnection($connectionNameFull);
+        $fullResourceName = ($this->_resourcePrefix ? $this->_resourcePrefix . '_' : '') . $resourceName;
+        $connectionInstance = $this->_resources->getConnection($fullResourceName);
         // cache only active connections to detect inactive ones as soon as they become active
         if ($connectionInstance) {
-            $this->_connections[$connectionName] = $connectionInstance;
+            $this->_connections[$resourceName] = $connectionInstance;
         }
         return $connectionInstance;
     }

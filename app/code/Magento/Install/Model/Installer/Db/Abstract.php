@@ -18,11 +18,11 @@
 abstract class Magento_Install_Model_Installer_Db_Abstract
 {
     /**
-     * Resource model
+     * Resource connection adapter factory
      *
-     * @var Magento_Core_Model_Resource
+     * @var Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory
      */
-    protected $_resource;
+    protected $_adapterFactory;
 
     /**
      * List of necessary extensions for DBs
@@ -54,12 +54,13 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
 
 
     /**
-     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory $adapterFactory
      * @param array $dbExtensions
      */
-    public function __construct(Magento_Core_Model_Resource $resource, array $dbExtensions = array())
-    {
-        $this->_resource = $resource;
+    public function __construct(
+        Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory $adapterFactory, array $dbExtensions = array()
+    ) {
+        $this->_adapterFactory = $adapterFactory;
         $this->_dbExtensions = $dbExtensions;
     }
     
@@ -132,7 +133,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     protected function _getConnection()
     {
         if (!isset($this->_connection)) {
-            $connection = $this->_resource->createConnection('install', $this->getConnectionData());
+            $connection = $this->_adapterFactory->create($this->getConnectionData())->getConnection();
             $this->_connection = $connection;
         }
         return $this->_connection;

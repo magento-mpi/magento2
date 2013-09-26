@@ -25,17 +25,16 @@ class Magento_Core_Model_ConnectionAdapterFactory
     /**
      * Create connection adapter instance
      *
-     * @param string $adapterInstanceName
-     * @param array $connectionParams
+     * @param string $connectionName
      * @return Magento_Core_Model_Resource_ConnectionAdapterInterface
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
-    public function create($adapterInstanceName, array $connectionParams = array())
+    public function create($connectionName)
     {
-        $adapterInstance = $this->_objectManager->create($adapterInstanceName, $connectionParams);
+        $adapterInstance = $this->_objectManager->create($connectionName);
 
         if (!($adapterInstance instanceof Magento_Core_Model_Resource_ConnectionAdapterInterface)) {
-            throw new Exception('Trying to create wrong connection adapter');
+            throw new InvalidArgumentException('Trying to create wrong connection adapter');
         }
 
         return $adapterInstance;
