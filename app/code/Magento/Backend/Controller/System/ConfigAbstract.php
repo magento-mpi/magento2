@@ -10,10 +10,6 @@
 
 /**
  * System Configuration Abstract Controller
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Backend_Controller_System_ConfigAbstract extends Magento_Backend_Controller_ActionAbstract
 {
@@ -23,25 +19,15 @@ abstract class Magento_Backend_Controller_System_ConfigAbstract extends Magento_
     protected $_configStructure;
 
     /**
-     * Authentication session
-     *
-     * @var Magento_Backend_Model_Auth_StorageInterface
-     */
-    protected $_authSession;
-
-    /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Backend_Model_Config_Structure $configStructure
-     * @param Magento_Backend_Model_Auth_StorageInterface $authSession
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Backend_Model_Config_Structure $configStructure,
-        Magento_Backend_Model_Auth_StorageInterface $authSession
+        Magento_Backend_Model_Config_Structure $configStructure
     ) {
         parent::__construct($context);
         $this->_configStructure = $configStructure;
-        $this->_authSession = $authSession;
     }
 
     /**
@@ -109,7 +95,7 @@ abstract class Magento_Backend_Controller_System_ConfigAbstract extends Magento_
      */
     protected function _saveState($configState = array())
     {
-        $adminUser = $this->_authSession->getUser();
+        $adminUser = $this->_auth->getUser();
         if (is_array($configState)) {
             $extra = $adminUser->getExtra();
             if (!is_array($extra)) {

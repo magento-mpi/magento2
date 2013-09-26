@@ -10,10 +10,6 @@
 
 /**
  * Tabs block
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Block_Widget_Tabs extends Magento_Backend_Block_Widget
 {
@@ -40,6 +36,27 @@ class Magento_Backend_Block_Widget_Tabs extends Magento_Backend_Block_Widget
 
     /** @var string */
     protected $_template = 'Magento_Backend::widget/tabs.phtml';
+
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Backend_Model_Auth_Session $authSession,
+        array $data = array()
+    ) {
+        $this->_authSession = $authSession;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * retrieve destination html element id
@@ -198,7 +215,7 @@ class Magento_Backend_Block_Widget_Tabs extends Magento_Backend_Block_Widget
     {
         if ($activeTab = $this->getRequest()->getParam('active_tab')) {
             $this->setActiveTab($activeTab);
-        } elseif ($activeTabId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getActiveTabId()) {
+        } elseif ($activeTabId = $this->_authSession->getActiveTabId()) {
             $this->_setActiveTab($activeTabId);
         }
 

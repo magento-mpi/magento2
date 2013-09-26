@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Magento_Backend_Model_Url extends Magento_Core_Model_Url
 {
     /**
@@ -22,7 +23,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     /**
      * Authentication session
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_SessionProxy
      */
     protected $_session;
 
@@ -55,12 +56,19 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     protected $_menuConfig;
 
     /**
+     * @var Magento_Core_Model_CacheInterface
+     */
+    protected $_cache;
+
+    /**
      * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Backend_Helper_Data $backendHelper
      * @param Magento_Core_Model_Session $coreSession
      * @param Magento_Backend_Model_Menu_Config $menuConfig
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Backend_Model_Auth_SessionProxy $authSession
      * @param array $data
      */
     public function __construct(
@@ -70,6 +78,8 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         Magento_Core_Model_Session $coreSession,
         Magento_Backend_Model_Menu_Config $menuConfig,
         Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Backend_Model_Auth_SessionProxy $authSession,
         array $data = array()
     ) {
         parent::__construct($securityInfo, $coreStoreConfig, $coreData, $data);
@@ -77,6 +87,8 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $coreSession;
         $this->_menuConfig = $menuConfig;
+        $this->_cache = $cache;
+        $this->_session = $authSession;
     }
 
     /**
@@ -234,7 +246,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     public function renewSecretUrls()
     {
-        Mage::app()->cleanCache(array(Magento_Backend_Block_Menu::CACHE_TAGS));
+        $this->_cache->clean(array(Magento_Backend_Block_Menu::CACHE_TAGS));
     }
 
     /**
@@ -307,9 +319,6 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     protected function _getSession()
     {
-        if ($this->_session == null) {
-            $this->_session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-        }
         return $this->_session;
     }
 

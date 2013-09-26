@@ -21,13 +21,13 @@ class Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorTest extends PHPUnit_Fra
             ->method('getItemId')
             ->will($this->returnValue($itemId));
 
-        $urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
+        $urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(),
+            'Magento_Backend_Model_UrlProxy', false);
         $urlModelMock->expects($this->once())
             ->method('getUrl')
             ->will($this->returnValue('http://localhost/' . $urlPath . '/flag/1/item_id/' . $itemId));
 
-        $model = new Magento_Backend_Model_Widget_Grid_Row_UrlGenerator(array(
-            'urlModel' => $urlModelMock,
+        $model = new Magento_Backend_Model_Widget_Grid_Row_UrlGenerator($urlModelMock, array(
             'path' => $urlPath,
             'params' => array('flag' => 1),
             'extraParamsTemplate' => array('item_id' => 'getItemId')

@@ -11,10 +11,6 @@
 /**
  * Backend abstract block
  *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
- *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Magento_Backend_Block_Template extends Magento_Core_Block_Template
@@ -45,7 +41,7 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('Magento_Core_Model_Session')->getFormKey();
+        return $this->_session->getFormKey();
     }
 
     /**

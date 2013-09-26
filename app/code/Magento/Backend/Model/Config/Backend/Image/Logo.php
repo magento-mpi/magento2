@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * System config Logo image field backend model
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Backend_Image_Logo extends Magento_Backend_Model_Config_Backend_Image
 {
@@ -62,6 +57,6 @@ class Magento_Backend_Model_Config_Backend_Image_Logo extends Magento_Backend_Mo
      */
     protected function _getUploadRoot($token)
     {
-        return Mage::getBaseDir($token);
+        return $this->_dir->getDir($token);
     }
 }

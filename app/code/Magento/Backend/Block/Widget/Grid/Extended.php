@@ -166,7 +166,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     {
         parent::_construct();
         $this->_emptyText = __('We couldn\'t find any records.');
-        $this->_exportPath = Mage::getBaseDir('var') . DS . 'export';
+        $this->_exportPath = $this->_dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'export';
     }
 
     /**

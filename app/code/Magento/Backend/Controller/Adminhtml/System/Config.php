@@ -10,13 +10,28 @@
 
 /**
  * System Configuration controller
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend_Controller_System_ConfigAbstract
 {
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Backend_Model_Config_Structure $configStructure
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Backend_Model_Config_Structure $configStructure,
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $configStructure);
+    }
+
     /**
      * Index action
      *
@@ -38,10 +53,8 @@ class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend
         $website = $this->getRequest()->getParam('website');
         $store   = $this->getRequest()->getParam('store');
 
-        /** @var $configStructure Magento_Backend_Model_Config_Structure */
-        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
         /** @var $section Magento_Backend_Model_Config_Structure_Element_Section */
-        $section = $configStructure->getElement($current);
+        $section = $this->_configStructure->getElement($current);
         if ($current && !$section->isVisible($website, $store)) {
             return $this->_redirect('*/*/', array('website' => $website, 'store' => $store));
         }
@@ -81,17 +94,17 @@ class Magento_Backend_Controller_Adminhtml_System_Config extends Magento_Backend
      */
     public function exportTableratesAction()
     {
-        $fileName   = 'tablerates.csv';
+        $fileName = 'tablerates.csv';
         /** @var $gridBlock Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid */
-        $gridBlock  = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid');
-        $website    = Mage::app()->getWebsite($this->getRequest()->getParam('website'));
+        $gridBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid');
+        $website = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');
         } else {
             $conditionName = $website->getConfig('carriers/tablerate/condition_name');
         }
         $gridBlock->setWebsiteId($website->getId())->setConditionName($conditionName);
-        $content    = $gridBlock->getCsvFile();
+        $content = $gridBlock->getCsvFile();
         $this->_prepareDownloadResponse($fileName, $content);
     }
 }

@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Grid row url generator
- *
- * @category    Magento
- * @package     Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
     implements Magento_Backend_Model_Widget_Grid_Row_GeneratorInterface
@@ -39,13 +34,17 @@ class Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
      */
     protected $_extraParamsTemplate = array();
 
-    public function __construct(array $args = array())
+    /**
+     * @param Magento_Backend_Model_UrlProxy $backendUrl
+     * @param array $args
+     * @throws InvalidArgumentException
+     */
+    public function __construct(Magento_Backend_Model_UrlProxy $backendUrl, array $args = array())
     {
         if (!isset($args['path'])) {
             throw new InvalidArgumentException('Not all required parameters passed');
         }
-        $this->_urlModel = isset($args['urlModel']) ?
-            $args['urlModel'] : Mage::getSingleton('Magento_Backend_Model_Url');
+        $this->_urlModel = isset($args['urlModel']) ? $args['urlModel'] : $backendUrl;
         $this->_path = (string) $args['path'];
         if (isset($args['params'])) {
             $this->_params = (array) $args['params'];

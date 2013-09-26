@@ -305,4 +305,9 @@
             <instance type="Magento_Core_Model_Locale_Hierarchy_Config_Reader" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Resource_Helper_Mysql4">
+        <param name="modulePrefix">
+            <value>core</value>
+        </param>
+    </type>
 </config>

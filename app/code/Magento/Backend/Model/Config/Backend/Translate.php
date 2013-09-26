@@ -10,10 +10,6 @@
 
 /**
  * System config translate inline fields backend model
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_Config_Value
 {
@@ -44,6 +40,7 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -54,11 +51,13 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_cacheTypeList = $cacheTypeList;
         parent::__construct(
             $context,
             $registry,

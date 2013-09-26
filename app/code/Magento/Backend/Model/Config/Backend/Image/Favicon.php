@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * System config image field backend model for Zend PDF generator
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Backend_Image_Favicon extends Magento_Backend_Model_Config_Backend_Image
 {
@@ -72,6 +67,6 @@ class Magento_Backend_Model_Config_Backend_Image_Favicon extends Magento_Backend
      */
     protected function _getUploadRoot($token)
     {
-        return Mage::getBaseDir($token);
+        return $this->_dir->getDir($token);
     }
 }

@@ -8,18 +8,31 @@
  * @license     {license_link}
  */
 
-
 /**
  * Config form fieldset renderer
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Block_System_Config_Form_Fieldset
     extends Magento_Backend_Block_Abstract
     implements Magento_Data_Form_Element_Renderer_Interface
 {
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Backend_Model_Auth_Session $authSession,
+        array $data = array()
+    ) {
+        $this->_authSession = $authSession;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Render fieldset html
@@ -186,7 +199,7 @@ class Magento_Backend_Block_System_Config_Form_Fieldset
         if ($element->getExpanded()) {
             return true;
         }
-        $extra = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getExtra();
+        $extra = $this->_authSession->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }

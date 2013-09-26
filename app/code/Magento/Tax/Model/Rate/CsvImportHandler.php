@@ -10,10 +10,6 @@
 
 /**
  * Tax Rate CSV Import Handler
- *
- * @category    Magento
- * @package     Magento_Tax
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Tax_Model_Rate_CsvImportHandler
 {
@@ -96,7 +92,7 @@ class Magento_Tax_Model_Rate_CsvImportHandler
     public function importFromCsvFile($file)
     {
         if (!isset($file['tmp_name'])) {
-            Mage::throwException('Invalid file upload attempt.');
+            throw new Magento_Core_Exception('Invalid file upload attempt.');
         }
         $csvProcessor = new Magento_File_Csv();
         $ratesRawData = $csvProcessor->getData($file['tmp_name']);
@@ -166,7 +162,7 @@ class Magento_Tax_Model_Rate_CsvImportHandler
             }
             // check if number of fields in row match with number of valid fields
             if (count($rateRawData[$rowIndex]) != $validFieldsNum) {
-                Mage::throwException('Invalid file format.');
+                throw new Magento_Core_Exception('Invalid file format.');
             }
         }
         return $rateRawData;
@@ -230,7 +226,7 @@ class Magento_Tax_Model_Rate_CsvImportHandler
         $countryCode = $rateData[1];
         $country = $this->_countryFactory->create()->loadByCode($countryCode, 'iso2_code');
         if (!$country->getId()) {
-            Mage::throwException('One of the countries has invalid code.');
+            throw new Magento_Core_Exception('One of the countries has invalid code.');
         }
         $regionsCache = $this->_addCountryRegionsToCache($countryCode, $regionsCache);
 
