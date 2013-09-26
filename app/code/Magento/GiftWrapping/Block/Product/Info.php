@@ -18,6 +18,27 @@
 class Magento_GiftWrapping_Block_Product_Info extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_GiftWrapping_Model_WrappingFactory
+     */
+    protected $_wrappingFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory,
+        array $data = array()
+    ) {
+        $this->_wrappingFactory = $wrappingFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Return product gift wrapping info
      *
      * @return false|Magento_Object
@@ -32,7 +53,7 @@ class Magento_GiftWrapping_Block_Product_Info extends Magento_Core_Block_Templat
         }
 
         if ($wrappingId) {
-            return Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->load($wrappingId);
+            return $this->_wrappingFactory->create()->load($wrappingId);
         }
         return false;
     }

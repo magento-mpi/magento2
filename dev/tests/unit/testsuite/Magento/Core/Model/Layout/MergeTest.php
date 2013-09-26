@@ -70,15 +70,16 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->_theme->expects($this->any())->method('getArea')->will($this->returnValue('area'));
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(100));
 
-        $this->_model = new Magento_Core_Model_Layout_Merge(
-            $design,
-            $storeManager,
-            $fileSource,
-            $this->_resource,
-            $this->_appState,
-            $this->_cache,
-            $this->_theme
-        );
+        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_model = $objectHelper->getObject('Magento_Core_Model_Layout_Merge', array(
+            'design' => $design,
+            'storeManager' => $storeManager,
+            'fileSource' => $fileSource,
+            'resource' => $this->_resource,
+            'appState' => $this->_appState,
+            'cache' => $this->_cache,
+            'theme' => $this->_theme,
+        ));
     }
 
     public function testAddUpdate()

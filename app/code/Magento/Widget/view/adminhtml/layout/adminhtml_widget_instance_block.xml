@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.widget.instance.grid.container">
+    <referenceBlock name="adminhtml.widget.instance.grid.container">
         <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.widget.instance.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">widgetInstanceGrid</argument>
@@ -68,5 +68,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -10,10 +10,6 @@
 
 /**
  * Wishlist Search Widget Block
- *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Template 
     implements Magento_Widget_Block_Interface
@@ -24,6 +20,31 @@ class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Te
      * @var array
      */
     protected $_selectOptions;
+
+    /**
+     * Config source search model
+     *
+     * @var Magento_MultipleWishlist_Model_Config_Source_Search
+     */
+    protected $_configSourceSearch;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_MultipleWishlist_Model_Config_Source_Search $configSourceSearch
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_MultipleWishlist_Model_Config_Source_Search $configSourceSearch,
+        array $data = array()
+    ) {
+        $this->_configSourceSearch = $configSourceSearch;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Retrieve form types list
@@ -134,7 +155,7 @@ class Magento_MultipleWishlist_Block_Widget_Search extends Magento_Core_Block_Te
     public function getSearchFormOptions()
     {
         if (is_null($this->_selectOptions)) {
-            $allForms = Mage::getSingleton('Magento_MultipleWishlist_Model_Config_Source_Search')->getTypes();
+            $allForms = $this->_configSourceSearch->getTypes();
             $useForms = $this->_getEnabledFormTypes();
             $codeAll = Magento_MultipleWishlist_Model_Config_Source_Search::WISHLIST_SEARCH_DISPLAY_ALL_FORMS;
 

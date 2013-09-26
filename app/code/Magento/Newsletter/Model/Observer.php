@@ -11,15 +11,43 @@
 /**
  * Newsletter module observer
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Newsletter_Model_Observer
 {
+    /**
+     * Queue collection factory
+     *
+     * @var Magento_Newsletter_Model_Resource_Queue_CollectionFactory
+     */
+    protected $_queueCollectionFactory;
+
+    /**
+     * Subscriber factory
+     *
+     * @var Magento_Newsletter_Model_SubscriberFactory
+     */
+    protected $_subscriberFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
+     * @param Magento_Newsletter_Model_Resource_Queue_CollectionFactory $queueCollectionFactory
+     */
+    public function __construct(
+        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
+        Magento_Newsletter_Model_Resource_Queue_CollectionFactory $queueCollectionFactory
+    ) {
+        $this->_subscriberFactory = $subscriberFactory;
+        $this->_queueCollectionFactory = $queueCollectionFactory;
+    }
+
     public function subscribeCustomer($observer)
     {
         $customer = $observer->getEvent()->getCustomer();
         if (($customer instanceof Magento_Customer_Model_Customer)) {
-            Mage::getModel('Magento_Newsletter_Model_Subscriber')->subscribeCustomer($customer);
+            $this->_subscriberFactory->create()->subscribeCustomer($customer);
         }
         return $this;
     }
@@ -32,8 +60,9 @@ class Magento_Newsletter_Model_Observer
      */
     public function customerDeleted($observer)
     {
-        $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')
-            ->loadByEmail($observer->getEvent()->getCustomer()->getEmail());
+        /** @var Magento_Newsletter_Model_Subscriber $subscriber */
+        $subscriber = $this->_subscriberFactory->create();
+        $subscriber->loadByEmail($observer->getEvent()->getCustomer()->getEmail());
         if($subscriber->getId()) {
             $subscriber->delete();
         }
@@ -45,8 +74,9 @@ class Magento_Newsletter_Model_Observer
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        $collection = Mage::getModel('Magento_Newsletter_Model_Queue')->getCollection()
-            ->setPageSize($countOfQueue)
+        /** @var Magento_Newsletter_Model_Resource_Queue_Collection $collection */
+        $collection = $this->_queueCollectionFactory->create();
+        $collection->setPageSize($countOfQueue)
             ->setCurPage(1)
             ->addOnlyForSendingFilter()
             ->load();

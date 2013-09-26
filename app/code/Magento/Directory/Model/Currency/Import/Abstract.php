@@ -10,8 +10,6 @@
 
 /**
  * Abstract model for import currency
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Directory_Model_Currency_Import_Abstract
     implements Magento_Directory_Model_Currency_Import_Interface
@@ -24,13 +22,26 @@ abstract class Magento_Directory_Model_Currency_Import_Abstract
     protected $_messages = array();
 
     /**
+     * @var Magento_Directory_Model_CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     */
+    public function __construct(Magento_Directory_Model_CurrencyFactory $currencyFactory)
+    {
+        $this->_currencyFactory = $currencyFactory;
+    }
+
+    /**
      * Retrieve currency codes
      *
      * @return array
      */
     protected function _getCurrencyCodes()
     {
-        return Mage::getModel('Magento_Directory_Model_Currency')->getConfigAllowCurrencies();
+        return $this->_currencyFactory->create()->getConfigAllowCurrencies();
     }
 
     /**
@@ -40,7 +51,7 @@ abstract class Magento_Directory_Model_Currency_Import_Abstract
      */
     protected function _getDefaultCurrencyCodes()
     {
-        return Mage::getModel('Magento_Directory_Model_Currency')->getConfigBaseCurrencies();
+        return $this->_currencyFactory->create()->getConfigBaseCurrencies();
     }
 
     /**
@@ -61,7 +72,7 @@ abstract class Magento_Directory_Model_Currency_Import_Abstract
     protected function _saveRates($rates)
     {
         foreach ($rates as $currencyCode => $currencyRates) {
-            Mage::getModel('Magento_Directory_Model_Currency')
+            $this->_currencyFactory->create()
                 ->setId($currencyCode)
                 ->setRates($currencyRates)
                 ->save();
@@ -81,6 +92,9 @@ abstract class Magento_Directory_Model_Currency_Import_Abstract
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function fetchRates()
     {
         $data = array();
@@ -97,7 +111,9 @@ abstract class Magento_Directory_Model_Currency_Import_Abstract
                     $data[$currencyFrom][$currencyTo] = $this->_numberFormat(1);
                 }
                 else {
-                    $data[$currencyFrom][$currencyTo] = $this->_numberFormat($this->_convert($currencyFrom, $currencyTo));
+                    $data[$currencyFrom][$currencyTo] = $this->_numberFormat(
+                        $this->_convert($currencyFrom, $currencyTo)
+                    );
                 }
             }
             ksort($data[$currencyFrom]);
@@ -111,6 +127,9 @@ abstract class Magento_Directory_Model_Currency_Import_Abstract
         return $number;
     }
 
+    /**
+     * @return array
+     */
     public function getMessages()
     {
         return $this->_messages;

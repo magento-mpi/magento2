@@ -38,25 +38,37 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
     );
 
     /**
-     * Rma data
-     *
      * @var Magento_Rma_Helper_Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Order_Item_CollectionFactory
+     */
+    protected $_ordersFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
 
     /**
      * Main constructor
      *
-     *
-     *
      * @param Magento_Rma_Helper_Data $rmaData
-     * @param  $data
+     * @param Magento_Sales_Model_Resource_Order_Item_CollectionFactory $ordersFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param array $data
      */
     public function __construct(
         Magento_Rma_Helper_Data $rmaData,
+        Magento_Sales_Model_Resource_Order_Item_CollectionFactory $ordersFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
+        $this->_ordersFactory = $ordersFactory;
+        $this->_productFactory = $productFactory;
         parent::__construct($data);
     }
 
@@ -216,9 +228,9 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
         $adapter = $this->getReadConnection();
         $expression = new Zend_Db_Expr('(' . $adapter->quoteIdentifier('qty_shipped') . ' - '
             . $adapter->quoteIdentifier('qty_returned') . ')');
-        return Mage::getModel('Magento_Sales_Model_Order_Item')
-            ->getCollection()
-            ->addExpressionFieldToSelect(
+        /** @var $collection Magento_Sales_Model_Resource_Order_Item_Collection */
+        $collection = $this->_ordersFactory->create();
+        return $collection->addExpressionFieldToSelect(
                 'available_qty',
                 $expression,
                 array('qty_shipped', 'qty_returned')
@@ -255,7 +267,7 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
         $parent = array();
 
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = $this->_productFactory->create();
 
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="magento-designeditor-js-dialog-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_DesignEditor::js/dialog.js</argument>
@@ -44,8 +44,8 @@
                 <argument name="file" xsi:type="string">Magento_DesignEditor::css/styles.css</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tabs" name="theme.selector.tabs">
             <action method="addTab">
                 <argument name="name" xsi:type="string">available_themes</argument>
@@ -72,5 +72,5 @@
         <block class="Magento_Backend_Block_Template" name="theme.dialog" template="Magento_DesignEditor::dialog.phtml"/>
         <block class="Magento_Backend_Block_Template" name="theme.dialog.edit" template="Magento_DesignEditor::theme/selector/theme_edit.phtml"/>
         <block class="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Magento_DesignEditor::theme/selector/storeview.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

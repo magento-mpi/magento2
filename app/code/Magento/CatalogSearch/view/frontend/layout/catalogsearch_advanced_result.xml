@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Advanced Search Result" type="page" parent="catalogsearch_advanced_index">
     <update handle="page_two_columns_right"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_CatalogSearch_Block_Advanced_Result" name="catalogsearch_advanced_result" template="advanced/result.phtml">
             <block class="Magento_Catalog_Block_Product_List" name="search_result_list" template="product/list.phtml">
                 <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
@@ -43,5 +43,5 @@
             <action method="setListModes"/>
             <action method="setListCollection"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

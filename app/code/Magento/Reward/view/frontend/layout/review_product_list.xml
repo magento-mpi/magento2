@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="product.review.form.fields.before">
+    <referenceContainer name="product.review.form.fields.before">
         <block class="Magento_Reward_Block_Tooltip" name="reward.hint.review" template="tooltip.phtml" after="product.info">
             <arguments>
                 <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_Review</argument>
@@ -26,5 +26,5 @@
                 <argument name="value" xsi:type="string">1</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

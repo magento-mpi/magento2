@@ -64,7 +64,6 @@ return array(
     array('Mage_Install_Block_Db_Type_Oracle'),
     array('Mage_Install_Model_Installer_Db_Oracle'),
     array('Magento_Reminder_Model_Resource_Helper_Mysql4'),
-    array('Magento_Logging_Model_Resource_Helper_Mysql4'),
     array('Magento_Queue_Model_Queue'),
     array('Magento_Queue_Model_AddException'),
     array('Magento_Queue_Model_Config'),
