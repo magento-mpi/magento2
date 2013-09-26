@@ -12,7 +12,7 @@
 <config>
     <virtualType name="Magento_GoogleShopping_Model_Resource_Helper" type="Magento_Core_Model_Resource_Helper_Mysql4">
         <param name="modulePrefix">
-            <value>GoogleShopping</value>
+            <value>Core</value>
         </param>
     </virtualType>
     <type name="Magento_GoogleShopping_Model_Resource_Item_Collection">
