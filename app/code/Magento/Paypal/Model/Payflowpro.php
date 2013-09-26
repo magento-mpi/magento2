@@ -10,12 +10,7 @@
 
 /**
  * Payflow Pro payment gateway model
- *
- * @category    Magento
- * @package     Magento_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
 {
     /**
@@ -40,8 +35,8 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     const TRANSACTION_URL           = 'https://payflowpro.paypal.com/transaction';
     const TRANSACTION_URL_TEST_MODE = 'https://pilot-payflowpro.paypal.com/transaction';
 
-    /**
-     * Response codes
+    /**#@+
+     * Response code
      */
     const RESPONSE_CODE_APPROVED                = 0;
     const RESPONSE_CODE_INVALID_AMOUNT          = 4;
@@ -51,14 +46,15 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     const RESPONSE_CODE_DECLINED_BY_MERCHANT    = 128;
     const RESPONSE_CODE_CAPTURE_ERROR           = 111;
     const RESPONSE_CODE_VOID_ERROR              = 108;
+    /**#@-*/
 
     /**
      * Payment method code
      */
     protected $_code = Magento_Paypal_Model_Config::METHOD_PAYFLOWPRO;
 
-    /**
-     * Availability options
+    /**#@+
+     * Availability option
      */
     protected $_isGateway               = true;
     protected $_canAuthorize            = true;
@@ -72,6 +68,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     protected $_canSaveCc = false;
     protected $_isProxy = false;
     protected $_canFetchTransactionInfo = true;
+    /**#@-*/
 
     /**
      * Gateway request timeout
@@ -103,7 +100,17 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Paypal_Model_ConfigFactory
+     */
+    protected $_configFactory;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -112,6 +119,8 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Paypal_Model_ConfigFactory $configFactory
      * @param array $data
      */
     public function __construct(
@@ -121,9 +130,13 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Paypal_Model_ConfigFactory $configFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
+        $this->_storeManager = $storeManager;
+        $this->_configFactory = $configFactory;
         parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
     }
 
@@ -135,8 +148,9 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
      */
     public function isAvailable($quote = null)
     {
-        $storeId = Mage::app()->getStore($this->getStore())->getId();
-        $config = Mage::getModel('Magento_Paypal_Model_Config')->setStoreId($storeId);
+        $storeId = $this->_storeManager->getStore($this->getStore())->getId();
+        /** @var Magento_Paypal_Model_Config $config */
+        $config = $this->_configFactory->create()->setStoreId($storeId);
         if (parent::isAvailable($quote) && $config->isMethodAvailable($this->getCode())) {
             return true;
         }
@@ -156,13 +170,16 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
                 return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
             case Magento_Paypal_Model_Config::PAYMENT_ACTION_SALE:
                 return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
+            default:
+                break;
         }
     }
 
     /**
      * Authorize payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param float $amount
      * @return Magento_Paypal_Model_Payflowpro
      */
     public function authorize(Magento_Object $payment, $amount)
@@ -182,6 +199,8 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
                 $payment->setIsTransactionPending(true);
                 $payment->setIsFraudDetected(true);
                 break;
+            default:
+                break;
         }
         return $this;
     }
@@ -189,7 +208,8 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Capture payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param float $amount
      * @return Magento_Paypal_Model_Payflowpro
      */
     public function capture(Magento_Object $payment, $amount)
@@ -210,7 +230,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         $response = $this->_postRequest($request);
         $this->_processErrors($response);
 
-        switch ($response->getResultCode()){
+        switch ($response->getResultCode()) {
             case self::RESPONSE_CODE_APPROVED:
                 $payment->setTransactionId($response->getPnref())->setIsTransactionClosed(0);
                 break;
@@ -219,6 +239,8 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
                 $payment->setIsTransactionPending(true);
                 $payment->setIsFraudDetected(true);
                 break;
+            default:
+                break;
         }
         return $this;
     }
@@ -226,7 +248,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Void payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Payflowpro
      */
     public function void(Magento_Object $payment)
@@ -260,7 +282,8 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Refund capture
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param float $amount
      * @return Magento_Paypal_Model_Payflowpro
      */
     public function refund(Magento_Object $payment, $amount)
@@ -268,7 +291,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         $request = $this->_buildBasicRequest($payment);
         $request->setTrxtype(self::TRXTYPE_CREDIT);
         $request->setOrigid($payment->getParentTransactionId());
-        $request->setAmt(round($amount,2));
+        $request->setAmt(round($amount, 2));
         $response = $this->_postRequest($request);
         $this->_processErrors($response);
 
@@ -312,7 +335,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Check whether the transaction is in payment review status
      *
-     * @param string $statusCode
+     * @param string $status
      * @return bool
      */
     protected static function _isTransactionUnderReview($status)
@@ -343,6 +366,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
      *
      * @param Magento_Object $request
      * @return Magento_Object
+     * @throws Exception
      */
     protected function _postRequest(Magento_Object $request)
     {
@@ -380,8 +404,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
             * so we set up _urlEncodeBody flag to false
             */
             $response = $client->setUrlEncodeBody(false)->request();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $result->setResponseCode(-1)
                 ->setResponseReasonCode($e->getCode())
                 ->setResponseReasonText($e->getMessage());
@@ -396,9 +419,9 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         $response = strstr($response->getBody(), 'RESULT');
         $valArray = explode('&', $response);
 
-        foreach($valArray as $val) {
-                $valArray2 = explode('=', $val);
-                $result->setData(strtolower($valArray2[0]), $valArray2[1]);
+        foreach ($valArray as $val) {
+            $valArray2 = explode('=', $val);
+            $result->setData(strtolower($valArray2[0]), $valArray2[1]);
         }
 
         $result->setResultCode($result->getResult())
@@ -410,19 +433,19 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         return $result;
     }
 
-     /**
-      * Return request object with information for 'authorization' or 'sale' action
-      *
-      * @param Magento_Sales_Model_Order_Payment $payment
-      * @param float $amount
-      * @return Magento_Object
-      */
+    /**
+     * Return request object with information for 'authorization' or 'sale' action
+     *
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param float $amount
+     * @return Magento_Object
+     */
     protected function _buildPlaceRequest(Magento_Object $payment, $amount)
     {
         $request = $this->_buildBasicRequest($payment);
-        $request->setAmt(round($amount,2));
+        $request->setAmt(round($amount, 2));
         $request->setAcct($payment->getCcNumber());
-        $request->setExpdate(sprintf('%02d',$payment->getCcExpMonth()) . substr($payment->getCcExpYear(),-2,2));
+        $request->setExpdate(sprintf('%02d', $payment->getCcExpMonth()) . substr($payment->getCcExpYear(), -2, 2));
         $request->setCvv2($payment->getCcCid());
 
         if ($this->getIsCentinelValidationEnabled()){
@@ -432,7 +455,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         }
 
         $order = $payment->getOrder();
-        if(!empty($order)){
+        if (!empty($order)) {
             $request->setCurrency($order->getBaseCurrencyCode());
 
             $orderIncrementId = $order->getIncrementId();
@@ -465,12 +488,12 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         return $request;
     }
 
-     /**
-      * Return request object with basic information for gateway request
-      *
-      * @param Magento_Sales_Model_Order_Payment $payment
-      * @return Magento_Object
-      */
+    /**
+     * Return request object with basic information for gateway request
+     *
+     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @return Magento_Object
+     */
     protected function _buildBasicRequest(Magento_Object $payment)
     {
         $request = new Magento_Object();
@@ -505,8 +528,9 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
             throw new Magento_Paypal_Exception(__('You cannot void a verification transaction.'));
         } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED
-            && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER) {
-            Mage::throwException($response->getRespmsg());
+            && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
+        ) {
+            throw new Magento_Core_Exception($response->getRespmsg());
         }
     }
 

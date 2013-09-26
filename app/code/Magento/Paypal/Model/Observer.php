@@ -10,10 +10,7 @@
 
 /**
  * PayPal module observer
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Paypal_Model_Observer
 {
     /**
@@ -21,21 +18,21 @@ class Magento_Paypal_Model_Observer
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
-    
+    protected $_coreRegistry;
+
     /**
      * Paypal hss
      *
      * @var Magento_Paypal_Helper_Hss
      */
-    protected $_paypalHss = null;
+    protected $_paypalHss;
 
     /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * @var Magento_Core_Model_Logger
@@ -43,21 +40,29 @@ class Magento_Paypal_Model_Observer
     protected $_logger;
 
     /**
+     * @var Magento_Paypal_Model_Report_SettlementFactory
+     */
+    protected $_settlementFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Paypal_Helper_Hss $paypalHss
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Paypal_Model_Report_SettlementFactory $settlementFactory
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Paypal_Helper_Hss $paypalHss,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Logger $logger
+        Magento_Core_Model_Logger $logger,
+        Magento_Paypal_Model_Report_SettlementFactory $settlementFactory
     ) {
         $this->_coreData = $coreData;
         $this->_paypalHss = $paypalHss;
         $this->_coreRegistry = $coreRegistry;
         $this->_logger = $logger;
+        $this->_settlementFactory = $settlementFactory;
     }
 
     /**
@@ -67,7 +72,8 @@ class Magento_Paypal_Model_Observer
     public function fetchReports()
     {
         try {
-            $reports = Mage::getModel('Magento_Paypal_Model_Report_Settlement');
+            /** @var Magento_Paypal_Model_Report_Settlement $reports */
+            $reports = $this->_settlementFactory->create();
             /* @var $reports Magento_Paypal_Model_Report_Settlement */
             $credentials = $reports->getSftpCredentials(true);
             foreach ($credentials as $config) {

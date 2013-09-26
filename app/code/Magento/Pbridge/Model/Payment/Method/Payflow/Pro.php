@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Authoreze.Net dummy payment method model
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Model_Payflowpro
 {
@@ -45,30 +40,46 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
      *
      * @var Magento_Pbridge_Helper_Data
      */
-    protected $_pbridgeData = null;
+    protected $_pbridgeData;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Paypal_Model_ConfigFactory $configFactory
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Pbridge_Helper_Data $pbridgeData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Paypal_Model_ConfigFactory $configFactory,
+        Magento_Pbridge_Helper_Data $pbridgeData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreData, $moduleList, $coreStoreConfig, $paymentData, $logger, $data);
+        parent::__construct(
+            $eventManager,
+            $coreData,
+            $moduleList,
+            $coreStoreConfig,
+            $paymentData,
+            $logger,
+            $storeManager,
+            $configFactory,
+            $data
+        );
     }
 
     /**
@@ -115,6 +126,9 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
         return parent::getCode();
     }
 
+    /**
+     * @return string
+     */
     public function getTitle()
     {
         return parent::getTitle();
@@ -135,15 +149,16 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
     /**
      * Retrieve information from payment configuration
      *
-     * @param   string $field
-     * @return  mixed
+     * @param string $field
+     * @param null $storeId
+     * @return string|null
      */
     public function getConfigData($field, $storeId = null)
     {
         if (null === $storeId) {
             $storeId = $this->getStore();
         }
-        $path = 'payment/'.$this->getOriginalCode().'/'.$field;
+        $path = 'payment/' . $this->getOriginalCode() . '/' . $field;
         return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
@@ -155,8 +170,8 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
      */
     public function isAvailable($quote = null)
     {
-        $storeId = Mage::app()->getStore($this->getStore())->getId();
-        $config = Mage::getModel('Magento_Paypal_Model_Config')->setStoreId($storeId);
+        $storeId = $this->_storeManager->getStore($this->getStore())->getId();
+        $config = $this->_configFactory->create()->setStoreId($storeId);
 
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
             && $config->isMethodAvailable($this->getOriginalCode());
@@ -169,9 +184,7 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
      */
     public function getFormBlockType()
     {
-        return Mage::app()->getStore()->isAdmin() ?
-            $this->_backendFormBlockType :
-            $this->_formBlockType;
+        return $this->_storeManager->getStore()->isAdmin() ? $this->_backendFormBlockType : $this->_formBlockType;
     }
 
     /**

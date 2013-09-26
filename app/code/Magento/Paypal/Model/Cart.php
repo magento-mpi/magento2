@@ -16,8 +16,6 @@ class Magento_Paypal_Model_Cart
 {
     /**
      * Totals that PayPal suppports when passing shopping cart
-     *
-     * @var string
      */
     const TOTAL_SUBTOTAL = 'subtotal';
     const TOTAL_DISCOUNT = 'discount';
@@ -27,10 +25,9 @@ class Magento_Paypal_Model_Cart
     /**
      * Order or quote instance
      *
-     * @var Magento_Sales_Model_Order
-     * @var Magento_Sales_Model_Quote
+     * @var Magento_Sales_Model_Quote|Magento_Sales_Model_Order
      */
-    protected $_salesEntity = null;
+    protected $_salesEntity;
 
     /**
      * Rendered cart items
@@ -98,22 +95,31 @@ class Magento_Paypal_Model_Cart
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $params
      * @throws Exception
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         $params = array()
     ) {
         $this->_eventManager = $eventManager;
+        $this->_storeManager = $storeManager;
         $salesEntity = array_shift($params);
         if (is_object($salesEntity)
             && (($salesEntity instanceof Magento_Sales_Model_Order)
-                || ($salesEntity instanceof Magento_Sales_Model_Quote))) {
+                || ($salesEntity instanceof Magento_Sales_Model_Quote))
+        ) {
             $this->_salesEntity = $salesEntity;
         } else {
             throw new Exception('Invalid sales entity provided.');
@@ -285,7 +291,6 @@ class Magento_Paypal_Model_Cart
         $lastRegularItemKey = key($this->_items);
 
         // regular totals
-        $shippingDescription = '';
         if ($this->_salesEntity instanceof Magento_Sales_Model_Order) {
             $shippingDescription = $this->_salesEntity->getShippingDescription();
             $this->_totals = array(
@@ -314,7 +319,8 @@ class Magento_Paypal_Model_Cart
 
         // distinguish original discount among the others
         if ($originalDiscount > 0.0001 && isset($this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT])) {
-            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = __('Discount (%1)', Mage::app()->getStore()->convertPrice($originalDiscount, true, false));
+            $discountToDisplay = $this->_storeManager->getStore()->convertPrice($originalDiscount, true, false);
+            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = __('Discount (%1)', $discountToDisplay);
         }
 
         // discount, shipping as items

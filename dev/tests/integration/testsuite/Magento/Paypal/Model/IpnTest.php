@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * @magentoAppArea frontend
+ */
 class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
 {
     /**

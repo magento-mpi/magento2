@@ -16,7 +16,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     /**
      * @var Magento_Paypal_Model_Express_Checkout
      */
-    protected $_checkout = null;
+    protected $_checkout;
 
     /**
      * Internal cache of checkout models
@@ -28,7 +28,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     /**
      * @var Magento_Paypal_Model_Config
      */
-    protected $_config = null;
+    protected $_config;
 
     /**
      * @var Magento_Sales_Model_Quote
@@ -57,13 +57,78 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     protected $_checkoutType;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Paypal_Model_Express_Checkout_Factory
+     */
+    protected $_checkoutFactory;
+
+    /**
+     * @var Magento_Core_Model_Session_Generic
+     */
+    protected $_paypalSession;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Paypal_Model_Express_Checkout_Factory $checkoutFactory
+     * @param Magento_Core_Model_Session_Generic $paypalSession
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Paypal_Model_Express_Checkout_Factory $checkoutFactory,
+        Magento_Core_Model_Session_Generic $paypalSession
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_urlBuilder = $urlBuilder;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_orderFactory = $orderFactory;
+        $this->_checkoutFactory = $checkoutFactory;
+        $this->_paypalSession = $paypalSession;
+        parent::__construct($context);
+    }
+
+    /**
      * Instantiate config
      */
     protected function _construct()
     {
         parent::_construct();
         $parameters = array('params' => array($this->_configMethod));
-        $this->_config = Mage::getModel($this->_configType, $parameters);
+        $this->_config = $this->_objectManager->create($this->_configType, $parameters);
     }
 
     /**
@@ -79,7 +144,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
                 $this->_getQuote()->removeAllAddresses();
             }
 
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $customer = $this->_customerSession->getCustomer();
             if ($customer && $customer->getId()) {
                 $this->_checkout->setCustomerWithAddressChange(
                     $customer, $this->_getQuote()->getBillingAddress(), $this->_getQuote()->getShippingAddress()
@@ -95,12 +160,15 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
 
             // giropay
             $this->_checkout->prepareGiropayUrls(
-                Mage::getUrl('checkout/onepage/success'),
-                Mage::getUrl('paypal/express/cancel'),
-                Mage::getUrl('checkout/onepage/success')
+                $this->_urlBuilder->getUrl('checkout/onepage/success'),
+                $this->_urlBuilder->getUrl('paypal/express/cancel'),
+                $this->_urlBuilder->getUrl('checkout/onepage/success')
             );
 
-            $token = $this->_checkout->start(Mage::getUrl('*/*/return'), Mage::getUrl('*/*/cancel'));
+            $token = $this->_checkout->start(
+                $this->_urlBuilder->getUrl('*/*/return'),
+                $this->_urlBuilder->getUrl('*/*/cancel')
+            );
             if ($token && $url = $this->_checkout->getRedirectUrl()) {
                 $this->_initToken($token);
                 $this->getResponse()->setRedirect($url);
@@ -123,7 +191,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     {
         try {
             $quoteId = $this->getRequest()->getParam('quote_id');
-            $this->_quote = Mage::getModel('Magento_Sales_Model_Quote')->load($quoteId);
+            $this->_quote = $this->_quoteFactory->create()->load($quoteId);
             $this->_initCheckout();
             $response = $this->_checkout->getShippingOptionsCallbackResponse($this->getRequest()->getParams());
             $this->getResponse()->setBody($response);
@@ -142,7 +210,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             // TODO verify if this logic of order cancellation is deprecated
             // if there is an order - cancel it
             $orderId = $this->_getCheckoutSession()->getLastOrderId();
-            $order = ($orderId) ? Mage::getModel('Magento_Sales_Model_Order')->load($orderId) : false;
+            $order = ($orderId) ? $this->_orderFactory->create()->load($orderId) : false;
             if ($order && $order->getId() && $order->getQuoteId() == $this->_getCheckoutSession()->getQuoteId()) {
                 $order->cancel()->save();
                 $this->_getCheckoutSession()
@@ -175,12 +243,10 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $this->_checkout->returnFromPaypal($this->_initToken());
             $this->_redirect('*/*/review');
             return;
-        }
-        catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($e->getMessage());
-        }
-        catch (Exception $e) {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addError(__('We can\'t process Express Checkout approval.'));
+        } catch (Magento_Core_Exception $e) {
+            $this->_checkoutSession->addError($e->getMessage());
+        } catch (Exception $e) {
+            $this->_checkoutSession->addError(__('We can\'t process Express Checkout approval.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('checkout/cart');
@@ -204,12 +270,10 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             }
             $this->renderLayout();
             return;
-        }
-        catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($e->getMessage());
-        }
-        catch (Exception $e) {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
+        } catch (Magento_Core_Exception $e) {
+            $this->_checkoutSession->addError($e->getMessage());
+        } catch (Exception $e) {
+            $this->_checkoutSession->addError(
                 __('We can\'t initialize Express Checkout review.')
             );
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
@@ -224,8 +288,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
     {
         try {
             $this->getResponse()->setRedirect($this->_config->getExpressCheckoutEditUrl($this->_initToken()));
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/review');
         }
@@ -255,7 +318,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         }
         if ($isAjax) {
             $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
-                . Mage::getUrl('*/*/review') . ';</script>');
+                . $this->_urlBuilder->getUrl('*/*/review') . ';</script>');
         } else {
             $this->_redirect('*/*/review');
         }
@@ -282,7 +345,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
-            . Mage::getUrl('*/*/review') . ';</script>');
+            . $this->_urlBuilder->getUrl('*/*/review') . ';</script>');
     }
 
     /**
@@ -309,7 +372,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         }
         if ($isAjax) {
             $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
-                . Mage::getUrl('*/*/review') . ';</script>');
+                . $this->_urlBuilder->getUrl('*/*/review') . ';</script>');
         } else {
             $this->_redirect('*/*/review');
         }
@@ -317,6 +380,8 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
 
     /**
      * Submit the order
+     *
+     * @throws Magento_Core_Exception
      */
     public function placeOrderAction()
     {
@@ -325,7 +390,9 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             if ($requiredAgreements) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
-                    Mage::throwException(__('Please agree to all the terms and conditions before placing the order.'));
+                    throw new Magento_Core_Exception(
+                        __('Please agree to all the terms and conditions before placing the order.')
+                    );
                 }
             }
 
@@ -371,11 +438,9 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $this->_initToken(false); // no need in token anymore
             $this->_redirect('checkout/onepage/success');
             return;
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->_getSession()->addError(__('We can\'t place the order.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
@@ -384,6 +449,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
 
     /**
      * Instantiate quote and checkout
+     *
      * @throws Magento_Core_Exception
      */
     private function _initCheckout()
@@ -391,16 +457,17 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
             $this->getResponse()->setHeader('HTTP/1.1', '403 Forbidden');
-            Mage::throwException(__('We can\'t initialize Express Checkout.'));
+            throw new Magento_Core_Exception(__('We can\'t initialize Express Checkout.'));
         }
-        if (false === isset($this->_checkoutTypes[$this->_checkoutType])) {
+        if (!isset($this->_checkoutTypes[$this->_checkoutType])) {
             $parameters = array(
                 'params' => array(
                     'quote' => $quote,
                     'config' => $this->_config,
                 ),
             );
-            $this->_checkoutTypes[$this->_checkoutType] = Mage::getModel($this->_checkoutType, $parameters);
+            $this->_checkoutTypes[$this->_checkoutType] = $this->_checkoutFactory
+                ->create($this->_checkoutType, $parameters);
         }
         $this->_checkout = $this->_checkoutTypes[$this->_checkoutType];
     }
@@ -411,6 +478,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
      *
      * @param string $setToken
      * @return Magento_Paypal_Controller_Express|string
+     * @throws Magento_Core_Exception
      */
     protected function _initToken($setToken = null)
     {
@@ -418,7 +486,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             if (false === $setToken) {
                 // security measure for avoid unsetting token twice
                 if (!$this->_getSession()->getExpressCheckoutToken()) {
-                    Mage::throwException(__('PayPal Express Checkout Token does not exist.'));
+                    throw new Magento_Core_Exception(__('PayPal Express Checkout Token does not exist.'));
                 }
                 $this->_getSession()->unsExpressCheckoutToken();
             } else {
@@ -426,9 +494,10 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             }
             return $this;
         }
-        if ($setToken = $this->getRequest()->getParam('token')) {
+        $setToken = $this->getRequest()->getParam('token');
+        if ($setToken) {
             if ($setToken !== $this->_getSession()->getExpressCheckoutToken()) {
-                Mage::throwException(__('A wrong PayPal Express Checkout Token is specified.'));
+                throw new Magento_Core_Exception(__('A wrong PayPal Express Checkout Token is specified.'));
             }
         } else {
             $setToken = $this->_getSession()->getExpressCheckoutToken();
@@ -443,7 +512,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
      */
     private function _getSession()
     {
-        return Mage::getSingleton('Magento_Paypal_Model_Session');
+        return $this->_paypalSession;
     }
 
     /**
@@ -453,7 +522,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
      */
     private function _getCheckoutSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->_checkoutSession;
     }
 
     /**

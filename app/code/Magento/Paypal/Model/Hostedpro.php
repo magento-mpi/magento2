@@ -10,50 +10,91 @@
 
 /**
  * Website Payments Pro Hosted Solution payment gateway model
- *
- * @category    Magento
- * @package     Magento_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
 {
     /**
      * Button code
-     *
-     * @var string
      */
     const BM_BUTTON_CODE    = 'TOKEN';
 
     /**
      * Button type
-     *
-     * @var string
      */
     const BM_BUTTON_TYPE    = 'PAYMENT';
 
     /**
      * Paypal API method name for button creation
-     *
-     * @var string
      */
     const BM_BUTTON_METHOD  = 'BMCreateButton';
 
     /**
      * Payment method code
+     *
+     * @var string
      */
     protected $_code = Magento_Paypal_Model_Config::METHOD_HOSTEDPRO;
 
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'Magento_Paypal_Block_Hosted_Pro_Form';
-    protected $_infoBlockType = 'Magento_Paypal_Block_Hosted_Pro_Info';
 
     /**
+     * @var string
+     */
+    protected $_infoBlockType = 'Magento_Paypal_Block_Hosted_Pro_Info';
+
+    /**#@+
      * Availability options
      */
     protected $_canUseInternal          = false;
     protected $_canUseForMultishipping  = false;
     protected $_canSaveCc               = false;
     protected $_isInitializeNeeded      = true;
+    /**#@-*/
+
+    /**
+     * @var Magento_Paypal_Model_Hostedpro_RequestFactory
+     */
+    protected $_hostedproRequestFactory;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Core_Controller_Request_Http $requestHttp
+     * @param Magento_Paypal_Model_CartFactory $cartFactory
+     * @param Magento_Paypal_Model_Hostedpro_RequestFactory $hostedproRequestFactory
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_Core_Controller_Request_Http $requestHttp,
+        Magento_Paypal_Model_CartFactory $cartFactory,
+        Magento_Paypal_Model_Hostedpro_RequestFactory $hostedproRequestFactory,
+        array $data = array()
+    ) {
+        $this->_hostedproRequestFactory = $hostedproRequestFactory;
+        parent::__construct(
+            $logger, $eventManager, $moduleList, $paymentData, $coreStoreConfig, $proTypeFactory, $storeManager,
+            $urlBuilder, $requestHttp, $cartFactory, $data
+        );
+    }
 
     /**
      * Return available CC types for gateway based on merchant country.
@@ -92,6 +133,7 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
      *
      * @param string $paymentAction
      * @param Magento_Object $stateObject
+     * @return \Magento_Payment_Model_Abstract|null
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -119,6 +161,7 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
      * Sends API request to PayPal to get form URL, then sets this URL to $payment object.
      *
      * @param Magento_Payment_Model_Info $payment
+     * @throws Magento_Core_Exception
      */
     protected function _setPaymentFormUrl(Magento_Payment_Model_Info $payment)
     {
@@ -127,7 +170,7 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
         if ($response) {
             $payment->setAdditionalInformation('secure_form_url', $response);
         } else {
-            Mage::throwException('Cannot get secure form URL from PayPal');
+            throw new Magento_Core_Exception('Cannot get secure form URL from PayPal');
         }
     }
 
@@ -170,8 +213,7 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
      */
     protected function _buildBasicRequest()
     {
-        $request = Mage::getModel('Magento_Paypal_Model_Hostedpro_Request');
-        $request->setData(array(
+        $request = $this->_hostedproRequestFactory->create()->setData(array(
             'METHOD'     => self::BM_BUTTON_METHOD,
             'BUTTONCODE' => self::BM_BUTTON_CODE,
             'BUTTONTYPE' => self::BM_BUTTON_TYPE
@@ -222,8 +264,8 @@ class Magento_Paypal_Model_Hostedpro extends Magento_Paypal_Model_Direct
      */
     protected function _getUrl($path, $storeId, $secure = null)
     {
-        $store = Mage::app()->getStore($storeId);
-        return Mage::getUrl($path, array(
+        $store = $this->_storeManager->getStore($storeId);
+        return $this->_urlBuilder->getUrl($path, array(
             "_store"   => $store,
             "_secure"  => is_null($secure) ? $store->isCurrentlySecure() : $secure
         ));

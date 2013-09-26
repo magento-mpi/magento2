@@ -15,6 +15,7 @@ class Magento_Paypal_Block_Express_Form extends Magento_Paypal_Block_Standard_Fo
 {
     /**
      * Payment method code
+     *
      * @var string
      */
     protected $_methodCode = Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS;
@@ -24,22 +25,34 @@ class Magento_Paypal_Block_Express_Form extends Magento_Paypal_Block_Standard_Fo
      *
      * @var Magento_Paypal_Helper_Data
      */
-    protected $_paypalData = null;
+    protected $_paypalData;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
 
     /**
      * @param Magento_Paypal_Helper_Data $paypalData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Paypal_Model_ConfigFactory $paypalConfigFactory
+     * @param Magento_Customer_Model_Session $customerSession
      * @param array $data
      */
     public function __construct(
         Magento_Paypal_Helper_Data $paypalData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Paypal_Model_ConfigFactory $paypalConfigFactory,
+        Magento_Customer_Model_Session $customerSession,
         array $data = array()
     ) {
         $this->_paypalData = $paypalData;
-        parent::__construct($coreData, $context, $data);
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $locale, $paypalConfigFactory, $data);
     }
 
     /**
@@ -59,9 +72,10 @@ class Magento_Paypal_Block_Express_Form extends Magento_Paypal_Block_Standard_Fo
      */
     protected function _beforeToHtml()
     {
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        $customerId = $this->_customerSession->getCustomerId();
         if ($this->_paypalData->shouldAskToCreateBillingAgreement($this->_config, $customerId)
-             && $this->canCreateBillingAgreement()) {
+            && $this->canCreateBillingAgreement()
+        ) {
             $this->setCreateBACode(Magento_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
         }
         return parent::_beforeToHtml();

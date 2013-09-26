@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Paypal UK Direct dummy payment method model
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Model_Direct
 {
@@ -37,7 +32,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      *
      * @var Magento_Pbridge_Model_Payment_Method_Pbridge
      */
-    protected $_pbridgeMethodInstance = null;
+    protected $_pbridgeMethodInstance;
 
     /**
      * Website Payments Pro instance type
@@ -51,18 +46,23 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      *
      * @var Magento_Pbridge_Helper_Data
      */
-    protected $_pbridgeData = null;
+    protected $_pbridgeData;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Core_Controller_Request_Http $requestHttp
+     * @param Magento_Paypal_Model_CartFactory $cartFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
@@ -71,10 +71,27 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_Core_Controller_Request_Http $requestHttp,
+        Magento_Paypal_Model_CartFactory $cartFactory,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($logger, $eventManager, $moduleList, $paymentData, $coreStoreConfig, $data);
+        parent::__construct(
+            $logger,
+            $eventManager,
+            $moduleList,
+            $paymentData,
+            $coreStoreConfig,
+            $proTypeFactory,
+            $storeManager,
+            $urlBuilder,
+            $requestHttp,
+            $cartFactory,
+            $data
+        );
         $this->_pro->setPaymentMethod($this);
     }
 
@@ -178,7 +195,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      */
     public function getFormBlockType()
     {
-        return Mage::app()->getStore()->isAdmin() ?
+        return $this->_storeManager->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }

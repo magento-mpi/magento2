@@ -257,11 +257,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Controller_Request_Http">
-        <param name="backendData">
-            <instance type="Magento_Backend_Helper_Data_Proxy" />
-        </param>
-    </type>
     <type name="Magento_Core_Model_Session_Validator">
         <param name="skippedUserAgentList">
             <value>

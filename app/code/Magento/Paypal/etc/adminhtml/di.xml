@@ -16,4 +16,12 @@
             <value>adminhtml</value>
         </param>
     </virtualType>
+    <type name="Magento_Core_Model_Session_Generic">
+        <param name="sessionNamespace">
+            <value>paypal</value>
+        </param>
+        <param name="sessionName">
+            <value>adminhtml</value>
+        </param>
+    </type>
 </config>

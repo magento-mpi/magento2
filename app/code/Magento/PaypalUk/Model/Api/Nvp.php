@@ -15,8 +15,6 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
 {
     /**#@+
      * Transaction types declaration
-     *
-     * @var mixed
      */
     const TRXTYPE_AUTH_ONLY         = 'A';
     const TRXTYPE_SALE              = 'S';
@@ -27,8 +25,6 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
 
     /**#@+
      * Tender definition
-     *
-     * @var mixed
      */
     const TENDER_CC                 = 'C';
     const TENDER_PAYPAL             = 'P';
@@ -36,8 +32,6 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
 
     /**#@+
      * Express Checkout Actions
-     *
-     * @var string
      */
     const EXPRESS_SET               = 'S';
     const EXPRESS_GET               = 'G';
@@ -46,8 +40,6 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
 
     /**#@+
      * Response codes definition
-     *
-     * @var mixed
      */
     const RESPONSE_CODE_APPROVED = 0;
     const RESPONSE_CODE_FRAUD = 126;
@@ -55,8 +47,6 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
 
     /**#@+
      * Capture types (make authorization close or remain open)
-     *
-     * @var string
      */
     protected $_captureTypeComplete = 'Y';
     protected $_captureTypeNotcomplete = 'N';
@@ -330,7 +320,7 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Constructor
@@ -338,15 +328,25 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Customer_Helper_Address $customerAddress
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Core_Helper_Data $coreData
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Customer_Helper_Address $customerAddress
+        Magento_Customer_Helper_Address $customerAddress,
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_Core_Helper_Data $coreData
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($customerAddress);
+        parent::__construct($customerAddress, $logger, $locale, $regionFactory, $logAdapterFactory, $countryFactory);
     }
 
     /**
@@ -507,7 +507,8 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
     /**
      * Handle logical errors
      *
-     * @param array
+     * @param array $response
+     * @throws Magento_Core_Exception
      */
     protected function _handleCallErrors($response)
     {
@@ -515,9 +516,7 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
             $message = $response['RESPMSG'];
             $e = new Exception(sprintf('PayPal gateway errors: %s.', $message));
             $this->_logger->logException($e);
-            Mage::throwException(
-                __('PayPal gateway rejected the request. %1', $message)
-            );
+            throw new Magento_Core_Exception(__('PayPal gateway rejected the request. %1', $message));
         }
     }
 
@@ -530,8 +529,8 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
     protected function _buildQuery($request)
     {
         $result = '';
-        foreach ($request as $k=>$v) {
-            $result .= '&'.$k.'='.$v;
+        foreach ($request as $k => $v) {
+            $result .= '&' . $k . '=' . $v;
         }
         return trim($result, '&');
     }
@@ -549,7 +548,7 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
     /**
      * "GetTransactionDetails" method does not exists in PaypalUK
      */
-    function callGetTransactionDetails()
+    public function callGetTransactionDetails()
     {
     }
 
