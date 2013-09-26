@@ -18,15 +18,6 @@
                 </setup>
             </sitemap_setup>
         </resources>
-        <template>
-            <email>
-                <sitemap_generate_error_email_template translate="label" module="Magento_Sitemap">
-                    <label>Sitemap Generation Warnings</label>
-                    <file>email/generate_warnings.html</file>
-                    <type>text</type>
-                </sitemap_generate_error_email_template>
-            </email>
-        </template>
     </global>
     <default>
         <sitemap>

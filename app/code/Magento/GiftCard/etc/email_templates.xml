@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template id="giftcard_email_template" label="Gift Card(s) Purchase" file="gift_information.html" type="html"/>
+</config>

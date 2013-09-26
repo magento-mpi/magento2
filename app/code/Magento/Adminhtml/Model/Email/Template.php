@@ -19,6 +19,41 @@
 class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Template
 {
     /**
+     * @var Magento_Core_Model_Config
+     */
+    private $_coreConfig;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Email_Template_Config $emailConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Email_Template_Config $emailConfig,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $coreStoreConfig, $emailConfig, $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Collect all system config paths where current template is used as default
      *
      * @return array

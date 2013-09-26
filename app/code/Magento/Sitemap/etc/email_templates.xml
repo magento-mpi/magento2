@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template id="sitemap_generate_error_email_template" label="Sitemap Generation Warnings" file="generate_warnings.html" type="text"/>
+</config>

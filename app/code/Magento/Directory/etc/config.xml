@@ -19,15 +19,6 @@
                 </setup>
             </directory_setup>
         </resources>
-        <template>
-            <email>
-                <currency_import_error_email_template translate="label" module="Magento_Directory">
-                    <label>Currency Update Warnings</label>
-                    <file>email/currency_update_notification.html</file>
-                    <type>text</type>
-                </currency_import_error_email_template>
-            </email>
-        </template>
     </global>
     <default>
         <system>

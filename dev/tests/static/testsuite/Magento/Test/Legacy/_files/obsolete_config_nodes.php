@@ -102,4 +102,5 @@ return array(
     '/config/crontab' => 'All cron configurations moved to crontab.xml',
     '/config/vde' => 'Configurations moved to DI file settings',
     '/config/global/currency/import/services' => 'Configurations moved to DI file settings',
+    '/config/global/template' => 'Use /config/template of email_templates.xml',
 );
