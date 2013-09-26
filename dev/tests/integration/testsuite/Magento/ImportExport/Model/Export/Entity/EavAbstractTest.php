@@ -38,7 +38,8 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
         /** @var Magento_TestFramework_ObjectManager  $objectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        $customerAttributes = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
+        $customerAttributes = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
 
         $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
         $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Entity_EavAbstract',
@@ -58,7 +59,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     public function testGetEntityTypeId()
     {
         $entityCode = 'customer';
-        $entityId = Mage::getSingleton('Magento_Eav_Model_Config')
+        $entityId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
             ->getEntityType($entityCode)
             ->getEntityTypeId();
 
@@ -87,7 +88,8 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     public function testGetAttributeOptions()
     {
         /** @var $attributeCollection Magento_Customer_Model_Resource_Attribute_Collection */
-        $attributeCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
+        $attributeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'gender');
         /** @var $attribute Magento_Customer_Model_Attribute */
         $attribute = $attributeCollection->getFirstItem();
@@ -109,7 +111,8 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     protected function _getSkippedAttributes()
     {
         /** @var $attributeCollection Magento_Customer_Model_Resource_Attribute_Collection */
-        $attributeCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
+        $attributeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
         $attributeCollection->addFieldToFilter('attribute_code', array('in' => self::$_skippedAttributes));
         $skippedAttributes = array();
         /** @var $attribute  Magento_Customer_Model_Attribute */

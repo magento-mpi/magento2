@@ -19,11 +19,8 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     protected $_catalogSetupFactory;
 
     /**
-     * @var Magento_Enterprise_Model_Resource_Setup_Migration
-     */
-    protected $_entMigrationFactory;
-
-    /**
+     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -33,12 +30,13 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
-     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory
      * @param string $resourceName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -48,37 +46,13 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
-        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory,
         $resourceName
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        $this->_entMigrationFactory = $migrationFactory;
-        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
-            $resource, $modulesReader, $cache, $migrationFactory, $resourceName);
-    }
-
-    /**
-     * Get catalog resource setup model
-     *
-     * @param array $data
-     * @return Magento_Catalog_Model_Resource_Setup
-     */
-    public function getCatalogResourceSetup(array $data = array())
-    {
-        return $this->_catalogSetupFactory->create($data);
-    }
-
-    /**
-     * Get migration resource setup model
-     *
-     * @param array $data
-     * @return Magento_Enterprise_Model_Resource_Setup_Migration
-     */
-    public function getMigrationResourceSetup(array $data = array())
-    {
-        return $this->_entMigrationFactory->create($data);
+        parent::__construct(
+            $migrationFactory, $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
+            $resource, $modulesReader, $cache, $resourceName
+        );
     }
 
     /**
@@ -280,5 +254,14 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
         if ($data) {
             $this->getConnection()->insertMultiple($this->getTable('magento_rma_item_form_attribute'), $data);
         }
+    }
+
+    /**
+     * @param array $data
+     * @return Magento_Catalog_Model_Resource_Setup
+     */
+    public function getCatalogSetup(array $data = array())
+    {
+        return $this->_catalogSetupFactory->create($data);
     }
 }

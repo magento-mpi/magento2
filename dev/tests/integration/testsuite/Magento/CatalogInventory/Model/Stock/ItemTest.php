@@ -18,7 +18,8 @@ class Magento_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_CatalogInventory_Model_Stock_Item');
     }
 
     /**
@@ -27,7 +28,8 @@ class Magento_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_Te
     public static function simpleProductFixture()
     {
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->setTypeId('simple')
             ->setId(1)
             ->setAttributeSetId(4)

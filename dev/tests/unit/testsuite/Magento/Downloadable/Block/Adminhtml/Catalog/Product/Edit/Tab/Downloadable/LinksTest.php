@@ -20,10 +20,16 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
+        $attributeFactory = $this->getMock('Magento_Eav_Model_Entity_AttributeFactory', array(), array(), '', false);
+        $urlFactory = $this->getMock('Magento_Backend_Model_UrlFactory', array(), array(), '', false);
+
         $this->_block = $objectManagerHelper->getObject(
             'Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links',
             array(
-                'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
+                'urlBuilder'                                => $urlBuilder,
+                'Magento_Eav_Model_Entity_AttributeFactory' => $attributeFactory,
+                'Magento_Backend_Model_UrlFactory'          => $urlFactory,
             )
         );
     }

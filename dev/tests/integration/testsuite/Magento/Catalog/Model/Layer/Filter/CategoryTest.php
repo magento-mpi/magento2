@@ -28,11 +28,14 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_category = Mage::getModel('Magento_Catalog_Model_Category');
+        $this->_category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $this->_category->load(5);
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Category');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Category');
         $this->_model->setData(array(
-            'layer' => Mage::getModel('Magento_Catalog_Model_Layer', array(
+            'layer' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer', array(
                 'data' => array('current_category' => $this->_category)
             )),
         ));
@@ -48,7 +51,8 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_model->apply(
             $objectManager->get('Magento_TestFramework_Request'),
-            Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+                ->createBlock('Magento_Core_Block_Text')
         );
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
@@ -60,7 +64,11 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $request = $objectManager->get('Magento_TestFramework_Request');
         $request->setParam('cat', 3);
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
+        $this->_model->apply(
+            $request,
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+                ->createBlock('Magento_Core_Block_Text')
+        );
 
         /** @var $category Magento_Catalog_Model_Category */
         $category = $objectManager->get('Magento_Core_Model_Registry')->registry('current_category_filter');

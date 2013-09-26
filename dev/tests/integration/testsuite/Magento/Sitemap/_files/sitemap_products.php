@@ -11,7 +11,7 @@
 
 // Copy images to tmp media path
 /** @var Magento_Catalog_Model_Product_Media_Config $config */
-$config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+$config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Product_Media_Config');
 $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
 /** @var Magento_Filesystem $filesystem */
@@ -20,7 +20,8 @@ $filesystem->setIsAllowCreateDirectories(true);
 $filesystem->copy(__DIR__ . '/magento_image_sitemap.png', $baseTmpMediaPath . '/magento_image_sitemap.png');
 $filesystem->copy(__DIR__ . '/second_image.png', $baseTmpMediaPath . '/second_image.png');
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)
@@ -33,7 +34,8 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setStockData(array('qty' => 100, 'is_in_stock' => 1))
     ->save();
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(2)
     ->setAttributeSetId(4)
@@ -47,7 +49,8 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setRelatedLinkData(array(1 => array('position' => 1)))
     ->save();
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(3)
     ->setAttributeSetId(4)
@@ -61,7 +64,8 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setRelatedLinkData(array(1 => array('position' => 1)))
     ->save();
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(4)
     ->setAttributeSetId(4)
@@ -80,7 +84,8 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setRelatedLinkData(array(1 => array('position' => 1)))
     ->save();
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(5)
     ->setAttributeSetId(4)

@@ -154,6 +154,10 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetSessionSavePath()
     {
-        $this->assertEquals(Mage::getBaseDir('session'), $this->_model->getSessionSavePath());
+        $this->assertEquals(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+                ->getDir('session'),
+            $this->_model->getSessionSavePath()
+        );
     }
 }

@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-require Mage::getBaseDir() . '/app/code/Magento/Catalog/Controller/Product.php';
+require Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir()
+    . '/app/code/Magento/Catalog/Controller/Product.php';
 
 class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 {
@@ -41,7 +42,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
         );
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
-        $this->_controller = Mage::getModel(
+        $this->_controller = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Catalog_Controller_Product',
             array(
                 'context'  => $context,
@@ -54,7 +55,8 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Mage::getSingleton('Magento_Catalog_Model_Session')->unsLastViewedProductId();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Session')
+            ->unsLastViewedProductId();
         $this->_controller = null;
         $this->_helper = null;
     }
@@ -66,7 +68,8 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     {
         $uniqid = uniqid();
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->setTypeId(Magento_Catalog_Model_Product_Type::DEFAULT_TYPE)->setId(99)->setUrlKey($uniqid);
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
@@ -89,7 +92,11 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     {
         $this->_helper->prepareAndRender(10, $this->_controller);
         $this->assertNotEmpty($this->_controller->getResponse()->getBody());
-        $this->assertEquals(10, Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId());
+        $this->assertEquals(
+            10,
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Session')
+                ->getLastViewedProductId()
+        );
     }
 
     /**
@@ -136,7 +143,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
         // add messages
         foreach ($expectedMessages as $sessionModel => $messageText) {
             /** @var $session Magento_Core_Model_Session_Abstract */
-            $session = Mage::getSingleton($sessionModel);
+            $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get($sessionModel);
             $session->addNotice($messageText);
         }
 

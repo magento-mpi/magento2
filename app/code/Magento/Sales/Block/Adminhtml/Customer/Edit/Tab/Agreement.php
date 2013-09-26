@@ -38,6 +38,8 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory $agreementFactory
+     * @param Magento_Sales_Model_Billing_Agreement $agreementModel
      * @param array $data
      */
     public function __construct(
@@ -47,10 +49,21 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory $agreementFactory,
+        Magento_Sales_Model_Billing_Agreement $agreementModel,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $paymentData, $context, $storeManager, $urlModel, $data);
+        parent::__construct(
+            $coreData,
+            $paymentData,
+            $context,
+            $storeManager,
+            $urlModel,
+            $agreementFactory,
+            $agreementModel,
+            $data
+        );
     }
 
     /**
@@ -106,7 +119,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/sales_billing_agreement/customerGrid', array('_current'=>true));
+        return $this->getUrl('*/sales_billing_agreement/customerGrid', array('_current' => true));
     }
 
     /**
@@ -126,7 +139,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Billing_Agreement_Collection')
+        $collection = $this->_agreementFactory->create()
             ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
             ->setOrder('created_at');
         $this->setCollection($collection);

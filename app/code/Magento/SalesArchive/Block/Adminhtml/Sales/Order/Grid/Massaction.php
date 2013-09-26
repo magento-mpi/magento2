@@ -13,28 +13,31 @@
  *  @deprecated
  */
 class Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction
-    extends Magento_Backend_Block_Widget_Grid_Massaction_Abstract
+    extends Magento_Adminhtml_Block_Widget_Grid_Massaction_Abstract
 {
     /**
      * @var Magento_SalesArchive_Model_Config
      */
-    protected $_archiveConfig;
+    protected $_configModel;
 
     /**
-     * @param Magento_SalesArchive_Model_Config $archiveConfig
+     * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_SalesArchive_Model_Config $configModel
      * @param array $data
      */
     public function __construct(
-        Magento_SalesArchive_Model_Config $archiveConfig,
+        Magento_Backend_Helper_Data $backendData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_SalesArchive_Model_Config $configModel,
         array $data = array()
     ) {
-        $this->_archiveConfig = $archiveConfig;
-        parent::__construct($coreData, $context, $data);
+        $this->_configModel = $configModel;
+        parent::__construct($backendData, $coreData, $context, $data);
     }
+
 
     /**
      * Before rendering html operations
@@ -43,7 +46,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction
      */
     protected function _beforeToHtml()
     {
-        $isActive = $this->_archiveConfig->isArchiveActive();
+        $isActive = $this->_configModel->isArchiveActive();
         if ($isActive && $this->_authorization->isAllowed('Magento_SalesArchive::add')) {
             $this->addItem('add_order_to_archive', array(
                  'label'=> __('Move to Archive'),

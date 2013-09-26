@@ -20,7 +20,8 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme('magento_demo', 'frontend');
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Page_Block_Html_Head');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Page_Block_Html_Head');
     }
 
     /**

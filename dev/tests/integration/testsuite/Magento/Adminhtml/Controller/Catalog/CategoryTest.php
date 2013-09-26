@@ -25,7 +25,8 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
     public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
     {
         /** @var $store Magento_Core_Model_Store */
-        $store = Mage::getModel('Magento_Core_Model_Store');
+        $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Store');
         $store->load('fixturestore', 'code');
         $storeId = $store->getId();
 
@@ -39,7 +40,8 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
         );
 
         /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $category->setStoreId($storeId);
         $category->load(2);
 

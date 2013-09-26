@@ -47,23 +47,23 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     protected $_itemStatus;
 
     /**
+     * @param Magento_Rma_Model_Item_Status $itemStatus
      * @param Magento_Rma_Helper_Eav $rmaEav
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Rma_Model_Item_Status $itemStatus
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Item_Status $itemStatus,
         Magento_Rma_Helper_Eav $rmaEav,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Rma_Model_Item_Status $itemStatus,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

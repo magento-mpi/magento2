@@ -11,7 +11,8 @@
 
 /** @var $objectManager Magento_ObjectManager */
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
+$objectManager->get('Magento_Core_Model_App')
+    ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 /** @var $theme Magento_Core_Model_Theme */
 $theme = $objectManager->create('Magento_Core_Model_Theme');
 $theme->setThemePath('test/test')

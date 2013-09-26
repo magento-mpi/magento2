@@ -87,7 +87,8 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected function _createModel(array $arguments = array())
     {
         /** @var $model Magento_Core_Model_Config */
-        $model = Mage::getModel('Magento_Core_Model_Config', $arguments);
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Config', $arguments);
         return $model;
     }
 
@@ -97,7 +98,8 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAreaConfigThrowsExceptionIfNonexistentAreaIsRequested()
     {
-        Mage::app()->getConfig()->getAreaConfig('non_existent_area_code');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->getConfig()
+            ->getAreaConfig('non_existent_area_code');
     }
 
     /**

@@ -10,10 +10,6 @@
 
 /**
  * Sales Order Pdf Items renderer Abstract
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core_Model_Abstract
 {
@@ -60,9 +56,15 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     protected $_taxData = null;
 
     /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_coreDir;
+
+    /**
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Dir $coreDir
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -71,11 +73,13 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Dir $coreDir,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
+        $this->_coreDir = $coreDir;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -148,7 +152,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     public function getOrder()
     {
         if (is_null($this->_order)) {
-            Mage::throwException(__('The order object is not specified.'));
+            throw new Magento_Core_Exception(__('The order object is not specified.'));
         }
         return $this->_order;
     }
@@ -162,7 +166,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     public function getSource()
     {
         if (is_null($this->_source)) {
-            Mage::throwException(__('The source object is not specified.'));
+            throw new Magento_Core_Exception(__('The source object is not specified.'));
         }
         return $this->_source;
     }
@@ -176,7 +180,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     public function getItem()
     {
         if (is_null($this->_item)) {
-            Mage::throwException(__('An item object is not specified.'));
+            throw new Magento_Core_Exception(__('An item object is not specified.'));
         }
         return $this->_item;
     }
@@ -190,7 +194,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     public function getPdf()
     {
         if (is_null($this->_pdf)) {
-            Mage::throwException(__('A PDF object is not specified.'));
+            throw new Magento_Core_Exception(__('A PDF object is not specified.'));
         }
         return $this->_pdf;
     }
@@ -204,7 +208,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
     public function getPage()
     {
         if (is_null($this->_pdfPage)) {
-            Mage::throwException(__('A PDF page object is not specified.'));
+            throw new Magento_Core_Exception(__('A PDF page object is not specified.'));
         }
         return $this->_pdfPage;
     }
@@ -244,6 +248,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
 
     /**
      * Get array of arrays with item prices information for display in PDF
+     *
      * array(
      *  $index => array(
      *      'label'    => $label,
@@ -251,6 +256,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
      *      'subtotal' => $subtotal
      *  )
      * )
+     *
      * @return array
      */
     public function getItemPricesForDisplay()
@@ -291,7 +297,8 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
      */
     public function getItemOptions() {
         $result = array();
-        if ($options = $this->getItem()->getOrderItem()->getProductOptions()) {
+        $options = $this->getItem()->getOrderItem()->getProductOptions();
+        if ($options) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);
             }
@@ -313,7 +320,9 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
      */
     protected function _setFontRegular($size = 7)
     {
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
+        $font = Zend_Pdf_Font::fontWithPath(
+            $this->_coreDir->getDir(Magento_Core_Model_Dir::ROOT) . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf'
+        );
         $this->getPage()->setFont($font, $size);
         return $font;
     }
@@ -326,7 +335,9 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
      */
     protected function _setFontBold($size = 7)
     {
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf');
+        $font = Zend_Pdf_Font::fontWithPath(
+            $this->_coreDir->getDir(Magento_Core_Model_Dir::ROOT) . '/lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
+        );
         $this->getPage()->setFont($font, $size);
         return $font;
     }
@@ -339,7 +350,9 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
      */
     protected function _setFontItalic($size = 7)
     {
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_It-2.8.2.ttf');
+        $font = Zend_Pdf_Font::fontWithPath(
+            $this->_coreDir->getDir(Magento_Core_Model_Dir::ROOT) . '/lib/LinLibertineFont/LinLibertine_It-2.8.2.ttf'
+        );
         $this->getPage()->setFont($font, $size);
         return $font;
     }
@@ -352,9 +365,10 @@ abstract class Magento_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core
      */
     public function getSku($item)
     {
-        if ($item->getOrderItem()->getProductOptionByCode('simple_sku'))
+        if ($item->getOrderItem()->getProductOptionByCode('simple_sku')) {
             return $item->getOrderItem()->getProductOptionByCode('simple_sku');
-        else
+        } else {
             return $item->getSku();
+        }
     }
 }

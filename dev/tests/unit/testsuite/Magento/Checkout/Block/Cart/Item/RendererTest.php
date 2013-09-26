@@ -48,6 +48,10 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
             'statusListFactory' => $this->getMock(
                 'Magento_Sales_Model_Status_ListFactory', array(), array(), '', false
             ),
+            'productFactory' => $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false),
+            'itemOptionFactory' => $this->getMock(
+                'Magento_Sales_Model_Quote_Item_OptionFactory', array(), array(), '', false
+            ),
         );
         $childItem = $objectManagerHelper->getObject('Magento_Sales_Model_Quote_Item', $arguments);
         $childItem->setData('product', $childProduct);

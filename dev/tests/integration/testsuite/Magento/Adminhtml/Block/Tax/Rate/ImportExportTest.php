@@ -17,7 +17,7 @@ class Magento_Adminhtml_Block_Tax_Rate_ImportExportTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
             ->createBlock('Magento_Adminhtml_Block_Tax_Rate_ImportExport')
             ->setArea('adminhtml');
     }

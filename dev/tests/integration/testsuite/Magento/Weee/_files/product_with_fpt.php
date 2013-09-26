@@ -9,13 +9,16 @@
  * @license     {license_link}
  */
 
-$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 $attributeSetId = $installer->getAttributeSetId('catalog_product', 'Default');
-$entityModel = Mage::getModel('Magento_Eav_Model_Entity');
+$entityModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Eav_Model_Entity');
 $entityTypeId = $entityModel->setType(Magento_Catalog_Model_Product::ENTITY)->getTypeId();
 $groupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
 
-$attribute = Mage::getResourceModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+$attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Resource_Eav_Attribute');
 $attribute->setAttributeCode('fpt_for_all')
     ->setEntityTypeId($entityTypeId)
     ->setAttributeGroupId($groupId)
@@ -24,7 +27,8 @@ $attribute->setAttributeCode('fpt_for_all')
     ->setIsUserDefined(1)
     ->save();
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId($attributeSetId)

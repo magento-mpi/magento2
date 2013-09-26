@@ -10,10 +10,6 @@
 
 /**
  * Advertising Tooltip block to show different messages for gaining reward points
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
 {
@@ -39,7 +35,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
      *
      * @var Magento_Reward_Model_Action_Abstract
      */
-    protected $_actionInstance = null;
+    protected $_actionInstance;
 
     /**
      * @var Magento_Core_Model_StoreManager
@@ -71,10 +67,14 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
         $this->_storeManager = $storeManager;
     }
 
+    /**
+     * @return $this|Magento_Core_Block_Abstract
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if ($action = $this->getRewardType()) {
+        $action = $this->getRewardType();
+        if ($action) {
             if (!$this->_rewardHelper->isEnabledOnFront()) {
                 return $this;
             }
@@ -102,6 +102,11 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
         return $this->_rewardHelper->formatAmount($amount, $asCurrency);
     }
 
+    /**
+     * @param string $format
+     * @param null|string $anchorText
+     * @return string
+     */
     public function renderLearnMoreLink($format = '<a href="%1$s">%2$s</a>', $anchorText = null)
     {
         $anchorText = null === $anchorText ? __('Learn more...') : $anchorText;

@@ -52,7 +52,8 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
     public function testResetPasswordAction()
     {
         /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User')->loadByUsername('dummy_username');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User')->loadByUsername('dummy_username');
         $this->assertNotEmpty($user->getId(), 'Broken fixture');
         $resetPasswordToken = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_User_Helper_Data')
@@ -94,7 +95,8 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
     public function testResetPasswordPostAction()
     {
         /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User')->loadByUsername('dummy_username');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User')->loadByUsername('dummy_username');
         $this->assertNotEmpty($user->getId(), 'Broken fixture');
         $resetPasswordToken = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_User_Helper_Data')
@@ -118,7 +120,8 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
         ));
 
         /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User')->loadByUsername('dummy_username');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User')->loadByUsername('dummy_username');
         $this->assertTrue(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
                 ->validateHash($newDummyPassword, $user->getPassword())
@@ -150,7 +153,8 @@ class Magento_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility
      */
     public function testResetPasswordPostActionWithInvalidPassword()
     {
-        $user = Mage::getModel('Magento_User_Model_User')->loadByUsername('dummy_username');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User')->loadByUsername('dummy_username');
         $resetPasswordToken = null;
         if ($user->getId()) {
             $resetPasswordToken = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

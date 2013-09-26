@@ -85,7 +85,8 @@ class Magento_TestFramework_Annotation_ConfigFixture
                 $objectManager->get('Magento_Core_Model_Config_Primary')->setNode($configPath, $value);
             }
         } else {
-            Mage::app()->getStore($storeCode)->setConfig($configPath, $value);
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore($storeCode)->setConfig($configPath, $value);
         }
     }
 

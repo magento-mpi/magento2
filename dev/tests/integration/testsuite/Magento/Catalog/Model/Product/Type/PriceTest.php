@@ -21,7 +21,8 @@ class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Type_Price');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Type_Price');
     }
 
     public function testGetPrice()
@@ -32,7 +33,8 @@ class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_Tes
     public function testGetFinalPrice()
     {
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
 
         // regular & tier prices
@@ -55,7 +57,8 @@ class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_Tes
     public function testGetChildFinalPrice()
     {
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
 
         // regular & tier prices
@@ -73,7 +76,8 @@ class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_Tes
 
     public function testGetTierPrice()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
         $this->assertEquals(8.0, $this->_model->getTierPrice(2, $product));
         $this->assertEquals(5.0, $this->_model->getTierPrice(5, $product));
@@ -81,21 +85,24 @@ class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_Tes
 
     public function testGetTierPriceCount()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
         $this->assertEquals(2, $this->_model->getTierPriceCount($product));
     }
 
     public function testGetFormatedTierPrice()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
         $this->assertEquals('<span class="price">$8.00</span>', $this->_model->getFormatedTierPrice(2, $product));
     }
 
     public function testGetFormatedPrice()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
         $this->assertEquals('<span class="price">$10.00</span>', $this->_model->getFormatedPrice($product));
     }

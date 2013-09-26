@@ -22,7 +22,8 @@ class Magento_Backend_Model_SessionTest extends PHPUnit_Framework_TestCase
             unset($_SESSION['adminhtml']);
         }
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        Mage::getModel('Magento_Backend_Model_Session', array($logger));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Session', array($logger));
         $this->assertArrayHasKey('adminhtml', $_SESSION);
     }
 }

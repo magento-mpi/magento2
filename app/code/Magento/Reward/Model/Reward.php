@@ -70,10 +70,52 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
     protected $_rewardCustomer = null;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Locale
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_Reward_Model_Reward_HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * @var Magento_Reward_Model_Reward_RateFactory
+     */
+    protected $_rateFactory;
+
+    /**
+     * @var Magento_Core_Model_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @var Magento_Reward_Model_Reward
+     */
+    protected $_reward;
+
+    /**
      * @param Magento_Reward_Helper_Customer $rewardCustomer
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Locale $locale
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Reward_Model_ActionFactory $actionFactory
+     * @param Magento_Reward_Model_Reward_HistoryFactory $historyFactory
+     * @param Magento_Reward_Model_Reward_RateFactory $rateFactory
+     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -83,12 +125,26 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Locale $locale,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Reward_Model_ActionFactory $actionFactory,
+        Magento_Reward_Model_Reward_HistoryFactory $historyFactory,
+        Magento_Reward_Model_Reward_RateFactory $rateFactory,
+        Magento_Core_Model_Email_TemplateFactory $templateFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardCustomer = $rewardCustomer;
         $this->_rewardData = $rewardData;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_customerFactory = $customerFactory;
+        $this->_actionFactory = $actionFactory;
+        $this->_historyFactory = $historyFactory;
+        $this->_rateFactory = $rateFactory;
+        $this->_templateFactory = $templateFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -120,11 +176,12 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
      *
      * @param integer $actionId
      * @param string $actionModelClass
+     * @throws Magento_Core_Exception
      */
     public static function setActionModelClass($actionId, $actionModelClass)
     {
         if (!is_int($actionId)) {
-            Mage::throwException(__('The action ID you enter must be a numerical integer.'));
+            throw new Magento_Core_Exception(__('The action ID you enter must be a numerical integer.'));
         }
         self::$_actionModelClasses[$actionId] = $actionModelClass;
     }
@@ -179,7 +236,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         }
         $instance = $this->_coreRegistry->registry('_reward_actions' . $action);
         if (!$instance && array_key_exists($action, self::$_actionModelClasses)) {
-            $instance = Mage::getModel(self::$_actionModelClasses[$action]);
+            $instance = $this->_actionFactory->create(self::$_actionModelClasses[$action]);
             // setup invariant properties once
             $instance->setAction($action);
             $instance->setReward($this);
@@ -260,7 +317,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
     public function getCustomer()
     {
         if (!$this->_getData('customer') && $this->getCustomerId()) {
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->getCustomerId());
+            $customer = $this->_customerFactory->create()->load($this->getCustomerId());
             $this->setCustomer($customer);
         }
         return $this->_getData('customer');
@@ -309,7 +366,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
             $this->setData('store', $store);
         }
         if ($store !== null) {
-            return is_object($store) ? $store : Mage::app()->getStore($store);
+            return is_object($store) ? $store : $this->_storeManager->getStore($store);
         }
         return $store;
     }
@@ -349,7 +406,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
      */
     public function getFormatedCurrencyAmount()
     {
-        $currencyAmount = Mage::app()->getLocale()->currency($this->getWebsiteCurrencyCode())
+        $currencyAmount = $this->_locale->currency($this->getWebsiteCurrencyCode())
                 ->toCurrency($this->getCurrencyAmount());
         return $currencyAmount;
     }
@@ -362,7 +419,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
     public function getWebsiteCurrencyCode()
     {
         if (!$this->_getData('website_currency_code')) {
-            $this->setData('website_currency_code', Mage::app()->getWebsite($this->getWebsiteId())
+            $this->setData('website_currency_code', $this->_storeManager->getWebsite($this->getWebsiteId())
                 ->getBaseCurrencyCode());
         }
         return $this->_getData('website_currency_code');
@@ -376,7 +433,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
     public function getHistory()
     {
         if (!$this->_getData('history')) {
-            $this->setData('history', Mage::getModel('Magento_Reward_Model_Reward_History'));
+            $this->setData('history', $this->_historyFactory->create());
             $this->getHistory()->setReward($this);
         }
         return $this->_getData('history');
@@ -391,7 +448,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
     protected function _getRateByDirection($direction)
     {
         if (!isset($this->_rates[$direction])) {
-            $this->_rates[$direction] = Mage::getModel('Magento_Reward_Model_Reward_Rate')
+            $this->_rates[$direction] = $this->_rateFactory->create()
                 ->fetch($this->getCustomerGroupId(), $this->getWebsiteId(), $direction);
         }
         return $this->_rates[$direction];
@@ -628,8 +685,8 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
             return $this;
         }
         $history = $this->getHistory();
-        $store = Mage::app()->getStore($this->getStore());
-        $mail  = Mage::getModel('Magento_Core_Model_Email_Template');
+        $store = $this->_storeManager->getStore($this->getStore());
+        $mail  = $this->_templateFactory->create();
         /* @var $mail Magento_Core_Model_Email_Template */
         $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
         $templateVars = array(
@@ -673,17 +730,17 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
      */
     public function sendBalanceWarningNotification($item, $websiteId)
     {
-        $mail  = Mage::getModel('Magento_Core_Model_Email_Template');
+        $mail  = $this->_templateFactory->create();
         /* @var $mail Magento_Core_Model_Email_Template */
         $mail->setDesignConfig(array(
             'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
             'store' => $item->getStoreId()
         ));
-        $store = Mage::app()->getStore($item->getStoreId());
+        $store = $this->_storeManager->getStore($item->getStoreId());
         $helper = $this->_rewardData;
         $amount = $helper
             ->getRateFromRatesArray($item->getPointsBalanceTotal(), $websiteId, $item->getCustomerGroupId());
-        $action = Mage::getSingleton('Magento_Reward_Model_Reward')->getActionInstance($item->getAction());
+        $action = $this->getActionInstance($item->getAction());
         $templateVars = array(
             'store' => $store,
             'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),

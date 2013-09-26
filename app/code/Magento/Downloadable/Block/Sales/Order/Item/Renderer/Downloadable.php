@@ -17,7 +17,43 @@
  */
 class Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends Magento_Sales_Block_Order_Item_Renderer_Default
 {
-    protected $_purchasedLinks = null;
+    /**
+     * @var Magento_Downloadable_Model_Link_Purchased
+     */
+    protected $_purchasedLinks;
+
+    /**
+     * @var Magento_Downloadable_Model_Link_PurchasedFactory
+     */
+    protected $_purchasedFactory;
+
+    /**
+     * @var Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    /**
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Catalog_Model_Product_OptionFactory $productOptionFactory
+     * @param Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory
+     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Catalog_Model_Product_OptionFactory $productOptionFactory,
+        Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory,
+        Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory,
+        array $data = array()
+    ) {
+        $this->_purchasedFactory = $purchasedFactory;
+        $this->_itemsFactory = $itemsFactory;
+        parent::__construct($coreString, $coreData, $context, $productOptionFactory, $data);
+    }
 
     /**
      * Enter description here...
@@ -26,11 +62,11 @@ class Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends 
      */
     public function getLinks()
     {
-            $this->_purchasedLinks = Mage::getModel('Magento_Downloadable_Model_Link_Purchased')
-                ->load($this->getOrderItem()->getOrder()->getId(), 'order_id');
-            $purchasedItems = Mage::getModel('Magento_Downloadable_Model_Link_Purchased_Item')->getCollection()
-                ->addFieldToFilter('order_item_id', $this->getOrderItem()->getId());
-            $this->_purchasedLinks->setPurchasedItems($purchasedItems);
+        $this->_purchasedLinks = $this->_purchasedFactory->create()
+            ->load($this->getOrderItem()->getOrder()->getId(), 'order_id');
+        $purchasedItems = $this->_itemsFactory->create()
+            ->addFieldToFilter('order_item_id', $this->getOrderItem()->getId());
+        $this->_purchasedLinks->setPurchasedItems($purchasedItems);
 
         return $this->_purchasedLinks;
     }

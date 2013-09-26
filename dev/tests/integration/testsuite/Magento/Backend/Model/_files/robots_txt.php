@@ -9,4 +9,8 @@
  * @license     {license_link}
  */
 
-copy(__DIR__ . DS . 'robots.txt', Mage::getBaseDir() . DS . 'robots.txt');
+copy(
+    __DIR__ . DS . 'robots.txt',
+    Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir()
+        . DS . 'robots.txt'
+);

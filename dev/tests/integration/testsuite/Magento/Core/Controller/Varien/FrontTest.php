@@ -44,7 +44,10 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
 
     public function testGetResponse()
     {
-        Mage::app()->setResponse(Mage::getSingleton('Magento_Core_Controller_Response_Http'));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->setResponse(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Controller_Response_Http')
+        );
         if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get response without sending headers');
         }

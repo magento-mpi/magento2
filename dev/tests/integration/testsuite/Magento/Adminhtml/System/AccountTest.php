@@ -18,7 +18,8 @@ class Magento_Adminhtml_System_AccountTest extends Magento_Backend_Utility_Contr
     {
         $userId = $this->_session->getUser()->getId();
         /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User')->load($userId);
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User')->load($userId);
         $oldPassword = $user->getPassword();
 
         $password = uniqid('123q');
@@ -29,7 +30,8 @@ class Magento_Adminhtml_System_AccountTest extends Magento_Backend_Utility_Contr
         $this->dispatch('backend/admin/system_account/save');
 
         /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User')->load($userId);
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User')->load($userId);
         $this->assertNotEquals($oldPassword, $user->getPassword());
         $this->assertTrue(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data')
