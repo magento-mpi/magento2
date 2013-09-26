@@ -57,7 +57,7 @@ abstract class Magento_ImportExport_Model_Abstract extends Magento_Object
     /**
      * @var Magento_Core_Model_Log_AdapterFactory
      */
-    protected $_exportAdapterFac;
+    protected $_adapterFactory;
 
     /**
      * @param Magento_Core_Model_Logger $logger
@@ -73,7 +73,7 @@ abstract class Magento_ImportExport_Model_Abstract extends Magento_Object
     ) {
         $this->_logger = $logger;
         $this->_dir = $dir;
-        $this->_exportAdapterFac = $adapterFactory;
+        $this->_adapterFactory = $adapterFactory;
         parent::__construct($data);
     }
 
@@ -110,7 +110,7 @@ abstract class Magento_ImportExport_Model_Abstract extends Magento_Object
             }
             $fileName = substr(strstr(Magento_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY, DS), 1)
                 . $dirName . $fileName . '.log';
-            $this->_logInstance = $this->_exportAdapterFac->create(array('fileName' => $fileName))
+            $this->_logInstance = $this->_adapterFactory->create(array('fileName' => $fileName))
                 ->setFilterDataKeys($this->_debugReplacePrivateDataKeys);
         }
         $this->_logInstance->log($debugData);
