@@ -167,11 +167,6 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_eventManager = null;
 
     /**
-     * @var Magento_SalesRule_Model_Coupon_Massgenerator
-     */
-    protected $_couponMassgenerator;
-
-    /**
      * @var Magento_SalesRule_Model_CouponFactory
      */
     protected $_couponFactory;
@@ -206,7 +201,6 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_SalesRule_Model_Coupon_Massgenerator $couponMassgenerator
      * @param Magento_SalesRule_Model_CouponFactory $couponFactory
      * @param Magento_SalesRule_Model_Coupon_CodegeneratorFactory $codegenFactory
      * @param Magento_SalesRule_Model_Rule_Condition_CombineFactory $condCombineFactory
@@ -223,7 +217,6 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_SalesRule_Model_Coupon_Massgenerator $couponMassgenerator,
         Magento_SalesRule_Model_CouponFactory $couponFactory,
         Magento_SalesRule_Model_Coupon_CodegeneratorFactory $codegenFactory,
         Magento_SalesRule_Model_Rule_Condition_CombineFactory $condCombineFactory,
@@ -236,7 +229,6 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->_couponMassgenerator = $couponMassgenerator;
         $this->_couponFactory = $couponFactory;
         $this->_codegenFactory = $codegenFactory;
         $this->_condCombineFactory = $condCombineFactory;
@@ -254,16 +246,6 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
         parent::_construct();
         $this->_init('Magento_SalesRule_Model_Resource_Rule');
         $this->setIdFieldName('rule_id');
-    }
-
-    /**
-     * Returns code mass generator instance for auto generated specific coupons
-     *
-     * @return Magento_SalesRule_Model_Coupon_MassgneratorInterface
-     */
-    public function getCouponMassGenerator()
-    {
-        return $this->_couponMassgenerator;
     }
 
     /**
