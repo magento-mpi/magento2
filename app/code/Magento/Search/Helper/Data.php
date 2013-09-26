@@ -89,23 +89,45 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * Locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
+        Magento_Core_Helper_Context $context,
         Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -314,7 +336,8 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
             return false;
         }
 
-        $locale = Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $locale = $this->_storeManager->getStore()
+            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
@@ -330,7 +353,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
 
-            $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!is_empty_date($val)) {
@@ -349,7 +372,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         if ($attribute->usesSource()) {
-            $attribute->setStoreId(Mage::app()->getStore()->getId());
+            $attribute->setStoreId($this->_storeManager->getStore()->getId());
         }
 
         return array($field => $value);

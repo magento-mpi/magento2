@@ -10,13 +10,30 @@
 
 /**
  * Wishlist reports controller
- *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Backend auth session
+     *
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Backend_Model_Auth_Session $backendAuthSession
+    ) {
+        $this->_backendAuthSession = $backendAuthSession;
+        parent::__construct($context);
+    }
+
     /**
      * Init layout and add breadcrumbs
      *
@@ -88,7 +105,7 @@ class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist ext
      */
     protected function _getAdminSession()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        return $this->_backendAuthSession;
     }
 
     /**

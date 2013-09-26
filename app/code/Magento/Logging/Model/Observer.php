@@ -14,7 +14,6 @@
  */
 class Magento_Logging_Model_Observer
 {
-
     /**
      * Instance of Magento_Logging_Model_Logging
      *
@@ -50,12 +49,30 @@ class Magento_Logging_Model_Observer
     protected $_event;
 
     /**
+     * Request
+     *
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * Flag model factory
+     *
+     * @var Magento_Logging_Model_FlagFactory
+     */
+    protected $_flagFactory;
+
+    /**
+     * Construct
+     * 
      * @param Magento_Logging_Model_Config $config
      * @param Magento_User_Model_User $user
      * @param Magento_Logging_Model_Event $event
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Logging_Model_Processor $processor
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Logging_Model_FlagFactory $flagFactory
      */
     public function __construct(
         Magento_Logging_Model_Config $config,
@@ -63,7 +80,9 @@ class Magento_Logging_Model_Observer
         Magento_Logging_Model_Event $event,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Logging_Model_Processor $processor,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Logging_Model_FlagFactory $flagFactory
     ) {
         $this->_config = $config;
         $this->_user = $user;
@@ -71,6 +90,8 @@ class Magento_Logging_Model_Observer
         $this->_coreHttp = $coreHttp;
         $this->_processor = $processor;
         $this->_coreConfig = $coreConfig;
+        $this->_request = $request;
+        $this->_flagFactory = $flagFactory;
     }
 
     /**
@@ -200,13 +221,13 @@ class Magento_Logging_Model_Observer
         if (!$userId) {
             $userId = $this->_user->loadByUsername($username)->getId();
         }
-        $request = Mage::app()->getRequest();
         $this->_event->setData(array(
             'ip'         => $this->_coreHttp->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => $success,
-            'fullaction' => "{$request->getRouteName()}_{$request->getControllerName()}_{$request->getActionName()}",
+            'fullaction' => "{$this->_request->getRouteName()}_{$this->_request->getControllerName()}"
+                . "_{$this->_request->getActionName()}",
             'event_code' => $eventCode,
             'action'     => 'login',
         ));
@@ -218,7 +239,7 @@ class Magento_Logging_Model_Observer
      */
     public function rotateLogs()
     {
-        $lastRotationFlag = Mage::getModel('Magento_Logging_Model_Flag')->loadSelf();
+        $lastRotationFlag = $this->_flagFactory->create()->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
         $rotationFrequency = 3600 * 24 * (int)$this->_coreConfig->getValue('system/rotation/frequency', 'default');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {

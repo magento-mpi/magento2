@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Acl role user grid.
- *
- * @category   Magento
- * @package    Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Grid_Extended
 {
@@ -25,11 +19,21 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
     protected $_coreRegistry = null;
 
     /**
+     * Factory for user role model
+     *
+     * @var Magento_User_Model_RoleFactory
+     */
+    protected $_roleFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_User_Model_RoleFactory $roleFactory
      * @param array $data
      */
     public function __construct(
@@ -38,10 +42,12 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_User_Model_RoleFactory $roleFactory,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_roleFactory = $roleFactory;
     }
 
     protected function _construct()
@@ -78,7 +84,7 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
     {
         $roleId = $this->getRequest()->getParam('rid');
         $this->_coreRegistry->register('RID', $roleId);
-        $collection = Mage::getModel('Magento_User_Model_Role')->getUsersCollection();
+        $collection = $this->_roleFactory->create()->getUsersCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -173,7 +179,7 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
         $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ?
             $this->getRequest()->getParam('rid') :
             $this->_coreRegistry->registry('RID');
-        $users  = Mage::getModel('Magento_User_Model_Role')->setId($roleId)->getRoleUsers();
+        $users = $this->_roleFactory->create()->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
             if ($json) {
                 $jsonUsers = array();
