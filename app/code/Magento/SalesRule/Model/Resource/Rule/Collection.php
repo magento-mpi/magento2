@@ -37,6 +37,31 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
     );
 
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $logger,$fetchStrategy, $entityFactory, $resource);
+        $this->_date = $date;
+    }
+
+    /**
      * Set resource model and determine field mapping
      */
     protected function _construct()
@@ -109,7 +134,7 @@ class Magento_SalesRule_Model_Resource_Rule_Collection extends Magento_Rule_Mode
     {
         if (!$this->getFlag('website_group_date_filter')) {
             if (is_null($now)) {
-                $now = Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d');
+                $now = $this->_date->date('Y-m-d');
             }
 
             $this->addWebsiteFilter($websiteId);

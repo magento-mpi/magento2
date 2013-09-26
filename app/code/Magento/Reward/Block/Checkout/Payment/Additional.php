@@ -26,18 +26,42 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
     protected $_rewardData = null;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Reward_Model_RewardFactory
+     */
+    protected $_rewardFactory;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Reward_Model_RewardFactory $rewardFactory
+     * @param Magento_Customer_Model_Session $customerSession
      * @param array $data
      */
     public function __construct(
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Reward_Model_RewardFactory $rewardFactory,
+        Magento_Customer_Model_Session $customerSession,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
+        $this->_storeManager = $storeManager;
+        $this->_rewardFactory = $rewardFactory;
+        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -48,7 +72,7 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
      */
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     /**
@@ -58,7 +82,7 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return $this->_customerSession->getQuote();
     }
 
     /**
@@ -69,9 +93,9 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
     public function getReward()
     {
         if (!$this->getData('reward')) {
-            $reward = Mage::getModel('Magento_Reward_Model_Reward')
+            $reward = $this->_rewardFactory->create()
                 ->setCustomer($this->getCustomer())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
                 ->loadByCustomer();
             $this->setData('reward', $reward);
         }
@@ -103,7 +127,7 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
             return false;
         }
 
-        $minPointsToUse = $helper->getGeneralConfig('min_points_balance', (int)Mage::app()->getWebsite()->getId());
+        $minPointsToUse = $helper->getGeneralConfig('min_points_balance', (int)$this->_storeManager->getWebsite()->getId());
         return (float)$this->getCurrencyAmount() > 0 && $this->getPointsBalance() >= $minPointsToUse;
     }
 

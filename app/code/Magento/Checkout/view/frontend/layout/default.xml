@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="head.components">
-        <block class="Magento_Adminhtml_Block_Page_Js_Components" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
+        <block class="Magento_Page_Block_Js_Components" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
     </referenceBlock>
     <referenceBlock name="top.links">
         <block class="Magento_Checkout_Block_Cart_Link" name="my-cart-link"/>

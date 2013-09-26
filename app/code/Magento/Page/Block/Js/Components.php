@@ -2,12 +2,13 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
-class Magento_Adminhtml_Block_Page_Js_Components extends Magento_Core_Block_Template
+class Magento_Page_Block_Js_Components extends Magento_Core_Block_Template
 {
     /**
      * @var Magento_Core_Model_App_State

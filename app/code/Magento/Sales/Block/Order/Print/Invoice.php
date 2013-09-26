@@ -10,12 +10,7 @@
 
 /**
  * Sales order details block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Sales_Block_Order_Print_Invoice extends Magento_Sales_Block_Items_Abstract
 {
     /**
@@ -43,7 +38,8 @@ class Magento_Sales_Block_Order_Print_Invoice extends Magento_Sales_Block_Items_
 
     protected function _prepareLayout()
     {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
         $this->setChild(
@@ -52,16 +48,25 @@ class Magento_Sales_Block_Order_Print_Invoice extends Magento_Sales_Block_Items_
         );
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return $this->getUrl('*/*/history');
     }
 
+    /**
+     * @return string
+     */
     public function getPrintUrl()
     {
-        return Mage::getUrl('*/*/print');
+        return $this->getUrl('*/*/print');
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentInfoHtml()
     {
         return $this->getChildHtml('payment_info');
@@ -99,6 +104,5 @@ class Magento_Sales_Block_Order_Print_Invoice extends Magento_Sales_Block_Items_
         }
         return $html;
     }
-
 }
 

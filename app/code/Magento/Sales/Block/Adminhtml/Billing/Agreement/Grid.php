@@ -23,11 +23,23 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Admin
     protected $_paymentData = null;
 
     /**
+     * @var Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory
+     */
+    protected $_agreementFactory;
+
+    /**
+     * @var Magento_Sales_Model_Billing_Agreement
+     */
+    protected $_agreementModel;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory $agreementFactory
+     * @param Magento_Sales_Model_Billing_Agreement $agreementModel
      * @param array $data
      */
     public function __construct(
@@ -36,9 +48,13 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Admin
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory $agreementFactory,
+        Magento_Sales_Model_Billing_Agreement $agreementModel,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
+        $this->_agreementFactory = $agreementFactory;
+        $this->_agreementModel = $agreementModel;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -68,6 +84,7 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Admin
     /**
      * Retrieve row url
      *
+     * @param object $item
      * @return string
      */
     public function getRowUrl($item)
@@ -82,7 +99,8 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Admin
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Billing_Agreement_Collection')
+        /** @var Magento_Sales_Model_Resource_Billing_Agreement_Collection $collection */
+        $collection = $this->_agreementFactory->create()
             ->addCustomerDetails();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -150,7 +168,7 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Admin
             'header'            => __('Status'),
             'index'             => 'status',
             'type'              => 'options',
-            'options'           => Mage::getSingleton('Magento_Sales_Model_Billing_Agreement')->getStatusesArray(),
+            'options'           => $this->_agreementModel->getStatusesArray(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

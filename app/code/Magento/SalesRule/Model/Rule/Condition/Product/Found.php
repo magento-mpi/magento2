@@ -14,11 +14,15 @@ class Magento_SalesRule_Model_Rule_Condition_Product_Found
 {
     /**
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_SalesRule_Model_Rule_Condition_Product $ruleConditionProduct
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_SalesRule_Model_Rule_Condition_Product $ruleConditionProduct,
+        array $data = array()
+    ) {
+        parent::__construct($context, $ruleConditionProduct, $data);
         $this->setType('Magento_SalesRule_Model_Rule_Condition_Product_Found');
     }
 
@@ -36,10 +40,16 @@ class Magento_SalesRule_Model_Rule_Condition_Product_Found
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function asHtml()
     {
-        $html = $this->getTypeElement()->getHtml()
-            . __("If an item is %1 in the cart with %2 of these conditions true:", $this->getValueElement()->getHtml(), $this->getAggregatorElement()->getHtml());
+        $html = $this->getTypeElement()->getHtml() . __(
+            "If an item is %1 in the cart with %2 of these conditions true:",
+            $this->getValueElement()->getHtml(),
+            $this->getAggregatorElement()->getHtml()
+        );
         if ($this->getId() != '1') {
             $html .= $this->getRemoveLinkHtml();
         }

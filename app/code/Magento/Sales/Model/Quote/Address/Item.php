@@ -105,6 +105,9 @@ class Magento_Sales_Model_Quote_Address_Item extends Magento_Sales_Model_Quote_I
         $this->_init('Magento_Sales_Model_Resource_Quote_Address_Item');
     }
 
+    /**
+     * @return $this|Magento_Sales_Model_Quote_Item_Abstract
+     */
     protected function _beforeSave()
     {
         parent::_beforeSave();
@@ -147,7 +150,10 @@ class Magento_Sales_Model_Quote_Address_Item extends Magento_Sales_Model_Quote_I
         return $this->_quote;
     }
 
-
+    /**
+     * @param Magento_Sales_Model_Quote_Item $quoteItem
+     * @return $this
+     */
     public function importQuoteItem(Magento_Sales_Model_Quote_Item $quoteItem)
     {
         $this->_quote = $quoteItem->getQuote();
@@ -169,6 +175,10 @@ class Magento_Sales_Model_Quote_Address_Item extends Magento_Sales_Model_Quote_I
         return $this;
     }
 
+    /**
+     * @param string $code
+     * @return Magento_Catalog_Model_Product_Configuration_Item_Option_Interface|null
+     */
     public function getOptionBycode($code)
     {
         if ($this->getQuoteItem()) {

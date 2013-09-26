@@ -47,8 +47,8 @@ class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_Template
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
         $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

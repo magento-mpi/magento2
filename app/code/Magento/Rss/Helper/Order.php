@@ -16,21 +16,27 @@
 class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
 {
     /**
-     * Core store config
-     *
      * @var Magento_Core_Model_Store_Config
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
+
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Sales_Model_OrderFactory $orderFactory
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $storeConfig;
+        $this->_orderFactory = $orderFactory;
         parent::__construct($context);
     }
 
@@ -41,7 +47,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
      */
     public function isStatusNotificationAllow()
     {
-        if ($this->_coreStoreConfig->getConfig('rss/order/status_notified')) {
+        if ($this->_storeConfig->getConfig('rss/order/status_notified')) {
             return true;
         }
         return false;
@@ -93,7 +99,8 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
         }
 
         /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order')->load($data['order_id']);
+        $order = $this->_orderFactory->create();
+        $order->load($data['order_id']);
         if ($order->getId()
             && $order->getIncrementId() == $data['increment_id']
             && $order->getCustomerId() == $data['customer_id']

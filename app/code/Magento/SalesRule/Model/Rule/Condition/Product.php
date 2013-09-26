@@ -19,6 +19,35 @@
 class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_Condition_Product_Abstract
 {
     /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Helper_Data $backendData,
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Eav_Model_Config $config,
+        Magento_Catalog_Model_Product $product,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        array $data = array()
+    ) {
+        parent::__construct($backendData, $context, $config, $product, $productResource, $attrSetCollection, $data);
+        $this->_productFactory = $productFactory;
+    }
+
+    /**
      * Add special attributes
      *
      * @param array $attributes
@@ -43,11 +72,10 @@ class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_
         /** @var Magento_Catalog_Model_Product $product */
         $product = $object->getProduct();
         if (!($product instanceof Magento_Catalog_Model_Product)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($object->getProductId());
+            $product = $this->_productFactory->create()->load($object->getProductId());
         }
 
-        $product
-            ->setQuoteItemQty($object->getQty())
+        $product->setQuoteItemQty($object->getQty())
             ->setQuoteItemPrice($object->getPrice()) // possible bug: need to use $object->getBasePrice()
             ->setQuoteItemRowTotal($object->getBaseRowTotal());
 

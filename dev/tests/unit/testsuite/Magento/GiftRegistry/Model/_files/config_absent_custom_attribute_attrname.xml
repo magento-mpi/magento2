@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <attribute_type name="text">
+        <label translate="true">Text</label>
+    </attribute_type>
+    <attribute_group name="registry" sort_order="10"
+                     visible="true">
+        <label translate="true">Gift Registry Properties</label>
+    </attribute_group>
+    <registry>
+        <custom_attribute>
+            <label translate="true">Event Date</label>
+        </custom_attribute>
+    </registry>
+</config>
