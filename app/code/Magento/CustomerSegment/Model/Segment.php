@@ -95,6 +95,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -104,7 +105,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
         $this->_visitor = $visitor;
         $this->_visitorFactory = $visitorFactory;
         $this->_conditionFactory = $conditionFactory;
-        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
     }
 
     /**
