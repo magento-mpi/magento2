@@ -82,6 +82,7 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
             $primaryConfig->getParams()
         ));
 
+        $sharedInstances['Magento_Core_Model_Config_Local'] = $localConfig;
         $sharedInstances['Magento_Core_Model_Config_Primary'] = $primaryConfig;
         $sharedInstances['Magento_Core_Model_Dir'] = $primaryConfig->getDirectories();
         $sharedInstances['Magento_Core_Model_ObjectManager'] = $this;

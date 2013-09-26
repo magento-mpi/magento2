@@ -24,10 +24,16 @@ class Magento_Core_Model_Config_Local
     protected $_configuration = array();
 
     /**
+     * @var Magento_Core_Model_Config_Loader_Local
+     */
+    protected $_loader;
+
+    /**
      * @param Magento_Core_Model_Config_Loader_Local $loader
      */
     public function __construct(Magento_Core_Model_Config_Loader_Local $loader)
     {
+        $this->_loader = $loader;
         $this->_data = $loader->load();
     }
 
@@ -82,5 +88,13 @@ class Magento_Core_Model_Config_Local
     public function getResources()
     {
         return isset($this->_data['resource']) ? $this->_data['resource'] : array();
+    }
+
+    /**
+     * Reload local.xml
+     */
+    public function reload()
+    {
+        $this->_data = $this->_loader->load();
     }
 }

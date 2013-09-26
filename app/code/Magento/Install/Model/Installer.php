@@ -77,6 +77,7 @@ class Magento_Install_Model_Installer extends Magento_Object
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_Core_Model_Resource_SetupFactory $setupFactory
+     * @param Magento_ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
@@ -199,6 +200,9 @@ class Magento_Install_Model_Installer extends Magento_Object
         Mage::getSingleton('Magento_Install_Model_Installer_Config')
             ->setConfigData($data)
             ->install();
+
+        $this->_objectManager->get('Magento_Core_Model_Config_Local')->reload();
+        $this->_objectManager->get('Magento_Core_Model_App_State')->setInstallDate(time());
 
         /** @var $config Magento_Core_Model_Config */
         $config = Mage::getSingleton('Magento_Core_Model_Config');
