@@ -82,3 +82,4 @@ Magento/Tax/Model/Sales/Total/Quote/Nominal
 Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit
 Magento/User/Block/User/Edit
 var/generation
+Magento/Newsletter/Model/Template/Filter

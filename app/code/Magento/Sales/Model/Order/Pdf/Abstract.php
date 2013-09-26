@@ -137,11 +137,6 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Dir $coreDir,
-        Magento_Shipping_Model_Config $shippingConfig,
-        Magento_Core_Model_Translate $translate,
-        Magento_Sales_Model_Order_Pdf_TotalFactory $pdfTotalFactory,
-        Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;

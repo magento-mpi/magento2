@@ -18,16 +18,39 @@
 
 class Magento_Newsletter_Block_Subscribe extends Magento_Core_Block_Template
 {
+    /**
+     * Newsletter session
+     *
+     * @var Magento_Newsletter_Model_Session
+     */
+    protected $_newsletterSession;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Newsletter_Model_Session $newsletterSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Newsletter_Model_Session $newsletterSession,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_newsletterSession = $newsletterSession;
+    }
+
     public function getSuccessMessage()
     {
-        $message = Mage::getSingleton('Magento_Newsletter_Model_Session')->getSuccess();
-        return $message;
+        return $this->_newsletterSession->getSuccess();
     }
 
     public function getErrorMessage()
     {
-        $message = Mage::getSingleton('Magento_Newsletter_Model_Session')->getError();
-        return $message;
+        return $this->_newsletterSession->getError();
     }
 
     /**

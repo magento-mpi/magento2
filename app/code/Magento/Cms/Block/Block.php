@@ -24,17 +24,39 @@ class Magento_Cms_Block_Block extends Magento_Core_Block_Abstract
     protected $_filterProvider;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Block factory
+     *
+     * @var Magento_Cms_Model_BlockFactory
+     */
+    protected $_blockFactory;
+
+    /**
+     * Construct
+     * 
      * @param Magento_Core_Block_Context $context
      * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Cms_Model_BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Context $context,
         Magento_Cms_Model_Template_FilterProvider $filterProvider,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Cms_Model_BlockFactory $blockFactory,
         array $data = array()
     ) {
-        $this->_filterProvider = $filterProvider;
         parent::__construct($context, $data);
+        $this->_filterProvider = $filterProvider;
+        $this->_storeManager = $storeManager;
+        $this->_blockFactory = $blockFactory;
     }
 
     /**
@@ -47,9 +69,10 @@ class Magento_Cms_Block_Block extends Magento_Core_Block_Abstract
         $blockId = $this->getBlockId();
         $html = '';
         if ($blockId) {
-            $storeId = Mage::app()->getStore()->getId();
-            $block = Mage::getModel('Magento_Cms_Model_Block')
-                ->setStoreId($storeId)
+            $storeId = $this->_storeManager->getStore()->getId();
+            /** @var Magento_Cms_Model_Block $block */
+            $block = $this->_blockFactory->create();
+            $block->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
                 $html = $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent());

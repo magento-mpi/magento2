@@ -72,22 +72,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
         array $data = array()
     ) {
         $this->_usaData = $usaData;
-        parent::__construct(
-            $paymentData,
-            $coreData,
-            $coreString,
-            $coreStoreConfig,
-            $coreConfig,
-            $coreDir,
-            $shippingConfig,
-            $translate,
-            $pdfTotalFactory,
-            $pdfItemsFactory,
-            $data
-        );
-        $this->_locale = $locale;
-        $this->_storeManager = $storeManager;
-        $this->_layout = $layout;
+        parent::__construct($paymentData, $coreData, $coreString, $data);
     }
 
     /**

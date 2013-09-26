@@ -19,6 +19,43 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
     extends Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract
 {
     /**
+     * @var Magento_GiftWrapping_Model_WrappingFactory
+     */
+    protected $_wrappingFactory;
+
+    /**
+     * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory
+     * @param Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory,
+        Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory,
+        array $data = array()
+    ) {
+        $this->_wrappingFactory = $wrappingFactory;
+        parent::__construct(
+            $giftWrappingData,
+            $coreData,
+            $context,
+            $registry,
+            $storeManager,
+            $wrappingCollFactory,
+            $data
+        );
+    }
+
+    /**
      * Prepare and return order items info
      *
      * @return Magento_Object
@@ -42,7 +79,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
             } else {
                 $data['price'] = $this->_preparePrices($order->getGwBasePrice(), $order->getGwPrice());
             }
-            $wrapping = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->load($order->getGwId());
+            $wrapping = $this->_wrappingFactory->create()->load($order->getGwId());
             $data['path'] = $wrapping->getImageUrl();
             $data['design'] = $wrapping->getDesign();
         }

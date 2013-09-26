@@ -15,7 +15,7 @@
             <cms_setup>
                 <setup>
                     <module>Magento_Cms</module>
-                    <class>Magento_Core_Model_Resource_Setup_Generic</class>
+                    <class>Magento_Cms_Model_Resource_Setup</class>
                 </setup>
             </cms_setup>
         </resources>

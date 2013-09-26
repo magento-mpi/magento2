@@ -11,12 +11,28 @@
 /**
  * Wishlist search module
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_MultipleWishlist_Model_Search
 {
+    /**
+     * Wishlist collection factory
+     *
+     * @var Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory
+     */
+    protected $_wishlistCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
+     */
+    public function __construct(
+        Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
+    ) {
+        $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
+    }
+
     /**
      * Retrieve wishlist search results by search strategy
      *
@@ -26,7 +42,7 @@ class Magento_MultipleWishlist_Model_Search
     public function getResults(Magento_MultipleWishlist_Model_Search_Strategy_Interface $strategy)
     {
         /* @var Magento_Wishlist_Model_Resource_Wishlist_Collection $collection */
-        $collection = Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection();
+        $collection = $this->_wishlistCollectionFactory->create();
         $collection->addFieldToFilter('visibility', array('eq' => 1));
         $strategy->filterCollection($collection);
         return $collection;

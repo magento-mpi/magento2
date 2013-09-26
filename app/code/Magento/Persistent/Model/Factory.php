@@ -7,28 +7,36 @@
  */
 
 /**
- * Factory for region resource collections
+ * Persistent Factory
  */
-class Magento_Directory_Model_Resource_Region_Collection_Factory
+class Magento_Persistent_Model_Factory
 {
     /**
-     * Object Manager
+     * Object manager
      *
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
 
+    /**
+     * Construct
+     *
+     * @param Magento_ObjectManager $objectManager
+     */
     public function __construct(Magento_ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
 
     /**
+     * Creates models
+     *
+     * @param string $className
      * @param array $data
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return mixed
      */
-    public function create(array $data = array())
+    public function create($className, $data = array())
     {
-        return $this->_objectManager->create('Magento_Directory_Model_Resource_Region_Collection', $data);
+        return $this->_objectManager->create($className, $data);
     }
 }

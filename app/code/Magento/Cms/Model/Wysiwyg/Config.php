@@ -70,7 +70,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @var array
      */
     protected $_windowSize;
-    
+
     /**
      * @var Magento_Backend_Model_Url
      */

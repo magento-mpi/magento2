@@ -10,8 +10,6 @@
 
 /**
  * Paypal Billing Agreement method
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract
     implements Magento_Payment_Model_Billing_Agreement_MethodInterface

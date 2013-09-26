@@ -20,15 +20,57 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     protected $_catalogSearchData = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog config
+     *
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Fulltext collection factory
+     *
+     * @var Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory
+     */
+    protected $_fulltextCollectionFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory
+     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory,
+        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         array $data = array()
     ) {
+        $this->_fulltextCollectionFactory = $fulltextCollectionFactory;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_storeManager = $storeManager;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct($coreRegistry, $data);
     }
@@ -43,7 +85,7 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
-            $collection = Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Fulltext_Collection');
+            $collection = $this->_fulltextCollectionFactory->create();
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
@@ -59,15 +101,15 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
+            ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
             ->addSearchFilter($this->_catalogSearchData->getQuery()->getQueryText())
-            ->setStore(Mage::app()->getStore())
+            ->setStore($this->_storeManager->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
             ->addUrlRewrite()
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSearchIds());
+            ->setVisibility($this->_catalogProductVisibility->getVisibleInSearchIds());
 
         return $this;
     }

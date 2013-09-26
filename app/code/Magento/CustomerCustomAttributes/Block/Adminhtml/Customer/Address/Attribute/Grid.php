@@ -8,17 +8,37 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Address Attributes Grid Block
- *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Grid
     extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
 {
+    /**
+     * @var Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory
+     */
+    protected $_addressesFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory $addressesFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory $addressesFactory,
+        array $data = array()
+    ) {
+        $this->_addressesFactory = $addressesFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     /**
      * Initialize grid, set grid Id
      *
@@ -38,11 +58,9 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     protected function _prepareCollection()
     {
         /** @var $collection Magento_Customer_Model_Resource_Address_Attribute_Collection */
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Attribute_Collection')
-            ->addSystemHiddenFilter()
-            ->addExcludeHiddenFrontendFilter();
+        $collection = $this->_addressesFactory->create();
+        $collection->addSystemHiddenFilter()->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 

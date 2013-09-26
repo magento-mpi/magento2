@@ -11,10 +11,6 @@
 
 /**
  * Persistent Config Model
- *
- * @category   Magento
- * @package    Magento_Persistent
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Persistent_Model_Persistent_Config
 {
@@ -35,17 +31,47 @@ class Magento_Persistent_Model_Persistent_Config
     protected $_configDomXPath = null;
 
     /**
-     * Constructor
+     * Layout model
+     *
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * App state model
+     *
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
+     * Model factory
+     *
+     * @var Magento_Persistent_Model_Factory
+     */
+    protected $_persistentFactory;
+
+    /**
+     * Construct
      *
      * @param Magento_Config_DomFactory $domFactory
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Persistent_Model_Factory $persistentFactory
      */
     public function __construct(
         Magento_Config_DomFactory $domFactory,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader
+        Magento_Core_Model_Config_Modules_Reader $moduleReader,
+        Magento_Core_Model_Layout $layout,
+        Magento_Core_Model_App_State $appState,
+        Magento_Persistent_Model_Factory $persistentFactory
     ) {
         $this->_domFactory = $domFactory;
         $this->_moduleReader = $moduleReader;
+        $this->_layout = $layout;
+        $this->_appState = $appState;
+        $this->_persistentFactory = $persistentFactory;
     }
 
     /**
@@ -71,7 +97,7 @@ class Magento_Persistent_Model_Persistent_Config
         if (is_null($this->_configDomXPath)) {
             $filePath = $this->_configFilePath;
             if (!is_file($filePath) || !is_readable($filePath)) {
-                Mage::throwException(__('We cannot load the configuration from file %1.', $filePath));
+                throw new Magento_Core_Exception(__('We cannot load the configuration from file %1.', $filePath));
             }
             $xml = file_get_contents($filePath);
             /** @var Magento_Config_Dom $configDom */
@@ -160,7 +186,7 @@ class Magento_Persistent_Model_Persistent_Config
             foreach ($elements as $info) {
                 switch ($type) {
                     case 'blocks':
-                        $this->fireOne($info, Mage::app()->getLayout()->getBlock($info['name_in_layout']));
+                        $this->fireOne($info, $this->_layout->getBlock($info['name_in_layout']));
                         break;
                 }
             }
@@ -174,6 +200,7 @@ class Magento_Persistent_Model_Persistent_Config
      * @param array $info
      * @param bool $instance
      * @return Magento_Persistent_Model_Persistent_Config
+     * @throws Magento_Core_Exception
      */
     public function fireOne($info, $instance = false)
     {
@@ -184,13 +211,13 @@ class Magento_Persistent_Model_Persistent_Config
         ) {
             return $this;
         }
-        $object     = Mage::getModel($info['class']);
-        $method     = $info['method'];
+        $object = $this->_persistentFactory->create($info['class']);
+        $method = $info['method'];
 
         if (method_exists($object, $method)) {
             $object->$method($instance);
-        } elseif (Mage::getIsDeveloperMode()) {
-            Mage::throwException('Method "' . $method.'" is not defined in "' . get_class($object) . '"');
+        } elseif ($this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER) {
+            throw new Magento_Core_Exception('Method "' . $method.'" is not defined in "' . get_class($object) . '"');
         }
 
         return $this;
