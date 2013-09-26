@@ -42,6 +42,7 @@ class Magento_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
         }
 
         $filter = $this->getMock('Magento_Newsletter_Model_Template_Filter', array(), array(), '', false);
+        $appEmulation = $this->getMock('Magento_Core_Model_App_Emulation $appEmulation', array(), array(), '', false);
         $filter->expects($this->once())
             ->method('setStoreId')
             ->with('test_id');
@@ -59,7 +60,8 @@ class Magento_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
         /** @var Magento_Newsletter_Model_Template $model */
         $model = $this->getMock('Magento_Newsletter_Model_Template', array('_init'), array(
-            $design, $context, $registry, $storeManager, $request, $filter, $storeConfig, $templateFactory, $data,
+            $design, $context, $registry, $storeManager, $request, $filter, $storeConfig, $templateFactory,
+            $appEmulation, $data,
         ));
 
         $result = $model->getProcessedTemplate();

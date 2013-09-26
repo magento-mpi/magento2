@@ -45,6 +45,8 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
                 $orderFactory,
                 $eventManager,
                 $coreHttp,
+                $coreStoreConfig,
+                $coreConfig,
                 $this->getMock('Magento_Core_Model_Message_CollectionFactory', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_Message', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_Cookie', array(), array(), '', false),
@@ -53,8 +55,6 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
                 $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_Url_Proxy', array(), array(), '', false),
-                $coreStoreConfig,
-                $coreConfig
             ),
             ''
         );

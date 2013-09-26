@@ -60,8 +60,8 @@ class Magento_Backend_Block_Context extends Magento_Core_Block_Context
     ) {
         $this->_authorization = $authorization;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
-            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $data
-            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $app, $data
+            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app,
+            $data
         );
     }
 

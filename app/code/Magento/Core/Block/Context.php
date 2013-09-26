@@ -107,6 +107,8 @@ class Magento_Core_Block_Context implements Magento_ObjectManager_ContextInterfa
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_Config $viewConfig
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_App $app
      * @param array $data
      */
     public function __construct(

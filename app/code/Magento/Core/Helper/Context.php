@@ -50,6 +50,21 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     protected $_fieldsetConfig;
 
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_Core_Model_UrlFactory
+     */
+    protected $_urlFactory;
+
+    /**
+     * @var Magento_Core_Model_Url_Proxy
+     */
+    protected $_urlModel;
+
+    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_ModuleManager $moduleManager
@@ -83,6 +98,9 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
         $this->_fieldsetConfig = $fieldsetConfig;
         $this->_eventManager = $eventManager;
         $this->_logger = $logger;
+        $this->_app = $app;
+        $this->_urlFactory = $urlFactory;
+        $this->_urlModel = $urlModel;
     }
 
     /**
