@@ -412,7 +412,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     {
         $appInstallDir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir();
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_DIRS => array(
+            Magento_Core_Model_App::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
@@ -495,7 +495,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     {
         $appInstallDir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir();
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_DIRS => array(
+            Magento_Core_Model_App::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
@@ -539,7 +539,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     protected function _initTestTheme($allowDuplication = null)
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_DIRS => array(
+            Magento_Core_Model_App::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
@@ -572,7 +572,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     public function testCssWithBase64Data()
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_DIRS => array(
+            Magento_Core_Model_App::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
