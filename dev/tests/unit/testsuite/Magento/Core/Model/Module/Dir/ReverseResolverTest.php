@@ -52,7 +52,7 @@ class Magento_Core_Model_Module_Dir_ReverseResolverTest extends PHPUnit_Framewor
                 array('Fixture_ModuleTwo', '', 'app/code/Fixture/ModuleTwo'),
             )))
         ;
-        $this->assertEquals($expectedResult, $this->_model->getModuleName($path));
+        $this->assertSame($expectedResult, $this->_model->getModuleName($path));
     }
 
     public function getModuleNameDataProvider()
@@ -81,6 +81,9 @@ class Magento_Core_Model_Module_Dir_ReverseResolverTest extends PHPUnit_Framewor
             ),
             'file in module backward slash' => array(
                 'app\\code\\Fixture\\ModuleOne\\etc\\config.xml', 'Fixture_ModuleOne'
+            ),
+            'unknown module' => array(
+                'app/code/Unknown/Module', null
             ),
         );
     }
