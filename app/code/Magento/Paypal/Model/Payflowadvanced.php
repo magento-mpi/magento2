@@ -10,12 +10,7 @@
 
 /**
  * Payments Advanced gateway model
- *
- * @category    Magento
- * @package     Magento_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Paypal_Model_Payflowadvanced extends Magento_Paypal_Model_Payflowlink
 {
     /**

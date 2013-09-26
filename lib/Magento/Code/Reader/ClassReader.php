@@ -23,14 +23,20 @@ class Magento_Code_Reader_ClassReader
             $result = array();
             /** @var $parameter ReflectionParameter */
             foreach ($constructor->getParameters() as $parameter) {
-                $result[] = array(
-                    $parameter->getName(),
-                    ($parameter->getClass() !== null) ? $parameter->getClass()->getName() : null,
-                    !$parameter->isOptional(),
-                    $parameter->isOptional() ?
-                        $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null :
-                        null
-                );
+                try {
+                    $result[] = array(
+                        $parameter->getName(),
+                        ($parameter->getClass() !== null) ? $parameter->getClass()->getName() : null,
+                        !$parameter->isOptional(),
+                        $parameter->isOptional() ?
+                            $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null :
+                            null
+                    );
+                } catch (ReflectionException $e) {
+                    $message = $e->getMessage() . "\n";
+                    $message .= 'Are you sure that you didn\'t use virtual type in constructor signature?';
+                    throw new ReflectionException($message, 0, $e);
+                }
             }
         }
         return $result;

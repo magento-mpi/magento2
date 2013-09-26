@@ -31,8 +31,6 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
 
     /**
      * Payflow trx_id key in transaction info
-     *
-     * @var string
      */
     const TRANSPORT_PAYFLOW_TXN_ID = 'payflow_trxid';
 
@@ -44,7 +42,8 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
      */
     public function refund(Magento_Object $payment, $amount)
     {
-        if ($captureTxnId = $this->_getParentTransactionId($payment)) {
+        $captureTxnId = $this->_getParentTransactionId($payment);
+        if ($captureTxnId) {
             $api = $this->getApi();
             $api->setAuthorizationId($captureTxnId);
         }
@@ -90,10 +89,8 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
                 Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $api->getTransactionId())
-        );
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
+        $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 
     /**
@@ -106,9 +103,7 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
      */
     public function fetchTransactionInfo(Magento_Payment_Model_Info $payment, $transactionId)
     {
-        Mage::throwException(
-            __('Fetch transaction details method does not exists in PaypalUK')
-        );
+        throw new Magento_Core_Exception(__('Fetch transaction details method does not exists in PaypalUK'));
     }
 
     /**
@@ -127,9 +122,7 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
                 Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $api->getTransactionId())
-        );
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
+        $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 }

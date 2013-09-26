@@ -8,16 +8,26 @@
  * @license     {license_link}
  */
 
-
 /**
  * PayPal resource model for certificate based authentication
- *
- * @category    Magento
- * @package     Magento_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Paypal_Model_Resource_Cert extends Magento_Core_Model_Resource_Db_Abstract
 {
+    /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Date $coreDate
+     */
+    public function __construct(Magento_Core_Model_Resource $resource, Magento_Core_Model_Date $coreDate)
+    {
+        $this->_coreDate = $coreDate;
+        parent::__construct($resource);
+    }
+
     /**
      * Initialize connection
      */
@@ -34,7 +44,7 @@ class Magento_Paypal_Model_Resource_Cert extends Magento_Core_Model_Resource_Db_
      */
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
-        $object->setUpdatedAt($this->formatDate(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()));
+        $object->setUpdatedAt($this->formatDate($this->_coreDate->gmtDate()));
         return parent::_beforeSave($object);
     }
 

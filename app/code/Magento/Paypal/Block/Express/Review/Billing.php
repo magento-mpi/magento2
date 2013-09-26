@@ -10,13 +10,32 @@
 
 /**
  * Paypal Express Onepage checkout block for Billing Address
- *
- * @category   Magento
- * @package    Magento_Paypal
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Paypal_Block_Express_Review_Billing extends Magento_Checkout_Block_Onepage_Billing
 {
+    /**
+     * @var Magento_Sales_Model_Quote_AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Sales_Model_Quote_AddressFactory $addressFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Sales_Model_Quote_AddressFactory $addressFactory,
+        array $data = array()
+    ) {
+        $this->_addressFactory = $addressFactory;
+        parent::__construct($configCacheType, $coreData, $context, $data);
+    }
+
     /**
      * Return Sales Quote Address model
      *
@@ -34,7 +53,7 @@ class Magento_Paypal_Block_Express_Review_Billing extends Magento_Checkout_Block
                     $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
                 }
             } else {
-                $this->_address = Mage::getModel('Magento_Sales_Model_Quote_Address');
+                $this->_address = $this->_addressFactory->create();
             }
         }
 

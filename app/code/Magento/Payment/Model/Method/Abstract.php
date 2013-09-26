@@ -35,12 +35,24 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     const CHECK_RECURRING_PROFILES    = 64;
     const CHECK_ZERO_TOTAL            = 128;
 
+    /**
+     * @var string
+     */
     protected $_code;
-    protected $_formBlockType = 'Magento_Payment_Block_Form';
-    protected $_infoBlockType = 'Magento_Payment_Block_Info';
 
     /**
+     * @var string
+     */
+    protected $_formBlockType = 'Magento_Payment_Block_Form';
+
+    /**
+     * @var string
+     */
+    protected $_infoBlockType = 'Magento_Payment_Block_Info';
+
+    /**#@+
      * Payment Method features
+     *
      * @var bool
      */
     protected $_isGateway                   = false;
@@ -59,6 +71,8 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     protected $_canReviewPayment            = false;
     protected $_canCreateBillingAgreement   = false;
     protected $_canManageRecurringProfiles  = true;
+    /**#@-*/
+
     /**
      * TODO: whether a captured transaction may be voided by this gateway
      * This may happen when amount is captured, but not settled
@@ -78,7 +92,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      *
      * @var Magento_Payment_Helper_Data
      */
-    protected $_paymentData = null;
+    protected $_paymentData;
 
     /**
      * Core store config
@@ -92,7 +106,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Log adapter factory
@@ -291,6 +305,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     /**
      * To check billing country is allowed for the payment method
      *
+     * @param string $country
      * @return bool
      */
     public function canUseForCountry($country)
@@ -298,9 +313,9 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
         /*
         for specific country, the flag will set up as 1
         */
-        if($this->getConfigData('allowspecific')==1){
+        if ($this->getConfigData('allowspecific') == 1) {
             $availableCountries = explode(',', $this->getConfigData('specificcountry'));
-            if(!in_array($country, $availableCountries)){
+            if (!in_array($country, $availableCountries)) {
                 return false;
             }
 

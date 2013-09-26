@@ -15,6 +15,25 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     extends Magento_Backend_Block_System_Config_Form_Fieldset
 {
     /**
+     * @var Magento_Backend_Model_Config
+     */
+    protected $_backendConfig;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Backend_Model_Config $backendConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Backend_Model_Config $backendConfig,
+        array $data = array()
+    ) {
+        $this->_backendConfig = $backendConfig;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Add custom css class
      *
      * @param Magento_Data_Form_Element_Abstract $element
@@ -41,7 +60,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
             return false;
         }
 
-        $isPaymentEnabled = (string)Mage::getSingleton('Magento_Backend_Model_Config')->getConfigDataValue($activityPath);
+        $isPaymentEnabled = (string)$this->_backendConfig->getConfigDataValue($activityPath);
 
         return (bool)$isPaymentEnabled;
     }
@@ -86,7 +105,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
                 . __('View Demo') . '</a>';
         }
 
-            $html .='</div></div>';
+            $html .= '</div></div>';
 
         return $html;
     }

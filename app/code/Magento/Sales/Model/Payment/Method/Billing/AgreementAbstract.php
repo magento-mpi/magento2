@@ -107,7 +107,7 @@ abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract
     }
 
     /**
-     * @param unknown_type $quote
+     * @param object $quote
      */
     abstract protected function _isAvailable($quote);
 }

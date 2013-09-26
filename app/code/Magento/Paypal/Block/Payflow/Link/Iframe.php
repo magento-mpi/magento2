@@ -10,10 +10,6 @@
 
 /**
  * Payflow link iframe block
- *
- * @category   Magento
- * @package    Magento_Paypal
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Paypal_Block_Payflow_Link_Iframe extends Magento_Paypal_Block_Iframe
 {
@@ -28,16 +24,20 @@ class Magento_Paypal_Block_Payflow_Link_Iframe extends Magento_Paypal_Block_Ifra
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Checkout_Model_Session $checkoutSession,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $orderFactory, $checkoutSession, $data);
     }
 
     /**
