@@ -8,8 +8,10 @@
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /** Constants for API user details */
     const API_KEY_LENGTH = 32;
@@ -22,32 +24,6 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
     /** Data key for getting subscription id out of subscription data */
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
 
-    /** @var Magento_Data_Form_Factory */
-    private $_formFactory;
-
-    /** @var Magento_Core_Model_Registry  */
-    private $_registry;
-
-    /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        array $data = array()
-    ) {
-        parent::__construct($coreData, $context, $data);
-
-        $this->_formFactory = $formFactory;
-        $this->_registry = $registry;
-    }
-
     /**
      * Prepares registration form
      *
@@ -55,7 +31,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
      */
     protected function _prepareForm()
     {
-        $subscription = $this->_registry->registry(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION);
+        $subscription = $this->_coreRegistry->registry(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION);
         $apiKey = $this->_generateRandomString(self::API_KEY_LENGTH);
         $apiSecret = $this->_generateRandomString(self::API_SECRET_LENGTH);
         $inputLength = max(self::API_KEY_LENGTH, self::API_SECRET_LENGTH, self::MIN_TEXT_INPUT_LENGTH);

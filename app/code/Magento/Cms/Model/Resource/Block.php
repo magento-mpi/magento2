@@ -19,6 +19,35 @@
 class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        parent::__construct($resource);
+        $this->_storeManager = $storeManager;
+        $this->_date = $date;
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -47,19 +76,21 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Perform operations before object save
      *
-     * @param Magento_Cms_Model_Block $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Magento_Cms_Model_Resource_Block
+     * @throws Magento_Core_Exception
      */
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (!$this->getIsUniqueBlockToStores($object)) {
-            Mage::throwException(__('A block identifier with the same properties already exists in the selected store.'));
+            throw new Magento_Core_Exception(
+                __('A block identifier with the same properties already exists in the selected store.'));
         }
 
         if (! $object->getId()) {
-            $object->setCreationTime(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+            $object->setCreationTime($this->_date->gmtDate());
         }
-        $object->setUpdateTime(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+        $object->setUpdateTime($this->_date->gmtDate());
         return $this;
     }
 
@@ -177,7 +208,7 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
      */
     public function getIsUniqueBlockToStores(Magento_Core_Model_Abstract $object)
     {
-        if (Mage::app()->hasSingleStore()) {
+        if ($this->_storeManager->hasSingleStore()) {
             $stores = array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         } else {
             $stores = (array)$object->getData('stores');

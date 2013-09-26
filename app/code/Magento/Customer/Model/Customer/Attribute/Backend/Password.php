@@ -29,11 +29,14 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Password
 
     /**
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_coreString = $coreString;
+        parent::__construct($logger);
     }
 
     /**

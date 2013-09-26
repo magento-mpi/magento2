@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="test">
+        <block class="Magento_Core_Block_Template" name="block"/>
+        <container name="block" label="Container"/>
+        <reference name="block">
+            <block class="Magento_Core_Block_Template" name="another.block"/>
+        </reference>
+        <reference name="broken.reference">
+            <block class="Magento_Core_Block_Template" name="another.block"/>
+        </reference>
+    </handle>
+</layout>

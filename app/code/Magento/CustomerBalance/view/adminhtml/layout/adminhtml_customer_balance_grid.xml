@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customerbalance.balance">
+    <referenceBlock name="customerbalance.balance">
         <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid" name="customer.balance.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">balanceGrid</argument>
@@ -40,5 +40,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

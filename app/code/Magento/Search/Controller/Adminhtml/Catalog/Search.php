@@ -22,18 +22,30 @@ class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminht
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * Query factory
+     *
+     * @var Magento_CatalogSearch_Model_QueryFactory
+     */
+    protected $_queryFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_CatalogSearch_Model_QueryFactory $queryFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
+        $this->_queryFactory = $queryFactory;
+        parent::__construct($context);        
     }
 
     /**
@@ -42,19 +54,21 @@ class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminht
     public function relatedGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('Magento_CatalogSearch_Model_Query');
+        /** @var Magento_CatalogSearch_Model_Query $model */
+        $model = $this->_queryFactory->create();
+        $backendSession = $this->_objectManager->get('Magento_Adminhtml_Model_Session');
 
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This search no longer exists.'));
+                $backendSession->addError(__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPageData(true);
+        $data = $backendSession->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }

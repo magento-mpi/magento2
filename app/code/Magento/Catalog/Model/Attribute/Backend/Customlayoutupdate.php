@@ -18,6 +18,19 @@
 
 class Magento_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
+    /**
+     * @var Magento_Adminhtml_Model_LayoutUpdate_Validator
+     */
+    protected $_layoutValidator;
+
+    /**
+     * @param Magento_Adminhtml_Model_LayoutUpdate_Validator $validator
+     */
+    public function __construct(
+        Magento_Adminhtml_Model_LayoutUpdate_Validator $validator
+    ) {
+        $this->_layoutValidator = $validator;
+    }
 
    /**
     * Product custom layout update attribute validate function.
@@ -35,10 +48,8 @@ class Magento_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Magento
             return true;
         }
 
-        /** @var $validator Magento_Adminhtml_Model_LayoutUpdate_Validator */
-        $validator = Mage::getModel('Magento_Adminhtml_Model_LayoutUpdate_Validator');
-        if (!$validator->isValid($xml)) {
-            $messages = $validator->getMessages();
+        if (!$this->_layoutValidator->isValid($xml)) {
+            $messages = $this->_layoutValidator->getMessages();
             //Add first message to exception
             $massage = array_shift($messages);
             $eavExc = new Magento_Eav_Model_Entity_Attribute_Exception($massage);

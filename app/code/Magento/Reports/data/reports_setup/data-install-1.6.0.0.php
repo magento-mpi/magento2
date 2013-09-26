@@ -59,7 +59,7 @@ $installer->endSetup();
 /** @var $cms Magento_Cms_Model_Page */
 $cms = Mage::getModel('Magento_Cms_Model_Page')->load('home', 'identifier');
 
-$reportLayoutUpdate    = '<!--<reference name="content">
+$reportLayoutUpdate    = '<!--<referenceContainer name="content">
         <block class="Magento_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
@@ -81,11 +81,11 @@ $reportLayoutUpdate    = '<!--<reference name="content">
                 <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
         </block>
-    </reference>
-    <reference name="right">
+    </referenceContainer>
+    <referenceContainer name="right">
         <action method="unsetChild"><argument name="alias" xsi:type="string">right.reports.product.viewed</argument></action>
         <action method="unsetChild"><argument name="alias" xsi:type="string">right.reports.product.compared</argument></action>
-    </reference>-->';
+    </referenceContainer>-->';
 
 /*
  * Merge and save old layout update data with report layout data

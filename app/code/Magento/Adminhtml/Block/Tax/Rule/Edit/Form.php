@@ -11,39 +11,8 @@
 /**
  * Adminhtml Tax Rule Edit Form
  */
-class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry;
-
-    /**
-     * @var Magento_Data_Form_Factory
-     */
-    protected $_formFactory;
-
-    /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        $this->_formFactory = $formFactory;
-        parent::__construct($coreData, $context, $data);
-    }
-
     /**
      * Init class
      *

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="cart_sidebar.extra_actions">
+    <referenceContainer name="cart_sidebar.extra_actions">
         <block class="Magento_PaypalUk_Block_Express_Shortcut" name="paypaluk.partner.cart_sidebar.shortcut" template="Magento_Paypal::express/shortcut.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

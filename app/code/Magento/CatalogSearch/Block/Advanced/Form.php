@@ -17,6 +17,61 @@
  */
 class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Template
 {
+    /**
+     * Locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Currency factory
+     *
+     * @var Magento_Directory_Model_CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * Catalog search advanced
+     *
+     * @var Magento_CatalogSearch_Model_Advanced
+     */
+    protected $_catalogSearchAdvanced;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_CatalogSearch_Model_Advanced $catalogSearchAdvanced
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_CatalogSearch_Model_Advanced $catalogSearchAdvanced,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        array $data = array()
+    ) {
+        $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
+        $this->_currencyFactory = $currencyFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function _prepareLayout()
     {
         // add Home breadcrumb
@@ -24,7 +79,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
             $breadcrumbs->addCrumb('home', array(
                 'label'=>__('Home'),
                 'title'=>__('Go to Home Page'),
-                'link'=>Mage::getBaseUrl()
+                'link' => $this->_storeManager->getStore()->getBaseUrl(),
             ))->addCrumb('search', array(
                 'label'=>__('Catalog Advanced Search')
             ));
@@ -96,10 +151,10 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
         $currencies = $this->getData('_currencies');
         if (is_null($currencies)) {
             $currencies = array();
-            $codes = Mage::app()->getStore()->getAvailableCurrencyCodes(true);
+            $codes = $this->_storeManager->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes)) {
-                $rates = Mage::getModel('Magento_Directory_Model_Currency')->getCurrencyRates(
-                    Mage::app()->getStore()->getBaseCurrency(),
+                $rates = $this->_currencyFactory->create()->getCurrencyRates(
+                    $this->_storeManager->getStore()->getBaseCurrency(),
                     $codes
                 );
 
@@ -133,9 +188,9 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
      */
     public function getCurrency($attribute)
     {
-        return Mage::app()->getStore()->getCurrentCurrencyCode();
+        return $this->_storeManager->getStore()->getCurrentCurrencyCode();
 
-        $baseCurrency = Mage::app()->getStore()->getBaseCurrency()->getCurrencyCode();
+        $baseCurrency = $this->_storeManager->getStore()->getBaseCurrency()->getCurrencyCode();
         return $this->getAttributeValue($attribute, 'currency') ?
             $this->getAttributeValue($attribute, 'currency') : $baseCurrency;
     }
@@ -258,7 +313,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
      */
     public function getModel()
     {
-        return Mage::getSingleton('Magento_CatalogSearch_Model_Advanced');
+        return $this->_catalogSearchAdvanced;
     }
 
     /**
@@ -289,7 +344,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
             ->setTitle($this->getAttributeLabel($attribute))
             ->setValue($value)
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat(Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
+            ->setDateFormat($this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
             ->setClass('input-text')
             ->getHtml();
     }

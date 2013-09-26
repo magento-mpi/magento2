@@ -194,8 +194,9 @@ class Magento_Test_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
 
         $notifications = array();
         $this->_object->onScenarioFailure(
-            function (Magento_TestFramework_Performance_Scenario_FailureException $actualFailure)
-                use (&$notifications) {
+            function (
+                Magento_TestFramework_Performance_Scenario_FailureException $actualFailure
+            ) use (&$notifications) {
                 $notifications[] = $actualFailure->getScenario()->getFile();
             }
         );
