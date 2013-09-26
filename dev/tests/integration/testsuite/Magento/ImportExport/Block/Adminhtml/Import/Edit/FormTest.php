@@ -48,7 +48,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testPrepareForm()
     {
         $formBlock = \Mage::app()->getLayout()->createBlock('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
-        $prepareForm = new ReflectionMethod(
+        $prepareForm = new \ReflectionMethod(
             'Magento\ImportExport\Block\Adminhtml\Import\Edit\Form',
             '_prepareForm'
         );

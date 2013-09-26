@@ -23,7 +23,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false)
         ));
 
-        $method = new ReflectionMethod($mock, '_getSortedCollectorCodes');
+        $method = new \ReflectionMethod($mock, '_getSortedCollectorCodes');
         $method->setAccessible(true);
         $actualResult = $method->invoke($mock, $totalConfig);
         $this->assertEquals($expectedResult, $actualResult);

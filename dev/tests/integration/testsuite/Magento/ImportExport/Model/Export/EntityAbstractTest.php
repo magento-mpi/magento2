@@ -76,7 +76,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     public function testFilterAttributeCollection()
     {
         /** @var $model \Magento\ImportExport\Model\Export\StubEntityAbstract */
-        $model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\StubEntityAbstract');
+        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\StubEntityAbstract');
         $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $collection = $model->filterAttributeCollection($collection);
         /**

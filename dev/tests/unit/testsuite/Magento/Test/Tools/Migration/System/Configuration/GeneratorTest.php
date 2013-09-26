@@ -8,6 +8,8 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Generator.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
@@ -16,9 +18,6 @@ require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/LoggerAbstract.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Formatter.php';
-
-
-namespace Magento\Test\Tools\Migration\System\Configuration;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {

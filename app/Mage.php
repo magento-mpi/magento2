@@ -429,7 +429,8 @@ final class Mage
             ->get('Magento\Core\Model\Config\Resource')
             ->getResourceConnectionModel('core');
 
-        $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
+        $helperClassName = str_replace('_', '\\', $moduleName) . '\\Model\\Resource\\Helper\\'
+            . ucfirst($connectionModel);
         $connection = strtolower($moduleName);
         if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);
@@ -457,7 +458,8 @@ final class Mage
      */
     public static function exception($module = 'Magento_Core', $message = '', $code = 0)
     {
-        $className = $module . '_Exception';
+        $module = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $module);
+        $className = $module . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Exception';
         return new $className($message, $code);
     }
 

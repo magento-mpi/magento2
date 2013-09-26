@@ -268,7 +268,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
 
         $helper->expects($this->any())
             ->method('getConfigNode')
-            ->will($this->returnCallback('Magento_Captcha_Model_DefaultTest::getConfigNodeStub'));
+            ->will($this->returnCallback('Magento\Captcha\Model\DefaultTest::getConfigNodeStub'));
 
         $helper->expects($this->any())
             ->method('getFonts')

@@ -102,7 +102,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function getLayout()
     {

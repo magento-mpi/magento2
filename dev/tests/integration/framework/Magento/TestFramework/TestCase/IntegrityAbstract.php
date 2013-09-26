@@ -32,7 +32,7 @@ abstract class IntegrityAbstract extends \PHPUnit_Framework_TestCase
     {
         if ($this->_enabledModules === null) {
             /** @var $helper \Magento\TestFramework\Helper\Config */
-            $helper = \Magento\TestFramework\Helper\Factory::getHelper('\Magento\TestFramework\Helper\Config');
+            $helper = \Magento\TestFramework\Helper\Factory::getHelper('Magento\TestFramework\Helper\Config');
             $enabledModules = $helper->getEnabledModules();
             $this->_enabledModules = array_combine($enabledModules, $enabledModules);
         }
