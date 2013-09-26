@@ -91,8 +91,8 @@ class Magento_GiftRegistry_Model_Config_Converter implements Magento_Config_Conv
         foreach ($attributeGroups as $attributeGroup) {
 
             $attributeGroupName = $attributeGroup->getAttribute('name');
-            $attributeGroupSortOrder = $attributeGroup->getAttribute('sort_order');
-            $attributeGroupIsVisible = $attributeGroup->getAttribute('visible');
+            $groupSortOrder = $attributeGroup->getAttribute('sort_order');
+            $groupIsVisible = $attributeGroup->getAttribute('visible');
 
             if (!$attributeGroupName) {
                 throw new InvalidArgumentException('Attribute "name" of one of "attribute_group"s does not exist');
@@ -108,8 +108,8 @@ class Magento_GiftRegistry_Model_Config_Converter implements Magento_Config_Conv
             }
 
             $result[$attributeGroupName] = array(
-                'sortOrder' => $attributeGroupSortOrder,
-                'visible' => $attributeGroupIsVisible,
+                'sortOrder' => $groupSortOrder,
+                'visible' => $groupIsVisible,
                 'label'     => $labelText
             );
         }
