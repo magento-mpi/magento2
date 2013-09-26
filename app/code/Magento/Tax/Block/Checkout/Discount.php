@@ -23,6 +23,9 @@ class Magento_Tax_Block_Checkout_Discount extends Magento_Checkout_Block_Total_D
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Tax_Model_Config $taxConfig
      * @param array $data
      */
@@ -31,11 +34,15 @@ class Magento_Tax_Block_Checkout_Discount extends Magento_Checkout_Block_Total_D
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Tax_Model_Config $taxConfig,
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;
-        parent::__construct($catalogData, $coreData, $context, $coreConfig, $data);
+        parent::__construct($catalogData, $coreData, $context, $coreConfig, $customerSession, $checkoutSession,
+            $storeManager, $data);
     }
 
     /**
