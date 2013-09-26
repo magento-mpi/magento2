@@ -36,8 +36,7 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $request = $this->getMock('Magento_Core_Controller_Request_HttpProxy', array(), array(), '', false);
-        $context = $objectManager->getObject('Magento_Core_Helper_Context', array('request' => $request));
+        $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
 
         $configCacheType = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false);
 

@@ -55,7 +55,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     protected $_app;
 
     /**
-     * @var Magento_Core_Model_UrlFactory
+     * @var Magento_Core_Model_Url
      */
     protected $_urlFactory;
 
@@ -128,7 +128,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     }
 
     /**
-     * @return Magento_Core_Model_UrlFactory
+     * @return Magento_Core_Model_Url
      */
     public function getUrlFactory()
     {

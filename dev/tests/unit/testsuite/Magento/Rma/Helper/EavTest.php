@@ -25,7 +25,8 @@ class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false);
         $this->_model = $helper->getObject('Magento_Rma_Helper_Eav', array(
             'collectionFactory' => $collectionFactory,
-            'attributeConfig' => $attributeConfig
+            'attributeConfig' => $attributeConfig,
+            'context' => $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false)
         ));
     }
 
