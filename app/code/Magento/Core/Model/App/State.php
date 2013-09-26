@@ -17,6 +17,27 @@ class Magento_Core_Model_App_State
      */
     private $_appMode;
 
+    /**
+     * Check if we need to use __sleep and __wakeup serialization methods in models
+     *
+     * @var bool
+     */
+    protected  $_isSerializable = true;
+
+    /**
+     * Is downloader flag
+     *
+     * @var bool
+     */
+    protected  $_isDownloader = false;
+
+    /**
+     * Update mode flag
+     *
+     * @var bool
+     */
+    protected $_updateMode = false;
+
     /**#@+
      * Application modes
      */
@@ -69,7 +90,7 @@ class Magento_Core_Model_App_State
      */
     public function setUpdateMode($value)
     {
-        Mage::setUpdateMode($value);
+        $this->_updateMode = $value;
     }
 
     /**
@@ -79,7 +100,7 @@ class Magento_Core_Model_App_State
      */
     public function getUpdateMode()
     {
-        return Mage::getUpdateMode();
+        return $this->_updateMode;
     }
 
     /**
@@ -89,7 +110,7 @@ class Magento_Core_Model_App_State
      */
     public function setIsDownloader($flag = true)
     {
-        Mage::setIsDownloader($flag);
+        $this->_isDownloader = $flag;
     }
 
     /**
@@ -99,7 +120,7 @@ class Magento_Core_Model_App_State
      */
     public function setIsSerializable($value = true)
     {
-        Mage::setIsSerializable($value);
+        $this->_isSerializable = !empty($value);
     }
 
     /**
@@ -109,6 +130,6 @@ class Magento_Core_Model_App_State
      */
     public function getIsSerializable()
     {
-        return Mage::getIsSerializable();
+        return $this->_isSerializable;
     }
 }

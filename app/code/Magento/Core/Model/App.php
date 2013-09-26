@@ -15,6 +15,19 @@
  */
 class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
 {
+    /**#@+
+     * Product edition labels
+     */
+    const EDITION_COMMUNITY    = 'Community';
+
+    /**
+     * Current Magento edition.
+     *
+     * @var string
+     * @static
+     */
+    protected $_currentEdition = self::EDITION_COMMUNITY;
+
     /**
      * Application loaded areas array
      *
@@ -785,5 +798,59 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     public function getAnyStoreView()
     {
         return $this->_storeManager->getAnyStoreView();
+    }
+
+    /**
+     * Get current Magento edition
+     *
+     * @static
+     * @return string
+     */
+    public function getEdition()
+    {
+        return $this->_currentEdition;
+    }
+
+    /**
+     * Set edition
+     *
+     * @param string $edition
+     */
+    public function setEdition($edition)
+    {
+        $this->_currentEdition = $edition;
+    }
+
+
+    /**
+     * Gets the current Magento version string
+     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        $info = $this->getVersionInfo();
+        return trim("{$info['major']}.{$info['minor']}.{$info['revision']}"
+            . ($info['patch'] != '' ? ".{$info['patch']}" : "")
+            . "-{$info['stability']}{$info['number']}", '.-');
+    }
+
+    /**
+     * Gets the detailed Magento version information
+     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
+     *
+     * @return array
+     */
+    public function getVersionInfo()
+    {
+        return array(
+            'major'     => '2',
+            'minor'     => '0',
+            'revision'  => '0',
+            'patch'     => '0',
+            'stability' => 'dev',
+            'number'    => '45',
+        );
     }
 }
