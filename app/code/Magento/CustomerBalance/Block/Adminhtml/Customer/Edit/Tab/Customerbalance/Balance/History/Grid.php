@@ -20,6 +20,47 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     protected $_collection;
 
     /**
+     * @var Magento_CustomerBalance_Model_Balance_History
+     */
+    protected $_history;
+
+    /**
+     * @var Magento_CustomerBalance_Model_Balance_HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_CustomerBalance_Model_Balance_History $history
+     * @param Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_CustomerBalance_Model_Balance_History $history,
+        Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        $this->_historyFactory = $historyFactory;
+        $this->_history = $history;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Initialize some params
      *
      */
@@ -38,7 +79,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_CustomerBalance_Model_Balance_History')
+        $collection = $this->_historyFactory->create()
             ->getCollection()
             ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
         $this->setCollection($collection);
@@ -61,12 +102,12 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             'width'     => 200,
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header'    => __('Website'),
                 'index'     => 'website_id',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'options'   => $this->_systemStore->getWebsiteOptionHash(),
                 'sortable'  => false,
                 'width'     => 200,
             ));
@@ -78,7 +119,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             'index'     => 'action',
             'sortable'  => false,
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_CustomerBalance_Model_Balance_History')->getActionNamesArray()
+            'options'   => $this->_history->getActionNamesArray()
         ));
 
         $this->addColumn('balance_delta', array(

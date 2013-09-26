@@ -23,6 +23,20 @@ class Magento_Search_Model_Resource_Recommendations extends Magento_Core_Model_R
     protected $_searchQueryModel;
 
     /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_CatalogSearch_Model_QueryFactory $queryFactory
+    ) {
+        parent::__construct($resource);
+        $this->_searchQueryModel = $queryFactory->create();
+    }
+
+    /**
      * Init main table
      *
      */
@@ -78,8 +92,7 @@ class Magento_Search_Model_Resource_Recommendations extends Magento_Core_Model_R
      */
     public function getRelatedQueries($queryId, $limit = false, $order = false)
     {
-        $queryIds = array();
-        $collection = $this->_getSearchQueryModel()->getResourceCollection();
+        $collection = $this->_searchQueryModel->getResourceCollection();
         $adapter = $this->_getReadAdapter();
 
         $queryIdCond = $adapter->quoteInto('main_table.query_id IN (?)', $queryId);
@@ -114,18 +127,16 @@ class Magento_Search_Model_Resource_Recommendations extends Magento_Core_Model_R
      */
     public function getRecommendationsByQuery($query, $params, $searchRecommendationsCount)
     {
-        $model = $this->_getSearchQueryModel();
-        $model->loadByQuery($query);
+        $this->_searchQueryModel->loadByQuery($query);
 
         if (isset($params['store_id'])) {
-            $model->setStoreId($params['store_id']);
+            $this->_searchQueryModel->setStoreId($params['store_id']);
         }
         $relatedQueriesIds = $this->loadByQuery($query, $searchRecommendationsCount);
         $relatedQueries = array();
         if (count($relatedQueriesIds)) {
             $adapter = $this->_getReadAdapter();
-            $mainTable = $model
-                ->getResourceCollection()->getMainTable();
+            $mainTable = $this->_searchQueryModel->getResourceCollection()->getMainTable();
             $select = $adapter->select()
                 ->from(
                     array('main_table' => $mainTable),
@@ -149,8 +160,7 @@ class Magento_Search_Model_Resource_Recommendations extends Magento_Core_Model_R
     protected function loadByQuery($query, $searchRecommendationsCount)
     {
         $adapter        = $this->_getReadAdapter();
-        $model          = $this->_getSearchQueryModel();
-        $queryId        = $model->getId();
+        $queryId        = $this->_searchQueryModel->getId();
         $relatedQueries = $this->getRelatedQueries($queryId, $searchRecommendationsCount, 'num_results DESC');
         if ($searchRecommendationsCount - count($relatedQueries) < 1) {
             return $relatedQueries;
@@ -174,11 +184,11 @@ class Magento_Search_Model_Resource_Recommendations extends Magento_Core_Model_R
         $likeCondition = implode(' OR ', $likeCondition);
 
         $select = $adapter->select()
-            ->from($model->getResource()->getMainTable(), array(
+            ->from($this->_searchQueryModel->getResource()->getMainTable(), array(
                 'query_id'
             ))
             ->where(new Zend_Db_Expr($likeCondition))
-            ->where('store_id=?', $model->getStoreId())
+            ->where('store_id=?', $this->_searchQueryModel->getStoreId())
             ->order('num_results DESC')
             ->limit($searchRecommendationsCount + 1);
         $ids = $adapter->fetchCol($select);
@@ -194,18 +204,5 @@ class Magento_Search_Model_Resource_Recommendations extends Magento_Core_Model_R
         $ids = array_unique(array_merge($relatedQueries, $ids));
         $ids = array_slice($ids, 0, $searchRecommendationsCount);
         return $ids;
-    }
-
-    /**
-     * Retrieve search query model
-     *
-     * @return object
-     */
-    protected function _getSearchQueryModel()
-    {
-        if (!$this->_searchQueryModel) {
-            $this->_searchQueryModel = Mage::getModel('Magento_CatalogSearch_Model_Query');
-        }
-        return $this->_searchQueryModel;
     }
 }

@@ -10,15 +10,10 @@
 
 /**
  * Shipping Method Block at RMA page
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract
 {
-
     /**
      * PSL Button statuses
      */
@@ -31,21 +26,31 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
      *
      * @var null|Magento_Rma_Model_Rma
      */
-    protected $_rma = null;
+    protected $_rma;
 
     /**
      * Rma data
      *
      * @var Magento_Rma_Helper_Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
 
     /**
      * Tax data
      *
      * @var Magento_Tax_Helper_Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
+
+    /**
+     * @var Magento_Rma_Model_ShippingFactory
+     */
+    protected $_shippingFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param Magento_Tax_Helper_Data $taxData
@@ -53,6 +58,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Rma_Model_ShippingFactory $shippingFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -61,10 +68,14 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Rma_Model_ShippingFactory $shippingFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
         $this->_rmaData = $rmaData;
+        $this->_shippingFactory = $shippingFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $registry, $data);
     }
 
@@ -114,8 +125,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
      */
     public function getShipment()
     {
-        return Mage::getModel('Magento_Rma_Model_Shipping')
-            ->getShippingLabelByRma($this->getRma());
+        /** @var $shipping Magento_Rma_Model_Shipping */
+        $shipping = $this->_shippingFactory->create();
+        return $shipping->getShippingLabelByRma($this->getRma());
     }
 
     /**
@@ -126,16 +138,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
      */
     public function getShippingPrice($price)
     {
-        return Mage::app()
-            ->getStore($this->getRma()->getStoreId())
-            ->convertPrice(
-                $this->_taxData->getShippingPrice(
-                    $price
-                ),
-                true,
-                false
-            )
-        ;
+        return $this->_storeManager->getStore($this->getRma()->getStoreId())
+            ->convertPrice($this->_taxData->getShippingPrice($price), true, false);
     }
 
     /**

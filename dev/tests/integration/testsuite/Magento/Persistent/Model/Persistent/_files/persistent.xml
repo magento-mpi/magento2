@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_PersistentHistory
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../Persistent/etc/persistent.xsd">
+    <instances>
+        <blocks>
+            <reference id="reorder_sidebar">
+                <name_in_layout>sale.reorder.sidebar</name_in_layout>
+                <class>Magento_PersistentHistory_Model_Observer</class>
+                <method>initReorderSidebar</method>
+                <block_type>Magento_Sales_Block_Reorder_Sidebar</block_type>
+            </reference>
+            <reference id="viewed_products">
+                <name_in_layout>left.reports.product.viewed</name_in_layout>
+                <class>Magento_PersistentHistory_Model_Observer</class>
+                <method>emulateViewedProductsBlock</method>
+                <block_type>Magento_Sales_Block_Reorder_Sidebar</block_type>
+            </reference>
+            <reference id="compared_products">
+                <name_in_layout>right.reports.product.compared</name_in_layout>
+                <class>Magento_PersistentHistory_Model_Observer</class>
+                <method>emulateComparedProductsBlock</method>
+                <block_type>Magento_Reports_Block_Product_Compared</block_type>
+            </reference>
+        </blocks>
+    </instances>
+</config>
+

@@ -55,21 +55,41 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Persistent_Helper_Data $persistentData
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Cookie model
+     *
+     * @var Magento_Core_Model_Cookie
+     */
+    protected $_cookie;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Persistent_Helper_Data $persistentData
+     * @param Magento_Core_Model_Cookie $cookie
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Persistent_Helper_Data $persistentData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Persistent_Helper_Data $persistentData,
+        Magento_Core_Model_Cookie $cookie,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -77,6 +97,8 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
         $this->_coreData = $coreData;
         $this->_persistentData = $persistentData;
         $this->_coreConfig = $coreConfig;
+        $this->_cookie = $cookie;
+        $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -141,7 +163,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
         $this->setInfo($this->_coreData->jsonEncode($info));
 
         if ($this->isObjectNew()) {
-            $this->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+            $this->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
             // Setting cookie key
             do {
                 $this->setKey($this->_coreData->getRandomString(self::KEY_LENGTH));
@@ -177,7 +199,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     public function loadByCookieKey($key = null)
     {
         if (is_null($key)) {
-            $key = Mage::getSingleton('Magento_Core_Model_Cookie')->get(Magento_Persistent_Model_Session::COOKIE_NAME);
+            $key = $this->_cookie->get(Magento_Persistent_Model_Session::COOKIE_NAME);
         }
         if ($key) {
             $this->load($key, 'key');
@@ -220,7 +242,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
      */
     public function removePersistentCookie()
     {
-        Mage::getSingleton('Magento_Core_Model_Cookie')->delete(Magento_Persistent_Model_Session::COOKIE_NAME);
+        $this->_cookie->delete(Magento_Persistent_Model_Session::COOKIE_NAME);
         return $this;
     }
 
@@ -233,7 +255,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
     public function deleteExpired($websiteId = null)
     {
         if (is_null($websiteId)) {
-            $websiteId = Mage::app()->getStore()->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
 
         $lifetime = $this->_coreConfig->getValue(
@@ -258,7 +280,7 @@ class Magento_Persistent_Model_Session extends Magento_Core_Model_Abstract
      * @return Magento_Core_Model_Abstract
      */
     protected function _afterDeleteCommit() {
-        Mage::getSingleton('Magento_Core_Model_Cookie')->delete(Magento_Persistent_Model_Session::COOKIE_NAME);
+        $this->_cookie->delete(Magento_Persistent_Model_Session::COOKIE_NAME);
         return parent::_afterDeleteCommit();
     }
 

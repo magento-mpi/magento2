@@ -31,6 +31,33 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     );
 
     /**
+     * @var Magento_Search_Model_Resource_Engine
+     */
+    protected $_resourceEngine;
+
+    /**
+     * Locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Search_Model_Resource_Engine $resourceEngine
+     * @param Magento_Core_Model_LocaleInterface $locale
+     */
+    public function __construct(
+        Magento_Search_Model_Resource_Engine $resourceEngine,
+        Magento_Core_Model_LocaleInterface $locale
+    ) {
+        parent::__construct();
+        $this->_resourceEngine = $resourceEngine;
+        $this->_locale = $locale;
+    }
+
+    /**
      * Empty construct
      */
     protected function _construct()
@@ -84,11 +111,10 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
             $value = array($value);
         }
 
-        $field = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine')
-                ->getSearchEngineFieldName($attribute, 'nav');
+        $field = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
-            $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
             foreach ($value as &$val) {
                 if (!is_empty_date($val)) {
                     $date = new Zend_Date($val, $format);
@@ -118,8 +144,7 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     public function addRatedPriceFilter($collection, $attribute, $value, $rate = 1)
     {
         $collection->addPriceData();
-        $fieldName = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine')
-                ->getSearchEngineFieldName($attribute);
+        $fieldName = $this->_resourceEngine->getSearchEngineFieldName($attribute);
         $collection->addSearchParam(array($fieldName => $value));
 
         return true;

@@ -11,25 +11,68 @@
 
 /**
  * Persistent Config Model
- *
- * @category   Magento
- * @package    Magento_Persistent
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Persistent_Model_Persistent_Config
 {
-    /**
-     * XML config instance for Persistent mode
-     * @var null|Magento_Simplexml_Element
-     */
-    protected $_xmlConfig = null;
-
     /**
      * Path to config file
      *
      * @var string
      */
     protected $_configFilePath;
+
+    /** @var Magento_Config_DomFactory  */
+    protected $_domFactory;
+
+    /** @var Magento_Core_Model_Config_Modules_Reader  */
+    protected $_moduleReader;
+
+    /** @var DOMXPath  */
+    protected $_configDomXPath = null;
+
+    /**
+     * Layout model
+     *
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * App state model
+     *
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
+     * Model factory
+     *
+     * @var Magento_Persistent_Model_Factory
+     */
+    protected $_persistentFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Config_DomFactory $domFactory
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Persistent_Model_Factory $persistentFactory
+     */
+    public function __construct(
+        Magento_Config_DomFactory $domFactory,
+        Magento_Core_Model_Config_Modules_Reader $moduleReader,
+        Magento_Core_Model_Layout $layout,
+        Magento_Core_Model_App_State $appState,
+        Magento_Persistent_Model_Factory $persistentFactory
+    ) {
+        $this->_domFactory = $domFactory;
+        $this->_moduleReader = $moduleReader;
+        $this->_layout = $layout;
+        $this->_appState = $appState;
+        $this->_persistentFactory = $persistentFactory;
+    }
 
     /**
      * Set path to config file that should be loaded
@@ -40,27 +83,51 @@ class Magento_Persistent_Model_Persistent_Config
     public function setConfigFilePath($path)
     {
         $this->_configFilePath = $path;
-        $this->_xmlConfig = null;
         return $this;
     }
 
     /**
-     * Load persistent XML config
+     * Get persistent XML config xpath
      *
-     * @return Magento_Simplexml_Element
+     * @return DOMXPath
      * @throws Magento_Core_Exception
      */
-    public function getXmlConfig()
+    protected function _getConfigDomXPath()
     {
-        if (is_null($this->_xmlConfig)) {
+        if (is_null($this->_configDomXPath)) {
             $filePath = $this->_configFilePath;
             if (!is_file($filePath) || !is_readable($filePath)) {
-                Mage::throwException(__('We cannot load the configuration from file %1.', $filePath));
+                throw new Magento_Core_Exception(__('We cannot load the configuration from file %1.', $filePath));
             }
             $xml = file_get_contents($filePath);
-            $this->_xmlConfig = new Magento_Simplexml_Element($xml);
+            /** @var Magento_Config_Dom $configDom */
+            $configDom = $this->_domFactory->createDom(
+                array(
+                    'xml' => $xml,
+                    'idAttributes' => array(
+                        'config/instances/blocks/reference' => 'id',
+                    ),
+                    'schemaFile' => $this->_moduleReader
+                        ->getModuleDir('etc', 'Magento_Persistent') . '/persistent.xsd'
+                )
+            );
+            $this->_configDomXPath = new DOMXPath($configDom->getDom());
         }
-        return $this->_xmlConfig;
+        return $this->_configDomXPath;
+
+    }
+
+    /**
+     * Get block's persistent config info.
+     *
+     * @param string $block
+     * @return $array
+     */
+    public function getBlockConfigInfo($block)
+    {
+        $xPath = '//instances/blocks/*[block_type="' . $block . '"]';
+        $blocks = $this->_getConfigDomXPath()->query($xPath);
+        return $this->_convertBlocksToArray($blocks);
     }
 
     /**
@@ -70,8 +137,39 @@ class Magento_Persistent_Model_Persistent_Config
      */
     public function collectInstancesToEmulate()
     {
-        $config = $this->getXmlConfig()->asArray();
-        return $config['instances'];
+        $xPath = '/config/instances/blocks/reference';
+        $blocks = $this->_getConfigDomXPath()->query($xPath);
+        $blocksArray = $this->_convertBlocksToArray($blocks);
+        return array('blocks' => $blocksArray);
+    }
+
+    /**
+     * Convert Blocks
+     *
+     * @param DomNodeList $blocks
+     * @return array
+     */
+    protected function _convertBlocksToArray($blocks)
+    {
+        $blocksArray = array();
+        foreach ($blocks as $reference) {
+            $referenceAttributes = $reference->attributes;
+            $id = $referenceAttributes->getNamedItem('id')->nodeValue;
+            $blocksArray[$id] = array();
+            /** @var $referenceSubNode DOMNode */
+            foreach ($reference->childNodes as $referenceSubNode) {
+                switch ($referenceSubNode->nodeName) {
+                    case 'name_in_layout':
+                    case 'class':
+                    case 'method':
+                    case 'block_type':
+                        $blocksArray[$id][$referenceSubNode->nodeName] = $referenceSubNode->nodeValue;
+                        break;
+                    default:
+                }
+            }
+        }
+        return $blocksArray;
     }
 
     /**
@@ -88,7 +186,7 @@ class Magento_Persistent_Model_Persistent_Config
             foreach ($elements as $info) {
                 switch ($type) {
                     case 'blocks':
-                        $this->fireOne($info, Mage::app()->getLayout()->getBlock($info['name_in_layout']));
+                        $this->fireOne($info, $this->_layout->getBlock($info['name_in_layout']));
                         break;
                 }
             }
@@ -102,6 +200,7 @@ class Magento_Persistent_Model_Persistent_Config
      * @param array $info
      * @param bool $instance
      * @return Magento_Persistent_Model_Persistent_Config
+     * @throws Magento_Core_Exception
      */
     public function fireOne($info, $instance = false)
     {
@@ -112,13 +211,13 @@ class Magento_Persistent_Model_Persistent_Config
         ) {
             return $this;
         }
-        $object     = Mage::getModel($info['class']);
-        $method     = $info['method'];
+        $object = $this->_persistentFactory->create($info['class']);
+        $method = $info['method'];
 
         if (method_exists($object, $method)) {
             $object->$method($instance);
-        } elseif (Mage::getIsDeveloperMode()) {
-            Mage::throwException('Method "' . $method.'" is not defined in "' . get_class($object) . '"');
+        } elseif ($this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER) {
+            throw new Magento_Core_Exception('Method "' . $method.'" is not defined in "' . get_class($object) . '"');
         }
 
         return $this;

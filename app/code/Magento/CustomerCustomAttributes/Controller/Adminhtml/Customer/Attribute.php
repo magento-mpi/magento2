@@ -26,17 +26,41 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Customer_Model_AttributeFactory
+     */
+    protected $_attrFactory;
+
+    /**
+     * @var Magento_Eav_Model_Entity_Attribute_SetFactory
+     */
+    protected $_attrSetFactory;
 
     /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Customer_Model_AttributeFactory $attrFactory
+     * @param Magento_Eav_Model_Entity_Attribute_SetFactory $attrSetFactory
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Customer_Model_AttributeFactory $attrFactory,
+        Magento_Eav_Model_Entity_Attribute_SetFactory $attrSetFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_eavConfig = $eavConfig;
+        $this->_attrFactory = $attrFactory;
+        $this->_attrSetFactory = $attrSetFactory;
         parent::__construct($context);
     }
 
@@ -48,7 +72,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
+            $this->_entityType = $this->_eavConfig->getEntityType('customer');
         }
         return $this->_entityType;
     }
@@ -78,7 +102,8 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
      */
     protected function _initAttribute()
     {
-        $attribute = Mage::getModel('Magento_Customer_Model_Attribute');
+        /** @var $attribute Magento_Customer_Model_Attribute */
+        $attribute = $this->_attrFactory->create();
         $websiteId = $this->getRequest()->getParam('website');
         if ($websiteId) {
             $attribute->setWebsite($websiteId);
@@ -244,8 +269,9 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Attribute
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
-                    ->getDefaultGroupId($data['attribute_set_id']);
+                /** @var $attrSet Magento_Eav_Model_Entity_Attribute_Set */
+                $attrSet = $this->_attrSetFactory->create();
+                $data['attribute_group_id'] = $attrSet->getDefaultGroupId($data['attribute_set_id']);
             }
 
             if (isset($data['used_in_forms']) && is_array($data['used_in_forms'])) {

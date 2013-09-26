@@ -8,15 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Quick Search Form" type="page" parent="default">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">3columns.phtml</argument>
         </action>
-    </reference>
-    <reference name="left">
+    </referenceBlock>
+    <referenceContainer name="left">
         <block class="Magento_CatalogSearch_Block_Layer" name="catalogsearch.leftnav" after="currency" template="Magento_Catalog::layer/view.phtml"/>
-    </reference>
-    <reference name="content">
+    </referenceContainer>
+    <referenceContainer name="content">
         <block class="Magento_CatalogSearch_Block_Result" name="search.result" template="result.phtml">
             <block class="Magento_Catalog_Block_Product_List" name="search_result_list" template="product/list.phtml">
                 <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
@@ -53,5 +53,5 @@
             <action method="setListModes"/>
             <action method="setListCollection"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

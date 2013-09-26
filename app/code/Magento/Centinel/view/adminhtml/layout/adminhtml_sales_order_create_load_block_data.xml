@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="data">
+    <referenceBlock name="data">
         <block class="Magento_Centinel_Block_Adminhtml_Validation" as="card_validation" name="card_validation" template="Magento_Adminhtml::sales/order/create/abstract.phtml">
             <block class="Magento_Centinel_Block_Adminhtml_Validation_Form" template="validation/form.phtml" name="form"/>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

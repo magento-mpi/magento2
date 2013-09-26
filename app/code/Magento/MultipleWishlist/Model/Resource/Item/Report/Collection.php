@@ -32,29 +32,41 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
     protected $_fieldsetConfig;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * Customer resource model
+     *
+     * @var Magento_Customer_Model_Resource_Customer
+     */
+    protected $_resourceCustomer;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_MultipleWishlist_Model_Resource_Item $itemResource
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_MultipleWishlist_Model_Resource_Item $resource
+     * @param Magento_Customer_Model_Resource_Customer $resourceCustomer
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_MultipleWishlist_Model_Resource_Item $itemResource,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_MultipleWishlist_Model_Resource_Item $resource
+        Magento_Customer_Model_Resource_Customer $resourceCustomer
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_catalogData = $catalogData;
         $this->_fieldsetConfig = $fieldsetConfig;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_resourceCustomer = $resourceCustomer;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $itemResource);
     }
 
     /**
@@ -72,9 +84,6 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
      */
     protected function _addCustomerInfo()
     {
-        /* @var Magento_Customer_Model_Resource_Customer $customer */
-        $customer  = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
-
         $customerAccount = $this->_fieldsetConfig->getFieldset('customer_account');
 
         foreach ($customerAccount as $code => $field) {
@@ -86,7 +95,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
         $adapter = $this->getConnection();
         $concatenate = array();
         if (isset($fields['prefix'])) {
-            $this->_joinCustomerAttibute($customer->getAttribute('prefix'));
+            $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('prefix'));
             $fields['prefix'] = 'at_prefix.value';
             $concatenate[] = $adapter->getCheckSql(
                 '{{prefix}} IS NOT NULL AND {{prefix}} != \'\'',
@@ -94,23 +103,23 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
                 '\'\''
             );
         }
-        $this->_joinCustomerAttibute($customer->getAttribute('firstname'));
+        $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('firstname'));
         $fields['firstname'] = 'at_firstname.value';
         $concatenate[] = 'LTRIM(RTRIM({{firstname}}))';
         $concatenate[] = '\' \'';
         if (isset($fields['middlename'])) {
             $fields['middlename'] = 'at_middlename.value';
-            $this->_joinCustomerAttibute($customer->getAttribute('middlename'));
+            $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('middlename'));
             $concatenate[] = $adapter->getCheckSql(
                 '{{middlename}} IS NOT NULL AND {{middlename}} != \'\'',
                 $adapter->getConcatSql(array('LTRIM(RTRIM({{middlename}}))', '\' \'')),
                 '\'\'');
         }
-        $this->_joinCustomerAttibute($customer->getAttribute('lastname'));
+        $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('lastname'));
         $fields['lastname'] = 'at_lastname.value';
         $concatenate[] = 'LTRIM(RTRIM({{lastname}}))';
         if (isset($fields['suffix'])) {
-            $this->_joinCustomerAttibute($customer->getAttribute('suffix'));
+            $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('suffix'));
             $fields['suffix'] = 'at_suffix.value';
             $concatenate[] = $adapter
                     ->getCheckSql('{{suffix}} IS NOT NULL AND {{suffix}} != \'\'',

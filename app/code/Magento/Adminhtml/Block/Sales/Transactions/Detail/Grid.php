@@ -25,6 +25,12 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -33,6 +39,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
      * @param array $data
      */
     public function __construct(
+        Magento_Data_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -40,6 +47,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -61,7 +69,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
      */
     protected function _prepareCollection()
     {
-        $collection = new Magento_Data_Collection();
+        $collection = $this->_collectionFactory->create();
         foreach ($this->getTransactionAdditionalInfo() as $key => $value) {
             $data = new Magento_Object(array('key' => $key, 'value' => $value));
             $collection->addItem($data);

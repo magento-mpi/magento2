@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.catalog.event.grid.container">
+    <referenceBlock name="adminhtml.catalog.event.grid.container">
         <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.catalog.event.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">catalogEventGrid</argument>
@@ -114,5 +114,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Sales Order Print View" type="page" parent="print">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Sales_Block_Order_Print" name="sales.order.print" template="order/print.phtml">
             <block class="Magento_Sales_Block_Order_Item_Renderer_Default" as="default" template="order/items/renderer/default.phtml"/>
             <block class="Magento_Sales_Block_Order_Item_Renderer_Grouped" as="grouped" template="order/items/renderer/default.phtml"/>
@@ -26,6 +26,6 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
     <container name="additional.product.info" label="Additional Product Info"/>
 </layout>

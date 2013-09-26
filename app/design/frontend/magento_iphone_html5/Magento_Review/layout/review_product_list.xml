@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setMyClass">
             <argument name="value" xsi:type="string">review-product-page</argument>
         </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="varien-product-js">
             <arguments>
                 <argument name="file" xsi:type="string">varien/product.js</argument>
@@ -24,7 +24,7 @@
                 <argument name="file" xsi:type="string">varien/configurable.js</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
     <remove name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js"/>
     <remove name="jquery-jqzoom-css-jquery-jqzoom-css"/>
     <remove name="product.info.media"/>

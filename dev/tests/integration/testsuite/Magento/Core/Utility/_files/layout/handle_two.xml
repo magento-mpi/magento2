@@ -9,9 +9,9 @@
 -->
 <layout label="Handle Two">
     <update handle="handle_one"/>
-    <reference name="some_text_block">
+    <referenceBlock name="some_text_block">
         <action method="setText">
             <text>Some Custom Text</text>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>
