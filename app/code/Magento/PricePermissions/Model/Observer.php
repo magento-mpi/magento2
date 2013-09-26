@@ -95,18 +95,46 @@ class Magento_PricePermissions_Model_Observer
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Store list manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_PricePermissions_Helper_Data $pricePermData
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param  $data
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param array $data
      */
     public function __construct(
         Magento_PricePermissions_Helper_Data $pricePermData,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Backend_Model_Auth_Session $authSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_ProductFactory  $productFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_pricePermData = $pricePermData;
-        $this->_request = (isset($data['request']) && false === $data['request']) ? false : Mage::app()->getRequest();
+        $this->_request = $request;
+        $this->_authSession = $authSession;
+        $this->_storeManager = $storeManager;
+        $this->_productFactory = $productFactory;
         if (isset($data['can_edit_product_price']) && false === $data['can_edit_product_price']) {
             $this->_canEditProductPrice = false;
         }
@@ -128,11 +156,8 @@ class Magento_PricePermissions_Model_Observer
      */
     public function adminControllerPredispatch($observer)
     {
-        /* @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-
         // load role with true websites and store groups
-        if ($session->isLoggedIn() && $session->getUser()->getRole()) {
+        if ($this->_authSession->isLoggedIn() && $this->_authSession->getUser()->getRole()) {
             // Set all necessary flags
             /** @var $helper Magento_PricePermissions_Helper_Data */
             $helper = $this->_pricePermData;
@@ -376,7 +401,7 @@ class Magento_PricePermissions_Model_Observer
             case 'adminhtml_recurring_profile_edit_form' :
                 if (!$this->_coreRegistry->registry('product')->isObjectNew()) {
                     if (!$this->_canReadProductPrice) {
-                        $block->setProductEntity(Mage::getModel('Magento_Catalog_Model_Product'));
+                        $block->setProductEntity($this->_productFactory->create());
                     }
                 }
                 if (!$this->_canEditProductPrice) {
@@ -690,7 +715,7 @@ class Magento_PricePermissions_Model_Observer
                     if ($product->getTypeId() == Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD
                     ) {
                         $storeId = (int) $this->_request->getParam('store', 0);
-                        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+                        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
                         $product->setGiftcardAmounts(array(
                             array(
                                 'website_id' => $websiteId,
@@ -845,7 +870,7 @@ class Magento_PricePermissions_Model_Observer
                     $amountsElement = $form->getElement('giftcard_amounts');
                     if (!is_null($amountsElement)) {
                         $storeId = (int) $this->_request->getParam('store', 0);
-                        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+                        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
                         $amountsElement->setValue(array(
                             array(
                                 'website_id'    => $websiteId,

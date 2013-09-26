@@ -153,7 +153,7 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
         if (!$method->isAvailable($this->getQuote())
             || !$method->isApplicableToQuote($this->getQuote(), $data->getChecks())
         ) {
-            Mage::throwException(__('The requested Payment Method is not available.'));
+            throw new Magento_Core_Exception(__('The requested Payment Method is not available.'));
         }
 
         $method->assignData($data);

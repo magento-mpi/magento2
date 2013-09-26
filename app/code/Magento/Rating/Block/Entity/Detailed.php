@@ -17,16 +17,53 @@
  */
 class Magento_Rating_Block_Entity_Detailed extends Magento_Core_Block_Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'detailed.phtml';
 
+    /**
+     * Store list manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Rating_Model_RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Rating_Model_RatingFactory $ratingFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Rating_Model_RatingFactory $ratingFactory,
+        array $data = array()
+    ){
+        $this->_storeManager = $storeManager;
+        $this->_ratingFactory = $ratingFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
-        $entityId = Mage::app()->getRequest()->getParam('id');
+        $entityId = $this->_request->getParam('id');
         if (intval($entityId) <= 0) {
             return '';
         }
 
-        $reviewsCount = Mage::getModel('Magento_Review_Model_Review')
+        $reviewsCount = $this->_ratingFactory->create()
             ->getTotalReviews($entityId, true);
         if ($reviewsCount == 0) {
             #return __('Be the first to review this product');
@@ -34,16 +71,16 @@ class Magento_Rating_Block_Entity_Detailed extends Magento_Core_Block_Template
             return parent::_toHtml();
         }
 
-        $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating')
+        $ratingCollection = $this->_ratingFactory->create()
             ->getResourceCollection()
             ->addEntityFilter('product') # TOFIX
             ->setPositionOrder()
-            ->setStoreFilter(Mage::app()->getStore()->getId())
-            ->addRatingPerStoreName(Mage::app()->getStore()->getId())
+            ->setStoreFilter($this->_storeManager->getStore()->getId())
+            ->addRatingPerStoreName($this->_storeManager->getStore()->getId())
             ->load();
 
         if ($entityId) {
-            $ratingCollection->addEntitySummaryToItem($entityId, Mage::app()->getStore()->getId());
+            $ratingCollection->addEntitySummaryToItem($entityId, $this->_storeManager->getStore()->getId());
         }
 
         $this->assign('collection', $ratingCollection);

@@ -44,8 +44,6 @@ class Magento_Sales_Model_Quote_Address_Total_Msrp extends Magento_Sales_Model_Q
     public function collect(Magento_Sales_Model_Quote_Address $address)
     {
         parent::collect($address);
-        $quote = $address->getQuote();
-        $store = Mage::app()->getStore($quote->getStoreId());
 
         $items = $this->_getAddressItems($address);
         if (!count($items)) {

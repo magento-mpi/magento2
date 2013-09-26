@@ -10,16 +10,32 @@
 
 /**
  * Sales widget search form for orders and returns block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Sales_Block_Widget_Guest_Form
     extends Magento_Core_Block_Template
     implements Magento_Widget_Block_Interface
 {
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Check whether module is available
      *
@@ -27,7 +43,7 @@ class Magento_Sales_Block_Widget_Guest_Form
      */
     public function isEnable()
     {
-        return !(Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn());
+        return !($this->_customerSession->isLoggedIn());
     }
 
     /**

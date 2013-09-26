@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Magento_Core_Model_Resource_Setup_Generic extends Magento_Core_Model_Resource_Setup
 {
     /**
@@ -21,6 +22,7 @@ class Magento_Core_Model_Resource_Setup_Generic extends Magento_Core_Model_Resou
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
      */
     public function __construct(

@@ -33,14 +33,12 @@ class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
     /**
      * Initialize dependencies
      *
-     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Tax_Helper_Data $taxHelper
      * @param Magento_Tax_Model_Calculation $taxCalculation
      * @param Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
         Magento_Tax_Helper_Data $taxHelper,
         Magento_Tax_Model_Calculation $taxCalculation,
         Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory,
@@ -49,7 +47,7 @@ class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;
         $this->_taxOrdersFactory = $ordersFactory;
-        parent::__construct($context, $data);
+        parent::__construct($data);
     }
 
     /**

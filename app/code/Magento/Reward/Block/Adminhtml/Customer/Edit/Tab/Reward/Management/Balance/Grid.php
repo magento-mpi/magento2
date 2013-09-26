@@ -32,12 +32,23 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
      * @var Magento_Reward_Helper_Data
      */
     protected $_rewardData = null;
+
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Reward_Model_Resource_Reward_CollectionFactory
+     */
+    protected $_rewardsFactory;
+
+    /**
+     * @var Magento_Reward_Model_Source_WebsiteFactory
+     */
+    protected $_websitesFactory;
 
     /**
      * @param Magento_Reward_Helper_Data $rewardData
@@ -46,6 +57,8 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Reward_Model_Resource_Reward_CollectionFactory $rewardsFactory
+     * @param Magento_Reward_Model_Source_WebsiteFactory $websitesFactory
      * @param array $data
      */
     public function __construct(
@@ -55,11 +68,14 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
-
+        Magento_Reward_Model_Resource_Reward_CollectionFactory $rewardsFactory,
+        Magento_Reward_Model_Source_WebsiteFactory $websitesFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_rewardData = $rewardData;
+        $this->_rewardsFactory = $rewardsFactory;
+        $this->_websitesFactory = $websitesFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -93,9 +109,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Reward_Model_Reward')
-            ->getCollection()
-            ->addFieldToFilter('customer_id', $this->getCustomer()->getId());
+        $collection = $this->_rewardsFactory->addFieldToFilter('customer_id', $this->getCustomer()->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -143,13 +157,13 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
      */
     protected function _prepareColumns()
     {
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header'   => __('Website'),
                 'index'    => 'website_id',
                 'sortable' => false,
                 'type'     => 'options',
-                'options'  => Mage::getModel('Magento_Reward_Model_Source_Website')->toOptionArray(false)
+                'options'  => $this->_websitesFactory->create()->toOptionArray(false)
             ));
         }
 

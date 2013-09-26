@@ -266,6 +266,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
     /**
      * Remove records from archive
      *
+     * @param Magento_SalesArchive_Model_Archive $archive
      * @param string $archiveEntity
      * @param string $conditionField
      * @param array $conditionValue

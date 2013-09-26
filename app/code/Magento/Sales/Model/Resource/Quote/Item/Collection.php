@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Quote item resource collection
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
@@ -33,8 +28,48 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
     protected $_productIds   = array();
 
     /**
+     * @var Magento_Sales_Model_Resource_Quote_Item_Option_CollectionFactory
+     */
+    protected $_itemOptionCollFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollFactory;
+
+    /**
+     * @var Magento_Sales_Model_Quote_Config
+     */
+    protected $_quoteConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Sales_Model_Resource_Quote_Item_Option_CollectionFactory $itemOptionCollFactory
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
+     * @param Magento_Sales_Model_Quote_Config $quoteConfig
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Sales_Model_Resource_Quote_Item_Option_CollectionFactory $itemOptionCollFactory,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
+        Magento_Sales_Model_Quote_Config $quoteConfig,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_itemOptionCollFactory = $itemOptionCollFactory;
+        $this->_productCollFactory = $productCollFactory;
+        $this->_quoteConfig = $quoteConfig;
+    }
+
+    /**
      * Initialize resource model
-     *
      */
     protected function _construct()
     {
@@ -134,8 +169,7 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
     protected function _assignOptions()
     {
         $itemIds          = array_keys($this->_items);
-        $optionCollection = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->getCollection()
-            ->addItemFilter($itemIds);
+        $optionCollection = $this->_itemOptionCollFactory->create()->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
         }
@@ -152,17 +186,17 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
      */
     protected function _assignProducts()
     {
-        Magento_Profiler::start('QUOTE:'.__METHOD__, array('group' => 'QUOTE', 'method' => __METHOD__));
+        Magento_Profiler::start('QUOTE:' . __METHOD__, array('group' => 'QUOTE', 'method' => __METHOD__));
         $productIds = array();
         foreach ($this as $item) {
             $productIds[] = (int)$item->getProductId();
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $productCollection = $this->_productCollFactory->create()
             ->setStoreId($this->getStoreId())
             ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect(Mage::getSingleton('Magento_Sales_Model_Quote_Config')->getProductAttributes())
+            ->addAttributeToSelect($this->_quoteConfig->getProductAttributes())
             ->addOptionsToResult()
             ->addStoreFilter()
             ->addUrlRewrite()
@@ -218,7 +252,7 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
         if ($recollectQuote && $this->_quote) {
             $this->_quote->collectTotals();
         }
-        Magento_Profiler::stop('QUOTE:'.__METHOD__);
+        Magento_Profiler::stop('QUOTE:' . __METHOD__);
 
         return $this;
     }

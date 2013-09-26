@@ -30,10 +30,12 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
                 throw new Exception();
             }
 
-            $filePath = Mage::getBaseDir() . $info['order_path'];
+            $filePath = $this->_objectManager->get('Magento_Core_Model_Dir')
+                ->getDir(Magento_Core_Model_Dir::ROOT) . $info['order_path'];
             if ((!is_file($filePath) || !is_readable($filePath)) && !$this->_processDatabaseFile($filePath)) {
                 //try get file from quote
-                $filePath = Mage::getBaseDir() . $info['quote_path'];
+                $filePath = $this->_objectManager->get('Magento_Core_Model_Dir')
+                    ->getDir(Magento_Core_Model_Dir::ROOT) . $info['quote_path'];
                 if ((!is_file($filePath) || !is_readable($filePath)) && !$this->_processDatabaseFile($filePath)) {
                     throw new Exception();
                 }
@@ -61,7 +63,8 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
 
         $relativePath = $this->_objectManager->get('Magento_Core_Helper_File_Storage_Database')
             ->getMediaRelativePath($filePath);
-        $file = Mage::getModel('Magento_Core_Model_File_Storage_Database')->loadByFilename($relativePath);
+        $file = $this->_objectManager->create('Magento_Core_Model_File_Storage_Database')
+            ->loadByFilename($relativePath);
 
         if (!$file->getId()) {
             return false;
@@ -87,7 +90,7 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
      */
     public function downloadProfileCustomOptionAction()
     {
-        $recurringProfile = Mage::getModel('Magento_Sales_Model_Recurring_Profile')
+        $recurringProfile = $this->_objectManager->create('Magento_Sales_Model_Recurring_Profile')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$recurringProfile->getId()) {
@@ -109,7 +112,7 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
                 return;
             }
             // Check if the product exists
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($request['product']);
+            $product = $this->_objectManager->create('Magento_Catalog_Model_Product')->load($request['product']);
             if (!$product || !$product->getId()) {
                 $this->_forward('noRoute');
                 return;
@@ -133,7 +136,7 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
     {
         $quoteItemOptionId = $this->getRequest()->getParam('id');
         /** @var $option Magento_Sales_Model_Quote_Item_Option */
-        $option = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->load($quoteItemOptionId);
+        $option = $this->_objectManager->create('Magento_Sales_Model_Quote_Item_Option')->load($quoteItemOptionId);
 
         if (!$option->getId()) {
             $this->_forward('noRoute');
@@ -150,7 +153,7 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
         $productOption = null;
         if ($optionId) {
             /** @var $productOption Magento_Catalog_Model_Product_Option */
-            $productOption = Mage::getModel('Magento_Catalog_Model_Product_Option')->load($optionId);
+            $productOption = $this->_objectManager->create('Magento_Catalog_Model_Product_Option')->load($optionId);
         }
         if (!$productOption || !$productOption->getId()
             || $productOption->getProductId() != $option->getProductId() || $productOption->getType() != 'file'

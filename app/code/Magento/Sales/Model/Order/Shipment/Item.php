@@ -32,10 +32,6 @@
  * @method Magento_Sales_Model_Order_Shipment_Item setName(string $value)
  * @method string getSku()
  * @method Magento_Sales_Model_Order_Shipment_Item setSku(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstract
 {
@@ -44,6 +40,37 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
 
     protected $_shipment = null;
     protected $_orderItem = null;
+
+    /**
+     * @var Magento_Sales_Model_Order_ItemFactory
+     */
+    protected $_orderItemFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Sales_Model_Order_ItemFactory $orderItemFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Sales_Model_Order_ItemFactory $orderItemFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_orderItemFactory = $orderItemFactory;
+    }
 
     /**
      * Initialize resource model
@@ -99,8 +126,7 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
             if ($this->getShipment()) {
                 $this->_orderItem = $this->getShipment()->getOrder()->getItemById($this->getOrderItemId());
             } else {
-                $this->_orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')
-                    ->load($this->getOrderItemId());
+                $this->_orderItem = $this->_orderItemFactory->create()->load($this->getOrderItemId());
             }
         }
         return $this->_orderItem;
@@ -109,8 +135,9 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
     /**
      * Declare qty
      *
-     * @param   float $qty
-     * @return  Magento_Sales_Model_Order_Invoice_Item
+     * @param float $qty
+     * @return Magento_Sales_Model_Order_Invoice_Item
+     * @throws Magento_Core_Exception
      */
     public function setQty($qty)
     {
@@ -126,7 +153,7 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
         if ($qty <= $this->getOrderItem()->getQtyToShip() || $this->getOrderItem()->isDummy(true)) {
             $this->setData('qty', $qty);
         } else {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('We found an invalid qty to ship for item "%1".', $this->getName())
             );
         }
@@ -141,7 +168,7 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
     public function register()
     {
         $this->getOrderItem()->setQtyShipped(
-            $this->getOrderItem()->getQtyShipped()+$this->getQty()
+            $this->getOrderItem()->getQtyShipped() + $this->getQty()
         );
         return $this;
     }

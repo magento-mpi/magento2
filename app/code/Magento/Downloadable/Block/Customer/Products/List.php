@@ -18,15 +18,39 @@
 class Magento_Downloadable_Block_Customer_Products_List extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Downloadable_Model_Resource_Link_Purchased_CollectionFactory
+     */
+    protected $_linksFactory;
+
+    /**
+     * @var Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Downloadable_Model_Resource_Link_Purchased_CollectionFactory $linksFactory
+     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Downloadable_Model_Resource_Link_Purchased_CollectionFactory $linksFactory,
+        Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_linksFactory = $linksFactory;
+        $this->_itemsFactory = $itemsFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -36,9 +60,8 @@ class Magento_Downloadable_Block_Customer_Products_List extends Magento_Core_Blo
     protected function _construct()
     {
         parent::_construct();
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
-        $purchased = Mage::getResourceModel('Magento_Downloadable_Model_Resource_Link_Purchased_Collection')
-            ->addFieldToFilter('customer_id', $session->getCustomerId())
+        $purchased = $this->_linksFactory->create()
+            ->addFieldToFilter('customer_id', $this->_customerSession->getCustomerId())
             ->addOrder('created_at', 'desc');
         $this->setPurchased($purchased);
         $purchasedIds = array();
@@ -48,7 +71,7 @@ class Magento_Downloadable_Block_Customer_Products_List extends Magento_Core_Blo
         if (empty($purchasedIds)) {
             $purchasedIds = array(null);
         }
-        $purchasedItems = Mage::getResourceModel('Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection')
+        $purchasedItems = $this->_itemsFactory->create()
             ->addFieldToFilter('purchased_id', array('in' => $purchasedIds))
             ->addFieldToFilter('status',
                 array(
