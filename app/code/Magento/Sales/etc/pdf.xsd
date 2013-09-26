@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="config" type="configType"/>
 
     <xs:complexType name="configType">
