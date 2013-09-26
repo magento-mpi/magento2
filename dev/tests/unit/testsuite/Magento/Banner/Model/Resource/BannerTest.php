@@ -78,11 +78,15 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
         $salesruleColFactory = $this->getMock('Magento_Banner_Model_Resource_Salesrule_CollectionFactory',
             array('create'), array(), '', false);
 
+        $catRuleColFactory = $this->getMock('Magento_Banner_Model_Resource_Catalogrule_CollectionFactory',
+            array('create'), array(), '', false);
+
         $this->_resourceModel = new Magento_Banner_Model_Resource_Banner(
             $this->_resource,
             $this->_eventManager,
             $this->_bannerConfig,
-            $salesruleColFactory
+            $salesruleColFactory,
+            $catRuleColFactory
         );
     }
 
