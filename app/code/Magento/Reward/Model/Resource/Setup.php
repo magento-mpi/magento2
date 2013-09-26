@@ -40,6 +40,7 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Cms_Model_PageFactory $pageFactory
      * @param $resourceName
      */
@@ -53,14 +54,13 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Cms_Model_PageFactory $pageFactory,
         $resourceName
     ) {
         $this->_pageFactory = $pageFactory;
-        parent::__construct(
-            $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
-            $modulesReader, $cache, $resourceName
-        );
+        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
+            $modulesReader, $cache, $migrationFactory, $resourceName);
     }
 
     /**
