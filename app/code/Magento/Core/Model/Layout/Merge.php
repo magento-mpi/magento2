@@ -429,7 +429,7 @@ class Merge
     /**
      * Get layout updates as \Magento\Core\Model\Layout\Element object
      *
-     * @return SimpleXMLElement
+     * @return \SimpleXMLElement
      */
     public function asSimplexml()
     {
@@ -443,7 +443,7 @@ class Merge
      * Return object representation of XML string
      *
      * @param string $xmlString
-     * @return SimpleXMLElement
+     * @return \SimpleXMLElement
      */
     protected function _loadXmlString($xmlString)
     {
@@ -548,7 +548,7 @@ class Merge
     /**
      * Add handles declared as '<update handle="handle_name"/>' directives
      *
-     * @param SimpleXMLElement $updateXml
+     * @param \SimpleXMLElement $updateXml
      * @return \Magento\Core\Model\Layout\Merge
      */
     protected function _fetchRecursiveUpdates($updateXml)
@@ -673,10 +673,10 @@ class Merge
     /**
      * Return attributes of XML node rendered as a string
      *
-     * @param SimpleXMLElement $node
+     * @param \SimpleXMLElement $node
      * @return string
      */
-    protected function _renderXmlAttributes(SimpleXMLElement $node)
+    protected function _renderXmlAttributes(\SimpleXMLElement $node)
     {
         $result = '';
         foreach ($node->attributes() as $attributeName => $attributeValue) {
