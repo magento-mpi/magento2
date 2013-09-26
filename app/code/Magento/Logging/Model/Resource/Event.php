@@ -2,19 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * Logging event resource model
- *
- * @category    Magento
- * @package     Magento_Logging
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
 {
@@ -24,16 +17,28 @@ class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_D
     protected $_filesystem;
 
     /**
+     * Archive factory
+     *
+     * @var Magento_Logging_Model_ArchiveFactory
+     */
+    protected $_archiveFactory;
+
+    /**
      * Class constructor
      *
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Logging_Model_ArchiveFactory $archiveFactory
      * @throws InvalidArgumentException
      */
-    public function __construct(Magento_Core_Model_Resource $resource, Magento_Filesystem $filesystem)
-    {
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Filesystem $filesystem,
+        Magento_Logging_Model_ArchiveFactory $archiveFactory
+    ) {
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
+        $this->_archiveFactory = $archiveFactory;
     }
 
     /**
@@ -80,7 +85,7 @@ class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_D
         if ($latestLogEntry) {
             // make sure folder for dump file will exist
             /** @var Magento_Logging_Model_Archive $archive */
-            $archive = Mage::getModel('Magento_Logging_Model_Archive');
+            $archive = $this->_archiveFactory->create();
             $archive->createNew();
 
             $expr = new Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');

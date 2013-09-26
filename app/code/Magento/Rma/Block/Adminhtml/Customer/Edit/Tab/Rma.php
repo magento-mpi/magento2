@@ -10,21 +10,17 @@
 
 /**
  * Order RMA Grid
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
     extends Magento_Rma_Block_Adminhtml_Rma_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
@@ -32,6 +28,8 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
+     * @param Magento_Rma_Model_RmaFactory $rmaFactory
      * @param array $data
      */
     public function __construct(
@@ -40,10 +38,12 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
+        Magento_Rma_Model_RmaFactory $rmaFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $collectionFactory, $rmaFactory, $data);
     }
 
     public function _construct()
@@ -79,8 +79,8 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
         }
         if ($customerId) {
             /** @var $collection Magento_Rma_Model_Resource_Rma_Grid_Collection */
-            $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
-                ->addFieldToFilter('customer_id', $customerId);
+            $collection = $this->_collectionFactory->create();
+            $collection->addFieldToFilter('customer_id', $customerId);
 
             $this->setCollection($collection);
         }

@@ -13,35 +13,6 @@
  */
 class Magento_SalesArchive_Model_Archive
 {
-    const ORDER     = 'order';
-    const INVOICE   = 'invoice';
-    const SHIPMENT  = 'shipment';
-    const CREDITMEMO= 'creditmemo';
-
-    /**
-     * Archive entities definition
-     *
-     * @var $_entities array
-     */
-    protected $_entities = array(
-        self::ORDER => array(
-            'model' => 'Magento_Sales_Model_Order',
-            'resource_model' => 'Magento_Sales_Model_Resource_Order'
-        ),
-        self::INVOICE => array(
-            'model' => 'Magento_Sales_Model_Order_Invoice',
-            'resource_model' => 'Magento_Sales_Model_Resource_Order_Invoice'
-        ),
-        self::SHIPMENT  => array(
-            'model' => 'Magento_Sales_Model_Order_Shipment',
-            'resource_model' => 'Magento_Sales_Model_Resource_Order_Shipment'
-        ),
-        self::CREDITMEMO => array(
-            'model' => 'Magento_Sales_Model_Order_Creditmemo',
-            'resource_model' => 'Magento_Sales_Model_Resource_Order_Creditmemo'
-        )
-    );
-
     /**
      * Core event manager proxy
      *
@@ -50,32 +21,22 @@ class Magento_SalesArchive_Model_Archive
     protected $_eventManager = null;
 
     /**
+     * Sales archive resource archive
+     *
+     * @var Magento_SalesArchive_Model_Resource_Archive
+     */
+    protected $_resourceArchive;
+
+    /**
+     * @param Magento_SalesArchive_Model_Resource_Archive $resourceArchive
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
+        Magento_SalesArchive_Model_Resource_Archive $resourceArchive,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
+        $this->_resourceArchive = $resourceArchive;
         $this->_eventManager = $eventManager;
-    }
-
-    /**
-     * Returns resource model class of an entity
-     *
-     * @param string $entity
-     * @return string | false
-     */
-    public function getEntityResourceModel($entity)
-    {
-        return isset($this->_entities[$entity]) ? $this->_entities[$entity]['resource_model'] : false;
-    }
-
-    /**
-     * Get archive resource model
-     * @return Magento_SalesArchive_Model_Resource_Archive
-     */
-    protected function _getResource()
-    {
-        return Mage::getResourceSingleton('Magento_SalesArchive_Model_Resource_Archive');
     }
 
     /**
@@ -83,10 +44,11 @@ class Magento_SalesArchive_Model_Archive
      *
      * @param string $archiveEntity
      * @param array $ids
+     * @return $this
      */
     public function updateGridRecords($archiveEntity, $ids)
     {
-        $this->_getResource()->updateGridRecords($this, $archiveEntity, $ids);
+        $this->_resourceArchive->updateGridRecords($this, $archiveEntity, $ids);
         return $this;
     }
 
@@ -99,50 +61,39 @@ class Magento_SalesArchive_Model_Archive
      */
     public function getIdsInArchive($archiveEntity, $ids)
     {
-        return $this->_getResource()->getIdsInArchive($archiveEntity, $ids);
-    }
-
-    /**
-     * Detects archive entity by object class
-     *
-     * @param Magento_Object $object
-     * @return string|boolean
-     */
-    public function detectArchiveEntity($object)
-    {
-        $keys = array('model', 'resource_model');
-        foreach ($this->_entities as $archiveEntity => $entityClasses) {
-            foreach ($keys as $key) {
-                $className = $entityClasses[$key];
-                if ($object instanceof $className) {
-                    return $archiveEntity;
-                }
-            }
-        }
-        return false;
+        return $this->_resourceArchive->getIdsInArchive($archiveEntity, $ids);
     }
 
     /**
      * Archive orders
      *
+     * @throws Exception
      * @return Magento_SalesArchive_Model_Archive
      */
     public function archiveOrders()
     {
-        $orderIds = $this->_getResource()->getOrderIdsForArchiveExpression();
-        $this->_getResource()->beginTransaction();
+        $orderIds = $this->_resourceArchive->getOrderIdsForArchiveExpression();
+        $this->_resourceArchive->beginTransaction();
         try {
-            $this->_getResource()->moveToArchive($this, self::ORDER, 'entity_id', $orderIds);
-            $this->_getResource()->moveToArchive($this, self::INVOICE, 'order_id', $orderIds);
-            $this->_getResource()->moveToArchive($this, self::SHIPMENT, 'order_id', $orderIds);
-            $this->_getResource()->moveToArchive($this, self::CREDITMEMO, 'order_id', $orderIds);
-            $this->_getResource()->removeFromGrid($this, self::ORDER, 'entity_id', $orderIds);
-            $this->_getResource()->removeFromGrid($this, self::INVOICE, 'order_id', $orderIds);
-            $this->_getResource()->removeFromGrid($this, self::SHIPMENT, 'order_id', $orderIds);
-            $this->_getResource()->removeFromGrid($this, self::CREDITMEMO, 'order_id', $orderIds);
-            $this->_getResource()->commit();
+            $this->_resourceArchive->moveToArchive(Magento_SalesArchive_Model_ArchivalList::ORDER,
+                'entity_id', $orderIds);
+            $this->_resourceArchive->moveToArchive(Magento_SalesArchive_Model_ArchivalList::INVOICE,
+                'order_id', $orderIds);
+            $this->_resourceArchive->moveToArchive(Magento_SalesArchive_Model_ArchivalList::SHIPMENT,
+                'order_id', $orderIds);
+            $this->_resourceArchive->moveToArchive(Magento_SalesArchive_Model_ArchivalList::CREDITMEMO,
+                'order_id', $orderIds);
+            $this->_resourceArchive->removeFromGrid(Magento_SalesArchive_Model_ArchivalList::ORDER,
+                'entity_id', $orderIds);
+            $this->_resourceArchive->removeFromGrid(Magento_SalesArchive_Model_ArchivalList::INVOICE,
+                'order_id', $orderIds);
+            $this->_resourceArchive->removeFromGrid(Magento_SalesArchive_Model_ArchivalList::SHIPMENT,
+                'order_id', $orderIds);
+            $this->_resourceArchive->removeFromGrid(Magento_SalesArchive_Model_ArchivalList::CREDITMEMO,
+                'order_id', $orderIds);
+            $this->_resourceArchive->commit();
         } catch (Exception $e) {
-            $this->_getResource()->rollBack();
+            $this->_resourceArchive->rollBack();
             throw $e;
         }
         $this->_eventManager->dispatch(
@@ -156,26 +107,35 @@ class Magento_SalesArchive_Model_Archive
      * Archive orders, returns archived order ids
      *
      * @param array $orderIds
+     * @throws Exception
      * @return array
      */
     public function archiveOrdersById($orderIds)
     {
-        $orderIds = $this->_getResource()->getOrderIdsForArchive($orderIds, false);
+        $orderIds = $this->_resourceArchive->getOrderIdsForArchive($orderIds, false);
 
         if (!empty($orderIds)) {
-            $this->_getResource()->beginTransaction();
+            $this->_resourceArchive->beginTransaction();
             try {
-                $this->_getResource()->moveToArchive($this, self::ORDER, 'entity_id', $orderIds);
-                $this->_getResource()->moveToArchive($this, self::INVOICE, 'order_id', $orderIds);
-                $this->_getResource()->moveToArchive($this, self::SHIPMENT, 'order_id', $orderIds);
-                $this->_getResource()->moveToArchive($this, self::CREDITMEMO, 'order_id', $orderIds);
-                $this->_getResource()->removeFromGrid($this, self::ORDER, 'entity_id', $orderIds);
-                $this->_getResource()->removeFromGrid($this, self::INVOICE, 'order_id', $orderIds);
-                $this->_getResource()->removeFromGrid($this, self::SHIPMENT, 'order_id', $orderIds);
-                $this->_getResource()->removeFromGrid($this, self::CREDITMEMO, 'order_id', $orderIds);
-                $this->_getResource()->commit();
+                $this->_resourceArchive->moveToArchive(Magento_SalesArchive_Model_ArchivalList::ORDER,
+                    'entity_id', $orderIds);
+                $this->_resourceArchive->moveToArchive(Magento_SalesArchive_Model_ArchivalList::INVOICE,
+                    'order_id', $orderIds);
+                $this->_resourceArchive->moveToArchive(Magento_SalesArchive_Model_ArchivalList::SHIPMENT,
+                    'order_id', $orderIds);
+                $this->_resourceArchive->moveToArchive(Magento_SalesArchive_Model_ArchivalList::CREDITMEMO,
+                    'order_id', $orderIds);
+                $this->_resourceArchive->removeFromGrid(Magento_SalesArchive_Model_ArchivalList::ORDER,
+                    'entity_id', $orderIds);
+                $this->_resourceArchive->removeFromGrid(Magento_SalesArchive_Model_ArchivalList::INVOICE,
+                    'order_id', $orderIds);
+                $this->_resourceArchive->removeFromGrid(Magento_SalesArchive_Model_ArchivalList::SHIPMENT,
+                    'order_id', $orderIds);
+                $this->_resourceArchive->removeFromGrid(Magento_SalesArchive_Model_ArchivalList::CREDITMEMO,
+                    'order_id', $orderIds);
+                $this->_resourceArchive->commit();
             } catch (Exception $e) {
-                $this->_getResource()->rollBack();
+                $this->_resourceArchive->rollBack();
                 throw $e;
             }
             $this->_eventManager->dispatch(
@@ -191,19 +151,20 @@ class Magento_SalesArchive_Model_Archive
     /**
      * Move all orders from archive grid tables to regular grid tables
      *
+     * @throws Exception
      * @return Magento_SalesArchive_Model_Archive
      */
     public function removeOrdersFromArchive()
     {
-        $this->_getResource()->beginTransaction();
+        $this->_resourceArchive->beginTransaction();
         try {
-            $this->_getResource()->removeFromArchive($this, self::ORDER);
-            $this->_getResource()->removeFromArchive($this, self::INVOICE);
-            $this->_getResource()->removeFromArchive($this, self::SHIPMENT);
-            $this->_getResource()->removeFromArchive($this, self::CREDITMEMO);
-            $this->_getResource()->commit();
+            $this->_resourceArchive->removeFromArchive(Magento_SalesArchive_Model_ArchivalList::ORDER);
+            $this->_resourceArchive->removeFromArchive(Magento_SalesArchive_Model_ArchivalList::INVOICE);
+            $this->_resourceArchive->removeFromArchive(Magento_SalesArchive_Model_ArchivalList::SHIPMENT);
+            $this->_resourceArchive->removeFromArchive(Magento_SalesArchive_Model_ArchivalList::CREDITMEMO);
+            $this->_resourceArchive->commit();
         } catch (Exception $e) {
-            $this->_getResource()->rollBack();
+            $this->_resourceArchive->rollBack();
             throw $e;
         }
         return $this;
@@ -214,22 +175,28 @@ class Magento_SalesArchive_Model_Archive
      * returns restored order ids
      *
      * @param array $orderIds
+     * @throws Exception
      * @return array
      */
     public function removeOrdersFromArchiveById($orderIds)
     {
-        $orderIds = $this->_getResource()->getIdsInArchive(self::ORDER, $orderIds);
+        $orderIds = $this->_resourceArchive->getIdsInArchive(Magento_SalesArchive_Model_ArchivalList::ORDER,
+            $orderIds);
 
         if (!empty($orderIds)) {
-            $this->_getResource()->beginTransaction();
+            $this->_resourceArchive->beginTransaction();
             try {
-                $this->_getResource()->removeFromArchive($this, self::ORDER, 'entity_id', $orderIds);
-                $this->_getResource()->removeFromArchive($this, self::INVOICE, 'order_id', $orderIds);
-                $this->_getResource()->removeFromArchive($this, self::SHIPMENT, 'order_id', $orderIds);
-                $this->_getResource()->removeFromArchive($this, self::CREDITMEMO, 'order_id', $orderIds);
-                $this->_getResource()->commit();
+                $this->_resourceArchive->removeFromArchive(Magento_SalesArchive_Model_ArchivalList::ORDER,
+                    'entity_id', $orderIds);
+                $this->_resourceArchive->removeFromArchive(Magento_SalesArchive_Model_ArchivalList::INVOICE,
+                    'order_id', $orderIds);
+                $this->_resourceArchive->removeFromArchive(Magento_SalesArchive_Model_ArchivalList::SHIPMENT,
+                    'order_id', $orderIds);
+                $this->_resourceArchive->removeFromArchive(Magento_SalesArchive_Model_ArchivalList::CREDITMEMO,
+                    'order_id', $orderIds);
+                $this->_resourceArchive->commit();
             } catch (Exception $e) {
-                $this->_getResource()->rollBack();
+                $this->_resourceArchive->rollBack();
                 throw $e;
             }
         }
@@ -246,6 +213,6 @@ class Magento_SalesArchive_Model_Archive
      */
     public function getRelatedIds($archiveEntity, $ids)
     {
-        return $this->_getResource()->getRelatedIds($this, $archiveEntity, $ids);
+        return $this->_resourceArchive->getRelatedIds($this, $archiveEntity, $ids);
     }
 }

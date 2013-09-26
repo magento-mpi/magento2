@@ -25,15 +25,23 @@ class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
     protected $_adminhtmlData = null;
 
     /**
+     * @var Magento_Core_Model_Resource_Iterator
+     */
+    protected $_iterator;
+
+    /**
+     * @param Magento_Core_Model_Resource_Iterator $iterator
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Resource_Iterator $iterator,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Core_Block_Context $context,
         array $data = array()
     ) {
+        $this->_iterator = $iterator;
         $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($context, $data);
     }
@@ -69,7 +77,7 @@ class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
 
         $this->_eventManager->dispatch('rss_order_new_collection_select', array('collection' => $collection));
 
-        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk($collection->getSelect(),
+        $this->_iterator->walk($collection->getSelect(),
             array(array($this, 'addNewOrderXmlCallback')),
             array('rssObj'=> $rssObj, 'order'=>$order , 'detailBlock' => $detailBlock)
         );

@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Order Shipment View" type="page" parent="sales_order_view">
     <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento_Sales_Block_Order_Info" as="info" name="sales.order.info">
             <block class="Magento_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons"/>
         </block>
@@ -19,7 +19,7 @@
                 <block class="Magento_Sales_Block_Order_Comments" name="shipment_comments" template="order/comments.phtml"/>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
     <update handle="sales_order_info_links"/>
     <container name="additional.product.info" label="Additional Product Info"/>
 </layout>

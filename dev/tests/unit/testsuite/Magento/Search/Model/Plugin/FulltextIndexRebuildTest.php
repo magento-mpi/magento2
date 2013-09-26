@@ -20,7 +20,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_catalogHelperMock;
+    protected $_engineProviderMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -49,8 +49,9 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
 
     protected function setUp()
     {
+        $this->_engineProviderMock = $this->getMock('Magento_CatalogSearch_Model_Resource_EngineProvider', array(),
+            array(), '', false);
         $this->_searchHelperMock = $this->getMock('Magento_Search_Helper_Data', array(), array(), '', false);
-        $this->_catalogHelperMock = $this->getMock('Magento_CatalogSearch_Helper_Data', array(), array(), '', false);
         $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false);
         $this->_searchEngineMock = $this->getMock('Magento_Search_Model_Resource_Engine', array(), array(), '', false);
         $this->_fulltextSearchMock = $this->getMock(
@@ -63,8 +64,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
         $this->_arguments = array(1, array(1,2));
 
         $this->_model = new Magento_Search_Model_Plugin_FulltextIndexRebuild(
+            $this->_engineProviderMock,
             $this->_searchHelperMock,
-            $this->_catalogHelperMock,
             $this->_filterPriceMock,
             $this->_cacheMock
         );
@@ -79,8 +80,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
             ->method('isThirdPartyEngineAvailable')
             ->will($this->returnValue(false));
 
-        $this->_catalogHelperMock->expects($this->never())
-            ->method('getEngine');
+        $this->_engineProviderMock->expects($this->never())
+            ->method('get');
 
         $this->assertEquals($this->_arguments, $this->_model->beforeRebuildIndex($this->_arguments));
     }
@@ -101,8 +102,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
         $this->_searchEngineMock->expects($this->never())
             ->method('setIndexNeedsOptimization');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $this->assertEquals($this->_arguments, $this->_model->beforeRebuildIndex($this->_arguments));
@@ -124,8 +125,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
         $this->_searchEngineMock->expects($this->once())
             ->method('setIndexNeedsOptimization');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $arguments = $this->_arguments;
@@ -149,8 +150,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
         $this->_searchEngineMock->expects($this->never())
             ->method('setIndexNeedsOptimization');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $this->assertEquals($this->_arguments, $this->_model->beforeRebuildIndex($this->_arguments));
@@ -165,8 +166,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
             ->method('isThirdPartyEngineAvailable')
             ->will($this->returnValue(false));
 
-        $this->_catalogHelperMock->expects($this->never())
-            ->method('getEngine');
+        $this->_engineProviderMock->expects($this->never())
+            ->method('get');
 
         $this->assertEquals($this->_fulltextSearchMock, $this->_model->afterRebuildIndex($this->_fulltextSearchMock));
     }
@@ -187,8 +188,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
         $this->_searchEngineMock->expects($this->never())
             ->method('getIndexNeedsOptimization');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $this->assertEquals($this->_fulltextSearchMock, $this->_model->afterRebuildIndex($this->_fulltextSearchMock));
@@ -217,8 +218,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
         $this->_searchEngineMock->expects($this->never())
             ->method('commitChanges');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $cacheTag = 'cacheTag';
@@ -256,8 +257,8 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
         $this->_searchEngineMock->expects($this->once())
             ->method('commitChanges');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $cacheTag = 'cacheTag';

@@ -22,22 +22,34 @@ class Magento_Search_Block_Recommendations extends Magento_Core_Block_Template
      *
      * @var Magento_Search_Helper_Data
      */
-    protected $_searchData = null;
+    protected $_searchData;
 
     /**
-     * @param Magento_Search_Helper_Data $searchData
+     * Recommendations factory
+     *
+     * @var Magento_Search_Model_RecommendationsFactory
+     */
+    protected $_recommendationsFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Search_Helper_Data $searchData
+     * @param Magento_Search_Model_RecommendationsFactory $recommendationsFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Search_Helper_Data $searchData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Search_Helper_Data $searchData,
+        Magento_Search_Model_RecommendationsFactory $recommendationsFactory,
         array $data = array()
     ) {
-        $this->_searchData = $searchData;
         parent::__construct($coreData, $context, $data);
+        $this->_searchData = $searchData;
+        $this->_recommendationsFactory = $recommendationsFactory;
     }
 
     /**
@@ -54,7 +66,8 @@ class Magento_Search_Block_Recommendations extends Magento_Core_Block_Template
             return array();
         }
 
-        $recommendationsModel = Mage::getModel('Magento_Search_Model_Recommendations');
+        /** @var Magento_Search_Model_Recommendations $recommendationsModel */
+        $recommendationsModel = $this->_recommendationsFactory->create();
         $recommendations = $recommendationsModel->getSearchRecommendations();
 
         if (!count($recommendations)) {

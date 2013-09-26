@@ -114,7 +114,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framewo
                 'wrap' => 1000
             ))
             ->will($this->returnCallback(
-                function($string) {
+                function ($string) {
                     return 'formatted' . $string;
                 }
             ));
