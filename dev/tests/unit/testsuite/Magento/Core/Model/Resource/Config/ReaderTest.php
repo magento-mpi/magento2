@@ -99,7 +99,7 @@ class Magento_Core_Model_Resource_Config_ReaderTest extends PHPUnit_Framework_Te
         );
 
         $this->_configLocalMock->expects($this->once())
-            ->method('getConfiguration')
+            ->method('getResources')
             ->will($this->returnValue($localConfig));
 
         $this->_fileResolverMock->expects($this->once())
