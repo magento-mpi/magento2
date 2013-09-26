@@ -255,7 +255,7 @@ class Dom
      * @return string
      * @throws \InvalidArgumentException
      */
-    private static function _renderErrorMessage(LibXMLError $errorInfo, $format)
+    private static function _renderErrorMessage(\LibXMLError $errorInfo, $format)
     {
         $result = $format;
         foreach ($errorInfo as $field => $value) {

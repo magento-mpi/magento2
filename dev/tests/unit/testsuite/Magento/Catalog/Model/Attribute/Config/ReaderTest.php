@@ -15,12 +15,12 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Config\FileResolverInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Config\FileResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
     /**
-     * @var \Magento\Catalog\Model\Attribute\Config\Converter|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\Attribute\Config\Converter|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_converter;
 
@@ -30,7 +30,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_schemaLocator;
 
     /**
-     * @var \Magento\Config\ValidationStateInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Config\ValidationStateInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validationState;
 
@@ -73,12 +73,12 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $expectedResult = new \stdClass();
-        $constraint = function (DOMDOcument $actual) {
+        $constraint = function (\DOMDocument $actual) {
             try {
                 $expected = __DIR__ . '/_files/attributes_config_merged.xml';
-                PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());
+                \PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());
                 return true;
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            } catch (\PHPUnit_Framework_AssertionFailedError $e) {
                 return false;
             }
         };
