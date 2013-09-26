@@ -25,8 +25,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstra
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Model_Item_Status $itemStatus,
         Magento_Backend_Block_Context $context,
+        Magento_Rma_Model_Item_Status $itemStatus,
         array $data = array()
     ) {
         $this->_itemStatus = $itemStatus;
