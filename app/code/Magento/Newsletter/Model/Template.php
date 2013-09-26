@@ -57,7 +57,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     /**
      * Store manager to emulate design
      *
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -83,30 +83,42 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     protected $_coreStoreConfig;
 
     /**
+     * Template factory
+     *
+     * @var Magento_Newsletter_Model_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Newsletter_Model_Template_Filter $filter
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Newsletter_Model_TemplateFactory $templateFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Controller_Request_Http $request,
         Magento_Newsletter_Model_Template_Filter $filter,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Newsletter_Model_TemplateFactory $templateFactory,
         array $data = array()
     ) {
+        parent::__construct($design, $context, $registry, $data);
         $this->_storeManager = $storeManager;
         $this->_request = $request;
         $this->_filter = $filter;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($design, $context, $registry, $data);
+        $this->_templateFactory = $templateFactory;
     }
 
     /**
@@ -121,8 +133,8 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     /**
      * Validate Newsletter template
      *
-     * @throws Magento_Core_Exception
      * @return bool
+     * @throws Magento_Core_Exception
      */
     public function validate()
     {
@@ -150,7 +162,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
                 }
             }
 
-            Mage::throwException(join("\n", $errorMessages));
+            throw new Magento_Core_Exception(join("\n", $errorMessages));
         }
     }
 
@@ -268,9 +280,11 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function getInclude($templateCode, array $variables)
     {
-        return Mage::getModel('Magento_Newsletter_Model_Template')
-            ->loadByCode($templateCode)
+        /** @var Magento_Newsletter_Model_Template $template */
+        $template = $this->_templateFactory->create();
+        $template->loadByCode($templateCode)
             ->getProcessedTemplate($variables);
+        return $template;
     }
 
     /**

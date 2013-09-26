@@ -27,13 +27,82 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
     protected $_searchableAttributes;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Catalog search fulltext
+     *
+     * @var Magento_CatalogSearch_Model_Fulltext
+     */
+    protected $_catalogSearchFulltext;
+
+    /**
+     * Attribute collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     */
+    protected $_attributeCollectionFactory;
+
+    /**
+     * Catalog search indexer fulltext
+     *
+     * @var Magento_CatalogSearch_Model_Resource_Indexer_Fulltext
+     */
+    protected $_catalogSearchIndexerFulltext;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_CatalogSearch_Model_Resource_Indexer_Fulltext $catalogSearchIndexerFulltext
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
+     * @param Magento_CatalogSearch_Model_Fulltext $catalogSearchFulltext
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_CatalogSearch_Model_Resource_Indexer_Fulltext $catalogSearchIndexerFulltext,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
+        Magento_CatalogSearch_Model_Fulltext $catalogSearchFulltext,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogSearchIndexerFulltext = $catalogSearchIndexerFulltext;
+        $this->_attributeCollectionFactory = $attributeCollectionFactory;
+        $this->_catalogSearchFulltext = $catalogSearchFulltext;
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retrieve resource instance
      *
      * @return Magento_CatalogSearch_Model_Resource_Indexer_Fulltext
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_CatalogSearch_Model_Resource_Indexer_Fulltext');
+        return $this->_catalogSearchIndexerFulltext;
     }
 
     /**
@@ -82,7 +151,7 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
      */
     protected function _getIndexer()
     {
-        return Mage::getSingleton('Magento_CatalogSearch_Model_Fulltext');
+        return $this->_catalogSearchFulltext;
     }
 
     /**
@@ -306,7 +375,7 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
     {
         if (is_null($this->_searchableAttributes)) {
             /** @var $attributeCollection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-            $attributeCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
+            $attributeCollection = $this->_attributeCollectionFactory->create();
             $attributeCollection->addIsSearchableFilter();
 
             foreach ($attributeCollection as $attribute) {
@@ -325,7 +394,7 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
      */
     protected function _isProductComposite($productId)
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+        $product = $this->_productFactory->create()->load($productId);
         return $product->isComposite();
     }
 
@@ -373,7 +442,7 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
                 $actionType = $data['catalogsearch_action_type'];
 
                 foreach ($websiteIds as $websiteId) {
-                    foreach (Mage::app()->getWebsite($websiteId)->getStoreIds() as $storeId) {
+                    foreach ($this->_storeManager->getWebsite($websiteId)->getStoreIds() as $storeId) {
                         if ($actionType == 'remove') {
                             $this->_getIndexer()
                                 ->cleanIndex($storeId, $productIds)

@@ -17,13 +17,68 @@
  */
 class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Template
 {
+    /**
+     * Url factory
+     *
+     * @var Magento_Core_Model_UrlFactory
+     */
+    protected $_urlFactory;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog layer
+     *
+     * @var Magento_Catalog_Model_Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Catalog search advanced
+     *
+     * @var Magento_CatalogSearch_Model_Advanced
+     */
+    protected $_catalogSearchAdvanced;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_CatalogSearch_Model_Advanced $catalogSearchAdvanced
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_UrlFactory $urlFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_CatalogSearch_Model_Advanced $catalogSearchAdvanced,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_UrlFactory $urlFactory,
+        array $data = array()
+    ) {
+        $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
+        $this->_catalogLayer = $catalogLayer;
+        $this->_storeManager = $storeManager;
+        $this->_urlFactory = $urlFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         if ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')) {
             $breadcrumbs->addCrumb('home', array(
                 'label'=>__('Home'),
                 'title'=>__('Go to Home Page'),
-                'link'=>Mage::getBaseUrl()
+                'link' => $this->_storeManager->getStore()->getBaseUrl(),
             ))->addCrumb('search', array(
                 'label'=>__('Catalog Advanced Search'),
                 'link'=>$this->getUrl('*/*/')
@@ -35,8 +90,7 @@ class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Tem
     }
 
     public function setListOrders() {
-        $category = Mage::getSingleton('Magento_Catalog_Model_Layer')
-            ->getCurrentCategory();
+        $category = $this->_catalogLayer->getCurrentCategory();
         /* @var $category Magento_Catalog_Model_Category */
 
         $availableOrders = $category->getAvailableSortByOptions();
@@ -65,7 +119,7 @@ class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Tem
 
     public function getSearchModel()
     {
-        return Mage::getSingleton('Magento_CatalogSearch_Model_Advanced');
+        return $this->_catalogSearchAdvanced;
     }
 
     public function getResultCount()
@@ -84,7 +138,7 @@ class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Tem
 
     public function getFormUrl()
     {
-        return Mage::getModel('Magento_Core_Model_Url')
+        return $this->_urlFactory->create()
             ->setQueryParams($this->getRequest()->getQuery())
             ->getUrl('*/*/', array('_escape' => true));
     }

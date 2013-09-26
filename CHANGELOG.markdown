@@ -18,6 +18,8 @@
   * /config/global/catalog/product/flat node was removed from config.xml and related data was moved to di.xml;
   * /config/global/catalog/content/template_filter node was removed from config.xml and related data was moved to di.xml;
   * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
+  * /config/global/page/layouts node was removed from the config.xml and related data was moved into page_layouts.xml
+  * /config/global/theme node was removed from the config.xml and related data was moved to di.xml
   * Removed "translate" node from configuration XML files
   * Improved Install, Category, Product, Customer, Wishlist configuration segments:
     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
@@ -119,6 +121,12 @@
 * God Class Mage Elimination
   * dispatchEvent, getConfig, getStoreConfig, getStoreConfigFlag, getObjectManager, helper, log, logException, register, registry, resetRegistry, unregister static methods of class Mage were eliminated
   * Eliminated Mage::app, Mage::getModel, Mage::throwException static calls in modules AdminNotification, Authorizenet, Captcha
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException static calls in module Magento_CatalogInventory
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getBaseDir, Mage::exception, Mage::getResourceHelper static calls in module Magento_Backup
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getBaseUrl, Mage::getResourceModel, Mage::getResourceSingleton static calls in module Magento_Newsletter
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getIsDeveloperMode, Mage::getSingleton, Mage::getResourceModel, Mage::exception static calls in modules Magento_User, Magento_Payment, Magento_Persistent
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getSingleton, Mage::getBaseUrl, Mage::isInstalled, Mage::getBaseDir static calls in module Magento_Cms
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getIsDeveloperMode, Mage::getSingleton, Mage::getBaseUrl, Mage::getResourceHelper, Mage::getResourceSingleton static calls in module Magento_CatalogSearch
   * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
   * Eliminated Mage:: static methods in Magento_Widget
   * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor

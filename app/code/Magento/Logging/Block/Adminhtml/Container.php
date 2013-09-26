@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +18,7 @@ class Magento_Logging_Block_Adminhtml_Container extends Magento_Backend_Block_Wi
      */
     protected function _construct()
     {
-        $action = Mage::app()->getRequest()->getActionName();
+        $action = $this->_request->getActionName();
         $this->_blockGroup = 'Magento_Logging';
         $this->_controller = 'adminhtml_' . $action;
 

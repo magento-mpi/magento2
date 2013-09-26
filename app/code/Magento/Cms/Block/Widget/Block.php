@@ -31,20 +31,42 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
     static protected $_widgetUsageMap = array();
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Block factory
+     *
+     * @var Magento_Cms_Model_BlockFactory
+     */
+    protected $_blockFactory;
+
+    /**
+     * Construct
+     * 
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
+     * @param Magento_Cms_Model_BlockFactory $blockFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Cms_Model_Template_FilterProvider $filterProvider,
+        Magento_Cms_Model_BlockFactory $blockFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_filterProvider = $filterProvider;
         parent::__construct($coreData, $context, $data);
-    }   
+        $this->_filterProvider = $filterProvider;
+        $this->_blockFactory = $blockFactory;
+        $this->_storeManager = $storeManager;
+    }
 
     /**
      * Prepare block text and determine whether block output enabled or not
@@ -64,9 +86,10 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
         self::$_widgetUsageMap[$blockHash] = true;
 
         if ($blockId) {
-            $storeId = Mage::app()->getStore()->getId();
-            $block = Mage::getModel('Magento_Cms_Model_Block')
-                ->setStoreId($storeId)
+            $storeId = $this->_storeManager->getStore()->getId();
+            /** @var Magento_Cms_Model_Block $block */
+            $block = $this->_blockFactory->create();
+            $block->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
                 $this->setText(

@@ -27,21 +27,21 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
      *
      * @var Magento_Page_Helper_Layout
      */
-    protected $_pageLayout = null;
+    protected $_pageLayout;
 
     /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Design package instance
      *
      * @var Magento_Core_Model_View_DesignInterface
      */
-    protected $_design = null;
+    protected $_design;
 
     /**
      * @var Magento_Cms_Model_Page
@@ -54,26 +54,69 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
     protected $_sessionPool;
 
     /**
+     * Locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Page factory
+     *
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * Url
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Session_Pool $sessionFactory
      * @param Magento_Cms_Model_Page $page
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Page_Helper_Layout $pageLayout
      * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_UrlInterface $url
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      */
     public function __construct(
+        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Session_Pool $sessionFactory,
         Magento_Cms_Model_Page $page,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Page_Helper_Layout $pageLayout,
         Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Model_UrlInterface $url,
+        Magento_Cms_Model_PageFactory $pageFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale
     ) {
         $this->_sessionPool = $sessionFactory;
+        // used singleton (instead factory) because there exist dependencies on Magento_Cms_Helper_Page
         $this->_page = $page;
         $this->_eventManager = $eventManager;
         $this->_pageLayout = $pageLayout;
         $this->_design = $design;
+        $this->_url = $url;
+        $this->_pageFactory = $pageFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
         parent::__construct($context);
     }
 
@@ -107,7 +150,7 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
                 $pageId = substr($pageId, 0, $delimeterPosition);
             }
 
-            $this->_page->setStoreId(Mage::app()->getStore()->getId());
+            $this->_page->setStoreId($this->_storeManager->getStore()->getId());
             if (!$this->_page->load($pageId)) {
                 return false;
             }
@@ -117,8 +160,8 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
             return false;
         }
 
-        $inRange = Mage::app()->getLocale()
-            ->isStoreDateInInterval(null, $this->_page->getCustomThemeFrom(), $this->_page->getCustomThemeTo());
+        $inRange = $this->_locale->isStoreDateInInterval(null, $this->_page->getCustomThemeFrom(),
+            $this->_page->getCustomThemeTo());
 
         if ($this->_page->getCustomTheme()) {
             if ($inRange) {
@@ -203,9 +246,10 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
      */
     public function getPageUrl($pageId = null)
     {
-        $page = Mage::getModel('Magento_Cms_Model_Page');
+        /** @var Magento_Cms_Model_Page $page */
+        $page = $this->_pageFactory->create();
         if (!is_null($pageId) && $pageId !== $page->getId()) {
-            $page->setStoreId(Mage::app()->getStore()->getId());
+            $page->setStoreId($this->_storeManager->getStore()->getId());
             if (!$page->load($pageId)) {
                 return null;
             }
@@ -215,6 +259,6 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
             return null;
         }
 
-        return Mage::getUrl(null, array('_direct' => $page->getIdentifier()));
+        return $this->_url->getUrl(null, array('_direct' => $page->getIdentifier()));
     }
 }

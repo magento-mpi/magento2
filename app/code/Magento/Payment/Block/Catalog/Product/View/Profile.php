@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,19 +26,41 @@ class Magento_Payment_Block_Catalog_Product_View_Profile extends Magento_Core_Bl
     protected $_coreRegistry = null;
 
     /**
+     * Locale model
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Recurring profile factory
+     *
+     * @var Magento_Payment_Model_Recurring_ProfileFactory
+     */
+    protected $_profileFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Payment_Model_Recurring_ProfileFactory $profileFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Payment_Model_Recurring_ProfileFactory $profileFactory,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
+        $this->_coreRegistry = $registry;
+        $this->_locale = $locale;
+        $this->_profileFactory = $profileFactory;
     }
 
     /**
@@ -75,8 +95,8 @@ class Magento_Payment_Block_Catalog_Product_View_Profile extends Magento_Core_Bl
                 ->setName(Magento_Payment_Model_Recurring_Profile::BUY_REQUEST_START_DATETIME)
                 ->setClass('datetime-picker input-text')
                 ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-                ->setDateFormat(Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
-                ->setTimeFormat(Mage::app()->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
+                ->setDateFormat($this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
+                ->setTimeFormat($this->_locale->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
             return $calendar->getHtml();
         }
     }
@@ -90,7 +110,7 @@ class Magento_Payment_Block_Catalog_Product_View_Profile extends Magento_Core_Bl
     {
         $product = $this->_coreRegistry->registry('current_product');
         if ($product) {
-            $this->_profile = Mage::getModel('Magento_Payment_Model_Recurring_Profile')->importProduct($product);
+            $this->_profile = $this->_profileFactory->create()->importProduct($product);
         }
         return parent::_prepareLayout();
     }

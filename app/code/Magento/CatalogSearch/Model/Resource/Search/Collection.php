@@ -33,6 +33,58 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     protected $_searchQuery;
 
     /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * Attribute collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     */
+    protected $_attributeCollectionFactory;
+
+    /**
+     * Catalog Search resource helper
+     *
+     * @var Magento_CatalogSearch_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
+        Magento_Core_Model_Resource $resource,
+        Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
+    ) {
+        $this->_attributeCollectionFactory = $attributeCollectionFactory;
+        $this->_resource = $resource;
+        $this->_resourceHelper = $resourceHelper;
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig,
+            $entityFactory);
+    }
+
+    /**
      * Add search query filter
      *
      * @param string $query
@@ -53,10 +105,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     protected function _getAttributesCollection()
     {
         if (!$this->_attributesCollection) {
-            $this->_attributesCollection = Mage::getResourceModel(
-                    'Magento_Catalog_Model_Resource_Product_Attribute_Collection'
-                )
-                ->load();
+            $this->_attributesCollection = $this->_attributeCollectionFactory->create()->load();
 
             foreach ($this->_attributesCollection as $attribute) {
                 $attribute->setEntity($this->getEntity());
@@ -109,8 +158,6 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
         $tables = array();
         $selects = array();
 
-        /* @var $resHelper Magento_Core_Model_Resource_Helper_Abstract */
-        $resHelper = Mage::getResourceHelper('Magento_Core');
         $likeOptions = array('position' => 'any');
 
         /**
@@ -128,7 +175,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
                 if ($attribute->getBackendType() == 'static') {
                     $selects[] = $this->getConnection()->select()
                         ->from($table, 'entity_id')
-                        ->where($resHelper->getCILike($attributeCode, $this->_searchQuery, $likeOptions));
+                        ->where($this->_resourceHelper->getCILike($attributeCode, $this->_searchQuery, $likeOptions));
                 } else {
                     $tables[$table][] = $attribute->getId();
                 }
@@ -148,7 +195,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
                 )
                 ->where('t1.attribute_id IN (?)', $attributeIds)
                 ->where('t1.store_id = ?', 0)
-                ->where($resHelper->getCILike($ifValueId, $this->_searchQuery, $likeOptions));
+                ->where($this->_resourceHelper->getCILike($ifValueId, $this->_searchQuery, $likeOptions));
         }
 
         $sql = $this->_getSearchInOptionSql($query);
@@ -185,15 +232,13 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
             return false;
         }
 
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
-        $optionTable      = $resource->getTableName('eav_attribute_option');
-        $optionValueTable = $resource->getTableName('eav_attribute_option_value');
-        $attributesTable  = $resource->getTableName('eav_attribute');
+        $optionTable      = $this->_resource->getTableName('eav_attribute_option');
+        $optionValueTable = $this->_resource->getTableName('eav_attribute_option_value');
+        $attributesTable  = $this->_resource->getTableName('eav_attribute');
 
         /**
          * Select option Ids
          */
-        $resHelper = Mage::getResourceHelper('Magento_Core');
         $ifStoreId = $this->getConnection()->getIfNullSql('s.store_id', 'd.store_id');
         $ifValue   = $this->getConnection()->getCheckSql('s.value_id > 0', 's.value', 'd.value');
         $select = $this->getConnection()->select()
@@ -211,7 +256,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
             ->join(array('a' => $attributesTable), 'o.attribute_id=a.attribute_id', array())
             ->where('d.store_id=0')
             ->where('o.attribute_id IN (?)', $attributeIds)
-            ->where($resHelper->getCILike($ifValue, $this->_searchQuery, array('position' => 'any')));
+            ->where($this->_resourceHelper->getCILike($ifValue, $this->_searchQuery, array('position' => 'any')));
 
         $options = $this->getConnection()->fetchAll($select);
         if (empty($options)) {

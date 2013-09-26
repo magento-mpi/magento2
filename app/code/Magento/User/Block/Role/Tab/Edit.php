@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,7 @@
 /**
  * Rolesedit Tab Display Block
  *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
     implements Magento_Backend_Block_Widget_Tab_Interface
@@ -29,43 +25,51 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
     protected $_rootResource;
 
     /**
+     * Rules collection factory
+     *
+     * @var Magento_User_Model_Resource_Rules_CollectionFactory
+     */
+    protected $_rulesCollectionFactory;
+
+    /**
+     * Acl builder
+     *
      * @var Magento_Acl_Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @var Magento_User_Model_Resource_Rules_CollectionFactory
+     * Acl resource provider
+     *
+     * @var Magento_Acl_Resource_ProviderInterface
      */
-    protected $_userRulesFactory;
+    protected $_aclResourceProvider;
 
     /**
-     * @var Magento_Acl_Resource_Provider
-     */
-    protected $_aclProvider;
-
-    /**
-     * @param Magento_Acl_Builder $aclBuilder
-     * @param Magento_Acl_Resource_ProviderInterface $aclProvider
-     * @param Magento_User_Model_Resource_Rules_CollectionFactory $userRulesFactory
+     * Construct
+     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Acl_RootResource $rootResource
+     * @param Magento_User_Model_Resource_Rules_CollectionFactory $rulesCollectionFactory
+     * @param Magento_Acl_Builder $aclBuilder
+     * @param Magento_Acl_Resource_ProviderInterface $aclResourceProvider
      * @param array $data
      */
     public function __construct(
-        Magento_Acl_Builder $aclBuilder,
-        Magento_Acl_Resource_ProviderInterface $aclProvider,
-        Magento_User_Model_Resource_Rules_CollectionFactory $userRulesFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Acl_RootResource $rootResource,
+        Magento_User_Model_Resource_Rules_CollectionFactory $rulesCollectionFactory,
+        Magento_Acl_Builder $aclBuilder,
+        Magento_Acl_Resource_ProviderInterface $aclResourceProvider,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
-        $this->_aclProvider = $aclProvider;
-        $this->_userRulesFactory = $userRulesFactory;
-        parent::__construct($coreData, $context, $data);
         $this->_rootResource = $rootResource;
+        $this->_rulesCollectionFactory = $rulesCollectionFactory;
+        $this->_aclResourceProvider = $aclResourceProvider;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -115,10 +119,10 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
     {
         parent::_construct();
 
-        $rid = Mage::app()->getRequest()->getParam('rid', false);
+        $rid = $this->_request->getParam('rid', false);
 
         $acl = $this->_aclBuilder->getAcl();
-        $rulesSet = $this->_userRulesFactory->create()->getByRoles($rid)->load();
+        $rulesSet = $this->_rulesCollectionFactory->create()->getByRoles($rid)->load();
 
         $selectedResourceIds = array();
 
@@ -149,7 +153,7 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
      */
     public function getTree()
     {
-        $resources = $this->_aclProvider->getAclResources();
+        $resources = $this->_aclResourceProvider->getAclResources();
         $rootArray = $this->_mapResources(
             isset($resources[1]['children']) ? $resources[1]['children'] : array()
         );
