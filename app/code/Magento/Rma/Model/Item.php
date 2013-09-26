@@ -10,10 +10,6 @@
 
 /**
  * RMA Item model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
 {
@@ -57,6 +53,55 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
     const ITEM_IMAGE_URL    = 'rma_item';
 
     /**
+     * @var Magento_Rma_Model_RmaFactory
+     */
+    protected $_rmaFactory;
+
+    /**
+     * @var Magento_Rma_Model_Item_Attribute_Source_StatusFactory
+     */
+    protected $_statusFactory;
+
+    /**
+     * @var Magento_Sales_Model_Order_ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var Magento_Rma_Model_Item_FormFactory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Rma_Model_RmaFactory $rmaFactory
+     * @param Magento_Rma_Model_Item_Attribute_Source_StatusFactory $statusFactory
+     * @param Magento_Sales_Model_Order_ItemFactory $itemFactory
+     * @param Magento_Rma_Model_Item_FormFactory $formFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Rma_Model_RmaFactory $rmaFactory,
+        Magento_Rma_Model_Item_Attribute_Source_StatusFactory $statusFactory,
+        Magento_Sales_Model_Order_ItemFactory $itemFactory,
+        Magento_Rma_Model_Item_FormFactory $formFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_rmaFactory = $rmaFactory;
+        $this->_statusFactory = $statusFactory;
+        $this->_itemFactory = $itemFactory;
+        $this->_formFactory = $formFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model
      */
     protected function _construct()
@@ -86,7 +131,8 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
     {
         $rmaId = $this->getRmaEntityId();
         if (is_null($this->_rma) && $rmaId) {
-            $rma = Mage::getModel('Magento_Rma_Model_Rma');
+            /** @var $rma Magento_Rma_Model_Rma */
+            $rma = $this->_rmaFactory->create();
             $rma->load($rmaId);
             $this->setRma($rma);
         }
@@ -101,9 +147,7 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
     public function getStatusLabel()
     {
         if (is_null(parent::getStatusLabel())) {
-            $this->setStatusLabel(
-                Mage::getModel('Magento_Rma_Model_Item_Attribute_Source_Status')->getItemLabel($this->getStatus())
-            );
+            $this->setStatusLabel($this->_statusFactory->create()->getItemLabel($this->getStatus()));
         }
         return parent::getStatusLabel();
     }
@@ -151,7 +195,7 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
         }
 
         if ($qtyReturnedChange) {
-            $item = Mage::getModel('Magento_Sales_Model_Order_Item')->load($this->getOrderItemId());
+            $item = $this->_itemFactory->create()->load($this->getOrderItemId());
             if ($item->getId()) {
                 $item->setQtyReturned($item->getQtyReturned() + $qtyReturnedChange)
                     ->save();
@@ -213,10 +257,8 @@ class Magento_Rma_Model_Item extends Magento_Core_Model_Abstract
         $httpRequest->setPost($itemPost);
 
         /** @var $itemForm Magento_Rma_Model_Item_Form */
-        $itemForm = Mage::getModel('Magento_Rma_Model_Item_Form');
-        $itemForm->setFormCode('default')
-            ->setEntity($this);
-
+        $itemForm = $this->_formFactory->create();
+        $itemForm->setFormCode('default')->setEntity($this);
         $itemData = $itemForm->extractData($httpRequest);
 
         $files = array();

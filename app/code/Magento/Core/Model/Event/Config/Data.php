@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Event_Config_Data extends Magento_Config_Data
+class Magento_Core_Model_Event_Config_Data extends Magento_Config_Data_Scoped
 {
     /**
      * Scope priority loading scheme

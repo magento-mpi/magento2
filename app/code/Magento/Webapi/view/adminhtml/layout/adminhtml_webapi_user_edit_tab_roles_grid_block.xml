@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="webapi.user.edit.tab.roles.grid.container">
+    <referenceBlock name="webapi.user.edit.tab.roles.grid.container">
         <block class="Magento_Backend_Block_Widget_Grid" name="webapi.user.edit.tab.roles.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">permissionsUserRolesGrid</argument>
@@ -53,5 +53,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

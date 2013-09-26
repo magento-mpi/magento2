@@ -50,6 +50,39 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
     );
 
     /**
+     * @var Magento_SalesArchive_Model_Resource_Helper_Mysql4
+     */
+    protected $_salesHelper;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_SalesArchive_Model_Resource_Helper_Mysql4 $salesHelper
+     * @param $resourceName
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_SalesArchive_Model_Resource_Helper_Mysql4 $salesHelper,
+        $resourceName
+    ) {
+        $this->_salesHelper = $salesHelper;
+        parent::__construct(
+            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+        );
+    }
+
+    /**
      * Run each time after applying of all updates,
      * if setup model setted  $_callAfterApplyAllUpdates flag to true
      *
@@ -181,9 +214,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
-        $helper = Mage::getResourceHelper('Magento_SalesArchive');
-        $helper->changeColumnPosition($table, $column, $after, $first);
-
+        $this->_salesHelper->changeColumnPosition($table, $column, $after, $first);
         return $this;
     }
 

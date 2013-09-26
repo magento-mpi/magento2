@@ -49,12 +49,24 @@ abstract class Magento_Rule_Model_Condition_Abstract
     protected $_viewUrl;
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         $this->_viewUrl = $context->getViewUrl();
+        $this->_locale = $context->getLocale();
+        $this->_layout = $context->getLayout();
 
         parent::__construct($data);
 
@@ -332,7 +344,7 @@ abstract class Magento_Rule_Model_Condition_Abstract
         if ($this->getInputType() == 'date' && !$this->getIsValueParsed()) {
             // date format intentionally hard-coded
             $this->setValue(
-                Mage::app()->getLocale()->date($this->getData('value'),
+                $this->_locale->date($this->getData('value'),
                 Magento_Date::DATE_INTERNAL_FORMAT, null, false)->toString(Magento_Date::DATE_INTERNAL_FORMAT)
             );
             $this->setIsValueParsed(true);
@@ -452,7 +464,7 @@ abstract class Magento_Rule_Model_Condition_Abstract
             'values' => $this->getAttributeSelectOptions(),
             'value' => $this->getAttribute(),
             'value_name' => $this->getAttributeName(),
-        ))->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Editable'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento_Rule_Block_Editable'));
     }
 
     /**
@@ -487,7 +499,7 @@ abstract class Magento_Rule_Model_Condition_Abstract
             'value'         => $this->getOperator(),
             'value_name'    => $this->getOperatorName(),
         ));
-        $element->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Editable'));
+        $element->setRenderer($this->_layout->getBlockSingleton('Magento_Rule_Block_Editable'));
 
         return $element;
     }
@@ -517,9 +529,9 @@ abstract class Magento_Rule_Model_Condition_Abstract
     public function getValueElementRenderer()
     {
         if (strpos($this->getValueElementType(), '/') !== false) {
-            return Mage::getBlockSingleton($this->getValueElementType());
+            return $this->_layout->getBlockSingleton($this->getValueElementType());
         }
-        return Mage::getBlockSingleton('Magento_Rule_Block_Editable');
+        return $this->_layout->getBlockSingleton('Magento_Rule_Block_Editable');
     }
 
     public function getValueElement()

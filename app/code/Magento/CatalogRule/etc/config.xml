@@ -15,13 +15,9 @@
             <catalogrule_setup>
                 <setup>
                     <module>Magento_CatalogRule</module>
+                    <class>Magento_Core_Model_Resource_Setup_Generic</class>
                 </setup>
             </catalogrule_setup>
         </resources>
-        <catalogrule>
-            <related_cache_types>
-                <block_html />
-            </related_cache_types>
-        </catalogrule>
     </global>
 </config>

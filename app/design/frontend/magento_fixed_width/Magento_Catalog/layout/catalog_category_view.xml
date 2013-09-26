@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="breadcrumbs.container">
+    <referenceContainer name="breadcrumbs.container">
         <block class="Magento_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

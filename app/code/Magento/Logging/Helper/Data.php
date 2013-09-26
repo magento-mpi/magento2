@@ -18,6 +18,23 @@
 class Magento_Logging_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
+     * @var Magento_Logging_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Logging_Model_Config $config
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Logging_Model_Config $config,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_config = $config;
+        parent::__construct($context);
+    }
+
+    /**
      * Join array into string except empty values
      *
      * @param array $array Array to join
@@ -50,6 +67,6 @@ class Magento_Logging_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getLoggingActionTranslatedLabel($action)
     {
-        return Mage::getSingleton('Magento_Logging_Model_Config')->getActionLabel($action);
+        return $this->_config->getActionLabel($action);
     }
 }

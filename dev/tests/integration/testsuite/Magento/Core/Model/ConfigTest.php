@@ -79,32 +79,6 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = Yes
-     *
-     * @magentoConfigFixture current_store web/secure/use_in_frontend 1
-     */
-    public function testShouldUrlBeSecureWhenSecureUsedInFrontend()
-    {
-        $model = $this->_createModel();
-        $this->assertFalse($model->shouldUrlBeSecure('/'));
-        $this->assertTrue($model->shouldUrlBeSecure('/checkout/onepage'));
-    }
-
-    /**
-     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = No
-     *
-     * @magentoConfigFixture current_store web/secure/use_in_frontend 0
-     */
-    public function testShouldUrlBeSecureWhenSecureNotUsedInFrontend()
-    {
-        $model = $this->_createModel();
-        $this->assertFalse($model->shouldUrlBeSecure('/'));
-        $this->assertFalse($model->shouldUrlBeSecure('/checkout/onepage'));
-    }
-
-
-
-    /**
      * Instantiate Magento_Core_Model_Config and initialize (load configuration) if needed
      *
      * @param array $arguments
@@ -113,7 +87,8 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected function _createModel(array $arguments = array())
     {
         /** @var $model Magento_Core_Model_Config */
-        $model = Mage::getModel('Magento_Core_Model_Config', $arguments);
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Config', $arguments);
         return $model;
     }
 
@@ -123,7 +98,8 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAreaConfigThrowsExceptionIfNonexistentAreaIsRequested()
     {
-        Mage::app()->getConfig()->getAreaConfig('non_existent_area_code');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->getConfig()
+            ->getAreaConfig('non_existent_area_code');
     }
 
     /**

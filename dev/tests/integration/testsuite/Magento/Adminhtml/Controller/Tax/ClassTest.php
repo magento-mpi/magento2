@@ -35,7 +35,8 @@ class Magento_Adminhtml_Controller_Tax_ClassTest extends Magento_Backend_Utility
 
         $classId = $result['class_id'];
         /** @var $rate Magento_Tax_Model_Class */
-        $class = Mage::getModel('Magento_Tax_Model_Class')->load($classId, 'class_id');
+        $class = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Tax_Model_Class')->load($classId, 'class_id');
         $this->assertEquals($expectedData['class_name'], $class->getClassName());
     }
 

@@ -28,6 +28,31 @@ class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
     protected $_lastRecord;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init model
      */
     protected function _construct()
@@ -41,7 +66,7 @@ class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
     public function run()
     {
         $this->_lastRecord = $this->_timestamp($this->_round($this->getLastRecordDate()));
-        foreach (Mage::app()->getStores(false) as $store) {
+        foreach ($this->_storeManager->getStores(false) as $store) {
             $this->_process($store->getId());
         }
     }

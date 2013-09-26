@@ -68,6 +68,48 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     private $_deleteCache   = array();
 
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Rating_Model_RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @var Magento_Rating_Model_Resource_Rating_Option
+     */
+    protected $_ratingOptions;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Rating_Model_RatingFactory $ratingFactory
+     * @param Magento_Rating_Model_Resource_Rating_Option $ratingOptions
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Rating_Model_RatingFactory $ratingFactory,
+        Magento_Rating_Model_Resource_Rating_Option $ratingOptions
+    ) {
+        $this->_date = $date;
+        $this->_storeManager = $storeManager;
+        $this->_ratingFactory = $ratingFactory;
+        $this->_ratingOptions = $ratingOptions;
+
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table. Define other tables name
      *
      */
@@ -103,13 +145,13 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     /**
      * Perform actions before object save
      *
-     * @param Magento_Object $object
-     * @return Magento_Review_Model_Resource_Review
+     * @param Magento_Core_Model_Abstract $object
+     * @return $this|Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (!$object->getId()) {
-            $object->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+            $object->setCreatedAt($this->_date->gmtDate());
         }
         if ($object->hasData('stores') && is_array($object->getStores())) {
             $stores = $object->getStores();
@@ -199,8 +241,8 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
             ->from($this->_reviewStoreTable, array('store_id'))
             ->where('review_id = :review_id');
         $stores = $adapter->fetchCol($select, array(':review_id' => $object->getId()));
-        if (empty($stores) && Mage::app()->hasSingleStore()) {
-            $object->setStores(array(Mage::app()->getStore(true)->getId()));
+        if (empty($stores) && $this->_storeManager->hasSingleStore()) {
+            $object->setStores(array($this->_storeManager->getStore(true)->getId()));
         } else {
             $object->setStores($stores);
         }
@@ -287,7 +329,7 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
             $object->load($object->getReviewId());
         }
 
-        $ratingModel    = Mage::getModel('Magento_Rating_Model_Rating');
+        $ratingModel    = $this->_ratingFactory->create();
         $ratingSummaries= $ratingModel->getEntitySummary($object->getEntityPkValue(), false);
 
         foreach ($ratingSummaries as $ratingSummaryObject) {
@@ -369,11 +411,10 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
         if ($ratingIds && !is_array($ratingIds)) {
             $ratingIds = array((int)$ratingIds);
         }
-        if ($ratingIds && $entityPkValue
-            && ($resource = Mage::getResourceSingleton('Magento_Rating_Model_Resource_Rating_Option'))
-            ) {
+        $resource = $this->_ratingOptions;
+        if ($ratingIds && $entityPkValue && $resource) {
             foreach ($ratingIds as $ratingId) {
-                $resource->aggregateEntityByRatingId(
+                $this->_ratingOption->aggregateEntityByRatingId(
                     $ratingId, $entityPkValue
                 );
             }

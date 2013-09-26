@@ -63,22 +63,34 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
+     * Query factory
+     *
+     * @var Magento_CatalogSearch_Model_QueryFactory
+     */
+    protected $_queryFactory;
+
+    /**
+     * Construct
+     * 
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_CatalogSearch_Model_QueryFactory $queryFactory
     ) {
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_queryFactory = $queryFactory;
         parent::__construct($context);
     }
 
@@ -100,8 +112,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     public function getQuery()
     {
         if (!$this->_query) {
-            $this->_query = Mage::getModel('Magento_CatalogSearch_Model_Query')
-                ->loadByQuery($this->getQueryText());
+            $this->_query = $this->_queryFactory->create()->loadByQuery($this->getQueryText());
             if (!$this->_query->getId()) {
                 $this->_query->setQueryText($this->getQueryText());
             }
@@ -179,7 +190,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     {
         return $this->_getUrl('catalogsearch/result', array(
             '_query' => array(self::QUERY_VAR_NAME => $query),
-            '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+            '_secure' => $this->_request->isSecure()
         ));
     }
 
@@ -191,7 +202,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     public function getSuggestUrl()
     {
         return $this->_getUrl('catalogsearch/ajax/suggest', array(
-            '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+            '_secure' => $this->_request->isSecure()
         ));
     }
 
@@ -333,34 +344,5 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
             }
         }
         return join($separator, $_index);
-    }
-
-    /**
-     * Get current search engine resource model
-     *
-     * @return object
-     */
-    public function getEngine()
-    {
-        if (!$this->_engine) {
-            $engine = $this->_coreStoreConfig->getConfig('catalog/search/engine');
-
-            /**
-             * This needed if there already was saved in configuration some none-default engine
-             * and module of that engine was disabled after that.
-             * Problem is in this engine in database configuration still set.
-             */
-            if ($engine) {
-                $model = Mage::getResourceSingleton($engine);
-                if ($model && $model->test()) {
-                    $this->_engine = $model;
-                }
-            }
-            if (!$this->_engine) {
-                $this->_engine = Mage::getResourceSingleton('Magento_CatalogSearch_Model_Resource_Fulltext_Engine');
-            }
-        }
-
-        return $this->_engine;
     }
 }

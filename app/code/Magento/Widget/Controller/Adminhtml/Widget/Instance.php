@@ -18,12 +18,12 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var Magento_Widget_Model_Widget_InstanceFactory
      */
-    protected $_instanceFactory;
+    protected $_widgetFactory;
 
     /**
      * @var Magento_Core_Model_Logger
@@ -31,20 +31,20 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Widget_Model_Widget_InstanceFactory $instanceFactory
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Widget_Model_Widget_InstanceFactory $widgetFactory
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Widget_Model_Widget_InstanceFactory $instanceFactory,
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Widget_Model_Widget_InstanceFactory $widgetFactory,
+        Magento_Core_Model_Logger $logger
     ) {
-        $this->_logger = $logger;
-        $this->_instanceFactory = $instanceFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_widgetFactory = $widgetFactory;
+        $this->_logger = $logger;
         parent::__construct($context);
     }
 
@@ -74,7 +74,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
         $this->_title(__('Frontend Apps'));
 
         /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
-        $widgetInstance = $this->_instanceFactory->create();
+        $widgetInstance = $this->_widgetFactory->create();
 
         $instanceId = $this->getRequest()->getParam('instance_id', null);
         $type = $this->getRequest()->getParam('type', null);
@@ -195,9 +195,9 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
                 $this->_redirect('*/*/');
             }
             return;
-        } catch (Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
-            $this->_logger->logException($e);
+        } catch (Exception $exception) {
+            $this->_getSession()->addError($exception->getMessage());
+            $this->_logger->logException($exception);
             $this->_redirect('*/*/edit', array('_current' => true));
             return;
         }

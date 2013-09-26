@@ -15,7 +15,8 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_event = Mage::getModel('Magento_Webhook_Model_Event');
+        $this->_event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Event');
     }
 
     public function testSetGet()

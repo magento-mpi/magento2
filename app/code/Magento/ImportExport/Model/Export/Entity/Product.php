@@ -23,8 +23,6 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
      */
     protected $_bannedAttributes = array('media_gallery');
 
-    const CONFIG_KEY_PRODUCT_TYPES = 'global/importexport/export_product_types';
-
     /**
      * Value that means all entities (e.g. websites, groups etc.)
      */
@@ -134,9 +132,9 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     protected $_headerColumns = array();
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_ImportExport_Model_Export_ConfigInterface
      */
-    protected $_coreConfig;
+    protected $_exportConfig;
 
     /**
      * @var Magento_Core_Model_Logger
@@ -187,7 +185,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
      * @param Magento_Catalog_Model_Resource_ProductFactory $productFactory
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFactory
      * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryColFactory
@@ -203,7 +201,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Logger $logger,
         Magento_Catalog_Model_Resource_Product_Collection $collection,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig,
         Magento_Catalog_Model_Resource_ProductFactory $productFactory,
         Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFactory,
         Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryColFactory,
@@ -213,7 +211,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         Magento_ImportExport_Model_Export_Entity_Product_Type_Factory $_typeFactory
     ) {
         $this->_entityCollection = $collection;
-        $this->_coreConfig = $coreConfig;
+        $this->_exportConfig = $exportConfig;
         $this->_logger = $logger;
         $this->_productFactory = $productFactory;
         $this->_attrSetColFactory = $attrSetColFactory;
@@ -283,16 +281,18 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
      */
     protected function _initTypeModels()
     {
-        $config = $this->_coreConfig->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
-        foreach ($config as $type => $typeModel) {
-            $model = $this->_typeFactory->create($typeModel);
+        $productTypes = $this->_exportConfig->getProductTypes();
+        foreach ($productTypes as $productTypeName => $productTypeConfig) {
+            if (!($model = $this->_typeFactory->create($productTypeConfig['model']))) {
+                Mage::throwException("Entity type model '{$productTypeConfig['model']}' is not found");
+            }
             if (! $model instanceof Magento_ImportExport_Model_Export_Entity_Product_Type_Abstract) {
                 throw new Magento_Core_Exception(
                     __('Entity type model must be an instance of Magento_ImportExport_Model_Export_Entity_Product_Type_Abstract')
                 );
             }
             if ($model->isSuitable()) {
-                $this->_productTypeModels[$type] = $model;
+                $this->_productTypeModels[$productTypeName] = $model;
                 $this->_disabledAttrs            = array_merge($this->_disabledAttrs, $model->getDisabledAttrs());
                 $this->_indexValueAttributes     = array_merge(
                     $this->_indexValueAttributes, $model->getIndexValueAttributes()

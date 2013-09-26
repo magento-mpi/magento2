@@ -40,6 +40,31 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
     const STATUS_MISSED = 'missed';
     const STATUS_ERROR = 'error';
 
+    /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_date = $date;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     public function _construct()
     {
         $this->_init('Magento_Cron_Model_Resource_Schedule');
@@ -49,7 +74,7 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
     {
         $e = preg_split('#\s+#', $expr, null, PREG_SPLIT_NO_EMPTY);
         if (sizeof($e) < 5 || sizeof($e) > 6) {
-            throw Mage::exception('Magento_Cron', 'Invalid cron expression: ' . $expr);
+            throw new Magento_Cron_Exception('Invalid cron expression: ' . $expr);
         }
 
         $this->setCronExprArr($e);
@@ -74,7 +99,7 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
             $time = strtotime($time);
         }
 
-        $d = getdate(Mage::getSingleton('Magento_Core_Model_Date')->timestamp($time));
+        $d = getdate($this->_date->timestamp($time));
 
         $match = $this->matchCronExpression($e[0], $d['minutes'])
             && $this->matchCronExpression($e[1], $d['hours'])
@@ -110,13 +135,13 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
         if (strpos($expr, '/') !== false) {
             $e = explode('/', $expr);
             if (sizeof($e) !== 2) {
-                throw Mage::exception(
-                    'Magento_Cron', "Invalid cron expression, expecting 'match/modulus': " . $expr
+                throw new Magento_Cron_Exception(
+                    "Invalid cron expression, expecting 'match/modulus': " . $expr
                 );
             }
             if (!is_numeric($e[1])) {
-                throw Mage::exception(
-                    'Magento_Cron', "Invalid cron expression, expecting numeric modulus: " . $expr
+                throw new Magento_Cron_Exception(
+                    "Invalid cron expression, expecting numeric modulus: " . $expr
                 );
             }
             $expr = $e[0];
@@ -133,8 +158,8 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
         } elseif (strpos($expr, '-') !== false) {
             $e = explode('-', $expr);
             if (sizeof($e) !== 2) {
-                throw Mage::exception(
-                    'Magento_Cron', "Invalid cron expression, expecting 'from-to' structure: " . $expr
+                throw new Magento_Cron_Exception(
+                    "Invalid cron expression, expecting 'from-to' structure: " . $expr
                 );
             }
 
@@ -147,7 +172,7 @@ class Magento_Cron_Model_Schedule extends Magento_Core_Model_Abstract
         }
 
         if ($from === false || $to === false) {
-            throw Mage::exception('Magento_Cron', "Invalid cron expression: " . $expr);
+            throw new Magento_Cron_Exception("Invalid cron expression: " . $expr);
         }
 
         return ($num >= $from) && ($num <= $to) && ($num % $mod === 0);

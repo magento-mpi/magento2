@@ -121,31 +121,65 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     protected $_coreData = null;
 
     /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Sales_Model_Order_AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @var Magento_Sales_Model_Order_PaymentFactory
+     */
+    protected $_paymentFactory;
+
+    /**
+     * @var Magento_Sales_Model_Order_ItemFactory
+     */
+    protected $_orderItemFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Sales_Model_Order_AddressFactory $addressFactory
+     * @param Magento_Sales_Model_Order_PaymentFactory $paymentFactory
+     * @param Magento_Sales_Model_Order_ItemFactory $orderItemFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Sales_Model_Order_AddressFactory $addressFactory,
+        Magento_Sales_Model_Order_PaymentFactory $paymentFactory,
+        Magento_Sales_Model_Order_ItemFactory $orderItemFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
+        $this->_orderFactory = $orderFactory;
+        $this->_addressFactory = $addressFactory;
+        $this->_paymentFactory = $paymentFactory;
+        $this->_orderItemFactory = $orderItemFactory;
         parent::__construct($paymentData, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
      * Load order by system increment identifier
      *
-     * @param string $incrementId
+     * @param string $internalReferenceId
      * @return Magento_Sales_Model_Order
      */
     public function loadByInternalReferenceId($internalReferenceId)
@@ -292,18 +326,18 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
         }
         $grandTotal = $billingAmount + $shippingAmount + $taxAmount;
 
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = $this->_orderFactory->create();
 
-        $billingAddress = Mage::getModel('Magento_Sales_Model_Order_Address')
+        $billingAddress = $this->_addressFactory->create()
             ->setData($this->getBillingAddressInfo())
             ->setId(null);
 
         $shippingInfo = $this->getShippingAddressInfo();
-        $shippingAddress = Mage::getModel('Magento_Sales_Model_Order_Address')
+        $shippingAddress = $this->_addressFactory->create()
             ->setData($shippingInfo)
             ->setId(null);
 
-        $payment = Mage::getModel('Magento_Sales_Model_Order_Payment')
+        $payment = $this->_paymentFactory->create()
             ->setMethod($this->getMethodCode());
 
         $transferDataKays = array(
@@ -611,7 +645,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
         $state = $this->getState();
         $result = (!empty($this->_workflow[$state])) && in_array($againstState, $this->_workflow[$state]);
         if (!$soft && !$result) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('This profile state cannot be changed to "%1".', $againstState)
             );
         }
@@ -635,7 +669,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     /**
      * Add order relation to recurring profile
      *
-     * @param int $recurringProfileId
+     * @param int $orderId
      * @return Magento_Sales_Model_Recurring_Profile
      */
     public function addOrderRelation($orderId)
@@ -649,6 +683,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
      *
      * @param Magento_Object $itemInfo
      * @return Magento_Sales_Model_Order_Item
+     * @throws Exception
      */
     protected function _getItem($itemInfo)
     {
@@ -658,10 +693,14 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
         }
 
         switch ($paymentType) {
-            case self::PAYMENT_TYPE_REGULAR: return $this->_getRegularItem($itemInfo);
-            case self::PAYMENT_TYPE_TRIAL: return $this->_getTrialItem($itemInfo);
-            case self::PAYMENT_TYPE_INITIAL: return $this->_getInitialItem($itemInfo);
-            default: new Exception("Invalid recurring profile payment type '{$paymentType}'.");
+            case self::PAYMENT_TYPE_REGULAR:
+                return $this->_getRegularItem($itemInfo);
+            case self::PAYMENT_TYPE_TRIAL:
+                return $this->_getTrialItem($itemInfo);
+            case self::PAYMENT_TYPE_INITIAL:
+                return $this->_getInitialItem($itemInfo);
+            default:
+                new Exception("Invalid recurring profile payment type '{$paymentType}'.");
         }
     }
 
@@ -678,7 +717,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
         $shippingAmount = $itemInfo->getShippingAmount() ? $itemInfo->getShippingAmount() : $this->getShippingAmount();
         $taxAmount = $itemInfo->getTaxAmount() ? $itemInfo->getTaxAmount() : $this->getTaxAmount();
 
-        $item = Mage::getModel('Magento_Sales_Model_Order_Item')
+        $item = $this->_orderItemFactory->create()
             ->setData($this->getOrderItemInfo())
             ->setQtyOrdered($this->getInfoValue('order_item_info', 'qty'))
             ->setBaseOriginalPrice($this->getInfoValue('order_item_info', 'price'))
@@ -729,7 +768,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
         $price = $itemInfo->getPrice() ? $itemInfo->getPrice() : $this->getInitAmount();
         $shippingAmount = $itemInfo->getShippingAmount() ? $itemInfo->getShippingAmount() : 0;
         $taxAmount = $itemInfo->getTaxAmount() ? $itemInfo->getTaxAmount() : 0;
-        $item = Mage::getModel('Magento_Sales_Model_Order_Item')
+        $item = $this->_orderItemFactory->create()
             ->setStoreId($this->getStoreId())
             ->setProductType(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL)
             ->setIsVirtual(1)
@@ -759,7 +798,7 @@ class Magento_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurr
     /**
      * Add additional options suboption into itev
      *
-     * @param Magento_Sales_Model_Order_Item $itemInfo
+     * @param Magento_Sales_Model_Order_Item $item
      * @param array $option
      */
     protected function _addAdditionalOptionToItem($item, $option)

@@ -31,10 +31,12 @@ class Magento_Test_Integrity_Magento_Widget_SkinFilesTest extends PHPUnit_Framew
     {
         $result = array();
         /** @var $model Magento_Widget_Model_Widget */
-        $model = Mage::getModel('Magento_Widget_Model_Widget');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget');
         foreach ($model->getWidgetsArray() as $row) {
             /** @var $instance Magento_Widget_Model_Widget_Instance */
-            $instance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+            $instance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget_Instance');
             $config = $instance->setType($row['type'])->getWidgetConfigAsArray();
             if (isset($config['placeholder_image'])) {
                 $result[] = array((string)$config['placeholder_image']);

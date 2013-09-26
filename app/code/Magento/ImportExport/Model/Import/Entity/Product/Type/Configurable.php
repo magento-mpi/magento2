@@ -113,9 +113,9 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     protected $_superAttrValuesCombs = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
      */
-    protected $_coreConfig;
+    protected $_productTypesConfig;
 
     /**
      * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
@@ -135,7 +135,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     /**
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac
      * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $productTypesConfig
      * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $_productColFac
@@ -144,13 +144,13 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     public function __construct(
         Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac,
         Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $productTypesConfig,
         Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
         Magento_Core_Model_Resource $resource,
         Magento_Catalog_Model_Resource_Product_CollectionFactory $_productColFac,
         array $params
     ) {
-        $this->_coreConfig = $coreConfig;
+        $this->_productTypesConfig = $productTypesConfig;
         $this->_resourceHelper = $resourceHelper;
         $this->_resource = $resource;
         $this->_productColFac = $_productColFac;
@@ -253,12 +253,9 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     {
         if ($this->_superAttributes) {
             $attrSetIdToName   = $this->_entityModel->getAttrSetIdToName();
-            $allowProductTypes = array();
 
-            foreach ($this->_coreConfig
-                    ->getNode('global/catalog/product/type/configurable/allow_product_types')->children() as $type) {
-                $allowProductTypes[] = $type->getName();
-            }
+            $configData = $this->_productTypesConfig->getType('configurable');
+            $allowProductTypes = isset($configData['allow_product_types']) ? $configData['allow_product_types'] : array();
             foreach ($this->_productColFac->create()
                         ->addFieldToFilter('type_id', $allowProductTypes)
                         ->addAttributeToSelect(array_keys($this->_superAttributes)) as $product) {

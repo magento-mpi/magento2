@@ -89,15 +89,6 @@
                 </tax>
             </totals>
         </pdf>
-        <catalog>
-            <product>
-                <attributes>
-                    <unassignable>
-                        <tax_class_id />
-                    </unassignable>
-                </attributes>
-            </product>
-        </catalog>
     </global>
     <default>
         <tax>

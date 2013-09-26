@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="invoice_totals">
+    <referenceBlock name="invoice_totals">
         <block class="Magento_GiftCardAccount_Block_Sales_Order_Giftcards" name="giftcards" template="order/giftcards.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

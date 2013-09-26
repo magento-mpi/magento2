@@ -19,16 +19,24 @@ class Magento_SalesRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_
     protected $_eventManager = null;
 
     /**
+     * @var Magento_SalesRule_Model_Rule_Condition_Address
+     */
+    protected $_conditionAddress;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_SalesRule_Model_Rule_Condition_Address $conditionAddress
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Rule_Model_Condition_Context $context,
+        Magento_SalesRule_Model_Rule_Condition_Address $conditionAddress,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
+        $this->_conditionAddress = $conditionAddress;
         parent::__construct($context, $data);
         $this->setType('Magento_SalesRule_Model_Rule_Condition_Combine');
     }
@@ -38,8 +46,7 @@ class Magento_SalesRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_
      */
     public function getNewChildSelectOptions()
     {
-        $addressCondition = Mage::getModel('Magento_SalesRule_Model_Rule_Condition_Address');
-        $addressAttributes = $addressCondition->loadAttributeOptions()->getAttributeOption();
+        $addressAttributes = $this->_conditionAddress->loadAttributeOptions()->getAttributeOption();
         $attributes = array();
         foreach ($addressAttributes as $code=>$label) {
             $attributes[] = array(

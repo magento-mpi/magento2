@@ -9,6 +9,10 @@
  * @license     {license_link}
  */
 
+/**
+ * Class Magento_Catalog_Model_Product_ImageTest
+ * @magentoAppArea frontend
+ */
 class Magento_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -17,7 +21,8 @@ class Magento_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
     public function testSetBaseFilePlaceholder()
     {
         /** @var $model Magento_Catalog_Model_Product_Image */
-        $model = Mage::getModel('Magento_Catalog_Model_Product_Image');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Image');
         $model->setDestinationSubdir('image')->setBaseFile('');
         $this->assertEmpty($model->getBaseFile());
         return $model;

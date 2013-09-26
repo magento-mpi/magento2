@@ -17,7 +17,8 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Widget_Model_Widget');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget');
     }
 
     public function testGetWidgetsArray()
@@ -45,8 +46,8 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
     {
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
-        $expectedPubFile = Mage::getBaseDir(Magento_Core_Model_Dir::STATIC_VIEW)
-            . "/adminhtml/magento_basic/en_US/{$expectedFile}";
+        $expectedPubFile = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+                ->getDir(Magento_Core_Model_Dir::STATIC_VIEW) . "/adminhtml/magento_basic/en_US/{$expectedFile}";
         if (file_exists($expectedPubFile)) {
             unlink($expectedPubFile);
         }

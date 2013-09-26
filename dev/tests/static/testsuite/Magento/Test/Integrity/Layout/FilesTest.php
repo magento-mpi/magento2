@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -19,7 +19,7 @@ class Magento_Test_Integrity_Layout_FilesTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_schemaFile = Magento_TestFramework_Utility_Files::init()->getModuleFile(
-            'Magento', 'Core', 'etc' . DIRECTORY_SEPARATOR . 'layouts.xsd'
+            'Magento', 'Core', 'etc' . DIRECTORY_SEPARATOR . 'layout_single.xsd'
         );
     }
 

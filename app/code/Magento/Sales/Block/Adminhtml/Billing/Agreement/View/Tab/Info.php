@@ -26,18 +26,28 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage
     protected $_coreRegistry = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_customerFactory = $customerFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -100,7 +110,7 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage
     {
         $agreement = $this->_getBillingAgreement();
         $this->setReferenceId($agreement->getReferenceId());
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($agreement->getCustomerId());
+        $customer = $this->_customerFactory->create()->load($agreement->getCustomerId());
         $this->setCustomerUrl(
             $this->getUrl('*/customer/edit', array('id' => $customer->getId()))
         );
@@ -110,8 +120,9 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info extends Mage
             $this->helper('Magento_Core_Helper_Data')->formatDate($agreement->getCreatedAt(), 'short', true)
         );
         $this->setUpdatedAt(
-             ($agreement->getUpdatedAt())
-                ? $this->helper('Magento_Core_Helper_Data')->formatDate($agreement->getUpdatedAt(), 'short', true) : __('N/A')
+            ($agreement->getUpdatedAt())
+                ? $this->helper('Magento_Core_Helper_Data')->formatDate($agreement->getUpdatedAt(), 'short', true)
+                : __('N/A')
         );
 
         return parent::_toHtml();

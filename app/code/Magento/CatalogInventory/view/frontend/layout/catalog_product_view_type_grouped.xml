@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="product.info.grouped.extra">
+    <referenceContainer name="product.info.grouped.extra">
         <block class="Magento_CatalogInventory_Block_Stockqty_Type_Grouped" template="stockqty/composite.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

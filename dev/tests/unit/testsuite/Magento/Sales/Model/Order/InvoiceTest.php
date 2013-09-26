@@ -38,7 +38,33 @@ class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('canVoid'))
             ->getMock();
 
-        $this->_model = $helperManager->getObject('Magento_Sales_Model_Order_Invoice', array());
+        $arguments = array(
+            'orderFactory' => $this->getMock(
+                'Magento_Sales_Model_OrderFactory', array(), array(), '', false
+            ),
+            'orderResourceFactory' => $this->getMock(
+                'Magento_Sales_Model_Resource_OrderFactory', array(), array(), '', false
+            ),
+            'calculatorFactory' => $this->getMock(
+                'Magento_Core_Model_CalculatorFactory', array(), array(), '', false
+            ),
+            'invoiceItemCollFactory' => $this->getMock(
+                'Magento_Sales_Model_Resource_Order_Invoice_Item_CollectionFactory', array(), array(), '', false
+            ),
+            'invoiceCommentFactory' => $this->getMock(
+                'Magento_Sales_Model_Order_Invoice_CommentFactory', array(), array(), '', false
+            ),
+            'commentCollFactory' => $this->getMock(
+                'Magento_Sales_Model_Resource_Order_Invoice_Comment_CollectionFactory', array(), array(), '', false
+            ),
+            'templateMailerFactory' => $this->getMock(
+                'Magento_Core_Model_Email_Template_MailerFactory', array(), array(), '', false
+            ),
+            'emailInfoFactory' => $this->getMock(
+                'Magento_Core_Model_Email_InfoFactory', array(), array(), '', false
+            ),
+        );
+        $this->_model = $helperManager->getObject('Magento_Sales_Model_Order_Invoice', $arguments);
         $this->_model->setOrder($this->_orderMock);
     }
 

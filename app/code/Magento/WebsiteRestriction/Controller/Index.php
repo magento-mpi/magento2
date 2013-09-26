@@ -17,7 +17,7 @@
  */
 class Magento_WebsiteRestriction_Controller_Index extends Magento_Core_Controller_Front_Action
 {
-    protected $_stubPageIdentifier = Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_LANDING_PAGE;
+    protected $_stubPageIdentifier = Magento_WebsiteRestriction_Model_Config::XML_PATH_RESTRICTION_LANDING_PAGE;
 
     /**
      * @var Magento_Core_Model_Cache_Type_Config
@@ -36,26 +36,58 @@ class Magento_WebsiteRestriction_Controller_Index extends Magento_Core_Controlle
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Core_Model_Website
+     */
+    protected $_website;
+
+    /**
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_storeConfig;
+
+    /**
+     * @var Magento_Core_Model_Locale
+     */
+    protected $_locale;
 
     /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Website $website
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Locale $locale
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Cache_Type_Config $configCacheType
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Website $website,
+        Magento_Cms_Model_PageFactory $pageFactory,
+        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_Locale $locale
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
         $this->_configCacheType = $configCacheType;
+        $this->_website = $website;
+        $this->_pageFactory = $pageFactory;
+        $this->_storeConfig = $storeConfig;
+        $this->_locale = $locale;
+        parent::__construct($context);
     }
 
     protected function _construct()
     {
-        $this->_cacheKey = $this->_cacheKeyPrefix . Mage::app()->getWebsite()->getId();
+        $this->_cacheKey = $this->_cacheKeyPrefix . $this->_website->getId();
     }
 
     /**
@@ -71,14 +103,17 @@ class Magento_WebsiteRestriction_Controller_Index extends Magento_Core_Controlle
             /**
              * Generating page and save it to cache
              */
-            $page = Mage::getModel('Magento_Cms_Model_Page')
-                ->load($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig($this->_stubPageIdentifier), 'identifier');
+            /** @var Magento_Cms_Model_Page $page */
+            $page = $this->_pageFactory->create()->load(
+                $this->_storeConfig->getConfig($this->_stubPageIdentifier),
+                'identifier'
+            );
 
             $this->_coreRegistry->register('restriction_landing_page', $page);
 
             if ($page->getCustomTheme()) {
-                if (Mage::app()->getLocale()
-                    ->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())
+                if (
+                    $this->_locale->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())
                 ) {
                     $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
                         ->setDesignTheme($page->getCustomTheme());

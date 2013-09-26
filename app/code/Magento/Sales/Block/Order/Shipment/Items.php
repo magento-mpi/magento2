@@ -50,12 +50,22 @@ class Magento_Sales_Block_Order_Shipment_Items extends Magento_Sales_Block_Items
         return $this->_coreRegistry->registry('current_order');
     }
 
-    public function getPrintShipmentUrl($shipment){
-        return Mage::getUrl('*/*/printShipment', array('shipment_id' => $shipment->getId()));
+    /**
+     * @param object $shipment
+     * @return string
+     */
+    public function getPrintShipmentUrl($shipment)
+    {
+        return $this->getUrl('*/*/printShipment', array('shipment_id' => $shipment->getId()));
     }
 
-    public function getPrintAllShipmentsUrl($order){
-        return Mage::getUrl('*/*/printShipment', array('order_id' => $order->getId()));
+    /**
+     * @param object $order
+     * @return string
+     */
+    public function getPrintAllShipmentsUrl($order)
+    {
+        return $this->getUrl('*/*/printShipment', array('order_id' => $order->getId()));
     }
 
     /**

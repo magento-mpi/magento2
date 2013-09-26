@@ -24,10 +24,11 @@ class Magento_SomeModule_Helper_Test
     }
 
     /**
-     * @return Magento_SomeModule_Block_Proxy
+     * @param ModelFactory $factory
+     * @param array $data
      */
-    public function test(ModelFactory $factory)
+    public function test(ModelFactory $factory, array $data = array())
     {
-        return Mage::getModel('Magento_SomeModule_BlockFactory', array('data' => $factory));
+        $factory->create('Magento_SomeModule_BlockFactory', array('data' => $data));
     }
 }

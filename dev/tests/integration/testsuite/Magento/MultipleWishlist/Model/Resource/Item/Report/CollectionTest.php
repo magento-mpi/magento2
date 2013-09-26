@@ -17,7 +17,8 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_CollectionTest extends
 
     public function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_MultipleWishlist_Model_Resource_Item_Report_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_MultipleWishlist_Model_Resource_Item_Report_Collection');
     }
 
     public function testAddCustomerInfo()

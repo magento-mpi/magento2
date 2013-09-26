@@ -16,13 +16,15 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Sales_Model_Resource_Collection_Abstract extends Magento_Core_Model_Resource_Db_Collection_Abstract
+abstract class Magento_Sales_Model_Resource_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Check if $attribute is Magento_Eav_Model_Entity_Attribute and convert to string field name
      *
      * @param string|Magento_Eav_Model_Entity_Attribute $attribute
      * @return string
+     * @throws Magento_Core_Exception
      */
     protected function _attributeToField($attribute)
     {
@@ -33,7 +35,7 @@ abstract class Magento_Sales_Model_Resource_Collection_Abstract extends Magento_
             $field = $attribute->getAttributeCode();
         }
         if (!$field) {
-            Mage::throwException(__('We cannot determine the field name.'));
+            throw new Magento_Core_Exception(__('We cannot determine the field name.'));
         }
         return $field;
     }

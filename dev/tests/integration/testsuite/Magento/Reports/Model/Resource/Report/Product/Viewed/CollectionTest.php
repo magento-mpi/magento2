@@ -18,7 +18,8 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed_CollectionTest extend
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Report_Product_Viewed_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Reports_Model_Resource_Report_Product_Viewed_Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

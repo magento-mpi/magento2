@@ -17,7 +17,8 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget_Instance');
     }
 
     public function testSetGetType()
@@ -105,7 +106,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $this->assertEquals('', $model->generateLayoutUpdateXml('content'));
         $model->setId('test_id')->setPackageTheme('magento_demo');
         $result = $model->generateLayoutUpdateXml('content');
-        $this->assertContains('<reference name="content">', $result);
+        $this->assertContains('<referenceContainer name="content">', $result);
         $this->assertContains('<block class="' . $model->getType() . '"', $result);
         $this->assertEquals(count($params), substr_count($result, '<action method="setData">'));
         $this->assertContains('<argument name="name" xsi:type="string">display_mode</argument>', $result);

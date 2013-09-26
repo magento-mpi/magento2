@@ -10,14 +10,10 @@
 
 /**
  * Order RMA Grid
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
     extends Magento_Rma_Block_Adminhtml_Rma_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Core registry
@@ -27,6 +23,8 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
+     * @param Magento_Rma_Model_RmaFactory $rmaFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -35,6 +33,8 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
+        Magento_Rma_Model_RmaFactory $rmaFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -43,7 +43,7 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($collectionFactory, $rmaFactory, $coreData, $context, $storeManager, $urlModel, $data);
     }
 
     public function _construct()
@@ -69,7 +69,7 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
         }
         if ($orderId) {
             /** @var $collection Magento_Rma_Model_Resource_Rma_Grid_Collection */
-            $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
+            $collection = $this->_collectionFactory->create()
                 ->addFieldToFilter('order_id', $orderId);
             $this->setCollection($collection);
         }

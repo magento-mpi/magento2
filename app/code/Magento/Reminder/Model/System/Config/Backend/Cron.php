@@ -62,7 +62,7 @@ class Magento_Reminder_Model_System_Config_Backend_Cron extends Magento_Core_Mod
 
             Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue((string) $this->_coreConfig->getNode(self::CRON_MODEL_PATH))
+                ->setValue((string) $this->_config->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         }

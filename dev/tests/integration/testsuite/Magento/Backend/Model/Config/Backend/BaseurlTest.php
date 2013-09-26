@@ -20,7 +20,8 @@ class Magento_Backend_Model_Config_Backend_BaseurlTest extends PHPUnit_Framework
     public function testValidation($path, $value)
     {
         /** @var $model Magento_Backend_Model_Config_Backend_Baseurl */
-        $model = Mage::getModel('Magento_Backend_Model_Config_Backend_Baseurl');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Config_Backend_Baseurl');
         $model->setPath($path)->setValue($value)->save();
         $this->assertNotEmpty((int)$model->getId());
     }
@@ -104,7 +105,8 @@ class Magento_Backend_Model_Config_Backend_BaseurlTest extends PHPUnit_Framework
     public function testValidationException($path, $value)
     {
         /** @var $model Magento_Backend_Model_Config_Backend_Baseurl */
-        $model = Mage::getModel('Magento_Backend_Model_Config_Backend_Baseurl');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Config_Backend_Baseurl');
         $model->setPath($path)->setValue($value)->save();
     }
 

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Order creditmemo model
  *
@@ -103,10 +102,6 @@
  * @method Magento_Sales_Model_Order_Creditmemo setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
  * @method Magento_Sales_Model_Order_Creditmemo setBaseShippingInclTax(float $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
 {
@@ -181,15 +176,72 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Sales_Model_Order_Creditmemo_Config
+     */
+    protected $_creditmemoConfig;
+
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Order_Creditmemo_Item_CollectionFactory
+     */
+    protected $_cmItemCollFactory;
+
+    /**
+     * @var Magento_Core_Model_CalculatorFactory
+     */
+    protected $_calculatorFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Sales_Model_Order_Creditmemo_CommentFactory
+     */
+    protected $_commentFactory;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Order_Creditmemo_Comment_CollectionFactory
+     */
+    protected $_commentCollFactory;
+
+    /**
+     * @var Magento_Core_Model_Email_Template_MailerFactory
+     */
+    protected $_templateMailerFactory;
+
+    /**
+     * @var Magento_Core_Model_Email_InfoFactory
+     */
+    protected $_emailInfoFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Sales_Helper_Data $salesData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_LocaleInterface $coreLocale
+     * @param Magento_Sales_Model_Order_Creditmemo_Config $creditmemoConfig
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Sales_Model_Resource_Order_Creditmemo_Item_CollectionFactory $cmItemCollFactory
+     * @param Magento_Core_Model_CalculatorFactory $calculatorFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Sales_Model_Order_Creditmemo_CommentFactory $commentFactory
+     * @param Magento_Sales_Model_Resource_Order_Creditmemo_Comment_CollectionFactory $commentCollFactory
+     * @param Magento_Core_Model_Email_Template_MailerFactory $templateMailerFactory
+     * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -198,6 +250,16 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_LocaleInterface $coreLocale,
+        Magento_Sales_Model_Order_Creditmemo_Config $creditmemoConfig,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Sales_Model_Resource_Order_Creditmemo_Item_CollectionFactory $cmItemCollFactory,
+        Magento_Core_Model_CalculatorFactory $calculatorFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Sales_Model_Order_Creditmemo_CommentFactory $commentFactory,
+        Magento_Sales_Model_Resource_Order_Creditmemo_Comment_CollectionFactory $commentCollFactory,
+        Magento_Core_Model_Email_Template_MailerFactory $templateMailerFactory,
+        Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -206,7 +268,16 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_creditmemoConfig = $creditmemoConfig;
+        $this->_orderFactory = $orderFactory;
+        $this->_cmItemCollFactory = $cmItemCollFactory;
+        $this->_calculatorFactory = $calculatorFactory;
+        $this->_storeManager = $storeManager;
+        $this->_commentFactory = $commentFactory;
+        $this->_commentCollFactory = $commentCollFactory;
+        $this->_templateMailerFactory = $templateMailerFactory;
+        $this->_emailInfoFactory = $emailInfoFactory;
+        parent::__construct($context, $registry, $coreLocale, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -224,7 +295,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      */
     public function getConfig()
     {
-        return Mage::getSingleton('Magento_Sales_Model_Order_Creditmemo_Config');
+        return $this->_creditmemoConfig;
     }
 
     /**
@@ -259,7 +330,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     public function getOrder()
     {
         if (!$this->_order instanceof Magento_Sales_Model_Order) {
-            $this->_order = Mage::getModel('Magento_Sales_Model_Order')->load($this->getOrderId());
+            $this->_order = $this->_orderFactory->create()->load($this->getOrderId());
         }
         return $this->_order->setHistoryEntityName(self::HISTORY_ENTITY_NAME);
     }
@@ -287,8 +358,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Creditmemo_Item_Collection')
-                ->setCreditmemoFilter($this->getId());
+            $this->_items = $this->_cmItemCollFactory->create()->setCreditmemoFilter($this->getId());
 
             if ($this->getId()) {
                 foreach ($this->_items as $item) {
@@ -299,6 +369,9 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         return $this->_items;
     }
 
+    /**
+     * @return array
+     */
     public function getAllItems()
     {
         $items = array();
@@ -313,7 +386,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     public function getItemById($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {
-            if ($item->getId()==$itemId) {
+            if ($item->getId() == $itemId) {
                 return $item;
             }
         }
@@ -372,8 +445,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     {
         if ($price) {
             if (!isset($this->_calculators[$type])) {
-                $this->_calculators[$type] = Mage::getModel('Magento_Core_Model_Calculator',
-                    array('store' => $this->getStore()));
+                $this->_calculators[$type] = $this->_calculatorFactory->create(array('store' => $this->getStore()));
             }
             $price = $this->_calculators[$type]->deltaRound($price, $negative);
         }
@@ -385,7 +457,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         if ($this->getState() != self::STATE_CANCELED
             && $this->getState() != self::STATE_REFUNDED
             && $this->getOrder()->getPayment()->canRefund()
-            ) {
+        ) {
             return true;
         }
         return false;
@@ -402,14 +474,14 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     }
 
     /**
-     * Check invice void action availability
+     * Check invoice void action availability
      *
      * @return bool
      */
     public function canVoid()
     {
-        $canVoid = false;
         return false;
+        $canVoid = false;
         if ($this->getState() == self::STATE_REFUNDED) {
             $canVoid = $this->getCanVoidFlag();
             /**
@@ -421,9 +493,8 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
                     $this->setCanVoidFlag(false);
                     $this->_saveBeforeDestruct = true;
                 }
-            }
-            else {
-                $canVoid = (bool) $canVoid;
+            } else {
+                $canVoid = (bool)$canVoid;
             }
         }
         return $canVoid;
@@ -433,18 +504,18 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     public function refund()
     {
         $this->setState(self::STATE_REFUNDED);
-        $orderRefund = Mage::app()->getStore()->roundPrice(
-            $this->getOrder()->getTotalRefunded()+$this->getGrandTotal()
+        $orderRefund = $this->_storeManager->getStore()->roundPrice(
+            $this->getOrder()->getTotalRefunded() + $this->getGrandTotal()
         );
-        $baseOrderRefund = Mage::app()->getStore()->roundPrice(
+        $baseOrderRefund = $this->_storeManager->getStore()->roundPrice(
             $this->getOrder()->getBaseTotalRefunded()+$this->getBaseGrandTotal()
         );
 
-        if ($baseOrderRefund > Mage::app()->getStore()->roundPrice($this->getOrder()->getBaseTotalPaid())) {
+        if ($baseOrderRefund > $this->_storeManager->getStore()->roundPrice($this->getOrder()->getBaseTotalPaid())) {
 
             $baseAvailableRefund = $this->getOrder()->getBaseTotalPaid()- $this->getOrder()->getBaseTotalRefunded();
 
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('The most money available to refund is %1.', $this->getOrder()->formatBasePrice($baseAvailableRefund))
             );
         }
@@ -487,7 +558,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
             $order->getPayment()->refund($this);
         }
 
-        $this->_eventManager->dispatch('sales_order_creditmemo_refund', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_creditmemo_refund', array($this->_eventObject => $this));
         return $this;
     }
 
@@ -511,8 +582,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
             $this->getOrder()->setBaseTotalOnlineRefunded(
                 $this->getOrder()->getBaseTotalOnlineRefunded()-$this->getBaseGrandTotal()
             );
-        }
-        else {
+        } else {
             $this->getOrder()->setTotalOfflineRefunded(
                 $this->getOrder()->getTotalOfflineRefunded()-$this->getGrandTotal()
             );
@@ -544,20 +614,18 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      * Apply to order, order items etc.
      *
      * @return Magento_Sales_Model_Order_Creditmemo
+     * @throws Magento_Core_Exception
      */
     public function register()
     {
         if ($this->getId()) {
-            Mage::throwException(
-                __('We cannot register an existing credit memo.')
-            );
+            throw new Magento_Core_Exception(__('We cannot register an existing credit memo.'));
         }
 
         foreach ($this->getAllItems() as $item) {
-            if ($item->getQty()>0) {
+            if ($item->getQty() > 0) {
                 $item->register();
-            }
-            else {
+            } else {
                 $item->isDeleted(true);
             }
         }
@@ -570,23 +638,22 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
 
         if ($this->getDoTransaction()) {
             $this->getOrder()->setTotalOnlineRefunded(
-                $this->getOrder()->getTotalOnlineRefunded()+$this->getGrandTotal()
+                $this->getOrder()->getTotalOnlineRefunded() + $this->getGrandTotal()
             );
             $this->getOrder()->setBaseTotalOnlineRefunded(
-                $this->getOrder()->getBaseTotalOnlineRefunded()+$this->getBaseGrandTotal()
+                $this->getOrder()->getBaseTotalOnlineRefunded() + $this->getBaseGrandTotal()
             );
-        }
-        else {
+        } else {
             $this->getOrder()->setTotalOfflineRefunded(
-                $this->getOrder()->getTotalOfflineRefunded()+$this->getGrandTotal()
+                $this->getOrder()->getTotalOfflineRefunded() + $this->getGrandTotal()
             );
             $this->getOrder()->setBaseTotalOfflineRefunded(
-                $this->getOrder()->getBaseTotalOfflineRefunded()+$this->getBaseGrandTotal()
+                $this->getOrder()->getBaseTotalOfflineRefunded() + $this->getBaseGrandTotal()
             );
         }
 
         $this->getOrder()->setBaseTotalInvoicedCost(
-            $this->getOrder()->getBaseTotalInvoicedCost()-$this->getBaseCost()
+            $this->getOrder()->getBaseTotalInvoicedCost() - $this->getBaseCost()
         );
 
         $state = $this->getState();
@@ -634,6 +701,10 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         return __('Unknown State');
     }
 
+    /**
+     * @param float $amount
+     * @return $this
+     */
     public function setShippingAmount($amount)
     {
         // base shipping amount calculated in total model
@@ -647,12 +718,15 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         return $this;
     }
 
-
+    /**
+     * @param string $amount
+     * @return $this
+     */
     public function setAdjustmentPositive($amount)
     {
         $amount = trim($amount);
         if (substr($amount, -1) == '%') {
-            $amount = (float) substr($amount, 0, -1);
+            $amount = (float)substr($amount, 0, -1);
             $amount = $this->getOrder()->getGrandTotal() * $amount / 100;
         }
 
@@ -666,6 +740,10 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         return $this;
     }
 
+    /**
+     * @param string $amount
+     * @return $this
+     */
     public function setAdjustmentNegative($amount)
     {
         $amount = trim($amount);
@@ -694,10 +772,10 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      *
      * @return Magento_Sales_Model_Order_Creditmemo_Comment
      */
-    public function addComment($comment, $notify=false, $visibleOnFront=false)
+    public function addComment($comment, $notify = false, $visibleOnFront = false)
     {
         if (!($comment instanceof Magento_Sales_Model_Order_Creditmemo_Comment)) {
-            $comment = Mage::getModel('Magento_Sales_Model_Order_Creditmemo_Comment')
+            $comment = $this->_commentFactory->create()
                 ->setComment($comment)
                 ->setIsCustomerNotified($notify)
                 ->setIsVisibleOnFront($visibleOnFront);
@@ -712,10 +790,14 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         return $comment;
     }
 
-    public function getCommentsCollection($reload=false)
+    /**
+     * @param bool $reload
+     * @return Magento_Sales_Model_Resource_Order_Creditmemo_Comment_Collection
+     */
+    public function getCommentsCollection($reload = false)
     {
         if (is_null($this->_comments) || $reload) {
-            $this->_comments = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Creditmemo_Comment_Collection')
+            $this->_comments = $this->_commentCollFactory->create()
                 ->setCreditmemoFilter($this->getId())
                 ->setCreatedAtOrder();
             /**
@@ -768,9 +850,9 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
+        $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
-            $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+            $emailInfo = $this->_emailInfoFactory->create();
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -784,7 +866,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+                $emailInfo = $this->_emailInfoFactory->create();
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -842,9 +924,9 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
+        $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
-            $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+            $emailInfo = $this->_emailInfoFactory->create();
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -858,7 +940,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+                $emailInfo = $this->_emailInfoFactory->create();
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -869,17 +951,20 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         $mailer->setStoreId($storeId);
         $mailer->setTemplateId($templateId);
         $mailer->setTemplateParams(array(
-                'order'      => $order,
-                'creditmemo' => $this,
-                'comment'    => $comment,
-                'billing'    => $order->getBillingAddress()
-            )
-        );
+            'order'      => $order,
+            'creditmemo' => $this,
+            'comment'    => $comment,
+            'billing'    => $order->getBillingAddress()
+        ));
         $mailer->send();
 
         return $this;
     }
 
+    /**
+     * @param string $configPath
+     * @return array|bool
+     */
     protected function _getEmails($configPath)
     {
         $data = $this->_coreStoreConfig->getConfig($configPath, $this->getStoreId());
@@ -889,6 +974,9 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         return false;
     }
 
+    /**
+     * @return Magento_Core_Model_Abstract
+     */
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
@@ -902,13 +990,13 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      */
     protected function _afterSave()
     {
-        if (null != $this->_items) {
+        if (null !== $this->_items) {
             foreach ($this->_items as $item) {
                 $item->save();
             }
         }
 
-        if (null != $this->_comments) {
+        if (null !== $this->_comments) {
             foreach($this->_comments as $comment) {
                 $comment->save();
             }

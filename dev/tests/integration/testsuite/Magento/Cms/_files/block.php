@@ -10,7 +10,8 @@
  */
 
 /** @var $block Magento_Cms_Model_Block */
-$block = Mage::getModel('Magento_Cms_Model_Block');
+$block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Cms_Model_Block');
 $block->setTitle('CMS Block Title')
     ->setIdentifier('fixture_block')
     ->setContent('<h1>Fixture Block Title</h1>
@@ -19,6 +20,9 @@ $block->setTitle('CMS Block Title')
 <p>Custom variable: "{{customvar code="variable_code"}}".</p>
 ')
     ->setIsActive(1)
-    ->setStores(array(Mage::app()->getStore()->getId()))
+    ->setStores(array(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getId()
+    ))
     ->save()
 ;

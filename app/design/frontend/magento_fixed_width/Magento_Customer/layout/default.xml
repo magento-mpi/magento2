@@ -9,11 +9,11 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <move element="authorization-link" destination="account.links"/>
-    <reference name="account.links">
+    <referenceBlock name="account.links">
         <block class="Magento_Customer_Block_Account_RegisterLink" name="register-link">
             <arguments>
                 <argument name="label" xsi:type="string">register</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

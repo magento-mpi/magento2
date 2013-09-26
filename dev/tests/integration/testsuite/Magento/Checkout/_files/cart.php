@@ -14,7 +14,7 @@ $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->get('Magento_Core_Model_Registry')->unregister('_singleton/Magento_Checkout_Model_Session');
 $objectManager->get('Magento_Core_Model_Registry')->unregister('_singleton/Magento_Checkout_Model_Cart');
 /** @var $cart Magento_Checkout_Model_Cart */
-$cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
+$cart = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Checkout_Model_Cart');
 
 $cart->addProduct($product, $requestInfo);
 $cart->save();

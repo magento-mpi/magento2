@@ -20,7 +20,8 @@ class Magento_Wishlist_Controller_IndexTest extends Magento_TestFramework_TestCa
     {
         parent::setUp();
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_customerSession = Mage::getModel('Magento_Customer_Model_Session', array($logger));
+        $this->_customerSession = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Session', array($logger));
         $this->_customerSession->login('customer@example.com', 'password');
     }
 

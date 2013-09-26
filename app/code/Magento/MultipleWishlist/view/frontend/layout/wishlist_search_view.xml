@@ -8,17 +8,17 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Wishlist View (From Search)" type="page" parent="default">
-    <reference name="head">
+    <referenceBlock name="head">
         <action method="setTitle" ifconfig="wishlist/general/multiple_enabled">
             <argument translate="true" name="title" xsi:type="string">Wish List Info</argument>
         </action>
-    </reference>
-    <reference name="root">
+    </referenceBlock>
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_MultipleWishlist_Block_Info" name="customer.wishlist.info" template="info.phtml">
             <block class="Magento_Wishlist_Block_Customer_Wishlist_Items" name="wishlist.view.items" as="items" template="Magento_Wishlist::item/list.phtml">
                 <block class="Magento_MultipleWishlist_Block_Customer_Wishlist_Item_Column_Selector_Cart" name="customer.wishlist.item.selector" after="-" template="item/column/selector.phtml">
@@ -60,5 +60,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

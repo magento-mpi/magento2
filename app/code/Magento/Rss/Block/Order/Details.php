@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Magento_Rss_Block_Order_Details extends Magento_Core_Block_Template
 {
 

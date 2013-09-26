@@ -10,10 +10,6 @@
 
 /**
  * Persistent front controller
- *
- * @category   Magento
- * @package    Magento_Persistent
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_Action
 {
@@ -23,6 +19,57 @@ class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_
      * @var bool
      */
     protected $_clearCheckoutSession = true;
+
+    /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Checkout session
+     *
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Persistent observer
+     *
+     * @var Magento_Persistent_Model_Observer
+     */
+    protected $_persistentObserver;
+
+    /**
+     * Core session model
+     *
+     * @var Magento_Core_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Session $session
+     * @param Magento_Persistent_Model_Observer $persistentObserver
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Customer_Model_Session $customerSession
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Session $session,
+        Magento_Persistent_Model_Observer $persistentObserver,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Customer_Model_Session $customerSession
+    ) {
+        $this->_session = $session;
+        $this->_persistentObserver = $persistentObserver;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        parent::__construct($context);
+    }
 
     /**
      * Set whether clear checkout session when logout
@@ -66,12 +113,11 @@ class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_
     protected function _cleanup()
     {
         $this->_eventManager->dispatch('persistent_session_expired');
-        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
-        $customerSession
+        $this->_customerSession
             ->setCustomerId(null)
             ->setCustomerGroupId(null);
         if ($this->_clearCheckoutSession) {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->unsetAll();
+            $this->_checkoutSession->unsetAll();
         }
         $this->_getHelper()->getSession()->removePersistentCookie();
         return $this;
@@ -84,14 +130,12 @@ class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_
     {
         if ($this->_getHelper()->isPersistent()) {
             $this->_getHelper()->getSession()->removePersistentCookie();
-            /** @var $customerSession Magento_Customer_Model_Session */
-            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
-            if (!$customerSession->isLoggedIn()) {
-                $customerSession->setCustomerId(null)
+            if (!$this->_customerSession->isLoggedIn()) {
+                $this->_customerSession->setCustomerId(null)
                     ->setCustomerGroupId(null);
             }
 
-            Mage::getSingleton('Magento_Persistent_Model_Observer')->setQuoteGuest();
+            $this->_persistentObserver->setQuoteGuest();
         }
 
         $checkoutUrl = $this->_getRefererUrl();
@@ -104,9 +148,7 @@ class Magento_Persistent_Controller_Index extends Magento_Core_Controller_Front_
      */
     public function expressCheckoutAction()
     {
-        Mage::getSingleton('Magento_Core_Model_Session')->addNotice(
-            __('Your shopping cart has been updated with new prices.')
-        );
+        $this->_session->addNotice(__('Your shopping cart has been updated with new prices.'));
         $this->_redirect('checkout/cart');
     }
 }

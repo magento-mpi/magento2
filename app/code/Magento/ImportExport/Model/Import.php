@@ -20,11 +20,6 @@
  */
 class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstract
 {
-    /**
-     * Import entities config key
-     */
-    const CONFIG_KEY_ENTITIES = 'global/importexport/import_entities';
-
     /**#@+
      * Import behaviors
      */
@@ -78,9 +73,9 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     protected $_importExportData = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_ImportExport_Model_Import_ConfigInterface
      */
-    protected $_coreConfig;
+    protected $_importConfig;
 
     /**
      * @var Magento_ImportExport_Model_Config
@@ -144,7 +139,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
         Magento_Core_Model_Log_AdapterFactory $adapterFactory,
         Magento_ImportExport_Helper_Data $importExportData,
         Magento_Core_Model_Config $coreConfig,
-        Magento_ImportExport_Model_Config $config,
+        Magento_ImportExport_Model_Import_ConfigInterface $importConfig,
         Magento_ImportExport_Model_Import_Entity_Factory $entityFactory,
         Magento_ImportExport_Model_Resource_Import_Data $importData,
         Magento_ImportExport_Model_Export_Adapter_CsvFactory $csvFactory,
@@ -156,7 +151,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     ) {
         $this->_importExportData = $importExportData;
         $this->_coreConfig = $coreConfig;
-        $this->_config = $config;
+        $this->_importConfig = $importConfig;
         $this->_entityFactory = $entityFactory;
         $this->_importData = $importData;
         $this->_csvFactory = $csvFactory;
@@ -176,11 +171,11 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     protected function _getEntityAdapter()
     {
         if (!$this->_entityAdapter) {
-            $entityTypes = $this->_config->getModels(self::CONFIG_KEY_ENTITIES);
+            $entities = $this->_importConfig->getEntities();
 
-            if (isset($entityTypes[$this->getEntity()])) {
+            if (isset($entities[$this->getEntity()])) {
                 try {
-                    $this->_entityAdapter = $this->_entityFactory->create($entityTypes[$this->getEntity()]['model']);
+                    $this->_entityAdapter = $this->_entityFactory->create($entities[$this->getEntity()]['model']);
                 } catch (Exception $e) {
                     $this->_logger->logException($e);
                     throw new Magento_Core_Exception(
@@ -621,21 +616,20 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
      *     ...
      * )
      *
-     * @static
      * @return array
      */
     public function getEntityBehaviors()
     {
         $behaviourData = array();
-        $entitiesConfig = $this->_coreConfig->getNode(self::CONFIG_KEY_ENTITIES)->asArray();
-        foreach ($entitiesConfig as $entityCode => $entityData) {
-            $behaviorToken = isset($entityData['behavior_token']) ? $entityData['behavior_token'] : null;
-            if ($behaviorToken && class_exists($behaviorToken)) {
-                /** @var $behaviorModel Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
-                $behaviorModel = $this->_behaviorFactory->create($behaviorToken);
+        $entities = $this->_importConfig->getEntities();
+        foreach ($entities as $entityCode => $entityData) {
+            $behaviorClassName = isset($entityData['behaviorModel']) ? $entityData['behaviorModel'] : null;
+            if ($behaviorClassName && class_exists($behaviorClassName)) {
+                /** @var $behavior Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
+                $behavior = $this->_behaviorFactory->create($behaviorClassName);
                 $behaviourData[$entityCode] = array(
-                    'token' => $behaviorToken,
-                    'code'  => $behaviorModel->getCode() . '_behavior',
+                    'token' => $behaviorClassName,
+                    'code'  => $behavior->getCode() . '_behavior',
                 );
             } else {
                 throw new Magento_Core_Exception(__('Invalid behavior token for %1', $entityCode));
@@ -651,7 +645,6 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
      *     ...
      * )
      *
-     * @static
      * @return array
      */
     public function getUniqueEntityBehaviors()

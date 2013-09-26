@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="SHORTCUT_popup"/>
-    <reference name="right">
+    <referenceContainer name="right">
         <block class="Magento_Paypal_Block_Logo" name="paypal.partner.right.logo" template="partner/logo.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

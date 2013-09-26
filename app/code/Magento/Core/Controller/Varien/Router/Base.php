@@ -73,6 +73,13 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_routes;
 
     /**
+     * Url security information.
+     *
+     * @var Magento_Core_Model_Url_SecurityInfoInterface
+     */
+    protected $_urlSecurityInfo;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -91,13 +98,13 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
-     * @param Magento_Core_Model_Route_Config $routeConfig
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo
      * @param Magento_Core_Model_Config $config
-     * @param string $areaCode
-     * @param string $baseController
-     * @param string $routerId
-     * @throws InvalidArgumentException
+     * @param $areaCode
+     * @param $baseController
+     * @param $routerId
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
@@ -106,6 +113,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo,
         Magento_Core_Model_Config $config,
         $areaCode,
         $baseController,
@@ -118,11 +126,12 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         $this->_areaCode        = $areaCode;
         $this->_baseController  = $baseController;
         $this->_configScope     = $configScope;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_config          = $config;
-        $this->_configScope     = $configScope;
         $this->_routeConfig     = $routeConfig;
         $this->_routerId        = $routerId;
+        $this->_urlSecurityInfo = $urlSecurityInfo;
+        $this->_configScope     = $configScope;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_config          = $config;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new InvalidArgumentException("Not enough options to initialize router.");
@@ -637,7 +646,8 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     }
 
     /**
-     * Check whether URL for corresponding path should use https protocol
+     * Check whether given path should be secure according to configuration security requirements for URL
+     * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
      *
      * @param string $path
      * @return bool
@@ -647,6 +657,6 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         return substr($this->_coreStoreConfig->getConfig('web/unsecure/base_url'), 0, 5) === 'https'
             || $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_frontend')
                 && substr($this->_coreStoreConfig->getConfig('web/secure/base_url'), 0, 5) == 'https'
-                && $this->_config->shouldUrlBeSecure($path);
+                && $this->_urlSecurityInfo->isSecure($path);
     }
 }

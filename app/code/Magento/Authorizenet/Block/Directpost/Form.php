@@ -29,14 +29,25 @@ class Magento_Authorizenet_Block_Directpost_Form extends Magento_Payment_Block_F
      */
     protected $_checkoutModel;
 
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Payment_Model_Config $paymentConfig
+     * @param Magento_Authorizenet_Model_Directpost $model
+     * @param Magento_Checkout_Model_Type_Onepage $checkoutModel
+     * @param array $data
+     */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
         Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Payment_Model_Config $paymentConfig,
         Magento_Authorizenet_Model_Directpost $model,
         Magento_Checkout_Model_Type_Onepage $checkoutModel,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $paymentConfig, $data);
         $this->_model = $model;
         $this->_checkoutModel = $checkoutModel;
     }

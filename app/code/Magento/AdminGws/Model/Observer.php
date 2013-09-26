@@ -1,24 +1,16 @@
 <?php
 /**
+ * Permissions observer
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Permissions observer
- *
- */
 class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Abstract
 {
-    const XML_PATH_ACL_DENY_RULES = 'adminhtml/magento/admingws/acl_deny';
-    const XML_PATH_VALIDATE_CALLBACK = 'adminhtml/magento/admingws/';
-
-    const ACL_WEBSITE_LEVEL = 'website_level';
-    const ACL_STORE_LEVEL = 'store_level';
+    const ACL_WEBSITE_LEVEL = 'website';
+    const ACL_STORE_LEVEL = 'store';
 
     /**
      * @var Magento_Core_Model_Resource_Store_Group_Collection
@@ -28,12 +20,12 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     protected $_controllersMap = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_AdminGws_Model_ConfigInterface
      */
-    protected $_coreConfig;
+    protected $_config;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -43,19 +35,62 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     protected $_request;
 
     /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Acl_Builder
+     */
+    protected $_aclBuilder;
+
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Magento_User_Model_Resource_Role_Collection
+     */
+    protected $_userRoles;
+
+    /**
+     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Acl_Builder $aclBuilder
+     * @param Magento_ObjectManager $objectManager
+     * @param Magento_User_Model_Resource_Role_Collection $userRoles
+     * @param Magento_Core_Model_Resource_Store_Group_Collection $storeGroups
      * @param Magento_AdminGws_Model_Role $role
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_AdminGws_Model_ConfigInterface $config
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
+        Magento_Backend_Model_Auth_Session $backendAuthSession,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Acl_Builder $aclBuilder,
+        Magento_ObjectManager $objectManager,
+        Magento_User_Model_Resource_Role_Collection $userRoles,
+        Magento_Core_Model_Resource_Store_Group_Collection $storeGroups,
         Magento_AdminGws_Model_Role $role,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_AdminGws_Model_ConfigInterface $config,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Controller_Request_Http $request
     ) {
+        $this->_backendAuthSession = $backendAuthSession;
+        $this->_systemStore = $systemStore;
+        $this->_aclBuilder = $aclBuilder;
+        $this->_objectManager = $objectManager;
+        $this->_userRoles = $userRoles;
+        $this->_storeGroupCollection = $storeGroups;
         parent::__construct($role);
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $config;
         $this->_storeManager = $storeManager;
         $this->_request = $request;
     }
@@ -84,8 +119,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
                 $storeGroupIds[] = $storeGroup->getId();
             }
             $object->setGwsStoreGroups($storeGroupIds);
-        }
-        else {
+        } else {
             // set selected website ids
             $websiteIds = ($object->getData('gws_websites') != '' ?
                     explode(',', $object->getData('gws_websites')) :
@@ -95,8 +129,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
             // set either the set store group ids or all of allowed websites
             if ($object->getData('gws_store_groups') != '') {
                 $storeGroupIds = explode(',', $object->getData('gws_store_groups'));
-            }
-            else {
+            } else {
                 if ($websiteIds) {
                     foreach ($this->_getAllStoreGroups() as $storeGroup) {
                         if (in_array($storeGroup->getWebsiteId(), $websiteIds)) {
@@ -136,11 +169,6 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
      */
     protected function _getAllStoreGroups()
     {
-        if (null === $this->_storeGroupCollection) {
-            $this->_storeGroupCollection = Mage::getResourceSingleton(
-                    'Magento_Core_Model_Resource_Store_Group_Collection'
-                );
-        }
         return $this->_storeGroupCollection;
     }
 
@@ -172,8 +200,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
 
         if (empty($websiteIds)) {
             $websiteIds = array();
-        }
-        else {
+        } else {
             if (!is_array($websiteIds)) {
                 $websiteIds = explode(',', $websiteIds);
             }
@@ -194,8 +221,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         }
         if (empty($storeGroupIds)) {
             $storeGroupIds = array();
-        }
-        else {
+        } else {
             if (!is_array($storeGroupIds)) {
                 $storeGroupIds = explode(',', $storeGroupIds);
             }
@@ -253,8 +279,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     {
         $oldWebsiteId = (string)$observer->getEvent()->getOldWebsiteId();
         $newWebsiteId = (string)$observer->getEvent()->getNewWebsiteId();
-        $roles = Mage::getResourceSingleton('Magento_User_Model_Resource_Role_Collection');
-        foreach ($roles as $role) {
+        foreach ($this->_userRoles as $role) {
             $shouldRoleBeUpdated = false;
             $roleWebsites = explode(',', $role->getGwsWebsites());
             if ((!$role->getGwsIsAll()) && $role->getGwsWebsites()) {
@@ -277,12 +302,9 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
      */
     public function adminControllerPredispatch($observer)
     {
-        /* @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-
-        if ($session->isLoggedIn()) {
+        if ($this->_backendAuthSession->isLoggedIn()) {
             // load role with true websites and store groups
-            $this->_role->setAdminRole($session->getUser()->getRole());
+            $this->_role->setAdminRole($this->_backendAuthSession->getUser()->getRole());
 
             if (!$this->_role->getIsAll()) {
                 // disable single store mode
@@ -297,7 +319,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
                     $this->_denyAclLevelRules(self::ACL_STORE_LEVEL);
                 }
                 // cleanup dropdowns for forms/grids that are supposed to be built in future
-                Mage::getSingleton('Magento_Core_Model_System_Store')->setIsAdminScopeAllowed(false)->reload();
+                $this->_systemStore->setIsAdminScopeAllowed(false)->reload();
             }
 
             // inject into request predispatch to block disallowed actions
@@ -337,14 +359,8 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
      */
     protected function _denyAclLevelRules($level)
     {
-         /* @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-
-        /* @var $session Magento_Acl_Builder */
-        $builder = Mage::getSingleton('Magento_Acl_Builder');
-
-        foreach ($this->_coreConfig->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
-            $builder->getAcl()->deny($session->getUser()->getAclRole(), $rule);
+        foreach ($this->_config->getDeniedAclResources($level) as $rule) {
+            $this->_aclBuilder->getAcl()->deny($this->_backendAuthSession->getUser()->getAclRole(), $rule);
         }
         return $this;
     }
@@ -434,17 +450,14 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         // initialize controllers map
         if (null === $this->_controllersMap) {
             $this->_controllersMap = array('full' => array(), 'partial' => array());
-            $children = $this->_coreConfig->getNode(self::XML_PATH_VALIDATE_CALLBACK . 'controller_predispatch')
-                ->children();
-            foreach ($children as $actionName => $method) {
+            foreach ($this->_config->getCallbacks('controller_predispatch') as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
                 if ($action) {
                     $this->_controllersMap['full'][$module][$controller][$action] =
-                        $this->_recognizeCallbackString((string)$method);
-                }
-                else {
+                        $this->_recognizeCallbackString($method);
+                } else {
                     $this->_controllersMap['partial'][$module][$controller] =
-                        $this->_recognizeCallbackString((string)$method);
+                        $this->_recognizeCallbackString($method);
                 }
             }
         }
@@ -458,8 +471,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
             && isset($this->_controllersMap['full'][$routeName][$controllerName])
             && isset($this->_controllersMap['full'][$routeName][$controllerName][$actionName])) {
             $callback = $this->_controllersMap['full'][$routeName][$controllerName][$actionName];
-        }
-        elseif (isset($this->_controllersMap['partial'][$routeName])
+        } elseif (isset($this->_controllersMap['partial'][$routeName])
             && isset($this->_controllersMap['partial'][$routeName][$controllerName])) {
             $callback = $this->_controllersMap['partial'][$routeName][$controllerName];
         }
@@ -509,8 +521,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         // gather callbacks from mapper configuration
         if (!isset($this->_callbacks[$callbackGroup])) {
             $this->_callbacks[$callbackGroup] = array();
-            $callbacks = (array)$this->_coreConfig->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
-            foreach ($callbacks as $className => $callback) {
+            foreach ($this->_config->getCallbacks($callbackGroup) as $className => $callback) {
                 $className = uc_words($className);
 
                 /*
@@ -519,7 +530,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
                  *
                  * Note: Commented bc in case of Models this will result in not working
                  * observers for those models. In first call of this function observers for models will be not
-                 * added into _callbacks bc their class are not loaded (included) yeat.
+                 * added into _callbacks bc their class are not loaded (included) yet.
                  *
                  * So in result there will be garbage (non existing classes) in _callbacks
                  * but it will be initialized faster without __autoload calls.
@@ -539,8 +550,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         $result = false;
         if (isset($this->_callbacks[$callbackGroup][$instanceClass])) {
             $result = $this->_callbacks[$callbackGroup][$instanceClass];
-        }
-        else {
+        } else {
             foreach ($this->_callbacks[$callbackGroup] as $className => $callback) {
                 if ($instance instanceof $className) {
                     $result = $callback;
@@ -571,15 +581,15 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
      *
      * @param string|array $callback
      * @param string $defaultFactoryClassName
-     * @param object $passthroughObject
+     * @param object $passThroughObject
      */
-    protected function _invokeCallback($callback, $defaultFactoryClassName, $passthroughObject)
+    protected function _invokeCallback($callback, $defaultFactoryClassName, $passThroughObject)
     {
         $class  = $defaultFactoryClassName;
         $method = $callback;
         if (is_array($callback)) {
             list($class, $method) = $callback;
         }
-        Mage::getSingleton($class)->$method($passthroughObject);
+        $this->_objectManager->get($class)->$method($passThroughObject);
     }
 }

@@ -8,13 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Guest Order View Return" type="page" parent="magento_rma_return_view_handle">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
     <update handle="customer_account"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Sales_Block_Order_Info" as="info" name="sales.order.info">
             <block class="Magento_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons">
                 <block class="Magento_Rma_Block_Order_Button" name="magento.rma.info.button" template="order/button.phtml"/>
@@ -24,7 +24,7 @@
             <container name="rma.return.history.info" as="info" label="View Return"/>
         </block>
         <block class="Magento_Rma_Block_Return_View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
-    </reference>
+    </referenceContainer>
     <update handle="magento_rma_return_view_handle"/>
     <update handle="sales_order_info_rma_guest_links"/>
     <block class="Magento_Rma_Block_Return_Tracking" name="rma.return.tracking" as="tracking"/>

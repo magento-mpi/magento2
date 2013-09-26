@@ -29,10 +29,6 @@
  * @method Magento_Sales_Model_Billing_Agreement setStoreId(int $value)
  * @method string getAgreementLabel()
  * @method Magento_Sales_Model_Billing_Agreement setAgreementLabel(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billing_AgreementAbstract
 {
@@ -47,8 +43,42 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
     protected $_relatedOrders = array();
 
     /**
+     * @var Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory
+     */
+    protected $_billingAgreementFactory;
+
+    /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_dateFactory;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory $billingAgreementFactory
+     * @param Magento_Core_Model_Date $dateFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Sales_Model_Resource_Billing_Agreement_CollectionFactory $billingAgreementFactory,
+        Magento_Core_Model_Date $dateFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($paymentData, $context, $registry, $resource, $resourceCollection, $data);
+        $this->_billingAgreementFactory = $billingAgreementFactory;
+        $this->_dateFactory = $dateFactory;
+    }
+
+    /**
      * Init model
-     *
      */
     protected function _construct()
     {
@@ -62,7 +92,7 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
      */
     protected function _beforeSave()
     {
-        $date = Mage::getModel('Magento_Core_Model_Date')->gmtDate();
+        $date = $this->_dateFactory->create()->gmtDate();
         if ($this->isObjectNew() && !$this->getCreatedAt()) {
             $this->setCreatedAt($date);
         } else {
@@ -96,6 +126,8 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
                 return __('Active');
             case self::STATUS_CANCELED:
                 return __('Canceled');
+            default:
+                return '';
         }
     }
 
@@ -227,12 +259,12 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
     /**
      * Retrieve available customer Billing Agreements
      *
-     * @param int $customer
-     * @return Magento_Paypal_Controller_Express_Abstract
+     * @param int $customerId
+     * @return Magento_Sales_Model_Resource_Billing_Agreement_Collection
      */
     public function getAvailableCustomerBillingAgreements($customerId)
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Billing_Agreement_Collection');
+        $collection = $this->_billingAgreementFactory->create();
         $collection->addFieldToFilter('customer_id', $customerId)
             ->addFieldToFilter('status', self::STATUS_ACTIVE)
             ->setOrder('agreement_id');
@@ -268,9 +300,8 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
     protected function _saveOrderRelations()
     {
         foreach ($this->_relatedOrders as $order) {
-            $orderId = $order instanceof Magento_Sales_Model_Order ? $order->getId() : (int) $order;
+            $orderId = $order instanceof Magento_Sales_Model_Order ? $order->getId() : (int)$order;
             $this->getResource()->addOrderRelation($this->getId(), $orderId);
         }
     }
-
 }

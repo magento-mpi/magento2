@@ -15,7 +15,8 @@ class Magento_Tax_Model_Resource_Report_CollectionTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Tax_Model_Resource_Report_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Tax_Model_Resource_Report_Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

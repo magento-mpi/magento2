@@ -10,7 +10,8 @@
  */
 $customers = array();
 
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+$customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Customer_Model_Customer');
 
 $customer->setWebsiteId(1)
     ->setEntityId(1)
@@ -29,7 +30,8 @@ $customer->isObjectNew(true);
 $customer->save();
 $customers[] = $customer;
 
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+$customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(2)
     ->setEntityTypeId(1)
@@ -47,7 +49,8 @@ $customer->isObjectNew(true);
 $customer->save();
 $customers[] = $customer;
 
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+$customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(3)
     ->setEntityTypeId(1)

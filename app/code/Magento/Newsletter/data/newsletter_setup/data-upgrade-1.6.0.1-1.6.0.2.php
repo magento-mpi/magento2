@@ -8,8 +8,9 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Core_Model_Resource_Setup_Migration */
-$installer = Mage::getResourceModel('Magento_Core_Model_Resource_Setup_Migration', array('resourceName' => 'core_setup'));
+/** @var Magento_Newsletter_Model_Resource_Setup $this */
+
+$installer = $this->getSetupMigration();
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('newsletter_template', 'template_text',

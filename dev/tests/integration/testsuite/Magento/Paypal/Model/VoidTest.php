@@ -23,16 +23,20 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $moduleList = $objectManager->get('Magento_Core_Model_ModuleListInterface');
         $paymentData = $objectManager->get('Magento_Payment_Helper_Data');
         $coreStoreConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+        $logger = $objectManager->get('Magento_Core_Model_Logger');
+        $logAdapterFactory = $objectManager->get('Magento_Core_Model_Log_AdapterFactory');
+        $locale = $objectManager->get('Magento_Core_Model_LocaleInterface');
+        $centinelService = $objectManager->get('Magento_Centinel_Model_Service');
 
         /** @var $order Magento_Sales_Model_Order */
         $order = $objectManager->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $payment = $order->getPayment();
 
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         /** @var Magento_Paypal_Model_Payflowpro $instance */
         $instance = $this->getMock('Magento_Paypal_Model_Payflowpro', array('_postRequest'),
-            array($eventManager, $coreData, $moduleList, $coreStoreConfig, $paymentData, $logger));
+            array($logger, $eventManager, $coreStoreConfig, $coreData, $moduleList, $paymentData, $logAdapterFactory,
+                $locale, $centinelService));
 
         $response = new Magento_Object(array(
             'result' => '0',
@@ -52,7 +56,8 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $payment->void(new Magento_Object);
         $order->save();
 
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->canVoidPayment());
     }

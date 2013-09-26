@@ -26,12 +26,20 @@ class Magento_Reward_Model_Total_Quote_Reward extends Magento_Sales_Model_Quote_
     protected $_rewardData = null;
 
     /**
+     * @var Magento_Reward_Model_RewardFactory
+     */
+    protected $_rewardFactory;
+
+    /**
      * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Reward_Model_RewardFactory $rewardFactory
      */
     public function __construct(
-        Magento_Reward_Helper_Data $rewardData
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Reward_Model_RewardFactory $rewardFactory
     ) {
         $this->_rewardData = $rewardData;
+        $this->_rewardFactory = $rewardFactory;
         $this->setCode('reward');
     }
 
@@ -63,7 +71,7 @@ class Magento_Reward_Model_Total_Quote_Reward extends Magento_Sales_Model_Quote_
             /* @var $reward Magento_Reward_Model_Reward */
             $reward = $quote->getRewardInstance();
             if (!$reward || !$reward->getId()) {
-                $reward = Mage::getModel('Magento_Reward_Model_Reward')
+                $reward = $this->_rewardFactory->create()
                     ->setCustomer($quote->getCustomer())
                     ->setCustomerId($quote->getCustomer()->getId())
                     ->setWebsiteId($quote->getStore()->getWebsiteId())

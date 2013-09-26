@@ -2,12 +2,20 @@
 # These items and this file are not published in Magento CE
 #
 app/code/Magento/AdminGws/Model/Plugin
+app/code/Magento/AdminGws/Model/Config
+app/code/Magento/AdminGws/Model/Config.php
+app/code/Magento/AdminGws/Model/ConfigInterface.php
 app/code/Magento/Banner*
 app/code/Magento/CustomerCustomAttributes/Block/Account
 app/code/Magento/FullPageCache/Model/Cache/Type.php
 app/code/Magento/GiftCard/Model/Plugin
 app/code/Magento/GiftCard/Block/Adminhtml/Renderer/OpenAmount.php
 app/code/Magento/GiftRegistry/Model/Plugin
+app/code/Magento/GiftRegistry/Model/Config/Converter.php
+app/code/Magento/GiftRegistry/Model/Config/Data.php
+app/code/Magento/GiftRegistry/Model/Config/Reader.php
+app/code/Magento/GiftRegistry/Model/Config/SchemaLocator.php
+app/code/Magento/GiftRegistry/Model/Attribute/ConfigInterface.php
 app/code/Magento/Invitation/Block/Adminhtml/Grid/Column/Renderer/Percent.php
 app/code/Magento/Invitation/Block/Adminhtml/Report
 app/code/Magento/Invitation/Model/Resource/Report
@@ -21,3 +29,9 @@ app/code/Magento/SalesArchive/Model/Order
 app/code/Magento/Search/Model/Plugin
 app/code/Magento/VersionsCms/Model/Plugin
 app/code/Magento/WebsiteRestriction/Model/Plugin
+app/code/Magento/WebsiteRestriction/Model/Config
+app/code/Magento/WebsiteRestriction/Model/Config.php
+app/code/Magento/WebsiteRestriction/Model/ConfigInterface.php
+app/code/Magento/VersionsCms/Model/Hierarchy/Config
+app/code/Magento/VersionsCms/Model/Hierarchy/Config.php
+app/code/Magento/VersionsCms/Model/Hierarchy/ConfigInterface.php

@@ -13,7 +13,8 @@ require 'quote_with_address.php';
 /** @var Magento_Sales_Model_Quote $quote */
 
 /** @var $rate Magento_Sales_Model_Quote_Address_Rate */
-$rate = Mage::getModel('Magento_Sales_Model_Quote_Address_Rate');
+$rate = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Sales_Model_Quote_Address_Rate');
 $rate->setCode('freeshipping_freeshipping');
 $rate->getPrice(1);
 
