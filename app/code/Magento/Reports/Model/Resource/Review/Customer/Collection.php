@@ -41,8 +41,8 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
         Magento_Customer_Model_Resource_Customer $customerResource,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
-        parent::__construct($eventManager, $logger, $reviewData, $fetchStrategy, $entityFactory, $resource);
         $this->_customerResource = $customerResource;
+        parent::__construct($eventManager, $logger, $reviewData, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**
