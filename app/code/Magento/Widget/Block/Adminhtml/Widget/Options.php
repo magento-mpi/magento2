@@ -19,43 +19,44 @@
 class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * Element type used by default if configuration is omitted
+     * @var string
+     */
+    protected $_defaultElementType = 'text';
+    
+    /**
      * @var Magento_Widget_Model_Widget
      */
     protected $_widget;
 
     /**
      * @var Magento_Widget_Model_Widget_Instance_OptionsFactory
+     * @var Magento_Core_Model_Option_ArrayPool
      */
-    protected $_optionsFactory;
-    
+    protected $_sourceModelPool;
+
     /**
+     * @param Magento_Core_Model_Option_ArrayPool $sourceModelPool
+     * @param Magento_Widget_Model_Widget $widget
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Widget_Model_Widget $widget
-     * @param Magento_Widget_Model_Widget_Instance_OptionsFactory $optionsFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Option_ArrayPool $sourceModelPool,
+        Magento_Widget_Model_Widget $widget,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Widget_Model_Widget $widget,
-        Magento_Widget_Model_Widget_Instance_OptionsFactory $optionsFactory,
         array $data = array()
     ) {
+        $this->_sourceModelPool = $sourceModelPool;
         $this->_widget = $widget;
-        $this->_optionsFactory = $optionsFactory;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
-
-    /**
-     * Element type used by default if configuration is omitted
-     * @var string
-     */
-    protected $_defaultElementType = 'text';
 
     /**
      * Prepare Widget Options Form and values according to specified type
@@ -179,7 +180,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
         }
         // otherwise, a source model is specified
         elseif ($sourceModel = $parameter->getSourceModel()) {
-            $data['values'] = $this->_optionsFactory->create($sourceModel)->toOptionArray();
+            $data['values'] = $this->_sourceModelPool->get($sourceModel)->toOptionArray();
         }
 
         // prepare field type or renderer

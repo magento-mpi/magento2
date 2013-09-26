@@ -15,4 +15,6 @@ return array(
     array('_minMaxCache', 'Magento_GiftCard_Block_Catalog_Product_Price'),
     array('_skipFields', 'Magento_Logging_Model_Processor'),
     array('_layoutUpdate', 'Magento_WebsiteRestriction_Controller_Index'),
+    array('_importExportConfig', 'Magento_ScheduledImportExport_Model_Scheduled_Operation_Data'),
+    array('_importModel', 'Magento_ScheduledImportExport_Model_Scheduled_Operation_Data'),
 );

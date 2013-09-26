@@ -19,11 +19,28 @@
 class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
      * Store model
      *
      * @var null|Magento_Core_Model_Store
      */
     protected $_store  = null;
+
+    /**
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_date = $date;
+        parent::__construct($resource);
+    }
 
     /**
      * Initialize resource model
@@ -84,10 +101,10 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
 
         // modify create / update dates
         if ($object->isObjectNew() && !$object->hasCreationTime()) {
-            $object->setCreationTime(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+            $object->setCreationTime($this->_date->gmtDate());
         }
 
-        $object->setUpdateTime(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+        $object->setUpdateTime($this->_date->gmtDate());
 
         return parent::_beforeSave($object);
     }

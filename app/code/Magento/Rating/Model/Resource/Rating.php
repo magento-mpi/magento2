@@ -39,11 +39,6 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     protected $_logger;
 
     /**
-     * @var Magento_Review_Model_Resource_Review_Summary
-     */
-    protected $_reviewSummary;
-
-    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Rating_Helper_Data $ratingData
      * @param Magento_Core_Model_Resource $resource

@@ -1,17 +1,12 @@
 <?php
 /**
  * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Widget
+ *   
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Setup model
- */
-class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+class Magento_Core_Model_Resource_Setup_Generic extends Magento_Core_Model_Resource_Setup
 {
     /**
      * @var Magento_Core_Model_Resource_Setup_MigrationFactory
@@ -19,6 +14,7 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
     protected $_migrationFactory;
 
     /**
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -30,6 +26,7 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
      * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -37,7 +34,6 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName
     ) {
         $this->_migrationFactory = $migrationFactory;
@@ -47,12 +43,13 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
     }
 
     /**
+     * Get migration instance
+     *
+     * @param array $data
      * @return Magento_Core_Model_Resource_Setup_Migration
      */
-    public function getMigrationModel()
+    public function createMigrationSetup(array $data = array())
     {
-        return $this->_migrationFactory->create(array(
-            'resourceName' => 'core_setup'
-        ));
+        return $this->_migrationFactory->create($data);
     }
 }

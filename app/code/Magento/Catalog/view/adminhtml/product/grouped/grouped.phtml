@@ -11,9 +11,7 @@
 /** @var $this Magento_Core_Block_Template */
 
 /** @var $this Magento_Core_Block_Template */
-$_gridPopupBlock = $this->getChildBlock('catalog.product.group.grid.popup.container')->getChildBlock(
-        'catalog.product.group.grid.popup'
-    );
+$_gridPopupBlock = $this->getChildBlock('catalog.product.group.grid.popup.container')->getChildBlock('grid');
 $_gridPopupBlock->setRowClickCallback('function(){}');
 /** @var $_helper Magento_Core_Helper_Data */
 $_helper = $this->helper('Magento_Core_Helper_Data');
@@ -24,7 +22,7 @@ $_helper = $this->helper('Magento_Core_Helper_Data');
     </div>
     <?php echo $this->getChildHtml('list'); ?>
     <div data-role="add-product-dialog" class="no-display">
-        <?php echo $this->getChildBlock('catalog.product.group.grid.popup.container')->getChildHtml('catalog.product.group.grid.popup');?>
+        <?php echo $this->getChildBlock('catalog.product.group.grid.popup.container')->getChildHtml('grid');?>
     </div>
     <button type="button" data-role="add-product">Add Products to Group</button>
     <script type="text/javascript">

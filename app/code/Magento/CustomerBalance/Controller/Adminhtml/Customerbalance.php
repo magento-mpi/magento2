@@ -22,13 +22,29 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_CustomerBalance_Model_Balance
+     */
+    protected $_balance;
+
+    /**
+     * @param Magento_CustomerBalance_Model_Balance $balance
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_CustomerBalance_Model_Balance $balance,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_balanceFactory = $balance;
+        $this->_customerFactory = $customerFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -81,7 +97,7 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
      */
     public function deleteOrphanBalancesAction()
     {
-        $balance = Mage::getSingleton('Magento_CustomerBalance_Model_Balance')->deleteBalancesByCustomerId(
+        $this->_balance->deleteBalancesByCustomerId(
             (int)$this->getRequest()->getParam('id')
         );
         $this->_redirect('*/customer/edit/', array('_current' => true));
@@ -91,12 +107,13 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
      * Instantiate customer model
      *
      * @param string $idFieldName
+     * @throws Magento_Core_Exception
      */
     protected function _initCustomer($idFieldName = 'id')
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load((int)$this->getRequest()->getParam($idFieldName));
+        $customer = $this->_customerFactory->create()->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
-            Mage::throwException(__('Failed to initialize customer'));
+            throw new Magento_Core_Exception(__('Failed to initialize customer'));
         }
         $this->_coreRegistry->register('current_customer', $customer);
     }

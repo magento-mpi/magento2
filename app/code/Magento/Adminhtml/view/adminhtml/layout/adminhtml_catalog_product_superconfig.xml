@@ -9,5 +9,5 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_catalog_product_superconfig_config"/>
-    <container output="1" name="admin.product.edit.tab.super.config.grid.container" label="grid"/>
+    <block class="Magento_Backend_Block_Widget_Grid_Container" name="admin.product.edit.tab.super.config.grid.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
 </layout>

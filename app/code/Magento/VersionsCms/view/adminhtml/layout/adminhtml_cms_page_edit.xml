@@ -8,20 +8,20 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head.components">
-        <block class="Magento_VersionsCms_Block_Js_Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
-    </reference>
-    <reference name="cms_page_edit_tabs">
+    <referenceBlock name="head.components">
+        <block class="Magento_Adminhtml_Block_Page_Js_Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
+    </referenceBlock>
+    <referenceBlock name="cms_page_edit_tabs">
         <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit" name="cms_page_edit_extender"/>
         <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy" name="cms_page_edit_tab_hierarchy" template="page/tab/hierarchy.phtml"/>
         <action method="addTab">
             <argument name="name" xsi:type="string">hierarchy</argument>
             <argument name="block" xsi:type="string">cms_page_edit_tab_hierarchy</argument>
         </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <action method="setCanLoadExtJs">
             <argument name="flag" xsi:type="string">1</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

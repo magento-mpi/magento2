@@ -47,15 +47,7 @@ class Magento_Rating_Model_Resource_Rating_Grid_Collection extends Magento_Ratin
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct(
-            $eventManager,
-            $logger,
-            $fetchStrategy,
-            $entityFactory,
-            $storeManager,
-            $ratingCollectionF,
-            $resource
-        );
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource, $data);
     }
 
     /**

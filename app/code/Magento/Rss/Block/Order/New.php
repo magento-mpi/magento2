@@ -10,7 +10,7 @@
 
 /**
  * Review form block
- */
+) */
 class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
 {
     /**

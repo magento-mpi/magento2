@@ -39,7 +39,7 @@
         </block>
         <container name="before_body_end" as="before_body_end" label="Page Bottom"/>
     </block>
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Css" name="magento-calendar-css">
             <arguments>
                 <argument name="file" xsi:type="string">mage/calendar.css</argument>
@@ -133,5 +133,5 @@
         </block>
         <!-- Preload resources for widgets -->
         <block class="Magento_Page_Block_Js_Components" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

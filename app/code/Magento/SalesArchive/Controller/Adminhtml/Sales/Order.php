@@ -44,7 +44,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Order extends Magento_Admi
         if ($this->getRequest()->getActionName() == 'view') {
             $id = $this->getRequest()->getParam('order_id');
             $archive = $this->_archiveModel;
-            $ids = $archive->getIdsInArchive(Magento_SalesArchive_Model_Archive::ORDER, $id);
+            $ids = $archive->getIdsInArchive(Magento_SalesArchive_Model_ArchivalList::ORDER, $id);
             if ($ids) {
                 return $this->_authorization->isAllowed('Magento_SalesArchive::orders');
             }

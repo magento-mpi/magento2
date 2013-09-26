@@ -47,28 +47,22 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
     protected $_rulesIdsFilter;
 
     /**
-     * @var Magento_SalesRule_Model_Resource_Report_Rule
-     */
-    protected $_reportRule;
-
-    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Sales_Model_Resource_Report $resource
-     * @param Magento_SalesRule_Model_Resource_Report_Rule $reportRule
      */
     public function __construct(
+        Magento_SalesRule_Model_Resource_Report_RuleFactory $ruleFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Sales_Model_Resource_Report $resource,
-        Magento_SalesRule_Model_Resource_Report_Rule $reportRule
+        Magento_Sales_Model_Resource_Report $resource
     ) {
+        $this->_ruleFactory = $ruleFactory;
         $resource->init($this->_aggregationTable);
-        $this->_reportRule = $reportRule;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
@@ -160,7 +154,8 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
             return $this;
         }
 
-        $rulesList = $this->_reportRule->getUniqRulesNamesList();
+        $rulesList = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->getUniqRulesNamesList();
+
         $rulesFilterSqlParts = array();
         foreach ($this->_rulesIdsFilter as $ruleId) {
             if (!isset($rulesList[$ruleId])) {

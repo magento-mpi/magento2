@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="customer_account"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Sales_Block_Order_View" name="sales.order.view"/>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.reminder.grid.container">
+    <referenceBlock name="adminhtml.reminder.grid.container">
         <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.reminder.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">reminderGrid</argument>
@@ -92,5 +92,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

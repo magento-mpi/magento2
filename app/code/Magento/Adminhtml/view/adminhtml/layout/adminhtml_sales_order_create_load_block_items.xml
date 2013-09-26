@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Sales_Order_Create_Items" template="sales/order/create/items.phtml" name="items">
             <block class="Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid" template="sales/order/create/items/grid.phtml" name="items_grid">
                 <block class="Magento_Adminhtml_Block_Sales_Order_Create_Coupons" template="sales/order/create/coupons/form.phtml" name="coupons">
@@ -17,5 +17,5 @@
             </block>
         </block>
         <block class="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
-    </reference>
+    </referenceContainer>
 </layout>

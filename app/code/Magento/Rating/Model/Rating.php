@@ -18,7 +18,6 @@
  * @method array getStores()
  * @method Magento_Rating_Model_Rating setStores(array $value)
  * @method string getRatingCode()
- * @method Magento_Rating_Model_Rating getRatingCode(string $value)
  *
  * @category   Magento
  * @package    Magento_Rating

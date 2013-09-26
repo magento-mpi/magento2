@@ -15,6 +15,9 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
     extends Magento_Rule_Model_Condition_Product_Abstract
 {
     /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavEntitySetFactory
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param Magento_Eav_Model_Config $config
@@ -24,6 +27,9 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
      * @param array $data
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavEntitySetFactory,
         Magento_Backend_Helper_Data $backendData,
         Magento_Rule_Model_Condition_Context $context,
         Magento_Eav_Model_Config $config,
@@ -32,7 +38,10 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
         Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection,
         array $data = array()
     ) {
-        parent::__construct($backendData, $context, $config, $product, $productResource, $attrSetCollection, $data);
+        parent::__construct(
+            $eavConfig, $productResource, $eavEntitySetFactory, $backendData, 
+            $context, $config, $product, $productResource, $attrSetCollection, $data
+        );
         $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes');
         $this->setValue(null);
     }

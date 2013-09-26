@@ -53,23 +53,40 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
     protected $_ctlgInventData = null;
 
     /**
-     * Initialize connect to Solr Client
-     *
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
      * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
      * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Search_Helper_ClientInterface $clientHelper
-     * @param  $options
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Search_Model_Resource_Index $resourceIndex
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param array $options
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice,
         Magento_CatalogInventory_Helper_Data $ctlgInventData,
         Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Search_Helper_ClientInterface $clientHelper,
+        Magento_Core_Model_Registry $registry,
+        Magento_Search_Model_Resource_Index $resourceIndex,
+        Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
+        Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         $options = array()
     ) {
         $this->_ctlgInventData = $ctlgInventData;
-        parent::__construct($clientFactory, $logger, $clientHelper, $options);
+        parent::__construct(
+            $eavConfig, $customerSession, $filterPrice, $clientFactory, $logger, $clientHelper, $registry,
+            $resourceIndex, $resourceFulltext, $attributeCollection, $coreStoreConfig, $options
+        );
     }
 
     protected function _search($query, $params = array())

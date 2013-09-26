@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 class Magento_SalesRule_Model_Observer
 {
     /**

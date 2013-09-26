@@ -26,6 +26,31 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
     protected $_fields   = array();
 
     /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_customerFactory = $customerFactory;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Initialize collection model
      *
      */
@@ -41,7 +66,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
      */
     public function addCustomerData()
     {
-        $customer   = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer   = $this->_customerFactory->create();
         // alias => attribute_code
         $attributes = array(
             'customer_lastname'     => 'lastname',

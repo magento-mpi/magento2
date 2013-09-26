@@ -42,6 +42,12 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -50,6 +56,7 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
      * @param array $data
      */
     public function __construct(
+        Magento_Data_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -57,6 +64,7 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -106,7 +114,7 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
      */
     public function getItemsCollection()
     {
-        return new Magento_Data_Collection();
+        return $this->_collectionFactory->create();
     }
 
     /**

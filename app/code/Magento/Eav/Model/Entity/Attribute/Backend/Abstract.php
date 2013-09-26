@@ -68,11 +68,9 @@ abstract class Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 
     /**
      * @param Magento_Core_Model_Logger $logger
-     * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        array $data = array()
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_logger = $logger;
     }

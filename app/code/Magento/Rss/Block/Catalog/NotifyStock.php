@@ -129,7 +129,7 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        $this->_resourceIterator->walk(
+        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
             $collection->getSelect(),
             array(array($this, 'addNotifyItemXmlCallback')),
             array('rssObj' => $rssObj, 'product' => $product, 'globalQty' => $globalNotifyStockQty)
