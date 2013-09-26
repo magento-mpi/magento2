@@ -19,7 +19,7 @@ class Magento_TestFramework_Bootstrap_DocBlock
     /**
      * @var string
      */
-    private $_fixturesBaseDir;
+    protected $_fixturesBaseDir;
 
     /**
      * @param string $fixturesBaseDir
@@ -34,11 +34,23 @@ class Magento_TestFramework_Bootstrap_DocBlock
      */
     public function registerAnnotations(Magento_TestFramework_Application $application)
     {
-        /*
-         * Note: order of registering (and applying) annotations is important.
-         * To allow config fixtures to deal with fixture stores, data fixtures should be processed first.
-         */
-        $eventManager = new Magento_TestFramework_EventManager(array(
+        $eventManager = new Magento_TestFramework_EventManager($this->_getSubscribers($application));
+        Magento_TestFramework_Event_PhpUnit::setDefaultEventManager($eventManager);
+        Magento_TestFramework_Event_Magento::setDefaultEventManager($eventManager);
+    }
+
+    /**
+     * Get list of subscribers.
+     *
+     * Note: order of registering (and applying) annotations is important.
+     * To allow config fixtures to deal with fixture stores, data fixtures should be processed first.
+     *
+     * @param Magento_TestFramework_Application $application
+     * @return array
+     */
+    protected function _getSubscribers(Magento_TestFramework_Application $application)
+    {
+        return array(
             new Magento_TestFramework_Workaround_Segfault(),
             new Magento_TestFramework_Workaround_Cleanup_TestCaseProperties(),
             new Magento_TestFramework_Workaround_Cleanup_StaticProperties(),
@@ -46,12 +58,10 @@ class Magento_TestFramework_Bootstrap_DocBlock
             new Magento_TestFramework_Annotation_AppIsolation($application),
             new Magento_TestFramework_Event_Transaction(new Magento_TestFramework_EventManager(array(
                 new Magento_TestFramework_Annotation_DbIsolation(),
-                new Magento_TestFramework_Annotation_DataFixture($this->_fixturesBaseDir),
+                new Magento_TestFramework_Annotation_DataFixture($this->_fixturesBaseDir)
             ))),
             new Magento_TestFramework_Annotation_AppArea($application),
             new Magento_TestFramework_Annotation_ConfigFixture(),
-        ));
-        Magento_TestFramework_Event_PhpUnit::setDefaultEventManager($eventManager);
-        Magento_TestFramework_Event_Magento::setDefaultEventManager($eventManager);
+        );
     }
 }

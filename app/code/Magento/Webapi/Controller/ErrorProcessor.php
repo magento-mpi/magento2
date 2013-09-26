@@ -33,16 +33,16 @@ class Magento_Webapi_Controller_ErrorProcessor
     /**
      * Initialize dependencies. Register custom shutdown function.
      *
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
-        Magento_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Helper_Data $helper,
         Magento_Core_Model_App $app,
         Magento_Core_Model_Logger $logger
     ) {
-        $this->_coreHelper = $helperFactory->get('Magento_Core_Helper_Data');
+        $this->_coreHelper = $helper;
         $this->_app = $app;
         $this->_logger = $logger;
         $this->registerShutdownFunction();
@@ -242,7 +242,7 @@ class Magento_Webapi_Controller_ErrorProcessor
     protected function _saveFatalErrorReport($reportData)
     {
         $file = new Magento_Io_File();
-        $reportDir = BP . 'var/report/api';
+        $reportDir = BP . '/var/report/api';
         $file->checkAndCreateFolder($reportDir, 0777);
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
         $reportFile = "$reportDir/$reportId";
