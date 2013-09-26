@@ -17,6 +17,18 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
     protected $_authorization;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -41,6 +53,8 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Layout $layout,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -67,6 +81,8 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
             $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState,
             $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory
         );
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
         $this->_authorization = $authorization;
     }
 
