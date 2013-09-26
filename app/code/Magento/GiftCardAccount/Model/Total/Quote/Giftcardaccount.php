@@ -132,7 +132,7 @@ class Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount extends Magento_
             $amount = 0;
             $cards = $this->_giftCardAccountData->getCards($quote);
             foreach ($cards as $k=>&$card) {
-                $model = $this->_giftCAFactory->load($card['i']);
+                $model = $this->_giftCAFactory->create()->load($card['i']);
                 if ($model->isExpired() || $model->getBalance() == 0) {
                     unset($cards[$k]);
                 } else if ($model->getBalance() != $card['ba']) {
