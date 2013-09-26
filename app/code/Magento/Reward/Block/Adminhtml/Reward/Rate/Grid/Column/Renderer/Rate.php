@@ -38,7 +38,6 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Grid_Column_Renderer_Rate
         parent::__construct($context, $data);
     }
 
-
     /**
      * Renders grid column
      *
