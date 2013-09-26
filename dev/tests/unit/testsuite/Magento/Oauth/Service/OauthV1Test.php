@@ -218,7 +218,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
             'oauth_consumer_key' => $this->_generateRandomString(Magento_Oauth_Model_Consumer::KEY_LENGTH),
             'oauth_nonce' => '',
             'oauth_timestamp' => time(),
-            'oauth_signature_method' => Magento_Oauth_Helper_Service::SIGNATURE_SHA1,
+            'oauth_signature_method' => Magento_Oauth_Service_OauthV1Interface::SIGNATURE_SHA1,
             'http_method' => '',
             'request_url' => 'http://magento.ll',
             'oauth_signature' => 'invalid_signature'
@@ -703,7 +703,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
         $requiredParams = [
             'oauth_consumer_key' => $this->_generateRandomString(Magento_Oauth_Model_Consumer::KEY_LENGTH),
             'oauth_signature' => '',
-            'oauth_signature_method' => (string)Magento_Oauth_Helper_Service::SIGNATURE_SHA1,
+            'oauth_signature_method' => (string)Magento_Oauth_Service_OauthV1Interface::SIGNATURE_SHA1,
             'oauth_nonce' => '',
             'oauth_timestamp' => (string)time(),
             'oauth_token' => $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_TOKEN),
