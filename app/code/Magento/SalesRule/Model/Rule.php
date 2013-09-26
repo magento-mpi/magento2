@@ -450,7 +450,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             $this->_eventManager->dispatch('salesrule_rule_get_coupon_types', array('transport' => $transport));
             $this->_couponTypes = $transport->getCouponTypes();
             if ($transport->getIsCouponTypeAutoVisible()) {
-                $this->_couponTypes[Magento_SalesRule_Model_Rule::COUPON_TYPE_AUTO] = __('Auto');
+                $this->_couponTypes[\Magento\SalesRule\Model\Rule::COUPON_TYPE_AUTO] = __('Auto');
             }
         }
         return $this->_couponTypes;
