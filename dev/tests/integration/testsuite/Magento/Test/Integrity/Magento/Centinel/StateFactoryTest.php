@@ -18,7 +18,7 @@ class Magento_Test_Integrity_Magento_Centinel_StateFactoryTest extends PHPUnit_F
         $definedTypes = array_intersect($factoryTypes, $ccTypes);
 
         $this->assertEquals($factoryTypes, $definedTypes, 'Some factory types are missing from payments config.'
-            . PHP_EOL . print_r(array_diff($factoryTypes, $definedTypes), true));
+            . "\nMissing types: " . implode(',', array_diff($factoryTypes, $definedTypes)));
     }
 
     /**
