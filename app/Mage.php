@@ -13,14 +13,6 @@
  */
 final class Mage
 {
-    /**#@+
-     * Product edition labels
-     */
-    const EDITION_ENTERPRISE   = 'Enterprise';
-    const EDITION_PROFESSIONAL = 'Professional';
-    const EDITION_GO           = 'Go';
-    /**#@-*/
-
     /**
      * Application root absolute path
      *

@@ -19,6 +19,10 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * Product edition labels
      */
     const EDITION_COMMUNITY    = 'Community';
+    const EDITION_ENTERPRISE   = 'Enterprise';
+    const EDITION_PROFESSIONAL = 'Professional';
+    const EDITION_GO           = 'Go';
+    /**#@-*/
 
     /**
      * Current Magento edition.
