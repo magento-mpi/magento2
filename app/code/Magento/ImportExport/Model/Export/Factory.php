@@ -11,7 +11,7 @@
 /**
  * Entity factory
  */
-abstract class Magento_ImportExport_Model_Export_Factory
+class Magento_ImportExport_Model_Export_Factory
 {
     /**
      * Object Manager
