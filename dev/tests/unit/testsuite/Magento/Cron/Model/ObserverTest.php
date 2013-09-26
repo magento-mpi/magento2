@@ -380,7 +380,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testDispatchRunJob()
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'CronJob.php';
-        $testCronJob = new Magento_Cron_Model_CronJob();
+        $testCronJob = new \Magento\Cron\Model\CronJob();
 
         $jobConfig = array(
             'test_job1' => array(

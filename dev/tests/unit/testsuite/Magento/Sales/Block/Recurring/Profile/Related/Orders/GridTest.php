@@ -58,7 +58,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('setOrder')
             ->will($this->returnValue($collection));
         $collection->expects($this->once())->method('getIterator')
-            ->will($this->returnValue(new ArrayIterator(array($collectionElement))));
+            ->will($this->returnValue(new \ArrayIterator(array($collectionElement))));
 
         $profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
