@@ -14,6 +14,11 @@
 class Magento_GiftRegistry_Block_Customer_Share
     extends Magento_Customer_Block_Account_Dashboard
 {
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $customerSession;
+
     protected $_formData = null;
 
     /**
@@ -27,15 +32,19 @@ class Magento_GiftRegistry_Block_Customer_Share
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
      * @param array $data
      */
     public function __construct(
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
+        $this->customerSession = $customerSession;
+
         parent::__construct($coreData, $context, $data);
     }
 
@@ -89,8 +98,7 @@ class Magento_GiftRegistry_Block_Customer_Share
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')
-                ->getData('sharing_form', true);
+            $this->_formData = $this->customerSession->getData('sharing_form', true);
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;

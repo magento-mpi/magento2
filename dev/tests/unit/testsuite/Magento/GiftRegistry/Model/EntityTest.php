@@ -92,9 +92,27 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
 
+        $attributeConfig = $this->getMock('Magento_GiftRegistry_Model_Attribute_Config', array(), array(), '', false);
+        $item = $this->getMock('Magento_GiftRegistry_Model_Item', array(), array(), '', false);
+        $type = $this->getMock('Magento_GiftRegistry_Model_Type', array(), array(), '', false);
+        $inventoryStockItem = $this->getMock('Magento_CatalogInventory_Model_Stock_Item', array(), array(), '', false);
+        $session = $this->getMock('Magento_Customer_Model_Session', array(), array(), '', false);
+
+        $quoteFactory = $this->getMock('Magento_Sales_Model_QuoteFactory', array(), array(), '', false);
+        $customerFactory = $this->getMock('Magento_Customer_Model_CustomerFactory', array(), array(), '', false);
+        $personFactory = $this->getMock('Magento_GiftRegistry_Model_PersonFactory', array(), array(), '', false);
+        $itemFactory = $this->getMock('Magento_GiftRegistry_Model_ItemFactory', array(), array(), '', false);
+        $addressFactory = $this->getMock('Magento_Customer_Model_AddressFactory', array(), array(), '', false);
+        $productFactory = $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false);
+        $dateFactory = $this->getMock('Magento_Core_Model_DateFactory', array(), array(), '', false);
+        $loggingEventChangesFactory = $this->getMock(
+            'Magento_Logging_Model_Event_ChangesFactory', array(), array(), '', false);
+
         $this->_model = new Magento_GiftRegistry_Model_Entity(
             $coreData, $giftRegistryData, $context, $coreRegistry, $app, $this->_storeManagerMock, $translate, $factory,
-            $resource, null, array()
+            $resource, null, $type, $attributeConfig, $item, $inventoryStockItem, $session,
+            $quoteFactory, $customerFactory, $personFactory, $itemFactory, $addressFactory, $productFactory,
+            $dateFactory, $loggingEventChangesFactory, array()
         );
     }
 

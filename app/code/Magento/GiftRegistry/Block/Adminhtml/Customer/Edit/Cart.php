@@ -16,6 +16,16 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $salesQuoteFactory;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -25,29 +35,44 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     /**
      * @var Magento_Data_CollectionFactory
      */
-    protected $_dataCollectionFactory;
+    protected $_dataFactory;
 
     /**
-     * @param Magento_Data_CollectionFactory $dataCollectionFactory
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param Magento_Data_CollectionFactory $dataFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Sales_Model_QuoteFactory $salesQuoteFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Data_CollectionFactory $dataCollectionFactory,
+        Magento_Data_CollectionFactory $dataFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Sales_Model_QuoteFactory $salesQuoteFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_dataCollectionFactory = $dataCollectionFactory;
+        $this->_dataFactory = $dataFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->customerFactory = $customerFactory;
+        $this->salesQuoteFactory = $salesQuoteFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+
+        $this->storeManager = $storeManager;
     }
 
     protected function _construct()
@@ -61,11 +86,11 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
 
     protected function _prepareCollection()
     {
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
-        $quote->setWebsite(Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
-        $quote->loadByCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getEntity()->getCustomerId()));
+        $quote = $this->salesQuoteFactory->create();
+        $quote->setWebsite($this->storeManager->getWebsite($this->getEntity()->getWebsiteId()));
+        $quote->loadByCustomer($this->customerFactory->create()->load($this->getEntity()->getCustomerId()));
 
-        $collection = ($quote) ? $quote->getItemsCollection(false) : $this->_dataCollectionFactory->create();
+        $collection = ($quote) ? $quote->getItemsCollection(false) : $this->_dataFactory->create();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
         $this->setCollection($collection);
 

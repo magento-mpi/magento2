@@ -57,7 +57,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
 
     /**
      * @param Magento_TargetRule_Model_Resource_Index $index
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productFactory
      * @param Magento_Catalog_Model_Product_Visibility $visibility
      * @param Magento_TargetRule_Model_IndexFactory $indexFactory
      * @param Magento_Core_Model_Registry $coreRegistry
@@ -71,7 +71,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productFactory,
         Magento_Catalog_Model_Product_Visibility $visibility,
         Magento_TargetRule_Model_IndexFactory $indexFactory,
         Magento_TargetRule_Model_Resource_Index $index,
@@ -83,7 +83,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_productCollectionFactory = $productFactory;
         $this->_visibility = $visibility;
         $this->_indexFactory = $indexFactory;
         parent::__construct(

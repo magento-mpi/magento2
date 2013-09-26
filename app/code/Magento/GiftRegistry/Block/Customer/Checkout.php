@@ -14,6 +14,11 @@
 class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_GiftRegistry_Model_EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
      * Gift registry data
      *
      * @var Magento_GiftRegistry_Helper_Data
@@ -21,18 +26,38 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
     protected $_giftRegistryData = null;
 
     /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var Magento_Checkout_Model_Type_Multishipping
+     */
+    protected $typeMultiShipping;
+
+    /**
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Type_Multishipping $typeMultiShipping
+     * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
      * @param array $data
      */
     public function __construct(
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Session $customerSession,
+        Magento_Checkout_Model_Type_Multishipping $typeMultiShipping,
+        Magento_GiftRegistry_Model_EntityFactory $entityFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
+        $this->customerSession = $customerSession;
+        $this->typeMultiShipping = $typeMultiShipping;
+        $this->entityFactory = $entityFactory;
+
         parent::__construct($coreData, $context, $data);
     }
 
@@ -43,7 +68,7 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->customerSession;
     }
 
     /**
@@ -66,7 +91,7 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
         $items = array();
         if ($this->_getCheckoutSession()->getQuoteId()) {
             $quote = $this->_getCheckoutSession()->getQuote();
-            $model = Mage::getModel('Magento_GiftRegistry_Model_Entity');
+            $model = $this->entityFactory->create();
             foreach ($quote->getItemsCollection() as $quoteItem) {
                 $item = array();
                 if ($registryItemId = $quoteItem->getGiftregistryItemId()) {
@@ -136,7 +161,7 @@ class Magento_GiftRegistry_Block_Customer_Checkout extends Magento_Core_Block_Te
     {
         $result = array();
         $registryQuoteItemIds = array_keys($this->getItems());
-        $quoteAddressItems = Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping')->getQuoteShippingAddressesItems();
+        $quoteAddressItems = $this->typeMultiShipping->getQuoteShippingAddressesItems();
         foreach ($quoteAddressItems as $index => $quoteAddressItem) {
             $quoteItemId = $quoteAddressItem->getQuoteItem()->getId();
             if (!$quoteAddressItem->getCustomerAddressId() && in_array($quoteItemId, $registryQuoteItemIds)) {

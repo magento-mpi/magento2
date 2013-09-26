@@ -31,6 +31,25 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
      */
     const ADDRESS_NONE = 'none';
 
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var Magento_GiftRegistry_Model_EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $productFactory;
+
+    /**
+     * @var Magento_Core_Model_UrlFactory
+     */
+    protected $urlFactory;
 
     /**
      * Core store config
@@ -40,15 +59,35 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $locale;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_UrlFactory $urlFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_GiftRegistry_Model_EntityFactory $entityFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_UrlFactory $urlFactory,
+        Magento_Core_Model_LocaleInterface $locale
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->customerSession = $customerSession;
+        $this->entityFactory = $entityFactory;
+        $this->productFactory = $productFactory;
+        $this->urlFactory = $urlFactory;
+        $this->locale = $locale;
     }
 
     /**
@@ -137,8 +176,8 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
     public function getCurrentCustomerEntityOptions()
     {
         $result = array();
-        $entityCollection = Mage::getModel('Magento_GiftRegistry_Model_Entity')->getCollection()
-            ->filterByCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
+        $entityCollection = $this->entityFactory->create()->getCollection()
+            ->filterByCustomerId($this->customerSession->getCustomerId())
             ->filterByIsActive(1);
 
         if (count($entityCollection)) {
@@ -193,11 +232,11 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
         if ($formatIn === false) {
             return $value;
         } else {
-            $formatIn = Mage::app()->getLocale()->getDateFormat($formatIn);
+            $formatIn = $this->locale->getDateFormat($formatIn);
         }
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
             'date_format' => $formatIn,
-            'locale'      => Mage::app()->getLocale()->getLocaleCode()
+            'locale'      => $this->locale->getLocaleCode()
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
             'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
@@ -217,7 +256,7 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getRegistryLink($entity)
     {
-        return Mage::getModel('Magento_Core_Model_Url')->setStore($entity->getStoreId())
+        return $this->urlFactory->create()->setStore($entity->getStoreId())
             ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
 
@@ -241,7 +280,7 @@ class Magento_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
 
         if ($productType == Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) {
             if ($item instanceof Magento_Sales_Model_Quote_Item) {
-                $product = Mage::getModel('Magento_Catalog_Model_Product')->load($item->getProductId());
+                $product = $this->productFactory->create()->load($item->getProductId());
             } else {
                 $product = $item;
             }

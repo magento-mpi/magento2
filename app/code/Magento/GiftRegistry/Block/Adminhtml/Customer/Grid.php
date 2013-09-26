@@ -11,11 +11,54 @@
 class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
-     * Set default sort
+     * @var Magento_GiftRegistry_Model_EntityFactory
      */
-    protected function _construct()
+    protected $entityFactory;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $systemStore;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_GiftRegistry_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->entityFactory = $entityFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+
+        $this->storeManager = $storeManager;
+    }
+
+    /**
+     * Set default sort
+     *
+     * @param Magento_Core_Model_System_Store $systemStore
+     */
+    protected function _construct(Magento_Core_Model_System_Store $systemStore)
     {
         parent::_construct();
+
+        $this->systemStore = $systemStore;
 
         $this->setId('customerGrid');
         $this->setUseAjax(true);
@@ -31,7 +74,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
     protected function _prepareCollection()
     {
         /** @var $collection Magento_GiftRegistry_Model_Resource_Entity_Collection */
-        $collection = Mage::getModel('Magento_GiftRegistry_Model_Entity')->getCollection();
+        $collection = $this->entityFactory->create()->getCollection();
         $collection->filterByCustomerId($this->getRequest()->getParam('id'));
         $collection->addRegistryInfo();
 
@@ -91,12 +134,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
             )
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->storeManager->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header' => __('Website'),
                 'index'  => 'website_id',
                 'type'   => 'options',
-                'options' => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash()
+                'options' => $this->systemStore->getWebsiteOptionHash()
             ));
         }
 

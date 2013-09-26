@@ -19,12 +19,61 @@
 class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
+     * @var Magento_GiftRegistry_Model_Item_OptionFactory
+     */
+    protected $optionFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $productFactory;
+
+    /**
      * List of product IDs
      * Contains IDs of products related to items and their options
      *
      * @var array
      */
     protected $_productIds = array();
+
+    /**
+     * @var Magento_Sales_Model_Quote_Config
+     */
+    protected $salesQuoteConfig;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Sales_Model_Quote_Config $salesQuoteConfig
+     * @param Magento_GiftRegistry_Model_Item_OptionFactory $optionFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Sales_Model_Quote_Config $salesQuoteConfig,
+        Magento_GiftRegistry_Model_Item_OptionFactory $optionFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->salesQuoteConfig = $salesQuoteConfig;
+        $this->optionFactory = $optionFactory;
+        $this->productFactory = $productFactory;
+        $this->storeManager = $storeManager;
+    }
 
     /**
      * Collection initialization
@@ -106,7 +155,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
     protected function _assignOptions()
     {
         $itemIds = array_keys($this->_items);
-        $optionCollection = Mage::getModel('Magento_GiftRegistry_Model_Item_Option')->getCollection()
+        $optionCollection = $this->optionFactory->create()->getCollection()
             ->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
@@ -130,10 +179,10 @@ class Magento_GiftRegistry_Model_Resource_Item_Collection extends Magento_Core_M
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $productCollection = $this->productFactory->create()->getCollection()
+            ->setStoreId($this->storeManager->getStore()->getId())
             ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect(Mage::getSingleton('Magento_Sales_Model_Quote_Config')->getProductAttributes())
+            ->addAttributeToSelect($this->salesQuoteConfig->getProductAttributes())
             ->addStoreFilter()
             ->addUrlRewrite()
             ->addOptionsToResult();

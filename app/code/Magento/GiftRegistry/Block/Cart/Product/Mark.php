@@ -11,6 +11,11 @@
 class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_GiftRegistry_Model_EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
      * Gift registry data
      *
      * @var Magento_GiftRegistry_Helper_Data
@@ -21,15 +26,18 @@ class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Te
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
      * @param array $data
      */
     public function __construct(
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_GiftRegistry_Model_EntityFactory $entityFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
+        $this->entityFactory = $entityFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -88,7 +96,7 @@ class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Te
 
         if ($newItem->getGiftregistryItemId()) {
             $this->setData('item', $newItem);
-            $entity = Mage::getModel('Magento_GiftRegistry_Model_Entity')->loadByEntityItem($newItem->getGiftregistryItemId());
+            $entity = $this->entityFactory->create()->loadByEntityItem($newItem->getGiftregistryItemId());
             $this->setEntity($entity);
         }
 

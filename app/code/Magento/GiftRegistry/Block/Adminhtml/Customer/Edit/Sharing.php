@@ -11,6 +11,39 @@
 class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
     extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $systemStore;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+
+        $this->systemStore = $systemStore;
+        $this->storeManager = $storeManager;
+    }
 
     protected function _prepareForm()
     {
@@ -36,12 +69,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
             'note'     => 'Enter list of emails, comma-separated.'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->storeManager->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'select', array(
                 'label'    => __('Send From'),
                 'required' => true,
                 'name'     => 'store_id',
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm()
+                'values'   => $this->systemStore->getStoreValuesForForm()
             ));
         }
 

@@ -92,7 +92,7 @@ class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegis
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $this->_customer = $this->customerSession->getCustomer();
         }
         return $this->_customer;
     }
@@ -104,6 +104,6 @@ class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegis
      */
     public function isCustomerLoggedIn()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
+        return $this->customerSession->isLoggedIn();
     }
 }
