@@ -206,6 +206,7 @@ return array(
     array('addWishListSortOrder', 'Magento_Wishlist_Model_Resource_Item_Collection'),
     array('appendBundleSelectionData', 'Magento_Bundle_Model_Observer'),
     array('appendGiftcardAdditionalData', 'Magento_GiftCard_Model_Observer'),
+    array('_getResource', 'Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount'),
     array('applyAllDataUpdates', 'Magento_Core_Model_Resource_Setup'),
     array('applyAllUpdates', 'Magento_Core_Model_Resource_Setup'),
     array('applyDesign', 'Magento_Catalog_Model_Design'),

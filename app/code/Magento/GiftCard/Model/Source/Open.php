@@ -18,11 +18,31 @@ class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attrib
     protected $_coreData = null;
 
     /**
+     * Eav entity attribute factory
+     *
+     * @var Magento_Eav_Model_Resource_Entity_AttributeFactory
+     */
+    protected $_eavAttributeFactory;
+
+    /**
+     * Resource helper
+     *
+     * @var Magento_Eav_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @param Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttributeFactory
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
      * @param Magento_Core_Helper_Data $coreData
      */
     public function __construct(
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttributeFactory,
         Magento_Core_Helper_Data $coreData
     ) {
+        $this->_resourceHelper = $resourceHelper;
+        $this->_eavAttributeFactory = $eavAttributeFactory;
         $this->_coreData = $coreData;
     }
 
@@ -94,7 +114,7 @@ class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attrib
             $column['type']     = $attributeType;
             $column['is_null']  = $isNullable;
         } else {
-            $column['type']     = Mage::getResourceHelper('Magento_Eav')->getDdlTypeByColumnType($attributeType);
+            $column['type']     = $this->_resourceHelper->getDdlTypeByColumnType($attributeType);
             $column['nullable'] = $isNullable;
             $column['comment']  = 'Enterprise Giftcard Open ' . $attributeCode . ' column';
         }
@@ -110,7 +130,6 @@ class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attrib
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
-            ->getFlatUpdateSelect($this->getAttribute(), $store);
+        return $this->_eavAttributeFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }
