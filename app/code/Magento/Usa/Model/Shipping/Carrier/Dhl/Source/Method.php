@@ -11,7 +11,7 @@
 
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source;
 
-class Method extends \Magento\Usa\Shipping\Carrier\Dhl\Source\Generic
+class Method extends \Magento\Usa\Model\Shipping\Carrier\Dhl\Source\Generic
 {
     /**
      * Carrier code

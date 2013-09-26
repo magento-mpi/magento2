@@ -17,7 +17,7 @@
  */
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method;
 
-class Unitofmeasure extends \Magento\Usa\Shipping\Carrier\Dhl\International\Source\Method\Generic
+class Unitofmeasure extends \Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method\Generic
 {
     /**
      * Carrier code
