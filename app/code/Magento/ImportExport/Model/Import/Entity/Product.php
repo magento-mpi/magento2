@@ -385,7 +385,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_ImportExport_Model_Import_Config $importConfig
      * @param Magento_ImportExport_Model_Import_Proxy_Product_ResourceFactory $resourceFactory
      * @param Magento_ImportExport_Model_Import_Entity_Product_OptionFactory $optionFactory
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setColFactory
@@ -401,6 +401,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      * @param Magento_CatalogInventory_Model_Resource_Stock_ItemFactory $stockResItemFac
      * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
      * @param Magento_Core_Model_LocaleInterface $locale
+     * @internal param \Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
@@ -1529,7 +1530,9 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
             'is_decimal_divided'            => 0
         );
 
-        $entityTable = $this->_stockItemFactory->create()->getMainTable();
+        /** @var $stockResource Magento_CatalogInventory_Model_Resource_Stock_Item */
+        $stockResource = $this->_stockResItemFac->create();
+        $entityTable = $stockResource->getMainTable();
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $stockData = array();
