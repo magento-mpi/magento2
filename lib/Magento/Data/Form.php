@@ -151,7 +151,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      * Retrieve form element by id
      *
      * @param string $elementId
-     * @return null|Magento_Data_Form_Element_Abstract
+     * @return null|\Magento\Data\Form\Element\AbstractElement
      */
     public function getElement($elementId)
     {

@@ -71,7 +71,7 @@ class Itemsquantity
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return Magento_Db_Select
+     * @return \Magento\Db\Select
      */
     public function getConditionsSql($customer, $website)
     {

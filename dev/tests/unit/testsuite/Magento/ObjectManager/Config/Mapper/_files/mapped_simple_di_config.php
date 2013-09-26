@@ -43,11 +43,11 @@ return array(
         ),
     ),
 
-    'Magento_Http_Handler_Composite' => array(
+    'Magento\Http\Handler\Composite' => array(
         'shared' => false,
         'parameters' => array(
             'factory' => array(
-                'instance' => 'Magento_Http_HandlerFactory',
+                'instance' => 'Magento\Http\HandlerFactory',
             ),
             'handlers' => array(
                 'custom_handler' => array(
@@ -62,7 +62,7 @@ return array(
         ),
     ),
 
-    'Magento_Data_Collection_Db_FetchStrategy_Cache' => array(
+    'Magento\Data\Collection\Db\FetchStrategy\Cache' => array(
         'parameters' => array(
             'cacheIdPrefix' => 'collection_',
             'cacheLifetime' => '86400',

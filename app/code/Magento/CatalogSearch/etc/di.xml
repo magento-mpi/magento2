@@ -23,9 +23,9 @@
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_CatalogSearch_Block_Layer">
+    <type name="Magento\CatalogSearch\Block\Layer">
         <param name="layer">
-            <instance type="Magento_CatalogSearch_Model_Layer_Proxy" />
+            <instance type="Magento\CatalogSearch\Model\Layer\Proxy" />
         </param>
     </type>
 </config>

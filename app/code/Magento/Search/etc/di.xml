@@ -12,41 +12,41 @@
     <type name="Magento\CatalogSearch\Model\Fulltext">
         <plugin name="fulltextIndexRebuild" type="Magento\Search\Model\Plugin\FulltextIndexRebuild" />
     </type>
-    <type name="Magento_Search_Block_Suggestions">
+    <type name="Magento\Search\Block\Suggestions">
         <param name="suggestions">
-            <instance type="Magento_Search_Model_Suggestions_Proxy" />
+            <instance type="Magento\Search\Model\Suggestions\Proxy" />
         </param>
     </type>
-    <type name="Magento_Search_Block_Catalog_Layer_View">
+    <type name="Magento\Search\Block\Catalog\Layer\View">
         <param name="searchLayer">
-            <instance type="Magento_Search_Model_Search_Layer_Proxy" />
+            <instance type="Magento\Search\Model\Search\Layer\Proxy" />
         </param>
     </type>
-    <type name="Magento_Search_Block_Catalogsearch_Layer">
+    <type name="Magento\Search\Block\Catalogsearch\Layer">
         <param name="searchLayer">
-            <instance type="Magento_Search_Model_Search_Layer_Proxy" />
+            <instance type="Magento\Search\Model\Search\Layer\Proxy" />
         </param>
     </type>
-    <type name="Magento_Search_Model_Catalog_Layer_Filter_Price">
+    <type name="Magento\Search\Model\Catalog\Layer\Filter\Price">
         <param name="resourceEngine">
-            <instance type="Magento_Search_Model_Resource_Engine_Proxy" />
+            <instance type="Magento\Search\Model\Resource\Engine\Proxy" />
         </param>
     </type>
-    <type name="Magento_Search_Model_Observer">
+    <type name="Magento\Search\Model\Observer">
         <param name="searchSearchLayer">
-            <instance type="Magento_Search_Model_Search_Layer_Proxy" />
+            <instance type="Magento\Search\Model\Search\Layer\Proxy" />
         </param>
         <param name="searchCatalogLayer">
-            <instance type="Magento_Search_Model_Catalog_Layer_Proxy" />
+            <instance type="Magento\Search\Model\Catalog\Layer\Proxy" />
         </param>
         <param name="indexer">
-            <instance type="Magento_Index_Model_Indexer_Proxy" />
+            <instance type="Magento\Index\Model\Indexer\Proxy" />
         </param>
         <param name="searchData">
-            <instance type="Magento_Search_Helper_Data_Proxy" />
+            <instance type="Magento\Search\Helper\Data\Proxy" />
         </param>
         <param name="coreRegistry">
-            <instance type="Magento_Core_Model_Registry_Proxy" />
+            <instance type="Magento\Core\Model\Registry\Proxy" />
         </param>
     </type>
 </config>

@@ -11,7 +11,7 @@
     <type name="Magento\Customer\Helper\Data">
         <plugin name="invitation_customer_registration_plugin" type="Magento\Invitation\Model\Plugin\CustomerRegistration"/>
     </type>
-    <type name="Magento_Core_Model_Url_SecurityInfo">
+    <type name="Magento\Core\Model\Url\SecurityInfo">
         <param name="secureUrlList">
             <value>
                 <invitation>/invitation/</invitation>

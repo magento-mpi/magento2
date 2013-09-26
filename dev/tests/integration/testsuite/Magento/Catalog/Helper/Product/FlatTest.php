@@ -66,8 +66,8 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAddFilterableAttributes()
     {
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Helper_Product_Flat', array('addFilterableAttrs' => 1));
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Helper\Product\Flat', array('addFilterableAttrs' => 1));
         $this->assertEquals(1, $helper->isAddFilterableAttributes());
     }
 
@@ -78,8 +78,8 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAddChildData()
     {
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Helper_Product_Flat', array('addChildData' => 1));
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Helper\Product\Flat', array('addChildData' => 1));
         $this->assertEquals(1, $helper->isAddChildData());
     }
 }

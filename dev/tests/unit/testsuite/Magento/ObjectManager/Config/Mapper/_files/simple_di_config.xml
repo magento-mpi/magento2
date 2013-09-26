@@ -26,9 +26,9 @@
         <plugin name="simple_modules_plugin_advanced" type="Magento\Core\Model\Config_Modules_PluginAdvanced" />
         <plugin name="overridden_plugin" sortOrder="30" disabled="true" />
     </type>
-    <type name="Magento_Http_Handler_Composite" shared="false">
+    <type name="Magento\Http\Handler\Composite" shared="false">
         <param name="factory">
-            <instance type="Magento_Http_HandlerFactory" />
+            <instance type="Magento\Http\HandlerFactory" />
         </param>
         <param name="handlers">
             <value>
@@ -45,7 +45,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
+    <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cacheIdPrefix"><value><![CDATA[collection_]]></value></param>
         <param name="cacheLifetime"><value>86400</value></param>
         <param name="cacheTags">

@@ -33,7 +33,7 @@
     <type name="Magento\Core\Model\Theme\CopyService">
         <plugin name="design_editor_theme_copy_service_plugin" type="Magento\DesignEditor\Model\Plugin\ThemeCopyService"/>
     </type>
-    <type name="Magento_DesignEditor_Helper_Data">
+    <type name="Magento\DesignEditor\Helper\Data">
         <param name="frontName">
             <value>vde</value>
         </param>

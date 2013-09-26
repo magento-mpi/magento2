@@ -32,9 +32,9 @@
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_SalesRule_Model_Observer">
+    <type name="Magento\SalesRule\Model\Observer">
         <param name="backendSession">
-            <instance type="Magento_Backend_Model_Session_Proxy" />
+            <instance type="Magento\Backend\Model\Session\Proxy" />
         </param>
     </type>
 </config>

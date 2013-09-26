@@ -94,7 +94,7 @@
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Catalog_Model_Resource_Product_Flat_Indexer">
+    <type name="Magento\Catalog\Model\Resource\Product\Flat\Indexer">
         <param name="flatAttributeGroups">
             <value>
                 <sales_quote_item>sales_quote_item</sales_quote_item>
