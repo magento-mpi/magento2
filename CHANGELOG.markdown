@@ -1,4 +1,3 @@
-* Altered format of `giftregistry.xml` and added `giftregistry.xsd` to allow for validation of XML files.
 * Vde segment was moved from config.xml to di.xml
 * Configuration improvements:
   * Introduced scoped configuration model - Magento_Config_Data_Scoped and non-scoped one - Magento_Config_Data;
