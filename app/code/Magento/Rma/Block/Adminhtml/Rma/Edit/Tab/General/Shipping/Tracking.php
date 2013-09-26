@@ -10,12 +10,7 @@
 
 /**
  * Shipment tracking
- *
- * @category    Magento
- * @package     Magento_RMA
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends Magento_Backend_Block_Template
 {
     /**
@@ -23,20 +18,32 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
     
     /**
      * Rma data
      *
      * @var Magento_Rma_Helper_Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
+
+    /**
+     * @var Magento_Rma_Model_Resource_Shipping_CollectionFactory
+     */
+    protected $_shippingFactory;
+
+    /**
+     * @var Magento_Shipping_Model_Config
+     */
+    protected $_shippingConfig;
 
     /**
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Rma_Model_Resource_Shipping_CollectionFactory $shippingFactory
+     * @param Magento_Shipping_Model_Config $shippingConfig
      * @param array $data
      */
     public function __construct(
@@ -44,11 +51,14 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
-
+        Magento_Rma_Model_Resource_Shipping_CollectionFactory $shippingFactory,
+        Magento_Shipping_Model_Config $shippingConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
+        $this->_shippingFactory = $shippingFactory;
+        $this->_shippingConfig = $shippingConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -79,10 +89,13 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
      */
     public function getAllTracks()
     {
-        return Mage::getResourceModel('Magento_Rma_Model_Resource_Shipping_Collection')
-            ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
-            ->addFieldToFilter('is_admin', array("neq" => Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
-        ;
+        /** @var $collection Magento_Rma_Model_Resource_Shipping_Collection */
+        $collection = $this->_shippingFactory->create();
+        $collection->addFieldToFilter('rma_entity_id', $this->getRma()->getId());
+        $collection->addFieldToFilter('is_admin', array(
+            'neq' => Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL
+        ));
+        return $collection;
     }
 
     /**
@@ -158,7 +171,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
      */
     public function getCarrierTitle($code)
     {
-        $carrier = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($code);
+        $carrier = $this->_shippingConfig->getCarrierInstance($code);
         return $carrier ? $carrier->getConfigData('title') : __('Custom Value');
     }
 }

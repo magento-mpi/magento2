@@ -123,11 +123,19 @@
 * God Class Mage Elimination
   * dispatchEvent, getConfig, getStoreConfig, getStoreConfigFlag, getObjectManager, helper, log, logException, register, registry, resetRegistry, unregister static methods of class Mage were eliminated
   * Eliminated Mage::app, Mage::getModel, Mage::throwException static calls in modules AdminNotification, Authorizenet, Captcha
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException static calls in module Magento_CatalogInventory
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getBaseDir, Mage::exception, Mage::getResourceHelper static calls in module Magento_Backup
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getBaseUrl, Mage::getResourceModel, Mage::getResourceSingleton static calls in module Magento_Newsletter
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getIsDeveloperMode, Mage::getSingleton, Mage::getResourceModel, Mage::exception static calls in modules Magento_User, Magento_Payment, Magento_Persistent
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getSingleton, Mage::getBaseUrl, Mage::isInstalled, Mage::getBaseDir static calls in module Magento_Cms
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getIsDeveloperMode, Mage::getSingleton, Mage::getBaseUrl, Mage::getResourceHelper, Mage::getResourceSingleton static calls in module Magento_CatalogSearch
   * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
   * Eliminated Mage:: static methods in Magento_Widget
   * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
   * Eliminated Mage:: static methods in Magento_Sendfriend
   * Eliminated Mage:: static methods in Magento_Usa
+  * Eliminated Mage:: static methods in Magento_ProductAlert
+  * Eliminated Mage:: static methods in Magento_Directory
   * Eliminated Mage:: static methods in Centinel, Connect, Contacts, GiftMessage, GoogleAnalytics
   * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
   * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module

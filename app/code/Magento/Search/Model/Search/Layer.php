@@ -24,7 +24,7 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
      *
      * @var Magento_Search_Helper_Data
      */
-    protected $_searchData = null;
+    protected $_searchData;
 
     /**
      * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
@@ -32,11 +32,22 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory
-     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
-     * @param Magento_Search_Helper_Data $searchData
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory
+     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Search_Helper_Data $searchData
      * @param array $data
      */
     public function __construct(
@@ -44,13 +55,21 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
         Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Search_Helper_Data $searchData,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory,
+        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Search_Helper_Data $searchData,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
-        parent::__construct($coreRegistry, $catalogSearchData, $data);
+        $this->_storeManager = $storeManager;
+        $this->_searchData = $searchData;
+        parent::__construct($coreRegistry, $fulltextCollectionFactory, $catalogProductVisibility, $catalogConfig,
+            $storeManager, $catalogSearchData, $data);
     }
 
     /**
@@ -108,7 +127,7 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
 
         $collection
             ->setAttributeSetFilter($setIds)
-            ->addStoreLabel(Mage::app()->getStore()->getId())
+            ->addStoreLabel($this->_storeManager->getStore()->getId())
             ->setOrder('position', 'ASC');
         $collection = $this->_prepareAttributeCollection($collection);
         $collection->load();

@@ -26,23 +26,67 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
     protected $_eventManager;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Page factory
+     *
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * Config primary
+     *
+     * @var Magento_Core_Model_Config_Primary
+     */
+    protected $_configPrimary;
+
+    /**
+     * Url
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Response
+     *
      * @var Magento_Core_Controller_Response_Http
      */
     protected $_response;
 
     /**
-     * @param Magento_Core_Controller_Response_Http $response
+     * Construct
+     *
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_UrlInterface $url
+     * @param Magento_Core_Model_Config_Primary $configPrimary
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Controller_Response_Http $response
      */
     public function __construct(
-        Magento_Core_Controller_Response_Http $response,
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_UrlInterface $url,
+        Magento_Core_Model_Config_Primary $configPrimary,
+        Magento_Cms_Model_PageFactory $pageFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Controller_Response_Http $response
     ) {
         parent::__construct($controllerFactory);
-        $this->_response = $response;
         $this->_eventManager = $eventManager;
+        $this->_url = $url;
+        $this->_configPrimary = $configPrimary;
+        $this->_pageFactory = $pageFactory;
+        $this->_storeManager = $storeManager;
+        $this->_response = $response;
     }
 
     /**
@@ -55,9 +99,8 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
      */
     public function match(Magento_Core_Controller_Request_Http $request)
     {
-        if (!Mage::isInstalled()) {
-            Mage::app()->getFrontController()->getResponse()
-                ->setRedirect(Mage::getUrl('install'))
+        if (!$this->_configPrimary->getInstallDate()) {
+            $this->_response->setRedirect($this->_url->getUrl('install'))
                 ->sendResponse();
             exit;
         }
@@ -87,8 +130,9 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
             return null;
         }
 
-        $page   = Mage::getModel('Magento_Cms_Model_Page');
-        $pageId = $page->checkIdentifier($identifier, Mage::app()->getStore()->getId());
+        /** @var Magento_Cms_Model_Page $page */
+        $page   = $this->_pageFactory->create();
+        $pageId = $page->checkIdentifier($identifier, $this->_storeManager->getStore()->getId());
         if (!$pageId) {
             return null;
         }
