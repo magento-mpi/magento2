@@ -141,7 +141,9 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
 
             if (isset($validWriters[$this->getFileFormat()])) {
                 try {
-                    $this->_writer = $this->_exportAdapterFac->create($validWriters[$this->getFileFormat()]['model']);
+                    $this->_writer = $this->_exportAdapterFac->create(
+                        array('fileName' => $validWriters[$this->getFileFormat()]['model'])
+                    );
                 } catch (Exception $e) {
                     $this->_logger->logException($e);
                     throw new Magento_Core_Exception(
