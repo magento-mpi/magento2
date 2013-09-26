@@ -11,10 +11,6 @@
 /**
  * Customer address model
  *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
- *
  * @method int getParentId() getParentId()
  * @method Magento_Customer_Model_Address setParentId() setParentId(int $parentId)
  */
@@ -45,6 +41,8 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,

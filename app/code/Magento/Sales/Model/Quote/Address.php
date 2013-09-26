@@ -142,28 +142,28 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      *
      * @var Magento_Sales_Model_Quote
      */
-    protected $_items = null;
+    protected $_items;
 
     /**
      * Quote object
      *
      * @var Magento_Sales_Model_Quote
      */
-    protected $_quote = null;
+    protected $_quote;
 
     /**
      * Sales Quote address rates
      *
      * @var Magento_Sales_Model_Quote_Address_Rate
      */
-    protected $_rates = null;
+    protected $_rates;
 
     /**
      * Total models collector
      *
      * @var Magento_Sales_Model_Quote_Address_Total_Collector
      */
-    protected $_totalCollector = null;
+    protected $_totalCollector;
 
     /**
      * Total data as array
@@ -194,7 +194,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Core store config
