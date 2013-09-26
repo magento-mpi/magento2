@@ -230,15 +230,7 @@
                 <default_write>
                     <use>default_setup</use>
                 </default_write>
-                <core_read>
-                    <use>default_read</use>
-                </core_read>
-                <core_write>
-                    <use>default_write</use>
-                </core_write>
-                <core_setup>
-                    <use>default_setup</use>
-                </core_setup>
+
             </value>
         </param>
     </type>
