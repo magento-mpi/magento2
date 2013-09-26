@@ -10,7 +10,7 @@
 <payment>
     <credit_cards>
         <type order="0">
-            <label translate="true">ABC Credit Card Company</label>
+            <label>ABC Credit Card Company</label>
         </type>
         <type code="XYZ" order="10"/>
     </credit_cards>
