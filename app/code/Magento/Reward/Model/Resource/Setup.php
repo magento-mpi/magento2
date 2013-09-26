@@ -45,6 +45,7 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -54,13 +55,14 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Cms_Model_PageFactory $pageFactory,
         $resourceName
     ) {
         $this->_pageFactory = $pageFactory;
-        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
-            $modulesReader, $cache, $migrationFactory, $resourceName);
+        parent::__construct(
+            $migrationFactory, $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
+            $resource, $modulesReader, $cache, $migrationFactory, $resourceName
+        );
     }
 
     /**
