@@ -62,17 +62,65 @@ class Magento_CatalogInventory_Model_Observer
     /**
      * Construct
      * 
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Stock
+     */
+    protected $_stock;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Stock_Status
+     */
+    protected $_stockStatus;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Resource_Stock
+     */
+    protected $_resourceStock;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Resource_Indexer_Stock
+     */
+    protected $_resourceIndexerStock;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Indexer_Price
+     */
+    protected $_indexerPrice;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_Indexer_Price $indexerPrice
+     * @param Magento_CatalogInventory_Model_Resource_Indexer_Stock $resourceIndexerStock
+     * @param Magento_CatalogInventory_Model_Resource_Stock $resourceStock
+     * @param Magento_Index_Model_Indexer $indexer
+     * @param Magento_CatalogInventory_Model_Stock $stock
+     * @param Magento_CatalogInventory_Model_Stock_Status $stockStatus
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
      * @param Magento_CatalogInventory_Model_StockFactory $stockFactory
      * @param Magento_CatalogInventory_Model_Stock_StatusFactory $stockStatusFactory
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Product_Indexer_Price $indexerPrice,
+        Magento_CatalogInventory_Model_Resource_Indexer_Stock $resourceIndexerStock,
+        Magento_CatalogInventory_Model_Resource_Stock $resourceStock,
+        Magento_Index_Model_Indexer $indexer,
+        Magento_CatalogInventory_Model_Stock $stock,
+        Magento_CatalogInventory_Model_Stock_Status $stockStatus,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
         Magento_CatalogInventory_Model_StockFactory $stockFactory,
         Magento_CatalogInventory_Model_Stock_StatusFactory $stockStatusFactory
     ) {
+        $this->_indexerPrice = $indexerPrice;
+        $this->_resourceIndexerStock = $resourceIndexerStock;
+        $this->_resourceStock = $resourceStock;
+        $this->_indexer = $indexer;
+        $this->_stock = $stock;
+        $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_stockItemFactory = $stockItemFactory;
         $this->_stockFactory = $stockFactory;
@@ -159,8 +207,7 @@ class Magento_CatalogInventory_Model_Observer
 
         if (is_null($product->getStockData())) {
             if ($product->getIsChangedWebsites() || $product->dataHasChangedFor('status')) {
-                Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
-                    ->updateStatus($product->getId());
+                $this->_stockStatus->updateStatus($product->getId());
             }
             return $this;
         }
@@ -623,7 +670,7 @@ class Magento_CatalogInventory_Model_Observer
         /**
          * Remember items
          */
-        $this->_itemsForReindex = Mage::getSingleton('Magento_CatalogInventory_Model_Stock')->registerProductsSale($items);
+        $this->_itemsForReindex = $this->_stock->registerProductsSale($items);
 
         $quote->setInventoryProcessed(true);
         return $this;
@@ -637,7 +684,7 @@ class Magento_CatalogInventory_Model_Observer
     {
         $quote = $observer->getEvent()->getQuote();
         $items = $this->_getProductsQty($quote->getAllItems());
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock')->revertProductsSale($items);
+        $this->_stock->revertProductsSale($items);
 
         // Clear flag, so if order placement retried again with success - it will be processed
         $quote->setInventoryProcessed(false);
@@ -727,9 +774,8 @@ class Magento_CatalogInventory_Model_Observer
             }
         }
 
-        if( count($productIds)) {
-            Mage::getResourceSingleton('Magento_CatalogInventory_Model_Resource_Indexer_Stock')
-                ->reindexProducts($productIds);
+        if (count($productIds)) {
+            $this->_resourceIndexerStock->reindexProducts($productIds);
         }
 
         // Reindex previously remembered items
@@ -738,7 +784,8 @@ class Magento_CatalogInventory_Model_Observer
             $item->save();
             $productIds[] = $item->getProductId();
         }
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Indexer_Price')->reindexProductIds($productIds);
+
+        $this->_indexerPrice->reindexProductIds($productIds);
 
         $this->_itemsForReindex = array(); // Clear list of remembered items - we don't need it anymore
 
@@ -780,7 +827,7 @@ class Magento_CatalogInventory_Model_Observer
                 }
             }
         }
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock')->revertProductsSale($items);
+        $this->_stock->revertProductsSale($items);
     }
 
     /**
@@ -797,7 +844,7 @@ class Magento_CatalogInventory_Model_Observer
         $qty = $item->getQtyOrdered() - max($item->getQtyShipped(), $item->getQtyInvoiced()) - $item->getQtyCanceled();
 
         if ($item->getId() && ($productId = $item->getProductId()) && empty($children) && $qty) {
-            Mage::getSingleton('Magento_CatalogInventory_Model_Stock')->backItemQty($productId, $qty);
+            $this->_stock->backItemQty($productId, $qty);
         }
 
         return $this;
@@ -811,9 +858,9 @@ class Magento_CatalogInventory_Model_Observer
      */
     public function updateItemsStockUponConfigChange($observer)
     {
-        Mage::getResourceSingleton('Magento_CatalogInventory_Model_Resource_Stock')->updateSetOutOfStock();
-        Mage::getResourceSingleton('Magento_CatalogInventory_Model_Resource_Stock')->updateSetInStock();
-        Mage::getResourceSingleton('Magento_CatalogInventory_Model_Resource_Stock')->updateLowStockDate();
+        $this->_resourceStock->updateSetOutOfStock();
+        $this->_resourceStock->updateSetInStock();
+        $this->_resourceStock->updateLowStockDate();
         return $this;
     }
 
@@ -826,8 +873,7 @@ class Magento_CatalogInventory_Model_Observer
     public function productStatusUpdate(Magento_Event_Observer $observer)
     {
         $productId = $observer->getEvent()->getProductId();
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
-            ->updateStatus($productId);
+        $this->_stockStatus->updateStatus($productId);
         return $this;
     }
 
@@ -844,8 +890,7 @@ class Magento_CatalogInventory_Model_Observer
 
         foreach ($websiteIds as $websiteId) {
             foreach ($productIds as $productId) {
-                Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
-                    ->updateStatus($productId, null, $websiteId);
+                $this->_stockStatus->updateStatus($productId, null, $websiteId);
             }
         }
 
@@ -863,8 +908,7 @@ class Magento_CatalogInventory_Model_Observer
         $website    = $observer->getEvent()->getWebsite();
         $select     = $observer->getEvent()->getSelect();
 
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
-            ->addStockStatusToSelect($select, $website);
+        $this->_stockStatus->addStockStatusToSelect($select, $website);
 
         return $this;
     }
@@ -881,8 +925,7 @@ class Magento_CatalogInventory_Model_Observer
         $entity     = $observer->getEvent()->getEntityField();
         $website    = $observer->getEvent()->getWebsiteField();
 
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
-            ->prepareCatalogProductIndexSelect($select, $entity, $website);
+        $this->_stockStatus->prepareCatalogProductIndexSelect($select, $entity, $website);
 
         return $this;
     }
@@ -894,7 +937,7 @@ class Magento_CatalogInventory_Model_Observer
      */
     public function reindexProductsMassAction($observer)
     {
-        Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
+        $this->_indexer->indexEvents(
             Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
         );
     }

@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
+/* @var $this Magento_GiftWrapping_Model_Resource_Setup */
 $installer = $this;
-/* @var $installer Magento_GiftWrapping_Model_Resource_Setup */
 
 /**
  * Create table 'magento_giftwrapping'
@@ -223,11 +223,11 @@ foreach ($entityAttributesCodes as $code => $type) {
 /**
  * Add gift wrapping attributes for catalog product entity
  */
-$types = Mage::getModel('Magento_Catalog_Model_Product_Type')->getOptionArray();
+$types = $this->getProductType()->getOptionArray();
 unset($types['virtual'], $types['downloadable'], $types['grouped']);
 $applyTo = join(',', array_keys($types));
 
-$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = $this->getCatalogSetup();
 
 $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'gift_wrapping_available', array(
     'group'         => 'Gift Options',

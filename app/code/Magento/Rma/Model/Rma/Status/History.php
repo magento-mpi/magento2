@@ -10,13 +10,74 @@
 
 /**
  * RMA model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
 {
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Rma_Model_RmaFactory
+     */
+    protected $_rmaFactory;
+
+    /**
+     * @var Magento_Rma_Model_Config
+     */
+    protected $_rmaConfig;
+
+    /**
+     * @var Magento_Core_Model_Translate_Proxy
+     */
+    protected $_translate;
+
+    /**
+     * @var Magento_Core_Model_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Rma_Model_RmaFactory $rmaFactory
+     * @param Magento_Rma_Model_Config $rmaConfig
+     * @param Magento_Core_Model_Translate_Proxy $translate
+     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Rma_Model_RmaFactory $rmaFactory,
+        Magento_Rma_Model_Config $rmaConfig,
+        Magento_Core_Model_Translate_Proxy $translate,
+        Magento_Core_Model_Email_TemplateFactory $templateFactory,
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_rmaFactory = $rmaFactory;
+        $this->_rmaConfig = $rmaConfig;
+        $this->_translate = $translate;
+        $this->_templateFactory = $templateFactory;
+        $this->_date = $date;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     /**
      * Initialize resource model
      */
@@ -35,18 +96,20 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
         if ($this->getOrder()) {
             return $this->getOrder()->getStore();
         }
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**
      * Get RMA object
      *
-     * @return Magento_Rma_Model_Rma;
+     * @return Magento_Rma_Model_Rma
      */
     public function getRma()
     {
         if (!$this->hasData('rma') && $this->getRmaEntityId()) {
-            $rma = Mage::getModel('Magento_Rma_Model_Rma')->load($this->getRmaEntityId());
+            /** @var $rma Magento_Rma_Model_Rma */
+            $rma = $this->_rmaFactory->create();
+            $rma->load($this->getRmaEntityId());
             $this->setData('rma', $rma);
         }
         return $this->getData('rma');
@@ -59,8 +122,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
      */
     public function sendCommentEmail()
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        $configRmaEmail = $this->_rmaConfig;
         $order = $this->getRma()->getOrder();
         if ($order->getCustomerIsGuest()) {
             $customerName = $order->getBillingAddress()->getName();
@@ -84,16 +146,13 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
      */
     public function sendCustomerCommentEmail()
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
         $sendTo = array(
             array(
-                'email' => $configRmaEmail->getCustomerEmailRecipient($this->getStoreId()),
+                'email' => $this->_rmaConfig->getCustomerEmailRecipient($this->getStoreId()),
                 'name'  => null
             )
         );
-
-        return $this->_sendCommentEmail($configRmaEmail->getRootCustomerCommentEmail(), $sendTo, false);
+        return $this->_sendCommentEmail($this->_rmaConfig->getRootCustomerCommentEmail(), $sendTo, false);
     }
 
     /**
@@ -106,25 +165,19 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
      */
     public function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
-        $configRmaEmail->init($rootConfig, $this->getStoreId());
-
-        if (!$configRmaEmail->isEnabled()) {
+        $this->_rmaConfig->init($rootConfig, $this->getStoreId());
+        if (!$this->_rmaConfig->isEnabled()) {
             return $this;
         }
 
         $order = $this->getRma()->getOrder();
         $comment = $this->getComment();
 
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-        /* @var $translate Magento_Core_Model_Translate */
-        $translate->setTranslateInline(false);
-
-        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
-        /* @var $mailTemplate Magento_Core_Model_Email_Template */
-        $copyTo = $configRmaEmail->getCopyTo();
-        $copyMethod = $configRmaEmail->getCopyMethod();
+        $this->_translate->setTranslateInline(false);
+        /** @var $mailTemplate Magento_Core_Model_Email_Template */
+        $mailTemplate = $this->_templateFactory->create();
+        $copyTo = $this->_rmaConfig->getCopyTo();
+        $copyMethod = $this->_rmaConfig->getCopyMethod();
         if ($copyTo && $copyMethod == 'bcc') {
             foreach ($copyTo as $email) {
                 $mailTemplate->addBcc($email);
@@ -132,9 +185,9 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
         }
 
         if ($isGuestAvailable && $order->getCustomerIsGuest()) {
-            $template = $configRmaEmail->getGuestTemplate();
+            $template = $this->_rmaConfig->getGuestTemplate();
         } else {
-            $template = $configRmaEmail->getTemplate();
+            $template = $this->_rmaConfig->getTemplate();
         }
 
         if ($copyTo && $copyMethod == 'copy') {
@@ -153,7 +206,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
             ))
                 ->sendTransactional(
                     $template,
-                    $configRmaEmail->getIdentity(),
+                    $this->_rmaConfig->getIdentity(),
                     $recipient['email'],
                     $recipient['name'],
                     array(
@@ -164,7 +217,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
                 );
         }
         $this->setEmailSent(true);
-        $translate->setTranslateInline(true);
+        $this->_translate->setTranslateInline(true);
 
         return $this;
     }
@@ -207,7 +260,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
                 ->setComment($systemComments[$rma->getStatus()])
                 ->setIsVisibleOnFront(true)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
+                ->setCreatedAt($this->_date->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
         }

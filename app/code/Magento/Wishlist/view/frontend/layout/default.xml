@@ -8,10 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="top.links">
+    <referenceBlock name="top.links">
         <block class="Magento_Wishlist_Block_Link" name="wish-list-link" after="my-account-link"/>
-    </reference>
-    <reference name="right">
+    </referenceBlock>
+    <referenceContainer name="right">
         <block class="Magento_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" as="wishlist" after="cart_sidebar" template="sidebar.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

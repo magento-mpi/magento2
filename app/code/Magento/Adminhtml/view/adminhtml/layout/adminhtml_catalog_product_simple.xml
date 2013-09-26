@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_catalog_product_superconfig_config"/>
-    <reference name="product_tabs">
+    <referenceBlock name="product_tabs">
         <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
             <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
                 <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
@@ -21,5 +21,5 @@
             <argument name="name" xsi:type="string">super_config</argument>
             <argument name="block" xsi:type="string">admin.product.edit.tab.super.config.grid.container</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

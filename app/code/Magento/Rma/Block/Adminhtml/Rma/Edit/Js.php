@@ -8,9 +8,8 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Js extends Magento_Adminhtml_Block_Template
+class Magento_Rma_Block_Adminhtml_Rma_Edit_Js extends Magento_Backend_Block_Template
 {
-
     /**
      * Core registry
      *

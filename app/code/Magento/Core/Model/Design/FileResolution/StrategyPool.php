@@ -14,11 +14,6 @@
 class Magento_Core_Model_Design_FileResolution_StrategyPool
 {
     /**
-     * Path to config node that allows automatically updating map files in runtime
-     */
-    const XML_PATH_ALLOW_MAP_UPDATE = 'global/dev/design_fallback/allow_map_update';
-
-    /**
      * Sub-directory where to store maps of view files fallback (if used)
      */
     const FALLBACK_MAP_DIR = 'maps/fallback';
@@ -178,8 +173,6 @@ class Magento_Core_Model_Design_FileResolution_StrategyPool
                 $arguments = array(
                     'mapDir' => str_replace('/', DIRECTORY_SEPARATOR, $mapDir),
                     'baseDir' => $this->_dirs->getDir(Magento_Core_Model_Dir::ROOT),
-                    'canSaveMap' => (bool)(string)$this->_objectManager->get('Magento_Core_Model_Config')
-                        ->getNode(self::XML_PATH_ALLOW_MAP_UPDATE),
                 );
                 break;
             default:

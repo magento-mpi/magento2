@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_locks_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Pci_Block_Adminhtml_Locks" name="pci.locks.container" as="locks_container"/>
-    </reference>
+    </referenceContainer>
 </layout>

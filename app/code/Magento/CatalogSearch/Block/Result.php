@@ -33,17 +33,39 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     protected $_catalogSearchData = null;
 
     /**
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog layer
+     *
+     * @var Magento_Catalog_Model_Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
         array $data = array()
     ) {
+        $this->_catalogLayer = $catalogLayer;
+        $this->_storeManager = $storeManager;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct($coreData, $context, $data);
     }
@@ -73,7 +95,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
             $breadcrumbs->addCrumb('home', array(
                 'label' => __('Home'),
                 'title' => __('Go to Home Page'),
-                'link'  => Mage::getBaseUrl()
+                'link'  => $this->_storeManager->getStore()->getBaseUrl(),
             ))->addCrumb('search', array(
                 'label' => $title,
                 'title' => $title
@@ -114,8 +136,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
      */
     public function setListOrders()
     {
-        $category = Mage::getSingleton('Magento_Catalog_Model_Layer')
-            ->getCurrentCategory();
+        $category = $this->_catalogLayer->getCurrentCategory();
         /* @var $category Magento_Catalog_Model_Category */
         $availableOrders = $category->getAvailableSortByOptions();
         unset($availableOrders['position']);

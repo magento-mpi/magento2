@@ -26,6 +26,45 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
     protected $_storeId;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog search resource helper
+     *
+     * @var Magento_CatalogSearch_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_resourceHelper = $resourceHelper;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Init model for collection
      *
      */
@@ -75,7 +114,7 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
                 array('query'      => $ifSynonymFor, 'num_results')
             )
             ->where('num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?',
-                Mage::getResourceHelper('Magento_Core')->addLikeEscape($query, array('position' => 'start')))
+                $this->_resourceHelper->addLikeEscape($query, array('position' => 'start')))
             ->order('popularity ' . Magento_DB_Select::SQL_DESC);
         if ($this->getStoreId()) {
             $this->getSelect()
@@ -108,7 +147,7 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
             $this->getSelect()->where('num_results > 0');
         }
         elseif (null === $storeIds) {
-            $this->addStoreFilter(Mage::app()->getStore()->getId());
+            $this->addStoreFilter($this->_storeManager->getStore()->getId());
             $this->getSelect()->where('num_results > 0');
         }
 

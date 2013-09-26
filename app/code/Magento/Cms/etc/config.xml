@@ -10,58 +10,15 @@
  */
 -->
 <config>
-    <adminhtml>
-        <cms>
-            <browser>
-                <dirs>
-                    <exclude />
-                    <include />
-                </dirs>
-                <extensions>
-                    <allowed>
-                        <jpg>1</jpg>
-                        <jpeg>1</jpeg>
-                        <png>1</png>
-                        <gif>1</gif>
-                    </allowed>
-                    <image_allowed>
-                        <jpg>1</jpg>
-                        <jpeg>1</jpeg>
-                        <png>1</png>
-                        <gif>1</gif>
-                    </image_allowed>
-                    <media_allowed>
-                        <flv>1</flv>
-                        <swf>1</swf>
-                        <avi>1</avi>
-                        <mov>1</mov>
-                        <rm>1</rm>
-                        <wmv>1</wmv>
-                    </media_allowed>
-                </extensions>
-                <window_width>1000</window_width>
-                <window_height>600</window_height>
-                <resize_width>100</resize_width>
-                <resize_height>75</resize_height>
-            </browser>
-        </cms>
-    </adminhtml>
     <global>
         <resources>
             <cms_setup>
                 <setup>
                     <module>Magento_Cms</module>
+                    <class>Magento_Cms_Model_Resource_Setup</class>
                 </setup>
             </cms_setup>
         </resources>
-        <cms>
-            <page>
-                <tempate_filter>Magento_Cms_Model_Template_Filter</tempate_filter>
-            </page>
-            <block>
-                <tempate_filter>Magento_Cms_Model_Template_Filter</tempate_filter>
-            </block>
-        </cms>
     </global>
     <default>
         <web>

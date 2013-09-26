@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root">
+    <referenceBlock name="root">
         <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Load" name="content"/>
-    </reference>
+    </referenceBlock>
 </layout>

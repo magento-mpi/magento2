@@ -19,6 +19,23 @@
 class Magento_Log_Model_Resource_Visitor_Online extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_date = $date;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define resource
      *
      */
@@ -52,7 +69,7 @@ class Magento_Log_Model_Resource_Visitor_Online extends Magento_Core_Model_Resou
 
             // retrieve online visitors general data
 
-            $lastDate = Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp() - $object->getOnlineInterval() * 60;
+            $lastDate = $this->_date->gmtTimestamp() - $object->getOnlineInterval() * 60;
 
             $select = $readAdapter->select()
                 ->from(

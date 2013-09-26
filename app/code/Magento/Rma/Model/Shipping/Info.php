@@ -10,10 +10,6 @@
 
 /**
  * RMA Shipping Info Model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Shipping_Info extends Magento_Object
 {
@@ -29,7 +25,17 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
      *
      * @var Magento_Rma_Helper_Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
+
+    /**
+     * @var Magento_Rma_Model_RmaFactory
+     */
+    protected $_rmaFactory;
+
+    /**
+     * @var Magento_Rma_Model_ShippingFactory
+     */
+    protected $_shippingFactory;
 
     /**
      * Constructor
@@ -38,13 +44,19 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
      * attributes This behavior may change in child classes
      *
      * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Rma_Model_RmaFactory $rmaFactory
+     * @param Magento_Rma_Model_ShippingFactory $shippingFactory
      * @param array $data
      */
     public function __construct(
         Magento_Rma_Helper_Data $rmaData,
+        Magento_Rma_Model_RmaFactory $rmaFactory,
+        Magento_Rma_Model_ShippingFactory $shippingFactory,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
+        $this->_rmaFactory = $rmaFactory;
+        $this->_shippingFactory = $shippingFactory;
         parent::__construct($data);
     }
 
@@ -109,7 +121,7 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
     protected function _initRma()
     {
         /* @var $model Magento_Rma_Model_Rma */
-        $model = Mage::getModel('Magento_Rma_Model_Rma');
+        $model = $this->_rmaFactory->create();
         $rma = $model->load($this->getRmaId());
         if (!$rma->getEntityId() || $this->getProtectCode() != $rma->getProtectCode()) {
             return false;
@@ -148,7 +160,8 @@ class Magento_Rma_Model_Shipping_Info extends Magento_Object
      */
     public function getTrackingInfoByTrackId()
     {
-        $track = Mage::getModel('Magento_Rma_Model_Shipping')->load($this->getTrackId());
+        /** @var $track Magento_Rma_Model_Shipping */
+        $track = $this->_shippingFactory->create()->load($this->getTrackId());
         if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
             $this->_trackingInfo = array(array($track->getNumberDetail()));
         }

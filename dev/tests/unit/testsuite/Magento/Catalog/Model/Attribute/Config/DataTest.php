@@ -43,14 +43,14 @@ class Magento_Catalog_Model_Attribute_Config_DataTest extends PHPUnit_Framework_
         $fixtureConfigData = require __DIR__ . '/_files/attributes_config_merged.php';
         $this->_configCache
             ->expects($this->once())
-            ->method('get')
-            ->with('fixture_scope', 'fixture_cache_id')
+            ->method('load')
+            ->with('fixture_scope::fixture_cache_id')
             ->will($this->returnValue(false))
         ;
         $this->_configCache
             ->expects($this->once())
-            ->method('put')
-            ->with($fixtureConfigData, 'fixture_scope', 'fixture_cache_id')
+            ->method('save')
+            ->with(serialize($fixtureConfigData), 'fixture_scope::fixture_cache_id')
         ;
         $this->_configReader
             ->expects($this->once())

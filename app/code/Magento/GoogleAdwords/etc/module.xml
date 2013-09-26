@@ -15,7 +15,6 @@
         <depends>
             <module name="Magento_Core"/>
             <module name="Magento_Sales"/>
-            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

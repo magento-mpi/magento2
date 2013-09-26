@@ -26,14 +26,16 @@ class Magento_SalesRule_Model_Quote_Discount extends Magento_Sales_Model_Quote_A
     protected $_eventManager = null;
 
     /**
+     * @param Magento_SalesRule_Model_Validator $ruleValidator
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
+        Magento_SalesRule_Model_Validator $ruleValidator,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
+        $this->_calculator = $ruleValidator;
         $this->_eventManager = $eventManager;
         $this->setCode('discount');
-        $this->_calculator = Mage::getSingleton('Magento_SalesRule_Model_Validator');
     }
 
     /**

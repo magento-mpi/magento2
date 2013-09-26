@@ -8,19 +8,19 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product Email to a Friend" type="page" parent="catalog_product_view">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setMyClass">
             <argument name="value" xsi:type="string">send-to-friend</argument>
         </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="varien-product-js">
             <arguments>
                 <argument name="file" xsi:type="string">varien/product.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Sendfriend_Block_Send" name="sendfriend.send" template="send.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

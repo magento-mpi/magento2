@@ -55,7 +55,7 @@
              * @param data
              */
             fail: function(e, data) {
-                alert($.mage.__('We don\'t recognize or support this file extension type.'));
+                alert($.mage.__("We don't recognize or support this file extension type."));
             },
 
             /**

@@ -8,13 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Category (Non-Anchor)" type="page" parent="default">
-    <reference name="left">
+    <referenceContainer name="left">
         <block class="Magento_Catalog_Block_Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
-    </reference>
-    <reference name="breadcrumbs.container">
+    </referenceContainer>
+    <referenceContainer name="breadcrumbs.container">
         <block class="Magento_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
-    </reference>
-    <reference name="content">
+    </referenceContainer>
+    <referenceContainer name="content">
         <block class="Magento_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
             <block class="Magento_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
                 <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
@@ -25,6 +25,6 @@
                 </action>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
     <update handle="MAP_popup"/>
 </layout>

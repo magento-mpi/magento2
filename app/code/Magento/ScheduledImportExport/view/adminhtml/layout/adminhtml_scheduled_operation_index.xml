@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_scheduled_operation_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation" name="adminhtml.block.scheduled.operation.grid.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

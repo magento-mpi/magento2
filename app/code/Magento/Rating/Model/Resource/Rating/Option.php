@@ -81,13 +81,21 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
     protected $_coreHttp = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @param Magento_Customer_Model_Session $session
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Customer_Model_Session $session,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_session = $session;
         $this->_coreHttp = $coreHttp;
         parent::__construct($resource);
     }
@@ -128,7 +136,7 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
         if (!$option->getDoUpdate()) {
             $data['remote_ip']       = $this->_coreHttp->getRemoteAddr();
             $data['remote_ip_long']  = $this->_coreHttp->getRemoteAddr(true);
-            $data['customer_id']     = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+            $data['customer_id']     = $this->_session->getCustomerId();
             $data['entity_pk_value'] = $option->getEntityPkValue();
             $data['rating_id']       = $option->getRatingId();
         }

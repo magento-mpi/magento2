@@ -18,17 +18,25 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_CustomerBalance_Model_BalanceFactory
+     */
+    protected $_balanceFactory;
+
+    /**
+     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_balanceFactory = $balanceFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -41,7 +49,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     public function getDeleteOrphanBalancesButton()
     {
         $customer = $this->_coreRegistry->registry('current_customer');
-        $balance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
+        $balance = $this->_balanceFactory->create();
         if ($balance->getOrphanBalancesCount($customer->getId()) > 0) {
             return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
                 'label'     => __('Delete Orphan Balances'),

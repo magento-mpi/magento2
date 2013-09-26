@@ -72,12 +72,17 @@ class Magento_Pbridge_Model_Payment_Method_Eway_Direct extends Magento_Payment_M
     protected $_pbridgeData = null;
 
     /**
+     * Construct
+     *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Centinel_Model_Service $centinelService
      * @param array $data
      */
     public function __construct(
@@ -87,10 +92,14 @@ class Magento_Pbridge_Model_Payment_Method_Eway_Direct extends Magento_Payment_M
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Centinel_Model_Service $centinelService,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+            $locale, $centinelService, $data);
     }
 
     /**
