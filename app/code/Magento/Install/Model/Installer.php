@@ -202,7 +202,6 @@ class Magento_Install_Model_Installer extends Magento_Object
             ->install();
 
         $this->_objectManager->get('Magento_Core_Model_Config_Local')->reload();
-        $this->_objectManager->get('Magento_Core_Model_App_State')->setInstallDate(time());
 
         /** @var $config Magento_Core_Model_Config */
         $config = Mage::getSingleton('Magento_Core_Model_Config');
