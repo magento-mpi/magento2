@@ -22,6 +22,51 @@ class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
     protected $_maxPopularity;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Url factory
+     *
+     * @var Magento_Core_Model_UrlFactory
+     */
+    protected $_urlFactory;
+
+    /**
+     * Query collection factory
+     *
+     * @var Magento_CatalogSearch_Model_Resource_Query_CollectionFactory
+     */
+    protected $_queryCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_CatalogSearch_Model_Resource_Query_CollectionFactory $queryCollectionFactory
+     * @param Magento_Core_Model_UrlFactory $urlFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_CatalogSearch_Model_Resource_Query_CollectionFactory $queryCollectionFactory,
+        Magento_Core_Model_UrlFactory $urlFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_queryCollectionFactory = $queryCollectionFactory;
+        $this->_urlFactory = $urlFactory;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Load terms and try to sort it by names
      *
      * @return Magento_CatalogSearch_Block_Term
@@ -30,8 +75,8 @@ class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
     {
         if (empty($this->_terms)) {
             $this->_terms = array();
-            $terms = Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Query_Collection')
-                ->setPopularQueryFilter(Mage::app()->getStore()->getId())
+            $terms = $this->_queryCollectionFactory->create()
+                ->setPopularQueryFilter($this->_storeManager->getStore()->getId())
                 ->setPageSize(100)
                 ->load()
                 ->getItems();
@@ -70,7 +115,8 @@ class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
 
     public function getSearchUrl($obj)
     {
-        $url = Mage::getModel('Magento_Core_Model_Url');
+        /** @var $url Magento_Core_Model_Url */
+        $url = $this->_urlFactory->create();
         /*
         * url encoding will be done in Url.php http_build_query
         * so no need to explicitly called urlencode for the text

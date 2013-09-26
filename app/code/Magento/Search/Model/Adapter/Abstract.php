@@ -43,6 +43,20 @@ abstract class Magento_Search_Model_Adapter_Abstract
     protected $_filterPrice;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Cache
+     *
+     * @var Magento_Core_Model_CacheInterface
+     */
+    protected $_cache;
+
+    /**
      * Field to use to determine and enforce document uniqueness
      *
      */
@@ -161,24 +175,35 @@ abstract class Magento_Search_Model_Adapter_Abstract
     protected $_logger;
 
     /**
+     * Construct
+     *
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
      * @param Magento_Search_Model_Resource_Index $resourceIndex
      * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
      * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_CacheInterface $cache
      */
-    function __construct(
+    public function __construct(
         Magento_Customer_Model_Session $customerSession,
         Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice,
         Magento_Search_Model_Resource_Index $resourceIndex,
         Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
-        Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+        Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection,
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_CacheInterface $cache
     ) {
         $this->_customerSession = $customerSession;
         $this->_filterPrice = $filterPrice;
         $this->_resourceIndex = $resourceIndex;
         $this->_resourceFulltext = $resourceFulltext;
         $this->_attributeCollection = $attributeCollection;
+        $this->_logger = $logger;
+        $this->_storeManager = $storeManager;
+        $this->_cache = $cache;
     }
 
     /**
@@ -214,7 +239,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
          * Cleaning MAXPRICE cache
          */
         $cacheTag = $this->_filterPrice->getCacheTag();
-        Mage::app()->cleanCache(array($cacheTag));
+        $this->_cache->clean(array($cacheTag));
 
         $this->_indexNeedsOptimization = true;
 
@@ -293,7 +318,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
             $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
         if ($websiteId === null) {
-            $websiteId = Mage::app()->getStore()->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
 
         if ($customerGroupId === null || !$websiteId) {
@@ -351,7 +376,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
         if (isset($productPriceIndexData[$productId])) {
             $productPriceIndexData = $productPriceIndexData[$productId];
 
-            $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
             foreach ($productPriceIndexData as $customerGroupId => $price) {
                 $fieldName = $this->getPriceFieldName($customerGroupId, $websiteId);
                 $result[$fieldName] = sprintf('%F', $price);
@@ -1174,9 +1199,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
     protected function _getIndexableAttributeParams()
     {
         if ($this->_indexableAttributeParams === null) {
-            $attributeCollection = $this->_attributeCollection
-                    ->addToIndexFilter()
-                    ->getItems();
+            $attributeCollection = $this->_attributeCollection->addToIndexFilter()->getItems();
 
             $this->_indexableAttributeParams = array();
             foreach ($attributeCollection as $item) {
