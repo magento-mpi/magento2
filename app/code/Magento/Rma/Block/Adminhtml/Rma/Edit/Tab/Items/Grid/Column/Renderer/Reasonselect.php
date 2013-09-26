@@ -11,10 +11,10 @@
 /**
  * Grid column widget for rendering action grid cells
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid_Column_Renderer;
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
 
 class Reasonselect
-    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid_Column_Renderer_AbstractRenderer
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var \Magento\Rma\Model\Item\FormFactory

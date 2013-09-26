@@ -248,7 +248,7 @@ class Grid
             'header'=> __('Remaining'),
             'type'  => 'text',
             'index' => 'available_qty',
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
             'filter' => false,
             'sortable' => false,
             'header_css_class'  => 'col-qty',
