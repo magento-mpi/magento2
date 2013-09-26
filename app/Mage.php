@@ -146,8 +146,6 @@ final class Mage
     {
         self::$_appRoot         = null;
         self::$_app             = null;
-        self::$_objects         = null;
-        self::$_isDownloader    = false;
         self::$_loggers         = array();
         self::$_design          = null;
         // do not reset $headersSentThrowsException
