@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,15 +19,38 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
     protected $_coreRegistry = null;
 
     /**
+     * Event model factory
+     *
+     * @var Magento_Logging_Model_EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * Archive model factory
+     *
+     * @var Magento_Logging_Model_ArchiveFactory
+     */
+    protected $_archiveFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Logging_Model_EventFactory $eventFactory
+     * @param Magento_Logging_Model_ArchiveFactory $archiveFactory
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Logging_Model_EventFactory $eventFactory,
+        Magento_Logging_Model_ArchiveFactory $archiveFactory
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+
+        $this->_coreRegistry = $coreRegistry;
+        $this->_eventFactory = $eventFactory;
+        $this->_archiveFactory = $archiveFactory;
     }
 
     /**
@@ -59,7 +80,8 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
     public function detailsAction()
     {
         $eventId = $this->getRequest()->getParam('event_id');
-        $model   = Mage::getModel('Magento_Logging_Model_Event')
+        /** @var Magento_Logging_Model_Event $model */
+        $model = $this->_eventFactory->create()
             ->load($eventId);
         if (!$model->getId()) {
             $this->_redirect('*/*/');
@@ -124,7 +146,7 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
      */
     public function downloadAction()
     {
-        $archive = Mage::getModel('Magento_Logging_Model_Archive')->loadByBaseName(
+        $archive = $this->_archiveFactory->create()->loadByBaseName(
             $this->getRequest()->getParam('basename')
         );
         if ($archive->getFilename()) {
@@ -151,6 +173,5 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
                 return $this->_authorization->isAllowed('Magento_Logging::magento_logging_events');
                 break;
         }
-
     }
 }

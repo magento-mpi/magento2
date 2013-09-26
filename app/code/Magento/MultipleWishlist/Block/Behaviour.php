@@ -25,18 +25,30 @@ class Magento_MultipleWishlist_Block_Behaviour extends Magento_Core_Block_Templa
     protected $_wishlistData = null;
 
     /**
-     * @param Magento_MultipleWishlist_Helper_Data $wishlistData
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_MultipleWishlist_Helper_Data $wishlistData
      * @param array $data
      */
     public function __construct(
-        Magento_MultipleWishlist_Helper_Data $wishlistData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_MultipleWishlist_Helper_Data $wishlistData,
+        Magento_Customer_Model_Session $customerSession,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
+        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -88,7 +100,7 @@ class Magento_MultipleWishlist_Block_Behaviour extends Magento_Core_Block_Templa
      */
     public function canCreateWishlists($wishlistList)
     {
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        $customerId = $this->_customerSession->getCustomerId();
         return !$this->_wishlistData->isWishlistLimitReached($wishlistList) && $customerId;
     }
 

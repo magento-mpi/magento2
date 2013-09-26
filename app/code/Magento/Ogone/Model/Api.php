@@ -186,26 +186,29 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected $_locale;
 
     /**
+     * Construct
+     * 
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @var Magento_Ogone_Model_Config $config
-     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Ogone_Model_Config $config
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param array $data
-     * @return Magento_Ogone_Model_Api
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Ogone_Model_Config $config,
-        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -213,7 +216,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
         $this->_urlBuilder = $urlBuilder;
         $this->_coreString = $coreString;
         $this->_config = $config;
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
 
     /**

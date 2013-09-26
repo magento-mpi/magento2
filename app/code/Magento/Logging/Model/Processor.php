@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -86,59 +84,91 @@ class Magento_Logging_Model_Processor
      */
     protected $_additionalData = array();
 
-    /** @var  Magento_Backend_Model_Auth_Session */
+    /**
+     * Backend auth session
+     *
+     * @var Magento_Backend_Model_Auth_Session
+     */
     protected $_authSession;
 
-    /** @var  Magento_Backend_Model_Session */
+    /**
+     * Backend session
+     *
+     * @var Magento_Backend_Model_Session
+     */
     protected $_backendSession;
 
-    /** @var  Magento_ObjectManager */
+    /**
+     * Object manager
+     *
+     * @var Magento_ObjectManager
+     */
     protected $_objectManager;
 
-    /** @var  Magento_Core_Model_App */
-    protected $_coreApp;
-
-    /** @var  Magento_Core_Helper_Http */
-    protected $_httpHelper;
-
     /**
+     * Logger model
+     *
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
+
+    /**
+     * Event model factory
+     *
+     * @var Magento_Logging_Model_EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * Request
+     *
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * Core http
+     *
+     * @var Magento_Core_Helper_Http
+     */
+    protected $_httpHelper;
 
     /**
      * Constructor: initialize configuration model, controller and model handler
      *
      * @param Magento_Logging_Model_Config $config
      * @param Magento_Logging_Model_Handler_Models $modelsHandler
-     * @param Magento_Logging_Model_Handler_Controllers $controllersHandler
      * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_Backend_Model_Session $backendSession
      * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_App $coreApp
-     * @param Magento_Core_Helper_Http $httpHelper
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Logging_Model_Handler_ControllersFactory $handlerControllersFactory
+     * @param Magento_Logging_Model_EventFactory $eventFactory
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Helper_Http $httpHelper
      */
     public function __construct(
         Magento_Logging_Model_Config $config,
         Magento_Logging_Model_Handler_Models $modelsHandler,
-        Magento_Logging_Model_Handler_Controllers $controllersHandler,
         Magento_Backend_Model_Auth_Session $authSession,
         Magento_Backend_Model_Session $backendSession,
         Magento_ObjectManager $objectManager,
-        Magento_Core_Model_App $coreApp,
-        Magento_Core_Helper_Http $httpHelper,
-        Magento_Core_Model_Logger $logger
+        Magento_Core_Model_Logger $logger,
+        Magento_Logging_Model_Handler_ControllersFactory $handlerControllersFactory,
+        Magento_Logging_Model_EventFactory $eventFactory,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Helper_Http $httpHelper
     ) {
         $this->_config = $config;
         $this->_modelsHandler = $modelsHandler;
-        $this->_controllersHandler = $controllersHandler;
+        $this->_controllersHandler = $handlerControllersFactory->create();
         $this->_authSession = $authSession;
         $this->_backendSession = $backendSession;
         $this->_objectManager = $objectManager;
-        $this->_coreApp = $coreApp;
-        $this->_httpHelper = $httpHelper;
         $this->_logger = $logger;
+        $this->_eventFactory = $eventFactory;
+        $this->_request = $request;
+        $this->_httpHelper = $httpHelper;
     }
 
     /**
@@ -352,10 +382,9 @@ class Magento_Logging_Model_Processor
         }
         $errors = $this->_backendSession->getMessages()->getErrors();
         /** @var Magento_Logging_Model_Event $loggingEvent */
-        $loggingEvent = $this->_objectManager->create('Magento_Logging_Model_Event');
-        $loggingEvent->setData(array(
+        $loggingEvent = $this->_eventFactory->create()->setData(array(
             'ip'            => $this->_httpHelper->getRemoteAddr(),
-            'x_forwarded_ip'=> $this->_coreApp->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
+            'x_forwarded_ip'=> $this->_request->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,
             'is_success'    => empty($errors),
