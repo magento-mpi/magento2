@@ -21,11 +21,6 @@ class Magento_VersionsCms_Block_Adminhtml_Scope_Switcher extends Magento_Backend
     protected $_options;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_System_Store $systemStore
@@ -39,8 +34,7 @@ class Magento_VersionsCms_Block_Adminhtml_Scope_Switcher extends Magento_Backend
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $systemStore, $data);
+        parent::__construct($coreData, $context, $systemStore, $storeManager, $data);
     }
 
     /**
