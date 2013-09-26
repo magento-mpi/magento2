@@ -6,12 +6,12 @@
  * @license   {license_link}
  */
 
-use Magento\Tools\I18n\Code\FilesCollector;
-
 /**
  * Abstract class for phrase testing
  */
 namespace Magento\Test\Integrity\Phrase;
+
+use Magento\Tools\I18n\Code\FilesCollector;
 
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {

@@ -6,9 +6,6 @@
  * @license   {license_link}
  */
 
-use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
-use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
-
 /**
  * Scan source code for detects invocations of __() function, analyzes placeholders with arguments
  * and see if they not equal

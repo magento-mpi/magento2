@@ -6,9 +6,6 @@
  * @license   {license_link}
  */
 
-use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Translate\MethodCollector;
-use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
-
 /**
  * Scan source code for detects invocations of outdated __() method
  */
