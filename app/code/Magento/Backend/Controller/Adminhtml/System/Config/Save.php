@@ -34,18 +34,16 @@ class Magento_Backend_Controller_Adminhtml_System_Config_Save extends Magento_Ba
     /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Backend_Model_Config_Structure $configStructure
-     * @param Magento_Backend_Model_Auth_StorageInterface $authSession
      * @param Magento_Backend_Model_Config_Factory $configFactory
      * @param Magento_Cache_FrontendInterface $cache
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
         Magento_Backend_Model_Config_Structure $configStructure,
-        Magento_Backend_Model_Auth_StorageInterface $authSession,
         Magento_Backend_Model_Config_Factory $configFactory,
         Magento_Cache_FrontendInterface $cache
     ) {
-        parent::__construct($context, $configStructure, $authSession);
+        parent::__construct($context, $configStructure);
         $this->_configFactory = $configFactory;
         $this->_cache = $cache;
     }

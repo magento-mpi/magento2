@@ -13,15 +13,10 @@
  *
  * @method Magento_Backend_Block_Menu setAdditionalCacheKeyInfo(array $cacheKeyInfo)
  * @method array getAdditionalCacheKeyInfo()
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
 {
     const CACHE_TAGS = 'BACKEND_MAINMENU';
-
 
     /**
      * @var string
@@ -48,13 +43,49 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
     protected $_activeItemModel = null;
 
     /**
+     * @var Magento_Backend_Model_Menu_Filter_IteratorFactory
+     */
+    protected $_iteratorFactory;
+
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Backend_Model_Menu_Config
+     */
+    protected $_menuConfig;
+
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Backend_Model_Url $url,
+        Magento_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory,
+        Magento_Backend_Model_Auth_Session $authSession,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Backend_Model_Menu_Config $menuConfig,
+        array $data = array()
+    ) {
+        $this->_url = $url;
+        $this->_iteratorFactory = $iteratorFactory;
+        $this->_authSession = $authSession;
+        $this->_locale = $locale;
+        $this->_menuConfig = $menuConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Initialize template and cache settings
-     *
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->_url = Mage::getSingleton('Magento_Backend_Model_Url');
         $this->setCacheTags(array(self::CACHE_TAGS));
     }
 
@@ -177,7 +208,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
      */
     protected function _getMenuIterator($menu)
     {
-        return Mage::getModel('Magento_Backend_Model_Menu_Filter_Iterator', array('iterator' => $menu->getIterator()));
+        return $this->_iteratorFactory->create(array('iterator' => $menu->getIterator()));
     }
 
     /**
@@ -229,8 +260,8 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
         $cacheKeyInfo = array(
             'admin_top_nav',
             $this->getActive(),
-            Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId(),
-            Mage::app()->getLocale()->getLocaleCode()
+            $this->_authSession->getUser()->getId(),
+            $this->_locale->getLocaleCode()
         );
         // Add additional key parameters if needed
         $newCacheKeyInfo = $this->getAdditionalCacheKeyInfo();
@@ -247,7 +278,7 @@ class Magento_Backend_Block_Menu extends Magento_Backend_Block_Template
      */
     public function getMenuModel()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Menu_Config')->getMenu();
+        return $this->_menuConfig->getMenu();
     }
 
     /**

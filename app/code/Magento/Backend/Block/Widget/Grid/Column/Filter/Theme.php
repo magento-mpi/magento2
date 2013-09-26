@@ -10,14 +10,31 @@
 
 /**
  * Theme grid column filter
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Block_Widget_Grid_Column_Filter_Theme
     extends Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract
 {
+    /**
+     * @var Magento_Core_Model_Theme_LabelFactory
+     */
+    protected $_labelFactory;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Theme_LabelFactory $labelFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Theme_LabelFactory $labelFactory,
+        array $data = array()
+    ) {
+        $this->_labelFactory = $labelFactory;
+        parent::__construct($context, $resourceHelper, $data);
+    }
+
     /**
      * Retrieve filter HTML
      *
@@ -53,7 +70,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Theme
         $options = $this->getColumn()->getOptions();
         if (empty($options) || !is_array($options)) {
             /** @var $label Magento_Core_Model_Theme_Label */
-            $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+            $label = $this->_labelFactory->create();
             $options = $label->getLabelsCollection();
         }
         return $options;

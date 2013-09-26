@@ -10,10 +10,6 @@
 
 /**
  * Config backend model for robots.txt
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Model_Config_Value
 {
@@ -33,6 +29,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -43,6 +40,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Config $config,
         Magento_Filesystem $filesystem,
+        Magento_Core_Model_Dir $dir,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -57,9 +55,8 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
             $data
         );
         $this->_filesystem = $filesystem;
-        $this->_filePath = Mage::getBaseDir() . '/robots.txt';
+        $this->_filePath = $dir->getDir(Magento_Core_Model_Dir::ROOT) . '/robots.txt';
     }
-
 
     /**
      * Return content of default robot.txt

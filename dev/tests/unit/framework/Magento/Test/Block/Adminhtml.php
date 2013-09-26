@@ -88,6 +88,8 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
         $templateFactoryMock        = $this->_makeMock('Magento_Core_Model_TemplateEngine_Factory');
         $authorizationMock          = $this->_makeMock('Magento_AuthorizationInterface');
         $cacheStateMock             = $this->_makeMock('Magento_Core_Model_Cache_StateInterface');
+        $backendSessionMock         = $this->_makeMock('Magento_Backend_Model_Session');
+        $localeMock                 = $this->_makeMock('Magento_Core_Model_LocaleInterface');
 
         $this->_translatorMock
             ->expects($this->any())
@@ -114,7 +116,9 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
             $this->_filesystemMock,
             $viewFileSystemMock,
             $templateFactoryMock,
-            $authorizationMock
+            $authorizationMock,
+            $backendSessionMock,
+            $localeMock
         );
     }
 

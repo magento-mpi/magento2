@@ -11,10 +11,6 @@
 
 /**
  * Backend Auth session model
- *
- * @category    Magento
- * @package     Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Auth_Session
     extends Magento_Core_Model_Session_Abstract
@@ -37,6 +33,11 @@ class Magento_Backend_Model_Auth_Session
     protected $_aclBuilder;
 
     /**
+     * @var Magento_Backend_Model_UrlProxy
+     */
+    protected $_backendUrl;
+
+    /**
      * @param Magento_Core_Model_Session_Validator $validator
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -44,6 +45,7 @@ class Magento_Backend_Model_Auth_Session
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Backend_Model_UrlProxy $backendUrl
      * @param array $data
      */
     public function __construct(
@@ -54,9 +56,11 @@ class Magento_Backend_Model_Auth_Session
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Backend_Model_UrlProxy $backendUrl,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
+        $this->_backendUrl = $backendUrl;
         parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('admin');
     }
@@ -158,7 +162,7 @@ class Magento_Backend_Model_Auth_Session
     /**
      * Check if it is the first page after successfull login
      *
-     * @return boolean
+     * @return bool
      */
     public function isFirstPageAfterLogin()
     {
@@ -190,8 +194,8 @@ class Magento_Backend_Model_Auth_Session
         if ($this->getUser()) {
             $this->renewSession();
 
-            if (Mage::getSingleton('Magento_Backend_Model_Url')->useSecretKey()) {
-                Mage::getSingleton('Magento_Backend_Model_Url')->renewSecretUrls();
+            if ($this->_backendUrl->useSecretKey()) {
+                $this->_backendUrl->renewSecretUrls();
             }
 
             $this->setIsFirstPageAfterLogin(true);

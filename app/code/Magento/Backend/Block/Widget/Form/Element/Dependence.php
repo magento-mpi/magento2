@@ -53,19 +53,27 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var Magento_Backend_Model_Config_Structure_Element_Dependency_FieldFactory
+     */
+    protected $_fieldFactory;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Context $context
+     * @param Magento_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $fieldFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Context $context,
+        Magento_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $fieldFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
+        $this->_fieldFactory = $fieldFactory;
         parent::__construct($context, $data);
     }
 
@@ -86,7 +94,8 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
     public function addFieldDependence($fieldName, $fieldNameFrom, $refField)
     {
         if (!is_object($refField)) {
-            $refField = Mage::getModel('Magento_Backend_Model_Config_Structure_Element_Dependency_Field', array(
+            /** @var $refField Magento_Backend_Model_Config_Structure_Element_Dependency_Field */
+            $refField = $this->_fieldFactory->create(array(
                 'fieldData' => array('value' => (string)$refField),
                 'fieldPrefix' => '',
             ));

@@ -10,10 +10,6 @@
 
 /**
  * Index backend controller
- *
- * @category    Magento
- * @package     Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Controller_Adminhtml_Index extends Magento_Backend_Controller_ActionAbstract
 {
@@ -23,6 +19,6 @@ class Magento_Backend_Controller_Adminhtml_Index extends Magento_Backend_Control
      */
     public function indexAction()
     {
-        $this->_redirect(Mage::getSingleton('Magento_Backend_Model_Url')->getStartupPageUrl());
+        $this->_redirect($this->_backendUrl->getStartupPageUrl());
     }
 }

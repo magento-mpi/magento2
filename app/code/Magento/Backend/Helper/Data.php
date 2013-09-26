@@ -55,11 +55,29 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_AppProxy
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_Backend_Model_UrlProxy
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var Magento_Backend_Model_AuthProxy
+     */
+    protected $_auth;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_ConfigInterface $applicationConfig
      * @param Magento_Core_Model_Config_Primary $primaryConfig
      * @param Magento_Core_Model_RouterList $routerList
+     * @param Magento_Core_Model_AppProxy $app
+     * @param Magento_Backend_Model_UrlProxy $backendUrl
+     * @param Magento_Backend_Model_AuthProxy $auth
      * @param $defaultAreaFrontName
      */
     public function __construct(
@@ -68,6 +86,9 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Model_ConfigInterface $applicationConfig,
         Magento_Core_Model_Config_Primary $primaryConfig,
         Magento_Core_Model_RouterList $routerList,
+        Magento_Core_Model_AppProxy $app,
+        Magento_Backend_Model_UrlProxy $backendUrl,
+        Magento_Backend_Model_AuthProxy $auth,
         $defaultAreaFrontName
     ) {
         parent::__construct($context);
@@ -76,6 +97,9 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_primaryConfig = $primaryConfig;
         $this->_defaultAreaFrontName = $defaultAreaFrontName;
         $this->_routerList = $routerList;
+        $this->_app = $app;
+        $this->_backendUrl = $backendUrl;
+        $this->_auth = $auth;
     }
 
     public function getPageHelpUrl()
@@ -86,10 +110,10 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
         return $this->_pageHelpUrl;
     }
 
-    public function setPageHelpUrl($url=null)
+    public function setPageHelpUrl($url = null)
     {
         if (is_null($url)) {
-            $request = Mage::app()->getRequest();
+            $request = $this->_app->getRequest();
             $frontModule = $request->getControllerModule();
             if (!$frontModule) {
                 $frontName = $request->getModuleName();
@@ -103,7 +127,7 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
                 }
             }
             $url = 'http://www.magentocommerce.com/gethelp/';
-            $url.= Mage::app()->getLocale()->getLocaleCode().'/';
+            $url.= $this->_app->getLocale()->getLocaleCode().'/';
             $url.= $frontModule.'/';
             $url.= $request->getControllerName().'/';
             $url.= $request->getActionName().'/';
@@ -121,15 +145,15 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
         return $this;
     }
 
-    public function getUrl($route='', $params=array())
+    public function getUrl($route = '', $params = array())
     {
-        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl($route, $params);
+        return $this->_backendUrl->getUrl($route, $params);
     }
 
     public function getCurrentUserId()
     {
-        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()) {
-            return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
+        if ($this->_auth->getUser()) {
+            return $this->_auth->getUser()->getId();
         }
         return false;
     }
@@ -176,7 +200,7 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getHomePageUrl()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Url')->getRouteUrl('adminhtml');
+        return $this->_backendUrl->getRouteUrl('adminhtml');
     }
 
     /**
@@ -208,7 +232,6 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
                 $this->_areaFrontName = $this->_defaultAreaFrontName;
             }
         }
-
         return $this->_areaFrontName;
     }
 

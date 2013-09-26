@@ -148,6 +148,11 @@ class Magento_Backend_Model_Menu_Item
     protected $_moduleList;
 
     /**
+     * @var Magento_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
      * @param Magento_Backend_Model_Menu_Item_Validator $validator
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_Store_Config $storeConfig
@@ -155,6 +160,7 @@ class Magento_Backend_Model_Menu_Item
      * @param Magento_Backend_Model_Url $urlModel
      * @param Magento_Core_Helper_Abstract $helper
      * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_App_State $appState
      * @param array $data
      */
     public function __construct(
@@ -165,6 +171,7 @@ class Magento_Backend_Model_Menu_Item
         Magento_Backend_Model_Url $urlModel,
         Magento_Core_Helper_Abstract $helper,
         Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_App_State $appState,
         array $data = array()
     ) {
         $this->_validator = $validator;
@@ -176,6 +183,7 @@ class Magento_Backend_Model_Menu_Item
         $this->_urlModel = $urlModel;
         $this->_moduleHelper = $helper;
         $this->_moduleList = $moduleList;
+        $this->_appState = $appState;
 
         $this->_id = $data['id'];
         $this->_title = $data['title'];
@@ -447,7 +455,7 @@ class Magento_Backend_Model_Menu_Item
 
     public function __sleep()
     {
-        if (Mage::getIsSerializable()) {
+        if ($this->_appState->getIsSerializable()) {
             $helperClass = get_class($this->_moduleHelper);
             // Save original class name of the helper
             if (substr($helperClass, -1 * strlen('Interceptor')) === 'Interceptor') {
@@ -478,20 +486,16 @@ class Magento_Backend_Model_Menu_Item
 
     public function __wakeup()
     {
-        if (Mage::getIsSerializable()) {
-            $this->_moduleHelper = Magento_Core_Model_ObjectManager::getInstance()->get($this->_moduleHelperName);
-            $this->_validator = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Backend_Model_Menu_Item_Validator');
-            $this->_acl = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_AuthorizationInterface');
-            $this->_storeConfig =  Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_Store_Config');
-            $this->_menuFactory = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Backend_Model_MenuFactory');
-            $this->_urlModel = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Backend_Model_Url');
-            $this->_moduleList = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_ModuleListInterface');
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $this->_appState = $objectManager->get('Magento_Core_Model_App_State');
+        if ($this->_appState->getIsSerializable()) {
+            $this->_moduleHelper = $objectManager->get($this->_moduleHelperName);
+            $this->_validator = $objectManager->get('Magento_Backend_Model_Menu_Item_Validator');
+            $this->_acl = $objectManager->get('Magento_AuthorizationInterface');
+            $this->_storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+            $this->_menuFactory = $objectManager->get('Magento_Backend_Model_MenuFactory');
+            $this->_urlModel = $objectManager->get('Magento_Backend_Model_Url');
+            $this->_moduleList = $objectManager->get('Magento_Core_Model_ModuleListInterface');
             if ($this->_serializedSubmenu) {
                 $this->_submenu = $this->_menuFactory->create();
                 $this->_submenu->unserialize($this->_serializedSubmenu);

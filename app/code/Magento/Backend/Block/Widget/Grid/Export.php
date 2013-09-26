@@ -68,12 +68,12 @@ class Magento_Backend_Block_Widget_Grid_Export
         if ($this->hasData('exportTypes')) {
             foreach ($this->getData('exportTypes') as $type) {
                 if (!isset($type['urlPath']) || !isset($type['label'])) {
-                    Mage::throwException('Invalid export type supplied for grid export block');
+                    throw new Magento_Core_Exception('Invalid export type supplied for grid export block');
                 }
                 $this->addExportType($type['urlPath'], $type['label']);
             }
         }
-        $this->_exportPath = Mage::getBaseDir('var') . DS . 'export';
+        $this->_exportPath = $this->_dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'export';
     }
 
     /**

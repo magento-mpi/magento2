@@ -10,13 +10,27 @@
  
 /**
  * Locale timezone source
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Source_Locale_Timezone implements Magento_Core_Model_Option_ArrayInterface
 {
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
+     */
+    public function __construct(Magento_Core_Model_LocaleInterface $locale)
+    {
+        $this->_locale = $locale;
+    }
+
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
-        return Mage::app()->getLocale()->getOptionTimezones();
+        return $this->_locale->getOptionTimezones();
     }
 }

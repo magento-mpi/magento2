@@ -31,15 +31,21 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false);
         $this->_primaryConfigMock =
             $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false, false);
-
-        $this->_helper = new Magento_Backend_Helper_Data(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
-            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false),
-            $this->_configMock,
-            $this->_primaryConfigMock,
-            $this->getMock('Magento_Core_Model_RouterList', array(), array(), '', false),
-            'backend'
-        );
+        $appMock = $this->getMock('Magento_Core_Model_App', array(), array(),
+            'Magento_Core_Model_AppProxy', false, false);
+        $backendUrlMock = $this->getMock('Magento_Backend_Model_Url', array(), array(),
+            'Magento_Backend_Model_UrlProxy', false, false);
+        $authMock = $this->getMock('Magento_Backend_Model_Auth', array(), array(),
+            'Magento_Backend_Model_AuthProxy', false, false);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_helper = $helper->getObject('Magento_Backend_Helper_Data', array(
+            'applicationConfig'    => $this->_configMock,
+            'primaryConfig'        => $this->_primaryConfigMock,
+            'app'                  => $appMock,
+            'backendUrl'           => $backendUrlMock,
+            'auth'                 => $authMock,
+            'defaultAreaFrontName' => 'backend'
+        ));
     }
 
     public function testGetAreaFrontNameReturnsDefaultValueWhenCustomNotSet()

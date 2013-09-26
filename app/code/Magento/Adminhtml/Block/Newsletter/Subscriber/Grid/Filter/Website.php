@@ -10,14 +10,10 @@
 
 /**
  * Adminhtml newsletter subscribers grid website filter
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website
+    extends Magento_Backend_Block_Widget_Grid_Column_Filter_Select
 {
-
     protected $_websiteCollection = null;
 
     /**
@@ -25,20 +21,22 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends 
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
+        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
+        parent::__construct($context, $resourceHelper, $data);
     }
 
     protected function _getOptions()

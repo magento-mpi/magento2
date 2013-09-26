@@ -8,15 +8,9 @@
  * @license     {license_link}
  */
 
-
 /**
  * Config Directory currency backend model
- *
  * Allows dispatching before and after events for each controller action
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Backend_Currency_Default
     extends Magento_Backend_Model_Config_Backend_Currency_Abstract
@@ -26,17 +20,18 @@ class Magento_Backend_Model_Config_Backend_Currency_Default
      * Check default currency is available in allowed currencies
      *
      * @return Magento_Backend_Model_Config_Backend_Currency_Default
+     * @throws Magento_Core_Exception
      */
     protected function _afterSave()
     {
         if (!in_array($this->getValue(), $this->_getInstalledCurrencies())) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Sorry, we haven\'t installed the default display currency you selected.')
             );
         }
 
         if (!in_array($this->getValue(), $this->_getAllowedCurrencies())) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Sorry, the default display currency you selected in not available in allowed currencies.')
             );
         }

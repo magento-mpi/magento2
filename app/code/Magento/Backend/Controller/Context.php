@@ -35,6 +35,21 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     protected $_translator;
 
     /**
+     * @var Magento_Backend_Model_Auth
+     */
+    protected $_auth;
+
+    /**
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http $response
@@ -47,6 +62,9 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
      * @param Magento_Backend_Helper_Data $helper
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_Translate $translator
+     * @param Magento_Backend_Model_Auth $auth
+     * @param Magento_Backend_Model_Url $backendUrl
+     * @param Magento_Core_Model_LocaleInterface $locale
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -62,7 +80,10 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
         Magento_Backend_Model_Session $session,
         Magento_Backend_Helper_Data $helper,
         Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_Translate $translator
+        Magento_Core_Model_Translate $translator,
+        Magento_Backend_Model_Auth $auth,
+        Magento_Backend_Model_Url $backendUrl,
+        Magento_Core_Model_LocaleInterface $locale
     ) {
         parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, 
             $isRenderInherited
@@ -71,6 +92,9 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
         $this->_helper = $helper;
         $this->_authorization = $authorization;
         $this->_translator = $translator;
+        $this->_auth = $auth;
+        $this->_backendUrl = $backendUrl;
+        $this->_locale = $locale;
     }
 
     /**
@@ -103,5 +127,29 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     public function getTranslator()
     {
         return $this->_translator;
+    }
+
+    /**
+     * @return \Magento_Backend_Model_Auth
+     */
+    public function getAuth()
+    {
+        return $this->_auth;
+    }
+
+    /**
+     * @return \Magento_Backend_Model_Url
+     */
+    public function getBackendUrl()
+    {
+        return $this->_backendUrl;
+    }
+
+    /**
+     * @return \Magento_Core_Model_LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
     }
 }

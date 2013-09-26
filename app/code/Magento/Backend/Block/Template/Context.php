@@ -17,6 +17,11 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
     protected $_authorization;
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -37,6 +42,8 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_TemplateEngine_Factory $engineFactory
      * @param Magento_AuthorizationInterface $authorization
+     * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_Core_Model_LocaleInterface $locale
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -60,7 +67,9 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
         Magento_Filesystem $filesystem,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_TemplateEngine_Factory $engineFactory,
-        Magento_AuthorizationInterface $authorization
+        Magento_AuthorizationInterface $authorization,
+        Magento_Backend_Model_Session $backendSession,
+        Magento_Core_Model_LocaleInterface $locale
     ) {
         parent::__construct(
             $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $storeConfig,
@@ -68,6 +77,8 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
             $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory
         );
         $this->_authorization = $authorization;
+        $this->_backendSession = $backendSession;
+        $this->_locale = $locale;
     }
 
     /**
@@ -78,5 +89,21 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
     public function getAuthorization()
     {
         return $this->_authorization;
+    }
+
+    /**
+     * @return Magento_Backend_Model_Session
+     */
+    public function getBackendSession()
+    {
+        return $this->_backendSession;
+    }
+
+    /**
+     * @return Magento_Core_Model_LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
     }
 }

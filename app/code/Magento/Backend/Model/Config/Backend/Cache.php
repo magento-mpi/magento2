@@ -28,7 +28,7 @@ class Magento_Backend_Model_Config_Backend_Cache extends Magento_Core_Model_Conf
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::app()->cleanCache($this->_cacheTags);
+            $this->_cacheManager->clean($this->_cacheTags);
         }
     }
 }

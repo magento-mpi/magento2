@@ -17,13 +17,17 @@ class Magento_Log_Model_Resource_Visitor_Online_Grid_Row_UrlGenerator
     protected $_authorization;
 
     /**
+     * @param Magento_Backend_Model_UrlProxy $backendUrl
      * @param Magento_AuthorizationInterface $authorization
      * @param array $args
      */
-    public function __construct(Magento_AuthorizationInterface $authorization, array $args = array())
-    {
+    public function __construct(
+        Magento_Backend_Model_UrlProxy $backendUrl,
+        Magento_AuthorizationInterface $authorization,
+        array $args = array()
+    ) {
         $this->_authorization = $authorization;
-        parent::__construct($args);
+        parent::__construct($backendUrl, $args);
     }
 
     /**

@@ -21,6 +21,19 @@ class Magento_Backend_Model_Config_Source_Storage_Media_Database implements Mage
     protected $_connections = array();
 
     /**
+     * @var Magento_Core_Model_ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Core_Model_ConfigInterface $config
+     */
+    public function __construct(Magento_Core_Model_ConfigInterface $config)
+    {
+        $this->_config = $config;
+    }
+
+    /**
      * Recursively collect connection configuration
      *
      * @param  string $connectionName
@@ -53,7 +66,7 @@ class Magento_Backend_Model_Config_Source_Storage_Media_Database implements Mage
     {
         $mediaStorages = array();
 
-        $this->_connections = (array) Mage::app()->getConfig()->getNode('global/resources')->children();
+        $this->_connections = (array) $this->_config->getNode('global/resources')->children();
         foreach (array_keys($this->_connections) as $connectionName) {
             $connection = $this->_collectConnectionConfig($connectionName);
             if (!isset($connection['active']) || $connection['active'] != 1) {
@@ -67,5 +80,4 @@ class Magento_Backend_Model_Config_Source_Storage_Media_Database implements Mage
 
         return $mediaStorages;
     }
-
 }

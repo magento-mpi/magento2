@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Log Cron Backend Model
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Backend_Log_Cron extends Magento_Core_Model_Config_Value
 {
@@ -22,9 +17,39 @@ class Magento_Backend_Model_Config_Backend_Log_Cron extends Magento_Core_Model_C
     const CRON_MODEL_PATH   = 'crontab/jobs/log_clean/run/model';
 
     /**
+     * @var Magento_Core_Model_Config_ValueFactory
+     */
+    protected $_configValueFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Config_ValueFactory $configValueFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_configValueFactory = $configValueFactory;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Cron settings after save
      *
      * @return Magento_Backend_Model_Config_Backend_Log_Cron
+     * @throws Magento_Core_Exception
      */
     protected function _afterSave()
     {
@@ -49,20 +74,21 @@ class Magento_Backend_Model_Config_Backend_Log_Cron extends Magento_Core_Model_C
         }
 
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
-                ->load(self::CRON_STRING_PATH, 'path')
-                ->setValue($cronExprString)
+            /** @var $configValue Magento_Core_Model_Config_Value */
+            $configValue = $this->_configValueFactory->create();
+            $configValue->load(self::CRON_STRING_PATH, 'path');
+            $configValue->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
 
-            Mage::getModel('Magento_Core_Model_Config_Value')
-                ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue((string) $this->_coreConfig->getNode(self::CRON_MODEL_PATH))
+            /** @var $configValue Magento_Core_Model_Config_Value */
+            $configValue = $this->_configValueFactory->create();
+            $configValue->load(self::CRON_MODEL_PATH, 'path');
+            $configValue->setValue((string) $this->_config->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
-        }
-        catch (Exception $e) {
-            Mage::throwException(__('We can\'t save the Cron expression.'));
+        } catch (Exception $e) {
+            throw new Magento_Core_Exception(__('We can\'t save the Cron expression.'));
         }
     }
 }

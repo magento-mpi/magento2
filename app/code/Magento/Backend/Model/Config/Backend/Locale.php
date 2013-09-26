@@ -8,27 +8,73 @@
  * @license     {license_link}
  */
 
-
 /**
  * Config locale allowed currencies backend
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Config_Value
 {
+    /**
+     * @var Magento_Core_Model_Resource_Config_Data_CollectionFactory
+     */
+    protected $_configsFactory;
 
     /**
-     * Enter description here...
-     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_Website_Factory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Resource_Config_Data_CollectionFactory $configsFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Website_Factory $websiteFactory
+     * @param Magento_Core_Model_StoreFactory $storeFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Resource_Config_Data_CollectionFactory $configsFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Website_Factory $websiteFactory,
+        Magento_Core_Model_StoreFactory $storeFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_configsFactory = $configsFactory;
+        $this->_locale = $locale;
+        $this->_websiteFactory = $websiteFactory;
+        $this->_storeFactory = $storeFactory;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * @return Magento_Backend_Model_Config_Backend_Locale
+     * @throws Magento_Core_Exception
      */
     protected function _afterSave()
     {
-        $collection = Mage::getModel('Magento_Core_Model_Config_Value')
-            ->getCollection()
-            ->addPathFilter('currency/options');
+        /** @var $collection Magento_Core_Model_Resource_Config_Data_Collection */
+        $collection = $this->_configsFactory->create();
+        $collection->addPathFilter('currency/options');
 
         $values     = explode(',', $this->getValue());
         $exceptions = array();
@@ -39,7 +85,7 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
 
             if (preg_match('/(base|default)$/', $data->getPath(), $match)) {
                 if (!in_array($data->getValue(), $values)) {
-                    $currencyName = Mage::app()->getLocale()->currency($data->getValue())->getName();
+                    $currencyName = $this->_locale->currency($data->getValue())->getName();
                     if ($match[1] == 'base') {
                         $fieldName = __('Base currency');
                     } else {
@@ -52,14 +98,16 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
                             break;
 
                         case 'website':
-                            $websiteName = Mage::getModel('Magento_Core_Model_Website')
-                                ->load($data->getScopeId())->getName();
+                            /** @var $website Magento_Core_Model_Website */
+                            $website = $this->_websiteFactory->create();
+                            $websiteName = $website->load($data->getScopeId())->getName();
                             $scopeName = __('website(%1) scope', $websiteName);
                             break;
 
                         case 'store':
-                            $storeName = Mage::getModel('Magento_Core_Model_Store')->load($data->getScopeId())
-                                ->getName();
+                            /** @var $store Magento_Core_Model_Store */
+                            $store = $this->_storeFactory->create();
+                            $storeName = $store->load($data->getScopeId())->getName();
                             $scopeName = __('store(%1) scope', $storeName);
                             break;
                     }
@@ -69,10 +117,9 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
             }
         }
         if ($exceptions) {
-            Mage::throwException(join("\n", $exceptions));
+            throw new Magento_Core_Exception(join("\n", $exceptions));
         }
 
         return $this;
     }
-
 }

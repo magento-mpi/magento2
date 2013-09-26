@@ -11,14 +11,30 @@
 
 /**
  * Store grid column filter
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Block_Widget_Grid_Column_Filter_Store
     extends Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract
 {
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_System_Store $systemStore,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        parent::__construct($context, $resourceHelper, $data);
+    }
 
     /**
      * Render HTML of the element
@@ -27,11 +43,9 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Store
      */
     public function getHtml()
     {
-        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
-        /* @var $storeModel Magento_Core_Model_System_Store */
-        $websiteCollection = $storeModel->getWebsiteCollection();
-        $groupCollection = $storeModel->getGroupCollection();
-        $storeCollection = $storeModel->getStoreCollection();
+        $websiteCollection = $this->_systemStore->getWebsiteCollection();
+        $groupCollection = $this->_systemStore->getGroupCollection();
+        $storeCollection = $this->_systemStore->getStoreCollection();
 
         $allShow = $this->getColumn()->getStoreAll();
 
