@@ -26,6 +26,32 @@ class Magento_Reports_Model_Resource_Wishlist_Collection extends Magento_Core_Mo
     protected $_wishlistTable;
 
     /**
+     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     */
+    protected $_customerResFactory;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customerResFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Customer_Model_Resource_Customer_CollectionFactory $customerResFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_customerResFactory = $customerResFactory;
+    }
+
+
+    /**
      * Resource initialization
      *
      */
@@ -64,7 +90,7 @@ class Magento_Reports_Model_Resource_Wishlist_Collection extends Magento_Core_Mo
     public function getWishlistCustomerCount()
     {
         /** @var $collection Magento_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        $collection = $this->_customerResFactory->create();
         
         $customersSelect = $collection->getSelectCountSql();
 
@@ -91,7 +117,7 @@ class Magento_Reports_Model_Resource_Wishlist_Collection extends Magento_Core_Mo
     public function getSharedCount()
     {
         /** @var $collection Magento_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        $collection = $this->_customerResFactory->create();
         $countSelect = $collection->getSelectCountSql();
         $countSelect->joinLeft(
                 array('wt' => $this->getWishlistTable()),

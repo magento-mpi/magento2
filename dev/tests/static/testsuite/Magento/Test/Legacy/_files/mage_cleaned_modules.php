@@ -13,4 +13,8 @@ return array(
     'Authorizenet',
     'Backup',
     //'Banner', Banner is commented because of ResourceHelper usage, which would be delivered later
+    'GiftRegistry',
+    'Reports',
+    'Invitation',
+    //'Reminder' commented because of ResourceHelper usage, which would be delivered later
 );

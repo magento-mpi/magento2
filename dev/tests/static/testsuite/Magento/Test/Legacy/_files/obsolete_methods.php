@@ -840,4 +840,5 @@ return array(
     array('_getOrderCreateModel', 'Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment'),
     array('objects', 'Mage'),
     array('reset', 'Mage'),
+    array('_getInventoryItemResource', 'Magento_Reports_Model_Resource_Product_Lowstock_Collection'),
 );

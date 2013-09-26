@@ -19,6 +19,33 @@
 class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_Review_Model_Resource_Review_Collection
 {
     /**
+     * @var Magento_Customer_Model_Resource_Customer
+     */
+    protected $_customerResource;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Review_Helper_Data $reviewData
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Customer_Model_Resource_Customer $customerResource
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Review_Helper_Data $reviewData,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Customer_Model_Resource_Customer $customerResource,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $reviewData, $fetchStrategy, $entityFactory, $resource);
+        $this->_customerResource = $customerResource;
+    }
+
+    /**
      * Init Select
      *
      * @return Magento_Reports_Model_Resource_Review_Customer_Collection
@@ -39,12 +66,10 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
     {
         /** @var $adapter Magento_DB_Adapter_Interface */
         $adapter            = $this->getConnection();
-        /** @var $customer Magento_Customer_Model_Resource_Customer */
-        $customer           = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
         /** @var $firstnameAttr Magento_Eav_Model_Entity_Attribute */
-        $firstnameAttr      = $customer->getAttribute('firstname');
+        $firstnameAttr      = $this->_customerResource->getAttribute('firstname');
         /** @var $lastnameAttr Magento_Eav_Model_Entity_Attribute */
-        $lastnameAttr       = $customer->getAttribute('lastname');
+        $lastnameAttr       = $this->_customerResource->getAttribute('lastname');
 
         $firstnameCondition = array('table_customer_firstname.entity_id = detail.customer_id');
 
