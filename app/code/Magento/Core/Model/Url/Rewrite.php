@@ -51,6 +51,13 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
     protected $_cacheTag = false;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @var Magento_Core_Model_App
      */
     protected $_app;
@@ -68,6 +75,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
     /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManager $storeManager
@@ -78,6 +86,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_App $app,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManager $storeManager,
@@ -85,12 +94,12 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_app = $app;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
-
 
     protected function _construct()
     {
@@ -299,14 +308,14 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
         }
         $isRedirectOption = $this->hasOption('R');
         if ($isRedirectOption || $isPermanentRedirectOption) {
-            if (Mage::getStoreConfig('web/url/use_store') && $storeCode = $this->_storeManager->getStore()->getCode()) {
+            if ($this->_coreStoreConfig->getConfig('web/url/use_store') && $storeCode = $this->_storeManager->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
             }
 
             $this->_sendRedirectHeaders($targetUrl, $isPermanentRedirectOption);
         }
 
-        if (Mage::getStoreConfig('web/url/use_store') && $storeCode = $this->_storeManager->getStore()->getCode()) {
+        if ($this->_coreStoreConfig->getConfig('web/url/use_store') && $storeCode = $this->_storeManager->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
         }
 

@@ -39,9 +39,13 @@ class Magento_Backend_Model_Auth_Session
     protected $_aclBuilder;
 
     /**
+     * @param Magento_Core_Model_Session_Validator $validator
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Acl_Builder $aclBuilder
      * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Message_CollectionFactory $messageFactory
      * @param Magento_Core_Model_Message $message
      * @param Magento_Core_Model_Cookie $cookie
@@ -51,13 +55,15 @@ class Magento_Backend_Model_Auth_Session
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Url_Proxy $url
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Session_Validator $validator,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Acl_Builder $aclBuilder,
         Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Message_CollectionFactory $messageFactory,
         Magento_Core_Model_Message $message,
         Magento_Core_Model_Cookie $cookie,
@@ -69,7 +75,7 @@ class Magento_Backend_Model_Auth_Session
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
-        parent::__construct($eventManager, $coreHttp, $messageFactory, $message, $cookie,
+        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory, $message, $cookie,
             $request, $appState, $storeManager, $dir, $url, $data);
         $this->init('admin');
     }
@@ -153,7 +159,7 @@ class Magento_Backend_Model_Auth_Session
      */
     public function isLoggedIn()
     {
-        $lifetime = Mage::getStoreConfig(self::XML_PATH_SESSION_LIFETIME);
+        $lifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_SESSION_LIFETIME);
         $currentTime = time();
 
         /* Validate admin session lifetime that should be more than 60 seconds */

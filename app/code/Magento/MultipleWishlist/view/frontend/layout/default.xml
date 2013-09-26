@@ -8,13 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="top.links">
-            <block class="Magento_MultipleWishlist_Block_Link" name="wish-list-link"/>
-        </reference>
-        <block class="Magento_MultipleWishlist_Block_Customer_Sidebar" name="wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>
-        <reference name="before_body_end">
-            <block class="Magento_MultipleWishlist_Block_Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="behaviour.phtml"/>
-        </reference>
-    </handle>
+    <referenceBlock name="top.links">
+        <block class="Magento_MultipleWishlist_Block_Link" name="wish-list-link"/>
+    </referenceBlock>
+    <block class="Magento_MultipleWishlist_Block_Customer_Sidebar" name="wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>
+    <referenceContainer name="before_body_end">
+        <block class="Magento_MultipleWishlist_Block_Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="behaviour.phtml"/>
+    </referenceContainer>
 </layout>

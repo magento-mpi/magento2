@@ -19,6 +19,33 @@
 class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container extends Magento_Core_Block_Html_Select
 {
     /**
+     * @var Magento_Core_Model_Layout_MergeFactory
+     */
+    protected $_layoutMergeFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     */
+    protected $_themeCollFactory;
+
+    /**
+     * @param Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_layoutMergeFactory = $layoutMergeFactory;
+        $this->_themeCollFactory = $themeCollFactory;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Assign attributes for the HTML select element
      */
     protected function _construct()
@@ -41,7 +68,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
                 'theme' => $this->_getThemeInstance($this->getTheme()),
             );
             /** @var $layoutMerge Magento_Core_Model_Layout_Merge */
-            $layoutMerge = Mage::getModel('Magento_Core_Model_Layout_Merge', $layoutMergeParams);
+            $layoutMerge = $this->_layoutMergeFactory->create($layoutMergeParams);
             $layoutMerge->addPageHandles(array($this->getLayoutHandle()));
             $layoutMerge->load();
 
@@ -72,7 +99,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
     protected function _getThemeInstance($themeId)
     {
         /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
-        $themeCollection = Mage::getResourceModel('Magento_Core_Model_Resource_Theme_Collection');
+        $themeCollection = $this->_themeCollFactory->create();
         return $themeCollection->getItemById($themeId);
     }
 }

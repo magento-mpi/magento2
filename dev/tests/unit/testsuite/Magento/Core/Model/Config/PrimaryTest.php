@@ -37,7 +37,7 @@ class Magento_Core_Model_Config_PrimaryTest extends PHPUnit_Framework_TestCase
         $this->_loaderMock = $this->getMock('Magento_Core_Model_Config_LoaderInterface');
         $that = $this;
         $this->_loaderMock->expects($this->once())->method('load')->will($this->returnCallback(
-            function($config) use ($that) {
+            function ($config) use ($that) {
                 $testConfig = new Magento_Core_Model_Config_Base($that->getConfigString());
                 $config->getNode()->extend($testConfig->getNode());
             }

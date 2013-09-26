@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_recurring_profile_index">
-        <reference name="content">
-            <block class="Magento_Sales_Block_Adminhtml_Recurring_Profile" name="sales.recurring.profile.grid.container"/>
-        </reference>
-    </handle>
+    <referenceContainer name="content">
+        <block class="Magento_Sales_Block_Adminhtml_Recurring_Profile" name="sales.recurring.profile.grid.container"/>
+    </referenceContainer>
 </layout>

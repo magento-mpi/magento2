@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_system_design_grid">
-        <update handle="formkey"/>
-        <update handle="adminhtml_system_design_grid_block"/>
-        <container label="System Design Block" name="adminhtml.system.design.container" output="1"/>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_system_design_grid_block"/>
+    <block class="Magento_Backend_Block_Widget_Grid_Container" name="adminhtml.system.design.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
 </layout>

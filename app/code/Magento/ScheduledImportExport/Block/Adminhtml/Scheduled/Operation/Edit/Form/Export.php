@@ -25,6 +25,54 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
     extends Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
 {
     /**
+     * @var Magento_ImportExport_Model_Source_Export_Format
+     */
+    protected $_sourceExportFormat;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @param Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory
+     * @param Magento_ImportExport_Model_Source_Export_Format $sourceExportFormat
+     * @param Magento_Core_Model_Option_ArrayPool $optionArrayPool
+     * @param Magento_Backend_Model_Config_Source_Email_Method $emailMethod
+     * @param Magento_Backend_Model_Config_Source_Email_Identity $emailIdentity
+     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData
+     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory,
+        Magento_ImportExport_Model_Source_Export_Format $sourceExportFormat,
+        Magento_Core_Model_Option_ArrayPool $optionArrayPool,
+        Magento_Backend_Model_Config_Source_Email_Method $emailMethod,
+        Magento_Backend_Model_Config_Source_Email_Identity $emailIdentity,
+        Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData,
+        Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_sourceExportFormat = $sourceExportFormat;
+        $this->_templateFactory = $templateFactory;
+        parent::__construct(
+            $optionArrayPool, $emailMethod, $emailIdentity, $operationData, $sourceYesno, $registry, $formFactory,
+            $coreData, $context, $data
+        );
+    }
+
+    /**
      * Prepare form for export operation
      *
      * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export
@@ -40,20 +88,17 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
         $operation = $this->_coreRegistry->registry('current_operation');
 
-        /** @var $fileFormatModel Magento_ImportExport_Model_Source_Export_Format */
-        $fileFormatModel = Mage::getModel('Magento_ImportExport_Model_Source_Export_Format');
-
         $fieldset = $form->getElement('operation_settings');
         $fieldset->addField('file_format', 'select', array(
             'name'      => 'file_info[file_format]',
             'title'     => __('File Format'),
             'label'     => __('File Format'),
             'required'  => true,
-            'values'    => $fileFormatModel->toOptionArray()
+            'values'    => $this->_sourceExportFormat->toOptionArray()
         ));
 
         $form->getElement('email_template')
-            ->setValues(Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template')
+            ->setValues($this->_templateFactory->create()
                 ->setPath('magento_scheduledimportexport_export_failed')
                 ->toOptionArray()
             );

@@ -81,6 +81,19 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
     protected $_catalogImage = null;
 
     /**
+     * @var Magento_Core_Model_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
+     * @param Magento_Core_Model_Translate $translate
      * @param Magento_Catalog_Helper_Image $catalogImage
      * @param Magento_Sendfriend_Helper_Data $sendfriendData
      * @param Magento_Core_Model_Context $context
@@ -90,6 +103,9 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Email_TemplateFactory $templateFactory,
+        Magento_Core_Model_Translate $translate,
         Magento_Catalog_Helper_Image $catalogImage,
         Magento_Sendfriend_Helper_Data $sendfriendData,
         Magento_Core_Model_Context $context,
@@ -98,6 +114,9 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_templateFactory = $templateFactory;
+        $this->_translate = $translate;
         $this->_catalogImage = $catalogImage;
         $this->_sendfriendData = $sendfriendData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -125,15 +144,17 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
     public function send()
     {
         if ($this->isExceedLimit()) {
-            Mage::throwException(__('You\'ve met your limit of %1 sends in an hour.', $this->getMaxSendsToFriend()));
+            throw new Magento_Core_Exception(
+                __('You\'ve met your limit of %1 sends in an hour.', $this->getMaxSendsToFriend())
+            );
         }
 
         /* @var $translate Magento_Core_Model_Translate */
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        $translate = $this->_translate;
         $translate->setTranslateInline(false);
 
         /* @var $mailTemplate Magento_Core_Model_Email_Template */
-        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+        $mailTemplate = $this->_templateFactory->create();
 
         $message = nl2br(htmlspecialchars($this->getSender()->getMessage()));
         $sender  = array(
@@ -143,7 +164,7 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
 
         $mailTemplate->setDesignConfig(array(
             'area'  => Magento_Core_Model_App_Area::AREA_FRONTEND,
-            'store' => Mage::app()->getStore()->getId()
+            'store' => $this->_storeManager->getStore()->getId(),
         ));
 
         foreach ($this->getRecipients()->getEmails() as $k => $email) {
@@ -242,7 +263,7 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
     {
         $cookie = $this->_getData('_cookie');
         if (!$cookie instanceof Magento_Core_Model_Cookie) {
-            Mage::throwException(__('Please define a correct Cookie instance.'));
+            throw new Magento_Core_Exception(__('Please define a correct Cookie instance.'));
         }
         return $cookie;
     }
@@ -364,7 +385,7 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
     {
         $product = $this->_getData('_product');
         if (!$product instanceof Magento_Catalog_Model_Product) {
-            Mage::throwException(__('Please define a correct Product instance.'));
+            throw new Magento_Core_Exception(__('Please define a correct Product instance.'));
         }
         return $product;
     }
@@ -394,7 +415,7 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
     {
         $sender = $this->_getData('_sender');
         if (!$sender instanceof Magento_Object) {
-            Mage::throwException(__('Please define the correct Sender information.'));
+            throw new Magento_Core_Exception(__('Please define the correct Sender information.'));
         }
         return $sender;
     }

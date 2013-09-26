@@ -26,6 +26,25 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
     protected $_flag     = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_logger = $logger;
+        parent::__construct($resource);
+    }
+
+    /**
      * Retrieve flag object
      *
      * @return Magento_Reports_Model_Flag
@@ -406,7 +425,7 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
                 $nextPeriod = $tr['time'];
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
 
         return $tzTransitions;

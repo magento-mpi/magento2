@@ -16,7 +16,7 @@ class Magento_Core_Model_TemplateEngine_PhpTest extends PHPUnit_Framework_TestCa
     /**
      * Create a PHP template engine to test.
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_phpEngine = new Magento_Core_Model_TemplateEngine_Php();
     }

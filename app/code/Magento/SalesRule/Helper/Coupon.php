@@ -39,10 +39,31 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
     const XML_PATH_SALES_RULE_COUPON_DASH_INTERVAL = 'promo/auto_generated_coupon_codes/dash';
 
     /**
-     * Config path for character set and separator
+     * @var array
      */
-    const XML_CHARSET_NODE      = 'global/salesrule/coupon/charset/%s';
-    const XML_CHARSET_SEPARATOR = 'global/salesrule/coupon/separator';
+    protected $_couponParameters;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $couponParameters
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $couponParameters
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_couponParameters = $couponParameters;
+        parent::__construct($context);
+    }
 
     /**
      * Get all possible coupon codes formats
@@ -65,7 +86,7 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getDefaultLength()
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_LENGTH);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_RULE_COUPON_LENGTH);
     }
 
     /**
@@ -75,7 +96,7 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getDefaultFormat()
     {
-        return Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_FORMAT);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_RULE_COUPON_FORMAT);
     }
 
     /**
@@ -85,7 +106,7 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getDefaultPrefix()
     {
-        return Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_PREFIX);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_RULE_COUPON_PREFIX);
     }
 
     /**
@@ -95,7 +116,7 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getDefaultSuffix()
     {
-        return Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_SUFFIX);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_RULE_COUPON_SUFFIX);
     }
 
     /**
@@ -105,7 +126,7 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getDefaultDashInterval()
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_DASH_INTERVAL);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_RULE_COUPON_DASH_INTERVAL);
     }
 
     /**
@@ -116,16 +137,16 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getCharset($format)
     {
-        return str_split((string) Mage::app()->getConfig()->getNode(sprintf(self::XML_CHARSET_NODE, $format)));
+        return str_split($this->_couponParameters['charset'][$format]);
     }
 
     /**
-     * Retrieve Separator from config
+     * Retrieve Separator
      *
      * @return string
      */
     public function getCodeSeparator()
     {
-        return (string)Mage::app()->getConfig()->getNode(Magento_SalesRule_Helper_Coupon::XML_CHARSET_SEPARATOR);
+        return $this->_couponParameters['separator'];
     }
 }

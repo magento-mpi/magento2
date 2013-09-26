@@ -37,6 +37,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
                 $objectManager->create('Magento_Core_Model_View_Url'),
                 $objectManager->create('Magento_Core_Model_View_FileSystem'),
                 $objectManager->get('Magento_Core_Model_View_DesignInterface'),
+                $objectManager->create('Magento_Core_Model_Store_Config'),
+                $objectManager->create('Magento_Core_Model_Config'),
                 $objectManager->get('Magento_Core_Model_Email_Template_FilterFactory'),
                 $objectManager->get('Magento_Core_Model_StoreManager'),
                 $objectManager->get('Magento_Core_Model_Dir')

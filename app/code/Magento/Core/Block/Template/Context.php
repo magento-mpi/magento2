@@ -85,8 +85,8 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
         Magento_Core_Model_App $app
     ) {
         parent::__construct(
-            $request, $layout, $eventManager, $urlBuilder, $translator, $cache,
-            $design, $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $app
+            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session,
+            $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app
         );
 
         $this->_dirs = $dirs;

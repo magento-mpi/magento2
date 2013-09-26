@@ -20,4 +20,4 @@
     <event name="salesrule_rule_save_after">
         <observer name="magento_banner" instance="Magento_Banner_Model_Observer" method="bindRelatedBannersToSalesRule" />
     </event>
-</config>
+</config>

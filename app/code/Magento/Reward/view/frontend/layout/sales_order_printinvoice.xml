@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_order_printinvoice">
-        <reference name="invoice_totals">
-            <block class="Magento_Reward_Block_Sales_Order_Total" name="reward.sales.order.total"/>
-        </reference>
-    </handle>
+    <referenceBlock name="invoice_totals">
+        <block class="Magento_Reward_Block_Sales_Order_Total" name="reward.sales.order.total"/>
+    </referenceBlock>
 </layout>

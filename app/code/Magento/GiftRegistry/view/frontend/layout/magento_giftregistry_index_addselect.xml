@@ -7,16 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Account GiftRegistry Add" id="magento_giftregistry_index_addselect" type="page" parent="magento_giftregistry_view_index">
-        <update handle="customer_account"/>
-        <reference name="customer-account-navigation">
-            <action method="setActive">
-                <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
-            </action>
-        </reference>
-        <reference name="my.account.wrapper">
-            <block class="Magento_GiftRegistry_Block_Customer_Edit" name="giftregistry_addselect" template="edit/addselect.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account GiftRegistry Add" type="page" parent="magento_giftregistry_view_index">
+    <update handle="customer_account"/>
+    <referenceBlock name="customer_account_navigation">
+        <action method="setActive">
+            <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
+        </action>
+    </referenceBlock>
+    <referenceContainer name="my.account.wrapper">
+        <block class="Magento_GiftRegistry_Block_Customer_Edit" name="giftregistry_addselect" template="edit/addselect.phtml"/>
+    </referenceContainer>
 </layout>

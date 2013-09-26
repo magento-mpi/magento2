@@ -24,6 +24,7 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
     protected $_customerAddress;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Customer_Helper_Address $customerAddress
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -35,9 +36,11 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
      * @param Magento_Core_Model_Resource_Resource $resourceResource
      * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
      * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Customer_Helper_Address $customerAddress,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -53,7 +56,7 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
         $resourceName
     ) {
         parent::__construct(
-            $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader,
+            $logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader,
             $cache, $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
         );
         $this->_customerAddress = $customerAddress;

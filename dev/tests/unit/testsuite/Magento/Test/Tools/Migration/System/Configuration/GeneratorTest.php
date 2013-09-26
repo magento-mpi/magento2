@@ -8,13 +8,13 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Generator.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/LoggerAbstract.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Formatter.php';
 
 
@@ -77,7 +77,7 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
         $this->_formatterMock->expects($this->once())->method('parseString')
             ->will(
                 $this->returnCallback(
-                    function($xml) {
+                    function ($xml) {
                         $dom = new DOMDocument();
                         $dom->loadXML($xml);
                         $dom->preserveWhiteSpace = false;

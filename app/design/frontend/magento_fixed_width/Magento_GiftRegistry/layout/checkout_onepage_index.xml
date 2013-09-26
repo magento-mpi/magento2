@@ -8,18 +8,16 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_index">
-        <reference name="head">
-            <block class="Magento_Page_Block_Html_Head_Script" name="magento-giftregistry-js-opcheckout-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">Magento_GiftRegistry::js/opcheckout.js</argument>
-                    <argument name="properties" xsi:type="array">
-                        <item name="attributes" xsi:type="string"/>
-                        <item name="ie_condition" xsi:type="string"/>
-                        <item name="flag_name" xsi:type="string">giftregistry_enabled</item>
-                    </argument>
-                </arguments>
-            </block>
-        </reference>
-    </handle>
+    <referenceBlock name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-giftregistry-js-opcheckout-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_GiftRegistry::js/opcheckout.js</argument>
+                <argument name="properties" xsi:type="array">
+                    <item name="attributes" xsi:type="string"/>
+                    <item name="ie_condition" xsi:type="string"/>
+                    <item name="flag_name" xsi:type="string">giftregistry_enabled</item>
+                </argument>
+            </arguments>
+        </block>
+    </referenceBlock>
 </layout>

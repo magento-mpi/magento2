@@ -8,12 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_cart_index">
-        <reference name="checkout.cart.top_methods">
-            <block class="Magento_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.top" template="link.phtml" before="-"/>
-        </reference>
-        <reference name="checkout.cart.methods">
-            <block class="Magento_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.bottom" template="link.phtml"/>
-        </reference>
-    </handle>
+    <referenceContainer name="checkout.cart.top_methods">
+        <block class="Magento_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.top" template="link.phtml" before="-"/>
+    </referenceContainer>
+    <referenceContainer name="checkout.cart.methods">
+        <block class="Magento_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.bottom" template="link.phtml"/>
+    </referenceContainer>
 </layout>

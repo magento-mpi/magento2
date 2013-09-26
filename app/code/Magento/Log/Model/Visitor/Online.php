@@ -12,7 +12,6 @@
 /**
  * Prepare Log Online Visitors Model
  *
- * @method Magento_Log_Model_Resource_Visitor_Online _getResource()
  * @method Magento_Log_Model_Resource_Visitor_Online getResource()
  * @method string getVisitorType()
  * @method Magento_Log_Model_Visitor_Online setVisitorType(string $value)
@@ -35,6 +34,41 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
 {
     const XML_PATH_ONLINE_INTERVAL      = 'customer/online_customers/online_minutes_interval';
     const XML_PATH_UPDATE_FREQUENCY     = 'log/visitor/online_update_frequency';
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_CacheInterface
+     */
+    protected $_cache;
+
+    /**
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_cache = $cache;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Initialize resource model
@@ -73,7 +107,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      */
     public function getPrepareAt()
     {
-        return Mage::app()->loadCache('log_visitor_online_prepare_at');
+        return $this->_cache->load('log_visitor_online_prepare_at');
     }
 
     /**
@@ -87,7 +121,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
         if (is_null($time)) {
             $time = time();
         }
-        Mage::app()->saveCache($time, 'log_visitor_online_prepare_at');
+        $this->_cache->save($time, 'log_visitor_online_prepare_at');
         return $this;
     }
 
@@ -98,7 +132,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      */
     public function getUpdateFrequency()
     {
-        return Mage::getStoreConfig(self::XML_PATH_UPDATE_FREQUENCY);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_FREQUENCY);
     }
 
     /**
@@ -108,7 +142,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      */
     public function getOnlineInterval()
     {
-        $value = intval(Mage::getStoreConfig(self::XML_PATH_ONLINE_INTERVAL));
+        $value = intval($this->_coreStoreConfig->getConfig(self::XML_PATH_ONLINE_INTERVAL));
         if (!$value) {
             $value = Magento_Log_Model_Visitor::DEFAULT_ONLINE_MINUTES_INTERVAL;
         }

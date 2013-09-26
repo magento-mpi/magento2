@@ -36,6 +36,33 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
     protected $_categoryUrlSuffix = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve current store categories
      *
      * @param   boolean|string $sorted
@@ -57,7 +84,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
         /* @var $category Magento_Catalog_Model_Category */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
-                return new Magento_Data_Collection();
+                return $this->_collectionFactory->create();
             }
             return array();
         }
@@ -124,7 +151,9 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
         }
 
         if (!isset($this->_categoryUrlSuffix[$storeId])) {
-            $this->_categoryUrlSuffix[$storeId] = Mage::getStoreConfig(self::XML_PATH_CATEGORY_URL_SUFFIX, $storeId);
+            $this->_categoryUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(
+                self::XML_PATH_CATEGORY_URL_SUFFIX, $storeId
+            );
         }
         return $this->_categoryUrlSuffix[$storeId];
     }
@@ -164,6 +193,6 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
      */
     public function canUseCanonicalTag($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, $store);
     }
 }

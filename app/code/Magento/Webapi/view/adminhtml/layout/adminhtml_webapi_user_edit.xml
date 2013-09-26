@@ -8,16 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_webapi_user_edit">
-        <update handle="adminhtml_webapi_user_edit_tab_roles_grid_block"/>
-        <reference name="content">
-            <block class="Magento_Webapi_Block_Adminhtml_User_Edit" name="webapi.user.edit"/>
-        </reference>
-        <reference name="left">
-            <block class="Magento_Webapi_Block_Adminhtml_User_Edit_Tabs" name="webapi.user.edit.tabs">
-                <block class="Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main" name="webapi.user.edit.tab.main"/>
-                <block class="Magento_Backend_Block_Widget_Grid_Container" name="webapi.user.edit.tab.roles.grid.container"/>
-            </block>
-        </reference>
-    </handle>
+    <update handle="adminhtml_webapi_user_edit_tab_roles_grid_block"/>
+    <referenceContainer name="content">
+        <block class="Magento_Webapi_Block_Adminhtml_User_Edit" name="webapi.user.edit"/>
+    </referenceContainer>
+    <referenceContainer name="left">
+        <block class="Magento_Webapi_Block_Adminhtml_User_Edit_Tabs" name="webapi.user.edit.tabs">
+            <block class="Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main" name="webapi.user.edit.tab.main"/>
+            <block class="Magento_Backend_Block_Widget_Grid_Container" name="webapi.user.edit.tab.roles.grid.container"/>
+        </block>
+    </referenceContainer>
 </layout>

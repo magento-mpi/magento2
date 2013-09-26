@@ -51,7 +51,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
      */
     protected $_objectManager;
 
-    public function setUp()
+    protected function setUp()
     {
         // Clean out the cache
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
@@ -59,11 +59,14 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $aclCache = $this->_objectManager->get('Magento_Acl_CacheInterface');
         $aclCache->clean();
         // add new hooks for the tests
-        Mage::getConfig()->setNode('global/webhook/webhooks/test/hook/label', 'Test Hook');
-        Mage::getConfig()->setNode('global/webhook/webhooks/test/two/label', 'Test Hook Two');
+
+        /** @var $configModel Magento_Core_Model_Config */
+        $configModel = $this->_objectManager->get('Magento_Core_Model_Config');
+        $configModel->setNode('global/webhook/webhooks/test/hook/label', 'Test Hook');
+        $configModel->setNode('global/webhook/webhooks/test/two/label', 'Test Hook Two');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         // Clean out the cache
         /** @var Magento_Acl_CacheInterface $aclCache */
@@ -226,7 +229,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $webapiUserFactory = $this->_objectManager->create('Magento_Webhook_Model_Webapi_User_Factory');
 
         $userId = $webapiUserFactory->createUser($userContext, array());
-        $user = $userFactory->create($userId);
+        $user = $userFactory->create(array('webapiUserId' => $userId));
         $subscription->setApiUserId($userId);
         $this->assertEquals($user, $subscription->getUser());
     }

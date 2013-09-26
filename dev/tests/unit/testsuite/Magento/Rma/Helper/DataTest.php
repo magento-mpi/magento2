@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Magento_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -28,14 +29,19 @@ class Magento_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
         $context = $this->getMock('Magento_Core_Helper_Context', array('getApp'), array(), '', false, false);
         $context->expects($this->any())->method('getApp')->will($this->returnValue($this->_getAppMock($mockConfig)));
 
-        $model = new Magento_Rma_Helper_Data(
-            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false),
-            $context,
-            $storeConfigMock,
-            $this->_getCountryFactoryMock($mockConfig),
-            $this->_getRegionFactoryMock($mockConfig)
-
-        );
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $itemFactory = $this->getMock('Magento_Rma_Model_Resource_ItemFactory', array('create'), array(), '', false);
+        $addressFactory = $this->getMock('Magento_Sales_Model_Quote_AddressFactory',
+            array('create'), array(), '', false);
+        $model = $helper->getObject('Magento_Rma_Helper_Data', array(
+            'app'            => $this->_getAppMock($mockConfig),
+            'storeConfig'    => $storeConfigMock,
+            'context'        => $context,
+            'countryFactory' => $this->_getCountryFactoryMock($mockConfig),
+            'regionFactory'  => $this->_getRegionFactoryMock($mockConfig),
+            'itemFactory'    => $itemFactory,
+            'addressFactory' => $addressFactory
+        ));
         $this->assertEquals($model->getReturnAddressData(), $expectedResult);
     }
 

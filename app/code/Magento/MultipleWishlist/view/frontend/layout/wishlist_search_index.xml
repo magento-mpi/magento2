@@ -7,11 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Wishlist Search Form" id="wishlist_search_index" type="page" parent="default">
-        <reference name="content">
-            <block class="Magento_MultipleWishlist_Block_Search_Form" name="wishlist.search.form" template="search/form.phtml">
-            </block>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Wishlist Search Form" type="page" parent="default">
+    <referenceContainer name="content">
+        <block class="Magento_MultipleWishlist_Block_Search_Form" name="wishlist.search.form" template="search/form.phtml">
+        </block>
+    </referenceContainer>
 </layout>

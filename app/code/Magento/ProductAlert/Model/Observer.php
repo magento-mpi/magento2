@@ -67,12 +67,94 @@ class Magento_ProductAlert_Model_Observer
     protected $_taxData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_ProductAlert_Model_Resource_Price_CollectionFactory
+     */
+    protected $_priceColFactory;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Core_Model_DateFactory
+     */
+    protected $_dateFactory;
+
+    /**
+     * @var Magento_ProductAlert_Model_Resource_Stock_CollectionFactory
+     */
+    protected $_stockColFactory;
+
+    /**
+     * @var Magento_Core_Model_Translate
+     */
+    protected $_translate;
+
+    /**
+     * @var Magento_Core_Model_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @var Magento_ProductAlert_Model_EmailFactory
+     */
+    protected $_emailFactory;
+
+    /**
      * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_ProductAlert_Model_Resource_Price_CollectionFactory $priceColFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_DateFactory $dateFactory
+     * @param Magento_ProductAlert_Model_Resource_Stock_CollectionFactory $stockColFactory
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
+     * @param Magento_ProductAlert_Model_EmailFactory $emailFactory
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_ProductAlert_Model_Resource_Price_CollectionFactory $priceColFactory,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_DateFactory $dateFactory,
+        Magento_ProductAlert_Model_Resource_Stock_CollectionFactory $stockColFactory,
+        Magento_Core_Model_Translate $translate,
+        Magento_Core_Model_Email_TemplateFactory $templateFactory,
+        Magento_ProductAlert_Model_EmailFactory $emailFactory
     ) {
         $this->_taxData = $taxData;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_priceColFactory = $priceColFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_productFactory = $productFactory;
+        $this->_dateFactory = $dateFactory;
+        $this->_stockColFactory = $stockColFactory;
+        $this->_translate = $translate;
+        $this->_templateFactory = $templateFactory;
+        $this->_emailFactory = $emailFactory;
     }
 
     /**
@@ -84,7 +166,7 @@ class Magento_ProductAlert_Model_Observer
     {
         if (is_null($this->_websites)) {
             try {
-                $this->_websites = Mage::app()->getWebsites();
+                $this->_websites = $this->_storeManager->getWebsites();
             }
             catch (Exception $e) {
                 $this->_errors[] = $e->getMessage();
@@ -108,15 +190,14 @@ class Magento_ProductAlert_Model_Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!Mage::getStoreConfig(
+            if (!$this->_coreStoreConfig->getConfig(
                 self::XML_PATH_PRICE_ALLOW,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
             )) {
                 continue;
             }
             try {
-                $collection = Mage::getModel('Magento_ProductAlert_Model_Price')
-                    ->getCollection()
+                $collection = $this->_priceColFactory->create()
                     ->addWebsiteFilter($website->getId())
                     ->setCustomerOrder();
             }
@@ -130,7 +211,7 @@ class Magento_ProductAlert_Model_Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($alert->getCustomerId());
+                        $customer = $this->_customerFactory->create()->load($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }
@@ -144,7 +225,7 @@ class Magento_ProductAlert_Model_Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = Mage::getModel('Magento_Catalog_Model_Product')
+                    $product = $this->_productFactory->create()
                         ->setStoreId($website->getDefaultStore()->getId())
                         ->load($alert->getProductId());
                     if (!$product) {
@@ -158,7 +239,7 @@ class Magento_ProductAlert_Model_Observer
                         $email->addPriceProduct($product);
 
                         $alert->setPrice($productPrice);
-                        $alert->setLastSendDate(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
+                        $alert->setLastSendDate($this->_dateFactory->create()->gmtDate());
                         $alert->setSendCount($alert->getSendCount() + 1);
                         $alert->setStatus(1);
                         $alert->save();
@@ -196,15 +277,14 @@ class Magento_ProductAlert_Model_Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!Mage::getStoreConfig(
+            if (!$this->_coreStoreConfig->getConfig(
                 self::XML_PATH_STOCK_ALLOW,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
             )) {
                 continue;
             }
             try {
-                $collection = Mage::getModel('Magento_ProductAlert_Model_Stock')
-                    ->getCollection()
+                $collection = $this->_stockColFactory->create()
                     ->addWebsiteFilter($website->getId())
                     ->addStatusFilter(0)
                     ->setCustomerOrder();
@@ -219,7 +299,7 @@ class Magento_ProductAlert_Model_Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($alert->getCustomerId());
+                        $customer = $this->_customerFactory->create()->load($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }
@@ -233,7 +313,7 @@ class Magento_ProductAlert_Model_Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = Mage::getModel('Magento_Catalog_Model_Product')
+                    $product = $this->_productFactory->create()
                         ->setStoreId($website->getDefaultStore()->getId())
                         ->load($alert->getProductId());
                     /* @var $product Magento_Catalog_Model_Product */
@@ -246,7 +326,7 @@ class Magento_ProductAlert_Model_Observer
                     if ($product->isSalable()) {
                         $email->addStockProduct($product);
 
-                        $alert->setSendDate(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
+                        $alert->setSendDate($this->_dateFactory->create()->gmtDate());
                         $alert->setSendCount($alert->getSendCount() + 1);
                         $alert->setStatus(1);
                         $alert->save();
@@ -278,26 +358,23 @@ class Magento_ProductAlert_Model_Observer
     protected function _sendErrorEmail()
     {
         if (count($this->_errors)) {
-            if (!Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE)) {
+            if (!$this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE)) {
                 return $this;
             }
 
-            $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-            /* @var $translate Magento_Core_Model_Translate */
-            $translate->setTranslateInline(false);
+            $$this->_translate->setTranslateInline(false);
 
-            $emailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
             /* @var $emailTemplate Magento_Core_Model_Email_Template */
-            $emailTemplate->setDesignConfig(array('area'  => 'backend'))
+            $this->_templateFactory->create()->setDesignConfig(array('area'  => 'backend'))
                 ->sendTransactional(
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT),
                     null,
                     array('warnings' => join("\n", $this->_errors))
                 );
 
-            $translate->setTranslateInline(true);
+            $$this->_translate->setTranslateInline(true);
             $this->_errors[] = array();
         }
         return $this;
@@ -310,8 +387,8 @@ class Magento_ProductAlert_Model_Observer
      */
     public function process()
     {
-        $email = Mage::getModel('Magento_ProductAlert_Model_Email');
         /* @var $email Magento_ProductAlert_Model_Email */
+        $email = $this->_emailFactory->create();
         $this->_processPrice($email);
         $this->_processStock($email);
         $this->_sendErrorEmail();

@@ -10,10 +10,6 @@
 
 /**
  * RMA config
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Config extends Magento_Object
 {
@@ -51,6 +47,32 @@ class Magento_Rma_Model_Config extends Magento_Object
      */
     protected $_configPath = null;
 
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_ConfigInterface
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        parent::__construct($data);
+    }
 
     /**
      * Initialize config object for default store and config root
@@ -78,9 +100,9 @@ class Magento_Rma_Model_Config extends Magento_Object
         if ($store instanceof Magento_Core_Model_Store) {
             $this->_store = $store;
         } elseif ($store = intval($store)) {
-            $this->_store = Mage::app()->getStore($store);
+            $this->_store = $this->_storeManager->getStore($store);
         } else {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this;
     }
@@ -97,10 +119,10 @@ class Magento_Rma_Model_Config extends Magento_Object
             if ($store instanceof Magento_Core_Model_Store) {
                 return $store;
             } elseif (is_int($store)) {
-                return Mage::app()->getStore($store);
+                return $this->_storeManager->getStore($store);
             }
         } elseif (is_null($this->_store)) {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this->_store;
     }
@@ -271,7 +293,7 @@ class Magento_Rma_Model_Config extends Magento_Object
         if (is_null($store)) {
             $store = $this->_store;
         }
-        return Mage::getStoreConfig($this->_getPath($path), $this->getStore($store));
+        return $this->_coreStoreConfig->getConfig($this->_getPath($path), $this->getStore($store));
     }
 
     /**
@@ -284,7 +306,7 @@ class Magento_Rma_Model_Config extends Magento_Object
      */
     public function getCustomerEmailRecipient($store)
     {
-        $senderCode = Mage::getStoreConfig(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, $store);
-        return Mage::getStoreConfig('trans_email/ident_' . $senderCode . '/email', $store);
+        $senderCode = $this->_coreStoreConfig->getConfig(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, $store);
+        return $this->_coreStoreConfig->getConfig('trans_email/ident_' . $senderCode . '/email', $store);
     }
 }

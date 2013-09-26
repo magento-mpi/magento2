@@ -33,11 +33,11 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
      */
     protected $_uploaderFactory;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_uploaderFactory = $this->getMock('Magento_ImportExport_Model_Import_UploaderFactory',
             array('create'), array(), '', false);
-        $this->_model = Mage::getObjectManager()
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_ImportExport_Model_Import_Entity_Product', array(
                 'uploaderFactory' => $this->_uploaderFactory
             ));
@@ -437,10 +437,10 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
 
         $uploader = $this->getMock('Magento_ImportExport_Model_Import_Uploader',
             array('init'), array(
-                Mage::getObjectManager()->create('Magento_Core_Helper_File_Storage_Database'),
-                Mage::getObjectManager()->create('Magento_Core_Helper_File_Storage'),
-                Mage::getObjectManager()->create('Magento_Core_Model_Image_AdapterFactory'),
-                Mage::getObjectManager()->create('Magento_Core_Model_File_Validator_NotProtectedExtension'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Helper_File_Storage_Database'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Helper_File_Storage'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Image_AdapterFactory'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_File_Validator_NotProtectedExtension'),
             ));
         $this->_uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($uploader));
 

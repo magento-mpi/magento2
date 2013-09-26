@@ -81,7 +81,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_block);
         unset($this->_layoutMock);
@@ -166,7 +166,9 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
     {
         $item =  new Magento_Object();
         // prepare sub-collection
-        $subCollection = new Magento_Data_Collection();
+        $subCollection = new Magento_Data_Collection(
+            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        );
         $subCollection->addItem(new Magento_Object(array('test4' => '1','test5' => '2')));
         $subCollection->addItem(new Magento_Object(array('test4' => '2','test5' => '2')));
         $item->setChildren($subCollection);
@@ -184,7 +186,13 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
     public function testShouldRenderTotalWithEmptyCollection()
     {
-        $this->_prepareLayoutWithGrid($this->_prepareGridMock(new Magento_Data_Collection()));
+        $this->_prepareLayoutWithGrid(
+            $this->_prepareGridMock(
+                new Magento_Data_Collection(
+                    $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+                )
+            )
+        );
 
         $this->_block->setCountTotals(true);
         $this->assertFalse($this->_block->shouldRenderTotal());
@@ -212,7 +220,9 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
     {
         $item =  new Magento_Object();
         // prepare sub-collection
-        $subCollection = new Magento_Data_Collection();
+        $subCollection = new Magento_Data_Collection(
+            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        );
         $subCollection->addItem(new Magento_Object(array('test4' => '1','test5' => '2')));
         $subCollection->addItem(new Magento_Object(array('test4' => '2','test5' => '2')));
         $item->setChildren($subCollection);
@@ -225,7 +235,9 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
     {
         $item =  new Magento_Object(array('test1' => '1'));
         // prepare sub-collection
-        $subCollection = new Magento_Data_Collection();
+        $subCollection = new Magento_Data_Collection(
+            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        );
         $subCollection->addItem(new Magento_Object(array('test4' => '1','test5' => '2')));
         $subCollection->addItem(new Magento_Object(array('test4' => '2','test5' => '2')));
         $item->setChildren($subCollection);
@@ -241,7 +253,9 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
     public function testGetSubTotals()
     {
         // prepare sub-collection
-        $subCollection = new Magento_Data_Collection();
+        $subCollection = new Magento_Data_Collection(
+            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        );
         $subCollection->addItem(new Magento_Object(array('column' => '1')));
         $subCollection->addItem(new Magento_Object(array('column' => '1')));
 
@@ -300,7 +314,9 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
      */
     protected function _getTestCollection()
     {
-        $collection = new Magento_Data_Collection();
+        $collection = new Magento_Data_Collection(
+            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        );
         $items = array(
             new Magento_Object(array('test1' => '1', 'test2' => '2')),
             new Magento_Object(array('test1' => '1', 'test2' => '2')),

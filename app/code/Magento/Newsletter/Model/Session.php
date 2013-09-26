@@ -21,20 +21,16 @@ class Magento_Newsletter_Model_Session extends Magento_Core_Model_Session_Abstra
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Message_CollectionFactory $messageFactory
-     * @param Magento_Core_Model_Message $message
-     * @param Magento_Core_Model_Cookie $cookie
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Url_Proxy $url
      * @param array $data
      * @param string $sessionName
      */
     public function __construct(
+        Magento_Core_Model_Session_Validator $validator,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Message_CollectionFactory $messageFactory,
         Magento_Core_Model_Message $message,
         Magento_Core_Model_Cookie $cookie,
@@ -46,8 +42,8 @@ class Magento_Newsletter_Model_Session extends Magento_Core_Model_Session_Abstra
         array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($eventManager, $coreHttp, $messageFactory, $message, $cookie,
-            $request, $appState, $storeManager, $dir, $url, $data);
+        parent::__construct($validator, $logger, $eventManager, $coreHttp, $messageFactory, $message, $cookie,
+            $request, $appState, $storeManager, $dir, $url, $coreStoreConfig, $coreConfig, $data);
         $this->init('newsletter', $sessionName);
     }
 

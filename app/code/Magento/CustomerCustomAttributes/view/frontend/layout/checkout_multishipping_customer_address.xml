@@ -8,14 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping_customer_address">
-        <reference name="customer_address_edit">
-            <block class="Magento_CustomerCustomAttributes_Block_Form" name="customer_form_user_attributes" template="form/userattributes.phtml">
-                <action method="setFormCode">
-                    <argument name="code" xsi:type="string">customer_address_edit</argument>
-                </action>
-            </block>
-        </reference>
-        <update handle="customer_form_template_handle"/>
-    </handle>
+    <referenceBlock name="customer_address_edit">
+        <block class="Magento_CustomerCustomAttributes_Block_Form" name="customer_form_user_attributes" template="form/userattributes.phtml">
+            <action method="setFormCode">
+                <argument name="code" xsi:type="string">customer_address_edit</argument>
+            </action>
+        </block>
+    </referenceBlock>
+    <update handle="customer_form_template_handle"/>
 </layout>

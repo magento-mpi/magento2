@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_additional">
-        <reference name="root">
-            <block class="Magento_GiftWrapping_Block_Checkout_Options" name="checkout.options" output="1" template="checkout/options.phtml"/>
-        </reference>
-    </handle>
+    <referenceBlock name="root">
+        <block class="Magento_GiftWrapping_Block_Checkout_Options" name="checkout.options" output="1" template="checkout/options.phtml"/>
+    </referenceBlock>
 </layout>

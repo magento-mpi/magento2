@@ -49,6 +49,11 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     protected $_viewUrl;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
@@ -56,6 +61,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     protected $_coreData = null;
 
     /**
+     * Core store config
      * Variable factory
      *
      * @var Magento_Core_Model_VariableFactory
@@ -80,16 +86,25 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     /**
      * Setup callbacks for filters
      *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_VariableFactory $coreVariableFactory
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_LayoutFactory $layoutFactory
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_VariableFactory $coreVariableFactory,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Layout $layout,
@@ -97,6 +112,8 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     ) {
         $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
+        $this->_logger = $logger;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
         $this->_variableFactory = $coreVariableFactory;
         $this->_storeManager = $storeManager;
@@ -485,7 +502,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = Mage::getStoreConfig($params['path'], $storeId);
+            $configValue = $this->_coreStoreConfig->getConfig($params['path'], $storeId);
         }
         return $configValue;
     }
@@ -528,7 +545,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
             $value = parent::filter($value);
         } catch (Exception $e) {
             $value = '';
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $value;
     }

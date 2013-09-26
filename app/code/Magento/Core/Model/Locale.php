@@ -53,6 +53,18 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Helper_Translate
+     */
+    protected $_translate;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @var Magento_Core_Model_App_State
      */
     protected $_appState;
@@ -74,14 +86,12 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Locale_Config $config
-     * @param Magento_Core_Model_App $app
      * @param  $locale
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Translate $translate,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Locale_Config $config,
@@ -89,6 +99,8 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
         $locale = null
     ) {
         $this->_eventManager = $eventManager;
+        $this->_translate = $translate;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
@@ -116,7 +128,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
     public function getDefaultLocale()
     {
         if (!$this->_defaultLocale) {
-            $locale = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            $locale = $this->_coreStoreConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
             if (!$locale) {
                 $locale = Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE;
             }
@@ -676,11 +688,13 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
     {
         if ($storeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
-            $this->_locale = new Zend_Locale(Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId));
+            $this->_locale = new Zend_Locale(
+                $this->_coreStoreConfig->getConfig(
+                    Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+            ));
             $this->_localeCode = $this->_locale->toString();
 
-            Mage::getObjectManager()->get('Magento_Core_Helper_Translate')
-                ->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_FRONTEND, true);
+            $this->_translate->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_FRONTEND, true);
         } else {
             $this->_emulatedLocales[] = false;
         }
@@ -699,6 +713,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
 
             Mage::getObjectManager()->get('Magento_Core_Helper_Translate')
                 ->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_ADMINHTML, true);
+            $this->_translate->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_ADMINHTML, true);
         }
     }
 

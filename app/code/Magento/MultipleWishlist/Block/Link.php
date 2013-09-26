@@ -9,7 +9,7 @@
  */
 
 /**
- * Links block
+ * "My Wish Lists" link
  *
  * @category    Magento
  * @package     Magento_MultipleWishlist

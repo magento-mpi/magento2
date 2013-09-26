@@ -18,7 +18,8 @@ class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::getObjectManager()->get('Magento_CatalogSearch_Helper_Data');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_CatalogSearch_Helper_Data');
     }
 
     public function testGetResultUrl()
@@ -45,12 +46,17 @@ class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testCheckNotesEscapesHtmlWhenQueryIsCut()
     {
+        /** @var Magento_TestFramework_ObjectManager  $objectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $mock Magento_CatalogSearch_Helper_Data */
         $mock = $this->getMock(
             'Magento_CatalogSearch_Helper_Data',
-            array('getQueryText'), array(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_String'),
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Context'),
+            array('getQueryText'),
+            array(
+                $objectManager->get('Magento_Core_Helper_Context'),
+                $objectManager->get('Magento_Core_Helper_String'),
+                $objectManager->get('Magento_Core_Model_Store_ConfigInterface'),
+                $objectManager->get('Magento_CatalogSearch_Model_QueryFactory'),
         ));
         $mock->expects($this->any())
             ->method('getQueryText')

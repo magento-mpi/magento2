@@ -20,4 +20,4 @@
     <event name="adminhtml_catalog_product_edit_element_types">
         <observer name="weee" instance="Magento_Weee_Model_Observer" method="updateElementTypes" />
     </event>
-</config>
+</config>

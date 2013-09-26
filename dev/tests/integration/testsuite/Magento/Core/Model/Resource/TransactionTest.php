@@ -16,7 +16,7 @@ class Magento_Core_Model_Resource_TransactionTest extends PHPUnit_Framework_Test
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = Mage::getResourceModel('Magento_Core_Model_Resource_Transaction');
     }

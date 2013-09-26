@@ -17,6 +17,38 @@
  */
 class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Filter
 {
+    /** @var  Magento_Widget_Model_Widget */
+    protected $_widget;
+
+    /** @var  Magento_Widget_Model_Resource_Widget */
+    protected $_widgetResource;
+
+    /** @var  Magento_Core_Model_App */
+    protected $_coreApp;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Widget_Model_Widget $widget
+     * @param Magento_Widget_Model_Resource_Widget $widgetResource
+     * @param Magento_Core_Model_App $coreApp
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Widget_Model_Widget $widget,
+        Magento_Widget_Model_Resource_Widget $widgetResource,
+        Magento_Core_Model_App $coreApp,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_widget = $widget;
+        $this->_widgetResource = $widgetResource;
+        $this->_coreApp = $coreApp;
+        parent::__construct($logger, $coreData, $viewUrl, $coreStoreConfig);
+    }
     /**
      * Generate widget
      *
@@ -37,8 +69,7 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
         if (!empty($params['type'])) {
             $type = $params['type'];
         } elseif (!empty($params['id'])) {
-            $preconfigured = Mage::getResourceSingleton('Magento_Widget_Model_Resource_Widget')
-                ->loadPreconfiguredWidget($params['id']);
+            $preconfigured = $this->_widgetResource->loadPreconfiguredWidget($params['id']);
             $type = $preconfigured['widget_type'];
             $params = $preconfigured['parameters'];
         } else {
@@ -46,13 +77,16 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
         }
         
         // we have no other way to avoid fatal errors for type like 'cms/widget__link', '_cms/widget_link' etc. 
-        $xml = Mage::getSingleton('Magento_Widget_Model_Widget')->getXmlElementByType($type);
+        $xml = $this->_widget->getWidgetByClassType($type);
         if ($xml === null) {
             return '';
         }
         
-        // define widget block and check the type is instance of Widget Interface
-        $widget = Mage::app()->getLayout()->createBlock($type, $name, array('data' => $params));
+        /**
+         * define widget block and check the type is instance of Widget Interface
+         * @var Magento_Core_Block_Abstract $widget
+         */
+        $widget = $this->_coreApp->getLayout()->createBlock($type, $name, array('data' => $params));
         if (!$widget instanceof Magento_Widget_Block_Interface) {
             return '';
         }

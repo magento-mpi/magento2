@@ -48,6 +48,11 @@ class Magento_Checkout_Model_Type_Onepage
     protected $_helper;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
@@ -78,7 +83,8 @@ class Magento_Checkout_Model_Type_Onepage
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Checkout_Helper_Data $helper,
         Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Helper_Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -87,6 +93,7 @@ class Magento_Checkout_Model_Type_Onepage
         $this->_customerEmailExistsMessage = __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.');
         $this->_checkoutSession = Mage::getSingleton('Magento_Checkout_Model_Session');
         $this->_customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+        $this->_logger = $logger;
     }
 
     /**
@@ -401,7 +408,7 @@ class Magento_Checkout_Model_Type_Onepage
             $customer->setPassword($password);
             $customer->setConfirmation($password);
             // set NOT LOGGED IN group id explicitly,
-            // otherwise copyFieldset('customer_account', 'to_quote') will fill it with default group id value
+            // otherwise copyFieldsetToTarget('customer_account', 'to_quote') will fill it with default group id value
             $customer->setGroupId(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID);
         }
 
@@ -422,7 +429,7 @@ class Magento_Checkout_Model_Type_Onepage
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
         // copy customer data to quote
-        $this->_coreData->copyFieldset('customer_account', 'to_quote', $customer, $quote);
+        $this->_coreData->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $quote);
 
         return true;
     }
@@ -628,7 +635,7 @@ class Magento_Checkout_Model_Type_Onepage
             $customerBilling->setIsDefaultShipping(true);
         }
 
-        $this->_coreData->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        $this->_coreData->copyFieldsetToTarget('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
         $quote->setCustomer($customer)
@@ -720,7 +727,7 @@ class Magento_Checkout_Model_Type_Onepage
             try {
                 $this->_involveNewCustomer();
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
 
@@ -745,7 +752,7 @@ class Magento_Checkout_Model_Type_Onepage
                 try {
                     $order->sendNewOrderEmail();
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
 

@@ -13,11 +13,13 @@ try {
     $config = new Magento_Core_Model_Config_Primary($rootDir, array());
     $entryPoint = new Magento_Core_Model_EntryPoint_Cron($config);
 
-    Mage::getConfig()->removeCache();
-    Mage::getConfig()->reinit();
+    /** @var $configModel Magento_Core_Model_Config */
+    $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+    $configModel->removeCache();
+    $configModel->reinit();
     $config = array();
 
-    foreach (glob(dirname(__FILE__) . '/AliasesMap/cms_content_tables_*.php', GLOB_BRACE) as $configFile) {
+    foreach (glob(__DIR__ . '/AliasesMap/cms_content_tables_*.php', GLOB_BRACE) as $configFile) {
         $config = array_merge($config, include($configFile));
     }
 
@@ -48,7 +50,7 @@ function updateFieldForTable($table, $col)
 
         $indexList = $installer->getConnection()->getIndexList($table);
         $pkField = array_shift($indexList[$installer->getConnection()->getPrimaryKeyName($table)]['fields']);
-        /** @var $select Varien_Db_Select */
+        /** @var $select Magento_Db_Select */
         $select = $installer->getConnection()->select()->from($table, array('id' => $pkField, 'content' => $col));
         $result = $installer->getConnection()->fetchPairs($select);
 

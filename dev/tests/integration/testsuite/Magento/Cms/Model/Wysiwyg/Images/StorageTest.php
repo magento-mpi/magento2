@@ -2,16 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-
 class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @var string
      */
@@ -55,7 +52,36 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public function testGetThumbsPath()
     {
-        $model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
+        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $session = $objectManager->get('Magento_Backend_Model_Session');
+        $backendUrl = $objectManager->get('Magento_Backend_Model_Url');
+        $imageFactory = $objectManager->get('Magento_Core_Model_Image_AdapterFactory');
+        $viewUrl = $objectManager->get('Magento_Core_Model_View_Url');
+        $imageHelper = $objectManager->get('Magento_Cms_Helper_Wysiwyg_Images');
+        $coreFileStorageDb = $objectManager->get('Magento_Core_Helper_File_Storage_Database');
+        $dir = $objectManager->get('Magento_Core_Model_Dir');
+        $storageCollectionFactory = $objectManager->get('Magento_Cms_Model_Wysiwyg_Images_Storage_CollectionFactory');
+        $storageFileFactory = $objectManager->get('Magento_Core_Model_File_Storage_FileFactory');
+        $storageDatabaseFactory = $objectManager->get('Magento_Core_Model_File_Storage_DatabaseFactory');
+        $directoryDatabaseFactory = $objectManager->get('Magento_Core_Model_File_Storage_Directory_DatabaseFactory');
+        $uploaderFactory = $objectManager->get('Magento_Core_Model_File_UploaderFactory');
+
+        $model = new Magento_Cms_Model_Wysiwyg_Images_Storage(
+            $session,
+            $backendUrl,
+            $imageHelper,
+            $coreFileStorageDb,
+            $filesystem,
+            $imageFactory,
+            $viewUrl,
+            $dir,
+            $storageCollectionFactory,
+            $storageFileFactory,
+            $storageDatabaseFactory,
+            $directoryDatabaseFactory,
+            $uploaderFactory
+        );
         $this->assertStringStartsWith(
             realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()

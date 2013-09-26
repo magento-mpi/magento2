@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_system_email_template_index">
-        <update handle="adminhtml_system_email_template_grid_block"/>
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_System_Email_Template" name="adminhtml.system.email.template.container"/>
-        </reference>
-    </handle>
+    <update handle="adminhtml_system_email_template_grid_block"/>
+    <referenceContainer name="content">
+        <block class="Magento_Adminhtml_Block_System_Email_Template" name="adminhtml.system.email.template.container"/>
+    </referenceContainer>
 </layout>

@@ -8,16 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="head">
-            <block class="Magento_Page_Block_Html_Head_Script" name="magento-catalogsearch-form-mini-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">Magento_CatalogSearch::form-mini.js</argument>
-                </arguments>
-            </block>
-        </reference>
-        <reference name="header">
-            <block class="Magento_Core_Block_Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
-        </reference>
-    </handle>
+    <referenceBlock name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-catalogsearch-form-mini-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_CatalogSearch::form-mini.js</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+    <referenceBlock name="header">
+        <block class="Magento_Core_Block_Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
+    </referenceBlock>
 </layout>

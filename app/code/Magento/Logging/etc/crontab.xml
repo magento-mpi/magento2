@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="magento_logging_rotate_logs" instance="Magento_Logging_Model_Observer" method="rotateLogs">
+        <schedule>1 2 * * *</schedule>
+    </job>
+</config>

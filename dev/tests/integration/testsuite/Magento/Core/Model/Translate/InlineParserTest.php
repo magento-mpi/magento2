@@ -25,7 +25,7 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
             ->setDesignTheme('magento_demo');
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_inlineParser = Mage::getModel('Magento_Core_Model_Translate_InlineParser');
         /* Called getConfig as workaround for setConfig bug */
@@ -52,8 +52,9 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
             $this->assertEquals($translatedText, $model->getTranslate());
             $model->delete();
         } catch (Exception $e) {
-            Mage::logException($e);
             $model->delete();
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Logger')
+                ->logException($e);
         }
     }
 

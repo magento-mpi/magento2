@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_order_shipment">
-        <reference name="additional.product.info">
-            <block class="Magento_GiftWrapping_Block_Product_Info" name="giftwrapping.product.info" template="product/info.phtml"/>
-        </reference>
-    </handle>
+    <referenceBlock name="additional.product.info">
+        <block class="Magento_GiftWrapping_Block_Product_Info" name="giftwrapping.product.info" template="product/info.phtml"/>
+    </referenceBlock>
 </layout>

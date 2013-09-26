@@ -8,12 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_giftcard">
-        <reference name="product_tabs">
-            <action method="addTab">
-                <argument name="name" xsi:type="string">giftcard_info</argument>
-                <argument name="block" xsi:type="string">Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard</argument>
-            </action>
-        </reference>
-    </handle>
+    <referenceBlock name="product_tabs">
+        <action method="addTab">
+            <argument name="name" xsi:type="string">giftcard_info</argument>
+            <argument name="block" xsi:type="string">Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard</argument>
+        </action>
+    </referenceBlock>
 </layout>

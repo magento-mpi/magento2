@@ -2,10 +2,6 @@
 /**
  * Application configuration object. Used to access configuration when application is initialized and installed.
  *
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -14,7 +10,6 @@
 
 
 /**
- * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -330,50 +325,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
             }
         }
         return $storeValues;
-    }
-
-    /**
-     * Get fieldset from configuration
-     *
-     * @param string $name fieldset name
-     * @param string $root fieldset area, could be 'admin'
-     * @return null|array
-     */
-    public function getFieldset($name, $root = 'global')
-    {
-        /** @var $config Magento_Core_Model_Config_Base */
-        $config = $this->_objectManager->get('Magento_Core_Model_Config_Fieldset');
-        $rootNode = $config->getNode($root . '/fieldsets');
-        if (!$rootNode) {
-            return null;
-        }
-        return $rootNode->$name ? $rootNode->$name->children() : null;
-    }
-
-    /**
-     * Check whether given path should be secure according to configuration security requirements for URL
-     * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
-     *
-     * @param string $url
-     * @return bool
-     */
-    public function shouldUrlBeSecure($url)
-    {
-        if (!Mage::getStoreConfigFlag(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
-            return false;
-        }
-
-        if (!isset($this->_secureUrlCache[$url])) {
-            $this->_secureUrlCache[$url] = false;
-            $secureUrls = $this->getNode('frontend/secure_url');
-            foreach ($secureUrls->children() as $match) {
-                if (strpos($url, (string)$match) === 0) {
-                    $this->_secureUrlCache[$url] = true;
-                    break;
-                }
-            }
-        }
-        return $this->_secureUrlCache[$url];
     }
 
     /**

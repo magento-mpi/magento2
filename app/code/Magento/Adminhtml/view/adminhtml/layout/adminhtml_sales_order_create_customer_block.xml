@@ -8,87 +8,85 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_customer_block">
-        <reference name="customer.grid.container">
-            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.customer.grid.container" as="grid">
+    <referenceBlock name="customer.grid.container">
+        <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.customer.grid.container" as="grid">
+            <arguments>
+                <argument name="id" xsi:type="string">sales_order_create_customer_grid</argument>
+                <argument name="use_ajax" xsi:type="string">1</argument>
+                <argument name="default_sort" xsi:type="string">entity_id</argument>
+                <argument name="dataSource" xsi:type="object">Magento_Sales_Model_Resource_Order_Customer_Collection</argument>
+                <argument name="pager_visibility" xsi:type="string">1</argument>
+                <argument name="grid_url" xsi:type="url" path="*/*/loadBlock">
+                    <param name="block">customer_grid</param>
+                </argument>
+                <argument name="row_click_callback" xsi:type="string">order.selectCustomer.bind(order)</argument>
+            </arguments>
+            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.customer.grid.columnSet" as="grid.columnSet">
                 <arguments>
-                    <argument name="id" xsi:type="string">sales_order_create_customer_grid</argument>
-                    <argument name="use_ajax" xsi:type="string">1</argument>
-                    <argument name="default_sort" xsi:type="string">entity_id</argument>
-                    <argument name="dataSource" xsi:type="object">Magento_Sales_Model_Resource_Order_Customer_Collection</argument>
-                    <argument name="pager_visibility" xsi:type="string">1</argument>
-                    <argument name="grid_url" xsi:type="url" path="*/*/loadBlock">
-                        <param name="block">customer_grid</param>
+                    <argument name="filter_visibility" xsi:type="string">1</argument>
+                    <argument name="rowUrl" xsi:type="array">
+                        <item name="generatorClass" xsi:type="string">Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorId</item>
                     </argument>
-                    <argument name="row_click_callback" xsi:type="string">order.selectCustomer.bind(order)</argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.customer.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
                     <arguments>
-                        <argument name="filter_visibility" xsi:type="string">1</argument>
-                        <argument name="rowUrl" xsi:type="array">
-                            <item name="generatorClass" xsi:type="string">Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorId</item>
-                        </argument>
+                        <argument name="header" xsi:type="string" translate="true">ID</argument>
+                        <argument name="index" xsi:type="string">entity_id</argument>
+                        <argument name="width" xsi:type="string">50</argument>
+                        <argument name="align" xsi:type="string">right</argument>
                     </arguments>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">ID</argument>
-                            <argument name="index" xsi:type="string">entity_id</argument>
-                            <argument name="width" xsi:type="string">50</argument>
-                            <argument name="align" xsi:type="string">right</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Name</argument>
-                            <argument name="index" xsi:type="string">name</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Email</argument>
-                            <argument name="index" xsi:type="string">email</argument>
-                            <argument name="width" xsi:type="string">150</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="Telephone">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Phone</argument>
-                            <argument name="index" xsi:type="string">billing_telephone</argument>
-                            <argument name="width" xsi:type="string">100</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_postcode">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">ZIP/Post Code</argument>
-                            <argument name="index" xsi:type="string">billing_postcode</argument>
-                            <argument name="width" xsi:type="string">120</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_country_id">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Country</argument>
-                            <argument name="index" xsi:type="string">billing_country_id</argument>
-                            <argument name="width" xsi:type="string">100</argument>
-                            <argument name="type" xsi:type="string">country</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_regione">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">State/Province</argument>
-                            <argument name="index" xsi:type="string">billing_regione</argument>
-                            <argument name="width" xsi:type="string">100</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="store_name">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Signed-up Point</argument>
-                            <argument name="index" xsi:type="string">store_name</argument>
-                            <argument name="width" xsi:type="string">130</argument>
-                            <argument name="align" xsi:type="string">center</argument>
-                        </arguments>
-                    </block>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Name</argument>
+                        <argument name="index" xsi:type="string">name</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="email">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Email</argument>
+                        <argument name="index" xsi:type="string">email</argument>
+                        <argument name="width" xsi:type="string">150</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="Telephone">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Phone</argument>
+                        <argument name="index" xsi:type="string">billing_telephone</argument>
+                        <argument name="width" xsi:type="string">100</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_postcode">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">ZIP/Post Code</argument>
+                        <argument name="index" xsi:type="string">billing_postcode</argument>
+                        <argument name="width" xsi:type="string">120</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_country_id">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Country</argument>
+                        <argument name="index" xsi:type="string">billing_country_id</argument>
+                        <argument name="width" xsi:type="string">100</argument>
+                        <argument name="type" xsi:type="string">country</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="billing_regione">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">State/Province</argument>
+                        <argument name="index" xsi:type="string">billing_regione</argument>
+                        <argument name="width" xsi:type="string">100</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="store_name">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Signed-up Point</argument>
+                        <argument name="index" xsi:type="string">store_name</argument>
+                        <argument name="width" xsi:type="string">130</argument>
+                        <argument name="align" xsi:type="string">center</argument>
+                    </arguments>
                 </block>
             </block>
-        </reference>
-    </handle>
+        </block>
+    </referenceBlock>
 </layout>

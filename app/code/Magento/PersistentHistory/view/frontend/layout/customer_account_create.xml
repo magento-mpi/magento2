@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="customer_account_create">
-        <reference name="persistent.remember.me.tooltip">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">Magento_PersistentHistory::remember_me_tooltip.phtml</argument>
-            </action>
-        </reference>
-    </handle>
+    <referenceBlock name="customer_form_register.persistent.remember.me.tooltip">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">Magento_PersistentHistory::remember_me_tooltip.phtml</argument>
+        </action>
+    </referenceBlock>
 </layout>

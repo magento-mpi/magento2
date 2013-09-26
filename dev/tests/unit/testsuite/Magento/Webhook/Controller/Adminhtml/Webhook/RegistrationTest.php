@@ -55,7 +55,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfigScope;
 
-    public function setUp()
+    protected function setUp()
     {
         /** @var Magento_TestFramework_Helper_ObjectManager $objectManagerHelper */
         $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
@@ -105,7 +105,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
     /**
      * Reset object manager.
      */
-    public function tearDown()
+    protected function tearDown()
     {
         Mage::reset();
     }
@@ -301,7 +301,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
         $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        Mage::setObjectManager($this->_mockObjectManager);
+        Magento_Core_Model_ObjectManager::setInstance($this->_mockObjectManager);
     }
 
     /**

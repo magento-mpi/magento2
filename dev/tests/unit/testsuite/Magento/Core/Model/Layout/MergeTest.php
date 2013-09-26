@@ -45,11 +45,12 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $files = array();
+        foreach (glob(__DIR__ . '/_files/layout/*.xml') as $filename) {
+            $files[] = new Magento_Core_Model_Layout_File($filename, 'Magento_Core');
+        }
         $fileSource = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
-        $fileSource->expects($this->any())->method('getFiles')->will($this->returnValue(array(
-            new Magento_Core_Model_Layout_File(__DIR__ . '/_files/pages.xml', 'Magento_Core'),
-            new Magento_Core_Model_Layout_File(__DIR__ . '/_files/handles.xml', 'Magento_Core'),
-        )));
+        $fileSource->expects($this->any())->method('getFiles')->will($this->returnValue($files));
 
         $design = $this->getMockForAbstractClass('Magento_Core_Model_View_DesignInterface');
 
@@ -69,15 +70,16 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->_theme->expects($this->any())->method('getArea')->will($this->returnValue('area'));
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(100));
 
-        $this->_model = new Magento_Core_Model_Layout_Merge(
-            $design,
-            $storeManager,
-            $fileSource,
-            $this->_resource,
-            $this->_appState,
-            $this->_cache,
-            $this->_theme
-        );
+        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_model = $objectHelper->getObject('Magento_Core_Model_Layout_Merge', array(
+            'design' => $design,
+            'storeManager' => $storeManager,
+            'fileSource' => $fileSource,
+            'resource' => $this->_resource,
+            'appState' => $this->_appState,
+            'cache' => $this->_cache,
+            'theme' => $this->_theme,
+        ));
     }
 
     public function testAddUpdate()
@@ -166,7 +168,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $expected = require(__DIR__ . '/_files/pages_hierarchy.php');
         $actual = $this->_model->getPageHandlesHierarchy();
         $this->assertEquals($expected, $actual);
-        $this->assertInstanceOf('Magento_Phrase', $actual['default']['label']);
+        $this->assertInternalType('string', $actual['default']['label']);
     }
 
     /**
@@ -252,5 +254,17 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     {
         $actualXml = $this->_model->getFileLayoutUpdatesXml();
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/_files/merged.xml', $actualXml->asNiceXml());
+    }
+
+    public function testGetContainers()
+    {
+        $this->_model->addPageHandles(array('catalog_product_view_type_configurable'));
+        $this->_model->load();
+        $expected = array(
+            'content'                         => 'Main Content Area',
+            'product.info.extrahint'          => 'Product View Extra Hint',
+            'product.info.configurable.extra' => 'Configurable Product Extra Info',
+        );
+        $this->assertEquals($expected, $this->_model->getContainers());
     }
 }

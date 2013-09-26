@@ -13,10 +13,26 @@ class Magento_Backend_Model_Config_Source_Currency_Service implements Magento_Co
 {
     protected $_options;
 
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $services = Mage::getConfig()->getNode('global/currency/import/services')->asArray();
+            $services = $this->_coreConfig->getNode('global/currency/import/services')->asArray();
             $this->_options = array();
             foreach ($services as $_code => $_options ) {
                 $this->_options[] = array(

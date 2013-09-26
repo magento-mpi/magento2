@@ -34,17 +34,33 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     protected $_ratingData = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @var Magento_Review_Model_Resource_Review_Summary
+     */
+    protected $_summary;
+
+    /**
+     * @param Magento_Review_Model_Resource_Review_Summary $summary
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Rating_Helper_Data $ratingData
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
+        Magento_Review_Model_Resource_Review_Summary $summary,
+        Magento_Core_Model_Logger $logger,
         Magento_Rating_Helper_Data $ratingData,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_StoreManager $storeManager
     ) {
+        $this->_summary = $summary;
         $this->_ratingData = $ratingData;
         $this->_storeManager = $storeManager;
+        $this->_logger = $logger;
         parent::__construct($resource);
     }
 
@@ -189,7 +205,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
                 }
                 $adapter->commit();
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
                 $adapter->rollBack();
             }
         }
@@ -228,7 +244,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
 
                 $adapter->commit();
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
                 $adapter->rollBack();
             }
         }
@@ -256,7 +272,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
             $clone->addData($row);
             $summary[$clone->getStoreId()][$clone->getEntityPkValue()] = $clone;
         }
-        Mage::getResourceModel('Magento_Review_Model_Resource_Review_Summary')->reAggregate($summary);
+        $this->_summary->reAggregate($summary);
         return $this;
     }
 

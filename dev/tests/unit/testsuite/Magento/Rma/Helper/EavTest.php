@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -17,14 +18,21 @@ class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Magento_Rma_Helper_Eav(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
-        );
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $collectionFactory = $this->getMock('Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory',
+            array('create'), array(), '', false);
+        $attributeConfig = $this->getMock('Magento_Eav_Model_Entity_Attribute_Config',
+            array(), array(), '', false);
+        $this->_model = $helper->getObject('Magento_Rma_Helper_Eav', array(
+            'collectionFactory' => $collectionFactory,
+            'attributeConfig' => $attributeConfig
+        ));
     }
 
     /**
-     * @param array $attributeValidateRules
+     * @param $validateRules
      * @param array $additionalClasses
+     * @internal param array $attributeValidateRules
      * @dataProvider getAdditionalTextElementClassesDataProvider
      */
     public function testGetAdditionalTextElementClasses($validateRules, $additionalClasses)
@@ -35,6 +43,9 @@ class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_model->getAdditionalTextElementClasses($attributeMock), $additionalClasses);
     }
 
+    /**
+     * @return array
+     */
     public function getAdditionalTextElementClassesDataProvider()
     {
         return array(

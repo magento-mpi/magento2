@@ -1,5 +1,7 @@
 <?php
 /**
+ * Magento_Core_Model_Config
+ * 
  * {license_notice}
  *
  * @category    Magento
@@ -8,7 +10,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -22,6 +23,11 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_configScopeMock;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectManagerMock;
+
+    /**
      * @var Magento_Core_Model_ModuleListInterface
      */
     protected $_moduleListMock;
@@ -31,7 +37,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_sectionPoolMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $xml = '<config>
                     <global>
@@ -58,17 +64,23 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                 </config>';
 
         $configBase = new Magento_Core_Model_Config_Base($xml);
-        $objectManagerMock = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
         $configStorageMock = $this->getMock('Magento_Core_Model_Config_StorageInterface');
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
         $modulesReaderMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false);
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
         $this->_sectionPoolMock = $this->getMock('Magento_Core_Model_Config_SectionPool', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
 
         $this->_model = new Magento_Core_Model_Config(
-            $objectManagerMock, $configStorageMock, $modulesReaderMock, $this->_moduleListMock,
-            $this->_configScopeMock, $this->_sectionPoolMock
+            $this->_objectManagerMock,
+            $configStorageMock,
+            $modulesReaderMock,
+            $this->_moduleListMock,
+            $this->_configScopeMock,
+            $this->_sectionPoolMock,
+            $coreStoreConfig
         );
     }
     public function testSetNodeData()

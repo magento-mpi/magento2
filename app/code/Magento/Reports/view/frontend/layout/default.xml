@@ -8,17 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="head">
-            <block class="Magento_Page_Block_Html_Head_Css" name="magento-reports-widgets-css">
-                <arguments>
-                    <argument name="file" xsi:type="string">Magento_Reports::widgets.css</argument>
-                </arguments>
-            </block>
-        </reference>
-        <reference name="right">
-            <block class="Magento_Reports_Block_Product_Viewed" before="right.permanent.callout" name="right.reports.product.viewed" template="product_viewed.phtml"/>
-            <block class="Magento_Reports_Block_Product_Compared" before="right.permanent.callout" name="right.reports.product.compared" template="product_compared.phtml"/>
-        </reference>
-    </handle>
+    <referenceBlock name="head">
+        <block class="Magento_Page_Block_Html_Head_Css" name="magento-reports-widgets-css">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Reports::widgets.css</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+    <referenceContainer name="right">
+        <block class="Magento_Reports_Block_Product_Viewed" before="right.permanent.callout" name="right.reports.product.viewed" template="product_viewed.phtml"/>
+        <block class="Magento_Reports_Block_Product_Compared" before="right.permanent.callout" name="right.reports.product.compared" template="product_compared.phtml"/>
+    </referenceContainer>
 </layout>

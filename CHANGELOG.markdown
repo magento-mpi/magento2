@@ -1,3 +1,64 @@
+* Configuration improvements:
+  * Introduced scoped configuration model - Magento_Config_Data_Scoped and non-scoped one - Magento_Config_Data;
+  * Import/Export configuration was moved from config.xml to import.xml and export.xml files with new format;
+  * Product type configuration was moved from config.xml to product_types.xml files with new format;
+  * Product option configuration was moved from config.xml to product_options.xml files with new format;
+  * EAV attributes configuration was moved from config.xml to eav_attributes.xml files with new format;
+  * Indexer configuration was moved from config.xml to indexers.xml files with new format;
+  * Catalog rules configuration was moved from config.xml to di.xml;
+  * Sales rules configuration was moved from config.xml to di.xml;
+  * Session configuration was moved from config.xml to di.xml;
+  * <ignore_user_agents> node was removed from config.xml and related data was moved to di.xml;
+  * <request> node was removed from config.xml and related data was moved to di.xml;
+  * <secure_url> node was removed from config.xml and related data was moved to di.xml;
+  * <dev> node was removed from config.xml and related data was moved to di.xml;
+  * <webapi> node was removed from config.xml and related data was moved to di.xml;
+  * CMS configuration was moved from config.xml to di.xml;
+  * Widget configuration was moved from config.xml to di.xml;
+  * /config/global/catalog/product/flat node was removed from config.xml and related data was moved to di.xml;
+  * /config/global/catalog/content/template_filter node was removed from config.xml and related data was moved to di.xml;
+  * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
+  * /config/global/page/layouts node was removed from the config.xml and related data was moved into page_layouts.xml
+  * /config/global/theme node was removed from the config.xml and related data was moved to di.xml
+  * Removed "translate" node from configuration XML files
+  * Improved Install, Category, Product, Customer, Wishlist configuration segments:
+    * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
+    * New configuration files are validated with XSD
+    * Format of the configuration changed to make possible its validation
+  * Improved configuration in `widget.xml`, `fieldset.xml`, `persistent.xml` and `install.xml` files:
+    * `install.xml` was renamed to `install_wizard.xml`
+    * The configuration is validated with XSD
+    * Format of the configuration changed to make possible its validation
+  * Removed `jstranslate.xml` files and moved all message definitions to `Magento_Core_Helper_Js`.
+  * Newsletter configuration segment was eliminated. Custom Newsletter Template Filter can be configured via DI configuration
+* Prototype.js uses converted to jQuery:
+  * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
+  * Removed depreacted prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
+  * Updated to use jQuery redirectUrl widget vs prototype based solution:
+    * app/code/Magento/Oauth/view/adminhtml/authorize/form/login.phtml
+    * app/code/Magento/Oauth/view/frontend/authorize/form/login.phtml
+    * app/code/Magento/Catalog/view/frontend/product/list.phtml
+  * Removed file containing jQuery that did not meet the Magento 2 coding standard. Replaced with redirect-url widget
+    * app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
+  * Updated to meet Magento 2 coding stanadrd: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
+* Added jQuery widgets:
+  * mage.deletableItem - Widget to tag DOM element as deletable, by default on click
+  * mage.fieldsetControls & mage.fieldsetResetControl - Widget to easily reset a subset of form fields with a reset ui control
+  * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
+  * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
+  * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
+* Сrontab segment improvements:
+  * crontab configurations were moved from config.xml to new crontab.xml with new format
+  * XSD validation schema for crontab.xml was added
+* Install segment was moved from config.xml to di.xml for next configuration nodes:
+  * config/install/databases
+  * config/install/eula_file
+* Сrontab segment improvements:
+  * crontab configurations were moved from config.xml to new crontab.xml with new format
+  * XSD validation schema for crontab.xml was added
+* Install segment was moved from config.xml to di.xml for next configuration nodes:
+  * config/install/databases
+  * config/install/eula_file
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
@@ -31,6 +92,60 @@
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
+* XML Validation
+  * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
+  * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
+  * Altered format of `install.xml`
+    * Renamed to `install_wizard.xml`
+    * Added `install_wizard.xsd` to allow for validation of XML files.
+* Removed "translate" node from configuration XML files
+* Added I18n tools for translation dictionary generation and language package generation
+* Layout improvements:
+  * Arbitrary handle name moved to handle node, id attribute
+  * New arguments format, which introduce argument types implemented
+  * Translation specified just on the level of node which is going to be translated
+  * XSD validation for Layouts XML added
+  * Referential integrity check with XSD introduced
+  * Added ability to update containers via references
+  * Type casting for all kind of types (url, option, array and simple types) added
+  * Covered introduced argument types with integrity test
+  * Types restrictions was implemented
+  * Removed access to direct execution of API through layout by removing <action> nodes
+  * Implemented ability to declare containers in layout that don't have any specific semantic value
+  * Removed handle declaration from layout update files. Name of the file stands for the handle ID and handle's attributes are defined in the root <layout> node
+* PHP 5.4 and 5.5 support:
+  * Made application compatible with PHP 5.4 and 5.5
+  * Removed workarounds for older PHP versions
+  * Minimum supported PHP version is set to 5.4.0
+* God Class Mage Elimination
+  * dispatchEvent, getConfig, getStoreConfig, getStoreConfigFlag, getObjectManager, helper, log, logException, register, registry, resetRegistry, unregister static methods of class Mage were eliminated
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException static calls in modules AdminNotification, Authorizenet, Captcha
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException static calls in module Magento_CatalogInventory
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getBaseDir, Mage::exception, Mage::getResourceHelper static calls in module Magento_Backup
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getBaseUrl, Mage::getResourceModel, Mage::getResourceSingleton static calls in module Magento_Newsletter
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getIsDeveloperMode, Mage::getSingleton, Mage::getResourceModel, Mage::exception static calls in modules Magento_User, Magento_Payment, Magento_Persistent
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getSingleton, Mage::getBaseUrl, Mage::isInstalled, Mage::getBaseDir static calls in module Magento_Cms
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getIsDeveloperMode, Mage::getSingleton, Mage::getBaseUrl, Mage::getResourceHelper, Mage::getResourceSingleton static calls in module Magento_CatalogSearch
+  * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
+  * Eliminated Mage:: static methods in Magento_Widget
+  * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
+  * Eliminated Mage:: static methods in Magento_Sendfriend
+  * Eliminated Mage:: static methods in Magento_Usa
+  * Eliminated Mage:: static methods in Magento_ProductAlert
+  * Eliminated Mage:: static methods in Magento_Directory
+  * Eliminated Mage:: static methods in Centinel, Connect, Contacts, GiftMessage, GoogleAnalytics
+  * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
+  * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
+  * Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_User module
+  * Eliminated Mage::getSingleton from Magento_WebsiteRestriction module
+  * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
+  * Eliminated Mage::throwException from Magento_Media module
+  * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
+  * Eliminated Mage:: static methods in Magento_Cms, Magento_Log, Magento_Rating, Magento_Rss, Magento_Rule, Magento_CatalogRule, Magento_SalesRule, Magento_Weee, Magento_Captcha, Magento_CatalogInventory
+* Fixed bugs:
+  * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
+  * Fixed inability to create gift registry on frontend
 
 2.0.0.0-dev45
 =============
@@ -102,13 +217,6 @@
      * Covered new layout customization mechanism with integrity tests
   * Relocated several files, declared in layouts
   * Streamlined several design customizations
-  * Arbitrary handle name moved to handle node, id attribute
-  * New arguments format, which introduce argument types implemented
-  * Translation specified just on the level of node which is going to be translated
-  * XSD validation for Layouts XML added
-  * Type casting for all kind of types (url, option, array and simple types) added
-  * Covered introduced argument types with integrity test
-  * Types restrictions was implemented
 * Various improvements:
   * Refactored fallback paths to prevent searching of modular view files in non-module context, covered application with appropriate integrity test
   * Added configuration for limits on sending wishlist emails

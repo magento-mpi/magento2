@@ -35,7 +35,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
         $this->_appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
@@ -43,16 +43,6 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
         $this->_dirs = new Magento_Core_Model_Dir('base_dir');
 
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-
-        $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $config->expects($this->any())
-            ->method('getNode')
-            ->with(Magento_Core_Model_Design_FileResolution_StrategyPool::XML_PATH_ALLOW_MAP_UPDATE)
-            ->will($this->returnValue('1'));
-        $this->_objectManager->expects($this->any())
-            ->method('get')
-            ->with('Magento_Core_Model_Config')
-            ->will($this->returnValue($config));
 
         $this->_model = new Magento_Core_Model_Design_FileResolution_StrategyPool($this->_objectManager,
             $this->_appState, $this->_dirs, $this->_filesystem);
@@ -80,8 +70,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
                 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy',
                 array(
                     'mapDir' => $mapDir,
-                    'baseDir' => 'base_dir',
-                    'canSaveMap' => true
+                    'baseDir' => 'base_dir'
                 ),
                 $strategy
             ),

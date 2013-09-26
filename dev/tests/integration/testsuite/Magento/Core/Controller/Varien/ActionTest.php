@@ -23,21 +23,22 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        Mage::getConfig();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
-            ->setDefaultDesignTheme();
-        $arguments = array(
-            'request'  => new Magento_TestFramework_Request(),
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response'),
-        );
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
+        $arguments = array(
+            'request'  => $request,
+            'response' => $this->_objectManager->get('Magento_TestFramework_Response'),
+        );
+        $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
+            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            ->setDefaultDesignTheme();
+        $context = $this->_objectManager->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $this->_object = $this->getMockForAbstractClass(
             'Magento_Core_Controller_Varien_Action',
             array('context' => $context)
@@ -170,11 +171,19 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      * @param array $expected
      *
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture global/dev/page_type/render_inherited 1
      * @dataProvider addActionLayoutHandlesInheritedDataProvider
      */
     public function testAddActionLayoutHandlesInherited($route, $controller, $action, $expected)
     {
+        $arguments = array(
+            'request'  => $this->_objectManager->get('Magento_TestFramework_Request'),
+            'response' => $this->_objectManager->get('Magento_TestFramework_Response'),
+            'isRenderInherited' => true,
+        );
+        $context = $this->_objectManager->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+        $this->_object = $this->getMockForAbstractClass('Magento_Core_Controller_Varien_Action',
+            array('context' => $context));
+
         $this->_object->getRequest()
             ->setRouteName($route)
             ->setControllerName($controller)
@@ -240,18 +249,21 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         if (headers_sent()) {
             $this->markTestSkipped('Can\' dispatch - headers already sent');
         }
-        $request = new Magento_TestFramework_Request();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
         $request->setDispatched();
 
         $arguments = array(
             'request'  => $request,
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response'),
+            'response' => $this->_objectManager->get('Magento_TestFramework_Response'),
         );
         $context = $this->_objectManager->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
 
         /* Area-specific controller is used because area must be known at the moment of loading the design */
-        $this->_object = $this->_objectManager->create('Magento_Core_Controller_Front_Action',
+        $this->_object = $this->_objectManager->create(
+            'Magento_Core_Controller_Front_Action',
             array('context'  => $context)
         );
         $this->_objectManager->get('Magento_Core_Model_Config_Scope')->setCurrentScope('frontend');
@@ -285,9 +297,6 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @magentoConfigFixture install/design/theme/full_name magento_basic
-     * @magentoConfigFixture frontend/design/theme/full_name magento_demo
-     * @magentoConfigFixture adminhtml/design/theme/full_name magento_basic
      * @magentoAppIsolation enabled
      * @dataProvider controllerAreaDesignDataProvider
      *
@@ -299,17 +308,20 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign, $context)
     {
+        $themes = array('frontend' => 'magento_blank', 'adminhtml' => 'magento_backend', 'install' => 'magento_basic');
+        $design = $this->_objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
+        $this->_objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
+
         Mage::app()->loadArea($expectedArea);
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $controller Magento_Core_Controller_Varien_Action */
-        $context = $objectManager->create($context, array(
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response')
+        $context = $this->_objectManager->create($context, array(
+            'response' => $this->_objectManager->get('Magento_TestFramework_Response')
         ));
-        $controller = $objectManager->create($controllerClass, array('context' => $context));
+        $controller = $this->_objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
-        
+
         $design = $this->_objectManager->get('Magento_Core_Model_View_DesignInterface');
+
         $this->assertEquals($expectedArea, $design->getArea());
         $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
         if ($expectedDesign) {
@@ -334,14 +346,14 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
                 'Magento_Core_Controller_Front_Action',
                 'frontend',
                 'default',
-                'magento_demo',
+                'magento_blank',
                 'Magento_Core_Controller_Varien_Action_Context'
             ),
             'backend' => array(
                 'Magento_Adminhtml_Controller_Action',
                 'adminhtml',
                 'admin',
-                'magento_basic',
+                'magento_backend',
                 'Magento_Backend_Controller_Context'
             ),
         );

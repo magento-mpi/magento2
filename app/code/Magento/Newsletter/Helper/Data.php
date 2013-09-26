@@ -18,7 +18,26 @@
  */
 class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
 {
-    const XML_PATH_TEMPLATE_FILTER = 'global/newsletter/tempate_filter';
+    /**
+     * Url
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_UrlInterface $url
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_UrlInterface $url
+    ) {
+        parent::__construct($context);
+        $this->_url = $url;
+    }
 
     /**
      * Retrieve subsription confirmation url
@@ -28,12 +47,11 @@ class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getConfirmationUrl($subscriber)
     {
-        return Mage::getModel('Magento_Core_Model_Url')
-            ->setStore($subscriber->getStoreId())
+        return $this->_url->setStore($subscriber->getStoreId())
             ->getUrl('newsletter/subscriber/confirm', array(
                 'id'     => $subscriber->getId(),
                 'code'   => $subscriber->getCode(),
-                '_nosid' => true
+                '_nosid' => true,
             ));
     }
 
@@ -45,23 +63,11 @@ class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getUnsubscribeUrl($subscriber)
     {
-        return Mage::getModel('Magento_Core_Model_Url')
-            ->setStore($subscriber->getStoreId())
+        return $this->_url->setStore($subscriber->getStoreId())
             ->getUrl('newsletter/subscriber/unsubscribe', array(
                 'id'     => $subscriber->getId(),
                 'code'   => $subscriber->getCode(),
-                '_nosid' => true
+                '_nosid' => true,
             ));
-    }
-
-    /**
-     * Retrieve Template processor for Newsletter template
-     *
-     * @return Magento_Filter_Template
-     */
-    public function getTemplateProcessor()
-    {
-        $model = (string)Mage::getConfig()->getNode(self::XML_PATH_TEMPLATE_FILTER);
-        return Mage::getModel($model);
     }
 }

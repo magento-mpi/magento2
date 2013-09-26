@@ -11,17 +11,13 @@
 
 /**
  * Persistent Shopping Cart Data Helper
- *
- * @category   Magento
- * @package    Magento_Persistent
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
 {
     /**
      * Instance of Session Model
      *
-     * @var null|Magento_Persistent_Model_Session
+     * @var Magento_Persistent_Model_Session
      */
     protected $_sessionModel;
 
@@ -47,23 +43,45 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     protected $_persistentData = null;
 
     /**
+     * Persistent session factory
+     *
+     * @var Magento_Persistent_Model_SessionFactory
+     */
+    protected $_sessionFactory;
+
+    /**
+     * Customer factory
+     *
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Checkout session
+     *
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Persistent_Helper_Data $persistentData
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Locale_Proxy $locale
-     * @param Magento_Core_Model_Date_Proxy $dateModel
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Config_Resource $configResource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Persistent_Helper_Data $persistentData,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Persistent_Helper_Data $persistentData,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Persistent_Model_SessionFactory $sessionFactory,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Locale_Proxy $locale,
         Magento_Core_Model_Date_Proxy $dateModel,
@@ -71,7 +89,10 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
         Magento_Core_Model_Config_Resource $configResource
     ) {
         $this->_persistentData = $persistentData;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $storeManager, $locale, $dateModel, $appState,
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerFactory = $customerFactory;
+        $this->_sessionFactory = $sessionFactory;
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $storeManager, $locale, $dateModel, $appState,
             $configResource);
     }
 
@@ -83,7 +104,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     public function getSession()
     {
         if (is_null($this->_sessionModel)) {
-            $this->_sessionModel = Mage::getModel('Magento_Persistent_Model_Session');
+            $this->_sessionModel = $this->_sessionFactory->create();
             $this->_sessionModel->loadByCookieKey();
         }
         return $this->_sessionModel;
@@ -120,10 +141,10 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     {
         if (is_null($this->_isRememberMeChecked)) {
             //Try to get from checkout session
-            $isRememberMeChecked = Mage::getSingleton('Magento_Checkout_Model_Session')->getRememberMeChecked();
+            $isRememberMeChecked = $this->_checkoutSession->getRememberMeChecked();
             if (!is_null($isRememberMeChecked)) {
                 $this->_isRememberMeChecked = $isRememberMeChecked;
-                Mage::getSingleton('Magento_Checkout_Model_Session')->unsRememberMeChecked();
+                $this->_checkoutSession->unsRememberMeChecked();
                 return $isRememberMeChecked;
             }
 
@@ -154,7 +175,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     {
         if (is_null($this->_customer)) {
             $customerId = $this->getSession()->getCustomerId();
-            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+            $this->_customer = $this->_customerFactory->create()->load($customerId);
         }
         return $this->_customer;
     }

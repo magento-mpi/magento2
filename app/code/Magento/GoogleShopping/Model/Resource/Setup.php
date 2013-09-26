@@ -14,6 +14,7 @@ class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Res
 
     /**
      * @param Magento_GoogleShopping_Helper_Data $googleShoppingData
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $modulesConfig
@@ -23,10 +24,12 @@ class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Res
      * @param Magento_Core_Model_Resource_Resource $resourceResource
      * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
      * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
      */
     public function __construct(
         Magento_GoogleShopping_Helper_Data $googleShoppingData,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $modulesConfig,
@@ -41,7 +44,8 @@ class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Res
     ) {
         $this->_googleShoppingData = $googleShoppingData;
         parent::__construct(
-            $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader, $resourceResource,
+            $logger, $eventManager, $resourcesConfig, $modulesConfig,
+            $moduleList, $resource, $modulesReader, $resourceResource,
             $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
         );
     }

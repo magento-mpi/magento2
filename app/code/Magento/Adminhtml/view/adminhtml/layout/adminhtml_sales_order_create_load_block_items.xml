@@ -8,16 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_load_block_items">
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Items" template="sales/order/create/items.phtml" name="items">
-                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid" template="sales/order/create/items/grid.phtml" name="items_grid">
-                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Coupons" template="sales/order/create/coupons/form.phtml" name="coupons">
-                        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Coupons_Form" template="sales/order/create/coupons/form.phtml" name="order.create.coupons.form" as="form"/>
-                    </block>
+    <referenceContainer name="content">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Items" template="sales/order/create/items.phtml" name="items">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid" template="sales/order/create/items/grid.phtml" name="items_grid">
+                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Coupons" template="sales/order/create/coupons/form.phtml" name="coupons">
+                    <block class="Magento_Adminhtml_Block_Sales_Order_Create_Coupons_Form" template="sales/order/create/coupons/form.phtml" name="order.create.coupons.form" as="form"/>
                 </block>
             </block>
-            <block class="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
-        </reference>
-    </handle>
+        </block>
+        <block class="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
+    </referenceContainer>
 </layout>

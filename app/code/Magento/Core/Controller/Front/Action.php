@@ -48,9 +48,10 @@ class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varie
      * If not authenticated, will try to do it using credentials from HTTP-request
      *
      * @param string $aclResource
+     * @param Magento_Core_Model_Logger $logger
      * @return bool
      */
-    public function authenticateAndAuthorizeAdmin($aclResource)
+    public function authenticateAndAuthorizeAdmin($aclResource, $logger)
     {
         $this->_objectManager->get('Magento_Core_Model_App')
             ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML,Magento_Core_Model_App_Area::PART_CONFIG);
@@ -66,7 +67,7 @@ class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varie
             try {
                 $auth->login($login, $password);
             } catch (Magento_Backend_Model_Auth_Exception $e) {
-                Mage::logException($e);
+                $logger->logException($e);
             }
         }
 

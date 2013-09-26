@@ -86,8 +86,6 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     );
 
     /**
-     * Catalog data
-     *
      * @var Magento_Catalog_Helper_Data
      */
     protected $_catalogData = null;
@@ -107,21 +105,67 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_checkoutCart = null;
 
     /**
-     * @param Magento_Checkout_Helper_Cart $checkoutCart
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Context $context
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
      */
+    protected $_coreStoreConfig;
+
+    /**
+     * Sales quote item factory
+     *
+     * @var Magento_Sales_Model_Quote_ItemFactory
+     */
+    protected $_quoteItemFactory = null;
+
+    /**
+     * Catalog product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory = null;
+
+    /**
+     * Catalog inventory stock item factory
+     *
+     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     */
+    protected $_stockItemFactory = null;
+
+    /**
+     * Advanced checkout import factory
+     *
+     * @var Magento_AdvancedCheckout_Model_ImportFactory
+     */
+    protected $_importFactory = null;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager = null;
+
     public function __construct(
         Magento_Checkout_Helper_Cart $checkoutCart,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_AdvancedCheckout_Model_ImportFactory $importFactory,
+        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory,
+        Magento_Core_Model_StoreManager $storeManager
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
+        $this->_importFactory = $importFactory;
+        $this->_stockItemFactory = $stockItemFactory;
+        $this->_productFactory = $productFactory;
+        $this->_quoteItemFactory = $quoteItemFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -132,7 +176,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function getSession()
     {
         if (!$this->_session) {
-            $sessionClassPath = Mage::app()->getStore()->isAdmin() ?
+            $sessionClassPath = $this->_storeManager->getStore()->isAdmin() ?
                     'Magento_Adminhtml_Model_Session' : 'Magento_Customer_Model_Session';
             $this->_session =  Mage::getSingleton($sessionClassPath);
         }
@@ -213,7 +257,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isSkuEnabled()
     {
-        $storeData = Mage::getStoreConfig(self::XML_PATH_SKU_ENABLED);
+        $storeData = $this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ENABLED);
         return Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::NO_VALUE != $storeData;
     }
 
@@ -225,7 +269,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function isSkuApplied()
     {
         $result = false;
-        $data = Mage::getStoreConfig(self::XML_PATH_SKU_ENABLED);
+        $data = $this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ENABLED);
         switch ($data) {
             case Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::YES_VALUE:
                 $result = true;
@@ -251,7 +295,9 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function getSkuCustomerGroups()
     {
         if ($this->_allowedGroups === null) {
-            $this->_allowedGroups = explode(',', trim(Mage::getStoreConfig(self::XML_PATH_SKU_ALLOWED_GROUPS)));
+            $this->_allowedGroups = explode(
+                ',', trim($this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ALLOWED_GROUPS))
+            );
         }
         return $this->_allowedGroups;
     }
@@ -292,8 +338,8 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
                     // Create empty quote item. Otherwise it won't be correctly treated inside failed.phtml
-                    $collectionItem = Mage::getModel('Magento_Sales_Model_Quote_Item')
-                        ->setProduct(Mage::getModel('Magento_Catalog_Model_Product'))
+                    $collectionItem = $this->_quoteItemFactory->create()
+                        ->setProduct($this->_productFactory->create())
                         ->addData($item['item']);
                     $quoteItemsCollection[] = $collectionItem;
                 }
@@ -303,7 +349,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
                 $collection->addIdFilter($ids);
 
                 $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
-                $emptyQuoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item');
+                $emptyQuoteItem = $this->_quoteItemFactory->create();
 
                 /** @var $itemProduct Magento_Catalog_Model_Product */
                 foreach ($collection->getItems() as $product) {
@@ -326,7 +372,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
                         if ($this->_catalogData->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
-                                Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
+                                $this->_storeManager->getStore()->formatPrice($this->_storeManager->getStore()->convertPrice(
                                     $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
@@ -336,7 +382,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
                         }
 
                         /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
-                        $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+                        $stockItem = $this->_stockItemFactory->create();
                         $stockItem->assignProduct($itemProduct);
                         $quoteItem->setStockItem($stockItem);
 
@@ -373,12 +419,12 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function processSkuFileUploading($session)
     {
         /** @var $importModel Magento_AdvancedCheckout_Model_Import */
-        $importModel = Mage::getModel('Magento_AdvancedCheckout_Model_Import');
+        $importModel = $this->_importFactory->create();
         try {
             $importModel->uploadFile();
             $rows = $importModel->getRows();
             if (empty($rows)) {
-                Mage::throwException(__('The file is empty.'));
+                throw new Magento_Core_Exception(__('The file is empty.'));
             }
             return $rows;
         } catch (Magento_Core_Exception $e) {

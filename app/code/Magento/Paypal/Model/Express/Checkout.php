@@ -152,6 +152,14 @@ class Magento_Paypal_Model_Express_Checkout
     protected $_customerData = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Set config, session and quote instances
+     *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Tax_Helper_Data $taxData
@@ -162,6 +170,7 @@ class Magento_Paypal_Model_Express_Checkout
      * @throws Exception
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Helper_Data $coreData,
         Magento_Tax_Helper_Data $taxData,
@@ -176,6 +185,7 @@ class Magento_Paypal_Model_Express_Checkout
         $this->_checkoutData = $checkoutData;
         $this->_customerSession = $customerSession;
         $this->_configCacheType = $configCacheType;
+        $this->_logger = $logger;
 
         if (isset($params['config']) && $params['config'] instanceof Magento_Paypal_Model_Config) {
             $this->_config = $params['config'];
@@ -213,7 +223,7 @@ class Magento_Paypal_Model_Express_Checkout
                     $this->_configCacheType->save($pal, $cacheId);
                 } catch (Exception $e) {
                     $this->_configCacheType->save(self::PAL_CACHE_ID, $cacheId);
-                    Mage::logException($e);
+                   $this->_logger->logException($e);
                 }
             }
         }
@@ -594,7 +604,7 @@ class Magento_Paypal_Model_Express_Checkout
             try {
                 $this->_involveNewCustomer();
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
 
@@ -941,7 +951,7 @@ class Magento_Paypal_Model_Express_Checkout
             $billing->setCustomerGender($quote->getCustomerGender());
         }
 
-        $this->_coreData->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
+        $this->_coreData->copyFieldsetToTarget('checkout_onepage_billing', 'to_customer', $billing, $customer);
         $customer->setEmail($quote->getCustomerEmail());
         $customer->setPrefix($quote->getCustomerPrefix());
         $customer->setFirstname($quote->getCustomerFirstname());

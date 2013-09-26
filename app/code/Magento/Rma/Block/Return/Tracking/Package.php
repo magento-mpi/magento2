@@ -11,17 +11,21 @@
 class Magento_Rma_Block_Return_Tracking_Package extends Magento_Shipping_Block_Tracking_Popup
 {
     /**
-     * Rma data
-     *
      * @var Magento_Rma_Helper_Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -29,9 +33,11 @@ class Magento_Rma_Block_Return_Tracking_Package extends Magento_Shipping_Block_T
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $registry, $data);
     }
 
@@ -73,8 +79,8 @@ class Magento_Rma_Block_Return_Tracking_Package extends Magento_Shipping_Block_T
      */
     public function getContainerTypeByCode($code)
     {
-        $carrierCode= $this->getPackageInfo()->getCarrierCode();
-        $carrier    = $this->_rmaData->getCarrier($carrierCode, Mage::app()->getStore()->getId());
+        $carrierCode = $this->getPackageInfo()->getCarrierCode();
+        $carrier = $this->_rmaData->getCarrier($carrierCode, $this->_storeManager->getStore()->getId());
         if ($carrier) {
             $containerTypes = $carrier->getContainerTypes();
             $containerType = !empty($containerTypes[$code]) ? $containerTypes[$code] : '';

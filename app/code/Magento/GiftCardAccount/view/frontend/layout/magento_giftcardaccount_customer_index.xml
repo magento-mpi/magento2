@@ -7,11 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Account Gift Card Check Form" id="magento_giftcardaccount_customer_index" type="page" parent="customer_account_index">
-        <update handle="customer_account"/>
-        <reference name="my.account.wrapper">
-            <block class="Magento_GiftCardAccount_Block_Account_Redeem" name="redeem" template="account/redeem.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Gift Card Check Form" type="page" parent="customer_account_index">
+    <update handle="customer_account"/>
+    <referenceContainer name="my.account.wrapper">
+        <block class="Magento_GiftCardAccount_Block_Account_Redeem" name="redeem" template="account/redeem.phtml"/>
+    </referenceContainer>
 </layout>

@@ -480,7 +480,7 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Handler for cms hierarchy view
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|false
      */
@@ -492,7 +492,7 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Handler for cms revision preview
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|false
      */
@@ -504,7 +504,7 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Handler for cms revision publish
      *
-     * @param Magento_Simplexml_Element $config
+     * @param array $config
      * @param Magento_Logging_Model_Event $eventModel
      * @return Magento_Logging_Model_Event|false
      */
@@ -521,7 +521,9 @@ class Magento_VersionsCms_Model_Observer
      */
     public function affectCmsPageRender(Magento_Event_Observer $observer)
     {
-        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
+        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node'))
+            || !$this->_cmsHierarchy->isEnabled()
+        ) {
             return $this;
         }
 
@@ -540,16 +542,15 @@ class Magento_VersionsCms_Model_Observer
         }
 
         // check whether menu handle is compatible with page handles
-        $allowedHandles = $menuLayout->getPageLayoutHandles();
+        $allowedHandles = $menuLayout['pageLayoutHandles'];
         if (is_array($allowedHandles) && count($allowedHandles) > 0) {
-            $allowedHandles = array_keys($allowedHandles);
             if (count(array_intersect($allowedHandles, $loadedHandles)) == 0) {
                 return $this;
             }
         }
 
         // add menu handle to layout update
-        $action->getLayout()->getUpdate()->addHandle($menuLayout->getLayoutHandle());
+        $action->getLayout()->getUpdate()->addHandle($menuLayout['handle']);
 
         return $this;
     }

@@ -2,21 +2,36 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Magento_User Auth controller
- *
- * @category   Magento
- * @package    Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_ActionAbstract
 {
+    /**
+     * User model factory
+     *
+     * @var Magento_User_Model_UserFactory
+     */
+    protected $_userFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_User_Model_UserFactory $userFactory
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_User_Model_UserFactory $userFactory
+    ) {
+        parent::__construct($context);
+        $this->_userFactory = $userFactory;
+    }
+
     /**
      * Forgot administrator password action
      */
@@ -28,14 +43,15 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
         if (!empty($email) && !empty($params)) {
             // Validate received data to be an email address
             if (Zend_Validate::is($email, 'EmailAddress')) {
-                $collection = Mage::getResourceModel('Magento_User_Model_Resource_User_Collection');
+                $collection = $this->_objectManager->get('Magento_User_Model_Resource_User_Collection');
                 /** @var $collection Magento_User_Model_Resource_User_Collection */
                 $collection->addFieldToFilter('email', $email);
                 $collection->load(false);
 
                 if ($collection->getSize() > 0) {
                     foreach ($collection as $item) {
-                        $user = Mage::getModel('Magento_User_Model_User')->load($item->getId());
+                        /** @var Magento_User_Model_User $user */
+                        $user = $this->_userFactory->create()->load($item->getId());
                         if ($user->getId()) {
                             $newPassResetToken = $this->_objectManager->get('Magento_User_Helper_Data')
                                 ->generateResetPasswordLinkToken();
@@ -119,7 +135,7 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
         }
 
         /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User')->load($userId);
+        $user = $this->_userFactory->create()->load($userId);
         if ($password !== '') {
             $user->setPassword($password);
         }
@@ -164,27 +180,18 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
             || empty($userId)
             || $userId < 0
         ) {
-            throw Mage::exception(
-                'Magento_Core',
-                __('Please correct the password reset token.')
-            );
+            throw new Magento_Core_Exception(__('Please correct the password reset token.'));
         }
 
         /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User')->load($userId);
+        $user = $this->_userFactory->create()->load($userId);
         if (!$user->getId()) {
-            throw Mage::exception(
-                'Magento_Core',
-                __('Please specify the correct account and try again.')
-            );
+            throw new Magento_Core_Exception(__('Please specify the correct account and try again.'));
         }
 
         $userToken = $user->getRpToken();
         if (strcmp($userToken, $resetPasswordToken) != 0 || $user->isResetPasswordLinkTokenExpired()) {
-            throw Mage::exception(
-                'Magento_Core',
-                __('Your password reset link has expired.')
-            );
+            throw new Magento_Core_Exception(__('Your password reset link has expired.'));
         }
     }
 

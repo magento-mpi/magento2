@@ -48,6 +48,18 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     protected $_coreFileStorage = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * Core file storage flag
      *
      * @var Magento_Core_Model_File_Storage_Flag
@@ -75,6 +87,8 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
      * @param Magento_Core_Helper_File_Storage $coreFileStorage
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_File_Storage_Flag $fileFlag
      * @param Magento_Core_Model_File_Storage_FileFactory $fileFactory
      * @param Magento_Core_Model_File_Storage_DatabaseFactory $databaseFactory
@@ -87,6 +101,8 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
         Magento_Core_Helper_File_Storage $coreFileStorage,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_File_Storage_Flag $fileFlag,
         Magento_Core_Model_File_Storage_FileFactory $fileFactory,
         Magento_Core_Model_File_Storage_DatabaseFactory $databaseFactory,
@@ -96,6 +112,8 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
         array $data = array()
     ) {
         $this->_coreFileStorage = $coreFileStorage;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         $this->_fileFlag = $fileFlag;
         $this->_fileFactory = $fileFactory;
         $this->_databaseFactory = $databaseFactory;
@@ -268,12 +286,12 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
         $config = array();
         $config['media_directory'] = $this->_dir->getDir('media');
 
-        $allowedResources = Mage::getConfig()->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
+        $allowedResources = $this->_coreConfig->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
         foreach ($allowedResources as $allowedResource) {
             $config['allowed_resources'][] = $allowedResource;
         }
 
-        $config['update_time'] = Mage::getStoreConfig(self::XML_PATH_MEDIA_UPDATE_TIME);
+        $config['update_time'] = $this->_coreStoreConfig->getConfig(self::XML_PATH_MEDIA_UPDATE_TIME);
 
         return $config;
     }

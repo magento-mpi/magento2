@@ -7,15 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Catalog Product Review View" id="review_product_view" type="page" parent="review_product_list">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
-            </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento_Review_Block_View" name="review_view"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product Review View" type="page" parent="review_product_list">
+    <referenceBlock name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">2columns-right.phtml</argument>
+        </action>
+    </referenceBlock>
+    <referenceContainer name="content">
+        <block class="Magento_Review_Block_View" name="review_view"/>
+    </referenceContainer>
 </layout>

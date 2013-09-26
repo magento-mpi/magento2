@@ -7,39 +7,37 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer GiftRegistry Gift View" id="magento_giftregistry_view_index" type="page" parent="magento_giftregistry_index_share">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">1column.phtml</argument>
-            </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento_GiftRegistry_Block_View" name="magento.giftregistry.view" template="view.phtml">
-                <block class="Magento_GiftRegistry_Block_Items" name="giftregistry_items" template="view/items.phtml">
-                    <block class="Magento_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="magento.giftregistry.item.price"/>
-                    <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                    <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                    <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                    <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                    <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                    <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                </block>
-                <block class="Magento_GiftRegistry_Block_Customer_Items" name="giftregistry.view.items" template="view/items.phtml"/>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry Gift View" type="page" parent="magento_giftregistry_index_share">
+    <referenceBlock name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </referenceBlock>
+    <referenceContainer name="content">
+        <block class="Magento_GiftRegistry_Block_View" name="magento.giftregistry.view" template="view.phtml">
+            <block class="Magento_GiftRegistry_Block_Items" name="giftregistry_items" template="view/items.phtml">
+                <block class="Magento_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="magento.giftregistry.item.price"/>
+                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_GiftRegistry::view/items/default.phtml"/>
             </block>
-        </reference>
-        <update handle="MAP_popup"/>
-        <reference name="product.tooltip">
-            <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
-                <block class="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
-                    <action method="setIsInCatalogProduct">
-                        <argument name="value" xsi:type="string">1</argument>
-                    </action>
-                    <action method="setShowOrPosition">
-                        <argument name="value" xsi:type="string">after</argument>
-                    </action>
-                </block>
-            </container>
-        </reference>
-    </handle>
+            <block class="Magento_GiftRegistry_Block_Customer_Items" name="giftregistry.view.items" template="view/items.phtml"/>
+        </block>
+    </referenceContainer>
+    <update handle="MAP_popup"/>
+    <referenceBlock name="product.tooltip">
+        <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
+            <block class="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
+                <action method="setIsInCatalogProduct">
+                    <argument name="value" xsi:type="string">1</argument>
+                </action>
+                <action method="setShowOrPosition">
+                    <argument name="value" xsi:type="string">after</argument>
+                </action>
+            </block>
+        </container>
+    </referenceBlock>
 </layout>

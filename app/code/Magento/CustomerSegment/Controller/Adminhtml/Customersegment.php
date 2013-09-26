@@ -246,7 +246,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We're unable to save the segment."));
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -267,7 +267,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
             return;
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We're unable to delete the segement."));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }

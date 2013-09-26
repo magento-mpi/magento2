@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Logging_Model_Config_Data">
+        <param name='reader'>
+            <instance type="Magento_Logging_Model_Config_Reader" />
+        </param>
+        <param name="cacheId">
+            <value>logging_config</value>
+        </param>
+    </type>
+    <type name="Magento_Logging_Model_Processor">
+        <param name="controllersHandler">
+            <instance type="Magento_Logging_Model_Handler_Controllers_Proxy" />
+        </param>
+    </type>
+</config>

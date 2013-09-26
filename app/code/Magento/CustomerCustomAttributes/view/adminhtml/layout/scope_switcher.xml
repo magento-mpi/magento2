@@ -8,17 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="scope_switcher">
-        <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Form_Renderer_Fieldset_Element" name="fieldset_element_renderer" template="form/renderer/fieldset/element.phtml"/>
-        <reference name="left">
-            <block class="Magento_Backend_Block_Store_Switcher" name="website_switcher" before="-" template="Magento_CustomerCustomAttributes::website/switcher.phtml">
-                <action method="setStoreVarName">
-                    <argument name="value" xsi:type="string">website</argument>
-                </action>
-                <action method="setDefaultStoreName">
-                    <argument translate="true" name="name" xsi:type="string">Default Values</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+    <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Form_Renderer_Fieldset_Element" name="fieldset_element_renderer" template="form/renderer/fieldset/element.phtml"/>
+    <referenceContainer name="left">
+        <block class="Magento_Backend_Block_Store_Switcher" name="website_switcher" before="-" template="Magento_CustomerCustomAttributes::website/switcher.phtml">
+            <action method="setStoreVarName">
+                <argument name="value" xsi:type="string">website</argument>
+            </action>
+            <action method="setDefaultStoreName">
+                <argument translate="true" name="name" xsi:type="string">Default Values</argument>
+            </action>
+        </block>
+    </referenceContainer>
 </layout>

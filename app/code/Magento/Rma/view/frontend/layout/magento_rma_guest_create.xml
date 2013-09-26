@@ -7,26 +7,24 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Guest Order Create Return" id="magento_rma_guest_create" type="page" parent="magento_rma_return_create_handle">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">1column.phtml</argument>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Guest Order Create Return" type="page" parent="magento_rma_return_create_handle">
+    <referenceBlock name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </referenceBlock>
+    <update handle="customer_account"/>
+    <referenceContainer name="content">
+        <block class="Magento_Sales_Block_Order_Info" as="info" name="sales.order.info"/>
+        <block class="Magento_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
+            <action method="setFormCode">
+                <argument name="code" xsi:type="string">default</argument>
             </action>
-        </reference>
-        <update handle="customer_account"/>
-        <reference name="content">
-            <block class="Magento_Sales_Block_Order_Info" as="info" name="sales.order.info"/>
-            <block class="Magento_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
-                <action method="setFormCode">
-                    <argument name="code" xsi:type="string">default</argument>
-                </action>
-                <action method="setEntityModelClass">
-                    <argument name="code" xsi:type="string">Magento_Rma_Model_Item</argument>
-                </action>
-            </block>
-        </reference>
-        <update handle="magento_rma_return_create_handle"/>
-        <update handle="sales_order_info_rma_guest_links"/>
-    </handle>
+            <action method="setEntityModelClass">
+                <argument name="code" xsi:type="string">Magento_Rma_Model_Item</argument>
+            </action>
+        </block>
+    </referenceContainer>
+    <update handle="magento_rma_return_create_handle"/>
+    <update handle="sales_order_info_rma_guest_links"/>
 </layout>

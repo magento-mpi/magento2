@@ -102,6 +102,13 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
     protected $_useSession;
 
     /**
+     * Url security info list
+     *
+     * @var Magento_Core_Model_Url_SecurityInfoInterface
+     */
+    protected $_urlSecurityInfo;
+
+    /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
@@ -109,26 +116,13 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_App
-     */
-    protected $_app;
-
-    /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
-     * @var Magento_Core_Model_Session
-     */
-    protected $_session;
-
-    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_StoreManager $storeManager
@@ -136,12 +130,16 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_App $app,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Session $session,
         array $data = array()
     ) {
+        $this->_urlSecurityInfo = $urlSecurityInfo;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreData = $coreData;
         $this->_app = $app;
         $this->_storeManager = $storeManager;
@@ -346,7 +344,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
 
         if (!$this->hasData('secure')) {
             if ($this->getType() == Magento_Core_Model_Store::URL_TYPE_LINK && !$store->isAdmin()) {
-                $pathSecure = Mage::getConfig()->shouldUrlBeSecure('/' . $this->getActionPath());
+                $pathSecure = $this->_urlSecurityInfo->isSecure('/' . $this->getActionPath());
                 $this->setData('secure', $pathSecure);
             } else {
                 $this->setData('secure', true);
@@ -691,7 +689,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
         }
 
         if (isset($data['_store_to_url']) && (bool)$data['_store_to_url'] === true) {
-            if (!Mage::getStoreConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStore())
+            if (!$this->_coreStoreConfig->getConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStore())
                 && !$this->_storeManager->hasSingleStore()
             ) {
                 $this->setQueryParam('___store', $this->getStore()->getCode());

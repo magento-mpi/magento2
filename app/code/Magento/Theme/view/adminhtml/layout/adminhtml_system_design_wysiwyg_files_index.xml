@@ -8,16 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_system_design_wysiwyg_files_index">
-        <remove name="footer"/>
-        <remove name="head"/>
-        <reference name="left">
-            <block class="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree" name="wysiwyg_files.tree" template="Magento_Adminhtml::cms/browser/tree.phtml"/>
-        </reference>
-        <reference name="content">
-            <block class="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content" name="wysiwyg_files.content" template="browser/content.phtml">
-                <block class="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader" name="wysiwyg_files.uploader" template="browser/content/uploader.phtml"/>
-            </block>
-        </reference>
-    </handle>
+    <remove name="footer"/>
+    <remove name="head"/>
+    <referenceContainer name="left">
+        <block class="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree" name="wysiwyg_files.tree" template="Magento_Adminhtml::cms/browser/tree.phtml"/>
+    </referenceContainer>
+    <referenceContainer name="content">
+        <block class="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content" name="wysiwyg_files.content" template="browser/content.phtml">
+            <block class="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader" name="wysiwyg_files.uploader" template="browser/content/uploader.phtml"/>
+        </block>
+    </referenceContainer>
 </layout>

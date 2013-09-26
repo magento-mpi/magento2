@@ -32,17 +32,41 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
     protected $_adminhtmlData = null;
 
     /**
+     * @var Magento_CatalogInventory_Model_Resource_Stock
+     */
+    protected $_stockResource;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Status
+     */
+    protected $_productStatus;
+
+    /**
+     * @var Magento_Core_Model_Resource_Iterator
+     */
+    protected $_iterator;
+
+    /**
+     * @param Magento_CatalogInventory_Model_Resource_Stock $stockResource
+     * @param Magento_Catalog_Model_Product_Status $productStatus
+     * @param Magento_Core_Model_Resource_Iterator $iterator
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Rss_Helper_Data $rssData
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogInventory_Model_Resource_Stock $stockResource,
+        Magento_Catalog_Model_Product_Status $productStatus,
+        Magento_Core_Model_Resource_Iterator $iterator,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Rss_Helper_Data $rssData,
         Magento_Core_Block_Context $context,
         array $data = array()
     ) {
+        $this->_stockResource = $stockResource;
+        $this->_productStatus = $productStatus;
+        $this->_iterator = $iterator;
         $this->_adminhtmlData = $adminhtmlData;
         $this->_rssData = $rssData;
         parent::__construct($context, $data);
@@ -67,14 +91,14 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
         );
         $rssObj->_addHeader($data);
 
-        $globalNotifyStockQty = (float) Mage::getStoreConfig(
+        $globalNotifyStockQty = (float) $this->_storeConfig->getConfig(
             Magento_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
         $this->_rssData->disableFlat();
         /* @var $product Magento_Catalog_Model_Product */
         $product = Mage::getModel('Magento_Catalog_Model_Product');
         /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
         $collection = $product->getCollection();
-        Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock')->addLowStockFilter($collection, array(
+        $this->_stockResource->addLowStockFilter($collection, array(
             'qty',
             'notify_stock_qty',
             'low_stock_date',
@@ -83,7 +107,7 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
         $collection
             ->addAttributeToSelect('name', true)
             ->addAttributeToFilter('status',
-                array('in' => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds())
+                array('in' => $this->_productStatus->getVisibleStatusIds())
             )
             ->setOrder('low_stock_date');
         $this->_eventManager->dispatch('rss_catalog_notify_stock_collection_select', array(
@@ -94,7 +118,7 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+        $this->_iterator->walk(
             $collection->getSelect(),
             array(array($this, 'addNotifyItemXmlCallback')),
             array('rssObj'=> $rssObj, 'product'=>$product, 'globalQty' => $globalNotifyStockQty)

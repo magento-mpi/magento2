@@ -25,6 +25,7 @@
     <preference for="Magento_PubSub_Message_DispatcherAsyncInterface" type="Magento_PubSub_Message_DispatcherAsync" />
     <preference for="Magento_Config_ConverterInterface" type="Magento_Config_Converter_Dom"/>
     <preference for="Magento_Phrase_RendererInterface" type="Magento_Phrase_Renderer_Composite" />
+    <preference for="Magento_Core_Model_Url_SecurityInfoInterface" type="Magento_Core_Model_Url_SecurityInfo_Proxy" />
     <type name="Magento_Data_Structure" shared="false" />
     <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cache">
@@ -259,6 +260,54 @@
     <type name="Magento_Core_Controller_Request_Http">
         <param name="backendData">
             <instance type="Magento_Backend_Helper_Data_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Session_Validator">
+        <param name="skippedUserAgentList">
+            <value>
+                <flash>Shockwave Flash</flash>
+                <flash_mac><![CDATA[Adobe Flash Player\s{1,}\w{1,10}]]></flash_mac>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Core_Controller_Varien_Action_Context">
+        <param name="isRenderInherited">
+            <value type="bool">false</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_View_Design">
+        <param name="themes">
+            <value>
+                <frontend>magento_demo</frontend>
+                <adminhtml>magento_backend</adminhtml>
+                <install>magento_basic</install>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_View_Publisher">
+        <param name="allowFilesDuplication">
+            <value type="bool">true</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Fieldset_Config_Reader">
+        <param name="fileName">
+            <value>fieldset.xml</value>
+        </param>
+        <param name="schemaLocator">
+            <instance type="Magento_Core_Model_Fieldset_Config_SchemaLocator" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Fieldset_Config_Data">
+        <param name="reader">
+            <instance type="Magento_Core_Model_Fieldset_Config_Reader" />
+        </param>
+        <param name="cacheId">
+            <value>fieldset_config</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Locale_Hierarchy_Config">
+        <param name="reader">
+            <instance type="Magento_Core_Model_Locale_Hierarchy_Config_Reader" />
         </param>
     </type>
 </config>

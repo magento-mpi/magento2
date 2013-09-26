@@ -26,7 +26,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockResourceEndpnt;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockResourceEndpnt = $this->getMockBuilder('Magento_Webhook_Model_Resource_Endpoint')
             ->disableOriginalConstructor()

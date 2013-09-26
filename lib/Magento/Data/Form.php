@@ -29,6 +29,11 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
     protected $_allElements;
 
     /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_session;
+
+    /**
      * form elements index
      *
      * @var array
@@ -40,17 +45,20 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
     static protected $_defaultFieldsetElementRenderer;
 
     /**
+     * @param Magento_Core_Model_Session $session
      * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
+        Magento_Core_Model_Session $session,
         Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $attributes);
         $this->_allElements = $this->_factoryCollection->create(array('container' => $this));
+        $this->_session = $session;
     }
 
     public static function setElementRenderer(Magento_Data_Form_Element_Renderer_Interface $renderer = null)
@@ -137,6 +145,12 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
         return $this;
     }
 
+    /**
+     * Retrieve form element by id
+     *
+     * @param string $elementId
+     * @return null|Magento_Data_Form_Element_Abstract
+     */
     public function getElement($elementId)
     {
         if ($this->_elementIdExists($elementId)) {
@@ -150,8 +164,7 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
         foreach ($this->_allElements as $element) {
             if (isset($values[$element->getId()])) {
                 $element->setValue($values[$element->getId()]);
-            }
-            else {
+            } else {
                 $element->setValue(null);
             }
         }
@@ -231,7 +244,9 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
             $html .= '<form '.$this->serialize($this->getHtmlAttributes()).'>';
             $html .= '<div>';
             if (strtolower($this->getData('method')) == 'post') {
-                $html .= '<input name="form_key" type="hidden" value="'.Mage::getSingleton('Magento_Core_Model_Session')->getFormKey().'" />';
+                $html .= '<input name="form_key" type="hidden" value="'
+                    . $this->_session->getFormKey()
+                    . '" />';
             }
             $html .= '</div>';
         }

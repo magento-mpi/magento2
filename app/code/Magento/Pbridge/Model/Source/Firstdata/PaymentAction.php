@@ -15,7 +15,7 @@
  * @package     Magento_Pbridge
  * @author      Magento
  */
-class Magento_Pbridge_Model_Source_Firstdata_PaymentAction
+class Magento_Pbridge_Model_Source_Firstdata_PaymentAction implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Return list of available payment actions for gateway

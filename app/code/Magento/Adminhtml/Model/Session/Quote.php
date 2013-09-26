@@ -48,8 +48,12 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     protected $_order   = null;
 
     /**
+     * @param Magento_Core_Model_Session_Validator $validator
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Message_CollectionFactory $messageFactory
      * @param Magento_Core_Model_Message $message
      * @param Magento_Core_Model_Cookie $cookie
@@ -61,8 +65,12 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Session_Validator $validator,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Message_CollectionFactory $messageFactory,
         Magento_Core_Model_Message $message,
         Magento_Core_Model_Cookie $cookie,
@@ -73,7 +81,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
         Magento_Core_Model_Url_Proxy $url,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $coreHttp, $messageFactory, $message, $cookie,
+        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory, $message, $cookie,
             $request, $appState, $storeManager, $dir, $url, $data);
         $this->init('adminhtml_quote');
         if (Mage::app()->hasSingleStore()) {
@@ -96,7 +104,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
             }
             elseif($this->getStoreId() && $this->hasCustomerId()) {
                 $this->_quote->setStoreId($this->getStoreId())
-                    ->setCustomerGroupId(Mage::getStoreConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
+                    ->setCustomerGroupId($this->_coreStoreConfig->getConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
                     ->assignCustomer($this->getCustomer())
                     ->setIsActive(false)
                     ->save();

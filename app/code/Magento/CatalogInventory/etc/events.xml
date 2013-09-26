@@ -68,4 +68,4 @@
     <event name="end_process_event_cataloginventory_stock_item_save">
         <observer name="cataloginventory" instance="Magento_CatalogInventory_Model_Observer" method="reindexProductsMassAction" />
     </event>
-</config>
+</config>

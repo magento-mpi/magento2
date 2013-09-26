@@ -68,7 +68,7 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
             return array();
         }
 
-        $configData = $this->_config->getValue(null, 'default');
+        $configData = $this->_coreConfig->getValue(null, 'default');
         $paths = $this->_findEmailTemplateUsages($templateCode, $configData, '');
         return $paths;
     }

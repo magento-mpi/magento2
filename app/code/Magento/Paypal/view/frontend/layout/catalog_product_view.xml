@@ -8,23 +8,21 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view">
-        <reference name="product.info.addtocart">
-            <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
-                <block class="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
-                    <action method="setIsInCatalogProduct">
-                        <argument name="value" xsi:type="string">1</argument>
-                    </action>
-                </block>
-            </container>
-        </reference>
-        <update handle="SHORTCUT_popup"/>
-        <reference name="right">
-            <block class="Magento_Paypal_Block_Logo" name="paypal.partner.right.logo" template="partner/logo.phtml">
-                <!--action method="setLogoType">
-                    <argument name="value" xsi:type="string">wePrefer_150x60</argument>
-                </action-->
+    <referenceBlock name="product.info.addtocart">
+        <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
+            <block class="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
+                <action method="setIsInCatalogProduct">
+                    <argument name="value" xsi:type="string">1</argument>
+                </action>
             </block>
-        </reference>
-    </handle>
+        </container>
+    </referenceBlock>
+    <update handle="SHORTCUT_popup"/>
+    <referenceContainer name="right">
+        <block class="Magento_Paypal_Block_Logo" name="paypal.partner.right.logo" template="partner/logo.phtml">
+            <!--action method="setLogoType">
+                <argument name="value" xsi:type="string">wePrefer_150x60</argument>
+            </action-->
+        </block>
+    </referenceContainer>
 </layout>

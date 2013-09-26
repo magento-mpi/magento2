@@ -8,16 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="install_wizard_config">
-        <reference name="database">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">db/main.phtml</argument>
-            </action>
-            <action method="addDatabaseBlock">
-                <argument name="type" xsi:type="string">mysql4</argument>
-                <argument name="block" xsi:type="string">Magento_Install_Block_Db_Type_Mysql4</argument>
-                <argument name="template" xsi:type="string">db/mysql4.phtml</argument>
-            </action>
-        </reference>
-    </handle>
+    <referenceBlock name="database">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">db/main.phtml</argument>
+        </action>
+        <action method="addDatabaseBlock">
+            <argument name="type" xsi:type="string">mysql4</argument>
+            <argument name="block" xsi:type="string">Magento_Install_Block_Db_Type_Mysql4</argument>
+            <argument name="template" xsi:type="string">db/mysql4.phtml</argument>
+        </action>
+    </referenceBlock>
 </layout>

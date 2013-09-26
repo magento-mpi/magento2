@@ -12,7 +12,7 @@
 class Magento_Page_Block_Links extends Magento_Core_Block_Template
 {
     /** @var string */
-    protected $_template = 'links.phtml';
+    protected $_template = 'Magento_Page::links.phtml';
 
     /**
      * @return Magento_Page_Block_Link[]

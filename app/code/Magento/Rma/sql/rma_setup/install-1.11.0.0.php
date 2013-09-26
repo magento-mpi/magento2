@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+/** @var $this Magento_Rma_Model_Resource_Setup */
 /** @var $installer Magento_Rma_Model_Resource_Setup */
 $installer = $this;
 
@@ -674,7 +675,7 @@ $installer->installEntities();
 $installer->installForms();
 
 //Add Product's Attribute
-$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = $this->getCatalogResourceSetup(array('resourceName' => 'catalog_setup'));
 
 /**
  * Prepare database before module installation

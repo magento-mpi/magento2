@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,15 +9,48 @@
 /**
  * Cms page edit form main tab
  *
- * @category   Magento
- * @package    Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
- *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 
 class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * Locale model
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Backend_Model_Auth_Session $authSession,
+        Magento_Core_Model_LocaleInterface $locale,
+        array $data = array()
+    ) {
+        $this->_authSession = $authSession;
+        $this->_locale = $locale;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+    
     /**
      * Prepare form fields
      *
@@ -96,19 +127,19 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
             'name'   => 'interface_locale',
             'label'  => __('Interface Locale'),
             'title'  => __('Interface Locale'),
-            'values' => Mage::app()->getLocale()->getTranslatedOptionLocales(),
+            'values' => $this->_locale->getTranslatedOptionLocales(),
             'class'  => 'select',
         ));
 
-        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId() != $model->getUserId()) {
+        if ($this->_authSession->getUser()->getId() != $model->getUserId()) {
             $fieldset->addField('is_active', 'select', array(
-                'name'  	=> 'is_active',
-                'label' 	=> __('This account is'),
-                'id'    	=> 'is_active',
-                'title' 	=> __('Account Status'),
-                'class' 	=> 'input-select',
-                'style'		=> 'width: 80px',
-                'options'	=> array(
+                'name'      => 'is_active',
+                'label'     => __('This account is'),
+                'id'        => 'is_active',
+                'title'     => __('Account Status'),
+                'class'     => 'input-select',
+                'style'     => 'width: 80px',
+                'options'   => array(
                     '1' => __('Active'),
                     '0' => __('Inactive')
                 ),

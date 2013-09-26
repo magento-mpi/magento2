@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <group name="group_one">
+        <attribute name="test_attribute"/>
+    </group>
+    <group name="group_two">
+        <attribute name="attribute_one"/>
+        <attribute name="attribute_two"/>
+    </group>
+</config>

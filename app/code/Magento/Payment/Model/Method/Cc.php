@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstract
 {
     protected $_formBlockType = 'Magento_Payment_Block_Form_Cc';
@@ -21,19 +20,55 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     protected $_moduleList;
 
     /**
+     * Locale model
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Centinel service model
+     *
+     * @var Magento_Centinel_Model_Service
+     */
+    protected $_centinelService;
+
+    /**
+     * Construct
+     *
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Centinel_Model_Service $centinelService
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Centinel_Model_Service $centinelService,
         array $data = array()
     ) {
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
         $this->_moduleList = $moduleList;
-        parent::__construct($eventManager, $paymentData, $data);
+        $this->_logger = $logger;
+        $this->_locale = $locale;
+        $this->_centinelService = $centinelService;
     }
 
     /**
@@ -83,6 +118,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
      * Validate payment method information object
      *
      * @return  Magento_Payment_Model_Abstract
+     * @throws Magento_Core_Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -167,7 +203,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
         }
 
         if ($errorMsg) {
-            Mage::throwException($errorMsg);
+            throw new Magento_Core_Exception($errorMsg);
         }
 
         //This must be after all validation conditions
@@ -205,7 +241,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
 
     protected function _validateExpDate($expYear, $expMonth)
     {
-        $date = Mage::app()->getLocale()->date();
+        $date = $this->_locale->date();
         if (!$expYear || !$expMonth || ($date->compareYear($expYear) == 1)
             || ($date->compareYear($expYear) == 0 && ($date->compareMonth($expMonth) == 1))
         ) {
@@ -299,13 +335,12 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
      */
     public function getCentinelValidator()
     {
-        $validator = Mage::getSingleton('Magento_Centinel_Model_Service');
-        $validator
+        $this->_centinelService
             ->setIsModeStrict($this->getConfigData('centinel_is_mode_strict'))
             ->setCustomApiEndpointUrl($this->getConfigData('centinel_api_url'))
             ->setStore($this->getStore())
             ->setIsPlaceOrder($this->_isPlaceOrder());
-        return $validator;
+        return $this->_centinelService;
     }
 
     /**

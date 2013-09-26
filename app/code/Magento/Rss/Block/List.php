@@ -21,6 +21,26 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
 
     protected $_rssFeeds = array();
 
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Add Link elements to head
@@ -84,7 +104,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
 
     public function getCurrentCustomerGroupId()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+        return $this->_customerSession->getCustomerGroupId();
     }
 
     /**
@@ -110,24 +130,10 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
         return $this->getRssFeeds();
     }
 
-    /*
-    public function getCatalogRssUrl($code)
-    {
-        $store_id = Mage::app()->getStore()->getId();
-        $param = array('store_id' => $store_id);
-        $custGroup = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
-        if ($custGroup) {
-            $param = array_merge($param, array('cid' => $custGroup));
-        }
-
-        return Mage::getUrl('rss/catalog/'.$code, $param);
-    }
-    */
-
     public function NewProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/new';
-        if((bool)Mage::getStoreConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $this->addRssFeed($path, __('New Products'));
         }
     }
@@ -135,7 +141,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
     public function SpecialProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/special';
-        if((bool)Mage::getStoreConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $this->addRssFeed($path, __('Special Products'),array(),true);
         }
     }
@@ -143,7 +149,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
     public function SalesRuleProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/salesrule';
-        if((bool)Mage::getStoreConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $this->addRssFeed($path, __('Coupons/Discounts'),array(),true);
         }
     }
@@ -151,7 +157,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
     public function CategoriesRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/category';
-        if((bool)Mage::getStoreConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $category = Mage::getModel('Magento_Catalog_Model_Category');
 
             /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */

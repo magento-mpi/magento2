@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Directory Country Resource Collection
- *
- * @category    Magento
- * @package     Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
@@ -33,22 +28,44 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
     protected $_locale;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Directory_Model_Resource_CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_String $stringHelper
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Directory_Model_Resource_CountryFactory $countryFactory
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_String $stringHelper,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        $resource = null
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Directory_Model_Resource_CountryFactory $countryFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
-        parent::__construct($eventManager, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_stringHelper = $stringHelper;
         $this->_locale = $locale;
+        $this->_countryFactory = $countryFactory;
     }
     /**
      * Foreground countries
@@ -74,7 +91,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      */
     public function loadByStore($store = null)
     {
-        $allowCountries = explode(',', (string)Mage::getStoreConfig('general/country/allow', $store));
+        $allowCountries = explode(',', (string)$this->_coreStoreConfig->getConfig('general/country/allow', $store));
         if (!empty($allowCountries)) {
             $this->addFieldToFilter("country_id", array('in' => $allowCountries));
         }
@@ -94,7 +111,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
                 return $country;
             }
         }
-        return Mage::getResourceModel('Magento_Directory_Model_Resource_Country');
+        return $this->_countryFactory->create();
     }
 
     /**
@@ -118,7 +135,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
                     }
                     $this->_select->where('(' . implode(') OR (', $whereOr) . ')');
                 } else {
-                    $this->addFieldToFilter("{$iso}_code", array('in'=>$countryCode));
+                    $this->addFieldToFilter("{$iso}_code", array('in' => $countryCode));
                 }
             } else {
                 if (is_array($iso)) {
@@ -161,11 +178,11 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      */
     public function toOptionArray($emptyLabel = ' ')
     {
-        $options = $this->_toOptionArray('country_id', 'name', array('title'=>'iso2_code'));
+        $options = $this->_toOptionArray('country_id', 'name', array('title' => 'iso2_code'));
 
         $sort = array();
         foreach ($options as $data) {
-            $name = $this->_locale->getCountryTranslation($data['value']);
+            $name = (string)$this->_locale->getCountryTranslation($data['value']);
             if (!empty($name)) {
                 $sort[$name] = $data['value'];
             }

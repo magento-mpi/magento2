@@ -8,14 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <move element="authorization-link" destination="account.links"/>
-        <reference name="account.links">
-            <block class="Magento_Customer_Block_Account_Register" name="register">
-                <arguments>
-                    <argument name="label" xsi:type="string">register</argument>
-                </arguments>
-            </block>
-        </reference>
-    </handle>
+    <move element="authorization-link" destination="account.links"/>
+    <referenceBlock name="account.links">
+        <block class="Magento_Customer_Block_Account_RegisterLink" name="register-link">
+            <arguments>
+                <argument name="label" xsi:type="string">register</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
 </layout>

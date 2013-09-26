@@ -37,7 +37,9 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
     /**
      * Constructor
      *
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
      * @param Magento_DesignEditor_Helper_Data $helper
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_StoreManager $storeManager
@@ -45,7 +47,9 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
         Magento_DesignEditor_Helper_Data $helper,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_App $app,
         Magento_Core_Model_StoreManager $storeManager,
@@ -60,7 +64,7 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
         if (isset($data['themeId'])) {
             $this->_themeId = $data['themeId'];
         }
-        parent::__construct($coreData, $app, $storeManager, $session, $data);
+        parent::__construct($securityInfo, $coreStoreConfig, $coreData, $app, $storeManager, $session, $data);
     }
 
     /**

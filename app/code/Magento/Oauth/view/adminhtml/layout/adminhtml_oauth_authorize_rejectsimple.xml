@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_oauth_authorize_rejectsimple">
-        <update handle="oauth_root_handle_simple"/>
-        <reference name="content">
-            <block class="Magento_Core_Block_Template" name="oauth.authorize.reject" template="Magento_Oauth::authorize/reject-simple.phtml"/>
-        </reference>
-    </handle>
+    <update handle="oauth_root_handle_simple"/>
+    <referenceContainer name="content">
+        <block class="Magento_Core_Block_Template" name="oauth.authorize.reject" template="Magento_Oauth::authorize/reject-simple.phtml"/>
+    </referenceContainer>
 </layout>

@@ -55,7 +55,7 @@ class Magento_Cron_Model_Config_Backend_Product_Alert extends Magento_Core_Model
                 ->save();
             Mage::getModel('Magento_Core_Model_Config_Value')
                 ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue((string) Mage::getConfig()->getNode(self::CRON_MODEL_PATH))
+                ->setValue((string) $this->_config->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         } catch (Exception $e) {

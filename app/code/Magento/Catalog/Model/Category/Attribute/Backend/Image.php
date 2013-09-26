@@ -53,7 +53,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Image extends Magento_Eav
             $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getName());
         } catch (Exception $e) {
             if ($e->getCode() != Magento_Core_Model_File_Uploader::TMP_NAME_EMPTY) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
         return $this;

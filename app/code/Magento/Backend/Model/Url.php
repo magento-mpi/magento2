@@ -24,7 +24,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      *
      * @var Magento_Backend_Model_Auth_Session
      */
-    protected $_authSession;
+    protected $_session;
 
     /**
      * @var Magento_Backend_Model_Menu
@@ -48,6 +48,11 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     protected $_coreHelper;
 
     /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_coreSession;
+
+    /**
      * Menu config
      *
      * @var Magento_Backend_Model_Menu_Config
@@ -55,33 +60,31 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
     protected $_menuConfig;
 
     /**
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Backend_Helper_Data $backendHelper
-     * @param Magento_Core_Helper_Data $coreHelper
      * @param Magento_Core_Model_Session $coreSession
-     * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Backend_Model_Menu_Config $menuConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Backend_Helper_Data $backendHelper,
-        Magento_Core_Helper_Data $coreHelper,
         Magento_Core_Model_Session $coreSession,
-        Magento_Core_Model_Store_Config $storeConfig,
         Magento_Backend_Model_Menu_Config $menuConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_App $app,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($coreData, $app, $storeManager, $coreSession, $data);
-        $this->_startupMenuItemId = $storeConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
+        parent::__construct($securityInfo, $coreStoreConfig, $coreData, $app, $storeManager, $coreSession, $data);
+        $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
-        $this->_coreHelper = $coreHelper;
+        $this->_coreSession = $coreSession;
         $this->_menuConfig = $menuConfig;
     }
 
@@ -95,7 +98,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         if ($this->hasData('secure_is_forced')) {
             return $this->getData('secure');
         }
-        return Mage::getStoreConfigFlag('web/secure/use_in_adminhtml');
+        return $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_adminhtml');
     }
 
     /**
@@ -198,7 +201,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         }
 
         $secret = $routeName . $controller . $action . $salt;
-        return $this->_coreHelper->getHash($secret);
+        return $this->_coreData->getHash($secret);
     }
 
     /**
@@ -208,7 +211,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     public function useSecretKey()
     {
-        return Mage::getStoreConfigFlag('admin/security/use_form_key') && !$this->getNoSecret();
+        return $this->_coreStoreConfig->getConfigFlag('admin/security/use_form_key') && !$this->getNoSecret();
     }
 
     /**

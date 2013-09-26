@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Reader.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_ReaderTest extends PHPUnit_Framework_TestCase
@@ -25,7 +25,7 @@ class Magento_Test_Tools_Migration_Acl_Db_ReaderTest extends PHPUnit_Framework_T
      */
     protected $_adapterMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_adapterMock = $this->getMockForAbstractClass(
             'Zend_Db_Adapter_Abstract',
@@ -39,7 +39,7 @@ class Magento_Test_Tools_Migration_Acl_Db_ReaderTest extends PHPUnit_Framework_T
         $this->_model = new Magento_Tools_Migration_Acl_Db_Reader($this->_adapterMock, 'dummy');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_adapterMock);

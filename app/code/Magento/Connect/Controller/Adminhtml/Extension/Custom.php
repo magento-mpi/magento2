@@ -47,7 +47,7 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
      */
     public function resetAction()
     {
-        Mage::getSingleton('Magento_Connect_Model_Session')->unsCustomExtensionPackageFormData();
+        $this->_objectManager->get('Magento_Connect_Model_Session')->unsCustomExtensionPackageFormData();
         $this->_redirect('*/*/edit');
     }
 
@@ -59,11 +59,11 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
     {
         $packageName = base64_decode(strtr($this->getRequest()->getParam('id'), '-_,', '+/='));
         if ($packageName) {
-            $session = Mage::getSingleton('Magento_Connect_Model_Session');
+            $session = $this->_objectManager->get('Magento_Connect_Model_Session');
             try {
                 $data = $this->_objectManager->get('Magento_Connect_Helper_Data')->loadLocalPackage($packageName);
                 if (!$data) {
-                    Mage::throwException(__('Something went wrong loading the package data.'));
+                    throw new Magento_Core_Exception(__('Something went wrong loading the package data.'));
                 }
                 $data = array_merge($data, array('file_name' => $packageName));
                 $session->setCustomExtensionPackageFormData($data);
@@ -83,7 +83,7 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
      */
     public function saveAction()
     {
-        $session = Mage::getSingleton('Magento_Connect_Model_Session');
+        $session = $this->_objectManager->get('Magento_Connect_Model_Session');
         $p = $this->getRequest()->getPost();
 
         if (!empty($p['_create'])) {
@@ -97,7 +97,7 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
 
         $session->setCustomExtensionPackageFormData($p);
         try {
-            $ext = Mage::getModel('Magento_Connect_Model_Extension');
+            $ext = $this->_objectManager->create('Magento_Connect_Model_Extension');
             /** @var $ext Magento_Connect_Model_Extension */
             $ext->setData($p);
             if ($ext->savePackage()) {
@@ -126,11 +126,11 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
      */
     public function createAction()
     {
-        $session = Mage::getSingleton('Magento_Connect_Model_Session');
+        $session = $this->_objectManager->get('Magento_Connect_Model_Session');
         try {
             $post = $this->getRequest()->getPost();
             $session->setCustomExtensionPackageFormData($post);
-            $ext = Mage::getModel('Magento_Connect_Model_Extension');
+            $ext = $this->_objectManager->create('Magento_Connect_Model_Extension');
             $ext->setData($post);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {

@@ -26,7 +26,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_User_Model_User');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_User');
     }
 
     /**
@@ -70,7 +70,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public static function roleDataFixture()
     {
-        self::$_newRole = Mage::getModel('Magento_User_Model_Role');
+        self::$_newRole = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_Role');
         self::$_newRole->setName('admin_role')
             ->setRoleType('G')
             ->setPid('1');
@@ -146,12 +146,15 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public function testSendPasswordResetConfirmationEmail()
     {
+        /** @var $storeConfig Magento_Core_Model_Store_Config */
+        $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Store_Config');
         $mailer = $this->getMock('Magento_Core_Model_Email_Template_Mailer', array(), array(
             $this->getMock('Magento_Core_Model_Email_TemplateFactory', array(), array(), '', false)
         ));
         $mailer->expects($this->once())
             ->method('setTemplateId')
-            ->with(Mage::getStoreConfig(Magento_User_Model_User::XML_PATH_FORGOT_EMAIL_TEMPLATE));
+            ->with($storeConfig->getConfig(Magento_User_Model_User::XML_PATH_FORGOT_EMAIL_TEMPLATE));
         $mailer->expects($this->once())
             ->method('send');
         $this->_model->setMailer($mailer);
@@ -167,7 +170,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public function testGetAclRole()
     {
-        $newuser = Mage::getModel('Magento_User_Model_User');
+        $newuser = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_User');
         $newuser->setUserId(10);
         $this->assertNotEquals($this->_model->getAclRole(), $newuser->getAclRole());
     }

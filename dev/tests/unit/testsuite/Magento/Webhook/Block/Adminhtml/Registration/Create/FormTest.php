@@ -29,7 +29,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
     /** @var  string[] */
     private $_actualIds;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_registry = new Magento_Core_Model_Registry();
@@ -45,10 +45,10 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
         $this->_setStub($collectionMock, 'getSelect', $selectMock);
 
         $arguments = array(
+            $this->_registry,
+            $this->_formFactoryMock,
             $this->_coreData,
             $this->_context,
-            $this->_registry,
-            $this->_formFactoryMock
         );
 
         $methods = array(

@@ -31,19 +31,51 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
+    
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Customer_Model_Session $session
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_StoreManager $storeManager
+        Magento_Core_Model_Layout $layout,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Customer_Model_Session $session,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $storeManager);
+        $this->_layout = $layout;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_session = $session;
+        $this->_storeManager = $storeManager;
+        parent::__construct($context);
     }
 
     /**
@@ -73,12 +105,12 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
 
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return $this->_session;
     }
 
     public function getStore()
     {
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     public function getSaveUrl($type)
@@ -94,16 +126,17 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      *
      * @param string|Magento_Core_Block_Abstract $block
      * @return Magento_Core_Block_Abstract
+     * @throws Magento_Core_Exception
      */
     public function createBlock($block)
     {
         if (is_string($block)) {
             if (class_exists($block)) {
-                $block = Mage::getObjectManager()->create($block);
+                $block = $this->_layout->createBlock($block);
             }
         }
         if (!$block instanceof Magento_Core_Block_Abstract) {
-            Mage::throwException(__('Invalid block type: %1', $block));
+            throw new Magento_Core_Exception(__('Invalid block type: %1', $block));
         }
         return $block;
     }
@@ -115,7 +148,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      */
     public function isStockAlertAllowed()
     {
-        return Mage::getStoreConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_STOCK_ALLOW);
+        return $this->_coreStoreConfig->getConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_STOCK_ALLOW);
     }
 
     /**
@@ -125,6 +158,6 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      */
     public function isPriceAlertAllowed()
     {
-        return Mage::getStoreConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_PRICE_ALLOW);
+        return $this->_coreStoreConfig->getConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_PRICE_ALLOW);
     }
 }

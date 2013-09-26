@@ -8,12 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="cms_page_view">
-        <reference name="content">
-            <block class="Magento_VersionsCms_Block_Hierarchy_Pagination" name="hierarchy_pagination" template="hierarchy/pagination.phtml"/>
-        </reference>
-        <reference name="head">
-            <block class="Magento_VersionsCms_Block_Hierarchy_Head" name="magento_versionscms_hierarchy_head"/>
-        </reference>
-    </handle>
+    <referenceContainer name="content">
+        <block class="Magento_VersionsCms_Block_Hierarchy_Pagination" name="hierarchy_pagination" template="hierarchy/pagination.phtml"/>
+    </referenceContainer>
+    <referenceBlock name="head">
+        <block class="Magento_VersionsCms_Block_Hierarchy_Head" name="magento_versionscms_hierarchy_head"/>
+    </referenceBlock>
 </layout>

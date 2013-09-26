@@ -8,16 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_invoice_new">
-        <reference name="invoice_totals">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/order/totals/customerbalance.phtml" after="-">
-                <action method="setSourceField">
-                    <argument name="value" xsi:type="string">customer_balance_amount</argument>
-                </action>
-                <action method="setLabel">
-                    <argument name="value" xsi:type="string">Store Credit</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+    <referenceBlock name="invoice_totals">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/order/totals/customerbalance.phtml" after="-">
+            <action method="setSourceField">
+                <argument name="value" xsi:type="string">customer_balance_amount</argument>
+            </action>
+            <action method="setLabel">
+                <argument name="value" xsi:type="string">Store Credit</argument>
+            </action>
+        </block>
+    </referenceBlock>
 </layout>

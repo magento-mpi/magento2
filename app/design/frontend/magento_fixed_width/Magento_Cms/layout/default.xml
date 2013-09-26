@@ -8,14 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="header">
-            <block class="Magento_Cms_Block_Block" name="header.callout" as="headerCallout">
-                <action method="setBlockId">
-                    <argument name="block_id" xsi:type="string">header_callout</argument>
-                </action>
-            </block>
-        </reference>
-        <move element="cms_footer_links" destination="footer" after="footer_links"/>
-    </handle>
+    <referenceBlock name="header">
+        <block class="Magento_Cms_Block_Block" name="header.callout" as="headerCallout">
+            <action method="setBlockId">
+                <argument name="block_id" xsi:type="string">header_callout</argument>
+            </action>
+        </block>
+    </referenceBlock>
+    <move element="cms_footer_links" destination="footer" after="footer_links"/>
 </layout>

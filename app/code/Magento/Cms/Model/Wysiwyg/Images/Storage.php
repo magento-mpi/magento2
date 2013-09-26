@@ -11,9 +11,7 @@
 /**
  * Wysiwyg Images model
  *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
 {
@@ -65,25 +63,116 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     protected $_cmsWysiwygImages = null;
 
     /**
-     * Constructor
+     * @var array
+     */
+    protected $_resizeParameters;
+
+    /**
+     * @var array
+     */
+    protected $_extensions;
+
+    /**
+     * @var array
+     */
+    protected $_dirs;
+
+    /**
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * Directory database factory
      *
+     * @var Magento_Core_Model_File_Storage_Directory_DatabaseFactory
+     */
+    protected $_directoryDatabaseFactory;
+
+    /**
+     * Storage database factory
      *
+     * @var Magento_Core_Model_File_Storage_DatabaseFactory
+     */
+    protected $_storageDatabaseFactory;
+
+    /**
+     * Storage file factory
      *
+     * @var Magento_Core_Model_File_Storage_FileFactory
+     */
+    protected $_storageFileFactory;
+
+    /**
+     * Storage collection factory
+     *
+     * @var Magento_Cms_Model_Wysiwyg_Images_Storage_CollectionFactory
+     */
+    protected $_storageCollectionFactory;
+
+    /**
+     * Dir
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * Uploader factory
+     *
+     * @var Magento_Core_Model_File_UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Backend_Model_Session $session
+     * @param Magento_Backend_Model_Url $backendUrl
      * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Cms_Model_Wysiwyg_Images_Storage_CollectionFactory $storageCollectionFactory
+     * @param Magento_Core_Model_File_Storage_FileFactory $storageFileFactory
+     * @param Magento_Core_Model_File_Storage_DatabaseFactory $storageDatabaseFactory
+     * @param Magento_Core_Model_File_Storage_Directory_DatabaseFactory $directoryDatabaseFactory
+     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
+     * @param array $resizeParameters
+     * @param array $extensions
+     * @param array $dirs
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Backend_Model_Session $session,
+        Magento_Backend_Model_Url $backendUrl,
         Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages,
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Image_AdapterFactory $imageFactory,
         Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Dir $dir,
+        Magento_Cms_Model_Wysiwyg_Images_Storage_CollectionFactory $storageCollectionFactory,
+        Magento_Core_Model_File_Storage_FileFactory $storageFileFactory,
+        Magento_Core_Model_File_Storage_DatabaseFactory $storageDatabaseFactory,
+        Magento_Core_Model_File_Storage_Directory_DatabaseFactory $directoryDatabaseFactory,
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
+        array $resizeParameters = array(),
+        array $extensions = array(),
+        array $dirs = array(),
         array $data = array()
     ) {
+        $this->_session = $session;
+        $this->_backendUrl = $backendUrl;
         $this->_cmsWysiwygImages = $cmsWysiwygImages;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_filesystem = $filesystem;
@@ -91,6 +180,15 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         $this->_filesystem->setWorkingDirectory($cmsWysiwygImages->getStorageRoot());
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
+        $this->_dir = $dir;
+        $this->_storageCollectionFactory = $storageCollectionFactory;
+        $this->_storageFileFactory = $storageFileFactory;
+        $this->_storageDatabaseFactory = $storageDatabaseFactory;
+        $this->_directoryDatabaseFactory = $directoryDatabaseFactory;
+        $this->_uploaderFactory = $uploaderFactory;
+        $this->_resizeParameters = $resizeParameters;
+        $this->_extensions = $extensions;
+        $this->_dirs = $dirs;
         parent::__construct($data);
     }
 
@@ -103,8 +201,9 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     public function getDirsCollection($path)
     {
         if ($this->_coreFileStorageDb->checkDbUsage()) {
-            $subDirectories = Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')
-                ->getSubdirectories($path);
+            /** @var Magento_Core_Model_File_Storage_Directory_Database $subDirectories */
+            $subDirectories = $this->_directoryDatabaseFactory->create();
+            $subDirectories->getSubdirectories($path);
             foreach ($subDirectories as $directory) {
                 $fullPath = rtrim($path, DS) . DS . $directory['name'];
                 $this->_filesystem->ensureDirectoryExists($fullPath, 0777, $path);
@@ -112,14 +211,18 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         }
 
         $conditions = array('reg_exp' => array(), 'plain' => array());
-        $config = $this->getConfig();
 
-        foreach ($config['dirs']['exclude'] as $dir) {
-            $conditions[$dir->getAttribute('regexp') ? 'reg_exp' : 'plain'][$dir] = true;
+        if ($this->_dirs['exclude']) {
+            foreach ($this->_dirs['exclude'] as $dir) {
+                $conditions[$dir->getAttribute('regexp') ? 'reg_exp' : 'plain'][$dir] = true;
+            }
         }
+
         // "include" section takes precedence and can revoke directory exclusion
-        foreach ($config['dirs']['include'] as $dir) {
-            unset($conditions['regexp'][(string) $dir], $conditions['plain'][$dir]);
+        if ($this->_dirs['include']) {
+            foreach ($this->_dirs['include'] as $dir) {
+                unset($conditions['regexp'][(string) $dir], $conditions['plain'][$dir]);
+            }
         }
 
         $regExp = $conditions['reg_exp'] ? ('~' . implode('|', array_keys($conditions['reg_exp'])) . '~i') : null;
@@ -151,9 +254,10 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     public function getFilesCollection($path, $type = null)
     {
         if ($this->_coreFileStorageDb->checkDbUsage()) {
-            $files = Mage::getModel('Magento_Core_Model_File_Storage_Database')->getDirectoryFiles($path);
+            $files = $this->_storageDatabaseFactory->create()->getDirectoryFiles($path);
 
-            $fileStorageModel = Mage::getModel('Magento_Core_Model_File_Storage_File');
+            /** @var Magento_Core_Model_File_Storage_File $fileStorageModel */
+            $fileStorageModel = $this->_storageFileFactory->create();
             foreach ($files as $file) {
                 $fileStorageModel->saveFile($file);
             }
@@ -181,8 +285,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
                 $thumbUrl = $this->getThumbnailUrl($item->getFilename(), true);
                 // generate thumbnail "on the fly" if it does not exists
                 if (!$thumbUrl) {
-                    $thumbUrl = Mage::getSingleton('Magento_Backend_Model_Url')
-                        ->getUrl('*/*/thumbnail', array('file' => $item->getId()));
+                    $thumbUrl = $this->_backendUrl->getUrl('*/*/thumbnail', array('file' => $item->getId()));
                 }
 
                 $size = @getimagesize($item->getFilename());
@@ -205,11 +308,12 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      * Storage collection
      *
      * @param string $path Path to the directory
-     * @return Magento_Data_Collection_Filesystem
+     * @return Magento_Cms_Model_Wysiwyg_Images_Storage_Collection
      */
     public function getCollection($path = null)
     {
-        $collection = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage_Collection');
+        /** @var Magento_Cms_Model_Wysiwyg_Images_Storage_Collection $collection */
+        $collection = $this->_storageCollectionFactory->create();
         if ($path !== null) {
             $collection->addTargetDir($path);
         }
@@ -221,13 +325,14 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      *
      * @param string $name New directory name
      * @param string $path Parent directory path
-     * @throws Magento_Core_Exception
      * @return array New directory info
+     * @throws Magento_Core_Exception
      */
     public function createDirectory($name, $path)
     {
         if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
-            Mage::throwException(__('Please correct the folder name. Use only letters, numbers, underscores and dashes.'));
+            throw new Magento_Core_Exception(
+                __('Please correct the folder name. Use only letters, numbers, underscores and dashes.'));
         }
         if (!$this->_filesystem->isDirectory($path) || !$this->_filesystem->isWritable($path)) {
             $path = $this->_cmsWysiwygImages->getStorageRoot();
@@ -236,14 +341,15 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         $newPath = $path . DS . $name;
 
         if ($this->_filesystem->isDirectory($newPath, $path)) {
-            Mage::throwException(__('We found a directory with the same name. Please try another folder name.'));
+            throw new Magento_Core_Exception(
+                __('We found a directory with the same name. Please try another folder name.'));
         }
 
         $this->_filesystem->createDirectory($newPath);
         try {
             if ($this->_coreFileStorageDb->checkDbUsage()) {
                 $relativePath = $this->_coreFileStorageDb->getMediaRelativePath($newPath);
-                Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')->createRecursive($relativePath);
+                $this->_directoryDatabaseFactory->create()->createRecursive($relativePath);
             }
 
             $result = array(
@@ -254,7 +360,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
             );
             return $result;
         } Catch (Magento_Filesystem_Exception $e) {
-            Mage::throwException(__('We cannot create a new directory.'));
+            throw new Magento_Core_Exception(__('We cannot create a new directory.'));
         }
     }
 
@@ -263,6 +369,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      *
      * @param string $path Target dir
      * @return void
+     * @throws Magento_Core_Exception
      */
     public function deleteDirectory($path)
     {
@@ -271,19 +378,19 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         $pathCmp = rtrim($path, DS);
 
         if ($rootCmp == $pathCmp) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('We cannot delete root directory %1.', $path)
             );
         }
 
 
         if ($this->_coreFileStorageDb->checkDbUsage()) {
-            Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')->deleteDirectory($path);
+            $this->_directoryDatabaseFactory->create()->deleteDirectory($path);
         }
         try {
             $this->_filesystem->delete($path);
         } catch (Magento_Filesystem_Exception $e) {
-            Mage::throwException(__('We cannot delete directory %1.', $path));
+            throw new Magento_Core_Exception(__('We cannot delete directory %1.', $path));
         }
 
         if (strpos($pathCmp, $rootCmp) === 0) {
@@ -322,12 +429,13 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      *
      * @param string $targetPath Target directory
      * @param string $type Type of storage, e.g. image, media etc.
-     * @throws Magento_Core_Exception
      * @return array File info Array
+     * @throws Magento_Core_Exception
      */
     public function uploadFile($targetPath, $type = null)
     {
-        $uploader = Mage::getModel('Magento_Core_Model_File_Uploader', array('fileId' => 'image'));
+        /** @var Magento_Core_Model_File_Uploader $uploader */
+        $uploader = $this->_uploaderFactory->create(array('fileId' => 'image'));
         $allowed = $this->getAllowedExtensions($type);
         if ($allowed) {
             $uploader->setAllowedExtensions($allowed);
@@ -337,7 +445,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         $result = $uploader->save($targetPath);
 
         if (!$result) {
-            Mage::throwException(__('We cannot upload the file.') );
+            throw new Magento_Core_Exception(__('We cannot upload the file.') );
         }
 
         // create thumbnail
@@ -423,10 +531,8 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         }
         $image = $this->_imageFactory->create();
         $image->open($source);
-        $width = $this->getConfigData('resize_width');
-        $height = $this->getConfigData('resize_height');
         $image->keepAspectRatio($keepRation);
-        $image->resize($width, $height);
+        $image->resize($this->_resizeParameters['width'], $this->_resizeParameters['height']);
         $dest = $targetDir . DS . pathinfo($source, PATHINFO_BASENAME);
         $image->save($dest);
         if ($this->_filesystem->isFile($dest)) {
@@ -458,7 +564,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getThumbsPath($filePath = false)
     {
-        $mediaRootDir = Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA);
+        $mediaRootDir = $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA);
         $thumbnailDir = $this->getThumbnailRoot();
 
         if ($filePath && strpos($filePath, $mediaRootDir) === 0) {
@@ -475,50 +581,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
-    }
-
-    /**
-     * Config object getter
-     *
-     * @return Magento_Core_Model_Config_Element
-     */
-    public function getConfig()
-    {
-        if (! $this->_config) {
-            $this->_config = Mage::getConfig()->getNode('adminhtml/cms/browser');
-        }
-
-        return $this->_config;
-    }
-
-    /**
-     * Config object as array getter
-     *
-     * @return array
-     */
-    public function getConfigAsArray()
-    {
-        if (!$this->_configAsArray) {
-            $this->_configAsArray = $this->getConfig()->asCanonicalArray();
-        }
-
-        return $this->_configAsArray;
-    }
-
-    /**
-     * Wysiwyg Config reader
-     *
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function getConfigData($key, $default=false)
-    {
-        $configArray = $this->getConfigAsArray();
-        $key = (string)$key;
-
-        return array_key_exists($key, $configArray) ? $configArray[$key] : $default;
+        return $this->_session;
     }
 
     /**
@@ -529,12 +592,10 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getAllowedExtensions($type = null)
     {
-        $extensions = $this->getConfigData('extensions');
-
-        if (is_string($type) && array_key_exists("{$type}_allowed", $extensions)) {
-            $allowed = $extensions["{$type}_allowed"];
+        if (is_string($type) && array_key_exists("{$type}_allowed", $this->_extensions)) {
+            $allowed = $this->_extensions["{$type}_allowed"];
         } else {
-            $allowed = $extensions['allowed'];
+            $allowed = $this->_extensions['allowed'];
         }
 
         return array_keys(array_filter($allowed));
@@ -563,5 +624,25 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         }
         $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
         return in_array($ext, $this->_getData('_image_extensions'));
+    }
+
+    /**
+     * Get resize width
+     *
+     * @return int
+     */
+    public function getResizeWidth()
+    {
+        return $this->_resizeParameters['width'];
+    }
+
+    /**
+     * Get resize height
+     *
+     * @return int
+     */
+    public function getResizeHeight()
+    {
+        return $this->_resizeParameters['height'];
     }
 }

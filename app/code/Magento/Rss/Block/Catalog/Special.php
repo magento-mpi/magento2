@@ -24,6 +24,31 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
      */
     protected static $_currentDate = null;
 
+    /**
+     * @var Magento_Core_Model_Resource_Iterator
+     */
+    protected $_iterator;
+
+    /**
+     * @param Magento_Core_Model_Resource_Iterator $iterator
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_Iterator $iterator,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_iterator = $iterator;
+        parent::__construct($catalogData, $customerSession, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         /*
@@ -64,7 +89,7 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
 
         $newurl = Mage::getUrl('rss/catalog/special/store_id/' . $storeId);
         $title = __('%1 - Special Products', Mage::app()->getStore()->getFrontendName());
-        $lang = Mage::getStoreConfig('general/locale/code');
+        $lang = $this->_storeConfig->getConfig('general/locale/code');
 
         $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
         $data = array('title' => $title,
@@ -80,7 +105,7 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+        $this->_iterator->walk(
             $specials->getSelect(),
             array(array($this, 'addSpecialXmlCallback')),
             array('rssObj'=> $rssObj, 'results'=> &$results)

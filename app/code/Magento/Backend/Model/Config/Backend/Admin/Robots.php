@@ -31,6 +31,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -40,12 +41,21 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $storeManager,
+            $config,
+            $resource,
+            $resourceCollection,
+            $data
+        );
         $this->_filesystem = $filesystem;
         $this->_filePath = Mage::getBaseDir() . '/robots.txt';
     }

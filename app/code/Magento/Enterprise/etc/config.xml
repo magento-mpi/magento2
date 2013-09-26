@@ -15,33 +15,11 @@
             <enterprise_setup>
                 <setup>
                     <module>Magento_Enterprise</module>
-                    <class>Magento_Core_Model_Resource_Setup</class>
+                    <class>Magento_Enterprise_Model_Resource_Setup</class>
                 </setup>
             </enterprise_setup>
         </resources>
     </global>
-    <frontend>
-        <design>
-            <theme>
-                <full_name>magento_fixed_width</full_name>
-            </theme>
-        </design>
-    </frontend>
-    <adminhtml>
-        <design>
-            <theme>
-                <full_name>magento_backend</full_name>
-            </theme>
-        </design>
-    </adminhtml>
-    <install>
-        <eula_file>LICENSE_EE.html</eula_file>
-        <design>
-            <theme>
-                <full_name>magento_enterprise</full_name>
-            </theme>
-        </design>
-    </install>
     <default>
         <design>
             <head>

@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_load_block_form_account">
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Form_Account" template="sales/order/create/form/account.phtml" name="form_account"/>
-        </reference>
-    </handle>
+    <referenceContainer name="content">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Form_Account" template="sales/order/create/form/account.phtml" name="form_account"/>
+    </referenceContainer>
 </layout>

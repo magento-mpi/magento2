@@ -20,6 +20,12 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
     protected $_cacheManager;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @var Magento_Core_Model_App_State
      */
     protected $_appState;
@@ -30,12 +36,14 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
     protected $_storeManager;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventDispatcher
      * @param Magento_Core_Model_CacheInterface $cacheManager
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventDispatcher,
         Magento_Core_Model_CacheInterface $cacheManager,
         Magento_Core_Model_App_State $appState,
@@ -45,6 +53,7 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
         $this->_cacheManager = $cacheManager;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
+        $this->_logger = $logger;
     }
 
     /**
@@ -61,6 +70,14 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
     public function getEventDispatcher()
     {
         return $this->_eventDispatcher;
+    }
+
+    /**
+     * @return Magento_Core_Model_Logger
+     */
+    public function getLogger()
+    {
+        return $this->_logger;
     }
 
     /**

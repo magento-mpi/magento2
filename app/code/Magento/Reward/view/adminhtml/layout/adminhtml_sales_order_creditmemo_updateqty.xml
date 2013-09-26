@@ -8,16 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_creditmemo_updateqty">
-        <reference name="creditmemo_totals">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward_points" template="Magento_Reward::sales/order/total.phtml">
-                <action method="setBeforeCondition">
-                    <argument name="condition" xsi:type="string">customerbalance</argument>
-                </action>
-            </block>
-        </reference>
-        <reference name="submit_before">
-            <block class="Magento_Reward_Block_Adminhtml_Sales_Order_Creditmemo_Reward" name="reward_points" template="sales/order/creditmemo/reward.phtml"/>
-        </reference>
-    </handle>
+    <referenceBlock name="creditmemo_totals">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward_points" template="Magento_Reward::sales/order/total.phtml">
+            <action method="setBeforeCondition">
+                <argument name="condition" xsi:type="string">customerbalance</argument>
+            </action>
+        </block>
+    </referenceBlock>
+    <referenceContainer name="submit_before">
+        <block class="Magento_Reward_Block_Adminhtml_Sales_Order_Creditmemo_Reward" name="reward_points_creditmemo" template="sales/order/creditmemo/reward.phtml"/>
+    </referenceContainer>
 </layout>

@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_category_edit">
-        <reference name="category.edit">
-            <block class="Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons" name="event.buttons">
-                <action method="addButtons"/>
-            </block>
-        </reference>
-    </handle>
+    <referenceBlock name="category.edit">
+        <block class="Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons" name="event.buttons">
+            <action method="addButtons"/>
+        </block>
+    </referenceBlock>
 </layout>

@@ -117,36 +117,53 @@ class Magento_Search_Model_Resource_Collection
      *
      * @var Magento_CatalogSearch_Helper_Data
      */
-    protected $_catalogSearchData = null;
+    protected $_catalogSearchData;
 
     /**
      * Search data
      *
      * @var Magento_Search_Helper_Data
      */
-    protected $_searchData = null;
+    protected $_searchData;
 
     /**
-     * Collection constructor
+     * Store manager
      *
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Search_Helper_Data $searchData
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Search_Helper_Data $searchData,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Search_Helper_Data $searchData,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy,
+            $coreStoreConfig, $entityFactory);
         $this->_searchData = $searchData;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -346,7 +363,7 @@ class Magento_Search_Model_Resource_Collection
      */
     protected function _prepareBaseParams()
     {
-        $store  = Mage::app()->getStore();
+        $store  = $this->_storeManager->getStore();
         $params = array(
             'store_id'      => $store->getId(),
             'locale_code'   => $store->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE),

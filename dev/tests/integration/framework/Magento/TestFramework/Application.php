@@ -183,7 +183,7 @@ class Magento_TestFramework_Application
             $primaryLoader = new Magento_Core_Model_ObjectManager_ConfigLoader_Primary($config->getDirectories());
             $this->_primaryConfig = $primaryLoader->load();
             $objectManager->get('Magento_Core_Model_Resource')
-                ->setResourceConfig(Mage::getObjectManager()->get('Magento_Core_Model_Config_Resource'));
+                ->setResourceConfig($objectManager->get('Magento_Core_Model_Config_Resource'));
         } else {
             $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             Magento_TestFramework_ObjectManager::setInstance($objectManager);
@@ -200,6 +200,11 @@ class Magento_TestFramework_Application
             $objectManager->configure(
                 $objectManager->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global')
             );
+            $objectManager->configure(array(
+                'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy' => array(
+                    'parameters' => array('canSaveMap' => false)
+                ),
+            ));
         }
         Magento_TestFramework_Helper_Bootstrap::setObjectManager($objectManager);
         $objectManager->get('Magento_Core_Model_Resource')
@@ -362,7 +367,6 @@ class Magento_TestFramework_Application
             ->registry('_singleton/Magento_Core_Model_Resource');
 
         Mage::reset();
-        Mage::setObjectManager($objectManager);
         Magento_Data_Form::setElementRenderer(null);
         Magento_Data_Form::setFieldsetRenderer(null);
         Magento_Data_Form::setFieldsetElementRenderer(null);

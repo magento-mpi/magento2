@@ -16,4 +16,11 @@
             <value>frontend</value>
         </param>
     </virtualType>
+    <type name="Magento_Core_Model_Url_SecurityInfo">
+        <param name="secureUrlList">
+            <value>
+                <centinel>/centinel/</centinel>
+            </value>
+        </param>
+    </type>
 </config>

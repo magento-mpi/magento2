@@ -7,25 +7,23 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Recurring Profile" id="sales_recurring_profile_index" type="page" parent="customer_account_index">
-        <update handle="customer_account"/>
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">2columns-left.phtml</argument>
-            </action>
-        </reference>
-        <reference name="my.account.wrapper">
-            <block class="Magento_Sales_Block_Recurring_Profiles" name="sales.recurring.profiles" template="recurring/profiles.phtml">
-                <block class="Magento_Sales_Block_Recurring_Profile_Grid" name="sales.recurring.profiles.grid" as="grid" template="recurring/grid.phtml">
-                    <action method="setEmptyGridMessage">
-                        <argument translate="true" name="value" xsi:type="string">There are no recurring profiles yet.</argument>
-                    </action>
-                    <action method="setGridHtmlId">
-                        <argument name="value" xsi:type="string">recurring_profile_list_view</argument>
-                    </action>
-                </block>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Recurring Profile" type="page" parent="customer_account_index">
+    <update handle="customer_account"/>
+    <referenceBlock name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">2columns-left.phtml</argument>
+        </action>
+    </referenceBlock>
+    <referenceContainer name="my.account.wrapper">
+        <block class="Magento_Sales_Block_Recurring_Profiles" name="sales.recurring.profiles" template="recurring/profiles.phtml">
+            <block class="Magento_Sales_Block_Recurring_Profile_Grid" name="sales.recurring.profiles.grid" as="grid" template="recurring/grid.phtml">
+                <action method="setEmptyGridMessage">
+                    <argument translate="true" name="value" xsi:type="string">There are no recurring profiles yet.</argument>
+                </action>
+                <action method="setGridHtmlId">
+                    <argument name="value" xsi:type="string">recurring_profile_list_view</argument>
+                </action>
             </block>
-        </reference>
-    </handle>
+        </block>
+    </referenceContainer>
 </layout>

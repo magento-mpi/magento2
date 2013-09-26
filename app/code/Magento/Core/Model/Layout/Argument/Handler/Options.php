@@ -47,7 +47,11 @@ class Magento_Core_Model_Layout_Argument_Handler_Options extends Magento_Core_Mo
         $result = array();
 
         foreach ($options as $value => $label) {
-            $result[] = array('value' => $value, 'label' => $label);
+            if (is_array($label)) {
+                $result[] = $label;
+            } else {
+                $result[] = array('value' => $value, 'label' => $label);
+            }
         }
 
         return $result;

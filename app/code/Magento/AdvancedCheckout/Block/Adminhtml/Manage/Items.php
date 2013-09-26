@@ -18,26 +18,32 @@
 class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml_Block_Template
 {
     /**
-     * Core registry
-     *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry;
+
+    /**
+     * @var Magento_Wishlist_Model_WishlistFactory
+     */
+    protected $_wishlistFactory;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
+        $this->_registry = $registry;
         parent::__construct($coreData, $context, $data);
+        $this->_wishlistFactory = $wishlistFactory;
     }
 
     /**
@@ -168,7 +174,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
      */
     protected function getQuote()
     {
-        return $this->_coreRegistry->registry('checkout_current_quote');
+        return $this->_registry->registry('checkout_current_quote');
     }
 
     /**
@@ -178,7 +184,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
      */
     protected function getStore()
     {
-        return $this->_coreRegistry->registry('checkout_current_store');
+        return $this->_registry->registry('checkout_current_store');
     }
 
     /**
@@ -188,7 +194,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
      */
     protected function getCustomer()
     {
-        return $this->_coreRegistry->registry('checkout_current_customer');
+        return $this->_registry->registry('checkout_current_customer');
     }
 
     /**
@@ -234,7 +240,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     public function getCustomerWishlists()
     {
         /* @var Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlistCollection */
-        return Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection()
+        return $this->_wishlistFactory->create()->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }
 }

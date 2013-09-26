@@ -19,55 +19,10 @@
         <template>
             <email />
         </template>
-        <design>
-            <theme>
-                <allow_view_files_duplication>1</allow_view_files_duplication>
-            </theme>
-        </design>
-        <session>
-            <validation>
-                <http_user_agent_skip>
-                    <flash>Shockwave Flash</flash>
-                    <flash_mac><![CDATA[Adobe Flash Player\s{1,}\w{1,10}]]></flash_mac>
-                </http_user_agent_skip>
-            </validation>
-        </session>
-        <request>
-            <direct_front_name />
-        </request>
-        <dev>
-            <page_type>
-                <render_inherited>0</render_inherited>
-            </page_type>
-            <design_fallback>
-                <allow_map_update>1</allow_map_update>
-            </design_fallback>
-        </dev>
         <migration>
             <path_to_aliases_map_file>app/etc/aliases_to_classes_map.json</path_to_aliases_map_file>
         </migration>
     </global>
-    <frontend>
-        <design>
-            <theme>
-                <full_name>magento_demo</full_name>
-            </theme>
-        </design>
-    </frontend>
-    <adminhtml>
-        <design>
-            <theme>
-                <full_name>magento_backend</full_name>
-            </theme>
-        </design>
-    </adminhtml>
-    <install>
-        <design>
-            <theme>
-                <full_name>magento_basic</full_name>
-            </theme>
-        </design>
-    </install>
     <default>
         <design>
             <pagination>
@@ -231,16 +186,4 @@
             </customization>
         </theme>
     </default>
-    <crontab>
-        <jobs>
-            <core_clean_cache>
-                <schedule>
-                    <cron_expr>30 2 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Core_Model_Observer::cleanCache</model>
-                </run>
-            </core_clean_cache>
-        </jobs>
-    </crontab>
 </config>

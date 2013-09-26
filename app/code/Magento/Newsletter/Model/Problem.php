@@ -36,6 +36,35 @@ class Magento_Newsletter_Model_Problem extends Magento_Core_Model_Abstract
     protected  $_subscriber = null;
 
     /**
+     * Subscriber factory
+     *
+     * @var Magento_Newsletter_Model_SubscriberFactory
+     */
+    protected $_subscriberFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_subscriberFactory = $subscriberFactory;
+    }
+
+    /**
      * Initialize Newsletter Problem Model
      */
     protected function _construct()
@@ -92,7 +121,7 @@ class Magento_Newsletter_Model_Problem extends Magento_Core_Model_Abstract
         }
 
         if (is_null($this->_subscriber)) {
-            $this->_subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')
+            $this->_subscriber = $this->_subscriberFactory->create()
                 ->load($this->getSubscriberId());
         }
 

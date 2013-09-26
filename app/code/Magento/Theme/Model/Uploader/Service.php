@@ -1,5 +1,7 @@
 <?php
 /**
+ * Theme file uploader service
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -8,21 +10,8 @@
  * @license     {license_link}
  */
 
-/**
- * Theme file uploader service
- */
 class Magento_Theme_Model_Uploader_Service
 {
-    /**
-     * Css file upload limit
-     */
-    const XML_PATH_CSS_UPLOAD_LIMIT = 'global/theme/css/upload_limit';
-
-    /**
-     * Js file upload limit
-     */
-    const XML_PATH_JS_UPLOAD_LIMIT = 'global/theme/js/upload_limit';
-
     /**
      * Uploaded file path
      *
@@ -57,18 +46,39 @@ class Magento_Theme_Model_Uploader_Service
     protected $_uploaderFactory;
 
     /**
+     * @var  string|null
+     */
+    protected $_cssUploadLimit;
+
+    /**
+     * @var  string|null
+     */
+    protected $_jsUploadLimit;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Io_File $fileIo
      * @param Magento_File_Size $fileSize
      * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $uploadLimits keys are 'css' and 'js' for file type, values defines maximum file size, example: 2M
      */
     public function __construct(
         Magento_Io_File $fileIo,
         Magento_File_Size $fileSize,
-        Magento_Core_Model_File_UploaderFactory $uploaderFactory
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
+        array $uploadLimits = array()
     ) {
         $this->_fileIo = $fileIo;
         $this->_fileSize = $fileSize;
         $this->_uploaderFactory = $uploaderFactory;
+        if (isset($uploadLimits['css'])) {
+            $this->_cssUploadLimit = $uploadLimits['css'];
+        }
+        if (isset($uploadLimits['js'])) {
+            $this->_jsUploadLimit = $uploadLimits['js'];
+        }
     }
 
     /**
@@ -141,7 +151,7 @@ class Magento_Theme_Model_Uploader_Service
      */
     public function getCssUploadMaxSize()
     {
-        return $this->_getMaxUploadSize(self::XML_PATH_CSS_UPLOAD_LIMIT);
+        return $this->_getMaxUploadSize($this->_cssUploadLimit);
     }
 
     /**
@@ -151,22 +161,23 @@ class Magento_Theme_Model_Uploader_Service
      */
     public function getJsUploadMaxSize()
     {
-        return $this->_getMaxUploadSize(self::XML_PATH_JS_UPLOAD_LIMIT);
+        return $this->_getMaxUploadSize($this->_jsUploadLimit);
     }
 
     /**
      * Get max upload size
      *
-     * @param string $node
+     * @param string $configuredLimit
      * @return int
      */
-    protected function _getMaxUploadSize($node)
+    private function _getMaxUploadSize($configuredLimit)
     {
-        $maxCssUploadSize = $this->_fileSize->convertSizeToInteger(
-            (string)Mage::getConfig()->getNode($node)
-        );
         $maxIniUploadSize = $this->_fileSize->getMaxFileSize();
-        return min($maxCssUploadSize, $maxIniUploadSize);
+        if (is_null($configuredLimit)) {
+            return $maxIniUploadSize;
+        }
+        $maxUploadSize = $this->_fileSize->convertSizeToInteger($configuredLimit);
+        return min($maxUploadSize, $maxIniUploadSize);
     }
 
     /**
@@ -176,7 +187,7 @@ class Magento_Theme_Model_Uploader_Service
      */
     public function getCssUploadMaxSizeInMb()
     {
-         return $this->_fileSize->getFileSizeInMb($this->getCssUploadMaxSize());
+        return $this->_fileSize->getFileSizeInMb($this->getCssUploadMaxSize());
     }
 
     /**

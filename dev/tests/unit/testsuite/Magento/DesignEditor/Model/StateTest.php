@@ -99,7 +99,7 @@ class Magento_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
      */
     protected $_cacheTypeList = array('type1', 'type2');
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_backendSession = $this->getMock(
             'Magento_Backend_Model_Session', array('setData', 'getData', 'unsetData'),

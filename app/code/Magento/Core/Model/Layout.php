@@ -26,22 +26,24 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     /**#@+
      * Supported layout directives
      */
-    const TYPE_BLOCK        = 'block';
-    const TYPE_CONTAINER    = 'container';
-    const TYPE_ACTION       = 'action';
-    const TYPE_ARGUMENTS    = 'arguments';
-    const TYPE_REFERENCE    = 'reference';
-    const TYPE_REMOVE       = 'remove';
-    const TYPE_MOVE         = 'move';
+    const TYPE_BLOCK = 'block';
+    const TYPE_CONTAINER = 'container';
+    const TYPE_ACTION = 'action';
+    const TYPE_ARGUMENTS = 'arguments';
+    const TYPE_ARGUMENT = 'argument';
+    const TYPE_REFERENCE_BLOCK = 'referenceBlock';
+    const TYPE_REFERENCE_CONTAINER = 'referenceContainer';
+    const TYPE_REMOVE = 'remove';
+    const TYPE_MOVE = 'move';
     /**#@-*/
 
     /**#@+
      * Names of container options in layout
      */
-    const CONTAINER_OPT_HTML_TAG   = 'htmlTag';
+    const CONTAINER_OPT_HTML_TAG = 'htmlTag';
     const CONTAINER_OPT_HTML_CLASS = 'htmlClass';
-    const CONTAINER_OPT_HTML_ID    = 'htmlId';
-    const CONTAINER_OPT_LABEL      = 'label';
+    const CONTAINER_OPT_HTML_ID = 'htmlId';
+    const CONTAINER_OPT_LABEL = 'label';
     /**#@-*/
 
     /**
@@ -200,6 +202,19 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
+     * @var Magento_Core_Model_Logger $logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @var Magento_Core_Model_Layout_MergeFactory
      */
     protected $_mergeFactory;
@@ -219,11 +234,10 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param Magento_Core_Model_Layout_Argument_Processor $argumentProcessor
      * @param Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure
      * @param Magento_Core_Model_DataService_Graph $dataServiceGraph
-     * @param Magento_Core_Model_Layout_MergeFactory $mergeFactory
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeFactory
      * @param string $area
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Factory_Helper $factoryHelper,
         Magento_Core_Helper_Data $coreData,
@@ -233,13 +247,13 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
-        Magento_Core_Model_Layout_MergeFactory $mergeFactory,
-        Magento_Core_Model_Resource_Theme_CollectionFactory $themeFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
         $this->_factoryHelper = $factoryHelper;
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
         $this->_area = $area;
@@ -252,6 +266,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $this->_dataServiceGraph = $dataServiceGraph;
         $this->_mergeFactory = $mergeFactory;
         $this->_themeFactory = $themeFactory;
+        $this->_logger = $logger;
     }
 
     /**
@@ -364,6 +379,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
 
     /**
      * Create structure of elements from the loaded XML configuration
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function generateElements()
     {
@@ -395,7 +411,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Profiler::start('generate_elements');
 
         while (false === $this->_scheduledStructure->isElementsEmpty()) {
-            list($type, $node) = current($this->_scheduledStructure->getElements());
+            list($type, $node, $actions, $args, $attributes) = current($this->_scheduledStructure->getElements());
             $elementName = key($this->_scheduledStructure->getElements());
 
             if (isset($node['output'])) {
@@ -404,11 +420,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             if ($type == self::TYPE_BLOCK) {
                 $this->_generateBlock($elementName);
             } else {
-                $this->_generateContainer($elementName, (string)$node[self::CONTAINER_OPT_LABEL], array(
-                    self::CONTAINER_OPT_HTML_TAG => (string)$node[self::CONTAINER_OPT_HTML_TAG],
-                    self::CONTAINER_OPT_HTML_ID => (string)$node[self::CONTAINER_OPT_HTML_ID],
-                    self::CONTAINER_OPT_HTML_CLASS => (string)$node[self::CONTAINER_OPT_HTML_CLASS]
-                ));
+                $this->_generateContainer($elementName, (string)$node[self::CONTAINER_OPT_LABEL], $attributes);
                 $this->_scheduledStructure->unsetElement($elementName);
             }
         }
@@ -460,6 +472,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * Traverse through all elements of specified XML-node and schedule structural elements of it
      *
      * @param Magento_Core_Model_Layout_Element $parent
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _readStructure($parent)
     {
@@ -467,13 +480,23 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             /** @var $node Magento_Core_Model_Layout_Element */
             switch ($node->getName()) {
                 case self::TYPE_CONTAINER:
+                    $this->_scheduleStructure($node, $parent);
+                    $this->_mergeContainerAttributes($node);
+                    $this->_readStructure($node);
+                    break;
+
                 case self::TYPE_BLOCK:
                     $this->_initServiceCalls($node);
                     $this->_scheduleStructure($node, $parent);
                     $this->_readStructure($node);
                     break;
 
-                case self::TYPE_REFERENCE:
+                case self::TYPE_REFERENCE_CONTAINER:
+                    $this->_mergeContainerAttributes($node);
+                    $this->_readStructure($node);
+                    break;
+
+                case self::TYPE_REFERENCE_BLOCK:
                     $this->_readStructure($node);
                     break;
 
@@ -531,6 +554,34 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             }
         }
         return $this;
+    }
+
+    /**
+     * Merge Container attributes
+     *
+     * @param Magento_Core_Model_Layout_Element $node
+     */
+    protected function _mergeContainerAttributes(Magento_Core_Model_Layout_Element $node)
+    {
+        $containerName = $node->getAttribute('name');
+        $element = $this->_scheduledStructure->getStructureElement($containerName, array());
+
+        if (isset($element['attributes'])) {
+            $keys = array_keys($element['attributes']);
+            foreach ($keys as $key) {
+                if (isset($node[$key])) {
+                    $element['attributes'][$key] = (string)$node[$key];
+                }
+            }
+        } else {
+            $element['attributes'] = array(
+                self::CONTAINER_OPT_HTML_TAG => (string)$node[self::CONTAINER_OPT_HTML_TAG],
+                self::CONTAINER_OPT_HTML_ID => (string)$node[self::CONTAINER_OPT_HTML_ID],
+                self::CONTAINER_OPT_HTML_CLASS => (string)$node[self::CONTAINER_OPT_HTML_CLASS],
+                self::CONTAINER_OPT_LABEL => (string)$node[self::CONTAINER_OPT_LABEL],
+            );
+        }
+        $this->_scheduledStructure->setStructureElement($containerName, $element);
     }
 
     /**
@@ -708,6 +759,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * while referenced element itself is not declared yet.
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @param string $key in _scheduledStructure represent element name
      */
     protected function _scheduleElement($key)
@@ -715,7 +767,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $row = $this->_scheduledStructure->getStructureElement($key);
 
         if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT])) {
-            Mage::log("Broken reference: missing declaration of the element '{$key}'.", Zend_Log::CRIT);
+            $this->_logger->log("Broken reference: missing declaration of the element '{$key}'.", Zend_Log::CRIT);
             $this->_scheduledStructure->unsetPathElement($key);
             $this->_scheduledStructure->unsetStructureElement($key);
             return;
@@ -730,9 +782,10 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             if ($this->_structure->hasElement($parentName)) {
                 $this->_structure->setAsChild($name, $parentName, $alias);
             } else {
-                Mage::log("Broken reference: the '{$name}' element cannot be added as child to '{$parentName}, "
-                    . 'because the latter doesn\'t exist', Zend_Log::CRIT
-                );
+                $this->_logger
+                    ->log("Broken reference: the '{$name}' element cannot be added as child to '{$parentName}, "
+                        . 'because the latter doesn\'t exist', Zend_Log::CRIT
+                    );
             }
         }
         $this->_scheduledStructure->unsetStructureElement($key);
@@ -740,7 +793,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             $type,
             $node,
             isset($row['actions']) ? $row['actions'] : array(),
-            isset($row['arguments']) ? $row['arguments'] : array()
+            isset($row['arguments']) ? $row['arguments'] : array(),
+            isset($row['attributes']) ? $row['attributes'] : array()
         );
         $this->_scheduledStructure->setElement($name, $data);
 
@@ -818,7 +872,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         }
 
         $configPath = (string)$node->getAttribute('ifconfig');
-        if (!empty($configPath) && !Mage::getStoreConfigFlag($configPath)) {
+        if (!empty($configPath) && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
             $this->_scheduledStructure->unsetElement($elementName);
             return;
         }
@@ -869,6 +923,16 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $this->_structure->setAttribute($name, self::CONTAINER_OPT_LABEL, $label);
         unset($options[self::CONTAINER_OPT_LABEL]);
         unset($options['type']);
+        $allowedTags = array(
+            'dd', 'div', 'dl', 'fieldset', 'header', 'hgroup', 'ol', 'p', 'section','table', 'tfoot', 'ul'
+        );
+        if (!empty($options[self::CONTAINER_OPT_HTML_TAG])
+            && !in_array($options[self::CONTAINER_OPT_HTML_TAG], $allowedTags)
+        ) {
+            throw new Magento_Exception(
+                __('Html tag "%1" is forbidden for usage in containers. Consider to use one of the allowed: %2.',
+                $options[self::CONTAINER_OPT_HTML_TAG], implode(', ', $allowedTags)));
+        }
         if (empty($options[self::CONTAINER_OPT_HTML_TAG])
             && (!empty($options[self::CONTAINER_OPT_HTML_ID]) || !empty($options[self::CONTAINER_OPT_HTML_CLASS]))
         ) {
@@ -888,7 +952,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected function _generateAction($node, $parent)
     {
         $configPath = $node->getAttribute('ifconfig');
-        if ($configPath && !Mage::getStoreConfigFlag($configPath)) {
+        if ($configPath && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
             return;
         }
 
@@ -966,11 +1030,11 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             if ($childName !== $sibling) {
                 $siblingParentName = $this->_structure->getParentId($sibling);
                 if ($parentName !== $siblingParentName) {
-                    Mage::log(
-                        "Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', "
-                        . "but their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
-                        Zend_Log::CRIT
-                    );
+                    $this->_logger
+                        ->log("Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', but "
+                            . "their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
+                            Zend_Log::CRIT
+                        );
                     return;
                 }
                 $this->_structure->reorderToSibling($parentName, $childName, $sibling, $after ? 1 : -1);

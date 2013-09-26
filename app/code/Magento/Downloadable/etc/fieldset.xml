@@ -9,60 +9,59 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <global>
-        <fieldsets>
-            <downloadable_sales_copy_order>
-                <entity_id>
-                    <to_downloadable>order_id</to_downloadable>
-                </entity_id>
-                <increment_id>
-                    <to_downloadable>order_increment_id</to_downloadable>
-                </increment_id>
-                <created_at>
-                    <to_downloadable>*</to_downloadable>
-                </created_at>
-                <updated_at>
-                    <to_downloadable>*</to_downloadable>
-                </updated_at>
-                <customer_id>
-                    <to_downloadable>*</to_downloadable>
-                </customer_id>
-            </downloadable_sales_copy_order>
-            <downloadable_sales_copy_order_item>
-                <item_id>
-                    <to_downloadable>order_item_id</to_downloadable>
-                </item_id>
-                <name>
-                    <to_downloadable>product_name</to_downloadable>
-                </name>
-                <sku>
-                    <to_downloadable>product_sku</to_downloadable>
-                </sku>
-            </downloadable_sales_copy_order_item>
-            <downloadable_sales_copy_link>
-                <product_id>
-                    <to_purchased>*</to_purchased>
-                </product_id>
-                <link_id>
-                    <to_purchased>*</to_purchased>
-                </link_id>
-                <title>
-                    <to_purchased>link_title</to_purchased>
-                </title>
-                <is_shareable>
-                    <to_purchased>*</to_purchased>
-                </is_shareable>
-                <link_url>
-                    <to_purchased>*</to_purchased>
-                </link_url>
-                <link_file>
-                    <to_purchased>*</to_purchased>
-                </link_file>
-                <link_type>
-                    <to_purchased>*</to_purchased>
-                </link_type>
-            </downloadable_sales_copy_link>
-        </fieldsets>
-    </global>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="downloadable_sales_copy_order">
+            <field name="entity_id">
+                <aspect name="to_downloadable" targetField="order_id" />
+            </field>
+            <field name="increment_id">
+                <aspect name="to_downloadable" targetField="order_increment_id" />
+            </field>
+            <field name="created_at">
+                <aspect name="to_downloadable" />
+            </field>
+            <field name="updated_at">
+                <aspect name="to_downloadable" />
+            </field>
+            <field name="customer_id">
+                <aspect name="to_downloadable" />
+            </field>
+        </fieldset>
+        <fieldset id="downloadable_sales_copy_order_item">
+            <field name="item_id">
+                <aspect name="to_downloadable" targetField="order_item_id" />
+            </field>
+            <field name="name">
+                <aspect name="to_downloadable" targetField="product_name" />
+            </field>
+            <field name="sku">
+                <aspect name="to_downloadable" targetField="product_sku" />
+            </field>
+        </fieldset>
+        <fieldset id="downloadable_sales_copy_link">
+            <field name="product_id">
+                <aspect name="to_purchased" />
+            </field>
+            <field name="link_id">
+                <aspect name="to_purchased" />
+            </field>
+            <field name="title">
+                <aspect name="to_purchased" targetField="link_title" />
+            </field>
+            <field name="is_shareable">
+                <aspect name="to_purchased" />
+            </field>
+            <field name="link_url">
+                <aspect name="to_purchased" />
+            </field>
+            <field name="link_file">
+                <aspect name="to_purchased" />
+            </field>
+            <field name="link_type">
+                <aspect name="to_purchased" />
+            </field>
+        </fieldset>
+    </scope>
 </config>

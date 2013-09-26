@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_review">
-        <reference name="order_review">
-            <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_Checkout::onepage/review/item.phtml"/>
-        </reference>
-    </handle>
+    <referenceBlock name="order_review">
+        <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_Checkout::onepage/review/item.phtml"/>
+    </referenceBlock>
 </layout>

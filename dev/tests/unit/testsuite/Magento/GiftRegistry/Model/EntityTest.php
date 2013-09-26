@@ -40,7 +40,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
      */
     protected $_emailTemplate;
 
-    public function setUp()
+    protected function setUp()
     {
         $app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $resource = $this->getMock('Magento_GiftRegistry_Model_Resource_Entity', array(), array(), '', false);
@@ -82,7 +82,8 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
 
         $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false, false);
-        $context = new Magento_Core_Model_Context($eventDispatcher, $cacheManager, $appState, $storeManager);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $context = new Magento_Core_Model_Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
         $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false);
         $giftRegistryData = $this->getMock('Magento_GiftRegistry_Helper_Data', array('escapeHtml', 'getRegistryLink'),
             array(), '', false, false);

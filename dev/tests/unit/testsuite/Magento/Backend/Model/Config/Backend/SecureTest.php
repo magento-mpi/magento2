@@ -13,7 +13,14 @@ class Magento_Backend_Model_Config_Backend_SecureTest extends PHPUnit_Framework_
         $appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
         $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $cacheManager = $this->getMock('Magento_Core_Model_CacheInterface');
-        $context = new Magento_Core_Model_Context($eventDispatcher, $cacheManager, $appState, $storeManager);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $context = new Magento_Core_Model_Context(
+            $logger,
+            $eventDispatcher,
+            $cacheManager,
+            $appState,
+            $storeManager
+        );
 
         $resource = $this->getMock('Magento_Core_Model_Resource_Config_Data', array(), array(), '', false);
         $resource->expects($this->any())
@@ -22,12 +29,21 @@ class Magento_Backend_Model_Config_Backend_SecureTest extends PHPUnit_Framework_
         $resourceCollection = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
         $mergeService = $this->getMock('Magento_Core_Model_Page_Asset_MergeService', array(), array(), '', false);
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
 
         $model = $this->getMock(
             'Magento_Backend_Model_Config_Backend_Secure',
             array('getOldValue'),
-            array($context, $coreRegistry, $storeManager, $mergeService, $resource, $resourceCollection)
+            array(
+                $context,
+                $coreRegistry,
+                $storeManager,
+                $coreConfig,
+                $mergeService,
+                $resource,
+                $resourceCollection
+            )
         );
         $mergeService->expects($this->once())
             ->method('cleanMergedJsCss');

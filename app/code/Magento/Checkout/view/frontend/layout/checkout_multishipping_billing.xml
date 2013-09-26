@@ -7,16 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Multishipping Checkout Billing Information Step" id="checkout_multishipping_billing" type="page" parent="checkout_multishipping">
-        <update handle="checkout_multishipping"/>
-        <reference name="content">
-            <block class="Magento_Checkout_Block_Multishipping_Billing" name="checkout_billing" template="multishipping/billing.phtml">
-                <action method="setMethodFormTemplate">
-                    <argument name="method" xsi:type="string">purchaseorder</argument>
-                    <argument name="template" xsi:type="string">Magento_Payment::form/purchaseorder.phtml</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Billing Information Step" type="page" parent="checkout_multishipping">
+    <update handle="checkout_multishipping"/>
+    <referenceContainer name="content">
+        <block class="Magento_Checkout_Block_Multishipping_Billing" name="checkout_billing" template="multishipping/billing.phtml">
+            <action method="setMethodFormTemplate">
+                <argument name="method" xsi:type="string">purchaseorder</argument>
+                <argument name="template" xsi:type="string">Magento_Payment::form/purchaseorder.phtml</argument>
+            </action>
+        </block>
+    </referenceContainer>
 </layout>

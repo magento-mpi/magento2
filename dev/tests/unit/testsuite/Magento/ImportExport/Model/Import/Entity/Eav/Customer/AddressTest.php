@@ -140,7 +140,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Init entity adapter model
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManagerMock = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
@@ -153,7 +153,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Unset entity adapter model
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }
@@ -180,12 +180,16 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         $customerEntity = $this->_createCustomerEntityMock();
 
-        $addressCollection = new Magento_Data_Collection();
+        $addressCollection = new Magento_Data_Collection(
+            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        );
         foreach ($this->_addresses as $address) {
             $addressCollection->addItem(new Magento_Object($address));
         }
 
-        $regionCollection = new Magento_Data_Collection();
+        $regionCollection = new Magento_Data_Collection(
+            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        );
         foreach ($this->_regions as $region) {
             $regionCollection->addItem(new Magento_Object($region));
         }
@@ -217,7 +221,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function _createAttrCollectionMock()
     {
-        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
+        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        $attributeCollection = $this->getMock(
+            'Magento_Data_Collection',
+            array('getEntityTypeCode'),
+            array($entityFactory)
+        );
         foreach ($this->_attributes as $attributeData) {
             $arguments = $this->_objectManagerMock
                 ->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
@@ -435,9 +444,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function _getModelMock()
     {
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        
         $modelMock = new Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address(
             $this->_coreDataMock,
             $this->_coreStringMock,
+            $coreStoreConfig,
             $this->_getModelDependencies()
         );
 

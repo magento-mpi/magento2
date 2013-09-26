@@ -17,6 +17,39 @@
  */
 class Magento_Rss_Block_Catalog_New extends Magento_Rss_Block_Catalog_Abstract
 {
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var Magento_Core_Model_Resource_Iterator
+     */
+    protected $_iterator;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
+     * @param Magento_Core_Model_Resource_Iterator $iterator
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Product_Visibility $productVisibility,
+        Magento_Core_Model_Resource_Iterator $iterator,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productVisibility = $productVisibility;
+        $this->_iterator = $iterator;
+        parent::__construct($catalogData, $customerSession, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         /*
@@ -32,7 +65,7 @@ class Magento_Rss_Block_Catalog_New extends Magento_Rss_Block_Catalog_Abstract
 
         $newurl = Mage::getUrl('rss/catalog/new/store_id/' . $storeId);
         $title = __('New Products from %1', Mage::getModel('Magento_Core_Model_StoreManagerInterface')->getStore($storeId)->getFrontendName());
-        $lang = Mage::getStoreConfig('general/locale/code');
+        $lang = $this->_storeConfig->getConfig('general/locale/code');
 
         $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
         $data = array('title' => $title,
@@ -87,14 +120,14 @@ getFinalPrice() - used in shopping cart calculations
             ->applyFrontendPriceLimitations()
         ;
 
-        $products->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+        $products->setVisibility($this->_productVisibility->getVisibleInCatalogIds());
 
         /*
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
 
-        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+        $this->_iterator->walk(
                 $products->getSelect(),
                 array(array($this, 'addNewItemXmlCallback')),
                 array('rssObj'=> $rssObj, 'product'=>$product)

@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_denied">
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Denied" name="content.denied" template="admin/access_denied.phtml"/>
-        </reference>
-    </handle>
+    <referenceContainer name="content">
+        <block class="Magento_Adminhtml_Block_Denied" name="content.denied" template="admin/access_denied.phtml"/>
+    </referenceContainer>
 </layout>

@@ -17,8 +17,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
 
     const SCOPE_DEFAULT = 'default';
@@ -110,30 +111,33 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
     protected $_config;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Backend_Model_Config_Factory $configFactory
-     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Backend_Model_Config_Structure $configStructure
      * @param Magento_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory
      * @param Magento_Backend_Block_System_Config_Form_Field_Factory $fieldFactory
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
         Magento_Backend_Model_Config_Factory $configFactory,
-        Magento_Data_Form_Factory $formFactory,
         Magento_Backend_Model_Config_Structure $configStructure,
         Magento_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory,
         Magento_Backend_Block_System_Config_Form_Field_Factory $fieldFactory,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_configFactory = $configFactory;
-        $this->_formFactory = $formFactory;
         $this->_configStructure = $configStructure;
         $this->_fieldsetFactory = $fieldsetFactory;
         $this->_fieldFactory = $fieldFactory;
@@ -440,6 +444,10 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
     public function getConfigValue($path)
     {
         return $this->_config->getValue($path, $this->getScope(), $this->getScopeCode());
+        if (empty($this->_configRoot)) {
+            $this->_configRoot = $this->_coreConfig->getNode(null, $this->getScope(), $this->getScopeCode());
+        }
+        return $this->_configRoot;
     }
 
     /**

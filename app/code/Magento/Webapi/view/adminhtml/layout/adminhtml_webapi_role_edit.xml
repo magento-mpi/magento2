@@ -8,25 +8,23 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_webapi_role_edit">
-        <update handle="adminhtml_webapi_role_edit_tab_users_grid_block"/>
-        <reference name="content">
-            <block class="Magento_Webapi_Block_Adminhtml_Role_Edit" name="webapi.role.edit"/>
-        </reference>
-        <reference name="left">
-            <block class="Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs" name="webapi.role.edit.tabs">
-                <block class="Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main"/>
-                <block class="Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource" name="webapi.role.edit.tab.resource" template="Magento_Webapi::rolesedit.phtml"/>
-                <block class="Magento_Backend_Block_Widget_Grid_Container" name="webapi.role.edit.tab.users.grid.container"/>
-            </block>
-        </reference>
-        <reference name="head">
-            <action method="setCanLoadExtJs">
-                <argument name="flag" xsi:type="string">1</argument>
-            </action>
-        </reference>
-        <reference name="js">
-            <block class="Magento_Core_Block_Template" template="Magento_Webapi::rolesusersgridjs.phtml"/>
-        </reference>
-    </handle>
+    <update handle="adminhtml_webapi_role_edit_tab_users_grid_block"/>
+    <referenceContainer name="content">
+        <block class="Magento_Webapi_Block_Adminhtml_Role_Edit" name="webapi.role.edit"/>
+    </referenceContainer>
+    <referenceContainer name="left">
+        <block class="Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs" name="webapi.role.edit.tabs">
+            <block class="Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main"/>
+            <block class="Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource" name="webapi.role.edit.tab.resource" template="Magento_Webapi::rolesedit.phtml"/>
+            <block class="Magento_Backend_Block_Widget_Grid_Container" name="webapi.role.edit.tab.users.grid.container"/>
+        </block>
+    </referenceContainer>
+    <referenceBlock name="head">
+        <action method="setCanLoadExtJs">
+            <argument name="flag" xsi:type="string">1</argument>
+        </action>
+    </referenceBlock>
+    <referenceContainer name="js">
+        <block class="Magento_Core_Block_Template" template="Magento_Webapi::rolesusersgridjs.phtml"/>
+    </referenceContainer>
 </layout>

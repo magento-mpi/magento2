@@ -1,19 +1,13 @@
 <?php
 /**
+ * Wishlist item report collection
+ *
  * {license_notice}
  *
  * @category    Magento
  * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Wishlist item report collection
- *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
     extends Magento_Core_Model_Resource_Db_Collection_Abstract
@@ -33,24 +27,46 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
     protected $_wishlistData = null;
 
     /**
-     * Collection constructor
+     * @var Magento_Core_Model_Fieldset_Config
+     */
+    protected $_fieldsetConfig;
+
+    /**
+     * Customer resource model
+     *
+     * @var Magento_Customer_Model_Resource_Customer
+     */
+    protected $_resourceCustomer;
+
+    /**
+     * Construct
      *
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_MultipleWishlist_Model_Resource_Item $itemResource
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_MultipleWishlist_Model_Resource_Item $resource
+     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
+     * @param Magento_Customer_Model_Resource_Customer $resourceCustomer
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_MultipleWishlist_Model_Resource_Item $itemResource,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Catalog_Helper_Data $catalogData,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_MultipleWishlist_Model_Resource_Item $resource
+        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
+        Magento_Customer_Model_Resource_Customer $resourceCustomer
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_catalogData = $catalogData;
-        parent::__construct($eventManager, $fetchStrategy, $resource);
+        $this->_fieldsetConfig = $fieldsetConfig;
+        $this->_resourceCustomer = $resourceCustomer;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $itemResource);
     }
 
     /**
@@ -68,13 +84,10 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
      */
     protected function _addCustomerInfo()
     {
-        /* @var Magento_Customer_Model_Resource_Customer $customer */
-        $customer  = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
-        $select = $this->getSelect();
+        $customerAccount = $this->_fieldsetConfig->getFieldset('customer_account');
 
-        $customerAccount = Mage::getConfig()->getFieldset('customer_account');
-        foreach ($customerAccount as $code => $node) {
-            if ($node->is('name')) {
+        foreach ($customerAccount as $code => $field) {
+            if (isset($field['name'])) {
                 $fields[$code] = $code;
             }
         }
@@ -82,7 +95,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
         $adapter = $this->getConnection();
         $concatenate = array();
         if (isset($fields['prefix'])) {
-            $this->_joinCustomerAttibute($customer->getAttribute('prefix'));
+            $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('prefix'));
             $fields['prefix'] = 'at_prefix.value';
             $concatenate[] = $adapter->getCheckSql(
                 '{{prefix}} IS NOT NULL AND {{prefix}} != \'\'',
@@ -90,23 +103,23 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
                 '\'\''
             );
         }
-        $this->_joinCustomerAttibute($customer->getAttribute('firstname'));
+        $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('firstname'));
         $fields['firstname'] = 'at_firstname.value';
         $concatenate[] = 'LTRIM(RTRIM({{firstname}}))';
         $concatenate[] = '\' \'';
         if (isset($fields['middlename'])) {
             $fields['middlename'] = 'at_middlename.value';
-            $this->_joinCustomerAttibute($customer->getAttribute('middlename'));
+            $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('middlename'));
             $concatenate[] = $adapter->getCheckSql(
                 '{{middlename}} IS NOT NULL AND {{middlename}} != \'\'',
                 $adapter->getConcatSql(array('LTRIM(RTRIM({{middlename}}))', '\' \'')),
                 '\'\'');
         }
-        $this->_joinCustomerAttibute($customer->getAttribute('lastname'));
+        $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('lastname'));
         $fields['lastname'] = 'at_lastname.value';
         $concatenate[] = 'LTRIM(RTRIM({{lastname}}))';
         if (isset($fields['suffix'])) {
-            $this->_joinCustomerAttibute($customer->getAttribute('suffix'));
+            $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('suffix'));
             $fields['suffix'] = 'at_suffix.value';
             $concatenate[] = $adapter
                     ->getCheckSql('{{suffix}} IS NOT NULL AND {{suffix}} != \'\'',

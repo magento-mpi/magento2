@@ -106,13 +106,6 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     protected $_customizableContainerTypes = array('VARIABLE', 'RECTANGULAR', 'NONRECTANGULAR');
 
     /**
-     * Factory for Magento_Usa_Model_Simplexml_Element
-     *
-     * @var Magento_Usa_Model_Simplexml_ElementFactory
-     */
-    protected $_xmlElFactory;
-
-    /**
      * Usa data
      *
      * @var Magento_Usa_Helper_Data
@@ -120,22 +113,55 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     protected $_usaData = null;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollFactory;
+
+    /**
      * Usps constructor
      *
      * @param Magento_Usa_Helper_Data $usaData
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
      * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
+     * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
+     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
+     * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
+     * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Usa_Helper_Data $usaData,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
         Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
+        Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
+        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
+        Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
+        Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
+        $this->_productCollFactory = $productCollFactory;
         $this->_xmlElFactory = $xmlElFactory;
-        parent::__construct($directoryData, $data);
+        parent::__construct(
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
+            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
+            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
+        );
     }
 
     /**
@@ -236,7 +262,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig(
+            $r->setOrigPostal($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
@@ -245,7 +271,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         if ($request->getOrigCountryId()) {
             $r->setOrigCountryId($request->getOrigCountryId());
         } else {
-            $r->setOrigCountryId(Mage::getStoreConfig(
+            $r->setOrigCountryId($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             ));
@@ -338,7 +364,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
         if ($this->_isUSCountry($r->getDestCountryId())) {
             $xml = $this->_xmlElFactory->create(
-                array('<?xml version="1.0" encoding="UTF-8"?><RateV4Request/>')
+                array('data' => '<?xml version="1.0" encoding="UTF-8"?><RateV4Request/>')
             );
             $xml->addAttribute('USERID', $r->getUserId());
             // according to usps v4 documentation
@@ -380,7 +406,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             $api = 'RateV4';
         } else {
             $xml = $this->_xmlElFactory->create(
-                array('<?xml version = "1.0" encoding = "UTF-8"?><IntlRateV2Request/>')
+                array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><IntlRateV2Request/>')
             );
             $xml->addAttribute('USERID', $r->getUserId());
             // according to usps v4 documentation
@@ -526,16 +552,16 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             }
         }
 
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        $result = $this->_rateFactory->create();
         if (empty($priceArr)) {
-            $error = Mage::getModel('Magento_Shipping_Model_Rate_Result_Error');
+            $error = $this->_rateErrorFactory->create();
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+                $rate = $this->_rateMethodFactory->create();
                 $rate->setCarrier('usps');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -831,7 +857,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
          foreach ($trackings as $tracking) {
              $xml = $this->_xmlElFactory->create(
-                 array('<?xml version = "1.0" encoding = "UTF-8"?><TrackRequest/>')
+                 array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><TrackRequest/>')
              );
              $xml->addAttribute('USERID', $r->getUserId());
 
@@ -902,19 +928,19 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         }
 
         if (!$this->_result) {
-            $this->_result = Mage::getModel('Magento_Shipping_Model_Tracking_Result');
+            $this->_result = $this->_trackFactory->create();
         }
         $defaults = $this->getDefaults();
 
         if ($resultArr) {
-             $tracking = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Status');
+             $tracking = $this->_trackStatusFactory->create();
              $tracking->setCarrier('usps');
              $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->setTrackSummary($resultArr['tracksummary']);
              $this->_result->append($tracking);
          } else {
-            $error = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Error');
+            $error = $this->_trackErrorFactory->create();
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
@@ -1249,7 +1275,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         $rootNode = 'ExpressMailLabelRequest';
         // the wrap node needs for remove xml declaration above
         $xmlWrap = $this->_xmlElFactory->create(
-            array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
+            array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $xml = $xmlWrap->addChild($rootNode);
         $xml->addAttribute('USERID', $this->getConfigData('userid'));
@@ -1338,7 +1364,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         }
         // the wrap node needs for remove xml declaration above
         $xmlWrap = $this->_xmlElFactory->create(
-            array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
+            array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $xml = $xmlWrap->addChild($rootNode);
         $xml->addAttribute('USERID', $this->getConfigData('userid'));
@@ -1456,7 +1482,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
         // the wrap node needs for remove xml declaration above
         $xmlWrap = $this->_xmlElFactory->create(
-            array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
+            array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $method = '';
         if (stripos($shippingMethod, 'Priority') !== false) {
@@ -1536,7 +1562,8 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
                 $productIds[]= $item->getProductId();
         }
-        $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+        $productCollection = $this->_productCollFactory
+            ->create()
             ->addStoreFilter($request->getStoreId())
             ->addFieldToFilter('entity_id', array('in' => $productIds))
             ->addAttributeToSelect('country_of_manufacture');

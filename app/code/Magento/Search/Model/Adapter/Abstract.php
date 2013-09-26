@@ -18,6 +18,45 @@
 abstract class Magento_Search_Model_Adapter_Abstract
 {
     /**
+     * @var Magento_Search_Model_Resource_Index
+     */
+    protected $_resourceIndex;
+
+    /**
+     * @var Magento_CatalogSearch_Model_Resource_Fulltext
+     */
+    protected $_resourceFulltext;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     */
+    protected $_attributeCollection;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Search_Model_Catalog_Layer_Filter_Price
+     */
+    protected $_filterPrice;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Cache
+     *
+     * @var Magento_Core_Model_CacheInterface
+     */
+    protected $_cache;
+
+    /**
      * Field to use to determine and enforce document uniqueness
      *
      */
@@ -111,7 +150,6 @@ abstract class Magento_Search_Model_Adapter_Abstract
      */
     protected $_indexNeedsOptimization = false;
 
-
     // Deprecated properties
 
     /**
@@ -131,6 +169,42 @@ abstract class Magento_Search_Model_Adapter_Abstract
         'visibility'
     );
 
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
+     * @param Magento_Search_Model_Resource_Index $resourceIndex
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_CacheInterface $cache
+     */
+    public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice,
+        Magento_Search_Model_Resource_Index $resourceIndex,
+        Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
+        Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection,
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_CacheInterface $cache
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_filterPrice = $filterPrice;
+        $this->_resourceIndex = $resourceIndex;
+        $this->_resourceFulltext = $resourceFulltext;
+        $this->_attributeCollection = $attributeCollection;
+        $this->_logger = $logger;
+        $this->_storeManager = $storeManager;
+        $this->_cache = $cache;
+    }
 
     /**
      * Retrieve attribute field name
@@ -164,8 +238,8 @@ abstract class Magento_Search_Model_Adapter_Abstract
         /**
          * Cleaning MAXPRICE cache
          */
-        $cacheTag = Mage::getSingleton('Magento_Search_Model_Catalog_Layer_Filter_Price')->getCacheTag();
-        Mage::app()->cleanCache(array($cacheTag));
+        $cacheTag = $this->_filterPrice->getCacheTag();
+        $this->_cache->clean(array($cacheTag));
 
         $this->_indexNeedsOptimization = true;
 
@@ -241,10 +315,10 @@ abstract class Magento_Search_Model_Adapter_Abstract
     public function getPriceFieldName($customerGroupId = null, $websiteId = null)
     {
         if ($customerGroupId === null) {
-            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
         if ($websiteId === null) {
-            $websiteId = Mage::app()->getStore()->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
 
         if ($customerGroupId === null || !$websiteId) {
@@ -267,8 +341,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
     {
         $result = array();
 
-        $categoryProductData = Mage::getResourceSingleton('Magento_Search_Model_Resource_Index')
-                ->getCategoryProductIndexData($storeId, $productId);
+        $categoryProductData = $this->_resourceIndex->getCategoryProductIndexData($storeId, $productId);
 
         if (isset($categoryProductData[$productId])) {
             $categoryProductData = $categoryProductData[$productId];
@@ -298,13 +371,12 @@ abstract class Magento_Search_Model_Adapter_Abstract
     {
         $result = array();
 
-        $productPriceIndexData = Mage::getResourceSingleton('Magento_Search_Model_Resource_Index')
-            ->getPriceIndexData($productId, $storeId);
+        $productPriceIndexData = $this->_resourceIndex->getPriceIndexData($productId, $storeId);
 
         if (isset($productPriceIndexData[$productId])) {
             $productPriceIndexData = $productPriceIndexData[$productId];
 
-            $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
             foreach ($productPriceIndexData as $customerGroupId => $price) {
                 $fieldName = $this->getPriceFieldName($customerGroupId, $websiteId);
                 $result[$fieldName] = sprintf('%F', $price);
@@ -536,7 +608,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
             return array();
         }
 
-        $this->_separator = Mage::getResourceSingleton('Magento_CatalogSearch_Model_Resource_Fulltext')->getSeparator();
+        $this->_separator = $this->_resourceFulltext->getSeparator();
 
         $docs = array();
         foreach ($docData as $productId => $productIndexData) {
@@ -594,7 +666,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
             $this->_client->addDocuments($_docs);
         } catch (Exception $e) {
             $this->rollback();
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
 
         $this->commit();
@@ -636,7 +708,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
                 $this->_client->$deleteMethod($params);
             } catch (Exception $e) {
                 $this->rollback();
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
 
             $this->commit();
@@ -1127,9 +1199,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
     protected function _getIndexableAttributeParams()
     {
         if ($this->_indexableAttributeParams === null) {
-            $attributeCollection = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
-                    ->addToIndexFilter()
-                    ->getItems();
+            $attributeCollection = $this->_attributeCollection->addToIndexFilter()->getItems();
 
             $this->_indexableAttributeParams = array();
             foreach ($attributeCollection as $item) {

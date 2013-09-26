@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_MultipleWishlist
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_MultipleWishlist_RssTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
@@ -17,7 +13,8 @@ class Magento_MultipleWishlist_RssTest extends Magento_TestFramework_TestCase_Co
      */
     public function testWishlistAction()
     {
-        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $wishlist = $objectManager->create('Magento_Wishlist_Model_Wishlist');
         $wishlist->load('fixture_unique_code', 'sharing_code');
         $this->getRequest()->setParam('wishlist_id', $wishlist->getId());
         $this->dispatch('rss/index/wishlist');

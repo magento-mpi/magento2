@@ -128,6 +128,11 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
     protected $_cacheState;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @var Magento_Core_Model_App
      */
     protected $_app;
@@ -152,6 +157,7 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
         $this->_viewUrl         = $context->getViewUrl();
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
+        $this->_logger          = $context->getLogger();
         $this->_app             = $context->getApp();
         parent::__construct($data);
         $this->_construct();
@@ -735,7 +741,8 @@ abstract class Magento_Core_Block_Abstract extends Magento_Object
         try {
             return $this->_viewUrl->getViewFileUrl($file, $params);
         } catch (Magento_Exception $e) {
-            Mage::logException($e);
+
+            $this->_logger->logException($e);
             return $this->_getNotFoundUrl();
         }
     }

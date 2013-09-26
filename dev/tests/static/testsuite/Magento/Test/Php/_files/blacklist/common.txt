@@ -21,6 +21,7 @@ dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/expected
 dev/tests/static/testsuite/Magento/Test/Legacy/_files
+dev/tests/unit/testsuite/Magento/Core/Model/TemplateEngine/_files
 lib/Magento/Archive.php
 lib/Magento/Archive/Abstract.php
 lib/Magento/Archive/Bz.php
@@ -119,7 +120,6 @@ lib/Magento/Data/Collection/Db.php
 lib/Magento/Data/Collection/Db/FetchStrategy/Cache.php
 lib/Magento/Data/Collection/Db/FetchStrategy/Query.php
 lib/Magento/Data/Collection/Db/FetchStrategyInterface.php
-lib/Magento/Data/Collection/Factory.php
 lib/Magento/Data/Collection/Filesystem.php
 lib/Magento/Data/Form.php
 lib/Magento/Data/Form/Abstract.php

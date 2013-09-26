@@ -12,10 +12,6 @@
  * Application model
  *
  * Application should have: areas, store, locale, translator, design package
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
 {

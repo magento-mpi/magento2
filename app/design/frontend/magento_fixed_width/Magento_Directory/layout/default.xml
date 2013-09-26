@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="top.switches">
-            <block class="Magento_Directory_Block_Currency" name="currency" before="store_language" template="currency.phtml"/>
-        </reference>
-    </handle>
+    <referenceContainer name="top.switches">
+        <block class="Magento_Directory_Block_Currency" name="currency" before="store_language" template="currency.phtml"/>
+    </referenceContainer>
 </layout>

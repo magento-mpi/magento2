@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_webapi_role_rolegrid">
-        <update handle="formkey"/>
-        <update handle="adminhtml_webapi_role_grid_block"/>
-        <container name="webapi_role.grid.container" label="API Roles Grid Container" output="1"/>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_webapi_role_grid_block"/>
+    <block class="Magento_Backend_Block_Widget_Grid_Container" name="webapi_role.grid.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
 </layout>

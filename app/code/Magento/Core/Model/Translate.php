@@ -181,11 +181,10 @@ class Magento_Core_Model_Translate
      * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
      * @param Magento_Core_Model_ModuleList $moduleList
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Resource_Translate $translate
      * @param Magento_Core_Model_App $app
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,
@@ -196,6 +195,7 @@ class Magento_Core_Model_Translate
         Magento_Phrase_Renderer_Placeholder $placeholderRender,
         Magento_Core_Model_ModuleList $moduleList,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Resource_Translate $translate,
         Magento_Core_Model_App $app
@@ -208,6 +208,7 @@ class Magento_Core_Model_Translate
         $this->_placeholderRender = $placeholderRender;
         $this->_moduleList = $moduleList;
         $this->_modulesReader = $modulesReader;
+        $this->_coreConfig = $coreConfig;
         $this->_storeManager = $storeManager;
         $this->_translateResource = $translate;
         $this->_app = $app;

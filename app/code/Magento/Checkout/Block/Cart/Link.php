@@ -5,6 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * "My Cart" link
+ */
 class Magento_Checkout_Block_Cart_Link extends Magento_Page_Block_Link
 {
     /**
@@ -27,7 +31,6 @@ class Magento_Checkout_Block_Cart_Link extends Magento_Page_Block_Link
         parent::__construct($coreData, $context, $data);
         $this->_moduleManager = $moduleManager;
     }
-
 
     /**
      * @return string

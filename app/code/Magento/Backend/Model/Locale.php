@@ -39,36 +39,37 @@ class Magento_Backend_Model_Locale extends Magento_Core_Model_Locale
      * Constructor
      *
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Locale_Config $config
-     * @param Magento_Core_Model_App $app
      * @param Magento_Backend_Model_Session $session
      * @param Magento_Backend_Model_Locale_Manager $localeManager
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Locale_Validator $localeValidator
+     * @param Magento_Core_Helper_Translate $translate
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Locale_Config $config
+     * @param Magento_Core_Model_App $app
      * @param string $locale
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Locale_Config $config,
-        Magento_Core_Model_App $app,
         Magento_Backend_Model_Session $session,
         Magento_Backend_Model_Locale_Manager $localeManager,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Locale_Validator $localeValidator,
+        Magento_Core_Helper_Translate $translate,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Locale_Config $config,
+        Magento_Core_Model_App $app,
         $locale = null
     ) {
         $this->_session = $session;
         $this->_localeManager = $localeManager;
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
-
-        parent::__construct($eventManager, $appState, $storeManager, $config, $app, $locale);
+        parent::__construct($eventManager, $translate, $coreStoreConfig, $appState, $storeManager, $config, $app, $locale);
     }
 
     /**

@@ -8,17 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_grid">
-        <reference name="sales.order.grid.massaction">
-            <arguments>
-                <argument name="options" xsi:type="array">
-                    <updater>Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater</updater>
-                    <item name="add_order_to_archive" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">Move to Archive</item>
-                        <item name="url" xsi:type="string">*/sales_archive/massAdd</item>
-                    </item>
-                </argument>
-            </arguments>
-        </reference>
-    </handle>
+    <referenceBlock name="sales.order.grid.massaction">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <updater>Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater</updater>
+                <item name="add_order_to_archive" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Move to Archive</item>
+                    <item name="url" xsi:type="string">*/sales_archive/massAdd</item>
+                </item>
+            </argument>
+        </arguments>
+    </referenceBlock>
 </layout>

@@ -20,8 +20,14 @@
  */
 class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstract
 {
-    const XML_INVALID                             = 'invalidXml';
-    const PROTECTED_ATTR_HELPER_IN_TAG_ACTION_VAR = 'protectedAttrHelperInActionVar';
+    const XML_INVALID = 'invalidXml';
+    const HELPER_ARGUMENT_TYPE = 'helperArgumentType';
+    const UPDATER_MODEL = 'updaterModel';
+
+    const XML_NAMESPACE_XSI = 'http://www.w3.org/2001/XMLSchema-instance';
+
+    const LAYOUT_SCHEMA_SINGLE_HANDLE = 'layout_single';
+    const LAYOUT_SCHEMA_MERGED = 'layout_merged';
 
     /**
      * The Magento SimpleXml object
@@ -36,8 +42,16 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
      * @var array
      */
     protected $_protectedExpressions = array(
-        self::PROTECTED_ATTR_HELPER_IN_TAG_ACTION_VAR => '//action/*[@helper]',
+        self::HELPER_ARGUMENT_TYPE => '//*[@xsi:type="helper"]',
+        self::UPDATER_MODEL => '//updater',
     );
+
+    /**
+     * XSD Schemas for Layout Update validation
+     *
+     * @var array
+     */
+    protected $_xsdSchemas;
 
     /**
      * @var Magento_Core_Model_Config_Modules_Reader
@@ -60,6 +74,12 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
         $this->_modulesReader = $modulesReader;
         $this->_domConfigFactory = $domConfigFactory;
         $this->_initMessageTemplates();
+        $this->_xsdSchemas = array(
+            self::LAYOUT_SCHEMA_SINGLE_HANDLE => $this->_modulesReader->getModuleDir('etc', 'Magento_Core')
+                . DIRECTORY_SEPARATOR . 'layout_single.xsd',
+            self::LAYOUT_SCHEMA_MERGED => $this->_modulesReader->getModuleDir('etc', 'Magento_Core')
+                . DIRECTORY_SEPARATOR . 'layout_merged.xsd',
+        );
     }
 
     /**
@@ -71,9 +91,11 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     {
         if (!$this->_messageTemplates) {
             $this->_messageTemplates = array(
-                self::PROTECTED_ATTR_HELPER_IN_TAG_ACTION_VAR =>
-                    __('Helper attributes should not be used in custom layout updates.'),
-                self::XML_INVALID => __('Please correct the XML data and try again.'),
+                self::HELPER_ARGUMENT_TYPE =>
+                    __('Helper arguments should not be used in custom layout updates.'),
+                self::UPDATER_MODEL =>
+                    __('Updater model should not be used in custom layout updates.'),
+                self::XML_INVALID => __('Please correct the XML data and try again. %value%'),
             );
         }
         return $this;
@@ -87,32 +109,39 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
      * validation failed.
      *
      * @param string $value
+     * @param string $schema
+     * @param boolean $isSecurityCheck
      * @return bool
      */
-    public function isValid($value)
+    public function isValid($value, $schema = self::LAYOUT_SCHEMA_SINGLE_HANDLE, $isSecurityCheck = true)
     {
         try {
             //wrap XML value in the "layout" and "handle" tags to make it validatable
-            $value = '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
-                . '<handle id="handleId">' . trim($value) . '</handle>'
-                . '</layout>';
-
-            $schema = $this->_modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd';
-            $dom = $this->_domConfigFactory->createDom(array(
+            $value = '<layout xmlns:xsi="' . self::XML_NAMESPACE_XSI . '">' . $value . '</layout>';
+            $this->_domConfigFactory->createDom(array(
                 'xml' => $value,
-                'schemaFile' => $schema
+                'schemaFile' => $this->_xsdSchemas[$schema]
             ));
-            $value = new Magento_Simplexml_Element($value);
+
+            if ($isSecurityCheck) {
+                $value = new Magento_Simplexml_Element($value);
+                $value->registerXPathNamespace('xsi', self::XML_NAMESPACE_XSI);
+                foreach ($this->_protectedExpressions as $key => $xpr) {
+                    if ($value->xpath($xpr)) {
+                        $this->_error($key);
+                    }
+                }
+                $errors = $this->getMessages();
+                if (!empty($errors)) {
+                    return false;
+                }
+            }
+        } catch (Magento_Config_Dom_ValidationException $e) {
+            $this->_error(self::XML_INVALID, $e->getMessage());
+            return false;
         } catch (Exception $e) {
             $this->_error(self::XML_INVALID);
             return false;
-        }
-
-        foreach ($this->_protectedExpressions as $key => $xpr) {
-            if ($value->xpath($xpr)) {
-                $this->_error($key);
-                return false;
-            }
         }
         return true;
     }

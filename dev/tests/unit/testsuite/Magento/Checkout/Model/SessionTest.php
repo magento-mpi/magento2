@@ -29,10 +29,19 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
         $coreHttp = $this->getMock('Magento_Core_Helper_Http', array(), array(), '', false);
 
         $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
 
+        $validatorMock = $this->getMock('Magento_Core_Model_Session_Validator', array(), array(), '', false);
+
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         /** @var Magento_Checkout_Model_Session $session */
         $session = $this->getMock(
-            'Magento_Checkout_Model_Session', array('init'), array(
+            'Magento_Checkout_Model_Session',
+            array('init'),
+            array(
+                $validatorMock,
+                $logger,
                 $orderFactory,
                 $eventManager,
                 $coreHttp,
@@ -44,7 +53,10 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
                 $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_Url_Proxy', array(), array(), '', false),
-            ), ''
+                $coreStoreConfig,
+                $coreConfig
+            ),
+            ''
         );
         $session->setLastRealOrderId($orderId);
 

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -42,14 +41,24 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     /**
      * @return Magento_Widget_Model_Widget_Instance
      */
-    public function testGetWidgetConfig()
+    public function testGetWidgetConfigAsArray()
     {
-        $config = $this->_model->setType('Magento_Catalog_Block_Product_Widget_New')->getWidgetConfig();
-        $this->assertInstanceOf('Magento_Simplexml_Element', $config);
-        /** @var Magento_Simplexml_Element $config */
-        $element = $config->xpath('/widgets/new_products/parameters/template/values/list');
-        $this->assertArrayHasKey(0, $element);
-        $this->assertInstanceOf('Magento_Simplexml_Element', $element[0]);
+        $config = $this->_model->setType('Magento_Catalog_Block_Product_Widget_New')->getWidgetConfigAsArray();
+        $this->assertTrue(is_array($config));
+        $element = null;
+        if (isset($config['parameters']) && isset($config['parameters']['template'])
+            && isset($config['parameters']['template']['values'])
+            && isset($config['parameters']['template']['values']['list'])
+        ) {
+            $element = $config['parameters']['template']['values']['list'];
+        }
+        $expected = array(
+            'value' => 'product/widget/new/content/new_list.phtml',
+            'label' => 'New Products List Template'
+        );
+        $this->assertNotNull($element);
+        $this->assertEquals($expected, $element);
+
         return $this->_model;
     }
 
@@ -84,7 +93,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     /**
      * @param Magento_Widget_Model_Widget_Instance $model
-     * @depends testGetWidgetConfig
+     * @depends testGetWidgetConfigAsArray
      */
     public function testGenerateLayoutUpdateXml(Magento_Widget_Model_Widget_Instance $model)
     {
@@ -96,7 +105,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $this->assertEquals('', $model->generateLayoutUpdateXml('content'));
         $model->setId('test_id')->setPackageTheme('magento_demo');
         $result = $model->generateLayoutUpdateXml('content');
-        $this->assertContains('<reference name="content">', $result);
+        $this->assertContains('<referenceContainer name="content">', $result);
         $this->assertContains('<block class="' . $model->getType() . '"', $result);
         $this->assertEquals(count($params), substr_count($result, '<action method="setData">'));
         $this->assertContains('<argument name="name" xsi:type="string">display_mode</argument>', $result);

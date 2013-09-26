@@ -8,14 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="top.links">
-            <block class="Magento_Customer_Block_Account_Link" name="my-account-link">
-                <arguments>
-                    <argument name="label" xsi:type="string">My Account</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Customer_Block_Account_Authorization" name="authorization-link" after="onepage-checkout-link"/>
-        </reference>
-    </handle>
+    <referenceBlock name="top.links">
+        <block class="Magento_Customer_Block_Account_Link" name="my-account-link">
+            <arguments>
+                <argument name="label" xsi:type="string">My Account</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Customer_Block_Account_AuthorizationLink" name="authorization-link" after="onepage-checkout-link"/>
+    </referenceBlock>
 </layout>

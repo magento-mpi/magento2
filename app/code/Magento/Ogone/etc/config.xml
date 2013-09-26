@@ -68,11 +68,6 @@
             </order>
         </sales>
     </global>
-    <frontend>
-        <secure_url>
-            <ogone_api>/ogone/api</ogone_api>
-        </secure_url>
-    </frontend>
     <default>
         <payment>
             <ogone>

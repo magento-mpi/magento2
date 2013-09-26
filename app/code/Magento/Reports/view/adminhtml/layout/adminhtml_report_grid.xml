@@ -8,58 +8,56 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_report_grid">
-        <reference name="adminhtml.report.grid.container">
-            <block class="Magento_Reports_Block_Adminhtml_Grid" name="adminhtml.report.grid" as="grid">
+    <referenceBlock name="adminhtml.report.grid.container">
+        <block class="Magento_Reports_Block_Adminhtml_Grid" name="adminhtml.report.grid" as="grid">
+            <arguments>
+                <argument name="use_ajax" xsi:type="string">0</argument>
+                <argument name="pager_visibility" xsi:type="string">0</argument>
+                <argument name="id" xsi:type="string">gridReport</argument>
+                <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Report_Collection</argument>
+            </arguments>
+            <block class="Magento_Backend_Block_Store_Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher" template="Magento_Reports::store/switcher.phtml">
                 <arguments>
-                    <argument name="use_ajax" xsi:type="string">0</argument>
-                    <argument name="pager_visibility" xsi:type="string">0</argument>
-                    <argument name="id" xsi:type="string">gridReport</argument>
-                    <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Report_Collection</argument>
+                    <argument name="use_confirm" xsi:type="string">0</argument>
+                    <argument name="switch_url" xsi:type="url" path="*/*/*">
+                        <param name="store">null</param>
+                    </argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Store_Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher" template="Magento_Reports::store/switcher.phtml">
+            </block>
+            <block class="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.report.grid.export" as="grid.export">
+                <arguments>
+                    <argument name="exportTypes" xsi:type="array">
+                        <item name="csv" xsi:type="array">
+                            <item name="urlPath" xsi:type="string">*/*/exportCsv</item>
+                            <item name="label" xsi:type="string" translate="true">CSV</item>
+                        </item>
+                        <item name="excel" xsi:type="array">
+                            <item name="urlPath" xsi:type="string">*/*/exportExcel</item>
+                            <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.grid.columnSet">
+                <arguments>
+                    <argument name="filter_visibility" xsi:type="string">0</argument>
+                    <argument name="empty_text" xsi:type="string" translate="true">We couldn't find records for this period.</argument>
+                    <argument name="empty_cell_label" xsi:type="string" translate="true">We couldn't find records for this period.</argument>
+                </arguments>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="period">
                     <arguments>
-                        <argument name="use_confirm" xsi:type="string">0</argument>
-                        <argument name="switch_url" xsi:type="url" path="*/*/*">
-                            <param name="store">null</param>
-                        </argument>
+                        <argument name="header" xsi:type="string" translate="true">Interval</argument>
+                        <argument name="sortable" xsi:type="string">0</argument>
+                        <argument name="type" xsi:type="string">text</argument>
+                        <argument name="id" xsi:type="string">period</argument>
+                        <argument name="index" xsi:type="string">period</argument>
+                        <argument name="grouped" xsi:type="string">1</argument>
+                        <argument name="totals_label" xsi:type="string" translate="true">Total</argument>
+                        <argument name="column_css_class" xsi:type="string">col-period</argument>
+                        <argument name="header_css_class" xsi:type="string">col-period</argument>
                     </arguments>
-                </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.report.grid.export" as="grid.export">
-                    <arguments>
-                        <argument name="exportTypes" xsi:type="array">
-                            <item name="csv" xsi:type="array">
-                                <item name="urlPath" xsi:type="string">*/*/exportCsv</item>
-                                <item name="label" xsi:type="string" translate="true">CSV</item>
-                            </item>
-                            <item name="excel" xsi:type="array">
-                                <item name="urlPath" xsi:type="string">*/*/exportExcel</item>
-                                <item name="label" xsi:type="string" translate="true">Excel XML</item>
-                            </item>
-                        </argument>
-                    </arguments>
-                </block>
-                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.grid.columnSet">
-                    <arguments>
-                        <argument name="filter_visibility" xsi:type="string">0</argument>
-                        <argument name="empty_text" xsi:type="string" translate="true">We couldn't find records for this period.</argument>
-                        <argument name="empty_cell_label" xsi:type="string" translate="true">We couldn't find records for this period.</argument>
-                    </arguments>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="period">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Interval</argument>
-                            <argument name="sortable" xsi:type="string">0</argument>
-                            <argument name="type" xsi:type="string">text</argument>
-                            <argument name="id" xsi:type="string">period</argument>
-                            <argument name="index" xsi:type="string">period</argument>
-                            <argument name="grouped" xsi:type="string">1</argument>
-                            <argument name="totals_label" xsi:type="string" translate="true">Total</argument>
-                            <argument name="column_css_class" xsi:type="string">col-period</argument>
-                            <argument name="header_css_class" xsi:type="string">col-period</argument>
-                        </arguments>
-                    </block>
                 </block>
             </block>
-        </reference>
-    </handle>
+        </block>
+    </referenceBlock>
 </layout>

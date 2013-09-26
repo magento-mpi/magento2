@@ -56,13 +56,6 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected $_clientFactory;
 
     /**
-     * Logger
-     *
-     * @var Magento_Core_Model_Logger
-     */
-    protected $_log;
-
-    /**
      * Search client helper
      *
      * @var Magento_Search_Helper_ClientInterface
@@ -74,35 +67,69 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
-     * Initialize connect to Solr Client
+     * Core store config
      *
+     * @var Magento_Core_Model_Store_ConfigInterface
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Construct
      *
-     *
-     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
+     * @param Magento_Search_Model_Resource_Index $resourceIndex
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Search_Helper_ClientInterface $clientHelper
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param array $options
+     * @throws Magento_Core_Exception
      */
     public function __construct(
-        Magento_Search_Model_Client_FactoryInterface $clientFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice,
+        Magento_Search_Model_Resource_Index $resourceIndex,
+        Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
+        Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection,
         Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Search_Helper_ClientInterface $clientHelper,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         $options = array()
     ) {
+        $this->_eavConfig = $eavConfig;
         $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
-        $this->_log = $logger;
         $this->_clientFactory = $clientFactory;
+        $this->_clientHelper = $clientHelper;
+        $this->_coreRegistry = $registry;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
+            $logger, $storeManager, $cache);
         try {
             $this->_connect($options);
         } catch (Exception $e) {
-            $this->_log->logException($e);
-            Mage::throwException(
+            $this->_logger->logException($e);
+            throw new Magento_Core_Exception(
                 __('We were unable to perform the search because a search engine misconfiguration.')
             );
         }
@@ -120,7 +147,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         try {
             $this->_client = $this->_clientFactory->createClient($this->_clientHelper->prepareClientOptions($options));
         } catch (Exception $e) {
-            $this->_log->logException($e);
+            $this->_logger->logException($e);
         }
 
         if (!is_object($this->_client)) {
@@ -175,8 +202,12 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected function _getSolrDate($storeId, $date = null)
     {
         if (!isset($this->_dateFormats[$storeId])) {
-            $timezone = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
-            $locale   = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
+            $timezone = $this->_coreStoreConfig->getConfig(
+                Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
+            );
+            $locale   = $this->_coreStoreConfig->getConfig(
+                Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+            );
             $locale   = new Zend_Locale($locale);
 
             $dateObj  = new Zend_Date(null, null, $locale);
@@ -332,7 +363,8 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     {
         $result = array();
 
-        $localeCode = Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $localeCode = $this->_storeManager->getStore()
+            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->_getLanguageSuffix($localeCode);
 
         /**
@@ -346,8 +378,8 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
             } elseif ($sortBy == 'position') {
                 $sortBy = 'position_category_' . $this->_coreRegistry->registry('current_category')->getId();
             } elseif ($sortBy == 'price') {
-                $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+                $websiteId       = $this->_storeManager->getStore()->getWebsiteId();
+                $customerGroupId = $this->_customerSession->getCustomerGroupId();
 
                 $sortBy = 'price_'. $customerGroupId .'_'. $websiteId;
             }
@@ -402,7 +434,8 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
      */
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
-        $localeCode     = Mage::app()->getStore($storeId)->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $localeCode     = $this->_storeManager->getStore($storeId)
+            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
 
         if ($suffix) {
@@ -427,9 +460,8 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
                 return $this->getPriceFieldName();
             }
 
-            $eavConfig  = Mage::getSingleton('Magento_Eav_Model_Config');
-            $entityType = $eavConfig->getEntityType('catalog_product');
-            $attribute  = $eavConfig->getAttribute($entityType, $attribute);
+            $entityType = $this->_eavConfig->getEntityType('catalog_product');
+            $attribute  = $this->_eavConfig->getAttribute($entityType, $attribute);
         }
 
         // Field type defining
@@ -466,7 +498,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         }
 
         if ($fieldType == 'text') {
-            $localeCode     = Mage::app()->getStore($attribute->getStoreId())
+            $localeCode     = $this->_storeManager->getStore($attribute->getStoreId())
                 ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
             $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
             $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;

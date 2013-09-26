@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping_shipping">
-        <reference name="content">
-            <block class="Magento_GiftWrapping_Block_Checkout_Options" name="checkout.options" template="checkout/options.phtml"/>
-        </reference>
-    </handle>
+    <referenceContainer name="content">
+        <block class="Magento_GiftWrapping_Block_Checkout_Options" name="checkout.options" template="checkout/options.phtml"/>
+    </referenceContainer>
 </layout>

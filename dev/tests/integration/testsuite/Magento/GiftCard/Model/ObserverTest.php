@@ -12,6 +12,20 @@
 class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * List of block injection classes
+     *
+     * @var array
+     */
+    protected $_blockInjections = array(
+        'Magento_Core_Model_Context',
+        'Magento_Core_Model_Registry',
+        'Magento_Filesystem',
+        'Magento_Core_Model_View_Url',
+        'Magento_Core_Model_View_FileSystem',
+        'Magento_Core_Model_View_Design'
+    );
+
+    /**
      * @magentoConfigFixture current_store giftcard/general/order_item_status 2
      * @magentoDataFixture Magento/GiftCard/_files/gift_card.php
      * @magentoDataFixture Magento/GiftCard/_files/order_with_gift_card.php

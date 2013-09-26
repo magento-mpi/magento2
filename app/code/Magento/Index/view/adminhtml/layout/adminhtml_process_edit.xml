@@ -8,17 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_process_edit">
-        <reference name="content">
-            <block class="Magento_Index_Block_Adminhtml_Process_Edit" name="process_edit"/>
-        </reference>
-        <reference name="left">
-            <block class="Magento_Index_Block_Adminhtml_Process_Edit_Tabs" name="index_edit_tabs">
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">main_section</argument>
-                    <argument name="block" xsi:type="string">Magento_Index_Block_Adminhtml_Process_Edit_Tab_Main</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+    <referenceContainer name="content">
+        <block class="Magento_Index_Block_Adminhtml_Process_Edit" name="process_edit"/>
+    </referenceContainer>
+    <referenceContainer name="left">
+        <block class="Magento_Index_Block_Adminhtml_Process_Edit_Tabs" name="index_edit_tabs">
+            <action method="addTab">
+                <argument name="name" xsi:type="string">main_section</argument>
+                <argument name="block" xsi:type="string">Magento_Index_Block_Adminhtml_Process_Edit_Tab_Main</argument>
+            </action>
+        </block>
+    </referenceContainer>
 </layout>

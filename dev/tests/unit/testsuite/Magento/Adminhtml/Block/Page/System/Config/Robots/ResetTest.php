@@ -52,9 +52,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
             ->method('get')
             ->with('Magento_Core_Model_Registry')
             ->will($this->returnValue($coreRegisterMock));
-
-        Mage::reset();
-        Mage::setObjectManager($objectManagerMock);
+        Magento_Core_Model_ObjectManager::setInstance($objectManagerMock);
     }
 
     /**

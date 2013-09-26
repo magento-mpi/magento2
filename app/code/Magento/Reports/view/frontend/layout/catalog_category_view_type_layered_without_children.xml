@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_category_view_type_layered_without_children">
-        <remove name="right.reports.product.viewed"/>
-        <reference name="right">
-            <block class="Magento_Reports_Block_Product_Viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="product_viewed.phtml"/>
-        </reference>
-    </handle>
+    <remove name="right.reports.product.viewed"/>
+    <referenceContainer name="right">
+        <block class="Magento_Reports_Block_Product_Viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="product_viewed.phtml"/>
+    </referenceContainer>
 </layout>

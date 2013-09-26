@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_system_backup_index">
-        <update handle="formkey"/>
-        <update handle="adminhtml_system_backup_block"/>
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Backup" name="adminhtml.system.backup.container"/>
-        </reference>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_system_backup_block"/>
+    <referenceContainer name="content">
+        <block class="Magento_Adminhtml_Block_Backup" name="adminhtml.system.backup.container"/>
+    </referenceContainer>
 </layout>

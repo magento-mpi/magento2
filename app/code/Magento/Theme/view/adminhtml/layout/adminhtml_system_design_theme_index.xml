@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_system_design_theme_index">
-        <update handle="formkey"/>
-        <update handle="adminhtml_system_design_theme_block"/>
-        <reference name="content">
-            <block class="Magento_Theme_Block_Adminhtml_System_Design_Theme" name="design_theme"/>
-        </reference>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_system_design_theme_block"/>
+    <referenceContainer name="content">
+        <block class="Magento_Theme_Block_Adminhtml_System_Design_Theme" name="design_theme"/>
+    </referenceContainer>
 </layout>

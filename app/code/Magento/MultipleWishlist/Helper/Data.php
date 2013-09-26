@@ -11,9 +11,7 @@
 /**
  * Multiple wishlist helper
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
 {
@@ -25,6 +23,65 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     protected $_defaultWishlistsByCustomer = array();
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Item collection factory
+     *
+     * @var Magento_Wishlist_Model_Resource_Item_CollectionFactory
+     */
+    protected $_itemCollectionFactory;
+
+    /**
+     * Wishlist factory
+     *
+     * @var Magento_Wishlist_Model_WishlistFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
+     * Wishlist collection factory
+     *
+     * @var Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory
+     */
+    protected $_wishlistCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
+     * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
+        Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
+    ) {
+        $this->_wishlistFactory = $wishlistFactory;
+        $this->_itemCollectionFactory = $itemCollectionFactory;
+        $this->_storeManager = $storeManager;
+        $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
+        parent::__construct($eventManager, $coreData, $context, $coreRegistry, $coreStoreConfig);
+    }
+
+    /**
      * Create wishlist item collection
      *
      * @return Magento_Wishlist_Model_Resource_Item_Collection
@@ -32,9 +89,9 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     protected function _createWishlistItemCollection()
     {
         if ($this->isMultipleEnabled()) {
-            return Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
+            return $this->_itemCollectionFactory->create()
                 ->addCustomerIdFilter($this->getCustomer()->getId())
-                ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
+                ->addStoreFilter($this->_storeManager->getWebsite()->getStoreIds())
                 ->setVisibilityFilter();
         } else {
             return parent::_createWishlistItemCollection();
@@ -49,8 +106,8 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     public function isMultipleEnabled()
     {
         return $this->isModuleOutputEnabled()
-            && Mage::getStoreConfig('wishlist/general/active')
-            && Mage::getStoreConfig('wishlist/general/multiple_enabled');
+            && $this->_coreStoreConfig->getConfig('wishlist/general/active')
+            && $this->_coreStoreConfig->getConfig('wishlist/general/multiple_enabled');
     }
 
     /**
@@ -76,7 +133,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
             $customerId = $this->getCustomer()->getId();
         }
         if (!isset($this->_defaultWishlistsByCustomer[$customerId])) {
-            $this->_defaultWishlistsByCustomer[$customerId] = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+            $this->_defaultWishlistsByCustomer[$customerId] = $this->_wishlistFactory->create();
             $this->_defaultWishlistsByCustomer[$customerId]->loadByCustomer($customerId, false);
         }
         return $this->_defaultWishlistsByCustomer[$customerId];
@@ -89,7 +146,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
      */
     public function getWishlistLimit()
     {
-        return Mage::getStoreConfig('wishlist/general/multiple_wishlist_number');
+        return $this->_coreStoreConfig->getConfig('wishlist/general/multiple_wishlist_number');
     }
 
     /**
@@ -116,7 +173,8 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
         }
         $wishlistsByCustomer = $this->_coreRegistry->registry('wishlists_by_customer');
         if (!isset($wishlistsByCustomer[$customerId])) {
-            $collection = Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection();
+            /** @var Magento_Wishlist_Model_Resource_Wishlist_Collection $collection */
+            $collection = $this->_wishlistCollectionFactory->create();
             $collection->filterByCustomerId($customerId);
             $wishlistsByCustomer[$customerId] = $collection;
             $this->_coreRegistry->register('wishlists_by_customer', $wishlistsByCustomer);
@@ -133,7 +191,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     public function getWishlistItemCount(Magento_Wishlist_Model_Wishlist $wishlist)
     {
         $collection = $wishlist->getItemCollection();
-        if (Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
+        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
             $count = $collection->getItemsQty();
         } else {
             $count = $collection->getSize();

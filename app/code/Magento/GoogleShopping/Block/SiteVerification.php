@@ -6,6 +6,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Google site verification <meta> tag
+ */
 class Magento_GoogleShopping_Block_SiteVerification extends Magento_Core_Block_Abstract
 {
     /** @var Magento_GoogleShopping_Model_Config */
@@ -26,6 +29,8 @@ class Magento_GoogleShopping_Block_SiteVerification extends Magento_Core_Block_A
     }
 
     /**
+     * @inheritdoc
+     *
      * @return string
      */
     protected function _toHtml()

@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_promo_quote_edit">
-        <reference name="content">
-            <block class="Magento_Reminder_Block_Adminhtml_Promo_Notice" name="promo_edit_notice"/>
-        </reference>
-    </handle>
+    <referenceContainer name="content">
+        <block class="Magento_Reminder_Block_Adminhtml_Promo_Notice" name="promo_edit_notice"/>
+    </referenceContainer>
 </layout>

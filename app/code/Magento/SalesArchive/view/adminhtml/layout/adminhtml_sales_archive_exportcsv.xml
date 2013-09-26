@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_archive_exportcsv">
-        <update handle="adminhtml_sales_archive_orders_grid_block"/>
-        <container name="sales_order.grid.container" label="Sales Archive Order Grid Container"/>
-    </handle>
+    <update handle="adminhtml_sales_archive_orders_grid_block"/>
+    <block class="Magento_Backend_Block_Widget_Grid_Container" name="sales_order.grid.container" template="Magento_Backend::widget/grid/container/empty.phtml"/>
 </layout>

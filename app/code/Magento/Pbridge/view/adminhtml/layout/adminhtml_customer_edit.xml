@@ -8,12 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_customer_edit">
-        <reference name="customer_edit_tabs">
-            <action method="addTab">
-                <argument name="name" xsi:type="string">customer_edit_tab_payment_profile</argument>
-                <argument name="block" xsi:type="string">Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile</argument>
-            </action>
-        </reference>
-    </handle>
+    <referenceBlock name="customer_edit_tabs">
+        <action method="addTab">
+            <argument name="name" xsi:type="string">customer_edit_tab_payment_profile</argument>
+            <argument name="block" xsi:type="string">Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile</argument>
+        </action>
+    </referenceBlock>
 </layout>

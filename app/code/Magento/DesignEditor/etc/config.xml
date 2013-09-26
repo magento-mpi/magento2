@@ -27,13 +27,4 @@
             </customization>
         </theme>
     </default>
-    <vde>
-        <design_editor>
-            <frontName>vde</frontName>
-            <disabledCacheTypes>
-                <block_html />
-                <config />
-            </disabledCacheTypes>
-        </design_editor>
-    </vde>
-</config>
+</config>

@@ -108,13 +108,18 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
      */
     protected $_coreData = null;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
 
     /**
      * Core event manager proxy
@@ -126,20 +131,35 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
+        $this->_coreConfig = $coreConfig;
+        $this->_logger = $logger;
         parent::__construct($data);
-        $this->_session = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        $this->_session = $sessionQuote;
     }
 
     /**
@@ -213,7 +233,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      *
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
-    public function recollectCart(){
+    public function recollectCart()
+    {
         if ($this->_needCollectCart === true) {
             $this->getCustomerCart()
                 ->collectTotals()
@@ -295,7 +316,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         /* Initialize catalog rule data with new session values */
         $this->initRuleData();
         foreach ($order->getItemsCollection(
-            array_keys(Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()),
+            array_keys($this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray()),
             true
         ) as $orderItem) {
             /* @var $orderItem Magento_Sales_Model_Order_Item */
@@ -348,7 +369,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $quote->collectTotals();
         }
 
-        $this->_coreData->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
+        $this->_coreData->copyFieldsetToTarget('sales_copy_order', 'to_edit', $order, $quote);
 
         $this->_eventManager->dispatch('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
 
@@ -379,7 +400,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected function _initBillingAddressFromOrder(Magento_Sales_Model_Order $order)
     {
         $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_copy_order_billing_address',
             'to_order',
             $order->getBillingAddress(),
@@ -393,7 +414,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $quoteShippingAddress = $this->getQuote()->getShippingAddress()
             ->setCustomerAddressId('')
             ->setSameAsBilling($orderShippingAddress && $orderShippingAddress->getSameAsBilling());
-        $this->_coreData->copyFieldset(
+        $this->_coreData->copyFieldsetToTarget(
             'sales_copy_order_shipping_address',
             'to_order',
             $orderShippingAddress,
@@ -812,11 +833,9 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            }
-            catch (Magento_Core_Exception $e){
+            } catch (Magento_Core_Exception $e){
                 $this->getSession()->addError($e->getMessage());
-            }
-            catch (Exception $e){
+            } catch (Exception $e){
                 return $e;
             }
         }
@@ -877,7 +896,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 $this->recollectCart();
                 throw $e;
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
             $this->recollectCart();
         }

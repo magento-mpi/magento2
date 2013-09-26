@@ -58,15 +58,28 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $customerCollFactory = $this->getMock(
+            'Magento_ScheduledImportExport_Model_Resource_Customer_CollectionFactory',
+            array(), array(), '', false, false
+        );
+
+        $eavCustomerFactory = $this->getMock(
+            'Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory', array(), array(), '', false, false
+        );
+
         $this->_model = new Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance(
+            $customerCollFactory,
+            $eavCustomerFactory,
             $this->getMock('Magento_ScheduledImportExport_Helper_Data', array(), array(), '', false, false),
+            $coreStoreConfig,
             $this->_getModelDependencies()
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }
@@ -88,7 +101,11 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         $translator = $this->getMock('stdClass');
 
         /** @var $attributeCollection Magento_Data_Collection|PHPUnit_Framework_TestCase */
-        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
+        $attributeCollection = $this->getMock(
+            'Magento_Data_Collection',
+            array('getEntityTypeCode'),
+            array($this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false))
+        );
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
                 'Magento_Eav_Model_Entity_Attribute_Abstract'

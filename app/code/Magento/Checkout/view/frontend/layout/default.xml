@@ -8,25 +8,23 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="head.components">
-            <block class="Magento_Adminhtml_Block_Page_Js_Components" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
-        </reference>
-        <reference name="top.links">
-            <block class="Magento_Checkout_Block_Cart_Link" name="my-cart-link"/>
-            <block class="Magento_Checkout_Block_Link" name="onepage-checkout-link" after="my-cart-link">
-                <arguments>
-                    <argument name="label" xsi:type="string">Checkout</argument>
-                </arguments>
-            </block>
-        </reference>
-        <reference name="right">
-            <block class="Magento_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml" before="-">
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="cart/sidebar/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="cart/sidebar/default.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="cart/sidebar/default.phtml"/>
-                <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions"/>
-            </block>
-        </reference>
-    </handle>
+    <referenceBlock name="head.components">
+        <block class="Magento_Adminhtml_Block_Page_Js_Components" name="checkout_page_head_components" template="Magento_Checkout::js/components.phtml"/>
+    </referenceBlock>
+    <referenceBlock name="top.links">
+        <block class="Magento_Checkout_Block_Cart_Link" name="my-cart-link"/>
+        <block class="Magento_Checkout_Block_Link" name="onepage-checkout-link" after="my-cart-link">
+            <arguments>
+                <argument name="label" xsi:type="string">Checkout</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+    <referenceContainer name="right">
+        <block class="Magento_Checkout_Block_Cart_Sidebar" name="cart_sidebar" template="cart/sidebar.phtml" before="-">
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="cart/sidebar/default.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="cart/sidebar/default.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="cart/sidebar/default.phtml"/>
+            <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions"/>
+        </block>
+    </referenceContainer>
 </layout>

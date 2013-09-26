@@ -17,18 +17,28 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPrintLogoUrl($configData, $returnValue)
     {
-        $storeConfig = $this->getMock('Magento_Core_Model_Store_Config');
+        $storeConfig = $this->getMockBuilder('Magento_Core_Model_Store_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
         $storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValueMap($configData));
 
+        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
         $urlHelperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getBaseUrl'), array(
-            $urlHelperMock,
-            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Session', array(), array(), '', false),
-            array()));
+        $urlBuilder = $this->getMock(
+            'Magento_Core_Model_Url',
+            array('getBaseUrl'),
+            array(
+                $securityInfoMock,
+                $storeConfig,
+                $urlHelperMock,
+                $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_Session', array(), array(), '', false),
+                array()
+            )
+        );
         $urlBuilder->expects($this->any())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));

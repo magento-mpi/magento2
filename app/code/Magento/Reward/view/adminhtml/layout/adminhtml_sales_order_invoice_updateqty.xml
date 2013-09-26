@@ -8,13 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_invoice_updateqty">
-        <reference name="invoice_totals">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward_points" template="Magento_Reward::sales/order/total.phtml">
-                <action method="setBeforeCondition">
-                    <argument name="condition" xsi:type="string">customerbalance</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+    <referenceBlock name="invoice_totals">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward_points" template="Magento_Reward::sales/order/total.phtml">
+            <action method="setBeforeCondition">
+                <argument name="condition" xsi:type="string">customerbalance</argument>
+            </action>
+        </block>
+    </referenceBlock>
 </layout>

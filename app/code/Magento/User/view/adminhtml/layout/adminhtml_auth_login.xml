@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_auth_login">
-        <reference name="form.buttons">
-            <block class="Magento_Backend_Block_Template" name="adminhtml_auth_login_forgotpassword" template="Magento_User::admin/forgotpassword_url.phtml"/>
-        </reference>
-    </handle>
+    <referenceContainer name="form.buttons">
+        <block class="Magento_Backend_Block_Template" name="adminhtml_auth_login_forgotpassword" template="Magento_User::admin/forgotpassword_url.phtml"/>
+    </referenceContainer>
 </layout>

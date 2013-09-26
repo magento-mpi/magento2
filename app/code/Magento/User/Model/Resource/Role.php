@@ -2,19 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * Admin role resource model
- *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_User_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Abstract
 {
@@ -31,6 +24,27 @@ class Magento_User_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Ab
      * @var string
      */
     protected $_ruleTable;
+
+    /**
+     * Cache
+     *
+     * @var Magento_Cache_FrontendInterface
+     */
+    protected $_cache;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_CacheInterface $cache
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_CacheInterface $cache
+    ) {
+        parent::__construct($resource);
+        $this->_cache = $cache->getFrontend();
+    }
 
     /**
      * Define main table
@@ -99,7 +113,7 @@ class Magento_User_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Ab
     protected function _afterSave(Magento_Core_Model_Abstract $role)
     {
         $this->_updateRoleUsersAcl($role);
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
+        $this->_cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
             array(Magento_Backend_Block_Menu::CACHE_TAGS));
         return $this;
     }

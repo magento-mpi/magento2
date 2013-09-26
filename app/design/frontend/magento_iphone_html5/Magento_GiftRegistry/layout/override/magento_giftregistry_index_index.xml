@@ -7,11 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer GiftRegistry" id="magento_giftregistry_index_index" type="page" parent="customer_account_index">
-        <update handle="customer_account"/>
-        <reference name="my.account.wrapper">
-            <block class="Magento_GiftRegistry_Block_Customer_List" name="giftregistry.customer.list" template="customer/list.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry" type="page" parent="customer_account_index">
+    <update handle="customer_account"/>
+    <referenceContainer name="my.account.wrapper">
+        <block class="Magento_GiftRegistry_Block_Customer_List" name="giftregistry.customer.list" template="customer/list.phtml"/>
+    </referenceContainer>
 </layout>

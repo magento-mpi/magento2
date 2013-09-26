@@ -8,43 +8,41 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">1column.phtml</argument>
-            </action>
-        </reference>
-        <reference name="head">
-            <block class="Magento_Page_Block_Html_Head_Css" name="css-iphone-css">
-                <arguments>
-                    <argument name="file" xsi:type="string">css/iphone.css</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Css" name="css-widgets-css">
-                <arguments>
-                    <argument name="file" xsi:type="string">css/widgets.css</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Css" name="css-custom-css">
-                <arguments>
-                    <argument name="file" xsi:type="string">css/custom.css</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Script" name="js-iphone-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">js/iphone.js</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Script" name="js-dnd-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">js/dnd.js</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Html_Head_Script" name="js-modernizr-js">
-                <arguments>
-                    <argument name="file" xsi:type="string">js/modernizr.js</argument>
-                </arguments>
-            </block>
-        </reference>
-    </handle>
+    <referenceBlock name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="head">
+        <block class="Magento_Page_Block_Html_Head_Css" name="css-iphone-css">
+            <arguments>
+                <argument name="file" xsi:type="string">css/iphone.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="css-widgets-css">
+            <arguments>
+                <argument name="file" xsi:type="string">css/widgets.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="css-custom-css">
+            <arguments>
+                <argument name="file" xsi:type="string">css/custom.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="js-iphone-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/iphone.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="js-dnd-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/dnd.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="js-modernizr-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/modernizr.js</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
 </layout>

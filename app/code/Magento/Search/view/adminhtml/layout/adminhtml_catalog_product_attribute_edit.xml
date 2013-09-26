@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_attribute_edit">
-        <reference name="js">
-            <block class="Magento_Search_Block_Adminhtml_Catalog_Attribute_Edit" template="js.phtml"/>
-        </reference>
-    </handle>
+    <referenceContainer name="js">
+        <block class="Magento_Search_Block_Adminhtml_Catalog_Attribute_Edit" template="js.phtml"/>
+    </referenceContainer>
 </layout>

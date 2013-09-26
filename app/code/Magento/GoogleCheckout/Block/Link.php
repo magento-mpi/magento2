@@ -19,7 +19,7 @@ class Magento_GoogleCheckout_Block_Link extends Magento_Core_Block_Template
 {
     public function getImageStyle()
     {
-        $s = Mage::getStoreConfig('google/checkout/checkout_image');
+        $s = $this->_storeConfig->getConfig('google/checkout/checkout_image');
         if (!$s) {
             $s = '180/46/trans';
         }
@@ -29,11 +29,11 @@ class Magento_GoogleCheckout_Block_Link extends Magento_Core_Block_Template
     public function getImageUrl()
     {
         $url = 'https://checkout.google.com/buttons/checkout.gif';
-        $url .= '?merchant_id='.Mage::getStoreConfig('google/checkout/merchant_id');
+        $url .= '?merchant_id='.$this->_storeConfig->getConfig('google/checkout/merchant_id');
         $v = $this->getImageStyle();
         $url .= '&w='.$v[0].'&h='.$v[1].'&style='.$v[2];
         $url .= '&variant='.($this->getIsDisabled() ? 'disabled' : 'text');
-        $url .= '&loc='.Mage::getStoreConfig('google/checkout/locale');
+        $url .= '&loc='.$this->_storeConfig->getConfig('google/checkout/locale');
         return $url;
     }
 

@@ -14,4 +14,4 @@
     <event name="customer_logout">
         <observer name="wishlist" instance="Magento_Wishlist_Model_Observer" method="customerLogout" />
     </event>
-</config>
+</config>

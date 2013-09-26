@@ -31,15 +31,25 @@ class Magento_Pbridge_Model_Observer
     protected $_configWriter;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Magento_Core_Model_Cache_Type_Config $configCacheType
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_configWriter = $configWriter;
         $this->_configCacheType = $configCacheType;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -120,6 +130,6 @@ class Magento_Pbridge_Model_Observer
         if (!$method->getCode()) {
             return null;
         }
-        return Mage::getStoreConfig("payment/{$method->getCode()}/$key", $storeId);
+        return $this->_coreStoreConfig->getConfig("payment/{$method->getCode()}/$key", $storeId);
     }
 }

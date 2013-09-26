@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_load_block_sidebar_pcompared">
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared" template="sales/order/create/sidebar/items.phtml" name="sidebar_pcompared"/>
-        </reference>
-    </handle>
+    <referenceContainer name="content">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared" template="sales/order/create/sidebar/items.phtml" name="sidebar_pcompared"/>
+    </referenceContainer>
 </layout>

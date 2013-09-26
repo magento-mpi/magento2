@@ -25,7 +25,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected $_infoBlockType = 'Magento_Ogone_Block_Info';
     protected $_config = null;
 
-     /**
+    /**
      * Availability options
      */
     protected $_isGateway               = false;
@@ -171,22 +171,52 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected $_coreString = null;
 
     /**
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Construct
+     * 
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Ogone_Model_Config $config
-     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_UrlInterface $urlBuilder,
         Magento_Core_Helper_String $coreString,
         Magento_Ogone_Model_Config $config,
-        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_urlBuilder = $urlBuilder;
         $this->_coreString = $coreString;
         $this->_config = $config;
-        parent::__construct($eventManager, $paymentData, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
 
     /**
@@ -216,7 +246,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      */
     public function getOrderPlaceRedirectUrl()
     {
-          return Mage::getUrl('ogone/api/placeform', array('_secure' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/placeform', array('_secure' => true));
     }
 
     /**
@@ -248,8 +278,8 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
         $formFields['PSPID']    = $this->getConfig()->getPSPID();
         $formFields['orderID']  = $order->getIncrementId();
         $formFields['amount']   = round($order->getBaseGrandTotal()*100);
-        $formFields['currency'] = Mage::app()->getStore()->getBaseCurrencyCode();
-        $formFields['language'] = Mage::app()->getLocale()->getLocaleCode();
+        $formFields['currency'] = $this->_storeManager->getStore()->getBaseCurrencyCode();
+        $formFields['language'] = $this->_locale->getLocaleCode();
 
         $formFields['CN']       = $this->_translate($billingAddress->getFirstname().' '.$billingAddress->getLastname());
         $formFields['EMAIL']    = $order->getCustomerEmail();
@@ -373,11 +403,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      */
     protected function _translate($text)
     {
-        $flags = ENT_COMPAT;
-        if (defined('ENT_HTML401')) { // Constant is defined in PHP 5.4 only
-            $flags |= ENT_HTML401;
-        }
-        return htmlentities(iconv('UTF-8', 'ISO-8859-1', $text), $flags, 'ISO-8859-1');
+        return htmlentities(iconv('UTF-8', 'ISO-8859-1', $text), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
     }
 
     /**

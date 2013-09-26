@@ -15,6 +15,7 @@
             <newsletter_setup>
                 <setup>
                     <module>Magento_Newsletter</module>
+                    <class>Magento_Newsletter_Model_Resource_Setup</class>
                 </setup>
             </newsletter_setup>
         </resources>
@@ -37,15 +38,7 @@
                 </newsletter_subscription_un_email_template>
             </email>
         </template>
-        <newsletter>
-            <tempate_filter>Magento_Newsletter_Model_Template_Filter</tempate_filter>
-        </newsletter>
     </global>
-    <frontend>
-        <secure_url>
-            <newsletter_manage>/newsletter/manage/</newsletter_manage>
-        </secure_url>
-    </frontend>
     <default>
         <newsletter>
             <subscription>
@@ -63,16 +56,4 @@
             </sending>
         </newsletter>
     </default>
-    <crontab>
-        <jobs>
-            <newsletter_send_all>
-                <schedule>
-                    <cron_expr>*/5 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Newsletter_Model_Observer::scheduledSend</model>
-                </run>
-            </newsletter_send_all>
-        </jobs>
-    </crontab>
 </config>

@@ -21,13 +21,18 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_
     /**
      * @var Magento_CatalogInventory_Model_Stock_Item
      */
-    protected $_inventory;
+    protected $_stockItemFactory;
 
-    public function __construct(array $data = array())
-    {
-        $this->_inventory = isset($data['inventory'])
-            ? $data['inventory']
-            : Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+    /**
+     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(
+        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
+        Magento_Core_Model_Logger $logger
+    ) {
+        $this->_stockItemFactory = $stockItemFactory;
+        parent::__construct($logger);
     }
 
     /**
@@ -38,12 +43,13 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_
      */
     public function afterLoad($object)
     {
-        $this->_inventory->loadByProduct($object);
+        $item = $this->_stockItemFactory->create();
+        $item->loadByProduct($object);
         $object->setData(
             $this->getAttribute()->getAttributeCode(),
             array(
-                'is_in_stock' => $this->_inventory->getIsInStock(),
-                'qty' => $this->_inventory->getQty(),
+                'is_in_stock' => $item->getIsInStock(),
+                'qty' => $item->getQty(),
             )
         );
         return parent::afterLoad($object);

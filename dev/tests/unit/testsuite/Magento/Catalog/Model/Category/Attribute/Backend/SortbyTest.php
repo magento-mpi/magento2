@@ -17,7 +17,9 @@ class Magento_Catalog_Model_Category_Attribute_Backend_SortbyTest extends PHPUni
 
     protected function setUp()
     {
-        $this->_model = new Magento_Catalog_Model_Category_Attribute_Backend_Sortby();
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_model = new Magento_Catalog_Model_Category_Attribute_Backend_Sortby($logger, $coreStoreConfig);
         $attribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract',
             array(), '', false, true, true, array('getName')
         );

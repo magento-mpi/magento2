@@ -8,13 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="print">
-        <reference name="head">
-            <block class="Magento_Page_Block_Html_Head_Css" name="magento-cms-widgets-css">
-                <arguments>
-                    <argument name="file" xsi:type="string">Magento_Cms::widgets.css</argument>
-                </arguments>
-            </block>
-        </reference>
-    </handle>
+    <referenceBlock name="head">
+        <block class="Magento_Page_Block_Html_Head_Css" name="magento-cms-widgets-css">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Cms::widgets.css</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
 </layout>

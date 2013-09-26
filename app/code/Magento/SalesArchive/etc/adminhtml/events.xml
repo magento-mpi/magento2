@@ -23,4 +23,4 @@
     <event name="sales_order_grid_collection_load_before">
         <observer name="magento_salesarchive" instance="Magento_SalesArchive_Model_Observer" method="appendGridCollection" />
     </event>
-</config>
+</config>

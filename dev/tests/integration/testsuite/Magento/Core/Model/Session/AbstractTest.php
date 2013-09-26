@@ -16,20 +16,26 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var Magento_Core_Model_Session_Abstract _model */
         $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Session_Abstract',
             array(
-                Mage::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-                Mage::getObjectManager()->get('Magento_Core_Helper_Http'),
-                Mage::getObjectManager()->get('Magento_Core_Model_Message_CollectionFactory'),
-                Mage::getObjectManager()->get('Magento_Core_Model_Message'),
-                Mage::getObjectManager()->get('Magento_Core_Model_Cookie'),
-                Mage::getObjectManager()->get('Magento_Core_Controller_Request_Http'),
-                Mage::getObjectManager()->get('Magento_Core_Model_App_State'),
-                Mage::getObjectManager()->get('Magento_Core_Model_StoreManager'),
-                Mage::getObjectManager()->get('Magento_Core_Model_Dir'),
-                Mage::getObjectManager()->get('Magento_Core_Model_Url_Proxy'),
+                $objectManager->get('Magento_Core_Model_Session_Validator'),
+                $objectManager->get('Magento_Core_Model_Logger'),
+                $objectManager->get('Magento_Core_Model_Event_Manager'),
+                $objectManager->get('Magento_Core_Helper_Http'),
+                $objectManager->get('Magento_Core_Model_Store_Config'),
+                $objectManager->get('Magento_Core_Model_Config'),
+                $objectManager->get('Magento_Core_Model_Message_CollectionFactory'),
+                $objectManager->get('Magento_Core_Model_Message'),
+                $objectManager->get('Magento_Core_Model_Cookie'),
+                $objectManager->get('Magento_Core_Controller_Request_Http'),
+                $objectManager->get('Magento_Core_Model_App_State'),
+                $objectManager->get('Magento_Core_Model_StoreManager'),
+                $objectManager->get('Magento_Core_Model_Dir'),
+                $objectManager->get('Magento_Core_Model_Url_Proxy'),
             ));
     }
 
@@ -81,18 +87,6 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
         $this->_model->unsetAll();
 
         $this->assertEquals(array(), $this->_model->getData());
-    }
-
-    public function testValidate()
-    {
-        $this->assertInstanceOf('Magento_Core_Model_Session_Abstract', $this->_model->validate());
-    }
-
-    public function testGetValidateHttpUserAgentSkip()
-    {
-        $agents = $this->_model->getValidateHttpUserAgentSkip();
-        $this->assertContains('Shockwave Flash', $agents);
-        $this->assertContains('Adobe Flash Player\s{1,}\w{1,10}', $agents);
     }
 
     public function testSetSessionId()

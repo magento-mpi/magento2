@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view_type_virtual">
-        <reference name="product.info.virtual.extra">
-            <block class="Magento_CatalogInventory_Block_Stockqty_Default" template="stockqty/default.phtml"/>
-        </reference>
-    </handle>
+    <referenceContainer name="product.info.virtual.extra">
+        <block class="Magento_CatalogInventory_Block_Stockqty_Default" template="stockqty/default.phtml"/>
+    </referenceContainer>
 </layout>

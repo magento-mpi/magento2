@@ -18,26 +18,38 @@
 class Magento_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_Layer_View
 {
     /**
+     * Extended search layer
+     *
+     * @var Magento_Search_Model_Search_Layer
+     */
+    protected $_searchLayer;
+
+    /**
      * Search data
      *
      * @var Magento_Search_Helper_Data
      */
-    protected $_searchData = null;
+    protected $_searchData;
 
     /**
      * @param Magento_Search_Helper_Data $searchData
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Search_Model_Search_Layer $searchLayer
+     * @param Magento_Catalog_Model_Layer $layer
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Search_Helper_Data $searchData,
         Magento_Core_Helper_Data $coreData,
+        Magento_Search_Model_Search_Layer $searchLayer,
+        Magento_Catalog_Model_Layer $layer,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        parent::__construct($coreData, $context, $data);
+        $this->_searchLayer = $searchLayer;
+        parent::__construct($layer, $coreData, $context, $data);
     }
 
     /**
@@ -111,7 +123,7 @@ class Magento_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_Laye
     public function getLayer()
     {
         if ($this->_searchData->getIsEngineAvailableForNavigation()) {
-            return Mage::getSingleton('Magento_Search_Model_Catalog_Layer');
+            return $this->_searchLayer;
         }
 
         return parent::getLayer();

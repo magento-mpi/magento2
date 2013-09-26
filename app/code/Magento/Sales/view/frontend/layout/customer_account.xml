@@ -8,29 +8,27 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="customer_account">
-        <reference name="customer-account-navigation">
-            <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-billing-agreements-link">
-                <arguments>
-                    <argument name="path" xsi:type="string">sales/billing_agreement</argument>
-                    <argument name="label" xsi:type="string">Billing Agreements</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-orders-link">
-                <arguments>
-                    <argument name="path" xsi:type="string">sales/order/history</argument>
-                    <argument name="label" xsi:type="string">My Orders</argument>
-                </arguments>
-            </block>
-            <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-recurring-profiles-link">
-                <arguments>
-                    <argument name="path" xsi:type="string">sales/recurring_profile</argument>
-                    <argument name="label" xsi:type="string">Recurring Profiles</argument>
-                </arguments>
-            </block>
-        </reference>
-        <reference name="left">
-            <block class="Magento_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
-        </reference>
-    </handle>
+    <referenceBlock name="customer_account_navigation">
+        <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-billing-agreements-link">
+            <arguments>
+                <argument name="path" xsi:type="string">sales/billing_agreement</argument>
+                <argument name="label" xsi:type="string">Billing Agreements</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-orders-link">
+            <arguments>
+                <argument name="path" xsi:type="string">sales/order/history</argument>
+                <argument name="label" xsi:type="string">My Orders</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-recurring-profiles-link">
+            <arguments>
+                <argument name="path" xsi:type="string">sales/recurring_profile</argument>
+                <argument name="label" xsi:type="string">Recurring Profiles</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+    <referenceContainer name="left">
+        <block class="Magento_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
+    </referenceContainer>
 </layout>

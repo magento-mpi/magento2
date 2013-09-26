@@ -7,19 +7,17 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="All Three-Column Layout Pages" id="page_three_columns" type="page" parent="default">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">3columns.phtml</argument>
-            </action>
-            <!-- Mark root page block that template is applied -->
-            <action method="setIsHandle">
-                <argument name="applied" xsi:type="string">1</argument>
-            </action>
-            <action method="setLayoutCode">
-                <argument name="name" xsi:type="string">three_columns</argument>
-            </action>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="All Three-Column Layout Pages" type="page" parent="default">
+    <referenceBlock name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">3columns.phtml</argument>
+        </action>
+        <!-- Mark root page block that template is applied -->
+        <action method="setIsHandle">
+            <argument name="applied" xsi:type="string">1</argument>
+        </action>
+        <action method="setLayoutCode">
+            <argument name="name" xsi:type="string">three_columns</argument>
+        </action>
+    </referenceBlock>
 </layout>

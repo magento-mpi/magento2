@@ -34,6 +34,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Locale_Proxy $locale
      * @param Magento_Core_Model_Date_Proxy $dateModel
@@ -46,6 +47,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Locale_Proxy $locale,
         Magento_Core_Model_Date_Proxy $dateModel,
@@ -53,7 +55,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         Magento_Core_Model_Config_Resource $configResource
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $storeManager, $locale, $dateModel, $appState,
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $storeManager, $locale, $dateModel, $appState,
             $configResource);
     }
 

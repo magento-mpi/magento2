@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="wishlist_search_view">
-        <update handle="MAP_popup"/>
-        <update handle="MAP_price_msrp_wishlist_item"/>
-    </handle>
+    <update handle="MAP_popup"/>
+    <update handle="MAP_price_msrp_wishlist_item"/>
 </layout>

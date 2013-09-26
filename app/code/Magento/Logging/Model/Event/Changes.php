@@ -31,12 +31,6 @@
 class Magento_Logging_Model_Event_Changes extends Magento_Core_Model_Abstract
 {
     /**
-     * Config path to fields that must be not be logged for all models
-     *
-     */
-    const XML_PATH_SKIP_GLOBAL_FIELDS = 'adminhtml/magento/logging/skip_fields';
-
-    /**
      * Set of fields that should not be logged for all models
      *
      * @var array
@@ -58,15 +52,32 @@ class Magento_Logging_Model_Event_Changes extends Magento_Core_Model_Abstract
     protected $_difference = null;
 
     /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $skipFields
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $skipFields = array(),
+        array $data = array()
+    ) {
+        $this->_globalSkipFields = $skipFields;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      * Get fields that should not be logged for all models
      *
      */
     protected function _construct()
     {
-        $this->_globalSkipFields = array_map('trim', array_filter(explode(',',
-            (string)Mage::getConfig()->getNode(self::XML_PATH_SKIP_GLOBAL_FIELDS))));
-
         $this->_init('Magento_Logging_Model_Resource_Event_Changes');
     }
 

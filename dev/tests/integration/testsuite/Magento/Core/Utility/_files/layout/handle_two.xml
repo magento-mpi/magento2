@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout label="Handle Two">
+    <update handle="handle_one"/>
+    <referenceBlock name="some_text_block">
+        <action method="setText">
+            <text>Some Custom Text</text>
+        </action>
+    </referenceBlock>
+</layout>

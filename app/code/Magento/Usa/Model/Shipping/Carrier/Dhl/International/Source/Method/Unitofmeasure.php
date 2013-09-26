@@ -16,20 +16,12 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Unitofmeasure
+    extends Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Generic
 {
     /**
-     * Returns array to be used in multiselect on back-end
+     * Carrier code
      *
-     * @return array
+     * @var string
      */
-    public function toOptionArray()
-    {
-        $unitArr = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Dhl_International')->getCode('unit_of_measure');
-
-        $returnArr = array();
-        foreach ($unitArr as $key => $val) {
-            $returnArr[] = array('value' => $key, 'label' => $val);
-        }
-        return $returnArr;
-    }
+    protected $_code = 'unit_of_measure';
 }
