@@ -11,6 +11,11 @@ app/code/Magento/FullPageCache/Model/Cache/Type.php
 app/code/Magento/GiftCard/Model/Plugin
 app/code/Magento/GiftCard/Block/Adminhtml/Renderer/OpenAmount.php
 app/code/Magento/GiftRegistry/Model/Plugin
+app/code/Magento/GiftRegistry/Model/Config/Converter.php
+app/code/Magento/GiftRegistry/Model/Config/Data.php
+app/code/Magento/GiftRegistry/Model/Config/Reader.php
+app/code/Magento/GiftRegistry/Model/Config/SchemaLocator.php
+app/code/Magento/GiftRegistry/Model/Attribute/ConfigInterface.php
 app/code/Magento/Invitation/Block/Adminhtml/Grid/Column/Renderer/Percent.php
 app/code/Magento/Invitation/Block/Adminhtml/Report
 app/code/Magento/Invitation/Model/Resource/Report
