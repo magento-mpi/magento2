@@ -10,6 +10,29 @@
 
 class Magento_Customer_Block_Widget_Taxvat extends Magento_Customer_Block_Widget_Abstract
 {
+    /**
+     * @var Magento_Customer_Model_Resource_Customer
+     */
+    protected $_customerResource;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Customer_Model_Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $eavConfig, $data);
+    }
+
     public function _construct()
     {
         parent::_construct();
@@ -28,6 +51,6 @@ class Magento_Customer_Block_Widget_Taxvat extends Magento_Customer_Block_Widget
 
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 }

@@ -39,6 +39,11 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Customer_Model_Resource_Customer
+     */
+    protected $_customerResource;
+
+    /**
      * Constructor
      *
      * @param Magento_Core_Model_Context $context
@@ -46,6 +51,7 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Customer_Model_Resource_Customer $customerResource
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -56,20 +62,14 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Customer_Model_Resource_Customer $customerResource,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct(
-            $context,
-            $registry,
-            $storeManager,
-            $config,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        $this->_customerResource = $customerResource;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -115,9 +115,11 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
     {
         $value = $this->getValue();
         if ($value == self::SHARE_GLOBAL) {
-            if (Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')->findEmailDuplicates()) {
-                Mage::throwException(
+            if ($this->_customerResource->findEmailDuplicates()) {
+                throw new Magento_Core_Exception(
+                    //@codingStandardsIgnoreStart
                     __('Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.')
+                    //@codingStandardsIgnoreEnd
                 );
             }
         }

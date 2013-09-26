@@ -18,20 +18,47 @@
 class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_Action
 {
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Customer_Model_AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @var Magento_Customer_Model_Address_FormFactory
+     */
+    protected $_addressFormFactory;
+
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        Magento_Customer_Model_Address_FormFactory $addressFormFactory
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_addressFactory = $addressFactory;
+        $this->_addressFormFactory = $addressFormFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve customer session object
      *
      * @return Magento_Customer_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return $this->_customerSession;
     }
 
     public function preDispatch()
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_getSession()->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -52,7 +79,7 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
             }
             $this->renderLayout();
         } else {
-            $this->getResponse()->setRedirect(Mage::getUrl('*/*/new'));
+            $this->getResponse()->setRedirect($this->_buildUrl('*/*/new'));
         }
     }
 
@@ -91,7 +118,7 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
 
         if (!$this->getRequest()->isPost()) {
             $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-            $this->_redirectError(Mage::getUrl('*/*/edit'));
+            $this->_redirectError($this->_buildUrl('*/*/edit'));
             return;
         }
 
@@ -100,7 +127,7 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
             $this->_validateAddress($address);
             $address->save();
             $this->_getSession()->addSuccess(__('The address has been saved.'));
-            $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+            $this->_redirectSuccess($this->_buildUrl('*/*/index', array('_secure'=>true)));
             return;
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
@@ -115,7 +142,7 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
         }
 
         $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-        $this->_redirectError(Mage::getUrl('*/*/edit', array('id' => $address->getId())));
+        $this->_redirectError($this->_buildUrl('*/*/edit', array('id' => $address->getId())));
     }
 
     /**
@@ -141,7 +168,7 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
     {
         $customer = $this->_getSession()->getCustomer();
         /* @var Magento_Customer_Model_Address $address */
-        $address  = Mage::getModel('Magento_Customer_Model_Address');
+        $address  = $this->_createAddress();
         $addressId = $this->getRequest()->getParam('id');
         if ($addressId) {
             $existsAddress = $customer->getAddressById($addressId);
@@ -150,7 +177,7 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
             }
         }
         /* @var Magento_Customer_Model_Form $addressForm */
-        $addressForm = Mage::getModel('Magento_Customer_Model_Address_Form');
+        $addressForm = $this->_createAddressForm();
         $addressForm->setFormCode('customer_address_edit')
             ->setEntity($address);
         $addressData = $addressForm->extractData($this->getRequest());
@@ -166,12 +193,13 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
         $addressId = $this->getRequest()->getParam('id', false);
 
         if ($addressId) {
-            $address = Mage::getModel('Magento_Customer_Model_Address')->load($addressId);
+            $address = $this->_createAddress();
+            $address->load($addressId);
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
                 $this->_getSession()->addError(__('The address does not belong to this customer.'));
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
+                $this->getResponse()->setRedirect($this->_buildUrl('*/*/index'));
                 return;
             }
 
@@ -182,6 +210,34 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
                 $this->_getSession()->addException($e, __('An error occurred while deleting the address.'));
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
+        $this->getResponse()->setRedirect($this->_buildUrl('*/*/index'));
+    }
+
+    /**
+     * @param string $route
+     * @param array $params
+     * @return string
+     */
+    protected function _buildUrl($route = '', $params = array())
+    {
+        /** @var Magento_Core_Model_Url $urlBuilder */
+        $urlBuilder = $this->_objectManager->create('Magento_Core_Model_Url');
+        return $urlBuilder->getUrl($route, $params);
+    }
+
+    /**
+     * @return Magento_Customer_Model_Address
+     */
+    protected function _createAddress()
+    {
+        return $this->_addressFactory->create();
+    }
+
+    /**
+     * @return Magento_Customer_Model_Address_Form
+     */
+    protected function _createAddressForm()
+    {
+        return $this->_addressFormFactory->create();
     }
 }

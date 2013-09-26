@@ -18,6 +18,35 @@
 class Magento_Customer_Model_Config_Backend_Show_Customer extends Magento_Core_Model_Config_Value
 {
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retrieve attribute code
      *
      * @return string
@@ -35,7 +64,7 @@ class Magento_Customer_Model_Config_Backend_Show_Customer extends Magento_Core_M
     protected function _getAttributeObjects()
     {
         return array(
-            Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $this->_getAttributeCode())
+            $this->_eavConfig->getAttribute('customer', $this->_getAttributeCode())
         );
     }
 
@@ -63,7 +92,7 @@ class Magento_Customer_Model_Config_Backend_Show_Customer extends Magento_Core_M
         }
 
         if ($this->getScope() == 'websites') {
-            $website = Mage::app()->getWebsite($this->getWebsiteCode());
+            $website = $this->_storeManager->getWebsite($this->getWebsiteCode());
             $dataFieldPrefix = 'scope_';
         } else {
             $website = null;
@@ -93,7 +122,7 @@ class Magento_Customer_Model_Config_Backend_Show_Customer extends Magento_Core_M
         $result = parent::_afterDelete();
 
         if ($this->getScope() == 'websites') {
-            $website = Mage::app()->getWebsite($this->getWebsiteCode());
+            $website = $this->_storeManager->getWebsite($this->getWebsiteCode());
             foreach ($this->_getAttributeObjects() as $attributeObject) {
                 $attributeObject->setWebsite($website);
                 $attributeObject->load($attributeObject->getId());

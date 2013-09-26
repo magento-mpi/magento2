@@ -111,12 +111,30 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreConfig;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+    
+    /**
+     * @var Magento_Customer_Model_GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @var Magento_Customer_Model_FormFactory
+     */
+    protected $_formFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Customer_Helper_Address $customerAddress
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Customer_Model_GroupFactory $groupFactory
+     * @param Magento_Customer_Model_FormFactory $formFactory
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -124,13 +142,19 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Customer_Model_GroupFactory $groupFactory,
+        Magento_Customer_Model_FormFactory $formFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        $this->_customerSession = $customerSession;
+        $this->_groupFactory = $groupFactory;
+        $this->_formFactory = $formFactory;
         parent::__construct($context);
     }
 
@@ -141,7 +165,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isLoggedIn()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
+        return $this->_customerSession->isLoggedIn();
     }
 
     /**
@@ -152,7 +176,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $this->_customer = $this->_customerSession->getCustomer();
         }
         return $this->_customer;
     }
@@ -165,7 +189,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     public function getGroups()
     {
         if (empty($this->_groups)) {
-            $this->_groups = Mage::getModel('Magento_Customer_Model_Group')->getResourceCollection()
+            $this->_groups = $this->_createGroup()->getResourceCollection()
                 ->setRealGroupsFilter()
                 ->load();
         }
@@ -228,9 +252,9 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
         if (!$referer && !$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
-            && !Mage::getSingleton('Magento_Customer_Model_Session')->getNoReferer()
+            && !$this->_customerSession->getNoReferer()
         ) {
-            $referer = Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
+            $referer = $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
             $referer = $this->_coreData->urlEncode($referer);
         }
 
@@ -496,7 +520,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         ));
 
         if (!extension_loaded('soap')) {
-            $this->_logger->logException(Mage::exception('Magento_Core', __('PHP SOAP extension is required.')));
+            $this->_logger->logException(new Magento_Core_Exception(__('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
 
@@ -674,7 +698,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         $additionalAttributes = array(), $scope = null, $eavForm = null
     ) {
         if (is_null($eavForm)) {
-            $eavForm = Mage::getModel('Magento_Customer_Model_Form');
+            $eavForm = $this->_createForm();
         }
         /** @var Magento_Eav_Model_Form $eavForm */
         $eavForm->setEntity($entity)
@@ -698,5 +722,21 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         return $filteredData;
+    }
+
+    /**
+     * @return Magento_Customer_Model_Group
+     */
+    protected function _createGroup()
+    {
+        return $this->_groupFactory->create();
+    }
+
+    /**
+     * @return Magento_Customer_Model_Form
+     */
+    protected function _createForm()
+    {
+        return $this->_formFactory->create();
     }
 }

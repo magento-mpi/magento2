@@ -244,6 +244,10 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Customer_Model_Address_Config $addressConfig
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Customer_Model_AddressFactory $addressFactory
      * @param Magento_Sales_Model_Quote_Address_ItemFactory $addressItemFactory
@@ -266,6 +270,10 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
         Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Customer_Model_Address_Config $addressConfig,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Customer_Model_AddressFactory $addressFactory,
         Magento_Sales_Model_Quote_Address_ItemFactory $addressItemFactory,
@@ -291,7 +299,19 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
         $this->_rateRequestFactory = $rateRequestFactory;
         $this->_totalCollectorFactory = $totalCollectorFactory;
         $this->_addressTotalFactory = $addressTotalFactory;
-        parent::__construct($eventManager, $directoryData, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $eventManager,
+            $directoryData,
+            $context,
+            $registry,
+            $eavConfig,
+            $addressConfig,
+            $regionFactory,
+            $countryFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

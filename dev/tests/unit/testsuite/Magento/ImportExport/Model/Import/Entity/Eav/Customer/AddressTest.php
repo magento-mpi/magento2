@@ -264,6 +264,15 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             $data = array(
                 'resource' => $resourceMock,
                 'data'     => $customerData,
+                $this->getMock('Magento_Customer_Model_Config_Share', array(), array(), '', false),
+                $this->getMock('Magento_Customer_Model_AddressFactory', array(), array(), '', false),
+                $this->getMock('Magento_Customer_Model_Resource_Address_CollectionFactory', array(), array(), '',
+                    false
+                ),
+                $this->getMock('Magento_Core_Model_Email_Template_MailerFactory', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_Email_InfoFactory', array(), array(), '', false),
+                $this->getMock('Magento_Customer_Model_GroupFactory', array(), array(), '', false),
+                $this->getMock('Magento_Customer_Model_AttributeFactory', array(), array(), '', false),
             );
             /** @var $customer Magento_Customer_Model_Customer */
             $customer = $this->_objectManagerMock->getObject('Magento_Customer_Model_Customer', $data);

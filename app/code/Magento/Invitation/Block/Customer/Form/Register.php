@@ -29,6 +29,8 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
      * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
@@ -39,6 +41,8 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Customer_Model_AddressFactory $addressFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
         Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
@@ -46,13 +50,8 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct(
-            $configCacheType,
-            $coreData,
-            $context,
-            $storeManager,
-            $regionCollFactory,
-            $countryCollFactory,
-            $data
+            $configCacheType, $coreData, $context, $customerSession, $addressFactory,
+            $storeManager, $regionCollFactory, $countryCollFactory, $data
         );
     }
 
@@ -65,7 +64,7 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $customerFormData = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerFormData(true);
+            $customerFormData = $this->_customerSession->getCustomerFormData(true);
             $data = new Magento_Object($customerFormData);
             if (empty($customerFormData)) {
                 $invitation = $this->getCustomerInvitation();

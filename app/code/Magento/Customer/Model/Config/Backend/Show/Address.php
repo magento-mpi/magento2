@@ -26,7 +26,7 @@ class Magento_Customer_Model_Config_Backend_Show_Address
     protected function _getAttributeObjects()
     {
         $result = parent::_getAttributeObjects();
-        $result[] = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', $this->_getAttributeCode());
+        $result[] = $this->_eavConfig->getAttribute('customer_address', $this->_getAttributeCode());
         return $result;
     }
 }
