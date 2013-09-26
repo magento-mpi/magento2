@@ -20,8 +20,6 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      */
     const EDITION_COMMUNITY    = 'Community';
     const EDITION_ENTERPRISE   = 'Enterprise';
-    const EDITION_PROFESSIONAL = 'Professional';
-    const EDITION_GO           = 'Go';
     /**#@-*/
 
     /**

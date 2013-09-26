@@ -135,6 +135,7 @@ app/code/Magento/Page/Block/Html/Head
 app/code/Magento/Page/Block/Link{,.php,s.php}
 app/code/Magento/Page/Helper/Robots.php
 app/code/Magento/Page/Model/Asset
+app/code/Magento/PageCache/Model/CacheControlFactory.php
 app/code/Magento/ProductAlert/Block/Product/View
 app/code/Magento/Reports/Block/Adminhtml/Customer
 app/code/Magento/Reports/Block/Adminhtml/Product
