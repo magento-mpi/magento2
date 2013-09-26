@@ -15,7 +15,8 @@
  */
 namespace Magento\Directory\Model\Currency\Import;
 
-abstract class AbstractImport implements \Magento\Directory\Model\Currency\Import\Interface
+abstract class AbstractImport implements
+    \Magento\Directory\Model\Currency\Import\ImportInterface
 {
     /**
      * Messages

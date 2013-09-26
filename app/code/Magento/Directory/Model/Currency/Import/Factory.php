@@ -42,7 +42,7 @@ class Factory
      *
      * @param string $service
      * @param array $data
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return \Magento\Directory\Model\Currency\Import\Interface
      */
     public function create($service, array $data = array())
@@ -50,8 +50,8 @@ class Factory
         $serviceClass = $this->_coreConfig->getNode('global/currency/import/services/' . $service . '/model')
             ->asArray();
         $service = $this->_objectManager->create($serviceClass, $data);
-        if (false == ($service instanceof \Magento\Directory\Model\Currency\Import\Interface)) {
-            throw new InvalidArgumentException(
+        if (false == ($service instanceof \Magento\Directory\Model\Currency\Import\ImportInterface)) {
+            throw new \InvalidArgumentException(
                 $serviceClass . ' doesn\'t implement \Magento\Directory\Model\Currency\Import\Interface'
             );
         }

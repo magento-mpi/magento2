@@ -32,11 +32,6 @@ class Observer
      */
     protected $_config;
 
-    public function __construct()
-    {
-        $this->_config = \Mage::getSingleton('Magento\Invitation\Model\Config');
-    }
-
     /**
      * Invitation data
      *
