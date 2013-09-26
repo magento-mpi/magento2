@@ -23,18 +23,26 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Cms_Model_Wysiwyg_Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_wysiwygConfig = $wysiwygConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -78,7 +86,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
     protected function _prepareLayout()
     {
         // Load Wysiwyg on demand and Prepare layout
-        if (Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()) {
+        if ($this->_wysiwygConfig->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
 
@@ -211,7 +219,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
      */
     protected function isSingleStoreMode()
     {
-        return Mage::app()->isSingleStoreMode();
+        return $this->_storeManager->isSingleStoreMode();
     }
 
     /**
@@ -221,7 +229,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit extends Magento_Adminhtml_Bl
      */
     protected function getStoreId()
     {
-        return Mage::app()->getStore(true)->getId();
+        return $this->_storeManager->getStore(true)->getId();
     }
 
     /**

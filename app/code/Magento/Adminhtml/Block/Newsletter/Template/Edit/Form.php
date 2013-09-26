@@ -19,6 +19,31 @@
 class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Cms_Model_Wysiwyg_Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_wysiwygConfig = $wysiwygConfig;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve template object
      *
      * @return Magento_Newsletter_Model_Template
@@ -36,7 +61,9 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Back
     protected function _prepareForm()
     {
         $model  = $this->getModel();
-        $identity = $this->_storeConfig->getConfig(Magento_Newsletter_Model_Subscriber::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY);
+        $identity = $this->_storeConfig->getConfig(
+            Magento_Newsletter_Model_Subscriber::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY
+        );
         $identityName = $this->_storeConfig->getConfig('trans_email/ident_'.$identity.'/name');
         $identityEmail = $this->_storeConfig->getConfig('trans_email/ident_'.$identity.'/email');
 
@@ -100,8 +127,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit_Form extends Magento_Back
 
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')
-            ->getConfig(array('widget_filters' => $widgetFilters));
+        $wysiwygConfig = $this->_wysiwygConfig->getConfig(array('widget_filters' => $widgetFilters));
         if ($model->isPlain()) {
             $wysiwygConfig->setEnabled(false);
         }
