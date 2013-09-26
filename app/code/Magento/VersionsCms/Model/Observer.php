@@ -97,7 +97,7 @@ class Observer
         /*
          * Adding link to current published revision
          */
-        /* @var $page Magento_VersionsCms_Model_Page */
+        /* @var $page \Magento\VersionsCms\Model\Page */
         $page = $this->_coreRegistry->registry('cms_page');
         $revisionAvailable = false;
         if ($page) {

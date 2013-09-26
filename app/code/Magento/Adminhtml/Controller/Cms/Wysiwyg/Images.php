@@ -41,7 +41,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
     /**
      * Init storage
      *
-     * @return Magento_Adminhtml_Controller_Cms_Wysiwyg_Images
+     * @return \Magento\Adminhtml\Controller\Cms\Wysiwyg\Images
      */
     protected function _initAction()
     {
@@ -217,7 +217,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
     /**
      * Save current path in session
      *
-     * @return Magento_Adminhtml_Controller_Cms_Wysiwyg_Images
+     * @return \Magento\Adminhtml\Controller\Cms\Wysiwyg\Images
      */
     protected function _saveSessionCurrentPath()
     {

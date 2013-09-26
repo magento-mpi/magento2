@@ -71,50 +71,50 @@
             <instance type="Magento\Webapi\Model\Acl\Resource\Config\Converter\Dom" />
         </param>
     </type>
-    <type name="Magento_Webapi_Controller_Rest_Request_Deserializer_Factory">
+    <type name="Magento\Webapi\Controller\Rest\Request\Deserializer\Factory">
         <param name="deserializers">
             <value>
                 <application_json>
                     <type>application/json</type>
-                    <model>Magento_Webapi_Controller_Rest_Request_Deserializer_Json</model>
+                    <model>Magento\Webapi\Controller\Rest\Request\Deserializer\Json</model>
                 </application_json>
                 <application_xml>
                     <type>application/xml</type>
-                    <model>Magento_Webapi_Controller_Rest_Request_Deserializer_Xml</model>
+                    <model>Magento\Webapi\Controller\Rest\Request\Deserializer\Xml</model>
                 </application_xml>
                 <application_xhtml_xml>
                     <type>application/xhtml+xml</type>
-                    <model>Magento_Webapi_Controller_Rest_Request_Deserializer_Xml</model>
+                    <model>Magento\Webapi\Controller\Rest\Request\Deserializer\Xml</model>
                 </application_xhtml_xml>
                 <text_xml>
                     <type>text/xml</type>
-                    <model>Magento_Webapi_Controller_Rest_Request_Deserializer_Xml</model>
+                    <model>Magento\Webapi\Controller\Rest\Request\Deserializer\Xml</model>
                 </text_xml>
             </value>
         </param>
     </type>
-    <type name="Magento_Webapi_Controller_Rest_Response_Renderer_Factory">
+    <type name="Magento\Webapi\Controller\Rest\Response\Renderer\Factory">
         <param name="renders">
             <value>
                 <default>
                     <type>*/*</type>
-                    <model>Magento_Webapi_Controller_Rest_Response_Renderer_Json</model>
+                    <model>Magento\Webapi\Controller\Rest\Response\Renderer\Json</model>
                 </default>
                 <application_json>
                     <type>application/json</type>
-                    <model>Magento_Webapi_Controller_Rest_Response_Renderer_Json</model>
+                    <model>Magento\Webapi\Controller\Rest\Response\Renderer\Json</model>
                 </application_json>
                 <text_xml>
                     <type>text/xml</type>
-                    <model>Magento_Webapi_Controller_Rest_Response_Renderer_Xml</model>
+                    <model>Magento\Webapi\Controller\Rest\Response\Renderer\Xml</model>
                 </text_xml>
                 <application_xml>
                     <type>application/xml</type>
-                    <model>Magento_Webapi_Controller_Rest_Response_Renderer_Xml</model>
+                    <model>Magento\Webapi\Controller\Rest\Response\Renderer\Xml</model>
                 </application_xml>
                 <application_xhtml_xml>
                     <type>application/xhtml+xml</type>
-                    <model>Magento_Webapi_Controller_Rest_Response_Renderer_Xml</model>
+                    <model>Magento\Webapi\Controller\Rest\Response\Renderer\Xml</model>
                 </application_xhtml_xml>
             </value>
         </param>

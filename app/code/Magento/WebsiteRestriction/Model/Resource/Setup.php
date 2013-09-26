@@ -21,30 +21,30 @@ namespace Magento\WebsiteRestriction\Model\Resource;
 class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
-     * @var Magento_Cms_Model_PageFactory
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param $resourceName
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Cms_Model_PageFactory $pageFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Config\Resource $resourcesConfig,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Cms\Model\PageFactory $pageFactory,
         $resourceName
     ) {
         $this->_pageFactory = $pageFactory;
@@ -54,7 +54,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     }
 
     /**
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {

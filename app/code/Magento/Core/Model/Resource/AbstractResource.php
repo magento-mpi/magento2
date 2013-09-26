@@ -242,16 +242,16 @@ abstract class AbstractResource
     /**
      * Prepare the list of entity fields that should be selected from DB. Apply filtration based on active fieldset.
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param string $tableName
      * @return array|string
      */
-    protected function _getColumnsForEntityLoad(Magento_Core_Model_Abstract $object, $tableName)
+    protected function _getColumnsForEntityLoad(\Magento\Core\Model\AbstractModel $object, $tableName)
     {
         $fieldsetColumns = $object->getFieldset();
         if (!empty($fieldsetColumns)) {
             $readAdapter = $this->_getReadAdapter();
-            if ($readAdapter instanceof Magento_Db_Adapter_Interface) {
+            if ($readAdapter instanceof \Magento\Db\Adapter\AdapterInterface) {
                 $entityTableColumns = $readAdapter->describeTable($tableName);
                 $columns = array_intersect($fieldsetColumns, array_keys($entityTableColumns));
             }

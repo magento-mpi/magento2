@@ -54,7 +54,7 @@
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
         <plugin name="three" type="somePluginThree"/>
     </virtualType>
-    <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
+    <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cacheIdPrefix"><value><![CDATA[collection_]]></value></param>
         <param name="cacheLifetime"><value>86400</value></param>
         <param name="cacheTags">

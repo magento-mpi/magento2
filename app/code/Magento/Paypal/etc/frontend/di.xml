@@ -16,7 +16,7 @@
             <value>frontend</value>
         </param>
     </virtualType>
-    <type name="Magento_Core_Model_Url_SecurityInfo">
+    <type name="Magento\Core\Model\Url\SecurityInfo">
         <param name="secureUrlList">
             <value>
                 <paypal_express>/paypal/express</paypal_express>

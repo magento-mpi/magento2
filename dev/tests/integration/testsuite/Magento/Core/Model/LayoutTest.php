@@ -473,7 +473,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function testUpdateContainerAttributes()
     {
         $this->_layout->setXml(simplexml_load_file(__DIR__ . '/_files/layout/container_attributes.xml',
-            'Magento_Core_Model_Layout_Element'));
+            'Magento\Core\Model\Layout\Element'));
         $this->_layout->generateElements();
         $result = $this->_layout->renderElement('container1', false);
         $this->assertEquals('<div id="container1-2" class="class12">Test11Test12</div>', $result);

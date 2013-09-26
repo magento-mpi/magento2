@@ -16,43 +16,43 @@ namespace Magento\Rma\Model\Resource;
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
-     * @var Magento_Catalog_Model_Resource_SetupFactory
+     * @var \Magento\Catalog\Model\Resource\SetupFactory
      */
     protected $_catalogSetupFactory;
 
     /**
-     * @var Magento_Enterprise_Model_Resource_Setup_Migration
+     * @var \Magento\Enterprise\Model\Resource\Setup\Migration
      */
     protected $_entMigrationFactory;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $modulesConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
-     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
+     * @param \Magento\Core\Model\Config $modulesConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
+     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
      * @param string $resourceName
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $modulesConfig,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
-        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Config\Resource $resourcesConfig,
+        \Magento\Core\Model\Config $modulesConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
+        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
         $resourceName
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
@@ -65,7 +65,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * Get catalog resource setup model
      *
      * @param array $data
-     * @return Magento_Catalog_Model_Resource_Setup
+     * @return \Magento\Catalog\Model\Resource\Setup
      */
     public function getCatalogResourceSetup(array $data = array())
     {
@@ -76,7 +76,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * Get migration resource setup model
      *
      * @param array $data
-     * @return Magento_Enterprise_Model_Resource_Setup_Migration
+     * @return \Magento\Enterprise\Model\Resource\Setup\Migration
      */
     public function getMigrationResourceSetup(array $data = array())
     {

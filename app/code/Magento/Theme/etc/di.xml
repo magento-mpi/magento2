@@ -16,7 +16,7 @@
             <instance type="Magento\Core\Model\Cache\Type\Layout" />
         </param>
     </type>
-    <type name="Magento_Theme_Model_Uploader_Service">
+    <type name="Magento\Theme\Model\Uploader\Service">
         <param name="uploadLimits">
             <value>
                 <css>2M</css>

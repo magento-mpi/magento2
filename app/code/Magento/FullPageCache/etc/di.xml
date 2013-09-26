@@ -46,7 +46,7 @@
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Log_Model_Visitor">
+    <type name="Magento\Log\Model\Visitor">
         <param name="ignoredUserAgents">
             <value>
                 <cache_crawler>MagentoCrawler</cache_crawler>

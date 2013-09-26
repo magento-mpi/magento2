@@ -15,9 +15,9 @@
             </value>
         </param>
     </type>
-    <type name="Magento_CustomerBalance_Model_Observer">
+    <type name="Magento\CustomerBalance\Model\Observer">
         <param name="onePageCheckout">
-            <instance type="Magento_Checkout_Model_Type_Onepage_Proxy"/>
+            <instance type="Magento\Checkout\Model\Type\Onepage\Proxy"/>
         </param>
     </type>
 </config>
