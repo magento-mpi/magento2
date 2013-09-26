@@ -7,13 +7,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */ 
-class Magento_Core_Model_Config_Resource
+class Magento_Core_Model_Config_Resource extends Magento_Config_Data_Scoped
+    implements Magento_Core_Model_Config_ResourceInterface
 {
-    const DEFAULT_READ_RESOURCE  = 'core_read';
-    const DEFAULT_WRITE_RESOURCE = 'core_write';
-    const DEFAULT_SETUP_RESOURCE = 'core_setup';
+    const DEFAULT_READ_CONNECTION  = 'read';
+    const DEFAULT_WRITE_CONNECTION = 'write';
+    const DEFAULT_SETUP_CONNECTION = 'setup';
 
-    protected $_data;
+    /**
+     * @param Magento_Core_Model_Resource_Config_Reader $reader
+     * @param Magento_Config_ScopeInterface $configScope
+     * @param Magento_Config_CacheInterface $cache
+     * @param string $cacheId
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_Config_Reader $reader,
+        Magento_Config_ScopeInterface $configScope,
+        Magento_Config_CacheInterface $cache,
+        $cacheId = 'resourcesCache'
+    ) {
+        parent::__construct($reader, $configScope, $cache, $cacheId);
+    }
 
     /**
      * Retrieve resource connection instance name
@@ -23,15 +37,27 @@ class Magento_Core_Model_Config_Resource
      */
     public function getConnectionName($resourceName)
     {
+        $connectionName = self::DEFAULT_SETUP_CONNECTION;
+
         if (!isset($this->_data[$resourceName])) {
-            $resourceName = (strpos($resourceName, 'read') !== false)
-                ? self::DEFAULT_READ_RESOURCE
-                : self::DEFAULT_WRITE_RESOURCE;
+
+            $resourcesConfig = $this->get();
+            $pointerResourceName = $resourceName;
+            while (true) {
+                if (isset($resourcesConfig[$pointerResourceName]['connection'])) {
+                    $connectionName = $resourcesConfig[$pointerResourceName]['connection'];
+                    $this->_data[$resourceName] = $connectionName;
+                    break;
+                } elseif (isset($resourcesConfig[$pointerResourceName]['extends'])) {
+                    $pointerResourceName = $resourcesConfig[$pointerResourceName]['extends'];
+                } else {
+                    break;
+                }
+            }
+        } else {
+            $connectionName = $this->_data[$resourceName];
         }
 
-        // TODO: Implement resource inheritance
-
-        //return $this->_data[$resourceName]['connection'];
-        return 'connection_default';
+        return $connectionName;
     }
 }
