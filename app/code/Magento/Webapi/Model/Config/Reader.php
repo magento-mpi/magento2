@@ -28,7 +28,7 @@ class Reader extends \Magento\Config\XmlAbstract
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _extractData(DOMDocument $dom)
+    protected function _extractData(\DOMDocument $dom)
     {
         return array();
     }

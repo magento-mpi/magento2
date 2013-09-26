@@ -148,7 +148,7 @@ class Dom
      */
     protected function _isTextNode($node)
     {
-        return $node->childNodes->length == 1 && $node->childNodes->item(0) instanceof DOMText;
+        return $node->childNodes->length == 1 && $node->childNodes->item(0) instanceof \DOMText;
     }
 
     /**

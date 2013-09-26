@@ -53,7 +53,7 @@ class Converter implements \Magento\Config\ConverterInterface
      * @param mixed $defaultValue
      * @return null|string
      */
-    protected function _getAttributeValue(DOMNode $node, $attributeName, $defaultValue = null)
+    protected function _getAttributeValue(\DOMNode $node, $attributeName, $defaultValue = null)
     {
         $attributeNode = $node->attributes->getNamedItem($attributeName);
         $output = $defaultValue;
