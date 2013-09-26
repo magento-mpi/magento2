@@ -28,10 +28,12 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_product = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->_product->load(1); // fixture
 
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Type_Configurable');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Type_Configurable');
         // prevent fatal errors by assigning proper "singleton" of type instance to the product
         $this->_product->setTypeInstance($this->_model);
     }
@@ -431,7 +433,8 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->assertEquals(3, count($generatedProducts));
         foreach ($generatedProducts as $productId) {
             /** @var $product Magento_Catalog_Model_Product */
-            $product = Mage::getModel('Magento_Catalog_Model_Product');
+            $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
             $product->load($productId);
             $this->assertNotNull($product->getName());
             $this->assertNotNull($product->getSku());
@@ -451,7 +454,8 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
         foreach ($generatedProducts as $productId) {
             /** @var $product Magento_Catalog_Model_Product */
-            $product = Mage::getModel('Magento_Catalog_Model_Product');
+            $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
             $product->load($productId);
             $this->assertEquals('0', $product->getStockItem()->getData('manage_stock'));
         }
@@ -513,7 +517,8 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
      */
     protected function _getAttributeByCode($code)
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', $code);
+        return Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+            ->getAttribute('catalog_product', $code);
     }
 
     /**

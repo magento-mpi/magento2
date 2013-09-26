@@ -15,10 +15,12 @@ class Magento_Paypal_Controller_ExpressTest extends Magento_TestFramework_TestCa
     public function testReviewAction()
     {
         $this->markTestSkipped('There is a dependency that needs to be identified for this test');
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
         echo "Quote ID: {$quote->getId}\n";
-        Mage::getSingleton('Magento_Checkout_Model_Session')->setQuoteId($quote->getId());
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Checkout_Model_Session')
+            ->setQuoteId($quote->getId());
 
         $this->dispatch('paypal/express/review');
 

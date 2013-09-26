@@ -96,14 +96,6 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
             ->getMock();
     }
 
-    /**
-     * Reset object manager.
-     */
-    protected function tearDown()
-    {
-        Mage::reset();
-    }
-
     public function testIndexAction()
     {
         $this->_verifyLoadAndRenderLayout();
@@ -515,7 +507,6 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
      */
     protected function _setMageObjectManager()
     {
-        Mage::reset();
         $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();

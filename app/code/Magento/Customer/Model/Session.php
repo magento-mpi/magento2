@@ -81,7 +81,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param Magento_Customer_Model_Config_Share $configShare
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_Customer_Helper_Data|Magento_Customer_Helper_DataProxy $customerData
+     * @param Magento_Customer_Helper_DataProxy $customerData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig

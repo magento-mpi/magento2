@@ -18,7 +18,8 @@ class Magento_Core_Model_Resource_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento_Core_Model_Resource_Config');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Config');
     }
 
     public function testSaveDeleteConfig()

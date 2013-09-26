@@ -12,7 +12,8 @@
 require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
 /** @var $quote Magento_Sales_Model_Quote */
-$quote = Mage::getModel('Magento_Sales_Model_Quote');
+$quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Sales_Model_Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

@@ -41,6 +41,12 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
     protected $_customerSession;
 
     /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+    
+    /**
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
@@ -50,6 +56,7 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
      * @param array $data
      */
     public function __construct(
+        Magento_Checkout_Model_Session $checkoutSession,
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
@@ -58,10 +65,11 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
         Magento_Customer_Model_Session $customerSession,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $checkoutSession;
         $this->_rewardData = $rewardData;
         $this->_storeManager = $storeManager;
         $this->_rewardFactory = $rewardFactory;
-        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -82,7 +90,7 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
      */
     public function getQuote()
     {
-        return $this->_customerSession->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**

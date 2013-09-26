@@ -105,27 +105,6 @@ final class Mage
     static private $_appRoot;
 
     /**
-     * Application model
-     *
-     * @var Magento_Core_Model_App
-     */
-    static private $_app;
-
-    /**
-     * Config Model
-     *
-     * @var Magento_Core_Model_Config
-     */
-    static private $_config;
-
-    /**
-     * Object cache instance
-     *
-     * @var Magento_Object_Cache
-     */
-    static private $_objects;
-
-    /**
      * Is downloader flag
      *
      * @var bool
@@ -138,20 +117,6 @@ final class Mage
      * @var bool
      */
     public static $headersSentThrowsException  = true;
-
-    /**
-     * Logger entities
-     *
-     * @var array
-     */
-    static private $_loggers = array();
-
-    /**
-     * Design object
-     *
-     * @var Magento_Core_Model_View_DesignInterface
-     */
-    protected static $_design;
 
     /**
      * Current Magento edition.
@@ -229,21 +194,6 @@ final class Mage
     }
 
     /**
-     * Set all my static data to defaults
-     *
-     */
-    public static function reset()
-    {
-        self::$_appRoot         = null;
-        self::$_app             = null;
-        self::$_objects         = null;
-        self::$_isDownloader    = false;
-        self::$_loggers         = array();
-        self::$_design          = null;
-        // do not reset $headersSentThrowsException
-    }
-
-    /**
      * Retrieve application root absolute path
      *
      * @return string
@@ -259,24 +209,6 @@ final class Mage
             self::$_appRoot = $appRootDir;
         }
         return self::$_appRoot;
-    }
-
-    /**
-     * Magento Objects Cache
-     *
-     * @param string $key optional, if specified will load this key
-     * @return Magento_Object_Cache
-     */
-    public static function objects($key = null)
-    {
-        if (!self::$_objects) {
-            self::$_objects = new Magento_Object_Cache;
-        }
-        if (is_null($key)) {
-            return self::$_objects;
-        } else {
-            return self::$_objects->load($key);
-        }
     }
 
     /**
@@ -425,25 +357,8 @@ final class Mage
      */
     public static function getResourceHelper($moduleName)
     {
-        $connectionModel = Magento_Core_Model_ObjectManager::getInstance()
-            ->get('Magento_Core_Model_Config_Resource')
-            ->getResourceConnectionModel('core');
-
-        $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
-        $connection = strtolower($moduleName);
-        if (substr($moduleName, 0, 8) == 'Magento_') {
-            $connection = substr($connection, 8);
-        }
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
-        $key = 'resourceHelper/' . $connection;
-        if (!$registryObject->registry($key)) {
-            $registryObject->register(
-                $key, $objectManager->create($helperClassName, array('modulePrefix' => $connection))
-            );
-        }
-        return $registryObject->registry($key);
+        return Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Resource_HelperPool')
+            ->get($moduleName);
     }
 
     /**
@@ -485,10 +400,7 @@ final class Mage
      */
     public static function app()
     {
-        if (null === self::$_app) {
-            self::$_app = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
-        }
-        return self::$_app;
+        return Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
     }
 
     /**

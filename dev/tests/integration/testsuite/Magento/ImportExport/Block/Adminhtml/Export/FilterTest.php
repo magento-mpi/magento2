@@ -42,7 +42,9 @@ class Magento_ImportExport_Block_Adminhtml_Export_FilterTest
         $html = $method->invoke($block, $attribute, null);
         $this->assertNotEmpty($html);
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_LocaleInterface')
+            ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $pieces = array_filter(explode('<strong>', $html));
         foreach ($pieces as $piece) {
             $this->assertContains('dateFormat: "' . $dateFormat . '",', $piece);

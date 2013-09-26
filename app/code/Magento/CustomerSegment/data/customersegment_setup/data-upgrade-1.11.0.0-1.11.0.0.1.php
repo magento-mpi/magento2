@@ -11,8 +11,8 @@
 /**
  * Resave all segments for segment conditions regeneration
  */
-$collection = Mage::getResourceModel('Magento_CustomerSegment_Model_Resource_Segment_Collection');
-foreach($collection as $segment) {
+$collection = $this->createSegmentCollection();
+foreach ($collection as $segment) {
     $segment->afterLoad();
     $segment->save();
 }

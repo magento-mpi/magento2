@@ -18,12 +18,14 @@ class Magento_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
     public function testGetChildPdfAsArray()
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $block = $layout->createBlock('Magento_Payment_Block_Info', 'block');
 
         /** @var $paymentInfoBankMagento_Payment_Model_Info  */
-        $paymentInfoBank = Mage::getModel('Magento_Payment_Model_Info');
-        $paymentInfoBank->setMethodInstance(Mage::getModel('Magento_Payment_Model_Method_Banktransfer'));
+        $paymentInfoBank = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Payment_Model_Info');
+        $paymentInfoBank->setMethodInstance(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Payment_Model_Method_Banktransfer'));
         /** @var $childBank Magento_Payment_Block_Info_Instructions */
         $childBank = $layout->addBlock('Magento_Payment_Block_Info_Instructions', 'child.one', 'block');
         $childBank->setInfo($paymentInfoBank)
@@ -34,8 +36,10 @@ class Magento_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
         $childHtml->setText($nonExpectedHtml);
 
         /** @var $paymentInfoCheckmo Magento_Payment_Model_Info */
-        $paymentInfoCheckmo = Mage::getModel('Magento_Payment_Model_Info');
-        $paymentInfoCheckmo->setMethodInstance(Mage::getModel('Magento_Payment_Model_Method_Checkmo'));
+        $paymentInfoCheckmo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Payment_Model_Info');
+        $paymentInfoCheckmo->setMethodInstance(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Payment_Model_Method_Checkmo'));
         /** @var $childCheckmo Magento_Payment_Block_Info_Checkmo */
         $childCheckmo = $layout->addBlock('Magento_Payment_Block_Info_Checkmo', 'child.just.another', 'block');
         $childCheckmo->setInfo($paymentInfoCheckmo)

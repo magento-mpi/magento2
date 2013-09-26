@@ -28,6 +28,23 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
     protected $_coreUrl;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_AdvancedCheckout_Model_Cart
+     */
+    protected $_cart;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Url
+     */
+    protected $_catalogUrlResource;
+
+    /**
+     * @param Magento_AdvancedCheckout_Model_Cart $cart
+     * @param Magento_Catalog_Model_Resource_Url $catalogUrlResource
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -41,6 +58,8 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
      * @param array $data
      */
     public function __construct(
+        Magento_AdvancedCheckout_Model_Cart $cart,
+        Magento_Catalog_Model_Resource_Url $catalogUrlResource,
         Magento_Core_Helper_Url $coreUrl,
         Magento_AdvancedCheckout_Helper_Data $checkoutData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -53,8 +72,11 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
         Magento_Core_Model_UrlInterface $urlBuilder,
         array $data = array()
     ) {
+        $this->_cart = $cart;
+        $this->_catalogUrlResource = $catalogUrlResource;
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
+        $this->_storeManager = $storeManager;
         parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $storeManager,
             $catalogUrlBuilder, $urlBuilder, $data);
     }
@@ -125,8 +147,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
         }
 
         if ($products) {
-            $products = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
-                ->getRewriteByProductStore($products);
+            $products = $this->_catalogUrlResource->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 if ($item->getProductType() == 'undefined') {
                     continue;
@@ -203,7 +224,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
      */
     protected function _toHtml()
     {
-        if (Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart')->getFailedItems()) {
+        if ($this->_cart->getFailedItems()) {
             $html = parent::_toHtml();
         } else {
             $html = '';

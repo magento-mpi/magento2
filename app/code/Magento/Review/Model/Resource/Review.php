@@ -145,8 +145,8 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     /**
      * Perform actions before object save
      *
-     * @param Magento_Object $object
-     * @return Magento_Review_Model_Resource_Review
+     * @param Magento_Core_Model_Abstract $object
+     * @return $this|Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
@@ -414,7 +414,7 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
         $resource = $this->_ratingOptions;
         if ($ratingIds && $entityPkValue && $resource) {
             foreach ($ratingIds as $ratingId) {
-                $resource->aggregateEntityByRatingId(
+                $this->_ratingOption->aggregateEntityByRatingId(
                     $ratingId, $entityPkValue
                 );
             }

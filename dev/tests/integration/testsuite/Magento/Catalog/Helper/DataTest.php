@@ -26,7 +26,8 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBreadcrumbPath()
     {
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $category->load(5);
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
@@ -47,7 +48,8 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetCategory()
     {
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
@@ -62,7 +64,8 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetProduct()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
@@ -164,7 +167,10 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testIsUsingStaticUrlsAllowed()
     {
         $this->assertTrue($this->_helper->isUsingStaticUrlsAllowed());
-        $this->_helper->setStoreId(Mage::app()->getStore()->getId());
+        $this->_helper->setStoreId(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId()
+        );
         $this->assertTrue($this->_helper->isUsingStaticUrlsAllowed());
     }
 
@@ -181,7 +187,10 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testIsUrlDirectivesParsingAllowed()
     {
         $this->assertFalse($this->_helper->isUrlDirectivesParsingAllowed());
-        $this->_helper->setStoreId(Mage::app()->getStore()->getId());
+        $this->_helper->setStoreId(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId()
+        );
         $this->assertFalse($this->_helper->isUrlDirectivesParsingAllowed());
     }
 

@@ -27,17 +27,25 @@ class Magento_Rma_Block_Return_Tracking extends Magento_Core_Block_Template
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_coreSession;
+
+    /**
+     * @param Magento_Core_Model_Session $coreSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Session $coreSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreSession = $coreSession;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -85,8 +93,8 @@ class Magento_Rma_Block_Return_Tracking extends Magento_Core_Block_Template
      */
     public function getErrorMessage()
     {
-        $message = $this->_session->getErrorMessage();
-        $this->_session->unsErrorMessage();
+        $message = $this->_coreSession->getErrorMessage();
+        $this->_coreSession->unsErrorMessage();
         return $message;
     }
 

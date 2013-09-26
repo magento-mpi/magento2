@@ -22,7 +22,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends
      */
     protected function setUp()
     {
-        $arguments = array(Mage::getModel('Magento_ImportExport_Model_Import_Entity_Product'), 'simple');
+        $arguments = array(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Import_Entity_Product'), 'simple');
         $this->_model = $this->getMockForAbstractClass(
             'Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract',
             array($arguments)

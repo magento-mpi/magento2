@@ -15,8 +15,41 @@
  * @package Magento_CustomerSegment
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
+    /**
+     * @var Magento_CustomerSegment_Model_SegmentFactory
+     */
+    protected $_segmentFactory;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_CustomerSegment_Model_SegmentFactory $segmentFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_CustomerSegment_Model_SegmentFactory $segmentFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        $this->_segmentFactory = $segmentFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     /**
      * Initialize grid
      * Set sort settings
@@ -40,7 +73,8 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magen
     protected function _prepareCollection()
     {
         /** @var $collection Magento_CustomerSegment_Model_Resource_Segment_Collection */
-        $collection = Mage::getModel('Magento_CustomerSegment_Model_Segment')->getCollection();
+        $collection = $this->_segmentFactory->create()
+            ->getCollection();
         $collection->addWebsitesToResult();
         $this->setCollection($collection);
 
@@ -81,14 +115,14 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magen
             ),
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('grid_segment_website', array(
                 'header'    => __('Website'),
                 'align'     => 'left',
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'sortable'  => false,
-                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'options'   => $this->_systemStore->getWebsiteOptionHash(),
                 'width'     => 200,
             ));
         }

@@ -26,7 +26,8 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
     }
 
     public function testGetResourceCollection()
@@ -73,11 +74,13 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
         // singleton
         /** @var $otherProduct Magento_Catalog_Model_Product */
-        $otherProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        $otherProduct = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->assertSame($typeInstance, $otherProduct->getTypeInstance());
 
         // model setter
-        $simpleTypeInstance = Mage::getModel('Magento_Catalog_Model_Product_Type_Simple');
+        $simpleTypeInstance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Type_Simple');
         $this->_model->setTypeInstance($simpleTypeInstance);
         $this->assertSame($simpleTypeInstance, $this->_model->getTypeInstance());
     }
@@ -134,7 +137,8 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
     public function testGetMediaAttributes()
     {
-        $model = Mage::getModel('Magento_Catalog_Model_Product',
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product',
             array('data' => array('media_attributes' => 'test'))
         );
         $this->assertEquals('test', $model->getMediaAttributes());
@@ -149,7 +153,8 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
     public function testGetMediaGalleryImages()
     {
         /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel('Magento_Catalog_Model_Product');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->assertEmpty($model->getMediaGalleryImages());
 
         $this->_model->setMediaGallery(array('images' => array(array('file' => 'magento_image.jpg'))));
@@ -259,7 +264,8 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
     public static function tearDownAfterClass()
     {
-        $mediaDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        $mediaDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
         Magento_Io_File::rmdirRecursive($mediaDir);
     }
 }

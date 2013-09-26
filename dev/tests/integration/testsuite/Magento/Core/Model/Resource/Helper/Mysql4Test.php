@@ -23,11 +23,12 @@ class Magento_Core_Model_Resource_Helper_Mysql4Test extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->_model = Mage::getResourceModel(
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Core_Model_Resource_Helper_Mysql4',
             array('modulePrefix' => 'core')
         );
-        $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Store_Collection');
         $this->_select = $collection->getSelect();
     }
 

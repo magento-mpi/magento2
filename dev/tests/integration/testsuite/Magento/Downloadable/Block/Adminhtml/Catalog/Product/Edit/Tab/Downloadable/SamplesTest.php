@@ -14,9 +14,8 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
 {
     public function testGetUploadButtonsHtml()
     {
-        $block = Mage::app()->getLayout()->createBlock(
-            'Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples'
-        );
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples');
         Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_LinksTest
             ::performUploadButtonTest($block);
     }
@@ -30,7 +29,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')
             ->register('current_product', new Magento_Object(array('type_id' => 'simple')));
-        $block = Mage::app()->getLayout()
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
             ->createBlock('Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples');
         $this->assertEmpty($block->getSampleData());
     }
@@ -55,7 +54,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
             'id' => '1',
             'samples_title' => $samplesTitle
         )));
-        $block = Mage::app()->getLayout()
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
             ->createBlock('Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples');
         $this->assertEquals($expectedResult, $block->getSamplesTitle());
     }
