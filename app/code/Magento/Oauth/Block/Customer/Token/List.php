@@ -46,9 +46,9 @@ class Magento_Oauth_Block_Customer_Token_List extends Magento_Customer_Block_Acc
         Magento_Oauth_Model_Resource_Token_CollectionFactory $tokenColFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
         $this->_customerSession = $customerSession;
         $this->_tokenColFactory = $tokenColFactory;
+        parent::__construct($coreData, $context, $data);
     }
 
 
