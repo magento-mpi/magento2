@@ -19,6 +19,9 @@
   * /config/global/catalog/product/flat node was removed from config.xml and related data was moved to di.xml;
   * /config/global/catalog/content/template_filter node was removed from config.xml and related data was moved to di.xml;
   * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
+  * /config/global/page/layouts node was removed from the config.xml and related data was moved into page_layouts.xml
+  * /config/global/theme node was removed from the config.xml and related data was moved to di.xml
+  * Removed "translate" node from configuration XML files
   * Improved Install, Category, Product, Customer, Wishlist configuration segments:
     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
     * New configuration files are validated with XSD
@@ -45,6 +48,12 @@
   * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
   * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
   * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
+* Сrontab segment improvements:
+  * crontab configurations were moved from config.xml to new crontab.xml with new format
+  * XSD validation schema for crontab.xml was added
+* Install segment was moved from config.xml to di.xml for next configuration nodes:
+  * config/install/databases
+  * config/install/eula_file
 * Сrontab segment improvements:
   * crontab configurations were moved from config.xml to new crontab.xml with new format
   * XSD validation schema for crontab.xml was added
@@ -280,6 +289,9 @@
      * Improved UI for working with webhooks in Magento backend
      * Improved test coverage
   * Removed support of callbacks from the framework
+  * Removed "translate" node from configuration XML files
+  * Added I18n tools for translation dictionary generation and language package generation
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers

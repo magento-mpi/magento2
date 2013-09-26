@@ -10,38 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <page>
-            <layouts>
-                <empty translate="label">
-                    <label>Empty</label>
-                    <template>empty.phtml</template>
-                    <layout_handle>page_empty</layout_handle>
-                </empty>
-                <one_column translate="label">
-                    <label>1 column</label>
-                    <template>1column.phtml</template>
-                    <layout_handle>page_one_column</layout_handle>
-                    <is_default>1</is_default>
-                </one_column>
-                <two_columns_left translate="label">
-                    <label>2 columns with left bar</label>
-                    <template>2columns-left.phtml</template>
-                    <layout_handle>page_two_columns_left</layout_handle>
-                </two_columns_left>
-                <two_columns_right translate="label">
-                    <label>2 columns with right bar</label>
-                    <template>2columns-right.phtml</template>
-                    <layout_handle>page_two_columns_right</layout_handle>
-                </two_columns_right>
-                <three_columns translate="label">
-                    <label>3 columns</label>
-                    <template>3columns.phtml</template>
-                    <layout_handle>page_three_columns</layout_handle>
-                </three_columns>
-            </layouts>
-        </page>
-    </global>
     <default>
         <design>
             <head translate="default_description">

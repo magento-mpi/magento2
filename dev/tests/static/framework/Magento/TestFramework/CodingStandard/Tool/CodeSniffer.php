@@ -72,11 +72,11 @@ class Magento_TestFramework_CodingStandard_Tool_CodeSniffer
      */
     public function run(array $whiteList, array $blackList = array(), array $extensions = array())
     {
-        $whiteList = array_map(function($item) {
+        $whiteList = array_map(function ($item) {
             return str_replace('/', DIRECTORY_SEPARATOR, $item);
         }, $whiteList);
 
-        $blackList = array_map(function($item) {
+        $blackList = array_map(function ($item) {
             return preg_quote(str_replace('/', DIRECTORY_SEPARATOR, $item));
         }, $blackList);
 
