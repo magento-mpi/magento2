@@ -9,8 +9,10 @@
  * @license     {license_link}
  */
 
-Mage::app()->getStore()->setConfig('dev/log/active', 1);
-Mage::app()->getStore()->setConfig('dev/log/exception_file', 'save_category_without_image.log');
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')->getStore()
+    ->setConfig('dev/log/active', 1);
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')->getStore()
+    ->setConfig('dev/log/exception_file', 'save_category_without_image.log');
 Magento_TestFramework_Helper_Bootstrap::getObjectManager()
     ->get('Magento_Core_Model_Config')
     ->setNode(

@@ -18,7 +18,8 @@ class Magento_Customer_Model_GroupTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento_Customer_Model_Group');
+        $this->_model= Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Group');
     }
 
     public function testCRUD()

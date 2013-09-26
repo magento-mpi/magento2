@@ -60,6 +60,8 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Session_Generic $reviewSession,
         Magento_Review_Helper_Data $reviewData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
@@ -69,6 +71,8 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_reviewSession = $reviewSession;
         $this->_reviewData = $reviewData;
         $this->_customerSession = $customerSession;
         $this->_productFactory = $productFactory;

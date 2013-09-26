@@ -15,12 +15,24 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Combine
     extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
 {
     /**
+     * @var Magento_CustomerSegment_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Combine');
     }
 
@@ -31,13 +43,13 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Combine
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento_CustomerSegment_Model_Segment_Condition_Order_Address_';
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
-                'label' => __('Conditions Combination')),
-            Mage::getModel($prefix.'Type')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
+                'label' => __('Conditions Combination'),
+            ),
+            $this->_conditionFactory->create('Order_Address_Type')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Order_Address_Attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }

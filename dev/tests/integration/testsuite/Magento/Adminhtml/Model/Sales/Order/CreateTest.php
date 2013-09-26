@@ -25,7 +25,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('Magento_Adminhtml_Model_Sales_Order_Create');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Adminhtml_Model_Sales_Order_Create');
     }
 
     /**
@@ -35,7 +36,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderShippingAddressSameAsBillingWhenEmpty()
     {
         /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->getShippingAddress());
 
@@ -55,7 +57,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderShippingAddressSameAsBillingWhenSame()
     {
         /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
@@ -76,7 +79,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderShippingAddressSameAsBillingWhenDifferent()
     {
         /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
@@ -95,7 +99,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderCcInformationDeleted()
     {
         /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
 
         $payment = $order->getPayment();
@@ -121,7 +126,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderSavedCcInformationNotDeleted()
     {
         /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
 
         $payment = $order->getPayment();

@@ -11,7 +11,7 @@
 
 // Copy images to tmp media path
 /** @var Magento_Catalog_Model_Product_Media_Config $config */
-$config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+$config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Product_Media_Config');
 $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
 /** @var Magento_Filesystem $filesystem */
@@ -20,12 +20,15 @@ $filesystem->setIsAllowCreateDirectories(true);
 $filesystem->copy(__DIR__ . '/product_image.png', $baseTmpMediaPath . '/product_image.png');
 
 /** @var $productOne Magento_Catalog_Model_Product */
-$productOne = Mage::getModel('Magento_Catalog_Model_Product');
+$productOne = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Product');
 $productOne->setId(1)
     ->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setAttributeSetId(4)
-    ->setWebsiteIds(array(Mage::app()->getStore()->getWebsiteId()))
-
+    ->setWebsiteIds(array(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getWebsiteId()
+    ))
     ->setSku('simple_product_1')
     ->setName('Simple Product 1 Name')
     ->setDescription('Simple Product 1 Full Description')
@@ -51,12 +54,15 @@ $productOne->setId(1)
     ->save();
 
 /** @var $productTwo Magento_Catalog_Model_Product */
-$productTwo = Mage::getModel('Magento_Catalog_Model_Product');
+$productTwo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Product');
 $productTwo->setId(2)
     ->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setAttributeSetId(4)
-    ->setWebsiteIds(array(Mage::app()->getStore()->getWebsiteId()))
-
+    ->setWebsiteIds(array(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getWebsiteId()
+    ))
     ->setSku('simple_product_2')
     ->setName('Simple Product 2 Name')
     ->setDescription('Simple Product 2 Full Description')

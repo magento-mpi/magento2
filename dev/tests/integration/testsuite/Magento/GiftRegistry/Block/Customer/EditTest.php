@@ -18,7 +18,8 @@ class Magento_GiftRegistry_Block_Customer_EditTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_GiftRegistry_Block_Customer_Edit');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_GiftRegistry_Block_Customer_Edit');
     }
 
     public function testAddInputTypeTemplate()

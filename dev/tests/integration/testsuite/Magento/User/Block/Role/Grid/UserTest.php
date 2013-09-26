@@ -21,7 +21,7 @@ class Magento_User_Block_Role_Grid_UserTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $this->_block = $layout->createBlock('Magento_User_Block_Role_Grid_User');
     }
 

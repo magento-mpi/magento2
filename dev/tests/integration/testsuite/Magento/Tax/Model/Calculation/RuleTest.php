@@ -24,7 +24,8 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     {
         $model = new Magento_Tax_Model_Calculation_Rule(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-            Mage::getModel('Magento_Core_Model_Context'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Context'),
             $this->_getRegistryClassMock(),
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Tax_Helper_Data'),
             $this->_getTaxClassMock(
@@ -47,7 +48,8 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     {
         $model = new Magento_Tax_Model_Calculation_Rule(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-            Mage::getModel('Magento_Core_Model_Context'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Context'),
             $this->_getRegistryClassMock(),
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Tax_Helper_Data'),
             $this->_getTaxClassMock(
@@ -70,7 +72,8 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     {
         $model = new Magento_Tax_Model_Calculation_Rule(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-            Mage::getModel('Magento_Core_Model_Context'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Context'),
             $this->_getRegistryClassMock(),
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Tax_Helper_Data'),
             $this->_getTaxClassMock(
@@ -93,7 +96,8 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     {
         $model = new Magento_Tax_Model_Calculation_Rule(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-            Mage::getModel('Magento_Core_Model_Context'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Context'),
             $this->_getRegistryClassMock(),
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Tax_Helper_Data'),
             $this->_getTaxClassMock(
@@ -116,10 +120,12 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     {
         $model = new Magento_Tax_Model_Calculation_Rule(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
-            Mage::getModel('Magento_Core_Model_Context'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Context'),
             $this->_getRegistryClassMock(),
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Tax_Helper_Data'),
-            Mage::getModel('Magento_Tax_Model_Class'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Tax_Model_Class'),
             null,
             null,
             array()
@@ -187,9 +193,11 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
             'Magento_Tax_Model_Class',
             array('getCollection'),
             array(
-                Mage::getModel('Magento_Core_Model_Context'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Context'),
                 $objectManager->get('Magento_Core_Model_Registry'),
-                Mage::getModel('Magento_Tax_Model_Class_Factory'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Tax_Model_Class_Factory'),
             ),
             '',
             true

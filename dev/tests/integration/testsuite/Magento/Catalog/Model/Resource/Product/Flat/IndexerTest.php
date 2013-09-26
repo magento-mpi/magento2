@@ -14,7 +14,8 @@ class Magento_Catalog_Model_Resource_Product_Flat_IndexerTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Resource_Product_Flat_Indexer');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Resource_Product_Flat_Indexer');
     }
 
     public function testGetAttributeCodes()

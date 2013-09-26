@@ -23,7 +23,8 @@ class Magento_Catalog_Model_Product_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Url');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Url');
     }
 
     public function testGetUrlInstance()
@@ -42,14 +43,16 @@ class Magento_Catalog_Model_Product_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetUrlInStore()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1);
         $this->assertStringEndsWith('simple-product.html', $this->_model->getUrlInStore($product));
     }
 
     public function testGetProductUrl()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1);
         $this->assertStringEndsWith('simple-product.html', $this->_model->getProductUrl($product));
     }
@@ -62,11 +65,13 @@ class Magento_Catalog_Model_Product_UrlTest extends PHPUnit_Framework_TestCase
     public function testGetUrlPath()
     {
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->setUrlPath('product.html');
 
         /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $category->setUrlPath('category.html');
         $this->assertEquals('product.html', $this->_model->getUrlPath($product));
         $this->assertEquals('category/product.html', $this->_model->getUrlPath($product, $category));
@@ -75,11 +80,13 @@ class Magento_Catalog_Model_Product_UrlTest extends PHPUnit_Framework_TestCase
     public function testGetUrl()
     {
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1);
         $this->assertStringEndsWith('simple-product.html', $this->_model->getUrl($product));
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->setId(100);
         $this->assertStringEndsWith('catalog/product/view/id/100/', $this->_model->getUrl($product));
     }

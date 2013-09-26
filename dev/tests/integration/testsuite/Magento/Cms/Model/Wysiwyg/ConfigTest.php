@@ -23,7 +23,8 @@ class Magento_Cms_Model_Wysiwyg_ConfigTest extends PHPUnit_Framework_TestCase
     {
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Config');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Cms_Model_Wysiwyg_Config');
     }
 
     /**

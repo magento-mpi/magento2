@@ -26,8 +26,10 @@ class Magento_Core_Model_Theme_RegistrationTest extends PHPUnit_Framework_TestCa
      */
     protected function setUp()
     {
-        $this->_theme = Mage::getModel('Magento_Core_Model_Theme');
-        $this->_model = Mage::getModel('Magento_Core_Model_Theme_Registration', array('theme' => $this->_theme));
+        $this->_theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme_Registration', array('theme' => $this->_theme));
     }
 
     /**

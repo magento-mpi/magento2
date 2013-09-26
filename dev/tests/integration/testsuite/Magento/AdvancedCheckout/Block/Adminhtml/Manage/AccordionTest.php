@@ -25,7 +25,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
         parent::setUp();
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion');
     }
 
@@ -77,12 +77,14 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
      */
     protected function _initAcl()
     {
-        $user = Mage::getModel('Magento_User_Model_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User');
         $user->setId(1)->setRole(true);
-        Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setUpdatedAt(time())->setUser($user);
-        Mage::getModel(
-            'Magento_AuthorizationInterface', array(
-                'data' => array('policy' => new Magento_Authorization_Policy_Default())
-        ));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth_Session')
+            ->setUpdatedAt(time())->setUser($user);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_AuthorizationInterface',
+            array('data' => array('policy' => new Magento_Authorization_Policy_Default()))
+        );
     }
 }

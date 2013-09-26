@@ -24,7 +24,8 @@ class Magento_Core_Model_Resource_Entity_TableTest extends PHPUnit_Framework_Tes
         $config->test_key   = 'test';
         // @codingStandardsIgnoreEnd
 
-        $this->_model = Mage::getResourceModel('Magento_Core_Model_Resource_Entity_Table', array('config' => $config));
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Entity_Table', array('config' => $config));
     }
 
     public function testGetTable()

@@ -173,7 +173,7 @@ class Magento_CatalogPermissions_Model_Adminhtml_Observer
                 Magento_CatalogPermissions_Model_Permission_Index::ENTITY_CATEGORY,
                 Magento_CatalogPermissions_Model_Permission_Index::EVENT_TYPE_REINDEX_PRODUCTS
             );
-            $this->_coreCache->cleanCache(array(Magento_Catalog_Model_Category::CACHE_TAG));
+            $this->_coreCache->clean(array(Magento_Catalog_Model_Category::CACHE_TAG));
         }
 
         if (!empty($this->_indexProductQueue)) {

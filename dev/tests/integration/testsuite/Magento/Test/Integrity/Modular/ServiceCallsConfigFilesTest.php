@@ -43,7 +43,10 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
 
     public function getServiceCallsConfigFiles()
     {
-        return glob(Mage::getBaseDir('app') . '/*/*/*/etc/service_calls.xml');
+        return glob(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('app')
+                . '/*/*/*/etc/service_calls.xml'
+        );
     }
 
     public function serviceCallsConfigFilesProvider()

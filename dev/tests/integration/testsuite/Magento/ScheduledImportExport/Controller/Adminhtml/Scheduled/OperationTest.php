@@ -90,7 +90,8 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
     public function testEditAction($expectedContains)
     {
         /** @var $collection Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection */
-        $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection');
         $this->assertCount(1, $collection->getItems());
         $operation = $collection->getFirstItem();
 
@@ -111,12 +112,14 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
     {
         $this->markTestSkipped('This test failed on incorrect getcwd, and this is not a functionality problem');
         /** @var $collection Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection */
-        $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection');
         $this->assertCount(1, $collection->getItems());
         $operation = $collection->getFirstItem();
 
         // Create export directory if not exist
-        $varDir = Mage::getBaseDir('var');
+        $varDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+            ->getDir('var');
         $exportDir = $varDir . DS . 'export';
         if (!is_dir($exportDir)) {
             mkdir($exportDir, 0777);

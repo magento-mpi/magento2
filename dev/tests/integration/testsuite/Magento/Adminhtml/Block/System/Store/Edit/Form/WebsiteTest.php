@@ -24,19 +24,19 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit
     {
         parent::setUp();
 
-        $registryData = array(
-            'store_type' => 'website',
-            'store_data' => Mage::getModel('Magento_Core_Model_Website'),
-            'store_action' => 'add'
-        );
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $registryData = array(
+            'store_type' => 'website',
+            'store_data' => $objectManager->create('Magento_Core_Model_Website'),
+            'store_action' => 'add'
+        );
         foreach ($registryData as $key => $value) {
             $objectManager->get('Magento_Core_Model_Registry')->register($key, $value);
         }
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = $objectManager->get('Magento_Core_Model_Layout');
 
         $this->_block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit_Form_Website');
 

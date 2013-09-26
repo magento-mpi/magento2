@@ -17,7 +17,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
 {
     protected function tearDown()
     {
-        Mage::getSingleton('Magento_Core_Model_StoreManagerInterface')->reinitStores();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->reinitStores();
     }
 
     /**
@@ -27,14 +28,22 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     public function testExport()
     {
-        $customerFinance = Mage::getModel('Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance');
-        $customerFinance->setWriter(Mage::getModel('Magento_ImportExport_Model_Export_Adapter_Csv'));
+        $customerFinance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance');
+        $customerFinance->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
         $customerFinance->setParameters(array());
         $csvExportString = $customerFinance->export();
 
         // get data from CSV file
         list($csvHeader, $csvData) = $this->_getCsvData($csvExportString);
-        $this->assertCount(count(Mage::app()->getWebsites()), $csvData);
+        $this->assertCount(
+            count(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')->getWebsites()
+            ),
+            $csvData
+        );
 
         // prepare correct header
         $correctHeader = $customerFinance->getPermanentAttributes();
@@ -51,8 +60,9 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
+        $websites = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsites();
         /** @var $website Magento_Core_Model_Website */
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($websites as $website) {
             $websiteCode = $website->getCode();
             // CSV data
             $csvCustomerData = $this->_getRecordByFinanceWebsite($csvData, $websiteCode);
@@ -63,7 +73,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
                 Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_EMAIL
                     => $objectManager->get('Magento_Core_Model_Registry')->registry('customer_finance_email'),
                 Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_WEBSITE
-                    => Mage::app()->getStore()->getWebsite()->getCode(),
+                    => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getWebsite()->getCode(),
                 Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_FINANCE_WEBSITE
                     => $websiteCode,
                 Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
@@ -85,7 +96,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     public function testGetAttributeCollection()
     {
-        $customerFinance = Mage::getModel('Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance');
+        $customerFinance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance');
         $attributeCollection = $customerFinance->getAttributeCollection();
 
         $this->assertInstanceOf(
