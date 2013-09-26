@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry Gift View" type="page" parent="magento_giftregistry_index_share">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_GiftRegistry_Block_View" name="magento.giftregistry.view" template="view.phtml">
             <block class="Magento_GiftRegistry_Block_Items" name="giftregistry_items" template="view/items.phtml">
                 <block class="Magento_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="magento.giftregistry.item.price"/>
@@ -26,9 +26,9 @@
             </block>
             <block class="Magento_GiftRegistry_Block_Customer_Items" name="giftregistry.view.items" template="view/items.phtml"/>
         </block>
-    </reference>
+    </referenceContainer>
     <update handle="MAP_popup"/>
-    <reference name="product.tooltip">
+    <referenceBlock name="product.tooltip">
         <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
             <block class="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
                 <action method="setIsInCatalogProduct">
@@ -39,5 +39,5 @@
                 </action>
             </block>
         </container>
-    </reference>
+    </referenceBlock>
 </layout>

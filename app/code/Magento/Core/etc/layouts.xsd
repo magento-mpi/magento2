@@ -10,22 +10,44 @@
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:include schemaLocation="types.xsd"/>
 
-    <xs:element name="layout" type="handleType"/>
+    <xs:redefine schemaLocation="types.xsd">
+        <xs:complexType name="argumentType" abstract="true" mixed="true">
+            <xs:complexContent>
+                <xs:extension base="argumentType">
+                    <xs:sequence>
+                        <xs:element name="updater" type="updaterType" minOccurs="0" maxOccurs="1"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:redefine>
 
-    <xs:complexType name="argumentType" abstract="true" mixed="true">
-        <xs:sequence>
-            <xs:element name="updater" type="updaterType" minOccurs="0" maxOccurs="1"/>
+    <xs:complexType name="layoutType">
+        <xs:annotation>
+            <xs:documentation>
+                Layout Type definition
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="referenceBlock" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="referenceContainer" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="block" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="update" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="remove" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="move" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="name" use="required"/>
+        <xs:attribute type="xs:string" name="type"/>
+        <xs:attribute type="xs:string" name="parent"/>
+        <xs:attribute type="xs:string" name="owner"/>
+        <xs:attribute type="xs:string" name="label"/>
     </xs:complexType>
 
     <xs:complexType name="argumentsType">
         <xs:sequence>
             <xs:element ref="argument" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="translate" use="optional" fixed="true" type="xs:boolean"/>
     </xs:complexType>
 
     <xs:complexType name="updaterType">
@@ -68,22 +90,24 @@
             </xs:documentation>
         </xs:annotation>
         <xs:key name="blockArgumentName">
-            <xs:selector xpath="argument"></xs:selector>
+            <xs:selector xpath="./argumens/argument"></xs:selector>
             <xs:field xpath="@name"></xs:field>
         </xs:key>
     </xs:element>
 
-    <xs:element type="referenceType" name="reference">
+    <xs:element type="blockReferenceType" name="referenceBlock">
         <xs:annotation>
             <xs:documentation>
                 Argument name must be unique in scope of reference.
             </xs:documentation>
         </xs:annotation>
-        <xs:key name="referenceArgumentName">
-            <xs:selector xpath="argument"></xs:selector>
+        <xs:unique name="referenceBlockArgumentName">
+            <xs:selector xpath="./argumens/argument"></xs:selector>
             <xs:field xpath="@name"></xs:field>
-        </xs:key>
+        </xs:unique>
     </xs:element>
+
+    <xs:element type="containerReferenceType" name="referenceContainer"/>
 
     <xs:element name="arguments" type="argumentsType"/>
     <xs:element name="container" type="containerType"/>
@@ -98,26 +122,6 @@
             <xs:enumeration value="fragment"/>
         </xs:restriction>
     </xs:simpleType>
-
-    <xs:complexType name="handleType">
-        <xs:annotation>
-            <xs:documentation>
-                Handle is a node which describes how the page should look like for each specified action.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence minOccurs="0" maxOccurs="unbounded">
-            <xs:element ref="reference" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="block" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="update" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="remove" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="move" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute type="handlePageType" name="type"/>
-        <xs:attribute type="xs:string" name="parent"/>
-        <xs:attribute type="xs:string" name="owner"/>
-        <xs:attribute type="xs:string" name="label"/>
-    </xs:complexType>
 
     <xs:simpleType name="elementNameType">
         <xs:restriction base="xs:string">
@@ -143,31 +147,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="referenceType">
-        <xs:annotation>
-            <xs:documentation>
-                This element is used to link an already defined block in layout.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence minOccurs="0" maxOccurs="unbounded">
-            <xs:element ref="action" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="block" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="arguments" minOccurs="0" maxOccurs="1"/>
-            <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="remove" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="move" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="reference" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="update" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute type="elementNameType" name="name" use="required"/>
-    </xs:complexType>
-
-    <xs:simpleType name="htmlTagType">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[a-z]+"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:simpleType name="htmlIdentifierType">
         <xs:restriction base="xs:string">
             <xs:pattern value="[a-zA-Z][a-zA-Z\d\-_]*"/>
@@ -189,9 +168,10 @@
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
             <xs:element ref="remove" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="move" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="action" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="block" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="referenceBlock" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="referenceContainer" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute type="elementNameType" name="name"/>
         <xs:attribute type="xs:string" name="label"/>
@@ -218,10 +198,10 @@
         </xs:annotation>
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
             <xs:element ref="action" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="block" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="arguments" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="block" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="reference" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="referenceBlock" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="data" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute type="elementNameType" name="name" use="optional"/>
@@ -270,16 +250,16 @@
     <xs:complexType name="removeType">
         <xs:annotation>
             <xs:documentation>
-                Remove action.
+                Remove Element directive.
             </xs:documentation>
         </xs:annotation>
-        <xs:attribute type="elementNameType" name="name"/>
+        <xs:attribute type="elementNameType" name="name" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="moveType">
         <xs:annotation>
             <xs:documentation>
-                Move action.
+                Move Element directive.
             </xs:documentation>
         </xs:annotation>
         <xs:attribute type="elementNameType" name="element" use="required"/>
@@ -288,4 +268,53 @@
         <xs:attribute type="elementPositionType" name="after" use="optional"/>
         <xs:attribute type="elementPositionType" name="before" use="optional"/>
     </xs:complexType>
+
+    <xs:complexType name="blockReferenceType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="action" minOccurs="0" />
+            <xs:element ref="arguments" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="block" minOccurs="0"/>
+            <xs:element ref="container" minOccurs="0"/>
+            <xs:element ref="remove" minOccurs="0" />
+            <xs:element ref="move" minOccurs="0" />
+            <xs:element ref="referenceBlock" minOccurs="0" />
+            <xs:element ref="referenceContainer" minOccurs="0"/>
+            <xs:element ref="update" minOccurs="0" />
+        </xs:choice>
+        <xs:attribute type="elementNameType" name="name" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="containerReferenceType" mixed="true">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="referenceContainer" minOccurs="0" />
+            <xs:element ref="block" minOccurs="0" />
+            <xs:element ref="container" minOccurs="0" />
+            <xs:element ref="remove" minOccurs="0" />
+            <xs:element ref="move" minOccurs="0" />
+            <xs:element ref="referenceBlock" minOccurs="0" />
+            <xs:element ref="update" minOccurs="0" />
+        </xs:choice>
+        <xs:attribute type="elementNameType" name="name" use="required"/>
+        <xs:attribute type="htmlTagType" name="htmlTag"/>
+        <xs:attribute type="htmlClassType" name="htmlClass"/>
+        <xs:attribute type="htmlIdentifierType" name="htmlId"/>
+        <xs:attribute type="xs:string" name="label"/>
+    </xs:complexType>
+
+    <xs:simpleType name="htmlTagType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="dd"/>
+            <xs:enumeration value="div"/>
+            <xs:enumeration value="dl"/>
+            <xs:enumeration value="fieldset"/>
+            <xs:enumeration value="header"/>
+            <xs:enumeration value="hgroup"/>
+            <xs:enumeration value="ol"/>
+            <xs:enumeration value="p"/>
+            <xs:enumeration value="section"/>
+            <xs:enumeration value="table"/>
+            <xs:enumeration value="tfoot"/>
+            <xs:enumeration value="ul"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

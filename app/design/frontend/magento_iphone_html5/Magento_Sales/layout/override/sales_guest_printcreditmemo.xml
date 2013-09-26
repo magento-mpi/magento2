@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Sales_Block_Order_Print_Creditmemo" name="sales.order.print.creditmemo" template="order/print/creditmemo.phtml">
             <block class="Magento_Catalog_Block_Product_Price" as="default" template="Magento_Sales::order/creditmemo/items/renderer/default.phtml"/>
             <block class="Magento_Sales_Block_Order_Item_Renderer_Grouped" as="grouped" template="order/creditmemo/items/renderer/default.phtml"/>
@@ -22,5 +22,5 @@
                 <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

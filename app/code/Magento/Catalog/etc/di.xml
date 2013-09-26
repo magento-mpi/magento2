@@ -160,4 +160,9 @@
             <value>5,10,15,20,25</value>
         </param>
     </type>
+    <type name="Magento_Catalog_Block_Layer_View">
+        <param name="layer">
+            <instance type="Magento_Catalog_Model_Layer_Proxy" />
+        </param>
+    </type>
 </config>

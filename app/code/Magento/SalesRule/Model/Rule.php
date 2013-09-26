@@ -167,6 +167,12 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_eventManager = null;
 
     /**
+     * @var Magento_SalesRule_Model_Resource_Coupon_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_SalesRule_Model_Resource_Coupon_CollectionFactory $collectionFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Context $context
@@ -176,6 +182,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_SalesRule_Model_Resource_Coupon_CollectionFactory $collectionFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
@@ -184,6 +191,7 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_eventManager = $eventManager;
         parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
     }
@@ -196,16 +204,6 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
         parent::_construct();
         $this->_init('Magento_SalesRule_Model_Resource_Rule');
         $this->setIdFieldName('rule_id');
-    }
-
-    /**
-     * Returns code mass generator instance for auto generated specific coupons
-     *
-     * @return Magento_SalesRule_Model_Coupon_MassgneratorInterface
-     */
-    public static function getCouponMassGenerator()
-    {
-        return Mage::getSingleton('Magento_SalesRule_Model_Coupon_Massgenerator');
     }
 
     /**
@@ -384,8 +382,8 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     public function getCoupons()
     {
         if ($this->_coupons === null) {
-            $collection = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon_Collection');
-            /** @var Magento_SalesRule_Model_Resource_Coupon_Collection */
+            /** @var $collection Magento_SalesRule_Model_Resource_Coupon_Collection */
+            $collection = $this->_collectionFactory->create();
             $collection->addRuleToFilter($this);
             $this->_coupons = $collection->getItems();
         }

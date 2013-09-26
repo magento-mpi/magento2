@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Setup Model of Sales Module
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
 {
@@ -22,6 +17,11 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @var Magento_Core_Helper_Data
      */
     protected $_coreData;
+
+    /**
+     * @var Magento_Core_Model_Resource_Setup_MigrationFactory
+     */
+    protected $_migrationFactory;
 
     /**
      * @param Magento_Core_Model_Logger $logger
@@ -33,7 +33,8 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param $resourceName
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param string $resourceName
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
@@ -45,13 +46,13 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName
     ) {
-        parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
-            $resource, $modulesReader, $cache, $resourceName
-        );
+        $this->_migrationFactory = $migrationFactory;
         $this->_coreData = $coreData;
+        parent::__construct($logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
+            $modulesReader, $cache, $resourceName);
     }
 
     /**
@@ -248,6 +249,8 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     }
 
     /**
+     * Get Core Helper
+     *
      * @return Magento_Core_Helper_Data
      */
     public function getCoreData()
@@ -263,5 +266,16 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     public function getConfigModel()
     {
         return $this->_config;
+    }
+
+    /**
+     * Get migration instance
+     *
+     * @param array $data
+     * @return Magento_Core_Model_Resource_Setup_Migration
+     */
+    public function getMigrationSetup(array $data = array())
+    {
+        return $this->_migrationFactory->create($data);
     }
 }

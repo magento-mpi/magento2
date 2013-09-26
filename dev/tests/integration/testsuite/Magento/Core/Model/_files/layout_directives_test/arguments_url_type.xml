@@ -21,11 +21,11 @@
             </argument>
         </arguments>
     </block>
-    <reference name="block_with_url_args">
+    <referenceBlock name="block_with_url_args">
         <arguments>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="url" path="customer/account/logout">
                 <param name="customer_id">3</param>
             </argument>
         </arguments>
-    </reference>
+    </referenceBlock>
 </layout>

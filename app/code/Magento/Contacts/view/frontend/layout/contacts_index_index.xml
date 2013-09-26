@@ -8,22 +8,22 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Contact Us Form" type="page" parent="cms_page_view">
-    <reference name="head">
+    <referenceBlock name="head">
         <action method="setTitle">
             <argument translate="true" name="title" xsi:type="string">Contact Us</argument>
         </action>
-    </reference>
-    <reference name="root">
+    </referenceBlock>
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">2columns-right.phtml</argument>
         </action>
         <action method="setHeaderTitle">
             <argument translate="true" name="title" xsi:type="string">Contact Us</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Core_Block_Template" name="contactForm" template="Magento_Contacts::form.phtml">
             <container name="form.additional.info" label="Form Additional Info"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

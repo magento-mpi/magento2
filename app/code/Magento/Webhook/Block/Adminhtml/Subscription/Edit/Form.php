@@ -8,8 +8,10 @@
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Backend_Block_Widget_Form
+class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /** Key used to store subscription data into the registry */
     const REGISTRY_KEY_CURRENT_SUBSCRIPTION = 'current_subscription';
@@ -18,49 +20,42 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Bac
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
     const DATA_ALIAS = 'alias';
 
-    /** @var Magento_Data_Form_Factory $_formFactory */
-    private $_formFactory;
-
-    /** @var  Magento_Core_Model_Registry $_registry */
-    private $_registry;
-
     /** @var  Magento_Webhook_Model_Source_Format $_format */
-    private $_format;
+    protected $_format;
 
     /** @var  Magento_Webhook_Model_Source_Authentication $_authentication */
-    private $_authentication;
+    protected $_authentication;
 
     /** @var  Magento_Webhook_Model_Source_Hook  $_hook */
-    private $_hook;
+    protected $_hook;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Webhook_Model_Source_Format $format
      * @param Magento_Webhook_Model_Source_Authentication $authentication
      * @param Magento_Webhook_Model_Source_Hook $hook
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
         Magento_Webhook_Model_Source_Format $format,
         Magento_Webhook_Model_Source_Authentication $authentication,
         Magento_Webhook_Model_Source_Hook $hook,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_formFactory = $formFactory;
         $this->_registry = $registry;
         $this->_format = $format;
         $this->_authentication = $authentication;
         $this->_hook = $hook;
     }
-
 
     /**
      * Prepares subscription editor form

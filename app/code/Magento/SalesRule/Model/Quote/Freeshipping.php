@@ -18,10 +18,14 @@ class Magento_SalesRule_Model_Quote_Freeshipping extends Magento_Sales_Model_Quo
      */
     protected $_calculator;
 
-    public function __construct()
-    {
+    /**
+     * @param Magento_SalesRule_Model_Validator $ruleValidator
+     */
+    public function __construct(
+        Magento_SalesRule_Model_Validator $ruleValidator
+    ) {
+        $this->_calculator = $ruleValidator;
         $this->setCode('discount');
-        $this->_calculator = Mage::getSingleton('Magento_SalesRule_Model_Validator');
     }
 
     /**

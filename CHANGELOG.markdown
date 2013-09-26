@@ -51,6 +51,12 @@
 * Install segment was moved from config.xml to di.xml for next configuration nodes:
   * config/install/databases
   * config/install/eula_file
+* Сrontab segment improvements:
+  * crontab configurations were moved from config.xml to new crontab.xml with new format
+  * XSD validation schema for crontab.xml was added
+* Install segment was moved from config.xml to di.xml for next configuration nodes:
+  * config/install/databases
+  * config/install/eula_file
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
@@ -97,6 +103,8 @@
   * New arguments format, which introduce argument types implemented
   * Translation specified just on the level of node which is going to be translated
   * XSD validation for Layouts XML added
+  * Referential integrity check with XSD introduced
+  * Added ability to update containers via references
   * Type casting for all kind of types (url, option, array and simple types) added
   * Covered introduced argument types with integrity test
   * Types restrictions was implemented
@@ -115,6 +123,8 @@
   * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
   * Eliminated Mage:: static methods in Magento_Sendfriend
   * Eliminated Mage:: static methods in Magento_Usa
+  * Eliminated Mage:: static methods in Magento_ProductAlert
+  * Eliminated Mage:: static methods in Magento_Directory
   * Eliminated Mage:: static methods in Centinel, Connect, Contacts, GiftMessage, GoogleAnalytics
   * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
   * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
@@ -123,6 +133,8 @@
   * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
   * Eliminated Mage::throwException from Magento_Media module
   * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
+  * Eliminated Mage:: static methods in Magento_Cms, Magento_Log, Magento_Rating, Magento_Rss, Magento_Rule, Magento_CatalogRule, Magento_SalesRule, Magento_Weee, Magento_Captcha, Magento_CatalogInventory
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed inability to create gift registry on frontend
