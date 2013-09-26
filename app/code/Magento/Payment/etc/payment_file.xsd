@@ -48,20 +48,6 @@
         <xs:attribute name="order" type="xs:integer" />
     </xs:complexType>
 
-    <xs:complexType name="translatableType">
-        <xs:annotation>
-            <xs:documentation>
-                A string which is optionally translatable.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:simpleContent>
-            <xs:extension base="xs:string">
-                <xs:attribute name="translate" use="optional"
-                    fixed="true" type="xs:boolean" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
     <xs:complexType name="groupsType">
         <xs:annotation>
             <xs:documentation>
@@ -84,5 +70,19 @@
         </xs:all>
         <xs:attribute name="id" type="xs:ID" use="required" />
     </xs:complexType>
-    
+
+    <xs:complexType name="translatableType">
+        <xs:annotation>
+            <xs:documentation>
+                A string which is optionally translatable.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="translate" use="optional"
+                              fixed="true" type="xs:boolean" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
 </xs:schema>
