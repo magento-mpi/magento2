@@ -20,7 +20,7 @@ class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framew
     /**
      * @var Magento_Core_Model_Module_Dir_ReverseResolver|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_moduleNameResolver;
+    protected $_moduleDirResolver;
 
     protected function setUp()
     {
@@ -50,7 +50,7 @@ class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framew
         $validationState = $this->getMock('Magento_Config_ValidationStateInterface');
         $validationState->expects($this->once())->method('isValidated')->will($this->returnValue(false));
 
-        $this->_moduleNameResolver = $this->getMock(
+        $this->_moduleDirResolver = $this->getMock(
             'Magento_Core_Model_Module_Dir_ReverseResolver', array(), array(), '', false
         );
 
@@ -59,19 +59,19 @@ class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framew
             $this->_converter,
             $schemaLocator,
             $validationState,
-            $this->_moduleNameResolver
+            $this->_moduleDirResolver
         );
     }
 
     public function testRead()
     {
-        $this->_moduleNameResolver
+        $this->_moduleDirResolver
             ->expects($this->at(0))
             ->method('getModuleName')
             ->with(__DIR__ . '/_files/Fixture/ModuleOne/etc/email_templates_one.xml')
             ->will($this->returnValue('Fixture_ModuleOne'))
         ;
-        $this->_moduleNameResolver
+        $this->_moduleDirResolver
             ->expects($this->at(1))
             ->method('getModuleName')
             ->with(__DIR__ . '/_files/Fixture/ModuleTwo/etc/email_templates_two.xml')
@@ -96,4 +96,14 @@ class Magento_Core_Model_Email_Template_Config_ReaderTest extends PHPUnit_Framew
         $this->assertSame($expectedResult, $this->_model->read('scope'));
     }
 
+    /**
+     * @expectedException UnexpectedValueException
+     * @expectedExceptionMessage Unable to determine a module
+     */
+    public function testReadUnknownModule()
+    {
+        $this->_moduleDirResolver->expects($this->once())->method('getModuleName')->will($this->returnValue(null));
+        $this->_converter->expects($this->never())->method('convert');
+        $this->_model->read('scope');
+    }
 }

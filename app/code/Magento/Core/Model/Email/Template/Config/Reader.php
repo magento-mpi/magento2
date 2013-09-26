@@ -40,14 +40,14 @@ class Magento_Core_Model_Email_Template_Config_Reader extends Magento_Config_Rea
      * Add information on context of a module, config file belongs to
      *
      * {@inheritdoc}
-     * @throws InvalidArgumentException
+     * @throws UnexpectedValueException
      */
     protected function _readFileContents($filename)
     {
         $result = parent::_readFileContents($filename);
         $moduleName = $this->_moduleDirResolver->getModuleName($filename);
         if (!$moduleName) {
-            throw new InvalidArgumentException("Unable to determine a module, file '$filename' belongs to.");
+            throw new UnexpectedValueException("Unable to determine a module, file '$filename' belongs to.");
         }
         $result = str_replace('<template ', '<template module="' . $moduleName . '" ', $result);
         return $result;

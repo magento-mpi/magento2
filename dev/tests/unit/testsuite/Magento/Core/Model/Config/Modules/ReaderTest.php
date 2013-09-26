@@ -88,12 +88,17 @@ class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_Tes
         $this->_model->loadModulesConfiguration($fileName, $mergeToObject, $mergeModel);
     }
 
-    public function testGetModuleDirWithData()
+    public function testGetModuleDir()
     {
-        $moduleName = 'test';
-        $type = 'etc';
-        $path = realpath(__DIR__. '/../../_files/testdir/etc');
-        $this->_model->setModuleDir($moduleName, $type, $path);
-        $this->assertEquals($path, $this->_model->getModuleDir($type, $moduleName));
+        $expectedResult = new stdClass();
+        $this->_dirsMock->expects($this->once())
+            ->method('getDir')
+            ->with('Test_Module', 'etc')
+            ->will($this->returnValue($expectedResult));
+        $this->assertSame($expectedResult, $this->_model->getModuleDir('etc', 'Test_Module'));
+
+        // Custom value overrides the default one
+        $this->_model->setModuleDir('Test_Module', 'etc', 'app/code/Test/Module/etc');
+        $this->assertEquals('app/code/Test/Module/etc', $this->_model->getModuleDir('etc', 'Test_Module'));
     }
 }

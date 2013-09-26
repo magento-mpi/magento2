@@ -41,7 +41,6 @@ class Magento_Core_Model_Module_Dir
             }
             $result .= '/' . $type;
         }
-        $result = str_replace('/', DIRECTORY_SEPARATOR, $result);
         return $result;
     }
 }
