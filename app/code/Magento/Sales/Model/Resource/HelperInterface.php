@@ -16,7 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Sales_Model_Resource_Helper_Interface
+interface Magento_Sales_Model_Resource_HelperInterface
 {
     /**
      * Update rating position

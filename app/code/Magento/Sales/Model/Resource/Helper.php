@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
-    implements Magento_Sales_Model_Resource_Helper_Interface
+    implements Magento_Sales_Model_Resource_HelperInterface
 {
     /**
      * Update rating position
@@ -31,7 +31,7 @@ class Magento_Sales_Model_Resource_Helper extends Magento_Core_Model_Resource_He
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
         $mainTable, $aggregationTable
     ) {
-        /** @var $reportsHelper Magento_Reports_Model_Resource_Helper_Interface */
+        /** @var $reportsHelper Magento_Reports_Model_Resource_HelperInterface */
         $reportsHelper = Mage::getResourceHelper('Magento_Reports');
 
         if ($aggregation == $aggregationAliases['monthly']) {

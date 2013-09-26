@@ -11,7 +11,7 @@
 /**
  * Reports resource helper interface
  */
-interface Magento_Reports_Model_Resource_Helper_Interface
+interface Magento_Reports_Model_Resource_HelperInterface
 {
     /**
      * Merge Index data

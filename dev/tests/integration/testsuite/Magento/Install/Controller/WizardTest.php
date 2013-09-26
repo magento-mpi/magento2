@@ -33,24 +33,22 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
         // deliberately create a file instead of directory to emulate broken access to static directory
         touch($tmpDir);
         self::$_tmpDir = $tmpDir;
-
-        // emulate invalid installation date, so that application will think it is not installed
-        self::$_params = array(Mage::PARAM_CUSTOM_LOCAL_CONFIG
-            => sprintf(Magento_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
-        );
     }
 
     public function testPreDispatch()
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(self::$_params);
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
                 'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
                 'Magento_Core_Controller_Response_Http' => 'Magento_TestFramework_Response'
             )
         ));
+        /** @var $appState Magento_Core_Model_App_State */
+        $appState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State');
+        $appState->setInstallDate(false);
         $this->dispatch('install/wizard');
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
+        $appState->setInstallDate(date('r', strtotime('now')));
     }
 
     /**

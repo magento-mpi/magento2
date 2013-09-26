@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Reports_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
-    implements Magento_Reports_Model_Resource_Helper_Interface
+    implements Magento_Reports_Model_Resource_HelperInterface
 {
 
     /**

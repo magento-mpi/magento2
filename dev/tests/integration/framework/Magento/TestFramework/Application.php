@@ -204,7 +204,6 @@ class Magento_TestFramework_Application
                     'type' => 'Magento_TestFramework_Db_ConnectionAdapter'
                 ),
                 'preferences' => array(
-                    'Magento_Core_Model_Resource_Type_Db_Pdo_Mysql' => 'Magento_TestFramework_Db_ConnectionAdapter',
                     'Magento_Core_Model_Cookie' => 'Magento_TestFramework_Cookie'
                 ),
             ));
