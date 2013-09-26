@@ -28,6 +28,7 @@ class Magento_Tax_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Catalog_Model_Resource_SetupFactory $setupFactory
      * @param $resourceName
      */
@@ -41,12 +42,13 @@ class Magento_Tax_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Catalog_Model_Resource_SetupFactory $setupFactory,
         $resourceName
     ) {
         $this->_setupFactory = $setupFactory;
         parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
-            $modulesReader, $cache, $resourceName);
+            $modulesReader, $cache, $migrationFactory, $resourceName);
     }
 
     /**
