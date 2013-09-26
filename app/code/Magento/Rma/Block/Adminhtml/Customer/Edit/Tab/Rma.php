@@ -79,7 +79,7 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
         }
         if ($customerId) {
             /** @var $collection Magento_Rma_Model_Resource_Rma_Grid_Collection */
-            $collection = $this->_gridCollFactory->create()
+            $collection = $this->_collectionFactory->create()
                 ->addFieldToFilter('customer_id', $customerId);
 
             $this->setCollection($collection);
