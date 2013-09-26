@@ -70,6 +70,8 @@ app/code/Magento/Core/Model/Layout/Update.php
 app/code/Magento/Core/Model/Layout/Argument
 app/code/Magento/Core/Model/Locale/Validator.php
 app/code/Magento/Core/Model/LocaleInterface.php
+app/code/Magento/Core/Model/Module/Dir
+app/code/Magento/Core/Model/Module/Dir.php
 app/code/Magento/Core/Model/ObjectManager
 app/code/Magento/Core/Model/Observer.php
 app/code/Magento/Core/Model/Page
