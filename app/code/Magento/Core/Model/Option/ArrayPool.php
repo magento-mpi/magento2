@@ -11,7 +11,7 @@
 /**
  * Array optioned object factory
  */
-class Magento_Core_Model_Option_ArrayFactory
+class Magento_Core_Model_Option_ArrayPool
 {
     /**
      * @var Magento_ObjectManager
@@ -27,16 +27,15 @@ class Magento_Core_Model_Option_ArrayFactory
     }
 
     /**
-     * Create array optioned object
+     * Get array optioned object
      *
-     * @param $model
-     * @param array $data
+     * @param string $model
      * @throws InvalidArgumentException
      * @return Magento_Core_Model_Option_ArrayInterface
      */
-    public function create($model, array $data = array())
+    public function get($model)
     {
-        $modelInstance = $this->_objectManager->create($model, $data);
+        $modelInstance = $this->_objectManager->get($model);
         if (false == ($modelInstance instanceof Magento_Core_Model_Option_ArrayInterface)) {
             throw new InvalidArgumentException(
                 $model . 'doesn\'t implement Magento_Core_Model_Option_ArrayInterface'

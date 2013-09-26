@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product View (Any)" type="page" parent="default">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="varien-product-js">
             <arguments>
                 <argument name="file" xsi:type="string">varien/product.js</argument>
@@ -24,9 +24,9 @@
                 <argument name="file" xsi:type="string">varien/configurable.js</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
     <update handle="page_calendar"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <remove name="breadcrumbs"/>
         <block class="Magento_Catalog_Block_Product_View" name="product.info" template="product/view.phtml">
             <container htmlTag="div" htmlClass="product-image-wrap" name="product-info-image-wrapper">
@@ -88,7 +88,7 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
     <update handle="MAP_popup"/>
     <update handle="MAP_price_msrp_item"/>
 </layout>

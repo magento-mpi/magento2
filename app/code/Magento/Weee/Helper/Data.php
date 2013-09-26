@@ -39,22 +39,38 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
-    
+
     /**
+     * @var Magento_Weee_Model_Tax
+     */
+    protected $_weeeTax;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Weee_Model_Tax $weeeTax
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Weee_Model_Tax $weeeTax,
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_weeeTax = $weeeTax;
         $this->_coreRegistry = $coreRegistry;
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -151,8 +167,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     public function getAmount($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false)
     {
         if ($this->isEnabled()) {
-            return Mage::getSingleton('Magento_Weee_Model_Tax')->
-                    getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
+            return $this->_weeeTax->getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
         }
         return 0;
     }
@@ -217,8 +232,9 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     public function getProductWeeeAttributes($product, $shipping = null, $billing = null,
         $website = null, $calculateTaxes = false)
     {
-        return Mage::getSingleton('Magento_Weee_Model_Tax')
-                ->getProductWeeeAttributes($product, $shipping, $billing, $website, $calculateTaxes);
+        return $this->_weeeTax->getProductWeeeAttributes(
+            $product, $shipping, $billing, $website, $calculateTaxes
+        );
     }
 
     /**
@@ -314,8 +330,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     public function getAmountForDisplay($product)
     {
         if ($this->isEnabled()) {
-            return Mage::getModel('Magento_Weee_Model_Tax')
-                    ->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
+            return $this->_weeeTax->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
         }
         return 0;
     }
@@ -329,7 +344,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     public function getOriginalAmount($product)
     {
         if ($this->isEnabled()) {
-            return Mage::getModel('Magento_Weee_Model_Tax')->getWeeeAmount($product, null, null, null, false, true);
+            return $this->_weeeTax->getWeeeAmount($product, null, null, null, false, true);
         }
         return 0;
     }
@@ -344,7 +359,7 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     public function processTierPrices($product, &$tierPrices)
     {
         $weeeAmount = $this->getAmountForDisplay($product);
-        $store = Mage::app()->getStore();
+        $store = $this->_storeManager->getStore();
         foreach ($tierPrices as $index => &$tier) {
             $html = $store->formatPrice($store->convertPrice(
                 $this->_taxData->getPrice($product, $tier['website_price'], true)+$weeeAmount), false);

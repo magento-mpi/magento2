@@ -43,6 +43,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
      * Initialize Solr Client
      *
      * @param array $options
+     * @throws Magento_Core_Exception
      */
     public function __construct($options = array())
     {
@@ -54,7 +55,8 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
             'path'
         );
         if (!sizeof(array_intersect($_optionsNames, array_keys($options)))) {
-            Mage::throwException(__('We were unable to perform the search because a search engine misconfiguration.'));
+            throw new Magento_Core_Exception(
+                __('We were unable to perform the search because a search engine misconfiguration.'));
         }
 
         $this->setUserLogin($options['login']);

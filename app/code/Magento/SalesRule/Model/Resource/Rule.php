@@ -44,13 +44,21 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
     protected $_coreString = null;
 
     /**
+     * @var Magento_SalesRule_Model_Resource_CouponFactory
+     */
+    protected $_couponFactory;
+
+    /**
+     * @param Magento_SalesRule_Model_Resource_CouponFactory $couponFactory
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_SalesRule_Model_Resource_CouponFactory $couponFactory,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_couponFactory = $couponFactory;
         $this->_coreString = $coreString;
         parent::__construct($resource);
     }
@@ -138,7 +146,7 @@ class Magento_SalesRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_
 
         // Update auto geterated specific coupons if exists
         if ($object->getUseAutoGeneration() && $object->hasDataChanges()) {
-            Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon')->updateSpecificCoupons($object);
+            $this->_couponFactory->create()->updateSpecificCoupons($object);
         }
         return parent::_afterSave($object);
     }

@@ -11,9 +11,7 @@
 /**
  * Wishlist search by name and last name strategy
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_MultipleWishlist_Model_Search_Strategy_Name implements Magento_MultipleWishlist_Model_Search_Strategy_Interface
 {
@@ -32,22 +30,37 @@ class Magento_MultipleWishlist_Model_Search_Strategy_Name implements Magento_Mul
     protected $_lastname;
 
     /**
+     * Customer collection factory
+     *
+     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     */
+    protected $_customerCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customerCollectionFactory
+     */
+    public function __construct(
+        Magento_Customer_Model_Resource_Customer_CollectionFactory $customerCollectionFactory
+    ) {
+        $this->_customerCollectionFactory = $customerCollectionFactory;
+    }
+
+    /**
      * Validate search params
      *
      * @param array $params
+     * @throws InvalidArgumentException
      */
     public function setSearchParams(array $params)
     {
         if (empty($params['firstname']) || strlen($params['firstname']) < 2) {
-            throw new InvalidArgumentException(
-                __('Please enter at least 2 letters of the first name.')
-            );
+            throw new InvalidArgumentException(__('Please enter at least 2 letters of the first name.'));
         }
         $this->_firstname = $params['firstname'];
         if (empty($params['lastname']) || strlen($params['lastname']) < 2) {
-            throw new InvalidArgumentException(
-                __('Please enter at least 2 letters of the last name.')
-            );
+            throw new InvalidArgumentException(__('Please enter at least 2 letters of the last name.'));
         }
         $this->_lastname = $params['lastname'];
     }
@@ -61,8 +74,8 @@ class Magento_MultipleWishlist_Model_Search_Strategy_Name implements Magento_Mul
     public function filterCollection(Magento_Wishlist_Model_Resource_Wishlist_Collection $collection)
     {
         /* @var $customers Magento_Customer_Model_Resource_Customer_Collection */
-        $customers = Mage::getModel('Magento_Customer_Model_Customer')->getCollection()
-            ->addAttributeToFilter(
+        $customers = $this->_customerCollectionFactory->create();
+        $customers->addAttributeToFilter(
                 array(array('attribute' => 'firstname', 'like' => '%'.$this->_firstname.'%'))
             )
             ->addAttributeToFilter(

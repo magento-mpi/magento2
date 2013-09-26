@@ -54,11 +54,13 @@ class Magento_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('processed text'));
 
         $storeConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-
+        $templateFactory = $this->getMock('Magento_Newsletter_Model_TemplateFactory');
         $data = array('template_text' => 'template text');
 
-        $model = $this->getMock('Magento_Newsletter_Model_Template', array('_init'),
-            array($design, $context, $registry, $storeManager, $request, $filter, $storeConfig, $data));
+        /** @var Magento_Newsletter_Model_Template $model */
+        $model = $this->getMock('Magento_Newsletter_Model_Template', array('_init'), array(
+            $design, $context, $registry, $storeManager, $request, $filter, $storeConfig, $templateFactory, $data,
+        ));
 
         $result = $model->getProcessedTemplate();
         $this->assertEquals('processed text', $result);

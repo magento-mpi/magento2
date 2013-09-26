@@ -26,12 +26,15 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($logger);
     }
 
     /**

@@ -8,11 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">Magento_Oauth::empty.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
     <remove name="scriptaculous-controls-js"/>
     <remove name="prototype-window-js"/>
     <remove name="scriptaculous-builder-js"/>

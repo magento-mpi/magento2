@@ -45,6 +45,30 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
     protected $_taxData = null;
 
     /**
+     * @var Magento_Eav_Model_Entity_AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Tax_Model_CalculationFactory
+     */
+    protected $_calculationFactory;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Eav_Model_Entity_AttributeFactory $attributeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Tax_Model_CalculationFactory $calculationFactory
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Weee_Helper_Data $weeeData
      * @param Magento_Core_Model_Context $context
@@ -52,8 +76,14 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
      * @param Magento_Weee_Model_Resource_Tax $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Eav_Model_Entity_AttributeFactory $attributeFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Tax_Model_CalculationFactory $calculationFactory,
+        Magento_Customer_Model_Session $customerSession,
         Magento_Tax_Helper_Data $taxData,
         Magento_Weee_Helper_Data $weeeData,
         Magento_Core_Model_Context $context,
@@ -62,6 +92,10 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_attributeFactory = $attributeFactory;
+        $this->_storeManager = $storeManager;
+        $this->_calculationFactory = $calculationFactory;
+        $this->_customerSession = $customerSession;
         $this->_taxData = $taxData;
         $this->_weeeData = $weeeData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -74,7 +108,6 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
     {
         $this->_init('Magento_Weee_Model_Resource_Tax');
     }
-
 
     public function getWeeeAmount(
         $product,
@@ -117,7 +150,7 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
         }
 
         if (is_null($this->_allAttributes)) {
-            $this->_allAttributes = Mage::getModel('Magento_Eav_Model_Entity_Attribute')->getAttributeCodesByFrontendType('weee');
+            $this->_allAttributes = $this->_attributeFactory->create()->getAttributeCodesByFrontendType('weee');
         }
         return $this->_allAttributes;
     }
@@ -136,8 +169,8 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
             return $result;
         }
 
-        $websiteId = Mage::app()->getWebsite($website)->getId();
-        $store = Mage::app()->getWebsite($website)->getDefaultGroup()->getDefaultStore();
+        $websiteId = $this->_storeManager->getWebsite($website)->getId();
+        $store = $this->_storeManager->getWebsite($website)->getDefaultGroup()->getDefaultStore();
 
         $customer = null;
         if ($shipping) {
@@ -147,7 +180,8 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
             $customerTaxClass = null;
         }
 
-        $calculator = Mage::getModel('Magento_Tax_Model_Calculation');
+        /** @var Magento_Tax_Model_Calculation $calculator */
+        $calculator = $this->_calculationFactory->create();
         if ($customer) {
             $calculator->setCustomer($customer);
         }
@@ -179,20 +213,23 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
                 if ($value) {
                     if ($discountPercent) {
-                        $value = Mage::app()->getStore()->roundPrice($value-($value*$discountPercent/100));
+                        $value = $this->_storeManager->getStore()->roundPrice($value-($value*$discountPercent/100));
                     }
 
                     $taxAmount = $amount = 0;
                     $amount    = $value;
                     if ($calculateTax && $this->_weeeData->isTaxable($store)) {
-                        $defaultPercent = Mage::getModel('Magento_Tax_Model_Calculation')
-                            ->getRate($defaultRateRequest
-                            ->setProductClassId($product->getTaxClassId()));
+                        /** @var Magento_Tax_Model_Calculation $calculator */
+                        $defaultPercent = $this->_calculationFactory->create()
+                            ->getRate(
+                                $defaultRateRequest->setProductClassId($product->getTaxClassId())
+                            );
                         $currentPercent = $product->getTaxPercent();
                         if ($this->_taxData->priceIncludesTax($store)) {
-                            $taxAmount = Mage::app()->getStore()->roundPrice($value/(100+$defaultPercent)*$currentPercent);
+                            $taxAmount = $this->_storeManager->getStore()
+                                ->roundPrice($value/(100+$defaultPercent)*$currentPercent);
                         } else {
-                            $taxAmount = Mage::app()->getStore()->roundPrice($value*$defaultPercent/100);
+                            $taxAmount = $this->_storeManager->getStore()->roundPrice($value*$defaultPercent/100);
                         }
                     }
 
@@ -211,8 +248,8 @@ class Magento_Weee_Model_Tax extends Magento_Core_Model_Abstract
 
     protected function _getDiscountPercentForProduct($product)
     {
-        $website = Mage::app()->getStore()->getWebsiteId();
-        $group = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+        $website = $this->_storeManager->getStore()->getWebsiteId();
+        $group = $this->_customerSession->getCustomerGroupId();
         $key = implode('-', array($website, $group, $product->getId()));
         if (!isset($this->_productDiscounts[$key])) {
             $this->_productDiscounts[$key] = (int) $this->getResource()

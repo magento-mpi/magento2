@@ -9,9 +9,9 @@
 -->
 
 <layout>
-    <reference translate="description, label">
+    <referenceBlock translate="description, label">
         <description>Theme layout description</description>
         <label>Theme layout label</label>
         <title translate="true">Theme layout title</title>
-    </reference>
+    </referenceBlock>
 </layout>

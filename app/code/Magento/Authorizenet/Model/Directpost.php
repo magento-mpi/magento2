@@ -56,12 +56,17 @@ class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Author
     protected $_response;
 
     /**
+     * Construct
+     *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Paygate_Helper_Data $paygateData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Centinel_Model_Service $centinelService
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Sales_Model_OrderFactory $orderFactory
      * @param Magento_Sales_Model_QuoteFactory $quoteFactory
@@ -76,6 +81,9 @@ class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Author
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Centinel_Model_Service $centinelService,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Sales_Model_OrderFactory $orderFactory,
         Magento_Sales_Model_QuoteFactory $quoteFactory,
@@ -83,7 +91,8 @@ class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Author
         Magento_Authorizenet_Model_Directpost_Response $response,
         array $data = array()
     ) {
-        parent::__construct($logger, $eventManager, $paygateData, $moduleList, $coreStoreConfig, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $paygateData, $moduleList, $coreStoreConfig, $paymentData,
+            $logAdapterFactory, $locale, $centinelService, $data);
         $this->_storeManager = $storeManager;
         $this->_orderFactory = $orderFactory;
         $this->_quoteFactory = $quoteFactory;

@@ -21,6 +21,26 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
 
     protected $_rssFeeds = array();
 
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Add Link elements to head
@@ -84,7 +104,7 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
 
     public function getCurrentCustomerGroupId()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+        return $this->_customerSession->getCustomerGroupId();
     }
 
     /**
@@ -109,20 +129,6 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
         $this->SalesRuleProductRssFeed();
         return $this->getRssFeeds();
     }
-
-    /*
-    public function getCatalogRssUrl($code)
-    {
-        $store_id = Mage::app()->getStore()->getId();
-        $param = array('store_id' => $store_id);
-        $custGroup = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
-        if ($custGroup) {
-            $param = array_merge($param, array('cid' => $custGroup));
-        }
-
-        return Mage::getUrl('rss/catalog/'.$code, $param);
-    }
-    */
 
     public function NewProductRssFeed()
     {
