@@ -31,7 +31,7 @@ class Magento_Sales_Model_Order_Pdf_Total_Factory
     /**
      * Create instance of a total model
      *
-     * @param string $class
+     * @param string|null $class
      * @param array $arguments
      * @return Magento_Sales_Model_Order_Pdf_Total_Default
      * @throws Magento_Core_Exception
@@ -39,12 +39,11 @@ class Magento_Sales_Model_Order_Pdf_Total_Factory
     public function create($class = null, $arguments = array())
     {
         $class = $class ?: $this->_defaultTotalModel;
-        $result = $this->_objectManager->create($class, $arguments);
-        if (!($result instanceof Magento_Sales_Model_Order_Pdf_Total_Default)) {
+        if (!is_a($class, 'Magento_Sales_Model_Order_Pdf_Total_Default', true)) {
             throw new Magento_Core_Exception(
-                __('The PDF total model should extend Magento_Sales_Model_Order_Pdf_Total_Default.')
+                __("The PDF total model {$class} must be or extend Magento_Sales_Model_Order_Pdf_Total_Default.")
             );
         }
-        return $result;
+        return $this->_objectManager->create($class, $arguments);
     }
 }

@@ -32,7 +32,7 @@ class Magento_Sales_Model_Order_Pdf_Config
     }
 
     /**
-     * Get list of total lines
+     * Get list of settings for showing totals in PDF
      *
      * @return array
      */

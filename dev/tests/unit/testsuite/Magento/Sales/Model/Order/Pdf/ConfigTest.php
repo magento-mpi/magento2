@@ -24,53 +24,34 @@ class Magento_Sales_Model_Order_Pdf_ConfigTest extends PHPUnit_Framework_TestCas
         $this->_model = new Magento_Sales_Model_Order_Pdf_Config($this->_dataStorage);
     }
 
-    /**
-     * @param string $pageType
-     * @param array $expectedResult
-     * @dataProvider getRenderersPerProductDataProvider
-     */
-    public function testGetRenderersPerProduct($pageType, $expectedResult)
+    public function testGetRenderersPerProduct()
     {
-        $dataStorage = require __DIR__ . '/Config/_files/pdf_merged.php';
-        $returnValue = isset($dataStorage['renderers'][$pageType]) ? $dataStorage['renderers'][$pageType] : array();
+        $configuration = array(
+            'product_type_one' => 'Renderer_One',
+            'product_type_two' => 'Renderer_Two',
+        );
         $this->_dataStorage
             ->expects($this->once())
             ->method('get')
-            ->with("renderers/{$pageType}", array())
-            ->will($this->returnValue($returnValue));
+            ->with("renderers/page_type", array())
+            ->will($this->returnValue($configuration));
 
-        $this->assertSame($expectedResult, $this->_model->getRenderersPerProduct($pageType));
-    }
-
-    /**
-     * @return array
-     */
-    public function getRenderersPerProductDataProvider()
-    {
-        return array(
-            'page type exists' => array(
-                'type_one',
-                array(
-                    'product_type_one' => 'Renderer_Type_One_Product_One',
-                    'product_type_two' => 'Renderer_Type_One_Product_Two'
-                )
-            ),
-            'page type does not exist' => array(
-                'wrong_type',
-                array()
-            ),
-        );
+        $this->assertSame($configuration, $this->_model->getRenderersPerProduct('page_type'));
     }
 
     public function testGetTotals()
     {
-        $dataStorage = require __DIR__ . '/Config/_files/pdf_merged.php';
+        $configuration = array(
+            'total1' => array('title' => 'Title1'),
+            'total2' => array('title' => 'Title2'),
+        );
+
         $this->_dataStorage
             ->expects($this->once())
             ->method('get')
-            ->with('totals')
-            ->will($this->returnValue($dataStorage['totals']));
+            ->with('totals', array())
+            ->will($this->returnValue($configuration));
 
-        $this->assertSame($dataStorage['totals'], $this->_model->getTotals());
+        $this->assertSame($configuration, $this->_model->getTotals());
     }
 }

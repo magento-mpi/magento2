@@ -16,14 +16,35 @@ return array(
         ),
     ),
     'totals' => array(
-        'item1' => array(
+        'total1' => array(
             'title' => 'Title1 Modified',
+            'source_field' => 'source1',
+            'title_source_field' => 'title_source1',
+            'font_size' => '1',
+            'display_zero' => '0',
+            'sort_order' => '1',
+            'model' => 'model1',
+            'amount_prefix' => 'prefix1',
         ),
-        'item2' => array(
+        'total2' => array(
             'title' => 'Title2',
+            'source_field' => 'source2',
+            'title_source_field' => 'title_source2',
+            'font_size' => '2',
+            'display_zero' => '1',
+            'sort_order' => '2',
+            'model' => 'model2',
+            'amount_prefix' => 'prefix2',
         ),
-        'item3' => array(
+        'total3' => array(
             'title' => 'Title3',
+            'source_field' => 'source3',
+            'title_source_field' => 'title_source3',
+            'font_size' => '3',
+            'display_zero' => '0',
+            'sort_order' => '3',
+            'model' => 'model3',
+            'amount_prefix' => 'prefix3',
         ),
     ),
 );

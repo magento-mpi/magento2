@@ -9,13 +9,13 @@
 -->
 <config>
     <totals>
-        <item name="reward">
+        <total name="reward">
             <title translate="true">Reward Points</title>
             <source_field>reward_currency_amount</source_field>
             <font_size>7</font_size>
             <display_zero>0</display_zero>
             <sort_order>650</sort_order>
             <amount_prefix>-</amount_prefix>
-        </item>
+        </total>
     </totals>
 </config>

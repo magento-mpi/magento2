@@ -36,7 +36,7 @@ class Magento_Sales_Model_Order_Pdf_Config_Converter implements Magento_Config_C
             }
         }
 
-        $totalItems = $source->getElementsByTagName('item');
+        $totalItems = $source->getElementsByTagName('total');
         foreach ($totalItems as $item) {
             /** @var DOMNode $item */
             $itemName = $item->attributes->getNamedItem('name')->nodeValue;

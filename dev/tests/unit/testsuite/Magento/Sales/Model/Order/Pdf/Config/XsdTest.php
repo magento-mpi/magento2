@@ -68,16 +68,16 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
         $result = $this->_getExemplarTestData();
 
         $result['non-valid totals missing title'] = array(
-            '<config><totals><item name="i1"><source_field>foo</source_field></item></totals></config>',
+            '<config><totals><total name="i1"><source_field>foo</source_field></total></totals></config>',
             array(
-                'Element \'item\': Missing child element(s). Expected is one of ( title, title_source_field, '
+                'Element \'total\': Missing child element(s). Expected is one of ( title, title_source_field, '
                     . 'font_size, display_zero, sort_order, model, amount_prefix ).'
             ),
         );
         $result['non-valid totals missing source_field'] = array(
-            '<config><totals><item name="i1"><title>Title</title></item></totals></config>',
+            '<config><totals><total name="i1"><title>Title</title></total></totals></config>',
             array(
-                'Element \'item\': Missing child element(s). Expected is one of ( source_field, '
+                'Element \'total\': Missing child element(s). Expected is one of ( source_field, '
                     . 'title_source_field, font_size, display_zero, sort_order, model, amount_prefix ).'
             ),
         );
@@ -93,11 +93,11 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
         $result = $this->_getExemplarTestData();
 
         $result['valid totals missing title'] = array(
-            '<config><totals><item name="i1"><source_field>foo</source_field></item></totals></config>',
+            '<config><totals><total name="i1"><source_field>foo</source_field></total></totals></config>',
             array(),
         );
         $result['valid totals missing source_field'] = array(
-            '<config><totals><item name="i1"><title>Title</title></item></totals></config>',
+            '<config><totals><total name="i1"><title>Title</title></total></totals></config>',
             array(),
         );
 
@@ -174,49 +174,49 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
                 array('Element \'unknown\': This element is not expected. Expected is ( renderer ).'),
             ),
             'valid totals' => array(
-                '<config><totals><item name="i1"><title>Title1</title><source_field>src_fld1</source_field></item>'
-                    . '<item name="i2"><title>Title2</title><source_field>src_fld2</source_field></item>'
+                '<config><totals><total name="i1"><title>Title1</title><source_field>src_fld1</source_field></total>'
+                    . '<total name="i2"><title>Title2</title><source_field>src_fld2</source_field></total>'
                     . '</totals></config>',
                 array(),
             ),
             'non-valid non-unique total items' => array(
-                '<config><totals><item name="i1"><title>Title1</title><source_field>src_fld1</source_field></item>'
-                    . '<item name="i1"><title>Title2</title><source_field>src_fld2</source_field></item>'
+                '<config><totals><total name="i1"><title>Title1</title><source_field>src_fld1</source_field></total>'
+                    . '<total name="i1"><title>Title2</title><source_field>src_fld2</source_field></total>'
                     . '</totals></config>',
                 array(
-                    'Element \'item\': Duplicate key-sequence [\'i1\'] '
+                    'Element \'total\': Duplicate key-sequence [\'i1\'] '
                         . 'in unique identity-constraint \'uniqueTotalItem\'.'
                 ),
             ),
             'non-valid unknown node in total items' => array(
                 '<config><totals><unknown/></totals></config>',
-                array('Element \'unknown\': This element is not expected. Expected is ( item ).'),
+                array('Element \'unknown\': This element is not expected. Expected is ( total ).'),
             ),
             'non-valid totals empty title' => array(
-                '<config><totals><item name="i1"><title/><source_field>foo</source_field></item></totals></config>',
+                '<config><totals><total name="i1"><title/><source_field>foo</source_field></total></totals></config>',
                 array(
                     'Element \'title\': [facet \'minLength\'] The value has a length of \'0\'; '
                         . 'this underruns the allowed minimum length of \'1\'.',
                     'Element \'title\': \'\' is not a valid value of the atomic type \'nonEmptyString\'.'),
             ),
             'non-valid totals empty source_field' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field/></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field/></total></totals></config>',
                 array(
                     'Element \'source_field\': [facet \'pattern\'] The value \'\' is not accepted '
                         . 'by the pattern \'[a-z0-9_]+\'.',
                     'Element \'source_field\': \'\' is not a valid value of the atomic type \'fieldType\'.'),
             ),
             'non-valid totals empty title_source_field' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<title_source_field/></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<title_source_field/></total></totals></config>',
                 array(
                     'Element \'title_source_field\': [facet \'pattern\'] The value \'\' is not accepted '
                         . 'by the pattern \'[a-z0-9_]+\'.',
                     'Element \'title_source_field\': \'\' is not a valid value of the atomic type \'fieldType\'.'),
             ),
             'non-valid totals bad model' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<model>a model</model></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<model>a model</model></total></totals></config>',
                 array(
                     'Element \'model\': [facet \'pattern\'] The value \'a model\' is not accepted '
                         . 'by the pattern \'[A-Za-z0-9_]+\'.',
@@ -224,71 +224,71 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
                 ),
             ),
             'valid totals title_source_field' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<title_source_field>bar</title_source_field></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<title_source_field>bar</title_source_field></total></totals></config>',
                 array(),
             ),
             'valid totals model' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<model>Class_A</model></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<model>Class_A</model></total></totals></config>',
                 array(),
             ),
             'valid totals font_size' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                        . '<font_size>9</font_size></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                        . '<font_size>9</font_size></total></totals></config>',
                 array(),
             ),
             'non-valid totals font_size 0' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<font_size>0</font_size></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<font_size>0</font_size></total></totals></config>',
                 array('Element \'font_size\': \'0\' is not a valid value of the atomic type \'xs:positiveInteger\'.'),
             ),
             'non-valid totals font_size' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<font_size>A</font_size></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<font_size>A</font_size></total></totals></config>',
                 array('Element \'font_size\': \'A\' is not a valid value of the atomic type \'xs:positiveInteger\'.'),
             ),
             'valid totals display_zero' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<display_zero>1</display_zero></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<display_zero>1</display_zero></total></totals></config>',
                 array(),
             ),
             'valid totals display_zero true' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<display_zero>true</display_zero></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<display_zero>true</display_zero></total></totals></config>',
                 array(),
             ),
             'non-valid totals display_zero' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<display_zero>A</display_zero></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<display_zero>A</display_zero></total></totals></config>',
                 array('Element \'display_zero\': \'A\' is not a valid value of the atomic type \'xs:boolean\'.'),
             ),
             'valid totals sort_order' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<sort_order>100</sort_order></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<sort_order>100</sort_order></total></totals></config>',
                 array(),
             ),
             'valid totals sort_order 0' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<sort_order>0</sort_order></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<sort_order>0</sort_order></total></totals></config>',
                 array(),
             ),
             'non-valid totals sort_order' => array(
-                '<config><totals><item name="i1"><title>Title</title><source_field>foo</source_field>'
-                    . '<sort_order>A</sort_order></item></totals></config>',
+                '<config><totals><total name="i1"><title>Title</title><source_field>foo</source_field>'
+                    . '<sort_order>A</sort_order></total></totals></config>',
                 array(
                     'Element \'sort_order\': \'A\' is not a valid value '
                         . 'of the atomic type \'xs:nonNegativeInteger\'.'
                 ),
             ),
             'valid totals title with translate attribute' => array(
-                '<config><totals><item name="i1"><title translate="true">Title</title>'
-                    . '<source_field>foo</source_field></item></totals></config>',
+                '<config><totals><total name="i1"><title translate="true">Title</title>'
+                    . '<source_field>foo</source_field></total></totals></config>',
                 array(),
             ),
             'non-valid totals title with bad translate attribute' => array(
-                '<config><totals><item name="i1"><title translate="unknown">Title</title>'
-                    . '<source_field>foo</source_field></item></totals></config>',
+                '<config><totals><total name="i1"><title translate="unknown">Title</title>'
+                    . '<source_field>foo</source_field></total></totals></config>',
                 array(
                     'Element \'title\', attribute \'translate\': \'unknown\' is not a valid value '
                         . 'of the atomic type \'xs:boolean\'.',

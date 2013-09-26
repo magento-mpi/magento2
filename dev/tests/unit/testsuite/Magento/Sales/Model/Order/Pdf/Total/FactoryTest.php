@@ -32,7 +32,8 @@ class Magento_Sales_Model_Order_Pdf_Total_FactoryTest extends PHPUnit_Framework_
      */
     public function testCreate($class, $arguments, $expectedClassName)
     {
-        $createdModel = $this->getMock('Magento_Sales_Model_Order_Pdf_Total_Default', array(), array(), '', false);
+        $createdModel = $this->getMock('Magento_Sales_Model_Order_Pdf_Total_Default', array(), array(),
+            (string) $class, false);
         $this->_objectManager->expects($this->once())
             ->method('create')
             ->with($expectedClassName, $arguments)
@@ -61,15 +62,10 @@ class Magento_Sales_Model_Order_Pdf_Total_FactoryTest extends PHPUnit_Framework_
 
     /**
      * @expectedException Magento_Core_Exception
-     * @expectedExceptionMessage The PDF total model should extend Magento_Sales_Model_Order_Pdf_Total_Default.
+     * @expectedExceptionMessage The PDF total model TEST must be or extend Magento_Sales_Model_Order_Pdf_Total_Default.
      */
     public function testCreateException()
     {
-        $createdModel = new StdClass;
-        $this->_objectManager->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($createdModel));
-
-        $this->_factory->create();
+        $this->_factory->create('TEST');
     }
 }

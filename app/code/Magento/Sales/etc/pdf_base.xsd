@@ -23,7 +23,7 @@
             </xs:element>
             <xs:element name="totals" type="totalsType" minOccurs="0">
                 <xs:unique name="uniqueTotalItem">
-                    <xs:selector xpath="item"/>
+                    <xs:selector xpath="total"/>
                     <xs:field xpath="@name"/>
                 </xs:unique>
             </xs:element>
@@ -64,7 +64,7 @@
 
     <xs:complexType name="totalsType">
         <xs:sequence>
-            <xs:element name="item" type="totalItemType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="total" type="totalItemType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
    </xs:complexType>
 

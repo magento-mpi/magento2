@@ -9,20 +9,20 @@
 -->
 <config>
     <totals>
-        <item name="magento_customerbalance">
+        <total name="magento_customerbalance">
             <title translate="true">Store Credit</title>
             <source_field>customer_balance_amount</source_field>
             <amount_prefix>-</amount_prefix>
             <font_size>7</font_size>
             <display_zero>0</display_zero>
             <sort_order>560</sort_order>
-        </item>
-        <item name="magento_customerbalance_total_refunded">
+        </total>
+        <total name="magento_customerbalance_total_refunded">
             <title translate="true">Refunded to Store Credit</title>
             <source_field>customer_bal_total_refunded</source_field>
             <font_size>7</font_size>
             <display_zero>0</display_zero>
             <sort_order>700</sort_order>
-        </item>
+        </total>
     </totals>
 </config>
