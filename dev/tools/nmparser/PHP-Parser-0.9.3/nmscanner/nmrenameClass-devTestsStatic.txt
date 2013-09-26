@@ -1,4 +1,4 @@
-Integrity_ConfigAbstract  =>  \Integrity\ConfigAbstract
+Integrity_ConfigAbstract  =>  \Magento\TestFramework\Integrity\ConfigAbstract
 Magento_TestFramework_CodingStandard_Tool_CodeMessDetector  =>  \Magento\TestFramework\CodingStandard\Tool\CodeMessDetector
 Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper  =>  \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper
 Magento_TestFramework_CodingStandard_Tool_CodeSniffer  =>  \Magento\TestFramework\CodingStandard\Tool\CodeSniffer

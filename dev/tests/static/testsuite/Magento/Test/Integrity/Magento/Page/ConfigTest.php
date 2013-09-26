@@ -12,7 +12,7 @@
  */
 namespace Magento\Test\Integrity\Magento\Page;
 
-class ConfigTest extends Integrity_ConfigAbstract
+class ConfigTest extends \Magento\TestFramework\Integrity\ConfigAbstract
 {
     public function testFileSchemaUsingInvalidXml()
     {

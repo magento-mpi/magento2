@@ -233,7 +233,7 @@ class Translate {
                         $path_to_item = $path.$item_name;
                         if(is_dir($path_to_item)) {
                             $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
-                                new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path_to_item)),
+                                new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path_to_item)),
                                 self::$CONFIG['allow_extensions']
                             );
                             /** @var $currentFile SPLFileInfo */
@@ -398,7 +398,7 @@ class Translate {
             }
         } else {
             $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
-                new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
+                new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)),
                 self::$CONFIG['allow_extensions']
             );
             /** @var $currentFile SPLFileInfo */
@@ -443,7 +443,7 @@ class Translate {
             }
         } else {
             $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
-                new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
+                new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)),
                 array(EXTENSION)
             );
             /** @var $currentFile SPLFileInfo */
@@ -480,7 +480,7 @@ class Translate {
                         $dirs = array();
                         $files = array();
                         $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
-                            new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
+                            new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)),
                             self::$CONFIG['allow_extensions']
                         );
                         /** @var $currentFile SPLFileInfo */

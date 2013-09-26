@@ -41,8 +41,8 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
             return array($path);
         }
         $path = $path == '' ? __DIR__ : $path;
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
-        $regexIterator = new RegexIterator($iterator, '/\\.js$/');
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+        $regexIterator = new \RegexIterator($iterator, '/\\.js$/');
         $filePaths = array();
         foreach ($regexIterator as $filePath) {
             $filePaths[] = $filePath->getPathname();

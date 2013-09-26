@@ -9,7 +9,7 @@
  */
 namespace Magento\Test\Integrity\Magento\Logging\Model;
 
-class ConfigTest extends \Integrity\ConfigAbstract
+class ConfigTest extends \Magento\TestFramework\Integrity\ConfigAbstract
 {
 
     /**

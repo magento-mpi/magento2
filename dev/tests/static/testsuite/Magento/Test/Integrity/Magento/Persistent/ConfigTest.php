@@ -12,7 +12,7 @@
  */
 namespace Magento\Test\Integrity\Magento\Persistent;
 
-class ConfigTest extends Integrity_ConfigAbstract
+class ConfigTest extends \Magento\TestFramework\Integrity\ConfigAbstract
 {
 
     /**
