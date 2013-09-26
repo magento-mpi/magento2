@@ -33,13 +33,16 @@ class Magento_Test_Integrity_Modular_Magento_Sales_PdfConfigFilesTest extends PH
 
     public function testMergedFormat()
     {
-        $validationState = new Magento_Test_Integrity_Modular_Magento_Sales_ValidationStateOn;
+        $validationState = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationState->expects($this->any())
+            ->method('isValidated')
+            ->will($this->returnValue(true));
 
         /** @var Magento_Sales_Model_Order_Pdf_Config_Reader $reader */
         $reader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Sales_Model_Order_Pdf_Config_Reader', array('validationState' => $validationState));
         try {
-            $reader->read('global');
+            $reader->read();
         } catch (Exception $e) {
             $this->fail('Merged pdf.xml files do not pass XSD validation: ' . $e->getMessage());
         }

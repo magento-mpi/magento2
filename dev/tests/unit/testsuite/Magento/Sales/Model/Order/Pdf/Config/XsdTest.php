@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for validation rules implemented by XSD schema for catalog attributes configuration
+ * Test for validation rules implemented by XSD schema for sales PDF rendering configuration
  *
  * {license_notice}
  *
@@ -49,7 +49,7 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
      * Test schema against exemplar data
      *
      * @param string $schema
-     * @param $fixtureXml
+     * @param string $fixtureXml
      * @param array $expectedErrors
      */
     protected function _testSchema($schema, $fixtureXml, array $expectedErrors)
@@ -105,7 +105,8 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * Returns data to be tested in tests
+     * Return use cases, common for both merged configuration and individual files.
+     * Reused by appropriate data providers.
      *
      * @return array
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -165,7 +166,7 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
                 '<config><renderers><page type="p1"><renderer product_type="prt1"/></page></renderers></config>',
                 array(
                     'Element \'renderer\': [facet \'pattern\'] The value \'\' is not accepted '
-                        . 'by the pattern \'[A-Za-z0-9_]+\'.',
+                        . 'by the pattern \'[A-Z][a-zA-Z\d]*(_[A-Z][a-zA-Z\d]*)*\'.',
                     'Element \'renderer\': \'\' is not a valid value of the atomic type \'classNameType\'.',
                 ),
             ),
@@ -219,7 +220,7 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
                     . '<model>a model</model></total></totals></config>',
                 array(
                     'Element \'model\': [facet \'pattern\'] The value \'a model\' is not accepted '
-                        . 'by the pattern \'[A-Za-z0-9_]+\'.',
+                        . 'by the pattern \'[A-Z][a-zA-Z\d]*(_[A-Z][a-zA-Z\d]*)*\'.',
                     'Element \'model\': \'a model\' is not a valid value of the atomic type \'classNameType\'.',
                 ),
             ),
