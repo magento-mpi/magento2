@@ -38,7 +38,7 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
             $code = $typeAttributes->getNamedItem('code')->nodeValue;
             $creditCards[$code] = $typeArray;
         }
-        uasort($creditCards, array($this, 'compareCcTypes'));
+        uasort($creditCards, array($this, '_compareCcTypes'));
         foreach ($creditCards as $code=>$data) {
             $configs['credit_cards'][$code] = $data['name'];
         }
@@ -70,16 +70,8 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
      * @param array $b
      * @return int
      */
-    private function compareCcTypes($a, $b)
+    private function _compareCcTypes($a, $b)
     {
-        if (!isset($a['order'])) {
-            $a['order'] = 0;
-        }
-
-        if (!isset($b['order'])) {
-            $b['order'] = 0;
-        }
-
         return $a['order'] - $b['order'];
     }
 }
