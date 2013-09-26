@@ -8,16 +8,6 @@
 class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
-     */
-    protected $_schemaFile;
-
-    protected function setUp()
-    {
-        $this->_schemaFile = BP . '/app/code/Magento/Core/etc/email_templates_file.xsd';
-    }
-
-    /**
      * Test that email template configuration file matches the format
      *
      * @param string $file
@@ -25,8 +15,9 @@ class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest e
      */
     public function testFileFormat($file)
     {
+        $schemaFile = BP . '/app/code/Magento/Core/etc/email_templates_file.xsd';
         $dom = new Magento_Config_Dom(file_get_contents($file));
-        $result = $dom->validate($this->_schemaFile, $errors);
+        $result = $dom->validate($schemaFile, $errors);
         $this->assertTrue($result, print_r($errors, true));
     }
 
@@ -64,5 +55,22 @@ class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest e
             $data[$templateId] = array($templateId);
         }
         return $data;
+    }
+
+    /**
+     * Test that merged configuration of email templates matches the format
+     */
+    public function testMergedFormat()
+    {
+        $validationState = $this->getMock('Magento_Config_ValidationStateInterface');
+        $validationState->expects($this->any())->method('isValidated')->will($this->returnValue(true));
+        /** @var Magento_Core_Model_Email_Template_Config_Reader $reader */
+        $reader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Email_Template_Config_Reader', array('validationState' => $validationState));
+        try {
+            $reader->read();
+        } catch (Exception $e) {
+            $this->fail('Merged email templates configuration does not pass XSD validation: ' . $e->getMessage());
+        }
     }
 }
