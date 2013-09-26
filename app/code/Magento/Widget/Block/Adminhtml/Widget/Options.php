@@ -23,19 +23,20 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
      * @var string
      */
     protected $_defaultElementType = 'text';
-
+    
     /**
      * @var Magento_Widget_Model_Widget
      */
     protected $_widget;
 
     /**
-     * @var Magento_Core_Model_Option_ArrayFactory
+     * @var Magento_Widget_Model_Widget_Instance_OptionsFactory
+     * @var Magento_Core_Model_Option_ArrayPool
      */
-    protected $_sourceModelFactory;
+    protected $_sourceModelPool;
 
     /**
-     * @param Magento_Core_Model_Option_ArrayFactory $sourceModelFactory
+     * @param Magento_Core_Model_Option_ArrayPool $sourceModelPool
      * @param Magento_Widget_Model_Widget $widget
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
@@ -44,7 +45,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Option_ArrayFactory $sourceModelFactory,
+        Magento_Core_Model_Option_ArrayPool $sourceModelPool,
         Magento_Widget_Model_Widget $widget,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
@@ -52,7 +53,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_sourceModelFactory = $sourceModelFactory;
+        $this->_sourceModelPool = $sourceModelPool;
         $this->_widget = $widget;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -179,7 +180,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
         }
         // otherwise, a source model is specified
         elseif ($sourceModel = $parameter->getSourceModel()) {
-            $data['values'] = $this->_sourceModelFactory->create($sourceModel)->toOptionArray();
+            $data['values'] = $this->_sourceModelPool->get($sourceModel)->toOptionArray();
         }
 
         // prepare field type or renderer

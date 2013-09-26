@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Payment module base helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
 {
@@ -28,18 +24,60 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_paymentConfig;
 
     /**
+     * Layout
+     *
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * Factory for payment method models
+     *
+     * @var Magento_Payment_Model_Method_Factory
+     */
+    protected $_methodFactory;
+
+    /**
+     * Config
+     *
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * App emulation model
+     *
+     * @var Magento_Core_Model_App_Emulation
+     */
+    protected $_appEmulation;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Payment_Model_Method_Factory $paymentMethodFactory
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_App_Emulation $appEmulation
      * @param Magento_Payment_Model_Config $paymentConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Layout $layout,
+        Magento_Payment_Model_Method_Factory $paymentMethodFactory,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_App_Emulation $appEmulation,
         Magento_Payment_Model_Config $paymentConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_paymentConfig = $paymentConfig;
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_layout = $layout;
+        $this->_methodFactory = $paymentMethodFactory;
+        $this->_config = $config;
+        $this->_appEmulation = $appEmulation;
+        $this->_paymentConfig = $paymentConfig;
     }
 
     /**
@@ -52,7 +90,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $key = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/model';
         $class = $this->_coreStoreConfig->getConfig($key);
-        return Mage::getModel($class);
+        return $this->_methodFactory->create($class);
     }
 
     /**
@@ -75,7 +113,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
             if (!$model = $this->_coreStoreConfig->getConfig($prefix . 'model', $store)) {
                 continue;
             }
-            $methodInstance = Mage::getModel($model);
+            $methodInstance = $this->_methodFactory->create($model);
             if (!$methodInstance) {
                 continue;
             }
@@ -110,8 +148,8 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $block = false;
         $blockType = $method->getFormBlockType();
-        if (Mage::app()->getLayout()) {
-            $block = Mage::app()->getLayout()->createBlock($blockType, $method->getCode());
+        if ($this->_layout) {
+            $block = $this->_layout->createBlock($blockType, $method->getCode());
             $block->setMethod($method);
         }
         return $block;
@@ -126,8 +164,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
     public function getInfoBlock(Magento_Payment_Model_Info $info)
     {
         $blockType = $info->getMethodInstance()->getInfoBlockType();
-        $layout = Mage::app()->getLayout();
-        $block = $layout->createBlock($blockType);
+        $block = $this->_layout->createBlock($blockType);
         $block->setInfo($info);
         return $block;
     }
@@ -142,9 +179,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getInfoBlockHtml(Magento_Payment_Model_Info $info, $storeId)
     {
-        /** @var $appEmulation Magento_Core_Model_App_Emulation */
-        $appEmulation = Mage::getSingleton('Magento_Core_Model_App_Emulation');
-        $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+        $initialEnvironmentInfo = $this->_appEmulation->startEnvironmentEmulation($storeId);
 
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
@@ -154,11 +189,11 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
         } catch (Exception $exception) {
-            $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+            $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
             throw $exception;
         }
 
-        $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+        $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
         return $paymentBlockHtml;
     }

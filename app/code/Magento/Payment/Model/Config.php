@@ -12,10 +12,6 @@
  * Payment configuration model
  *
  * Used for retrieving configuration data by payment models
- *
- * @category   Magento
- * @package    Magento_Payment
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Payment_Model_Config
 {
@@ -34,17 +30,40 @@ class Magento_Payment_Model_Config
     protected $_dataStorage;
 
     /**
-     * Constructor
+     * Locale model
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Payment method factory
+     *
+     * @var Magento_Payment_Model_Method_Factory
+     */
+    protected $_methodFactory;
+
+    /**
+     * Construct
      *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Payment_Model_Method_Factory $paymentMethodFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Config_DataInterface $dataStorage
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Payment_Model_Method_Factory $paymentMethodFactory,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Config_DataInterface $dataStorage
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dataStorage = $dataStorage;
+        $this->_coreConfig = $coreConfig;
+        $this->_methodFactory = $paymentMethodFactory;
+        $this->_locale = $locale;
     }
 
     /**
@@ -60,7 +79,7 @@ class Magento_Payment_Model_Config
         foreach ($config as $code => $methodConfig) {
             if ($this->_coreStoreConfig->getConfigFlag('payment/'.$code.'/active', $store)) {
                 if (array_key_exists('model', $methodConfig)) {
-                    $methodModel = Mage::getModel($methodConfig['model']);
+                    $methodModel = $this->_methodFactory->create($methodConfig['model']);
                     if ($methodModel && $methodModel->getConfigData('active', $store)) {
                         $methods[$code] = $this->_getMethod($code, $methodConfig);
                     }
@@ -103,7 +122,7 @@ class Magento_Payment_Model_Config
             return false;
         }
 
-        $method = Mage::getModel($modelName);
+        $method = $this->_methodFactory->create($modelName);
         $method->setId($code)->setStore($store);
         self::$_methods[$code] = $method;
         return self::$_methods[$code];
@@ -141,7 +160,7 @@ class Magento_Payment_Model_Config
      */
     public function getMonths()
     {
-        $data = Mage::app()->getLocale()->getTranslationList('month');
+        $data = $this->_locale->getTranslationList('month');
         foreach ($data as $key => $value) {
             $monthNum = ($key < 10) ? '0'.$key : $key;
             $data[$key] = $monthNum . ' - ' . $value;

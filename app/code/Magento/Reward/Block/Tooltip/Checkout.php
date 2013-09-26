@@ -10,10 +10,6 @@
 
 /**
  * Checkout Tooltip block to show checkout cart message for gaining reward points
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
 {
@@ -28,8 +24,8 @@ class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Reward_Model_Reward $rewardInstance
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param array $data
      */
     public function __construct(
@@ -38,10 +34,11 @@ class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
         Magento_Customer_Model_Session $customerSession,
         Magento_Reward_Model_Reward $rewardInstance,
         Magento_Core_Model_StoreManager $storeManager,
-        Magento_Checkout_Model_Session $checkoutSession,
         Magento_Core_Helper_Data $coreData,
+        Magento_Checkout_Model_Session $checkoutSession,
         array $data = array()
     ) {
+        $this->_checkoutSession = $checkoutSession;
         parent::__construct(
             $context,
             $rewardHelper,
@@ -51,10 +48,11 @@ class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
             $coreData,
             $data
         );
-        $this->_checkoutSession = $checkoutSession;
     }
 
-
+    /**
+     * @return $this|Magento_Core_Block_Abstract
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();

@@ -8,11 +8,82 @@
  * @license     {license_link}
  */
 
-
 class Magento_SalesRule_Model_Observer
 {
-    protected $_validator;
+    /**
+     * @var Magento_SalesRule_Model_RuleFactory
+     */
+    protected $_ruleFactory;
 
+    /**
+     * @var Magento_SalesRule_Model_RuleFactory
+     */
+    protected $_ruleCustomerFactory;
+
+    /**
+     * @var Magento_SalesRule_Model_Coupon
+     */
+    protected $_coupon;
+
+    /**
+     * @var Magento_SalesRule_Model_Resource_Coupon_Usage
+     */
+    protected $_couponUsage;
+
+    /**
+     * @var Magento_SalesRule_Model_Resource_Report_Rule
+     */
+    protected $_reportRule;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_SalesRule_Model_Resource_Rule_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @param Magento_SalesRule_Model_RuleFactory $ruleFactory
+     * @param Magento_SalesRule_Model_Rule_CustomerFactory $ruleCustomerFactory
+     * @param Magento_SalesRule_Model_Coupon $coupon
+     * @param Magento_SalesRule_Model_Resource_Coupon_Usage $couponUsage
+     * @param Magento_SalesRule_Model_Resource_Report_Rule $reportRule
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_SalesRule_Model_Resource_Rule_CollectionFactory $collectionFactory
+     * @param Magento_Backend_Model_Session $backendSession
+     */
+    public function __construct(
+        Magento_SalesRule_Model_RuleFactory $ruleFactory,
+        Magento_SalesRule_Model_Rule_CustomerFactory $ruleCustomerFactory,
+        Magento_SalesRule_Model_Coupon $coupon,
+        Magento_SalesRule_Model_Resource_Coupon_Usage $couponUsage,
+        Magento_SalesRule_Model_Resource_Report_Rule $reportRule,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_SalesRule_Model_Resource_Rule_CollectionFactory $collectionFactory,
+        Magento_Backend_Model_Session $backendSession
+    ) {
+        $this->_ruleFactory = $ruleFactory;
+        $this->_ruleCustomerFactory = $ruleCustomerFactory;
+        $this->_coupon = $coupon;
+        $this->_couponUsage = $couponUsage;
+        $this->_reportRule = $reportRule;
+        $this->_locale = $locale;
+        $this->_collectionFactory = $collectionFactory;
+        $this->_backendSession = $backendSession;
+    }
+
+    /**
+     * @param Magento_Event_Observer $observer
+     * @return $this
+     */
     public function salesOrderAfterPlace($observer)
     {
         $order = $observer->getEvent()->getOrder();
@@ -33,41 +104,39 @@ class Magento_SalesRule_Model_Observer
             if (!$ruleId) {
                 continue;
             }
-            $rule = Mage::getModel('Magento_SalesRule_Model_Rule');
+            /** @var Magento_SalesRule_Model_Rule $rule */
+            $rule = $this->_ruleFactory->create();
             $rule->load($ruleId);
             if ($rule->getId()) {
                 $rule->setTimesUsed($rule->getTimesUsed() + 1);
                 $rule->save();
 
                 if ($customerId) {
-                    $ruleCustomer = Mage::getModel('Magento_SalesRule_Model_Rule_Customer');
+                    /** @var Magento_SalesRule_Model_Rule_Customer $ruleCustomer */
+                    $ruleCustomer = $this->_ruleCustomerFactory->create();
                     $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
 
                     if ($ruleCustomer->getId()) {
                         $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed()+1);
-                    }
-                    else {
-                        $ruleCustomer
-                        ->setCustomerId($customerId)
-                        ->setRuleId($ruleId)
-                        ->setTimesUsed(1);
+                    } else {
+                        $ruleCustomer->setCustomerId($customerId)
+                            ->setRuleId($ruleId)
+                            ->setTimesUsed(1);
                     }
                     $ruleCustomer->save();
                 }
             }
         }
 
-        $coupon = Mage::getModel('Magento_SalesRule_Model_Coupon');
-        /** @var Magento_SalesRule_Model_Coupon */
-        $coupon->load($order->getCouponCode(), 'code');
-        if ($coupon->getId()) {
-            $coupon->setTimesUsed($coupon->getTimesUsed() + 1);
-            $coupon->save();
+        $this->_coupon->load($order->getCouponCode(), 'code');
+        if ($this->_coupon->getId()) {
+            $this->_coupon->setTimesUsed($this->_coupon->getTimesUsed() + 1);
+            $this->_coupon->save();
             if ($customerId) {
-                $couponUsage = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon_Usage');
-                $couponUsage->updateCustomerCouponTimesUsed($customerId, $coupon->getId());
+                $this->_couponUsage->updateCustomerCouponTimesUsed($customerId, $this->_coupon->getId());
             }
         }
+        return $this;
     }
 
     /**
@@ -78,11 +147,11 @@ class Magento_SalesRule_Model_Observer
      */
     public function aggregateSalesReportCouponsData($schedule)
     {
-        Mage::app()->getLocale()->emulate(0);
-        $currentDate = Mage::app()->getLocale()->date();
+        $this->_locale->emulate(0);
+        $currentDate = $this->_locale->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->aggregate($date);
-        Mage::app()->getLocale()->revert();
+        $this->_reportRule->aggregate($date);
+        $this->_locale->revert();
         return $this;
     }
 
@@ -96,8 +165,7 @@ class Magento_SalesRule_Model_Observer
     protected function _checkSalesRulesAvailability($attributeCode)
     {
         /* @var $collection Magento_SalesRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Rule_Collection')
-            ->addAttributeInConditionFilter($attributeCode);
+        $collection = $this->_collectionFactory->create()->addAttributeInConditionFilter($attributeCode);
 
         $disabledRulesCount = 0;
         foreach ($collection as $rule) {
@@ -112,8 +180,11 @@ class Magento_SalesRule_Model_Observer
         }
 
         if ($disabledRulesCount) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(
-                __('%1 Shopping Cart Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode));
+            $this->_backendSession->addWarning(__(
+                '%1 Shopping Cart Price Rules based on "%2" attribute have been disabled.',
+                $disabledRulesCount,
+                $attributeCode
+            ));
         }
 
         return $this;
@@ -189,25 +260,16 @@ class Magento_SalesRule_Model_Observer
             return $this;
         }
 
-        /**
-         * @var Magento_SalesRule_Model_Coupon $couponModel
-         */
-        $couponModel = Mage::getModel('Magento_SalesRule_Model_Coupon');
-        $couponModel->loadByCode($couponCode);
-
-        $ruleId = $couponModel->getRuleId();
+        $this->_coupon->loadByCode($couponCode);
+        $ruleId = $this->_coupon->getRuleId();
 
         if (empty($ruleId)) {
             return $this;
         }
 
-        /**
-         * @var Magento_SalesRule_Model_Rule $ruleModel
-         */
-        $ruleModel = Mage::getModel('Magento_SalesRule_Model_Rule');
-        $ruleModel->load($ruleId);
-
-        $order->setCouponRuleName($ruleModel->getName());
+        /** @var Magento_SalesRule_Model_Rule $rule */
+        $rule = $this->_ruleFactory->create()->load($ruleId);
+        $order->setCouponRuleName($rule->getName());
 
         return $this;
     }

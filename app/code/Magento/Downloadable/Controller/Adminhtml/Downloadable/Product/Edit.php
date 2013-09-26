@@ -81,7 +81,8 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_Product_Edit
     public function linkAction()
     {
         $linkId = $this->getRequest()->getParam('id', 0);
-        $link = Mage::getModel('Magento_Downloadable_Model_Link')->load($linkId);
+        /** @var Magento_Downloadable_Model_Link $link */
+        $link = $this->_createLink()->load($linkId);
         if ($link->getId()) {
             $resource = '';
             $resourceType = '';
@@ -90,7 +91,8 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_Product_Edit
                 $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_URL;
             } elseif ($link->getLinkType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
                 $resource = $this->_objectManager->get('Magento_Downloadable_Helper_File')->getFilePath(
-                    Magento_Downloadable_Model_Link::getBasePath(), $link->getLinkFile()
+                    $this->_getLink()->getBasePath(),
+                    $link->getLinkFile()
                 );
                 $resourceType = Magento_Downloadable_Helper_Download::LINK_TYPE_FILE;
             }
@@ -103,4 +105,19 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_Product_Edit
         exit(0);
     }
 
+    /**
+     * @return Magento_Downloadable_Model_Link
+     */
+    protected function _getLink()
+    {
+        return $this->_objectManager->get('Magento_Downloadable_Model_Link');
+    }
+
+    /**
+     * @return Magento_Downloadable_Model_Link
+     */
+    protected function _createLink()
+    {
+        return $this->_objectManager->create('Magento_Downloadable_Model_Link');
+    }
 }

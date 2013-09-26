@@ -22,16 +22,33 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavEntitySetFactory
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavEntitySetFactory,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Rule_Model_Condition_Context $context,
+        Magento_Eav_Model_Config $config,
+        Magento_Catalog_Model_Product $product,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection,
         array $data = array()
     ) {
-        parent::__construct($adminhtmlData, $context, $data);
+        parent::__construct(
+            $eavConfig, $productResource, $eavEntitySetFactory, $adminhtmlData, $context, $config, $product,
+            $productResource, $attrSetCollection, $data
+        );
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes');
         $this->setValue(null);
     }

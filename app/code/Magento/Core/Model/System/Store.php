@@ -297,6 +297,7 @@ class Magento_Core_Model_System_Store extends Magento_Object
      */
     public function getStoreGroupOptionHash($attribute = 'name')
     {
+        $options = array();
         foreach ($this->_groupCollection as $group) {
             $options[$group->getId()] = $group->getDataUsingMethod($attribute);
         }

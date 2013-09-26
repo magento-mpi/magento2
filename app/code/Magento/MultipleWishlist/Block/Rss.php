@@ -25,7 +25,7 @@ class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+            $this->_wishlist = $this->_wishlistFactory->create();
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
@@ -47,7 +47,9 @@ class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
     {
         $customer = $this->_getCustomer();
         if ($this->_getWishlist()->getCustomerId() !== $customer->getId()) {
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->_getWishlist()->getCustomerId());
+            /** @var Magento_Customer_Model_Customer $customer */
+            $customer = $this->_customerFactory->create();
+            $customer->load($this->_getWishlist()->getCustomerId());
         }
         if ($this->_wishlistData->isWishlistDefault($this->_getWishlist())
             && $this->_getWishlist()->getName() == $this->_wishlistData->getDefaultWishlistName()

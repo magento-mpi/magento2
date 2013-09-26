@@ -8,16 +8,70 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Order Creditmemo PDF model
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order_Pdf_Abstract
 {
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Dir $coreDir
+     * @param Magento_Shipping_Model_Config $shippingConfig
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Sales_Model_Order_Pdf_TotalFactory $pdfTotalFactory
+     * @param Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Dir $coreDir,
+        Magento_Shipping_Model_Config $shippingConfig,
+        Magento_Core_Model_Translate $translate,
+        Magento_Sales_Model_Order_Pdf_TotalFactory $pdfTotalFactory,
+        Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $paymentData,
+            $coreData,
+            $coreString,
+            $coreStoreConfig,
+            $coreConfig,
+            $coreDir,
+            $shippingConfig,
+            $translate,
+            $pdfTotalFactory,
+            $pdfItemsFactory,
+            $data
+        );
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+    }
+
     /**
      * Draw table header for product items
      *
@@ -108,8 +162,8 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
 
         foreach ($creditmemos as $creditmemo) {
             if ($creditmemo->getStoreId()) {
-                Mage::app()->getLocale()->emulate($creditmemo->getStoreId());
-                Mage::app()->setCurrentStore($creditmemo->getStoreId());
+                $this->_locale->emulate($creditmemo->getStoreId());
+                $this->_storeManager->setCurrentStore($creditmemo->getStoreId());
             }
             $page  = $this->newPage();
             $order = $creditmemo->getOrder();
@@ -146,7 +200,7 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
         }
         $this->_afterGetPdf();
         if ($creditmemo->getStoreId()) {
-            Mage::app()->getLocale()->revert();
+            $this->_locale->revert();
         }
         return $pdf;
     }

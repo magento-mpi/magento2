@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer_edit">
+    <referenceBlock name="customer_edit">
         <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">customer_account_edit</argument>
             </action>
         </block>
-    </reference>
+    </referenceBlock>
     <update handle="customer_form_template_handle"/>
 </layout>

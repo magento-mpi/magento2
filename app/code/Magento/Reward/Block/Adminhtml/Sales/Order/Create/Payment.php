@@ -26,18 +26,42 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
     protected $_rewardData = null;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Adminhtml_Model_Sales_Order_Create
+     */
+    protected $_orderCreate;
+
+    /**
+     * @var Magento_Reward_Model_RewardFactory
+     */
+    protected $_rewardFactory;
+
+    /**
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
+     * @param Magento_Reward_Model_RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
+        Magento_Reward_Model_RewardFactory $rewardFactory,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
+        $this->_storeManager = $storeManager;
+        $this->_orderCreate = $orderCreate;
+        $this->_rewardFactory = $rewardFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -48,7 +72,7 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
+        return $this->_orderCreate;
     }
 
     /**
@@ -68,7 +92,7 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
      */
     public function canUseRewardPoints()
     {
-        $websiteId = Mage::app()->getStore($this->getQuote()->getStoreId())->getWebsiteId();
+        $websiteId = $this->_storeManager->getStore($this->getQuote()->getStoreId())->getWebsiteId();
         $minPointsBalance = (int)$this->_storeConfig->getConfig(
             Magento_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE,
             $this->getQuote()->getStoreId()
@@ -91,7 +115,7 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
     {
         if (!$this->_getData('reward')) {
             /* @var $reward Magento_Reward_Model_Reward */
-            $reward = Mage::getModel('Magento_Reward_Model_Reward')
+            $reward = $this->_rewardFactory->create()
                 ->setCustomer($this->getQuote()->getCustomer())
                 ->setStore($this->getQuote()->getStore())
                 ->loadByCustomer();

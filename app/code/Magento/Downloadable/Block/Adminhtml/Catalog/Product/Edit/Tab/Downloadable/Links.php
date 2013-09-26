@@ -58,7 +58,27 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Eav_Model_Entity_AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @var Magento_Downloadable_Model_Link
+     */
+    protected $_link;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_sourceModel;
+
+    /**
+     * @var Magento_Backend_Model_UrlFactory
+     */
+    protected $_urlFactory;
 
     /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
@@ -67,6 +87,10 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Backend_Model_Config_Source_Yesno $sourceModel
+     * @param Magento_Downloadable_Model_Link $link
+     * @param Magento_Eav_Model_Entity_AttributeFactory $attributeFactory
+     * @param Magento_Backend_Model_UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
@@ -76,12 +100,20 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Backend_Model_Config_Source_Yesno $sourceModel,
+        Magento_Downloadable_Model_Link $link,
+        Magento_Eav_Model_Entity_AttributeFactory $attributeFactory,
+        Magento_Backend_Model_UrlFactory $urlFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
         $this->_storeManager = $storeManager;
+        $this->_sourceModel = $sourceModel;
+        $this->_link = $link;
+        $this->_attributeFactory = $attributeFactory;
+        $this->_urlFactory = $urlFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -117,7 +149,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         if (is_null($this->_purchasedSeparatelyAttribute)) {
             $_attributeCode = 'links_purchased_separately';
 
-            $this->_purchasedSeparatelyAttribute = Mage::getModel('Magento_Eav_Model_Entity_Attribute')
+            $this->_purchasedSeparatelyAttribute = $this->_attributeFactory->create()
                 ->loadByCode(Magento_Catalog_Model_Product::ENTITY, $_attributeCode);
         }
 
@@ -134,7 +166,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
             ->setName('product[links_purchased_separately]')
             ->setId('downloadable_link_purchase_type')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray())
+            ->setOptions($this->_sourceModel->toOptionArray())
             ->setValue($this->getProduct()->getLinksPurchasedSeparately());
 
         return $select->getHtml();
@@ -185,7 +217,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getIsPriceWebsiteScope()
     {
-        $scope =  (int) Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+        $scope =  (int) $this->_storeManager->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
         if ($scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
             return true;
         }
@@ -221,7 +253,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
                 'sort_order' => $item->getSortOrder(),
             );
             $file = $fileHelper->getFilePath(
-                Magento_Downloadable_Model_Link::getBasePath(), $item->getLinkFile()
+                $this->_link->getBasePath(), $item->getLinkFile()
             );
 
             if ($item->getLinkFile() && !is_file($file)) {
@@ -243,7 +275,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
                     ));
             }
             $sampleFile = $fileHelper->getFilePath(
-                Magento_Downloadable_Model_Link::getBaseSamplePath(), $item->getSampleFile()
+                $this->_link->getBaseSamplePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && is_file($sampleFile)) {
                 $tmpLinkItem['sample_file_save'] = array(
@@ -333,7 +365,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getUploadUrl($type)
     {
-        return Mage::getModel('Magento_Backend_Model_Url')->addSessionParam()
+        return $this->_urlFactory->create()->addSessionParam()
             ->getUrl('*/downloadable_file/upload', array('type' => $type, '_secure' => true));
     }
 

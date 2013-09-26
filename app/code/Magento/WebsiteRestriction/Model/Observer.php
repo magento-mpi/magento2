@@ -43,7 +43,12 @@ class Magento_WebsiteRestriction_Model_Observer
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
+
+    /**
+     * @var Magento_Core_Model_UrlFactory
+     */
+    protected $_urlFactory;
 
     /**
      * @param Magento_WebsiteRestriction_Model_ConfigInterface $config
@@ -52,6 +57,7 @@ class Magento_WebsiteRestriction_Model_Observer
      * @param Magento_Customer_Helper_Data $customerHelper
      * @param Magento_Core_Model_Session $session
      * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_UrlFactory $urlFactory
      */
     public function __construct(
         Magento_WebsiteRestriction_Model_ConfigInterface $config,
@@ -59,7 +65,8 @@ class Magento_WebsiteRestriction_Model_Observer
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Customer_Helper_Data $customerHelper,
         Magento_Core_Model_Session $session,
-        Magento_Core_Model_Store_Config $storeConfig
+        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_UrlFactory $urlFactory
     ) {
         $this->_config = $config;
         $this->_storeManager = $storeManager;
@@ -67,6 +74,7 @@ class Magento_WebsiteRestriction_Model_Observer
         $this->_customerHelper = $customerHelper;
         $this->_session = $session;
         $this->_storeConfig = $storeConfig;
+        $this->_urlFactory = $urlFactory;
     }
 
     /**
@@ -137,11 +145,11 @@ class Magento_WebsiteRestriction_Model_Observer
                                 || ($controller->getFullActionName() === $cmsPageViewAction
                                     && $request->getAlias('rewrite_request_path') !== $pageIdentifier)
                             ) {
-                                $redirectUrl = Mage::getUrl('', array('_direct' => $pageIdentifier));
+                                $redirectUrl = $this->getUrl('', array('_direct' => $pageIdentifier));
                             }
                         } elseif (!in_array($controller->getFullActionName(), $allowedActionNames)) {
                             // to login form
-                            $redirectUrl = Mage::getUrl('customer/account/login');
+                            $redirectUrl = $this->getUrl('customer/account/login');
                         }
 
                         if ($redirectUrl) {
@@ -153,7 +161,7 @@ class Magento_WebsiteRestriction_Model_Observer
                         )) {
                             $afterLoginUrl = $this->_customerHelper->getDashboardUrl();
                         } else {
-                            $afterLoginUrl = Mage::getUrl();
+                            $afterLoginUrl = $this->getUrl();
                         }
                         $this->_session->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
                     } elseif ($this->_session->hasWebsiteRestrictionAfterLoginUrl()) {
@@ -183,5 +191,15 @@ class Magento_WebsiteRestriction_Model_Observer
         )) {
             $observer->getEvent()->getLayout()->getUpdate()->addHandle('restriction_privatesales_mode');
         }
+    }
+
+    /**
+     * @param string $route
+     * @param array $params
+     * @return Magento_Core_Model_Url
+     */
+    public function getUrl($route = '', $params = array())
+    {
+       return $this->_urlFactory->create()->getUrl($route, $params);
     }
 }

@@ -18,10 +18,22 @@ class Magento_SalesRule_Model_Quote_Freeshipping extends Magento_Sales_Model_Quo
      */
     protected $_calculator;
 
-    public function __construct()
-    {
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_SalesRule_Model_Validator $validator
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_SalesRule_Model_Validator $validator
+    ) {
         $this->setCode('discount');
-        $this->_calculator = Mage::getSingleton('Magento_SalesRule_Model_Validator');
+        $this->_calculator = $validator;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -34,7 +46,7 @@ class Magento_SalesRule_Model_Quote_Freeshipping extends Magento_Sales_Model_Quo
     {
         parent::collect($address);
         $quote = $address->getQuote();
-        $store = Mage::app()->getStore($quote->getStoreId());
+        $store = $this->_storeManager->getStore($quote->getStoreId());
 
         $address->setFreeShipping(0);
         $items = $this->_getAddressItems($address);

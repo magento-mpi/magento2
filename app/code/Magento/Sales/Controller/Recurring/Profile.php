@@ -47,7 +47,7 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
         if (!$this->getRequest()->isDispatched()) {
             return;
         }
-        $this->_session = Mage::getSingleton('Magento_Customer_Model_Session');
+        $this->_session = $this->_objectManager->get('Magento_Customer_Model_Session');
         if (!$this->_session->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
@@ -169,10 +169,10 @@ class Magento_Sales_Controller_Recurring_Profile extends Magento_Core_Controller
      */
     protected function _initProfile()
     {
-        $profile = Mage::getModel('Magento_Sales_Model_Recurring_Profile')
+        $profile = $this->_objectManager->create('Magento_Sales_Model_Recurring_Profile')
             ->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
-            Mage::throwException(__('We can\'t find the profile you specified.'));
+            throw new Magento_Core_Exception(__('We can\'t find the profile you specified.'));
         }
         $this->_coreRegistry->register('current_recurring_profile', $profile);
         return $profile;

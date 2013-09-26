@@ -10,21 +10,30 @@
 
 /**
  * Sales orders statuses option array
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Resource_Order_Grid_StatusesArray implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
+     * @var Magento_Sales_Model_Resource_Order_Status_CollectionFactory
+     */
+    protected $_statusCollFactory;
+
+    /**
+     * @param Magento_Sales_Model_Resource_Order_Status_CollectionFactory $statusCollFactory
+     */
+    public function __construct(Magento_Sales_Model_Resource_Order_Status_CollectionFactory $statusCollFactory)
+    {
+        $this->_statusCollFactory = $statusCollFactory;
+    }
+
+    /**
      * Return option array
+     *
      * @return array
      */
     public function toOptionArray()
     {
-        $statuses = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_Collection')
-            ->toOptionHash();
+        $statuses = $this->_statusCollFactory->create()->toOptionHash();
         return $statuses;
     }
 }

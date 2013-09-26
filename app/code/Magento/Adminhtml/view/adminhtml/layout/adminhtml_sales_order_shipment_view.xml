@@ -8,14 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-sales-order-shipment-packaging-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/shipment/packaging.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_View" name="sales_shipment_view">
             <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form" name="form" template="sales/order/shipment/view/form.phtml">
                 <block class="Magento_Adminhtml_Block_Sales_Order_View_Info" name="order_info" template="sales/order/view/info.phtml"/>
@@ -45,5 +45,5 @@
                 <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging" name="shipment_packed" template="sales/order/shipment/packaging/packed.phtml"/>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

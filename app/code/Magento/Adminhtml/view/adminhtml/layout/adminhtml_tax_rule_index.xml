@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_tax_rule_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Tax_Rule" name="adminhtml.block.tax.rule.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

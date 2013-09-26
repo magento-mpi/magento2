@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="left">
+    <referenceContainer name="left">
         <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer" name="archive.replacer"/>
-    </reference>
+    </referenceContainer>
 </layout>

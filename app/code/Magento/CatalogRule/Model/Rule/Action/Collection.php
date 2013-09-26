@@ -13,10 +13,17 @@ class Magento_CatalogRule_Model_Rule_Action_Collection extends Magento_Rule_Mode
 {
     /**
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Rule_Model_ActionFactory $actionFactory
+     * @param Magento_Core_Model_Layout $layout
+     * @param array $data
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl)
-    {
-        parent::__construct($viewUrl);
+    public function __construct(
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Rule_Model_ActionFactory $actionFactory,
+        Magento_Core_Model_Layout $layout,
+        array $data = array()
+    ) {
+        parent::__construct($viewUrl, $actionFactory, $layout, $data);
         $this->setType('Magento_CatalogRule_Model_Rule_Action_Collection');
     }
 

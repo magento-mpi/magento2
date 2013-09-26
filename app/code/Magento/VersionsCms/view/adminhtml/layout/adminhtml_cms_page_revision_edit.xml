@@ -9,22 +9,22 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="editor"/>
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="magento-cms-cms-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_VersionsCms::cms.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="head.components">
-        <block class="Magento_Adminhtml_Block_Page_Js_Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceBlock name="head.components">
+        <block class="Magento_Page_Block_Js_Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit" name="cms_page_revision_edit">
             <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info" name="revision_info" template="page/revision/info.phtml"/>
         </block>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tabs" name="cms_page_revision_edit_tabs">
             <action method="addTab">
                 <argument name="name" xsi:type="string">content_section</argument>
@@ -39,5 +39,5 @@
                 <argument name="block" xsi:type="string">Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

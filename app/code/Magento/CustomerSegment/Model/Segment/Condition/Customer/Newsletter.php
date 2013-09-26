@@ -114,7 +114,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
      *
      * @param $customer
      * @param int|Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @return Magento_Db_Select
      */
     public function getConditionsSql($customer, $website)
     {

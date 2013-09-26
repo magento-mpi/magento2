@@ -47,19 +47,51 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
      *
      * @var Magento_Adminhtml_Helper_Data
      */
-    protected $_backendData = null;
+    protected $_backendData;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Magento_Catalog_Model_Product
+     */
+    protected $_product;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product
+     */
+    protected $_productResource;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection
+     */
+    protected $_attrSetCollection;
 
     /**
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
         Magento_Rule_Model_Condition_Context $context,
+        Magento_Eav_Model_Config $config,
+        Magento_Catalog_Model_Product $product,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection,
         array $data = array()
     ) {
         $this->_backendData = $backendData;
+        $this->_config = $config;
+        $this->_product = $product;
+        $this->_productResource = $productResource;
+        $this->_attrSetCollection = $attrSetCollection;
         parent::__construct($context, $data);
     }
 
@@ -89,12 +121,11 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
     public function getAttributeObject()
     {
         try {
-            $obj = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $this->getAttribute());
+            $obj = $this->_config->getAttribute(Magento_Catalog_Model_Product::ENTITY, $this->getAttribute());
         }
         catch (Exception $e) {
             $obj = new Magento_Object();
-            $obj->setEntity(Mage::getResourceSingleton('Magento_Catalog_Model_Product'))
+            $obj->setEntity($this->_product)
                 ->setFrontendInput('text');
         }
         return $obj;
@@ -118,9 +149,7 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product')
-            ->loadAllAttributes()
-            ->getAttributesByCode();
+        $productAttributes = $this->_productResource->loadAllAttributes()->getAttributesByCode();
 
         $attributes = array();
         foreach ($productAttributes as $attribute) {
@@ -161,9 +190,8 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
         // Get array of select options. It will be used as source for hashed options
         $selectOptions = null;
         if ($this->getAttribute() === 'attribute_set_id') {
-            $entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
-            $selectOptions = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+            $entityTypeId = $this->_config->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
+            $selectOptions = $this->_attrSetCollection
                 ->setEntityTypeFilter($entityTypeId)
                 ->load()
                 ->toOptionArray();
@@ -434,17 +462,17 @@ abstract class Magento_Rule_Model_Condition_Product_Abstract extends Magento_Rul
 
                     $tmp = array();
                     foreach (explode(',', $arr['value']) as $value) {
-                        $tmp[] = Mage::app()->getLocale()->getNumber($value);
+                        $tmp[] = $this->_locale->getNumber($value);
                     }
                     $arr['value'] =  implode(',', $tmp);
                 } else {
-                    $arr['value'] =  Mage::app()->getLocale()->getNumber($arr['value']);
+                    $arr['value'] =  $this->_locale->getNumber($arr['value']);
                 }
             } else {
                 $arr['value'] = false;
             }
             $arr['is_value_parsed'] = isset($arr['is_value_parsed'])
-                ? Mage::app()->getLocale()->getNumber($arr['is_value_parsed']) : false;
+                ? $this->_locale->getNumber($arr['is_value_parsed']) : false;
         }
 
         return parent::loadArray($arr);

@@ -62,6 +62,7 @@ Magento/CatalogRule/Model
 Magento/Tax/Model/Sales/Pdf
 Magento/Usa/Model/Shipping/Carrier
 Magento/Webapi/Model
+Magento/Widget/Model/Widget/Instance
 Magento/Wishlist/Model
 lib/Magento/Archive
 lib/Magento/Connect/Channel
@@ -79,3 +80,4 @@ Magento/Tax/Model/Sales/Total/Quote/Nominal
 Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit
 Magento/User/Block/User/Edit
 var/generation
+Magento/Newsletter/Model/Template/Filter
