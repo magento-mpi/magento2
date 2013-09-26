@@ -101,13 +101,14 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
 abstract class Stub_Magento_ImportExport_Model_Export_EntityAbstract
     extends Magento_ImportExport_Model_Export_EntityAbstract
 {
-    public function __construct()
-    {
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
-        parent::__construct($storeConfig);
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_App $app,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
+        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
         $this->_disabledAttrs = array('default_billing', 'default_shipping');
     }
 }

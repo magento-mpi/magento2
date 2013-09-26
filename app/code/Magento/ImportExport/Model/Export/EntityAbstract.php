@@ -18,6 +18,12 @@
 abstract class Magento_ImportExport_Model_Export_EntityAbstract
 {
     /**#@+
+     * Attribute collection name
+     */
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Data_Collection';
+    /**#@-*/
+
+    /**#@+
      * XML path to page size parameter
      */
     const XML_PATH_PAGE_SIZE = '';
@@ -166,7 +172,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_App $app,
-        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
         Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
         array $data = array()
     ) {
@@ -174,7 +180,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
         $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : $app;
         $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : $app;
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
-            : $collectionFactory->create();
+            : $collectionFactory->create(static::ATTRIBUTE_COLLECTION_NAME);
         $this->_pageSize = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int) $this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']

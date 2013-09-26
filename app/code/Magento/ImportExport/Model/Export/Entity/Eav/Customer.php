@@ -85,7 +85,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_App $app
-     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
      * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Eav_Model_Config $eavConfig
@@ -95,7 +95,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_App $app,
-        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
         Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Eav_Model_Config $eavConfig,
