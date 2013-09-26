@@ -67,20 +67,12 @@ class Magento_Backup_Model_Backup extends Magento_Object
     protected $_backendAuthSession;
 
     /**
-     * Backend auth session
-     *
-     * @var Magento_Backup_Model_Fs_Collection
-     */
-    protected $_fsCollection;
-
-    /**
      * Construct
      *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backup_Helper_Data $helper
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Backup_Model_Fs_Collection $fsCollection
      * @param array $data
      */
     public function __construct(
@@ -88,7 +80,6 @@ class Magento_Backup_Model_Backup extends Magento_Object
         Magento_Backup_Helper_Data $helper,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Backup_Model_Fs_Collection $fsCollection,
         $data = array()
     ) {
         parent::__construct($data);
