@@ -55,25 +55,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <pdf>
-            <totals>
-                <magento_customerbalance translate="title">
-                    <title>Store Credit</title>
-                    <source_field>customer_balance_amount</source_field>
-                    <amount_prefix>-</amount_prefix>
-                    <font_size>7</font_size>
-                    <display_zero>0</display_zero>
-                    <sort_order>560</sort_order>
-                </magento_customerbalance>
-                <magento_customerbalance_total_refunded translate="title">
-                    <title>Refunded to Store Credit</title>
-                    <source_field>customer_bal_total_refunded</source_field>
-                    <font_size>7</font_size>
-                    <display_zero>0</display_zero>
-                    <sort_order>700</sort_order>
-                </magento_customerbalance_total_refunded>
-            </totals>
-        </pdf>
     </global>
     <default>
         <customer>

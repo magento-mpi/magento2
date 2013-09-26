@@ -299,65 +299,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <pdf>
-            <invoice>
-                <default>Magento_Sales_Model_Order_Pdf_Items_Invoice_Default</default>
-                <grouped>Magento_Sales_Model_Order_Pdf_Items_Invoice_Grouped</grouped>
-            </invoice>
-            <shipment>
-                <default>Magento_Sales_Model_Order_Pdf_Items_Shipment_Default</default>
-            </shipment>
-            <creditmemo>
-                <default>Magento_Sales_Model_Order_Pdf_Items_Creditmemo_Default</default>
-                <grouped>Magento_Sales_Model_Order_Pdf_Items_Creditmemo_Grouped</grouped>
-            </creditmemo>
-            <totals>
-                <subtotal translate="title">
-                    <title>Subtotal</title>
-                    <source_field>subtotal</source_field>
-                    <font_size>7</font_size>
-                    <display_zero>1</display_zero>
-                    <sort_order>100</sort_order>
-                </subtotal>
-                <discount translate="title">
-                    <title>Discount</title>
-                    <source_field>discount_amount</source_field>
-                    <amount_prefix />
-                    <title_source_field>discount_description</title_source_field>
-                    <font_size>7</font_size>
-                    <display_zero>0</display_zero>
-                    <sort_order>200</sort_order>
-                </discount>
-                <shipping translate="title">
-                    <title>Shipping &amp; Handling</title>
-                    <source_field>shipping_amount</source_field>
-                    <font_size>7</font_size>
-                    <display_zero>0</display_zero>
-                    <sort_order>400</sort_order>
-                </shipping>
-                <adjustment_positive translate="title">
-                    <title>Adjustment Refund</title>
-                    <source_field>adjustment_positive</source_field>
-                    <font_size>7</font_size>
-                    <display_zero>0</display_zero>
-                    <sort_order>500</sort_order>
-                </adjustment_positive>
-                <adjustment_negative translate="title">
-                    <title>Adjustment Fee</title>
-                    <source_field>adjustment_negative</source_field>
-                    <font_size>7</font_size>
-                    <display_zero>0</display_zero>
-                    <sort_order>600</sort_order>
-                </adjustment_negative>
-                <grand_total translate="title">
-                    <title>Grand Total</title>
-                    <source_field>grand_total</source_field>
-                    <font_size>8</font_size>
-                    <display_zero>1</display_zero>
-                    <sort_order>700</sort_order>
-                </grand_total>
-            </totals>
-        </pdf>
     </global>
     <default>
         <sales>

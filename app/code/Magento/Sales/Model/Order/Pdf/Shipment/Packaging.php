@@ -30,7 +30,10 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_Core_Model_ConfigInterface $coreConfig
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Core_Model_Dir $dirs
+     * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
+     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory
      * @param array $data
      */
     public function __construct(
@@ -39,11 +42,15 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_ConfigInterface $coreConfig,
+        Magento_Core_Model_Translate $translate,
+        Magento_Core_Model_Dir $dirs,
+        Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
+        Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
-        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $dirs, $pdfConfig,
+            $totalFactory, $data);
     }
 
     /**
