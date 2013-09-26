@@ -60,6 +60,11 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     protected $_entityFactory;
 
     /**
+     * @var Magento_ImportExport_Model_Export_Adapter_Factory
+     */
+    protected $_exportAdapterFac;
+
+    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Log_AdapterFactory $adapterFactory
