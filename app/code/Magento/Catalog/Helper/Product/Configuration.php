@@ -276,7 +276,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     /**
      * Get allowed product types for configurable product
      *
-     * @return SimpleXMLElement
+     * @return \SimpleXMLElement
      */
     public function getConfigurableAllowedTypes()
     {
