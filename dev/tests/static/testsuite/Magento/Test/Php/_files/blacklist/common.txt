@@ -268,6 +268,7 @@ lib/Magento/Xml/Parser.php
 dev/tools/Magento/Tools/I18n/Zend
 dev/tools/nmparser
 dev/tests/integration/framework/Magento/TestFramework/Db/Mysql.php
+dev/tests/integration/framework/Magento/TestFramework/Db/Adapter/Mysql.php
 dev/tests/integration/testsuite/Magento/DB/Adapter/Pdo/MysqlTest.php
 dev/tests/unit/testsuite/Magento/Catalog/Model/Resource/Product/Option/MysqlStub.php
 dev/tests/unit/testsuite/Magento/Catalog/Model/Resource/Product/Option/ValueTest.php
