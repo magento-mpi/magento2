@@ -45,6 +45,8 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Context $context,

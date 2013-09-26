@@ -123,6 +123,8 @@ class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Wid
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Backend_Model_Config_Factory $configFactory,

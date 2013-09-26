@@ -10,6 +10,11 @@
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 
+/**
+ * Class Magento_Backend_Controller_Router_Default
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_Varien_Router_Base
 {
     /**
