@@ -11,14 +11,22 @@
 
 include __DIR__ . '/../../../Magento/Customer/_files/customer.php';
 /** @var $reward Magento_Reward_Model_Reward */
-$reward = Mage::getModel('Magento_Reward_Model_Reward');
+$reward = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Reward_Model_Reward');
 $reward->setCustomerId(1)
-    ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+    ->setWebsiteId(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getWebsiteId()
+    );
 $reward->save();
 
 /** @var $history Magento_Reward_Model_Reward_History */
-$history = Mage::getModel('Magento_Reward_Model_Reward_History');
+$history = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Reward_Model_Reward_History');
 $history->setRewardId($reward->getId())
-    ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+    ->setWebsiteId(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getWebsiteId()
+    )
     ->setAdditionalData(serialize('any non-empty string'));
 $history->save();

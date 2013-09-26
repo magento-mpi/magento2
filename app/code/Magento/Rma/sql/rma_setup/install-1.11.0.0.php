@@ -675,7 +675,8 @@ $installer->installEntities();
 $installer->installForms();
 
 //Add Product's Attribute
-$installer = $this->getCatalogResourceSetup(array('resourceName' => 'catalog_setup'));
+/** @var Magento_Catalog_Model_Resource_Setup $installer */
+$installer = $this->getCatalogSetup(array('resourceName' => 'catalog_setup'));
 
 /**
  * Prepare database before module installation

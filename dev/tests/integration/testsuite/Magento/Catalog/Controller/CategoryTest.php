@@ -76,11 +76,13 @@ class Magento_Catalog_Controller_CategoryTest extends Magento_TestFramework_Test
         $this->assertInstanceOf('Magento_Catalog_Model_Category', $currentCategory);
         $this->assertEquals($categoryId, $currentCategory->getId(), 'Category in registry.');
 
-        $lastCategoryId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastVisitedCategoryId();
+        $lastCategoryId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Session')->getLastVisitedCategoryId();
         $this->assertEquals($categoryId, $lastCategoryId, 'Last visited category.');
 
         /* Layout updates */
-        $handles = Mage::app()->getLayout()->getUpdate()->getHandles();
+        $handles = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->getUpdate()->getHandles();
         foreach ($expectedHandles as $expectedHandleName) {
             $this->assertContains($expectedHandleName, $handles);
         }

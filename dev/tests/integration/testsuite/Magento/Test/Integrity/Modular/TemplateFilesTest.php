@@ -28,7 +28,8 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
         // intentionally to make sure the module files will be requested
         $params = array(
             'area'       => $area,
-            'themeModel' => Mage::getModel('Magento_Core_Model_Theme'),
+            'themeModel' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme'),
             'module'     => $module
         );
         $file = Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
@@ -45,7 +46,8 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
         $blockClass = '';
         try {
             /** @var $website Magento_Core_Model_Website */
-            Mage::app()->getStore()->setWebsiteId(0);
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->setWebsiteId(0);
 
             $templates = array();
             foreach (Magento_TestFramework_Utility_Classes::collectModuleClasses('Block') as $blockClass => $module) {
@@ -67,7 +69,7 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
                     $area = 'adminhtml';
                 }
 
-                Mage::app()->loadAreaPart(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->loadAreaPart(
                     Magento_Core_Model_App_Area::AREA_ADMINHTML,
                     Magento_Core_Model_App_Area::PART_CONFIG
                 );
@@ -75,7 +77,7 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
                     ->get('Magento_Core_Model_Config_Scope')
                     ->setCurrentScope($area);
 
-                $block = Mage::getModel($blockClass);
+                $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($blockClass);
                 $template = $block->getTemplate();
                 if ($template) {
                     $templates[$module . ', ' . $template . ', ' . $blockClass . ', ' . $area] =

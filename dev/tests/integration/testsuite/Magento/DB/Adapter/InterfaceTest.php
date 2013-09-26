@@ -36,7 +36,7 @@ class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $installer = Mage::getResourceModel(
+        $installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Core_Model_Resource_Setup',
             array('resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
         );

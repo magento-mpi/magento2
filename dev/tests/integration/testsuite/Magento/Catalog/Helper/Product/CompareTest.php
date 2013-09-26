@@ -80,7 +80,7 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
     public function testCalculate()
     {
          /** @var $session Magento_Catalog_Model_Session */
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
+        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Session');
         try {
             $session->unsCatalogCompareItemsCount();
             $this->assertFalse($this->_helper->hasItems());
@@ -107,7 +107,8 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
 
     protected function _testGetProductUrl($method, $expectedFullAction)
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->setId(10);
         $url = $this->_helper->$method($product);
         $this->assertContains($expectedFullAction, $url);
@@ -120,12 +121,15 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
      */
     protected function _populateCompareList()
     {
-        $productOne = Mage::getModel('Magento_Catalog_Model_Product');
-        $productTwo = Mage::getModel('Magento_Catalog_Model_Product');
+        $productOne = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
+        $productTwo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $productOne->load(10);
         $productTwo->load(11);
         /** @var $compareList Magento_Catalog_Model_Product_Compare_List */
-        $compareList = Mage::getModel('Magento_Catalog_Model_Product_Compare_List');
+        $compareList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Compare_List');
         $compareList->addProduct($productOne)->addProduct($productTwo);
     }
 }

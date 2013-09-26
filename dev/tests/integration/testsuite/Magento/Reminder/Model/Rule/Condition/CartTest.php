@@ -20,7 +20,8 @@ class Magento_Reminder_Model_Rule_Condition_CartTest extends PHPUnit_Framework_T
         if ($checkGmtDate) {
             $dateModelMock->expects($this->at(1))->method('gmtDate')->with();
         }
-        $this->_model = Mage::getModel('Magento_Reminder_Model_Rule_Condition_Cart', array(
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Reminder_Model_Rule_Condition_Cart', array(
             'dateModel' => $dateModelMock
         ));
         $this->_model->setOperator($operator);

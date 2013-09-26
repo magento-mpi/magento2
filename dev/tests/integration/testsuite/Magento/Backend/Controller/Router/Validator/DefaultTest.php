@@ -30,7 +30,8 @@ class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Fr
             'baseController' => 'Magento_Backend_Controller_ActionAbstract',
             'backendData' => $dataHelperMock,
         );
-        Mage::getModel('Magento_Backend_Controller_Router_Default', $options);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Controller_Router_Default', $options);
     }
 
     /**
@@ -43,6 +44,7 @@ class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Fr
             'areaCode'       => Magento_Core_Model_App_Area::AREA_ADMINHTML,
             'baseController' => 'Magento_Backend_Controller_ActionAbstract',
         );
-        Mage::getModel('Magento_Backend_Controller_Router_Default', $options);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Controller_Router_Default', $options);
     }
 }

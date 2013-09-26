@@ -21,7 +21,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_ImportExport_Model_Export_Entity_Eav_Customer');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Export_Entity_Eav_Customer');
     }
 
     /**
@@ -33,14 +34,16 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     {
         $expectedAttributes = array();
         /** @var $collection Magento_Customer_Model_Resource_Attribute_Collection */
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
         /** @var $attribute Magento_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
         }
         $expectedAttributes = array_diff($expectedAttributes, $this->_model->getDisabledAttributes());
 
-        $this->_model->setWriter(Mage::getModel('Magento_ImportExport_Model_Export_Adapter_Csv'));
+        $this->_model->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
         $data = $this->_model->export();
         $this->assertNotEmpty($data);
 
@@ -154,7 +157,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         /**
          * Change type of created_at attribute. In this case we have possibility to test date rage filter
          */
-        $attributeCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
+        $attributeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'created_at');
         /** @var $createdAtAttribute Magento_Customer_Model_Attribute */
         $createdAtAttribute = $attributeCollection->getFirstItem();
@@ -167,13 +171,15 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
             Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP => array(
                 'email'      => 'example.com',
                 'created_at' => array($createdAtDate, ''),
-                'store_id'   => Mage::app()->getStore()->getId()
+                'store_id'   => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId()
             )
         );
         $this->_model->setParameters($parameters);
         /** @var $customers Magento_Customer_Model_Resource_Customer_Collection */
         $collection = $this->_model->filterEntityCollection(
-            Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Customer_Model_Resource_Customer_Collection')
         );
         $collection->load();
 

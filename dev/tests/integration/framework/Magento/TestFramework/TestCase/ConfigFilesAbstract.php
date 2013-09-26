@@ -129,10 +129,10 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
      */
     public function getXmlConfigFiles()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $dirs = $this->_objectManager->get('Magento_Core_Model_Dir');
-        $appDir = $dirs->getDir(Magento_Core_Model_Dir::APP);
-        return glob($appDir . $this->_getConfigFilePathGlob());
+        return glob(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('app')
+                . $this->_getConfigFilePathGlob()
+        );
     }
 
     /**

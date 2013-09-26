@@ -26,7 +26,8 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('Magento_Backend_Model_Config_Backend_Admin_Robots');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Config_Backend_Admin_Robots');
         $this->_model->setPath('design/search_engine_robots/custom_instructions');
         $this->_model->afterLoad();
     }
@@ -58,7 +59,8 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
      */
     public function testAfterSaveFileNotExists()
     {
-        $robotsTxtPath = Mage::getBaseDir() . DS . 'robots.txt';
+        $robotsTxtPath = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Dir')->getDir() . DS . 'robots.txt';
         $this->assertFileNotExists($robotsTxtPath, 'robots.txt exists');
 
         $this->_modifyConfig();
@@ -72,7 +74,8 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
      */
     public function testAfterSaveFileExists()
     {
-        $robotsTxtPath = Mage::getBaseDir() . DS . 'robots.txt';
+        $robotsTxtPath = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+                ->getDir() . DS . 'robots.txt';
         $this->assertFileExists($robotsTxtPath, 'robots.txt exists');
 
         $this->_modifyConfig();
@@ -85,7 +88,11 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
     {
         $robotsTxt = "User-Agent: *\nDisallow: /checkout";
         $this->_model->setValue($robotsTxt)->save();
-        $this->assertStringEqualsFile(Mage::getBaseDir() . DS . 'robots.txt', $robotsTxt);
+        $this->assertStringEqualsFile(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Dir')->getDir() . DS . 'robots.txt',
+            $robotsTxt
+        );
     }
 
     /**

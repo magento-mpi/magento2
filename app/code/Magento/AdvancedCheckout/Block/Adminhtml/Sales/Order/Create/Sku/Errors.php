@@ -26,6 +26,12 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
     protected $_storeManager = null;
 
     /**
+     * @var Magento_Adminhtml_Model_Session_Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_AdvancedCheckout_Model_CartFactory $cartFactory
@@ -33,12 +39,14 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
      * @param array $data
      */
     public function __construct(
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_AdvancedCheckout_Model_CartFactory $cartFactory,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
+        $this->_sessionQuote = $sessionQuote;
         parent::__construct($coreData, $context, $cartFactory, $data);
         $this->_storeManager = $storeManager;
     }
@@ -62,8 +70,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
     public function getCart()
     {
         if (!$this->_cart) {
-            $session = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
-            $this->_cart = parent::getCart()->setSession($session);
+            $this->_cart = parent::getCart()->setSession($this->_sessionQuote);
         }
         return $this->_cart;
     }

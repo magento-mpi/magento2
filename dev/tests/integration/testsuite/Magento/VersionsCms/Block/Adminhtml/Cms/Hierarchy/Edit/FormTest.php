@@ -23,7 +23,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PH
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form');
     }
 
@@ -31,7 +31,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PH
     {
         $parentName = 'parent';
         $mockClass = $this->getMockClass('Magento_Catalog_Block_Product_Abstract', array('_prepareLayout'),
-            array(Mage::getModel('Magento_Core_Block_Template_Context'))
+            array(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Block_Template_Context'))
         );
         $this->_layout->createBlock($mockClass, $parentName);
         $this->_layout->setChild($parentName, $this->_block->getNameInLayout(), '');

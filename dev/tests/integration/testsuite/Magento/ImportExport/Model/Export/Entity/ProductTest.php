@@ -48,7 +48,8 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('Magento_ImportExport_Model_Export_Entity_Product');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Export_Entity_Product');
     }
 
     /**
@@ -56,7 +57,8 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
      */
     public function testExport()
     {
-        $this->_model->setWriter(Mage::getModel('Magento_ImportExport_Model_Export_Adapter_Csv'));
+        $this->_model->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
         $this->assertNotEmpty($this->_model->export());
     }
 

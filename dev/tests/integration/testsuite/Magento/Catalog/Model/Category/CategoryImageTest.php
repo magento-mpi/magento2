@@ -31,17 +31,21 @@ class Magento_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework
     {
         /** @var $configModel Magento_Core_Model_Config */
         $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
-        $this->_oldLogActive = Mage::app()->getStore()->getConfig('dev/log/active');
-        $this->_oldExceptionFile = Mage::app()->getStore()->getConfig('dev/log/exception_file');
+        $this->_oldLogActive = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getConfig('dev/log/active');
+        $this->_oldExceptionFile = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getConfig('dev/log/exception_file');
         $this->_oldWriterModel = (string)$configModel->getNode('global/log/core/writer_model');
     }
 
     protected function tearDown()
     {
-        Mage::app()->getStore()->setConfig('dev/log/active', $this->_oldLogActive);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setConfig('dev/log/active', $this->_oldLogActive);
         $this->_oldLogActive = null;
 
-        Mage::app()->getStore()->setConfig('dev/log/exception_file', $this->_oldExceptionFile);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setConfig('dev/log/exception_file', $this->_oldExceptionFile);
         $this->_oldExceptionFile = null;
 
         /** @var $configModel Magento_Core_Model_Config */

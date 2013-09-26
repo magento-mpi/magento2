@@ -141,7 +141,8 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
      */
     public function testImportData($behavior, $sourceFile, array $dataBefore, array $dataAfter, array $errors = array())
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         // set entity adapter parameters
         $this->_entityAdapter->setParameters(array('behavior' => $behavior));
 

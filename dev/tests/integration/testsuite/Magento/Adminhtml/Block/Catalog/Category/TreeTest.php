@@ -20,7 +20,8 @@ class Magento_Adminhtml_Block_Catalog_Category_TreeTest extends PHPUnit_Framewor
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::getModel('Magento_Adminhtml_Block_Catalog_Category_Tree');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Adminhtml_Block_Catalog_Category_Tree');
     }
 
     public function testGetSuggestedCategoriesJson()

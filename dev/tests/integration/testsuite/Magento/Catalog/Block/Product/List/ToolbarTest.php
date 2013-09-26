@@ -14,7 +14,7 @@ class Magento_Catalog_Block_Product_List_ToolbarTest extends PHPUnit_Framework_T
     public function testGetPagerHtml()
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Catalog_Block_Product_List_Toolbar */
         $block = $layout->createBlock('Magento_Catalog_Block_Product_List_Toolbar', 'block');
         /** @var $childBlock Magento_Core_Block_Text */

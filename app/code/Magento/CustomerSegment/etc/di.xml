@@ -13,4 +13,29 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
+    <type name="Magento_CustomerSegment_Model_Observer">
+        <param name="customerSession">
+            <instance type="Magento_Customer_Model_Session" />
+        </param>
+        <param name="customer">
+            <instance type="Magento_CustomerSegment_Model_Customer" />
+        </param>
+        <param name="configSourceYesno">
+            <instance type="Magento_Backend_Model_Config_Source_Yesno" />
+        </param>
+        <param name="segmentHelper">
+            <instance type="Magento_CustomerSegment_Helper_Data" />
+        </param>
+        <param name="coreRegistry">
+            <instance type="Magento_Core_Model_Registry" />
+        </param>
+    </type>
+    <type name="Magento_CustomerSegment_Helper_Data">
+        <param name="storeConfig">
+            <instance type="Magento_Core_Model_Store_Config" />
+        </param>
+        <param name="segmentCollection">
+            <instance type="Magento_CustomerSegment_Model_Resource_Segment_Collection" />
+        </param>
+    </type>
 </config>

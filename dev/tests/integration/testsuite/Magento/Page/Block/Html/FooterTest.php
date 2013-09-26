@@ -25,8 +25,10 @@ class Magento_Page_Block_Html_FooterTest extends PHPUnit_Framework_TestCase
 
     public function testGetCacheKeyInfo()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_Page_Block_Html_Footer');
-        $storeId = Mage::app()->getStore()->getId();
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Page_Block_Html_Footer');
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
         $this->assertEquals(
             array('PAGE_FOOTER', $storeId, 0, $this->_theme->getId(), null),
             $block->getCacheKeyInfo()

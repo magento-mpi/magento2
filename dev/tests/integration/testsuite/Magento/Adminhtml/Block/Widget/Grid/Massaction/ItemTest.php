@@ -17,7 +17,7 @@ class Magento_Adminhtml_Block_Widget_Grid_Massaction_ItemTest extends PHPUnit_Fr
     public function testGetAdditionalActionBlock()
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_Widget_Grid_Massaction_Item */
         $block = $layout->createBlock('Magento_Adminhtml_Block_Widget_Grid_Massaction_Item', 'block');
         $expected = $layout->addBlock('Magento_Core_Block_Template', 'additional_action', 'block');

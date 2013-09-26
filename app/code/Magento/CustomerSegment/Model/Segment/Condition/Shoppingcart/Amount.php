@@ -20,12 +20,16 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     protected $_inputType = 'numeric';
 
     /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount');
         $this->setValue(null);
     }
@@ -105,9 +109,9 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Shopping Cart %1 Amount %2 %3:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __('Shopping Cart %1 Amount %2 %3:',
+            $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -115,6 +119,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
+     * @throws Magento_Core_Exception
      * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
@@ -151,9 +156,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 $field = 'quote.base_gift_cards_amount_used';
                 break;
             default:
-                Mage::throwException(
-                    __('Unknown quote total specified.')
-                );
+                throw new Magento_Core_Exception(__('Unknown quote total specified.'));
         }
 
         if ($joinAddress) {

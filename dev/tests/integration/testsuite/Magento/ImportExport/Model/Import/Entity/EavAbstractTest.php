@@ -39,7 +39,8 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
         $indexAttributeCode = 'gender';
 
         /** @var $attributeCollection Magento_Customer_Model_Resource_Attribute_Collection */
-        $attributeCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
+        $attributeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
         $attributeCollection->addFieldToFilter(
             'attribute_code',
             array(
