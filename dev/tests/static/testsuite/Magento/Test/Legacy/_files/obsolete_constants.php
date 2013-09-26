@@ -75,6 +75,7 @@ return array(
     array('PARAM_CACHE_OPTIONS', 'Mage', 'Magento_Core_Model_App::PARAM_CACHE_OPTIONS'),
     array('PARAM_CUSTOM_LOCAL_CONFIG', 'Mage', 'Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_CONFIG'),
     array('PARAM_CUSTOM_LOCAL_FILE', 'Mage', 'Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_FILE'),
+    array('PARAM_EDITION', 'Mage'),
     array('PARAM_MODE', 'Mage', 'Magento_Core_Model_App::PARAM_MODE'),
     array('PARAM_RUN_CODE', 'Mage', 'Magento_Core_Model_App::PARAM_RUN_CODE'),
     array('PARAM_RUN_TYPE', 'Mage', 'Magento_Core_Model_App::PARAM_RUN_TYPE'),

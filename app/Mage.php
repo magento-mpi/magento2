@@ -13,11 +13,6 @@
  */
 final class Mage
 {
-    /**
-     * Application initialization option to specify custom product edition label
-     */
-    const PARAM_EDITION = 'edition';
-
     /**#@+
      * Product edition labels
      */

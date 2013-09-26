@@ -127,7 +127,7 @@
   * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getSingleton, Mage::getBaseUrl, Mage::isInstalled, Mage::getBaseDir static calls in module Magento_Cms
   * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getIsDeveloperMode, Mage::getSingleton, Mage::getBaseUrl, Mage::getResourceHelper, Mage::getResourceSingleton static calls in module Magento_CatalogSearch
   * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
-  * Eliminated Mage::DEFAULT_ERROR_HANDLER, Mage::DEFAULT_TIMEZONE, Mage::VERSION, Mage::PARAM_APP_DIRS, Mage::PARAM_APP_URIS, Mage::PARAM_CUSTOM_LOCAL_FILE, Mage::PARAM_CUSTOM_LOCAL_CONFIG, Mage::PARAM_MODE, Mage::PARAM_RUN_CODE, Mage::PARAM_RUN_TYPE, Mage::PARAM_BASEDIR, Mage::PARAM_BAN_CACHE, Mage::PARAM_ALLOWED_MODULES, Mage::PARAM_CACHE_OPTIONS constants from code
+  * Eliminated Mage::DEFAULT_ERROR_HANDLER, Mage::DEFAULT_TIMEZONE, Mage::VERSION, Mage::PARAM_APP_DIRS, Mage::PARAM_APP_URIS, Mage::PARAM_CUSTOM_LOCAL_FILE, Mage::PARAM_CUSTOM_LOCAL_CONFIG, Mage::PARAM_MODE, Mage::PARAM_RUN_CODE, Mage::PARAM_RUN_TYPE, Mage::PARAM_BASEDIR, Mage::PARAM_BAN_CACHE, Mage::PARAM_ALLOWED_MODULES, Mage::PARAM_CACHE_OPTIONS, Mage::PARAM_EDITION constants from code
   * Eliminated Mage:: static methods in Magento_Widget
   * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
   * Eliminated Mage:: static methods in Magento_Sendfriend
