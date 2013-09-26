@@ -67,10 +67,12 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     {
         $assets = array();
         foreach ($files as $file) {
-            $assets[] = Mage::getModel('Magento_Core_Model_Page_Asset_ViewFile',
+            $assets[] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Page_Asset_ViewFile',
                 array('file' => $file, 'contentType' => $contentType));
         }
-        $model = Mage::getModel('Magento_Core_Model_Page_Asset_Merged', array('assets' => $assets));
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Page_Asset_Merged', array('assets' => $assets));
         return $model;
     }
 

@@ -55,31 +55,31 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected $_productFactory;
 
     /**
+     * @param Magento_Rma_Model_Resource_ItemFactory $itemFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Rma_Model_Resource_ItemFactory $itemFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_ItemFactory $itemFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Rma_Model_Resource_ItemFactory $itemFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
         array $data = array()
     ) {
-        $this->_rmaData = $rmaData;
-        $this->_coreRegistry = $coreRegistry;
         $this->_itemFactory = $itemFactory;
         $this->_productFactory = $productFactory;
+        $this->_rmaData = $rmaData;
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 

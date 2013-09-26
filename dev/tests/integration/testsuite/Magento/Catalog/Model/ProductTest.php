@@ -26,13 +26,15 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
     }
 
     public static function tearDownAfterClass()
     {
         /** @var Magento_Catalog_Model_Product_Media_Config $config */
-        $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+        $config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Product_Media_Config');
 
         $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Filesystem');
         $filesystem->delete($config->getBaseMediaPath());
@@ -52,7 +54,12 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->setCurrentStore(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')
+                    ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+            );
         $this->_model->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
@@ -65,10 +72,14 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     public function testCleanCache()
     {
-        Mage::app()->saveCache('test', 'catalog_product_999', array('catalog_product_999'));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->saveCache('test', 'catalog_product_999', array('catalog_product_999'));
         // potential bug: it cleans by cache tags, generated from its ID, which doesn't make much sense
         $this->_model->setId(999)->cleanCache();
-        $this->assertEmpty(Mage::app()->loadCache('catalog_product_999'));
+        $this->assertEmpty(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+                ->loadCache('catalog_product_999')
+        );
     }
 
     public function testAddImageToMediaGallery()
@@ -95,7 +106,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     protected function _copyFileToBaseTmpMediaPath($sourceFile)
     {
         /** @var Magento_Catalog_Model_Product_Media_Config $config */
-        $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+        $config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Product_Media_Config');
         $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
         $targetFile = $baseTmpMediaPath . DS . basename($sourceFile);
@@ -142,7 +154,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     protected function _undo($duplicate)
     {
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         $duplicate->delete();
     }
 
@@ -257,7 +270,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->getIsVirtual());
 
         /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel(
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Catalog_Model_Product',
             array('data' => array('type_id' => Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL))
         );
@@ -290,7 +303,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isComposite());
 
         /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel(
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Catalog_Model_Product',
             array('data' => array('type_id' => Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE))
         );
@@ -324,16 +337,20 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->setOrigData('key', 'value');
         $this->assertEmpty($this->_model->getOrigData());
 
-        $storeId = Mage::app()->getStore()->getId();
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         try {
             $this->_model->setOrigData('key', 'value');
             $this->assertEquals('value', $this->_model->getOrigData('key'));
         } catch (Exception $e) {
-            Mage::app()->getStore()->setId($storeId);
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->setId($storeId);
             throw $e;
         }
-        Mage::app()->getStore()->setId($storeId);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId($storeId);
     }
 
     public function testReset()
@@ -354,7 +371,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->reset();
         $this->_assertEmpty($model);
 
-        $this->_model->addOption(Mage::getModel('Magento_Catalog_Model_Product_Option'));
+        $this->_model->addOption(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Option'));
         $this->_model->reset();
         $this->_assertEmpty($model);
 

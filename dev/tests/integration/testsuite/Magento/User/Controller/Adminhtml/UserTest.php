@@ -34,7 +34,8 @@ class Magento_User_Controller_Adminhtml_UserTest extends Magento_Backend_Utility
     public function testSaveActionWrongId()
     {
         /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User')->loadByUsername('dummy_username');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User')->loadByUsername('dummy_username');
         $userId = $user->getId();
         $this->assertNotEmpty($userId, 'Broken fixture');
         $user->delete();

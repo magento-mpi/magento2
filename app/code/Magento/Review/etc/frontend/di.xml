@@ -16,6 +16,11 @@
             <value>frontend</value>
         </param>
     </virtualType>
+    <type name="Magento_Review_Block_Form">
+        <param name="reviewSession">
+            <instance type="Magento_Review_Model_Session" />
+        </param>
+    </type>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
             <value>

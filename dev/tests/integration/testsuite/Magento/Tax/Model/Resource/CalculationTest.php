@@ -35,7 +35,8 @@ class Magento_Tax_Model_Resource_CalculationTest extends PHPUnit_Framework_TestC
             'customer_class_id' => $customerTaxClasses[0],
             'product_class_id' => $productTaxClasses[0]
         ));
-        $taxCalculation = Mage::getResourceSingleton('Magento_Tax_Model_Resource_Calculation');
+        $taxCalculation = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Tax_Model_Resource_Calculation');
         $this->assertEquals($taxRate->getRate(), $taxCalculation->getRate($data));
     }
 }

@@ -22,7 +22,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_F
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Options_Ajax');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Options_Ajax');
     }
 
     public function testToHtmlWithoutProducts()

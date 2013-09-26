@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_FormTest extends PHPUnit_Fra
             'Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
 
-        $queue = Mage::getSingleton('Magento_Newsletter_Model_Queue');
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Newsletter_Model_Queue');
         $statuses = array(Magento_Newsletter_Model_Queue::STATUS_NEVER, Magento_Newsletter_Model_Queue::STATUS_PAUSE);
         foreach ($statuses as $status) {
             $queue->setQueueStatus($status);

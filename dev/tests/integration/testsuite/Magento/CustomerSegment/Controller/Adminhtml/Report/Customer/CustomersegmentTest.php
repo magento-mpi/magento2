@@ -23,7 +23,8 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
      */
     public function testSegmentAction()
     {
-        $segment = Mage::getModel('Magento_CustomerSegment_Model_Segment');
+        $segment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_CustomerSegment_Model_Segment');
         $segment->load('Customer Segment 1', 'name');
 
         $this->dispatch('backend/admin/report_customer_customersegment/detail/segment_id/' . $segment->getId());

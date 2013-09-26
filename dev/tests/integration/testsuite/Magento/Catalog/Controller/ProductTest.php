@@ -25,7 +25,8 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
     protected function _getProductImageFile()
     {
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1);
         $images = $product->getMediaGalleryImages()->getItems();
         $image = reset($images);
@@ -46,11 +47,13 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
         $this->assertInstanceOf('Magento_Catalog_Model_Product', $currentProduct);
         $this->assertEquals(1, $currentProduct->getId());
 
-        $lastViewedProductId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId();
+        $lastViewedProductId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Session')->getLastViewedProductId();
         $this->assertEquals(1, $lastViewedProductId);
 
         /* Layout updates */
-        $handles = Mage::app()->getLayout()->getUpdate()->getHandles();
+        $handles = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->getUpdate()->getHandles();
         $this->assertContains('catalog_product_view_type_simple', $handles);
 
         $responseBody = $this->getResponse()->getBody();

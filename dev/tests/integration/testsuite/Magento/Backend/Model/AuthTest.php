@@ -25,8 +25,10 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_model = Mage::getModel('Magento_Backend_Model_Auth');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Auth');
     }
 
     /**

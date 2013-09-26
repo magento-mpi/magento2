@@ -14,7 +14,8 @@ class Magento_GiftRegistry_Model_Resource_Item_CollectionTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_collection = Mage::getModel('Magento_GiftRegistry_Model_Resource_Item_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_GiftRegistry_Model_Resource_Item_Collection');
     }
 
     public function testAddProductFilter()

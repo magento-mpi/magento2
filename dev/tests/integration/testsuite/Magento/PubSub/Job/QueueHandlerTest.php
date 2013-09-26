@@ -48,7 +48,8 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->save();
 
         /** @var Magento_Webhook_Model_Event $_event */
-        $this->_event = Mage::getModel('Magento_Webhook_Model_Event')
+        $this->_event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Event')
             ->setTopic('topic')
             ->setBodyData(array('body data'))
             ->save();

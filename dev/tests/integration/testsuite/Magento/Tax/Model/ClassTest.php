@@ -14,7 +14,8 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
     public function testCheckClassCanBeDeletedCustomerClassAssertException()
     {
         /** @var $model Magento_Tax_Model_Class */
-        $model = Mage::getModel('Magento_Tax_Model_Class')->getCollection()
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Tax_Model_Class')->getCollection()
             ->setClassTypeFilter(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
             ->getFirstItem();
 
@@ -28,11 +29,13 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
     public function testCheckClassCanBeDeletedProductClassAssertException()
     {
         /** @var $model Magento_Tax_Model_Class */
-        $model = Mage::getModel('Magento_Tax_Model_Class')->getCollection()
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Tax_Model_Class')->getCollection()
             ->setClassTypeFilter(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
             ->getFirstItem();
 
-        Mage::getModel('Magento_Catalog_Model_Product')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product')
             ->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
@@ -51,7 +54,8 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
     public function testCheckClassCanBeDeletedPositiveResult($classType)
     {
         /** @var $model Magento_Tax_Model_Class */
-        $model = Mage::getModel('Magento_Tax_Model_Class');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Tax_Model_Class');
         $model->setClassName('TaxClass' . uniqid())
             ->setClassType($classType)
             ->isObjectNew(true);
@@ -81,7 +85,8 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
         $customerClasses = $taxRule->getCustomerTaxClasses();
 
         /** @var $model Magento_Tax_Model_Class */
-        $model = Mage::getModel('Magento_Tax_Model_Class')
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Tax_Model_Class')
             ->load($customerClasses[0]);
         $this->setExpectedException('Magento_Core_Exception', 'You cannot delete this tax class because it is used in' .
             ' Tax Rules. You have to delete the rules it is used in first.');
@@ -101,7 +106,8 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
         $productClasses = $taxRule->getProductTaxClasses();
 
         /** @var $model Magento_Tax_Model_Class */
-        $model = Mage::getModel('Magento_Tax_Model_Class')
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Tax_Model_Class')
             ->load($productClasses[0]);
         $this->setExpectedException('Magento_Core_Exception', 'You cannot delete this tax class because it is used in' .
             ' Tax Rules. You have to delete the rules it is used in first.');

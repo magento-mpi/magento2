@@ -15,12 +15,32 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address
     extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
 {
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_CustomerSegment_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address');
     }
 
@@ -31,14 +51,13 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_';
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
-                'label' => __('Conditions Combination')
+                'label' => __('Conditions Combination'),
             ),
-            Mage::getModel($prefix.'Default')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Customer_Address_Default')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Customer_Address_Attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }
@@ -76,7 +95,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address
     {
         $resource = $this->getResource();
         $select = $resource->createSelect();
-        $addressEntityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer_address');
+        $addressEntityType = $this->_eavConfig->getEntityType('customer_address');
         $addressTable = $resource->getTable($addressEntityType->getEntityTable());
         $select->from(array('customer_address' => $addressTable), array(new Zend_Db_Expr(1)));
         $select->where('customer_address.entity_type_id = ?', $addressEntityType->getId());

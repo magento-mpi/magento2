@@ -18,7 +18,8 @@ class Magento_GiftMessage_Block_Message_InlineTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_GiftMessage_Block_Message_Inline');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_GiftMessage_Block_Message_Inline');
     }
 
     /**
@@ -26,8 +27,10 @@ class Magento_GiftMessage_Block_Message_InlineTest extends PHPUnit_Framework_Tes
      */
     public function testThumbnail()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1);
 
         $size = $this->_block->getThumbnailSize();

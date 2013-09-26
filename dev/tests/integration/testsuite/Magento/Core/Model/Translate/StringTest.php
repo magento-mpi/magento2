@@ -18,7 +18,8 @@ class Magento_Core_Model_Translate_StringTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Translate_String');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Translate_String');
     }
 
     public function testConstructor()
