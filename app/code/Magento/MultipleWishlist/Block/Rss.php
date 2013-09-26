@@ -34,33 +34,37 @@ class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
     /**
      * Construct
      *
-     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_wishlistFactory = $wishlistFactory;
-        parent::__construct($customerSession, $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context,
-            $data);
+        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context,
+            $storeManager, $customerSession, $productFactory, $data);
     }
 
     /**

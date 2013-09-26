@@ -105,7 +105,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Customer_Model_SessionProxy $customerSession
      * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
@@ -115,7 +115,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Customer_Model_Session $customerSession,
+        Magento_Customer_Model_SessionProxy $customerSession,
         Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
@@ -526,7 +526,6 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function calculate()
     {
-        $session = $this->_customerSession;
         $count = 0;
         if ($this->getCustomer()) {
             $collection = $this->getWishlistItemCollection()->setInStockFilter(true);
@@ -535,12 +534,13 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
             } else {
                 $count = $collection->getSize();
             }
-            $session->setWishlistDisplayType($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY));
-            $session->setDisplayOutOfStockProducts(
+            $this->_customerSession
+                ->setWishlistDisplayType($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY));
+            $this->_customerSession->setDisplayOutOfStockProducts(
                 $this->_coreStoreConfig->getConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK)
             );
         }
-        $session->setWishlistItemCount($count);
+        $this->_customerSession->setWishlistItemCount($count);
         $this->_eventManager->dispatch('wishlist_items_renewed');
         return $this;
     }

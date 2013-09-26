@@ -64,9 +64,9 @@ class Magento_Wishlist_Controller_Index
         Magento_Core_Model_Url $url
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
         $this->_wishlistConfig = $wishlistConfig;
         $this->_url = $url;
+        parent::__construct($context);
     }
 
     public function preDispatch()

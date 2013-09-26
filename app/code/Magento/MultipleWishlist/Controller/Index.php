@@ -17,13 +17,6 @@
 class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Controller_Index
 {
     /**
-     * Url model
-     *
-     * @var Magento_Core_Model_UrlInterface
-     */
-    protected $_url;
-
-    /**
      * Customer session
      *
      * @var Magento_Customer_Model_Session
@@ -57,31 +50,30 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Wishlist_Model_Config $wishlistConfig
+     * @param \Magento_Core_Model_Url|\Magento_Core_Model_UrlInterface $url
      * @param Magento_Wishlist_Model_ItemFactory $itemFactory
      * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
      * @param Magento_Core_Model_Session_Generic $wishlistSession
      * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_UrlInterface $url
      * @param Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Wishlist_Model_Config $wishlistConfig,
+        Magento_Core_Model_Url $url,
         Magento_Wishlist_Model_ItemFactory $itemFactory,
         Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
         Magento_Core_Model_Session_Generic $wishlistSession,
         Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_UrlInterface $url,
         Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_wishlistFactory = $wishlistFactory;
         $this->_wishlistSession = $wishlistSession;
         $this->_customerSession = $customerSession;
-        $this->_url = $url;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
-        parent::__construct($context, $coreRegistry, $wishlistConfig);
+        parent::__construct($context, $coreRegistry, $wishlistConfig, $url);
     }
 
     /**
