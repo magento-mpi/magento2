@@ -247,27 +247,77 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_ImportExport_Model_ImportFactory
+     */
+    protected $_importFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Option_CollectionFactory
+     */
+    protected $_optionColFactory;
+
+    /**
+     * @var Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory
+     */
+    protected $_colIteratorFactory;
+
+    /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_StoreManagerInterface $_storeManager
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Resource_Product_Option_CollectionFactory $optionColFactory
+     * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $colIteratorFactory
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_StoreManagerInterface $_storeManager,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Resource_Product_Option_CollectionFactory $optionColFactory,
+        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $colIteratorFactory,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_importFactory = $importFactory;
+        $this->_resource = $resource;
+        $this->_storeManager = $_storeManager;
+        $this->_productFactory = $productFactory;
+        $this->_optionColFactory = $optionColFactory;
+        $this->_colIteratorFactory = $colIteratorFactory;
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
-            $this->_connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
+            $this->_connection = $resource->getConnection('write');
         }
 
         if (isset($data['resource_helper'])) {
             $this->_resourceHelper = $data['resource_helper'];
         } else {
-            $this->_resourceHelper = Mage::getResourceHelper('Magento_ImportExport');
+            $this->_resourceHelper = $resourceHelper;
         }
 
         if (isset($data['is_price_global'])) {
@@ -346,7 +396,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         }
         foreach ($this->_tables as $key => $value) {
             if ($value == null) {
-                $this->_tables[$key] = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName($key);
+                $this->_tables[$key] = $this->_resource->getTableName($key);
             }
         }
         return $this;
@@ -364,7 +414,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
             $this->_storeCodeToId = $data['stores'];
         } else {
             /** @var $store Magento_Core_Model_Store */
-            foreach (Mage::app()->getStores(true) as $store) {
+            foreach ($this->_storeManager->getStores(true) as $store) {
                 $this->_storeCodeToId[$store->getCode()] = $store->getId();
             }
         }
@@ -382,31 +432,29 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         if (isset($data['data_source_model'])) {
             $this->_dataSourceModel = $data['data_source_model'];
         } else {
-            $this->_dataSourceModel = Magento_ImportExport_Model_Import::getDataSourceModel();
+            $this->_dataSourceModel = $this->_importFactory->create()->getDataSourceModel();
         }
         if (isset($data['product_model'])) {
             $this->_productModel = $data['product_model'];
         } else {
-            $this->_productModel = Mage::getModel('Magento_Catalog_Model_Product');
+            $this->_productModel = $this->_productFactory->create();
         }
         if (isset($data['option_collection'])) {
             $this->_optionCollection = $data['option_collection'];
         } else {
-            $this->_optionCollection
-                = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Option_Collection');
+            $this->_optionCollection = $this->_optionColFactory->create();
         }
         if (isset($data['product_entity'])) {
             $this->_productEntity = $data['product_entity'];
         } else {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Option entity must have a parent product entity.')
             );
         }
         if (isset($data['collection_by_pages_iterator'])) {
             $this->_byPagesIterator = $data['collection_by_pages_iterator'];
         } else {
-            $this->_byPagesIterator
-                = Mage::getResourceModel('Magento_ImportExport_Model_Resource_CollectionByPagesIterator');
+            $this->_byPagesIterator = $this->_colIteratorFactory->create();
         }
         if (isset($data['page_size'])) {
             $this->_pageSize = $data['page_size'];

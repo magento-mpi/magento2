@@ -126,15 +126,27 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataFactory $dataFactory
+     * @param Magento_ImportExport_Model_Import_Entity_Eav_CustomerFactory $customerFactory
+     * @param Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_Core_Model_Resource $resource,
+        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataFactory $dataFactory,
+        Magento_ImportExport_Model_Import_Entity_Eav_CustomerFactory $customerFactory,
+        Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressFactory $addressFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
+        parent::__construct($coreData, $coreString, $coreStoreConfig, $importFactory, $resource, $data);
 
         $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
             __('Orphan rows that will be skipped due default row errors')
@@ -152,17 +164,13 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
             $arguments = array(
                 'entity_type' => Magento_ImportExport_Model_Import_Entity_CustomerComposite::COMPONENT_ENTITY_CUSTOMER,
             );
-            $this->_dataSourceModels['customer']
-                = Mage::getResourceModel('Magento_ImportExport_Model_Resource_Import_CustomerComposite_Data',
-                    array('arguments' => $arguments)
-                );
+            $this->_dataSourceModels['customer'] = $dataFactory->create(array('arguments' => $arguments));
         }
         if (isset($data['customer_entity'])) {
             $this->_customerEntity = $data['customer_entity'];
         } else {
             $data['data_source_model'] = $this->_dataSourceModels['customer'];
-            $this->_customerEntity = Mage::getModel('Magento_ImportExport_Model_Import_Entity_Eav_Customer',
-                array('data' => $data));
+            $this->_customerEntity = $customerFactory->create(array('data' => $data));
             unset($data['data_source_model']);
         }
         $this->_initCustomerAttributes();
@@ -175,18 +183,13 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
                 'entity_type' => Magento_ImportExport_Model_Import_Entity_CustomerComposite::COMPONENT_ENTITY_ADDRESS,
                 'customer_attributes' => $this->_customerAttributes
             );
-            $this->_dataSourceModels['address']
-                = Mage::getResourceModel('Magento_ImportExport_Model_Resource_Import_CustomerComposite_Data',
-                    array('arguments' => $arguments)
-                );
+            $this->_dataSourceModels['address'] = $dataFactory->create(array('arguments' => $arguments));
         }
         if (isset($data['address_entity'])) {
             $this->_addressEntity = $data['address_entity'];
         } else {
             $data['data_source_model'] = $this->_dataSourceModels['address'];
-            $this->_addressEntity
-                = Mage::getModel('Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address',
-                    array('data' => $data));
+            $this->_addressEntity = $addressFactory->create(array('data' => $data));
             unset($data['data_source_model']);
         }
         $this->_initAddressAttributes();
@@ -195,8 +198,6 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
         if (isset($data['next_customer_id'])) {
             $this->_nextCustomerId = $data['next_customer_id'];
         } else {
-            /** @var $resourceHelper Magento_ImportExport_Model_Resource_Helper_Mysql4 */
-            $resourceHelper = Mage::getResourceHelper('Magento_ImportExport');
             $this->_nextCustomerId = $resourceHelper->getNextAutoincrement($this->_customerEntity->getEntityTable());
         }
     }

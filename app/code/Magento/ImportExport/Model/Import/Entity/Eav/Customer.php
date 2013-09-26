@@ -21,11 +21,6 @@
 class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     extends Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
 {
-    /**
-     * Attribute collection name
-     */
-    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Customer_Model_Resource_Attribute_Collection';
-
     /**#@+
      * Permanent column names
      *
@@ -109,22 +104,35 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     protected $_attributeCollection;
 
     /**
+     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Customer_Model_Resource_Attribute_CollectionFactory $collectionFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Customer_Model_Resource_Attribute_CollectionFactory $collectionFactory,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
         array $data = array()
     ) {
+        $this->_resourceHelper = $resourceHelper;
+
         if (isset($data['attribute_collection'])) {
             $this->_attributeCollection = $data['attribute_collection'];
             unset($data['attribute_collection']);
         } else {
-            $this->_attributeCollection = Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            $this->_attributeCollection = $collectionFactory->create();
             $this->_attributeCollection->addSystemHiddenFilterWithPasswordHash();
             $data['attribute_collection'] = $this->_attributeCollection;
         }
@@ -156,7 +164,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
         $this->_initStores(true)
             ->_initAttributes();
 
-        $this->_customerModel = Mage::getModel('Magento_Customer_Model_Customer');
+        $this->_customerModel = $customerFactory->create();
         /** @var $customerResource Magento_Customer_Model_Resource_Customer */
         $customerResource = $this->_customerModel->getResource();
         $this->_entityTable = $customerResource->getEntityTable();
@@ -234,9 +242,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     protected function _getNextEntityId()
     {
         if (!$this->_nextEntityId) {
-            /** @var $resourceHelper Magento_ImportExport_Model_Resource_Helper_Mysql4 */
-            $resourceHelper = Mage::getResourceHelper('Magento_ImportExport');
-            $this->_nextEntityId = $resourceHelper->getNextAutoincrement($this->_entityTable);
+            $this->_nextEntityId = $this->_resourceHelper->getNextAutoincrement($this->_entityTable);
         }
         return $this->_nextEntityId++;
     }

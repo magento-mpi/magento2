@@ -235,25 +235,31 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource $resource
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource $resource,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dataSourceModel     = isset($data['data_source_model']) ? $data['data_source_model']
-            : Magento_ImportExport_Model_Import::getDataSourceModel();
+            : $importFactory->create()->getDataSourceModel();
         $this->_connection          = isset($data['connection']) ? $data['connection']
-            : Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
+            : $resource->getConnection('write');
         $this->_jsonHelper          =  $coreData;
         $this->_stringHelper        =  $coreString;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int)$this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']
-            : Mage::getResourceHelper('Magento_ImportExport')->getMaxDataSize();
+            : $resourceHelper->getMaxDataSize();
         $this->_bunchSize           = isset($data['bunch_size']) ? $data['bunch_size']
             : (static::XML_PATH_BUNCH_SIZE ? (int)$this->_coreStoreConfig->getConfig(static::XML_PATH_BUNCH_SIZE) : 0);
     }
@@ -518,7 +524,7 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
     public function getSource()
     {
         if (!$this->_source) {
-            Mage::throwException(__('Source is not set'));
+            throw new Magento_Core_Exception(__('Source is not set'));
         }
         return $this->_source;
     }
@@ -678,7 +684,7 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
         if (!$this->_dataValidated) {
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Cannot find required columns: %1',
                         implode(', ', $absentColumns)
                     )
@@ -701,14 +707,14 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
             }
 
             if ($emptyHeaderColumns) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Columns number: "%1" have empty headers',
                         implode('", "', $emptyHeaderColumns)
                     )
                 );
             }
             if ($invalidColumns) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Column names: "%1" are invalid',
                         implode('", "', $invalidColumns)
                     )

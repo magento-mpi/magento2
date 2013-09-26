@@ -164,21 +164,27 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_App $app,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
+        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
-        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();
+        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : $app;
+        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : $app;
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
-            : Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            : $collectionFactory->create(static::ATTRIBUTE_COLLECTION_NAME);
         $this->_pageSize = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int) $this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
-            : Mage::getResourceModel('Magento_ImportExport_Model_Resource_CollectionByPagesIterator');
+            : $resourceColFactory->create();
     }
 
     /**
@@ -385,7 +391,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     public function getWriter()
     {
         if (!$this->_writer) {
-            Mage::throwException(__('Please specify writer.'));
+            throw new Magento_Core_Exception(__('Please specify writer.'));
         }
 
         return $this->_writer;

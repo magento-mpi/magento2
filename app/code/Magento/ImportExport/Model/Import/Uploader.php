@@ -90,7 +90,7 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
     protected function _setUploadFile($filePath)
     {
         if (!is_readable($filePath)) {
-            Mage::throwException("File '{$filePath}' was not found or has read restriction.");
+            throw new Magento_Core_Exception("File '{$filePath}' was not found or has read restriction.");
         }
         $this->_file = $this->_readFileInfo($filePath);
 

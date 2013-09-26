@@ -84,16 +84,30 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_App $app
+     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
+     * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customerColFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_App $app,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
+        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Customer_Model_Resource_Customer_CollectionFactory $customerColFactory,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct(
+            $coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $locale, $eavConfig, $data
+        );
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+            : $customerColFactory->create();
 
         $this->_initAttributeValues()
             ->_initStores()

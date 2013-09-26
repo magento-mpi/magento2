@@ -54,21 +54,35 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
     protected $_permanentAttributes = array();
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_App $app
+     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
+     * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_App $app,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
+        Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Config $eavConfig,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $data);
+        $this->_locale = $locale;
+        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];
         } else {
-            $this->_entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getEntityType($this->getEntityTypeCode())
-                ->getEntityTypeId();
+            $this->_entityTypeId = $eavConfig->getEntityType($this->getEntityTypeCode())->getEntityTypeId();
         }
     }
 
@@ -168,11 +182,11 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
                         $to   = array_shift($exportFilter[$attributeCode]);
 
                         if (is_scalar($from) && !empty($from)) {
-                            $date = Mage::app()->getLocale()->date($from, null, null, false)->toString('MM/dd/YYYY');
+                            $date = $this->_locale->date($from, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attributeCode, array('from' => $date, 'date' => true));
                         }
                         if (is_scalar($to) && !empty($to)) {
-                            $date = Mage::app()->getLocale()->date($to, null, null, false)->toString('MM/dd/YYYY');
+                            $date = $this->_locale->date($to, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attributeCode, array('to' => $date, 'date' => true));
                         }
                     }

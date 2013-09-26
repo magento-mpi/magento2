@@ -19,6 +19,14 @@
 class Magento_ImportExport_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
 {
     /**
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'importexport')
+    {
+        parent::__construct($modulePrefix);
+    }
+
+    /**
      * Constants to be used for DB
      */
     const DB_MAX_PACKET_SIZE        = 1048576; // Maximal packet length by default in MySQL
@@ -48,7 +56,7 @@ class Magento_ImportExport_Model_Resource_Helper_Mysql4 extends Magento_Core_Mod
         $entityStatus = $adapter->showTableStatus($tableName);
 
         if (empty($entityStatus['Auto_increment'])) {
-            Mage::throwException(__('Cannot get autoincrement value'));
+            throw new Magento_Core_Exception(__('Cannot get autoincrement value'));
         }
         return $entityStatus['Auto_increment'];
     }

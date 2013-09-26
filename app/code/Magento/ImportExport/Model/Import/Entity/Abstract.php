@@ -197,27 +197,39 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
      * @var Magento_Core_Helper_String
      */
     protected $_coreString = null;
+    /**
+     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
 
     /**
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Data $coreData,
-        Magento_ImportExport_Helper_Data $importExportData
+        Magento_ImportExport_Helper_Data $importExportData,
+        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_Eav_Model_Config $config,
+        Magento_Core_Model_Resource $resource,
+        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
     ) {
         $this->_coreString = $coreString;
         $this->_coreData = $coreData;
         $this->_importExportData = $importExportData;
+        $this->_resourceHelper = $resourceHelper;
 
-        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')
-            ->getEntityType($this->getEntityTypeCode());
+        $entityType = $config->getEntityType($this->getEntityTypeCode());
 
         $this->_entityTypeId    = $entityType->getEntityTypeId();
-        $this->_dataSourceModel = Magento_ImportExport_Model_Import::getDataSourceModel();
-        $this->_connection      = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
+        $this->_dataSourceModel = $importFactory->create()->getDataSourceModel();
+        $this->_connection      = $resource->getConnection('write');
     }
 
     /**
@@ -228,7 +240,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
     protected function _getSource()
     {
         if (!$this->_source) {
-            Mage::throwException(__('Please specify a source.'));
+            throw new Magento_Core_Exception(__('Please specify a source.'));
         }
         return $this->_source;
     }
@@ -285,7 +297,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
         $bunchRows       = array();
         $startNewBunch   = false;
         $nextRowBackup   = array();
-        $maxDataSize = Mage::getResourceHelper('Magento_ImportExport')->getMaxDataSize();
+        $maxDataSize = $this->_resourceHelper->getMaxDataSize();
         $bunchSize = $this->_importExportData->getBunchSize();
 
         $source->rewind();
@@ -522,7 +534,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
     public function getSource()
     {
         if (!$this->_source) {
-            Mage::throwException(__('Source is not set'));
+            throw new Magento_Core_Exception(__('Source is not set'));
         }
         return $this->_source;
     }
@@ -680,7 +692,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
         if (!$this->_dataValidated) {
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Cannot find required columns: %1', implode(', ', $absentColumns))
                 );
             }
@@ -701,12 +713,12 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
             }
 
             if ($emptyHeaderColumns) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Columns number: "%1" have empty headers', implode('", "', $emptyHeaderColumns))
                 );
             }
             if ($invalidColumns) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Column names: "%1" are invalid', implode('", "', $invalidColumns))
                 );
             }
