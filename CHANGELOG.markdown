@@ -21,6 +21,7 @@
   * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
   * /config/global/page/layouts node was removed from the config.xml and related data was moved into page_layouts.xml
   * /config/global/theme node was removed from the config.xml and related data was moved to di.xml
+  * /config/global/payment node was removed from config.xml and related data was moved to payment.xml and di.xml
   * Removed "translate" node from configuration XML files
   * Improved Install, Category, Product, Customer, Wishlist configuration segments:
     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
