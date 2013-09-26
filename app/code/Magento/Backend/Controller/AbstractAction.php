@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Controller;
+
 /**
  * Generic backend controller
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-namespace Magento\Backend\Controller;
-
-abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
+abstract class AbstractAction extends \Magento\Core\Controller\Varien\Action
 {
     /**
      * Name of "is URLs checked" flag
@@ -106,7 +106,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
     /**
      * Define active menu item in menu block
      * @param string $itemId current active menu item
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     protected function _setActiveMenu($itemId)
     {
@@ -126,7 +126,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
      * @param $label
      * @param $title
      * @param null $link
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     protected function _addBreadcrumb($label, $title, $link=null)
     {
@@ -136,7 +136,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
 
     /**
      * @param \Magento\Core\Block\AbstractBlock $block
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     protected function _addContent(\Magento\Core\Block\AbstractBlock $block)
     {
@@ -145,7 +145,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
 
     /**
      * @param \Magento\Core\Block\AbstractBlock $block
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     protected function _addLeft(\Magento\Core\Block\AbstractBlock $block)
     {
@@ -154,7 +154,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
 
     /**
      * @param \Magento\Core\Block\AbstractBlock $block
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     protected function _addJs(\Magento\Core\Block\AbstractBlock $block)
     {
@@ -168,7 +168,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
      *
      * @param \Magento\Core\Block\AbstractBlock $block
      * @param string $containerName
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     private function _moveBlockToContainer(\Magento\Core\Block\AbstractBlock $block, $containerName)
     {
@@ -179,7 +179,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
     /**
      * Controller predispatch method
      *
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     public function preDispatch()
     {
@@ -262,7 +262,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
      * Set session locale,
      * process force locale set through url params
      *
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     protected function _processLocaleSettings()
     {
@@ -292,7 +292,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
     /**
      * Start authentication process
      *
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     protected function _initAuthentication()
     {
@@ -427,7 +427,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
      * @param string|null|bool|array $ids
      * @param bool $generateBlocks
      * @param bool $generateXml
-     * @return \Magento\Backend\Controller\ActionAbstract|\Magento\Core\Controller\Varien\Action
+     * @return \Magento\Backend\Controller\AbstractAction|\Magento\Core\Controller\Varien\Action
      */
     public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
@@ -462,7 +462,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
      * Is overridden here to set defaultUrl to admin url
      *
      * @param   string $defaultUrl
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     protected function _redirectReferer($defaultUrl = null)
     {
@@ -476,7 +476,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
      *
      * @param   string $path
      * @param   array $arguments
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     protected function _redirect($path, $arguments=array())
     {
@@ -547,7 +547,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
      * that case
      * @param string $contentType
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream',
         $contentLength = null

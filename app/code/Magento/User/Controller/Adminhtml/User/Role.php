@@ -11,7 +11,7 @@
  */
 namespace Magento\User\Controller\Adminhtml\User;
 
-class Role extends \Magento\Backend\Controller\ActionAbstract
+class Role extends \Magento\Backend\Controller\AbstractAction
 {
 
     /**

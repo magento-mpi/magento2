@@ -17,7 +17,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
-class Index extends \Magento\Backend\Controller\ActionAbstract
+class Index extends \Magento\Backend\Controller\AbstractAction
 {
     /**
      * Admin area entry point

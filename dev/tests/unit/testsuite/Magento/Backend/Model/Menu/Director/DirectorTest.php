@@ -51,7 +51,7 @@ class DirectorTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Logger', array('addStoreLog', 'log', 'logException'), array(), '', false
         );
         $this->_commandMock =
-            $this->getMock('Magento\Backend\Model\Menu\Builder\CommandAbstract',
+            $this->getMock('Magento\Backend\Model\Menu\Builder\AbstractCommand',
                 array('getId', '_execute', 'execute', 'chain'), array(), '', false);
         $this->_commandFactoryMock =
             $this->getMock('Magento\Backend\Model\Menu\Builder\CommandFactory', array('create'), array(), '', false);

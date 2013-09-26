@@ -11,7 +11,7 @@
  */
 namespace Magento\Sales\Model;
 
-abstract class CollectorPositionsTestAbstract extends \PHPUnit_Framework_TestCase
+abstract class AbstractCollectorPositionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $collectorCode

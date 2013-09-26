@@ -7,7 +7,7 @@
  */
 namespace Magento\User\Controller\Adminhtml;
 
-class User extends \Magento\Backend\Controller\ActionAbstract
+class User extends \Magento\Backend\Controller\AbstractAction
 {
     /**
      * Core registry

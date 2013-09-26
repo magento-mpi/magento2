@@ -19,7 +19,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Config;
 
-class Save extends \Magento\Backend\Controller\System\ConfigAbstract
+class Save extends \Magento\Backend\Controller\System\AbstractConfig
 {
     /**
      * Backend Config Model Factory

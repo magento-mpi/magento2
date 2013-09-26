@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Model\Layout\Argument\Handler;
 
-class Boolean extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
+class Boolean extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
     /**
      * Process argument value

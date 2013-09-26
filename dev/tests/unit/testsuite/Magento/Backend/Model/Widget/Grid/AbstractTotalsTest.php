@@ -11,7 +11,7 @@
 
 namespace Magento\Backend\Model\Widget\Grid;
 
-class TotalsAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var $_model \PHPUnit_Framework_MockObject_MockObject
@@ -45,7 +45,7 @@ class TotalsAbstractTest extends \PHPUnit_Framework_TestCase
             'parser' =>  $this->_parserMock
         );
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Backend\Model\Widget\Grid\TotalsAbstract', $arguments, '', true, false, true, array()
+            'Magento\Backend\Model\Widget\Grid\AbstractTotals', $arguments, '', true, false, true, array()
         );
         $this->_model->expects($this->any())
             ->method('_countSum')

@@ -10,7 +10,7 @@
 
 namespace Magento\Backend\Model\Widget\Grid;
 
-class Totals extends \Magento\Backend\Model\Widget\Grid\TotalsAbstract
+class Totals extends \Magento\Backend\Model\Widget\Grid\AbstractTotals
 {
     /**
      * Count collection column sum based on column index

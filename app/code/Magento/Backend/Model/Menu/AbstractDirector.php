@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Menu;
 
-abstract class DirectorAbstract
+abstract class AbstractDirector
 {
     /**
      * Factory model

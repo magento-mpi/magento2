@@ -9,7 +9,7 @@
  */
 namespace Magento\Install\Model\EntryPoint;
 
-class Upgrade extends \Magento\Core\Model\EntryPointAbstract
+class Upgrade extends \Magento\Core\Model\AbstractEntryPoint
 {
     /**
      * Key for passing reindexing parameter

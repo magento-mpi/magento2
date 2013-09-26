@@ -11,10 +11,10 @@
 
 namespace Magento\Backend\Model\Config\Structure;
 
-class ElementAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Backend\Model\Config\Structure\ElementAbstract
+     * @var \Magento\Backend\Model\Config\Structure\AbstractElement
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class ElementAbstractTest extends \PHPUnit_Framework_TestCase
         $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Backend\Model\Config\Structure\ElementAbstract',
+            'Magento\Backend\Model\Config\Structure\AbstractElement',
             array($this->_applicationMock)
         );
     }

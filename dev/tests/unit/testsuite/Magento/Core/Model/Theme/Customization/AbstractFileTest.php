@@ -14,7 +14,7 @@
  */
 namespace Magento\Core\Model\Theme\Customization;
 
-class FileAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractFileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockBuilder
@@ -49,7 +49,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
         );
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 
-        $this->_modelBuilder = $this->getMockBuilder('Magento\Core\Model\Theme\Customization\FileAbstract')
+        $this->_modelBuilder = $this->getMockBuilder('Magento\Core\Model\Theme\Customization\AbstractFile')
             ->setMethods(array('getType', 'getContentType'))
             ->setConstructorArgs(array($this->_customizationPath, $this->_fileFactory, $this->_filesystem));
     }
@@ -63,8 +63,8 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::__construct
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::create
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::__construct
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::create
      */
     public function testCreate()
     {
@@ -72,12 +72,12 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
         $file = $this->getMock('Magento\Core\Model\Theme\File', array(), array(), '', false);
         $file->expects($this->once())->method('setCustomizationService')->with($model);
         $this->_fileFactory->expects($this->once())->method('create')->will($this->returnValue($file));
-        /** @var $model \Magento\Core\Model\Theme\Customization\FileAbstract */
+        /** @var $model \Magento\Core\Model\Theme\Customization\AbstractFile */
         $this->assertEquals($file, $model->create());
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::getFullPath
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::getFullPath
      */
     public function testGetFullPath()
     {
@@ -91,16 +91,16 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
         $this->_customizationPath->expects($this->once())->method('getCustomizationPath')
             ->will($this->returnValue('/path'));
 
-        /** @var $model \Magento\Core\Model\Theme\Customization\FileAbstract */
+        /** @var $model \Magento\Core\Model\Theme\Customization\AbstractFile */
         /** @var $file \Magento\Core\Model\Theme\File */
         $this->assertEquals('/path' . DIRECTORY_SEPARATOR . 'file.path', $model->getFullPath($file));
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::prepareFile
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::_prepareFileName
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::_prepareFilePath
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::_prepareSortOrder
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::prepareFile
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::_prepareFileName
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::_prepareFilePath
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::_prepareSortOrder
      * @dataProvider getTestContent
      */
     public function testPrepareFile($type, $fileContent, $expectedContent, $existedFiles)
@@ -126,7 +126,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
         $file->expects($this->any())->method('getTheme')->will($this->returnValue($theme));
         $file->setData($fileContent);
 
-        /** @var $model \Magento\Core\Model\Theme\Customization\FileAbstract */
+        /** @var $model \Magento\Core\Model\Theme\Customization\AbstractFile */
         /** @var $file \Magento\Core\Model\Theme\File */
         $model->prepareFile($file);
         $this->assertEquals($expectedContent, $file->getData());
@@ -213,8 +213,8 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::save
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::_saveFileContent
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::save
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::_saveFileContent
      */
     public function testSave()
     {
@@ -233,14 +233,14 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem->expects($this->once())->method('setIsAllowCreateDirectories')->with(true)
             ->will($this->returnSelf());
         $this->_filesystem->expects($this->once())->method('write')->with('test_path', 'test content');
-        /** @var $model \Magento\Core\Model\Theme\Customization\FileAbstract */
+        /** @var $model \Magento\Core\Model\Theme\Customization\AbstractFile */
         /** @var $file \Magento\Core\Model\Theme\File */
         $model->save($file);
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::delete
-     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::_deleteFileContent
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::delete
+     * @covers \Magento\Core\Model\Theme\Customization\AbstractFile::_deleteFileContent
      */
     public function testDelete()
     {
@@ -256,7 +256,7 @@ class FileAbstractTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem->expects($this->once())->method('has')->with('test_path')->will($this->returnValue(true));
         $this->_filesystem->expects($this->once())->method('delete')->with('test_path');
         $model->expects($this->once())->method('getFullPath')->with($file)->will($this->returnValue('test_path'));
-        /** @var $model \Magento\Core\Model\Theme\Customization\FileAbstract */
+        /** @var $model \Magento\Core\Model\Theme\Customization\AbstractFile */
         /** @var $file \Magento\Core\Model\Theme\File */
         $model->delete($file);
     }

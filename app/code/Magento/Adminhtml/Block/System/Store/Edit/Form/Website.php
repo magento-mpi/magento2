@@ -20,7 +20,7 @@
 namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
 
 class Website
-    extends \Magento\Adminhtml\Block\System\Store\Edit\FormAbstract
+    extends \Magento\Adminhtml\Block\System\Store\Edit\AbstractForm
 {
     /**
      * Prepare website specific fieldset

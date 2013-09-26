@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Structure\Mapper;
 
-class Path extends \Magento\Backend\Model\Config\Structure\MapperAbstract
+class Path extends \Magento\Backend\Model\Config\Structure\AbstractMapper
 {
     /**
      * Apply map

@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Menu\Builder\Command;
 
-class Remove extends \Magento\Backend\Model\Menu\Builder\CommandAbstract
+class Remove extends \Magento\Backend\Model\Menu\Builder\AbstractCommand
 {
     /**
      * Mark item as removed

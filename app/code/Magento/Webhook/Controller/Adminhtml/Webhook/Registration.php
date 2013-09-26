@@ -13,7 +13,7 @@ namespace Magento\Webhook\Controller\Adminhtml\Webhook;
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Registration extends \Magento\Backend\Controller\ActionAbstract
+class Registration extends \Magento\Backend\Controller\AbstractAction
 {
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
     const DATA_TOPICS = 'topics';

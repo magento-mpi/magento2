@@ -10,8 +10,8 @@
 
 namespace Magento\Backend\Model\Config\Structure\Element;
 
-abstract class CompositeAbstract
-    extends \Magento\Backend\Model\Config\Structure\ElementAbstract
+abstract class AbstractComposite
+    extends \Magento\Backend\Model\Config\Structure\AbstractElement
 {
     /**
      * Child elements iterator

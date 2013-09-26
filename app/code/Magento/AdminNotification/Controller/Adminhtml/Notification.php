@@ -11,7 +11,7 @@
  */
 namespace Magento\AdminNotification\Controller\Adminhtml;
 
-class Notification extends \Magento\Backend\Controller\ActionAbstract
+class Notification extends \Magento\Backend\Controller\AbstractAction
 {
     public function indexAction()
     {
