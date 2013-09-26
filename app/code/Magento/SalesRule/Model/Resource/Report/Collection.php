@@ -47,6 +47,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
     protected $_rulesIdsFilter;
 
     /**
+     * @param Magento_SalesRule_Model_Resource_Report_RuleFactory $ruleFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
@@ -154,7 +155,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
             return $this;
         }
 
-        $rulesList = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->getUniqRulesNamesList();
+        $rulesList = $this->_ruleFactory->getUniqRulesNamesList();
 
         $rulesFilterSqlParts = array();
         foreach ($this->_rulesIdsFilter as $ruleId) {

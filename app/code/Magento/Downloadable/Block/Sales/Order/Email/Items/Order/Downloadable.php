@@ -18,6 +18,9 @@
  */
 class Magento_Downloadable_Block_Sales_Order_Email_Items_Order_Downloadable extends Magento_Sales_Block_Order_Email_Items_Order_Default
 {
+    /**
+     * @var Magento_Downloadable_Model_Link_Purchased
+     */
     protected $_purchased;
 
     /**

@@ -54,6 +54,14 @@ class Magento_Downloadable_Model_Link extends Magento_Core_Model_Abstract
      */
     protected $_dirModel;
 
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Dir $dirModel
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -65,7 +73,6 @@ class Magento_Downloadable_Model_Link extends Magento_Core_Model_Abstract
         $this->_dirModel = $dirModel;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
-
 
     /**
      * Initialize resource model
