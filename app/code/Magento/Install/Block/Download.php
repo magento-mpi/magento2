@@ -26,24 +26,24 @@ class Magento_Install_Block_Download extends Magento_Install_Block_Abstract
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Install_Model_Installer $installer
+     * @param Magento_Install_Model_Wizard $installWizard
+     * @param Magento_Core_Model_Session_Generic $session
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Install_Model_Installer $installer,
+        Magento_Install_Model_Wizard $installWizard,
+        Magento_Core_Model_Session_Generic $session,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct(
-            $coreData,
-            $context,
-            $data
-        );
+        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
         $this->_coreConfig = $coreConfig;
     }
 
@@ -62,7 +62,7 @@ class Magento_Install_Block_Download extends Magento_Install_Block_Abstract
      */
     public function getNextUrl()
     {
-        return Mage::getModel('Magento_Install_Model_Wizard')
+        return $this->_installWizard
             ->getStepByName('download')
             ->getNextUrl();
     }

@@ -14,31 +14,30 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
     /**
      * @var string
      */
-    protected static $_tmpConfigFile = '';
+    protected $_tmpConfigFile = '';
 
     /**
      * @var Magento_Install_Model_Installer_Config
      */
     protected $_model;
 
-    public static function setUpBeforeClass()
-    {
-        self::$_tmpConfigFile = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'local.xml';
-    }
-
-    public static function tearDownAfterClass()
-    {
-        if (file_exists(self::$_tmpConfigFile)) {
-            unlink(self::$_tmpConfigFile);
-        }
-    }
+    /**
+     * @var Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_filesystemMock;
 
     protected function setUp()
     {
+        $this->_tmpConfigFile = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'local.xml';
+        $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $this->_model = new Magento_Install_Model_Installer_Config(
+            $this->getMock('Magento_Install_Model_Installer', array(), array(),
+                'Magento_Install_Model_InstallerProxy', false),
             $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false),
             new Magento_Core_Model_Dir(__DIR__, array(), array(Magento_Core_Model_Dir::CONFIG => TESTS_TEMP_DIR)),
             $this->getMock('Magento_Core_Model_Config_Resource', array(), array(), '', false),
+            $this->_filesystemMock,
+            $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false),
             new Magento_Filesystem(new Magento_Filesystem_Adapter_Local())
         );
     }
@@ -54,11 +53,16 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
         $fixtureConfigData = "<date>$datePlaceholder</date>";
         $expectedConfigData = '<date>Sat, 19 Jan 2013 18:50:39 -0800</date>';
 
-        file_put_contents(self::$_tmpConfigFile, $fixtureConfigData);
-        $this->assertEquals($fixtureConfigData, file_get_contents(self::$_tmpConfigFile));
+        $this->_filesystemMock->expects($this->once())
+            ->method('read')
+            ->with($this->equalTo($this->_tmpConfigFile))
+            ->will($this->returnValue($fixtureConfigData));
+        $this->_filesystemMock->expects($this->once())
+            ->method('write')
+            ->with($this->equalTo($this->_tmpConfigFile), $this->equalTo($expectedConfigData))
+            ->will($this->returnValue($fixtureConfigData));
 
         $this->_model->replaceTmpInstallDate('Sat, 19 Jan 2013 18:50:39 -0800');
-        $this->assertEquals($expectedConfigData, file_get_contents(self::$_tmpConfigFile));
     }
 
     public function testReplaceTmpEncryptKey()
@@ -67,10 +71,15 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
         $fixtureConfigData = "<key>$keyPlaceholder</key>";
         $expectedConfigData = '<key>3c7cf2e909fd5e2268a6e1539ae3c835</key>';
 
-        file_put_contents(self::$_tmpConfigFile, $fixtureConfigData);
-        $this->assertEquals($fixtureConfigData, file_get_contents(self::$_tmpConfigFile));
+        $this->_filesystemMock->expects($this->once())
+            ->method('read')
+            ->with($this->equalTo($this->_tmpConfigFile))
+            ->will($this->returnValue($fixtureConfigData));
+        $this->_filesystemMock->expects($this->once())
+            ->method('write')
+            ->with($this->equalTo($this->_tmpConfigFile), $this->equalTo($expectedConfigData))
+            ->will($this->returnValue($fixtureConfigData));
 
         $this->_model->replaceTmpEncryptKey('3c7cf2e909fd5e2268a6e1539ae3c835');
-        $this->assertEquals($expectedConfigData, file_get_contents(self::$_tmpConfigFile));
     }
 }

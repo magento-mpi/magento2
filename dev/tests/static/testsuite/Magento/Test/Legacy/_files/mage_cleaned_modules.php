@@ -17,4 +17,5 @@ return array(
     'Reports',
     'Invitation',
     //'Reminder' commented because of ResourceHelper usage, which would be delivered later
+    'Install',
 );

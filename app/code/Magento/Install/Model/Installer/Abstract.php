@@ -19,6 +19,22 @@
 class Magento_Install_Model_Installer_Abstract
 {
     /**
+     * Installer model
+     *
+     * @var Magento_Install_Model_Installer
+     */
+    protected $installer;
+
+    /**
+     * @param Magento_Install_Model_InstallerProxy $installer
+     */
+    public function __construct(
+        Magento_Install_Model_InstallerProxy $installer
+    ) {
+        $this->_installer = $installer;
+    }
+
+    /**
      * Installer singleton
      *
      * @var Magento_Install_Model_Installer
@@ -32,9 +48,6 @@ class Magento_Install_Model_Installer_Abstract
      */
     protected function _getInstaller()
     {
-        if (is_null($this->_installer)) {
-            $this->_installer = Mage::getSingleton('Magento_Install_Model_Installer');
-        }
         return $this->_installer;
     }
 

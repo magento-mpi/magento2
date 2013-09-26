@@ -14,6 +14,26 @@
 class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Installer_Abstract
 {
     /**
+     * Installer Session
+     *
+     * @var Magento_Core_Model_Session_Generic
+     */
+    protected $_session;
+
+    /**
+     * @param Magento_Install_Model_InstallerProxy $installer
+     * @param Magento_Core_Model_Session_Generic $session
+     */
+    public function __construct(
+        Magento_Install_Model_InstallerProxy $installer,
+        Magento_Core_Model_Session_Generic $session
+    ) {
+        parent::__construct($installer);
+        $this->_session = $session;
+    }
+
+
+    /**
      * @return array
      */
     public function getPackages()
@@ -48,7 +68,7 @@ class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Install
                         if (is_array($message)) {
                             $message = $message['message'];
                         }
-                        Mage::getSingleton('Magento_Install_Model_Session')->addError($message);
+                        $this->_session->addError($message);
                     }
                 } else {
                     print_r($obj->getUserInfo());

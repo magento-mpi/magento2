@@ -30,11 +30,32 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
     protected $_filesystem;
 
     /**
-     * @param Magento_Filesystem $filesystem
+     * Install Config
+     *
+     * @var Magento_Install_Model_Config
      */
-    public function __construct(Magento_Filesystem $filesystem)
-    {
+    protected $_installConfig;
+
+    /**
+     * Application Root Directory
+     *
+     * @var string
+     */
+    protected $_appRootDir;
+
+    /**
+     * @param Magento_Install_Model_InstallerProxy $installer
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Install_Model_Config $installConfig
+     */
+    public function __construct(
+        Magento_Install_Model_InstallerProxy $installer,
+        Magento_Filesystem $filesystem,
+        Magento_Install_Model_Config $installConfig
+    ) {
+        parent::__construct($installer);
         $this->_filesystem = $filesystem;
+        $this->_installConfig = $installConfig;
     }
 
     /**
@@ -57,7 +78,7 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
     protected function _checkFilesystem()
     {
         $res = true;
-        $config = Mage::getSingleton('Magento_Install_Model_Config')->getWritableFullPathsForCheck();
+        $config = $this->_installConfig->getWritableFullPathsForCheck();
 
         if (is_array($config)) {
             foreach ($config as $item) {
@@ -68,21 +89,6 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
             }
         }
         return $res;
-    }
-
-    /**
-     * Check file system path
-     *
-     * @deprecated since 1.7.1.0
-     * @param   string $path
-     * @param   bool $recursive
-     * @param   bool $existence
-     * @param   string $mode
-     * @return  bool
-     */
-    protected function _checkPath($path, $recursive, $existence, $mode)
-    {
-        return $this->_checkFullPath(dirname(Mage::getRoot()) . $path, $recursive, $existence);
     }
 
     /**
