@@ -20,6 +20,28 @@ abstract class Magento_Adminhtml_Block_Dashboard_Abstract extends Magento_Adminh
 {
     protected $_dataHelperName = null;
 
+    /**
+     * @var Magento_Reports_Model_Resource_Order_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Reports_Model_Resource_Order_CollectionFactory $collectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reports_Model_Resource_Order_CollectionFactory $collectionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
     public function getCollection()
     {
            return $this->getDataHelper()->getCollection();
