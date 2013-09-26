@@ -41,6 +41,9 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
     /** @var Magento_Oauth_Helper_Service */
     protected $_oauthHelper;
 
+    /** @var Magento_Core_Model_Logger */
+    protected $_logger;
+
     /**
      * Class constructor
      *
@@ -48,6 +51,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
      * @param Magento_Oauth_Helper_Service $oauthHelper
      * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Magento_Oauth_Service_OauthV1Interface $oauthService
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Backend_Controller_Context $context
      * @param string $areaCode
      */
@@ -56,6 +60,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
         Magento_Oauth_Helper_Service $oauthHelper,
         Magento_Oauth_Model_Consumer_Factory $consumerFactory,
         Magento_Oauth_Service_OauthV1Interface $oauthService,
+        Magento_Core_Model_Logger $logger,
         Magento_Backend_Controller_Context $context,
         $areaCode = null
     ) {
@@ -64,6 +69,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
         $this->_oauthHelper = $oauthHelper;
         $this->_consumerFactory = $consumerFactory;
         $this->_oauthService = $oauthService;
+        $this->_logger = $logger;
     }
 
     /**
@@ -244,7 +250,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
             $this->getRequest()->setParam('back', 'edit');
         } catch (Exception $e) {
             $this->_setFormData(null);
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_logger->logException($e);
             $this->_getSession()->addError(__('An error occurred on saving consumer data.'));
         }
 
