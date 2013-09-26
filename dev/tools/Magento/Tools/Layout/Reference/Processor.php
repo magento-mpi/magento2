@@ -62,7 +62,7 @@ class Processor
      */
     protected function _addElements($data, $type)
     {
-        array_walk_recursive($data, function($value) use ($type) {
+        array_walk_recursive($data, function ($value) use ($type) {
             if (!$this->_referenceList->xpath("//item[@type='$type' and @value='$value']")) {
                 $element = $this->_referenceList->addChild('item');
                 $element->addAttribute('type', $type);
