@@ -1110,7 +1110,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
      */
     public function getAttributeCollection()
     {
-        return $this->_attributeColFactory;
+        return $this->_attributeColFactory->create();
     }
 
     /**
