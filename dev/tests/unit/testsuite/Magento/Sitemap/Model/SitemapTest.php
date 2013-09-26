@@ -383,8 +383,8 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
                 ->method('mv')
                 ->will($this->returnCallback(
                     function ($from, $to) {
-                        PHPUnit_Framework_Assert::assertEquals('sitemap-1-1.xml', $from);
-                        PHPUnit_Framework_Assert::assertEquals('sitemap.xml', $to);
+                        \PHPUnit_Framework_Assert::assertEquals('sitemap-1-1.xml', $from);
+                        \PHPUnit_Framework_Assert::assertEquals('sitemap.xml', $to);
                     }
                 ));
         }

@@ -22,7 +22,7 @@ class StdoTest extends \PHPUnit_Framework_TestCase
 
     public function testThatHandlerIsRight()
     {
-        $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Tools\I18n\Code\Dictionary\Writer\Csv $writer */
         $writer = $objectManagerHelper->getObject('Magento\Tools\I18n\Code\Dictionary\Writer\Csv\Stdo');
 
