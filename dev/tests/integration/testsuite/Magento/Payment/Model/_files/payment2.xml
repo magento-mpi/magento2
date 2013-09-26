@@ -10,10 +10,10 @@
 <payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../../../../../../app/code/Magento/Payment/etc/payment.xsd">
     <credit_cards>
-        <type code="AE" order="0">
+        <type id="AE" order="0">
             <label>American Express</label>
         </type>
-        <type code="SO" order="90">
+        <type id="SO" order="90">
             <label>Solo</label>
         </type>
     </credit_cards>

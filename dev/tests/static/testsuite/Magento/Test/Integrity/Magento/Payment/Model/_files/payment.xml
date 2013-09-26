@@ -9,10 +9,10 @@
 -->
 <payment>
     <credit_cards>
-        <type code="ABC" order="0">
+        <type id="ABC" order="0">
             <label>ABC Credit Card Company</label>
         </type>
-        <type code="XYZ" order="10">
+        <type id="XYZ" order="10">
             <label>ABC Credit Card Company</label>
         </type>
     </credit_cards>

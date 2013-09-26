@@ -12,10 +12,10 @@
 <payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Payment/etc/payment.xsd">
     <credit_cards>
-        <type code="SM" order="60">
+        <type id="SM" order="60">
             <label>Switch/Maestro</label>
         </type>
-        <type code="SO" order="61">
+        <type id="SO" order="61">
             <label>Solo</label>
         </type>
     </credit_cards>
