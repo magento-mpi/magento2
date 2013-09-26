@@ -28,13 +28,6 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     const FILTER_TYPE_DATE   = 'date';
     const FILTER_TYPE_NUMBER = 'number';
 
-    /**#@+
-     * Config keys.
-     */
-    const CONFIG_KEY_ENTITIES          = 'global/importexport/export_entities';
-    const CONFIG_KEY_FORMATS           = 'global/importexport/export_file_formats';
-    /**#@-*/
-
     /**
      * Entity adapter.
      *
@@ -50,9 +43,9 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     protected $_writer;
 
     /**
-     * @var Magento_ImportExport_Model_Config
+     * @var Magento_ImportExport_Model_Export_ConfigInterface
      */
-    protected $_config;
+    protected $_exportConfig;
 
     /**
      * @var Magento_ImportExport_Model_Export_Entity_Factory
@@ -68,7 +61,7 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Log_AdapterFactory $adapterFactory
-     * @param Magento_ImportExport_Model_Config $config
+     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
      * @param Magento_ImportExport_Model_Export_Entity_Factory $entityFactory
      * @param Magento_ImportExport_Model_Export_Adapter_Factory $exportAdapterFac
      * @param array $data
@@ -77,12 +70,12 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Dir $dir,
         Magento_Core_Model_Log_AdapterFactory $adapterFactory,
-        Magento_ImportExport_Model_Config $config,
+        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig,
         Magento_ImportExport_Model_Export_Entity_Factory $entityFactory,
         Magento_ImportExport_Model_Export_Adapter_Factory $exportAdapterFac,
         array $data = array()
     ) {
-        $this->_config = $config;
+        $this->_exportConfig = $exportConfig;
         $this->_entityFactory = $entityFactory;
         $this->_exportAdapterFac = $exportAdapterFac;
         parent::__construct($logger, $dir, $adapterFactory, $data);
@@ -97,11 +90,11 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     protected function _getEntityAdapter()
     {
         if (!$this->_entityAdapter) {
-            $entityTypes = $this->_config->getModels(self::CONFIG_KEY_ENTITIES);
+            $entities = $this->_exportConfig->getEntities();
 
-            if (isset($entityTypes[$this->getEntity()])) {
+            if (isset($entities[$this->getEntity()])) {
                 try {
-                    $this->_entityAdapter = $this->_entityFactory->create($entityTypes[$this->getEntity()]['model']);
+                    $this->_entityAdapter = $this->_entityFactory->create($entities[$this->getEntity()]['model']);
                 } catch (Exception $e) {
                     $this->_logger->logException($e);
                     throw new Magento_Core_Exception(
@@ -142,13 +135,11 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     protected function _getWriter()
     {
         if (!$this->_writer) {
-            $validWriters = $this->_config->getModels(self::CONFIG_KEY_FORMATS);
+            $fileFormats = $this->_exportConfig->getFileFormats();
 
-            if (isset($validWriters[$this->getFileFormat()])) {
+            if (isset($fileFormats[$this->getFileFormat()])) {
                 try {
-                    $this->_writer = $this->_exportAdapterFac->create(
-                        array('fileName' => $validWriters[$this->getFileFormat()]['model'])
-                    );
+                    $this->_writer = $this->_exportAdapterFac->create($fileFormats[$this->getFileFormat()]['model']);
                 } catch (Exception $e) {
                     $this->_logger->logException($e);
                     throw new Magento_Core_Exception(
