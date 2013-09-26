@@ -19,6 +19,14 @@
 class Magento_ImportExport_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
 {
     /**
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'importexport')
+    {
+        parent::__construct($modulePrefix);
+    }
+
+    /**
      * Constants to be used for DB
      */
     const DB_MAX_PACKET_SIZE        = 1048576; // Maximal packet length by default in MySQL
