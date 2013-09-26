@@ -46,6 +46,6 @@ class Magento_ImportExport_Model_Export_Factory
                 "Attribute factory class \"%s\" must implement Magento_Data_Collection.", get_class($attributeCollection)
             ));
         }
-        return ;
+        return $attributeCollection;
     }
 }
