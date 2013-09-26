@@ -9,15 +9,15 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Returns History" type="page" parent="magento_rma_return_view">
     <update handle="customer_account"/>
-    <reference name="customer_account_navigation">
+    <referenceBlock name="customer_account_navigation">
         <action method="setActive">
             <argument name="path" xsi:type="string">rma/return/history/</argument>
         </action>
-    </reference>
-    <reference name="my.account.wrapper">
+    </referenceBlock>
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento_Rma_Block_Return_History" name="rma.return.history">
             <container name="rma.return.history.info" as="info" label="Returns History Info"/>
         </block>
         <block class="Magento_Customer_Block_Account_Dashboard" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

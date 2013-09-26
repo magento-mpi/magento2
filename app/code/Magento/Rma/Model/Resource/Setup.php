@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Rma resource setup model
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
 {

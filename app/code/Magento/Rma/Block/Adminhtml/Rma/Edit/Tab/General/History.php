@@ -10,10 +10,6 @@
 
 /**
  * Comments History Block at RMA page
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract
@@ -26,26 +22,26 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     /**
      * @var Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory
      */
-    protected $_statusCollFactory;
+    protected $_collectionFactory;
 
     /**
-     * @param Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $statusCollFactory
-     * @param Magento_Rma_Model_Config $rmaConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Rma_Model_Config $rmaConfig
+     * @param Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $statusCollFactory,
-        Magento_Rma_Model_Config $rmaConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Rma_Model_Config $rmaConfig,
+        Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $collectionFactory,
         array $data = array()
     ) {
-        $this->_statusCollFactory = $statusCollFactory;
         $this->_rmaConfig = $rmaConfig;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $registry, $data);
     }
 
@@ -75,10 +71,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
      */
     public function canSendCommentEmail()
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = $this->_rmaConfig;
-        $configRmaEmail->init($configRmaEmail->getRootCommentEmail(), $this->getOrder()->getStore());
-        return $configRmaEmail->isEnabled();
+        $this->_rmaConfig->init($this->_rmaConfig->getRootCommentEmail(), $this->getOrder()->getStore());
+        return $this->_rmaConfig->isEnabled();
     }
 
     /**
@@ -88,10 +82,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
      */
     public function canSendConfirmationEmail()
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = $this->_rmaConfig;
-        $configRmaEmail->init($configRmaEmail->getRootRmaEmail(), $this->getOrder()->getStore());
-        return $configRmaEmail->isEnabled();
+        $this->_rmaConfig->init($this->_rmaConfig->getRootRmaEmail(), $this->getOrder()->getStore());
+        return $this->_rmaConfig->isEnabled();
     }
 
     /**
@@ -104,9 +96,13 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
         return $this->getUrl('*/*/addComment', array('id'=>$this->getRmaData('entity_id')));
     }
 
-    public function getComments() {
-        return $this->_statusCollFactory->create()
-            ->addFieldToFilter('rma_entity_id', $this->_coreRegistry->registry('current_rma')->getId());
+    /**
+     * @return Magento_Rma_Model_Resource_Rma_Status_History_Collection
+     */
+    public function getComments()
+    {
+        /** @var $collection Magento_Rma_Model_Resource_Rma_Status_History_Collection */
+        $collection = $this->_collectionFactory->create();
+        return $collection->addFieldToFilter('rma_entity_id', $this->_coreRegistry->registry('current_rma')->getId());
     }
-
 }

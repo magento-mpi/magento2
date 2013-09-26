@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.reward.history.customer.edit.tab.container">
+    <referenceContainer name="adminhtml.reward.history.customer.edit.tab.container">
         <block class="Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid" name="adminhtml.reward.history.customer.edit.tab.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">rewardPointsHistoryGrid</argument>
@@ -129,5 +129,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

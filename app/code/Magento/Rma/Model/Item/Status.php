@@ -10,10 +10,6 @@
 
 /**
  * RMA Item Status Manager
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Item_Status extends Magento_Object
 {
@@ -35,6 +31,11 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
     protected $_isSpecialStatus = false;
 
     /**
+     * @var Magento_Rma_Model_Item_Attribute_Source_Status
+     */
+    protected $_sourceStatus;
+
+    /**
      * @param Magento_Rma_Model_Item_Attribute_Source_Status $sourceStatus
      * @param array $data
      */
@@ -42,10 +43,9 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
         Magento_Rma_Model_Item_Attribute_Source_Status $sourceStatus,
         array $data = array()
     ) {
-        $this->sourceStatus = $sourceStatus;
+        $this->_sourceStatus = $sourceStatus;
         parent::__construct($data);
     }
-
 
     /**
      * Get options array for display in grid, consisting only from allowed statuses
@@ -84,7 +84,7 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
             : array();
         return
             array_intersect_key(
-                $this->sourceStatus->getAllOptionsForGrid(),
+                $this->_sourceStatus->getAllOptionsForGrid(),
                 array_flip($boundingArray)
             );
     }

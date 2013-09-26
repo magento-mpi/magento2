@@ -10,10 +10,6 @@
 
 /**
  * RMA Item Form Model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
 {
@@ -34,25 +30,25 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
     /**
      * @var Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory
      */
-    protected $__attrCollFactory;
+    protected $_collectionFactory;
 
     /**
-     * @param Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $attrCollFactory
+     * @param Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory
      */
-    public function __construct(Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $attrCollFactory)
+    public function __construct(Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory)
     {
-        $this->_attrCollFactory = $attrCollFactory;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct();
     }
 
     /**
      * Get EAV Entity Form Attribute Collection
      *
-     * @return Object
+     * @return Magento_Rma_Model_Resource_Item_Form_Attribute_Collection
      */
     protected function _getFormAttributeCollection()
     {
-        return $this->_attrCollFactory->create();
+        return $this->_collectionFactory->create();
     }
 
     /**
@@ -88,5 +84,4 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
 
         return $errors;
     }
-
 }

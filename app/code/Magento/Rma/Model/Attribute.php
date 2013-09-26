@@ -10,10 +10,6 @@
 
 /**
  * RMA Item model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
 {
@@ -49,7 +45,13 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     protected $_eavConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -59,6 +61,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
      */
     public function __construct(
         Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -67,9 +70,8 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
-        parent::__construct(
-            $coreData, $context, $registry, $resource, $resourceCollection, $data
-        );
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -80,7 +82,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
      */
     public function setWebsite($website)
     {
-        $this->_website = Mage::app()->getWebsite($website);
+        $this->_website = $this->_storeManager->getWebsite($website);
         return $this;
     }
 
@@ -92,7 +94,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     public function getWebsite()
     {
         if (is_null($this->_website)) {
-            $this->_website = Mage::app()->getWebsite();
+            $this->_website = $this->_storeManager->getWebsite();
         }
 
         return $this->_website;

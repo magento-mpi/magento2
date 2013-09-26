@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+/** @var $this Magento_Rma_Model_Resource_Setup */
 //Add Product's Attribute
 /** @var Magento_Catalog_Model_Resource_Setup $installer */
 $installer = $this->getCatalogSetupFactory()->create(array('resourceName' => 'catalog_setup'));

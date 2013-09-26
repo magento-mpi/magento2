@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_catalog_product_new"/>
-    <reference name="page-title">
+    <referenceBlock name="page-title">
         <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher">
             <action method="setUseConfirm">
                 <argument name="params" xsi:type="string">1</argument>
@@ -18,5 +18,5 @@
         <action method="setTitleClass">
             <argument name="class" xsi:type="string">complex</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

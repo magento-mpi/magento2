@@ -22,10 +22,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
     /**
      * @var Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory
      */
-    protected $_attrCollFactory;
+    protected $_collectionFactory;
 
     /**
-     * @param Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory $attrCollFactory
+     * @param Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -33,17 +33,15 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory $attrCollFactory,
+        Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
-        $this->_attrCollFactory = $attrCollFactory;
-        parent::__construct(
-            $coreData, $context, $storeManager, $urlModel, $data
-        );
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**
@@ -64,11 +62,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_attrCollFactory->create()
-            ->addSystemHiddenFilter()
-            ->addExcludeHiddenFrontendFilter();
+        /** @var $collection Magento_Rma_Model_Resource_Item_Attribute_Collection */
+        $collection = $this->_collectionFactory->create();
+        $collection->addSystemHiddenFilter()->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 

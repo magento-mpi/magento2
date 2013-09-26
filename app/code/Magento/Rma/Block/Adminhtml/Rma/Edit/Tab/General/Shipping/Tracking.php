@@ -10,12 +10,7 @@
 
 /**
  * Shipment tracking
- *
- * @category    Magento
- * @package     Magento_RMA
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends Magento_Backend_Block_Template
 {
     /**
@@ -23,14 +18,14 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
     
     /**
      * Rma data
      *
      * @var Magento_Rma_Helper_Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
 
     /**
      * @var Magento_Shipping_Model_Config

@@ -10,15 +10,9 @@
 
 /**
  * Admin RMA create order grid block
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     extends Magento_Backend_Block_Widget_Grid_Extended
-//    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -32,22 +26,22 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
      *
      * @var Magento_Rma_Helper_Eav
      */
-    protected $_rmaEav = null;
+    protected $_rmaEav;
 
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var Magento_Rma_Model_Resource_Item_CollectionFactory
      */
-    protected $_itemCollFactory;
+    protected $_collectionFactory;
 
     /**
-     * @param Magento_Rma_Model_Resource_Item_CollectionFactory $itemCollFactory
+     * @param Magento_Rma_Model_Resource_Item_CollectionFactory $collectionFactory
      * @param Magento_Rma_Helper_Eav $rmaEav
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -57,7 +51,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Model_Resource_Item_CollectionFactory $itemCollFactory,
+        Magento_Rma_Model_Resource_Item_CollectionFactory $collectionFactory,
         Magento_Rma_Helper_Eav $rmaEav,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -66,7 +60,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
-        $this->_itemCollFactory = $itemCollFactory;
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
@@ -112,9 +106,9 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _prepareCollection()
     {
         /** @var $collection Magento_Rma_Model_Resource_Item_Collection */
-        $collection = $this->_itemCollFactory->create();
+        $collection = $this->_collectionFactory->create();
         $collection->addAttributeToSelect('*');
-        $collection->addAttributeToFilter('entity_id', NULL);
+        $collection->addAttributeToFilter('entity_id', null);
 
         $this->setCollection($collection);
 

@@ -11,10 +11,10 @@
     <remove name="footer"/>
     <remove name="head"/>
     <remove name="left"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content" name="wysiwyg_images.content" template="cms/browser/content.phtml">
             <block class="Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree" name="wysiwyg_images.tree" template="cms/browser/tree.phtml"/>
             <block class="Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader" name="wysiwyg_images.uploader" template="cms/browser/content/uploader.phtml"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

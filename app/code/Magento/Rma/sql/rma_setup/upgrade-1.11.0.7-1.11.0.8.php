@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+/** @var $this Magento_Rma_Model_Resource_Setup */
 //Product's Attribute is_returnable shouldn't be applied to grouped product
 //Because it has no sense
 /** @var Magento_Catalog_Model_Resource_Setup $installer */

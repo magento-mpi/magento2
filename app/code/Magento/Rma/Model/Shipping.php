@@ -10,10 +10,6 @@
 
 /**
  * RMA Shipping Model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
 {
@@ -56,11 +52,6 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     protected $_rmaData = null;
 
     /**
-     * @var Magento_Shipping_Model_Config
-     */
-    protected $_shippingConfig;
-
-    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -68,28 +59,73 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Shipping_Model_Config $shippingConfig
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Directory_Model_RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
+     * @var Magento_Shipping_Model_Shipment_ReturnFactory
+     */
+    protected $_returnFactory;
+
+    /**
+     * @var Magento_Shipping_Model_Config
+     */
+    protected $_shippingConfig;
+
+    /**
+     * @var Magento_Rma_Model_RmaFactory
+     */
+    protected $_rmaFactory;
+
+    /**
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Shipping_Model_Shipment_ReturnFactory $returnFactory
+     * @param Magento_Shipping_Model_Config $shippingConfig
+     * @param Magento_Rma_Model_RmaFactory $rmaFactory
      * @param Magento_Rma_Model_Resource_Shipping $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Shipping_Model_Config $shippingConfig,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Shipping_Model_Shipment_ReturnFactory $returnFactory,
+        Magento_Shipping_Model_Config $shippingConfig,
+        Magento_Rma_Model_RmaFactory $rmaFactory,
         Magento_Rma_Model_Resource_Shipping $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_shippingConfig = $shippingConfig;
         $this->_rmaData = $rmaData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_orderFactory = $orderFactory;
+        $this->_storeManager = $storeManager;
+        $this->_regionFactory = $regionFactory;
+        $this->_returnFactory = $returnFactory;
+        $this->_shippingConfig = $shippingConfig;
+        $this->_rmaFactory = $rmaFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -113,35 +149,33 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
         }
         return $this;
     }
+
     /**
      * Prepare and do return of shipment
      *
      * @return Magento_Object
+     * @throws Magento_Core_Exception
      */
     public function requestToShipment()
     {
-        $shipmentStoreId    = $this->getRma()->getStoreId();
-        $storeInfo          = new Magento_Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
-
+        $shipmentStoreId = $this->getRma()->getStoreId();
+        $storeInfo = new Magento_Object(
+            $this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId)
+        );
         /** @var $order Magento_Sales_Model_Order */
-        $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
-        $shipperAddress     = $order->getShippingAddress();
+        $order = $this->_orderFactory->create()->load($this->getRma()->getOrderId());
+        $shipperAddress = $order->getShippingAddress();
         /** @var Magento_Sales_Model_Quote_Address $recipientAddress */
-        $recipientAddress   = $this->_rmaData->getReturnAddressModel($this->getRma()->getStoreId());
-
+        $recipientAddress = $this->_rmaData->getReturnAddressModel($this->getRma()->getStoreId());
         list($carrierCode, $shippingMethod) = explode('_', $this->getCode(), 2);
-
-        $shipmentCarrier    = $this->_rmaData->getCarrier($this->getCode(), $shipmentStoreId);
-        $baseCurrencyCode   = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
+        $shipmentCarrier = $this->_rmaData->getCarrier($this->getCode(), $shipmentStoreId);
+        $baseCurrencyCode = $this->_storeManager->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
-            Mage::throwException(__('Invalid carrier: %1', $carrierCode));
+            throw new Magento_Core_Exception(__('Invalid carrier: %1', $carrierCode));
         }
-
-        $shipperRegionCode  = Mage::getModel('Magento_Directory_Model_Region')->load($shipperAddress->getRegionId())->getCode();
-
-        $recipientRegionCode= $recipientAddress->getRegionId();
-
+        $shipperRegionCode = $this->_regionFactory->create()->load($shipperAddress->getRegionId())->getCode();
+        $recipientRegionCode = $recipientAddress->getRegionId();
         $recipientContactName = $this->_rmaData->getReturnContactName($this->getRma()->getStoreId());
 
         if (!$recipientContactName->getName()
@@ -154,13 +188,13 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
             || !$recipientAddress->getPostcode()
             || !$recipientAddress->getCountryId()
         ) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('We need more information to create your shipping label(s). Please verify your store information and shipping settings.')
             );
         }
 
-        /** @var $request Magento_Shipping_Model_Shipment_Request */
-        $request = Mage::getModel('Magento_Shipping_Model_Shipment_Return');
+        /** @var $request Magento_Shipping_Model_Shipment_Return */
+        $request = $this->_returnFactory->create();
         $request->setOrderShipment($this);
 
         $request->setShipperContactPersonName($order->getCustomerName());
@@ -241,9 +275,9 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     public function getProtectCode()
     {
         if ($this->getRmaEntityId()) {
-            $rma = Mage::getModel('Magento_Rma_Model_Rma')->load($this->getRmaEntityId());
+            /** @var $rma Magento_Rma_Model_Rma */
+            $rma = $this->_rmaFactory->create()->load($this->getRmaEntityId());
         }
-
         return (string)$rma->getProtectCode();
     }
 

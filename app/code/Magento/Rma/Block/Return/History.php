@@ -11,30 +11,30 @@
 class Magento_Rma_Block_Return_History extends Magento_Core_Block_Template
 {
     /**
+     * @var Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
      * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory
-     */
-    protected $_gridCollFactory;
-
-    /**
-     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $gridCollFactory
+     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $gridCollFactory,
+        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
         Magento_Customer_Model_Session $customerSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_gridCollFactory = $gridCollFactory;
+        $this->_collectionFactory = $collectionFactory;
         $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
@@ -43,14 +43,11 @@ class Magento_Rma_Block_Return_History extends Magento_Core_Block_Template
     {
         parent::_construct();
         $this->setTemplate('return/history.phtml');
-
-        $returns = $this->_gridCollFactory->create()
+        /** @var $returns Magento_Rma_Model_Resource_Rma_Grid_Collection */
+        $returns = $this->_collectionFactory->create()
             ->addFieldToSelect('*')
             ->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId())
-            ->setOrder('date_requested', 'desc')
-        ;
-
-
+            ->setOrder('date_requested', 'desc');
         $this->setReturns($returns);
     }
 

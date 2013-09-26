@@ -15,7 +15,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
@@ -37,7 +37,6 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
     public function preDispatch()
     {
         parent::preDispatch();
-        $action = $this->getRequest()->getActionName();
         $loginUrl = $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl();
 
         if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this, $loginUrl)) {
@@ -71,8 +70,9 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
      */
     public function createAction()
     {
-        $orderId    = (int)$this->getRequest()->getParam('order_id');
-        $order      = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
+        $orderId = (int)$this->getRequest()->getParam('order_id');
+        /** @var $order Magento_Sales_Model_Order */
+        $order = $this->_objectManager->create('Magento_Sales_Model_Order')->load($orderId);
         if (empty($orderId)) {
             $this->_redirect('sales/order/history');
             return;
@@ -91,7 +91,10 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
             $post = $this->getRequest()->getPost();
             if (($post) && !empty($post['items'])) {
                 try {
-                    $rmaModel = Mage::getModel('Magento_Rma_Model_Rma');
+                    /** @var $urlModel Magento_Core_Model_Url */
+                    $urlModel = $this->_objectManager->get('Magento_Core_Model_Url');
+                    /** @var $rmaModel Magento_Rma_Model_Rma */
+                    $rmaModel = $this->_objectManager->create('Magento_Rma_Model_Rma');
                     $rmaData = array(
                         'status'                => Magento_Rma_Model_Rma_Source_Status::STATE_PENDING,
                         'date_requested'        => $coreDate->gmtDate(),
@@ -105,13 +108,14 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                     );
                     $result = $rmaModel->setData($rmaData)->saveRma($post);
                     if (!$result) {
-                        $this->_redirectError(Mage::getUrl('*/*/create', array('order_id'  => $orderId)));
+                        $this->_redirectError($urlModel->getUrl('*/*/create', array('order_id'  => $orderId)));
                         return;
                     }
                     $result->sendNewRmaEmail();
                     if (isset($post['rma_comment']) && !empty($post['rma_comment'])) {
-                        Mage::getModel('Magento_Rma_Model_Rma_Status_History')
-                            ->setRmaEntityId($rmaModel->getId())
+                        /** @var $statusHistory Magento_Rma_Model_Rma_Status_History */
+                        $statusHistory = $this->_objectManager->create('Magento_Rma_Model_Rma_Status_History');
+                        $statusHistory->setRmaEntityId($rmaModel->getId())
                             ->setComment($post['rma_comment'])
                             ->setIsVisibleOnFront(true)
                             ->setStatus($rmaModel->getStatus())
@@ -121,7 +125,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                     $coreSession->addSuccess(
                         __('You submitted Return #%1.', $rmaModel->getIncrementId())
                     );
-                    $this->_redirectSuccess(Mage::getUrl('*/*/history'));
+                    $this->_redirectSuccess($urlModel->getUrl('*/*/history'));
                     return;
                 } catch (Exception $e) {
                     $coreSession->addError(
@@ -145,8 +149,8 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
     /**
      * Check order view availability
      *
-     * @param   Magento_Rma_Model_Rma | Magento_Sales_Model_Order $item
-     * @return  bool
+     * @param Magento_Rma_Model_Rma|Magento_Sales_Model_Order $item
+     * @return bool
      */
     protected function _canViewOrder($item)
     {
@@ -173,8 +177,8 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
             return false;
         }
 
-        $rma = Mage::getModel('Magento_Rma_Model_Rma')->load($entityId);
-
+        /** @var $rma Magento_Rma_Model_Rma */
+        $rma = $this->_objectManager->create('Magento_Rma_Model_Rma')->load($entityId);
         if ($this->_canViewOrder($rma)) {
             $this->_coreRegistry->register('current_rma', $rma);
             return true;
@@ -192,7 +196,9 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
      */
     protected function _loadOrderItems($orderId)
     {
-        if ($this->_objectManager->get('Magento_Rma_Helper_Data')->canCreateRma($orderId)) {
+        /** @var $rmaHelper Magento_Rma_Helper_Data */
+        $rmaHelper = $this->_objectManager->get('Magento_Rma_Helper_Data');
+        if ($rmaHelper->canCreateRma($orderId)) {
             return true;
         }
 
@@ -212,8 +218,8 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
             $this->_redirect('*/*/history');
             return;
         }
-
-        $order = Mage::getModel('Magento_Sales_Model_Order')->load(
+        /** @var $order Magento_Sales_Model_Order */
+        $order = $this->_objectManager->create('Magento_Sales_Model_Order')->load(
             $this->_coreRegistry->registry('current_rma')->getOrderId()
         );
         $this->_coreRegistry->register('current_order', $order);
@@ -273,17 +279,21 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                 $comment    = trim(strip_tags($comment));
 
                 if (!empty($comment)) {
-                    $result = Mage::getModel('Magento_Rma_Model_Rma_Status_History')
+                    /** @var $dateModel Magento_Core_Model_Date */
+                    $dateModel = $this->_objectManager->get('Magento_Core_Model_Date');
+                    /** @var $statusHistory Magento_Rma_Model_Rma_Status_History */
+                    $statusHistory = $this->_objectManager->create('Magento_Rma_Model_Rma_Status_History');
+                    $result = $statusHistory
                         ->setRmaEntityId($this->_coreRegistry->registry('current_rma')->getEntityId())
                         ->setComment($comment)
                         ->setIsVisibleOnFront(true)
                         ->setStatus($this->_coreRegistry->registry('current_rma')->getStatus())
-                        ->setCreatedAt($this->_objectManager->get('Magento_Core_Model_Date')->gmtDate())
+                        ->setCreatedAt($dateModel->gmtDate())
                         ->save();
                     $result->setStoreId($this->_coreRegistry->registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();
                 } else {
-                    Mage::throwException(__('Please enter a valid message.'));
+                    throw new Magento_Core_Exception(__('Please enter a valid message.'));
                 }
             } catch (Magento_Core_Exception $e) {
                 $response = array(
@@ -304,6 +314,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
         }
         return;
     }
+    
     /**
      * Add Tracking Number action
      */
@@ -314,7 +325,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                 $rma = $this->_coreRegistry->registry('current_rma');
 
                 if (!$rma->isAvailableForPrintLabel()) {
-                    Mage::throwException(__('Shipping Labels are not allowed.'));
+                    throw new Magento_Core_Exception(__('Shipping Labels are not allowed.'));
                 }
 
                 $response   = false;
@@ -325,15 +336,16 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                     ->getShippingCarriers($rma->getStoreId());
 
                 if (!isset($carriers[$carrier])) {
-                    Mage::throwException(__('Please select a valid carrier.'));
+                    throw new Magento_Core_Exception(__('Please select a valid carrier.'));
                 }
 
                 if (empty($number)) {
-                    Mage::throwException(__('Please enter a valid tracking number.'));
+                    throw new Magento_Core_Exception(__('Please enter a valid tracking number.'));
                 }
 
-                Mage::getModel('Magento_Rma_Model_Shipping')
-                    ->setRmaEntityId($rma->getEntityId())
+                /** @var $rmaShipping Magento_Rma_Model_Shipping */
+                $rmaShipping = $this->_objectManager->create('Magento_Rma_Model_Shipping');
+                $rmaShipping->setRmaEntityId($rma->getEntityId())
                     ->setTrackNumber($number)
                     ->setCarrierCode($carrier)
                     ->setCarrierTitle($carriers[$carrier])
@@ -375,20 +387,20 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                 $rma = $this->_coreRegistry->registry('current_rma');
 
                 if (!$rma->isAvailableForPrintLabel()) {
-                    Mage::throwException(__('Shipping Labels are not allowed.'));
+                    throw new Magento_Core_Exception(__('Shipping Labels are not allowed.'));
                 }
 
                 $response   = false;
                 $number    = intval($this->getRequest()->getPost('number'));
 
                 if (empty($number)) {
-                    Mage::throwException(__('Please enter a valid tracking number.'));
+                    throw new Magento_Core_Exception(__('Please enter a valid tracking number.'));
                 }
 
-                $trackingNumber = Mage::getModel('Magento_Rma_Model_Shipping')
-                    ->load($number);
+                /** @var $trackingNumber Magento_Rma_Model_Shipping */
+                $trackingNumber = $this->_objectManager->create('Magento_Rma_Model_Shipping')->load($number);
                 if ($trackingNumber->getRmaEntityId() !== $rma->getId()) {
-                    Mage::throwException(__('The wrong RMA was selected.'));
+                    throw new Magento_Core_Exception(__('The wrong RMA was selected.'));
                 }
                 $trackingNumber->delete();
 
@@ -426,6 +438,8 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
      */
     protected function _isEnabledOnFront()
     {
-        return $this->_objectManager->get('Magento_Rma_Helper_Data')->isEnabled();
+        /** @var $rmaHelper Magento_Rma_Helper_Data */
+        $rmaHelper = $this->_objectManager->get('Magento_Rma_Helper_Data');
+        return $rmaHelper->isEnabled();
     }
 }

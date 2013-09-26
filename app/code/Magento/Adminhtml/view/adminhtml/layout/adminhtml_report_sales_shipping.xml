@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="report_sales"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Report_Sales_Shipping" template="report/grid/container.phtml" name="sales.report.grid.container">
             <block class="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
                 <action method="setStoreVarName">
@@ -27,5 +27,5 @@
                 </action>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

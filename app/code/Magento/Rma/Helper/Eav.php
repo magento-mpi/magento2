@@ -11,10 +11,6 @@
 
 /**
  * RMA Helper
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
 {
@@ -26,33 +22,41 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
     protected $_attributeOptionValues = array();
 
     /**
-     * @var Magento_Core_Model_Resource
+     * @var Magento_Core_Model_StoreManagerInterface
      */
-    protected $_coreResource;
+    protected $_storeManager;
 
     /**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory
-     */
-    protected $_optionCollFactory;
-
-    /**
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $optionCollFactory
-     * @param Magento_Core_Model_Resource $coreResource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $collectionFactory
+     * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $optionCollFactory,
-        Magento_Core_Model_Resource $coreResource,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $collectionFactory,
+        Magento_Core_Model_Resource $resource,
         Magento_Core_Helper_Context $context,
         Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
-        $this->_optionCollFactory = $optionCollFactory;
-        $this->_coreResource = $coreResource;
+        $this->_storeManager = $storeManager;
+        $this->_collectionFactory = $collectionFactory;
+        $this->_resource = $resource;
         parent::__construct($context, $attributeConfig, $coreStoreConfig);
     }
+
+/**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+/**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
 
     /**
      * Default attribute entity type code
@@ -196,23 +200,21 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
     protected function _getAttributeOptionValues($storeId = null, $useDefaultValue = true)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         } elseif ($storeId instanceof Magento_Core_Model_Store) {
             $storeId = $storeId->getId();
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
-            $optionCollection = $this->_optionCollFactory->create()
-                ->setStoreFilter($storeId, $useDefaultValue);
-
+            $optionCollection = $this->_collectionFactory->create()->setStoreFilter($storeId, $useDefaultValue);
             $optionCollection
                 ->getSelect()
                 ->join(
-                    array('ea' => $this->_coreResource->getTableName('eav_attribute')),
+                    array('ea' => $this->_resource->getTableName('eav_attribute')),
                     'main_table.attribute_id = ea.attribute_id',
                     array('attribute_code' => 'ea.attribute_code'))
                 ->join(
-                    array('eat' => $this->_coreResource->getTableName('eav_entity_type')),
+                    array('eat' => $this->_resource->getTableName('eav_entity_type')),
                     'ea.entity_type_id = eat.entity_type_id',
                     array(''))
                 ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());

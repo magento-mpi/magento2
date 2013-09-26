@@ -10,10 +10,6 @@
 
 /**
  * Order RMA Grid
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
     extends Magento_Rma_Block_Adminhtml_Rma_Grid
@@ -33,6 +29,7 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Rma_Model_RmaFactory $rmaFactory
      * @param array $data
      */
     public function __construct(
@@ -42,6 +39,7 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Rma_Model_RmaFactory $rmaFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

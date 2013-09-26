@@ -15,7 +15,7 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
@@ -37,8 +37,9 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
      */
     public function popupAction()
     {
-        $shippingInfoModel = Mage::getModel('Magento_Rma_Model_Shipping_Info')
-            ->loadByHash($this->getRequest()->getParam('hash'));
+        /** @var $shippingInfoModel Magento_Rma_Model_Shipping_Info */
+        $shippingInfoModel = $this->_objectManager->create('Magento_Rma_Model_Shipping_Info');
+        $shippingInfoModel->loadByHash($this->getRequest()->getParam('hash'));
 
         $this->_coreRegistry->register('rma_current_shipping', $shippingInfoModel);
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
@@ -61,8 +62,9 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
      */
     public function packageAction()
     {
-        $shippingInfoModel = Mage::getModel('Magento_Rma_Model_Shipping_Info')
-            ->loadPackage($this->getRequest()->getParam('hash'));
+        /** @var $shippingInfoModel Magento_Rma_Model_Shipping_Info */
+        $shippingInfoModel = $this->_objectManager->create('Magento_Rma_Model_Shipping_Info');
+        $shippingInfoModel->loadPackage($this->getRequest()->getParam('hash'));
 
         $this->_coreRegistry->register('rma_package_shipping', $shippingInfoModel);
         if (!$shippingInfoModel->getPackages()) {
@@ -76,8 +78,8 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
     /**
      * Check order view availability
      *
-     * @param   Magento_Rma_Model_Rma $rma
-     * @return  bool
+     * @param Magento_Rma_Model_Rma $rma
+     * @return bool
      */
     protected function _canViewRma($rma)
     {
@@ -115,8 +117,8 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
             return false;
         }
 
-        $rma = Mage::getModel('Magento_Rma_Model_Rma')->load($entityId);
-
+        /** @var $rma Magento_Rma_Model_Rma */
+        $rma = $this->_objectManager->create('Magento_Rma_Model_Rma')->load($entityId);
         if ($this->_canViewRma($rma)) {
             $this->_coreRegistry->register('current_rma', $rma);
             return true;
@@ -142,10 +144,11 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
                     $rmaIncrementId = $this->_coreRegistry->registry('current_rma')->getIncrementId();
                 }
             }
-            $model = Mage::getModel('Magento_Rma_Model_Shipping_Info')
-                ->loadPackage($this->getRequest()->getParam('hash'));
-
-            $shipping = Mage::getModel('Magento_Rma_Model_Shipping');
+            /** @var $shippingInfoModel Magento_Rma_Model_Shipping_Info */
+            $shippingInfoModel = $this->_objectManager->create('Magento_Rma_Model_Shipping_Info');
+            $model = $shippingInfoModel->loadPackage($this->getRequest()->getParam('hash'));
+            /** @var $shipping Magento_Rma_Model_Shipping */
+            $shipping = $this->_objectManager->create('Magento_Rma_Model_Shipping');
             $labelContent = $model->getShippingLabel();
             if ($labelContent) {
                 $pdfContent = null;
@@ -184,28 +187,28 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
      */
     public function packagePrintAction()
     {
-        $data = $this->_objectManager->get('Magento_Rma_Helper_Data')->decodeTrackingHash($this->getRequest()->getParam('hash'));
-
+        /** @var $rmaHelper Magento_Core_Model_Date */
+        $rmaHelper = $this->_objectManager->get('Magento_Core_Model_Date');
+        $data = $rmaHelper->decodeTrackingHash($this->getRequest()->getParam('hash'));
         if ($data['key'] == 'rma_id') {
             $this->_loadValidRma($data['id']);
         }
-        $model = Mage::getModel('Magento_Rma_Model_Shipping_Info')
-            ->loadPackage($this->getRequest()->getParam('hash'));
 
-        if ($model) {
-            $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')
-                    ->setPackageShippingBlock(
-                        Mage::getBlockSingleton('Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod')
-                    )
-                    ->getPdf($model)
-            ;
-
+        /** @var $shippingInfoModel Magento_Rma_Model_Shipping_Info */
+        $shippingInfoModel = $this->_objectManager->create('Magento_Rma_Model_Shipping_Info');
+        $shippingInfoModel->loadPackage($this->getRequest()->getParam('hash'));
+        if ($shippingInfoModel) {
+            /** @var $orderPdf Magento_Sales_Model_Order_Pdf_Shipment_Packaging */
+            $orderPdf = $this->_objectManager->create('Magento_Sales_Model_Order_Pdf_Shipment_Packaging');
+            $block = $this->_layout->getBlockSingleton(
+                'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod'
+            );
+            $orderPdf->setPackageShippingBlock($block);
+            $pdf = $orderPdf->getPdf($shippingInfoModel);
+            /** @var $dateModel Magento_Core_Model_Date */
+            $dateModel = $this->_objectManager->get('Magento_Core_Model_Date');
             $this->_prepareDownloadResponse(
-                'packingslip'
-                    . $this->_objectManager->get('Magento_Core_Model_Date')->date('Y-m-d_H-i-s')
-                    . '.pdf',
-                $pdf->render(),
-                'application/pdf'
+                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(), 'application/pdf'
             );
         }
     }

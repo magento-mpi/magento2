@@ -10,10 +10,6 @@
 
 /**
  * Admin RMA create order grid block
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_Block_Widget_Grid_Extended
@@ -48,9 +44,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
     ) {
         $this->_gridCollFactory = $gridCollFactory;
         $this->_orderConfig = $orderConfig;
-        parent::__construct(
-            $coreData, $context, $storeManager, $urlModel, $data
-        );
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**
@@ -91,7 +85,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
             'index' => 'increment_id',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header' => __('Purchase Point'),
                 'index' => 'store_id',
@@ -151,7 +145,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/new', array('order_id'=>$row->getId()));
+        return $this->getUrl('*/*/new', array('order_id' => $row->getId()));
     }
 
 }
