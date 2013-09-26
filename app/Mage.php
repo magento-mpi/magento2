@@ -16,7 +16,6 @@ final class Mage
     /**#@+
      * Product edition labels
      */
-    const EDITION_COMMUNITY    = 'Community';
     const EDITION_ENTERPRISE   = 'Enterprise';
     const EDITION_PROFESSIONAL = 'Professional';
     const EDITION_GO           = 'Go';
@@ -44,20 +43,6 @@ final class Mage
     static private $_config;
 
     /**
-     * Object cache instance
-     *
-     * @var Magento_Object_Cache
-     */
-    static private $_objects;
-
-    /**
-     * Is downloader flag
-     *
-     * @var bool
-     */
-    static private $_isDownloader = false;
-
-    /**
      * Is allow throw Exception about headers already sent
      *
      * @var bool
@@ -79,81 +64,6 @@ final class Mage
     protected static $_design;
 
     /**
-     * Current Magento edition.
-     *
-     * @var string
-     * @static
-     */
-    static private $_currentEdition = self::EDITION_COMMUNITY;
-
-    /**
-     * Check if we need to use __sleep and __wakeup serialization methods in models
-     *
-     * @var bool
-     */
-    static private $_isSerializable = true;
-
-    /**
-     * Update mode flag
-     *
-     * @var bool
-     */
-    static private $_updateMode = false;
-
-    /**
-     * Gets the current Magento version string
-     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
-     *
-     * @return string
-     */
-    public static function getVersion()
-    {
-        $info = self::getVersionInfo();
-        return trim("{$info['major']}.{$info['minor']}.{$info['revision']}"
-            . ($info['patch'] != '' ? ".{$info['patch']}" : "")
-            . "-{$info['stability']}{$info['number']}", '.-');
-    }
-
-    /**
-     * Gets the detailed Magento version information
-     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
-     *
-     * @return array
-     */
-    public static function getVersionInfo()
-    {
-        return array(
-            'major'     => '2',
-            'minor'     => '0',
-            'revision'  => '0',
-            'patch'     => '0',
-            'stability' => 'dev',
-            'number'    => '45',
-        );
-    }
-
-    /**
-     * Get current Magento edition
-     *
-     * @static
-     * @return string
-     */
-    public static function getEdition()
-    {
-        return self::$_currentEdition;
-    }
-
-    /**
-     * Set edition
-     *
-     * @param string $edition
-     */
-    public static function setEdition($edition)
-    {
-        self::$_currentEdition = $edition;
-    }
-
-    /**
      * Set all my static data to defaults
      *
      */
@@ -161,47 +71,9 @@ final class Mage
     {
         self::$_appRoot         = null;
         self::$_app             = null;
-        self::$_objects         = null;
-        self::$_isDownloader    = false;
         self::$_loggers         = array();
         self::$_design          = null;
         // do not reset $headersSentThrowsException
-    }
-
-    /**
-     * Retrieve application root absolute path
-     *
-     * @return string
-     * @throws Magento_Exception
-     */
-    public static function getRoot()
-    {
-        if (!self::$_appRoot) {
-            $appRootDir = __DIR__;
-            if (!is_readable($appRootDir)) {
-                throw new Magento_Exception("Application root directory '$appRootDir' is not readable.");
-            }
-            self::$_appRoot = $appRootDir;
-        }
-        return self::$_appRoot;
-    }
-
-    /**
-     * Magento Objects Cache
-     *
-     * @param string $key optional, if specified will load this key
-     * @return Magento_Object_Cache
-     */
-    public static function objects($key = null)
-    {
-        if (!self::$_objects) {
-            self::$_objects = new Magento_Object_Cache;
-        }
-        if (is_null($key)) {
-            return self::$_objects;
-        } else {
-            return self::$_objects->load($key);
-        }
     }
 
     /**
@@ -483,67 +355,5 @@ final class Mage
         }
 
         die();
-    }
-
-    /**
-     * Set is downloader flag
-     *
-     * @param bool $flag
-     *
-     * @deprecated use Magento_Core_Model_App_State::setIsDownloader()
-     */
-    public static function setIsDownloader($flag = true)
-    {
-        self::$_isDownloader = $flag;
-    }
-
-    /**
-     * Set is serializable flag
-     *
-     * @static
-     * @param bool $value
-     *
-     * @deprecated use Magento_Core_Model_App_State::setIsSerializable()
-     */
-    public static function setIsSerializable($value = true)
-    {
-        self::$_isSerializable = !empty($value);
-    }
-
-    /**
-     * Get is serializable flag
-     *
-     * @static
-     * @return bool
-     *
-     * @deprecated use Magento_Core_Model_App_State::getIsSerializable()
-     */
-    public static function getIsSerializable()
-    {
-        return self::$_isSerializable;
-    }
-
-    /**
-     * Set update mode flag
-     *
-     * @param bool $value
-     *
-     * @deprecated use Magento_Core_Model_App_State::setUpdateMode()
-     */
-    public static function setUpdateMode($value)
-    {
-        self::$_updateMode = $value;
-
-    }
-
-    /**
-     * Get update mode flag
-     * @return bool
-     *
-     * @deprecated use Magento_Core_Model_App_State::setUpdateMode()
-     */
-    public static function getUpdateMode()
-    {
-        return self::$_updateMode;
     }
 }

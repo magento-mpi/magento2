@@ -93,6 +93,12 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @param Magento_Core_Model_App $app
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Downloadable_Helper_File $downloadableFile
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
@@ -100,6 +106,7 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_App $app,
         Magento_Core_Helper_Data $coreData,
         Magento_Downloadable_Helper_File $downloadableFile,
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
@@ -110,6 +117,7 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_app = $app;
         parent::__construct($context);
     }
 
@@ -166,7 +174,7 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
 
                 $headers = 'GET ' . $path . $query . ' HTTP/1.0' . "\r\n"
                     . 'Host: ' . $hostname . "\r\n"
-                    . 'User-Agent: Magento ver/' . Mage::getVersion() . "\r\n"
+                    . 'User-Agent: Magento ver/' . $this->_app->getVersion() . "\r\n"
                     . 'Connection: close' . "\r\n"
                     . "\r\n";
                 fwrite($this->_handle, $headers);
