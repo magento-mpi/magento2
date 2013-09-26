@@ -21,7 +21,7 @@ return array(
     '/config/global/models/*/resourceModel'    => '',
     '/config/global/payment'                   => 'Move them to payment.xml.',
     '/config/global/payment/cc/types/*/validator' =>
-        'This configuration moved to DI configuration of Magento_Centinel_Model_StateFactory',
+        'This configuration was moved to DI configuration of Magento_Centinel_Model_StateFactory',
     '/config/global/payment/cc/types'                   => 'Move them to payment.xml.',
     '/config/global/payment/groups'                   => 'Move them to payment.xml.',
     '/config/adminhtml/menu'                   => 'Move them to adminhtml.xml.',
