@@ -61,7 +61,7 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         $this->_pageFactory = $pageFactory;
         parent::__construct(
             $migrationFactory, $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
-            $resource, $modulesReader, $cache, $migrationFactory, $resourceName
+            $resource, $modulesReader, $cache, $resourceName
         );
     }
 
