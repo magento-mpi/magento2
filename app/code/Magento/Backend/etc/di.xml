@@ -77,12 +77,4 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
-    <type name="Magento_Backend_Model_Config_Source_Storage_Media_Database">
-        <param name="connectionList">
-            <value>
-                <default_connection>default_write</default_connection>
-                <core_connection>core_write</core_connection>
-            </value>
-        </param>
-    </type>
 </config>

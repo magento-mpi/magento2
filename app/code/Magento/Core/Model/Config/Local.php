@@ -81,6 +81,16 @@ class Magento_Core_Model_Config_Local
     }
 
     /**
+     * Retrieve list of connections
+     *
+     * @return array
+     */
+    public function getConnections()
+    {
+        return isset($this->_data['connection']) ? $this->_data['connection'] : array();
+    }
+
+    /**
      * Retrieve resources
      *
      * @return array

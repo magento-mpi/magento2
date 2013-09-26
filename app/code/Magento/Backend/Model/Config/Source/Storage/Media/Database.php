@@ -14,16 +14,16 @@
 class Magento_Backend_Model_Config_Source_Storage_Media_Database implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var array
+     * @var Magento_Core_Model_Config_Local
      */
-    protected $_connectionList;
+    protected $_localConfig;
 
     /**
-     * @param array $connectionList
+     * @param Magento_Core_Model_Config_Local $localConfig
      */
-    function __construct(array $connectionList)
+    function __construct(Magento_Core_Model_Config_Local $localConfig)
     {
-        $this->_connectionList = $connectionList;
+        $this->_localConfig = $localConfig;
     }
 
     /**
@@ -34,13 +34,11 @@ class Magento_Backend_Model_Config_Source_Storage_Media_Database implements Mage
     public function toOptionArray()
     {
         $connectionOptions = array();
-        foreach ($this->_connectionList as $connectionName) {
-
+        foreach (array_keys($this->_localConfig->getConnections()) as $connectionName) {
             $connectionOptions[] = array('value' => $connectionName, 'label' => $connectionName);
         }
         sort($connectionOptions);
         reset($connectionOptions);
         return $connectionOptions;
     }
-
 }
