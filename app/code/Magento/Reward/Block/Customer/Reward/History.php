@@ -32,26 +32,42 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     protected $_rewardData = null;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Customer_Model_Session $customerSession
+     * @var Magento_Reward_Model_Resource_Reward_History_CollectionFactory
+     */
+    protected $_historyFactory;
+
+    /**
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Reward_Model_Resource_Reward_History_CollectionFactory $historyFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Reward_Model_Resource_Reward_History_CollectionFactory $historyFactory,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
         $this->_rewardData = $rewardData;
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
+        $this->_historyFactory = $historyFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -157,8 +173,8 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     protected function _getCollection()
     {
         if (!$this->_collection) {
-            $websiteId = Mage::app()->getWebsite()->getId();
-            $this->_collection = Mage::getModel('Magento_Reward_Model_Reward_History')->getCollection()
+            $websiteId = $this->_storeManager->getWebsite()->getId();
+            $this->_collection = $this->_historyFactory->create()
                 ->addCustomerFilter($this->_customerSession->getCustomerId())
                 ->addWebsiteFilter($websiteId)
                 ->setExpiryConfig($this->_rewardData->getExpiryConfig())

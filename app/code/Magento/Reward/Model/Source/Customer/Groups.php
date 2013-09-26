@@ -21,14 +21,14 @@ class Magento_Reward_Model_Source_Customer_Groups implements Magento_Core_Model_
     /**
      * @var Magento_Customer_Model_Resource_Group_CollectionFactory
      */
-    protected $_groupCollFactory;
+    protected $_groupsFactory;
 
     /**
-     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
+     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory
      */
-    public function __construct(Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory)
+    public function __construct(Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory)
     {
-        $this->_groupCollFactory = $groupCollFactory;
+        $this->_groupsFactory = $groupsFactory;
     }
 
     /**
@@ -38,8 +38,7 @@ class Magento_Reward_Model_Source_Customer_Groups implements Magento_Core_Model_
      */
     public function toOptionArray()
     {
-        $groups = $this->_groupCollFactory
-            ->create()
+        $groups = $this->_groupsFactory->create()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

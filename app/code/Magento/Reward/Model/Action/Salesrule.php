@@ -33,10 +33,8 @@ class Magento_Reward_Model_Action_Salesrule extends Magento_Reward_Model_Action_
      * @param Magento_Reward_Model_Resource_RewardFactory $rewardFactory
      * @param array $data
      */
-    public function __construct(
-        Magento_Reward_Model_Resource_RewardFactory $rewardFactory,
-        array $data = array()
-    ) {
+    public function __construct(Magento_Reward_Model_Resource_RewardFactory $rewardFactory, array $data = array())
+    {
         $this->_rewardFactory = $rewardFactory;
         parent::__construct($data);
     }

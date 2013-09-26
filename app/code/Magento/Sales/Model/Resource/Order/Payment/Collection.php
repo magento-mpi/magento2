@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Flat sales order payment collection
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Resource_Order_Payment_Collection extends Magento_Sales_Model_Resource_Order_Collection_Abstract
 {
@@ -33,8 +28,32 @@ class Magento_Sales_Model_Resource_Order_Payment_Collection extends Magento_Sale
     protected $_eventObject    = 'order_payment_collection';
 
     /**
+     * @var Magento_Sales_Model_Payment_Method_Converter
+     */
+    protected $_converter;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Sales_Model_Payment_Method_Converter $converter
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Sales_Model_Payment_Method_Converter $converter,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_converter = $converter;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Model initialization
-     *
      */
     protected function _construct()
     {
@@ -56,7 +75,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Collection extends Magento_Sale
         foreach ($this->_items as $item) {
             foreach ($item->getData() as $fieldName => $fieldValue) {
                 $item->setData($fieldName,
-                    Mage::getSingleton('Magento_Sales_Model_Payment_Method_Converter')->decode($item, $fieldName)
+                    $this->_converter->decode($item, $fieldName)
                 );
             }
         }

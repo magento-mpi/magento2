@@ -83,7 +83,7 @@ class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Confi
                 ->save();
             $this->_configValueFactory->create()
                 ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue((string) $this->_coreConfig->getNode(self::CRON_MODEL_PATH))
+                ->setValue((string)$this->_config->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         } catch (Exception $e) {

@@ -61,7 +61,7 @@ class Magento_Cron_Model_Config_Converter_XmlTest extends PHPUnit_Framework_Test
             )
         );
 
-        $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'validCrontab.xml';
+        $xmlFile = __DIR__ . '/../_files/crontab_valid.xml';
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
         $result = $this->_converter->convert($dom);
@@ -79,7 +79,7 @@ class Magento_Cron_Model_Config_Converter_XmlTest extends PHPUnit_Framework_Test
      */
     public function testConvertWrongConfiguration()
     {
-        $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'wrongCrontab.xml';
+        $xmlFile = __DIR__ . '/../_files/crontab_invalid.xml';
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
         $this->_converter->convert($dom);

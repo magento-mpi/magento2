@@ -33,27 +33,36 @@ class Magento_Review_Block_Customer_Recent extends Magento_Core_Block_Template
     protected $_customerSession;
 
     /**
-     * @param Magento_Customer_Model_Session $customerSession
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $collectionFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Review_Model_Resource_Review_Product_CollectionFactory $collectionFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
+        $this->_collection = $collectionFactory->create();
         $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
-
     }
 
     protected function _initCollection()
     {
-        $this->_collection = Mage::getModel('Magento_Review_Model_Review')->getProductCollection();
         $this->_collection
-            ->addStoreFilter(Mage::app()->getStore()->getId())
+            ->addStoreFilter($this->_storeManager->getStore()->getId())
             ->addCustomerFilter($this->_customerSession->getCustomerId())
             ->setDateOrder()
             ->setPageSize(5)
@@ -82,12 +91,12 @@ class Magento_Review_Block_Customer_Recent extends Magento_Core_Block_Template
 
     public function getReviewLink()
     {
-        return Mage::getUrl('review/customer/view/');
+        return $this->getUrl('review/customer/view/');
     }
 
     public function getProductLink()
     {
-        return Mage::getUrl('catalog/product/view/');
+        return $this->getUrl('catalog/product/view/');
     }
 
     public function dateFormat($date)
@@ -97,11 +106,11 @@ class Magento_Review_Block_Customer_Recent extends Magento_Core_Block_Template
 
     public function getAllReviewsUrl()
     {
-        return Mage::getUrl('review/customer');
+        return $this->getUrl('review/customer');
     }
 
     public function getReviewUrl($id)
     {
-        return Mage::getUrl('review/customer/view', array('id' => $id));
+        return $this->getUrl('review/customer/view', array('id' => $id));
     }
 }

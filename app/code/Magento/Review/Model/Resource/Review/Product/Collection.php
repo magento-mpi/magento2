@@ -50,44 +50,72 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     /**
      * @var Magento_Core_Model_Resource
      */
-    protected $_coreResource;
+    protected $_resourceModel;
 
     /**
-     * @param Magento_Core_Model_Resource $coreResource
+     * @var Magento_Rating_Model_RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Rating_Model_Rating_Option_VoteFactory
+     */
+    protected $_voteFactory;
+
+    /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource $resourceModel
+     * @param Magento_Rating_Model_RatingFactory $ratingFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
      */
     public function __construct(
-        Magento_Core_Model_Resource $coreResource,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_EntityFactory $entityFactory
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource $resourceModel,
+        Magento_Rating_Model_RatingFactory $ratingFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
     ) {
-        $this->_coreResource = $coreResource;
+        $this->_resourceModel = $resourceModel;
+        $this->_ratingFactory = $ratingFactory;
+        $this->_storeManager = $storeManager;
+        $this->_voteFactory = $voteFactory;
         parent::__construct(
-            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+            $catalogData,
+            $catalogProductFlat,
+            $eventManager,
+            $logger,
+            $fetchStrategy,
+            $coreStoreConfig,
+            $entityFactory
         );
     }
 
-
     /**
      * Define module
-     *
      */
     protected function _construct()
     {
         $this->_init('Magento_Catalog_Model_Product', 'Magento_Catalog_Model_Resource_Product');
         $this->setRowIdFieldName('review_id');
-        $this->_reviewStoreTable = $this->_coreResource->getTableName('review_store');
+        $this->_reviewStoreTable = $this->_resourceModel->getTableName('review_store');
         $this->_initTables();
     }
 
@@ -258,7 +286,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     public function addReviewSummary()
     {
         foreach ($this->getItems() as $item) {
-            $model = Mage::getModel('Magento_Rating_Model_Rating');
+            $model = $this->_ratingFactory->create();
             $model->getReviewSummary($item->getReviewId());
             $item->addData($model->getData());
         }
@@ -273,10 +301,10 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
+            $votesCollection = $this->_voteFactory->create()
                 ->getResourceCollection()
                 ->setEntityPkFilter($item->getEntityId())
-                ->setStoreFilter(Mage::app()->getStore()->getId())
+                ->setStoreFilter($this->_storeManager->getStore()->getId())
                 ->load();
             $item->setRatingVotes($votesCollection);
         }
@@ -290,8 +318,8 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      */
     protected function _joinFields()
     {
-        $reviewTable = $this->_coreResource->getTableName('review');
-        $reviewDetailTable = $this->_coreResource->getTableName('review_detail');
+        $reviewTable = $this->_resourceModel->getTableName('review');
+        $reviewDetailTable = $this->_resourceModel->getTableName('review_detail');
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('sku');

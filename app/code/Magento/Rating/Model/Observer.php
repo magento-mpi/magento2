@@ -8,27 +8,22 @@
  * @license     {license_link}
  */
 
-
 /**
  * Rating Observer Model
- *
- * @category   Magento
- * @package    Magento_Rating
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rating_Model_Observer
 {
     /**
      * @var Magento_Rating_Model_Resource_Rating
      */
-    protected $_rating;
+    protected $_resourceRating;
 
     /**
-     * @param Magento_Rating_Model_Resource_Rating $rating
+     * @param Magento_Rating_Model_Resource_Rating $resourceRating
      */
-    public function __construct(Magento_Rating_Model_Resource_Rating $rating)
+    public function __construct(Magento_Rating_Model_Resource_Rating $resourceRating)
     {
-        $this->_rating = $rating;
+        $this->_resourceRating = $resourceRating;
     }
 
     /**
@@ -41,7 +36,7 @@ class Magento_Rating_Model_Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            $this->_rating->deleteAggregatedRatingsByProductId($eventProduct->getId());
+            $this->_resourceRating->deleteAggregatedRatingsByProductId($eventProduct->getId());
         }
         return $this;
     }

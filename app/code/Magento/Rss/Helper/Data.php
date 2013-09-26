@@ -23,17 +23,25 @@ class Magento_Rss_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @var Magento_Catalog_Helper_Product_Flat
      */
-    protected $_catalogProductFlat = null;
+    protected $_catalogProductFlat;
+
+    /**
+     * @var Magento_Core_Model_App_EmulationFactory
+     */
+    protected $_emulationFactory;
 
     /**
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_App_EmulationFactory $emulationFactory
      */
     public function __construct(
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_App_EmulationFactory $emulationFactory
     ) {
         $this->_catalogProductFlat = $catalogProductFlat;
+        $this->_emulationFactory = $emulationFactory;
         parent::__construct($context);
     }
 
@@ -47,7 +55,7 @@ class Magento_Rss_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if ($this->_catalogProductFlat->isAvailable()) {
             /* @var $emulationModel Magento_Core_Model_App_Emulation */
-            $emulationModel = Mage::getModel('Magento_Core_Model_App_Emulation');
+            $emulationModel = $this->_emulationFactory->create();
             // Emulate admin environment to disable using flat model - otherwise we won't get global stats
             // for all stores
             $emulationModel->startEnvironmentEmulation(0, Magento_Core_Model_App_Area::AREA_ADMIN);

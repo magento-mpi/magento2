@@ -214,6 +214,7 @@ final class Mage
     /**
      * Retrieve application root absolute path
      *
+     * @deprecated
      * @param string $type
      * @return string
      */
@@ -239,6 +240,7 @@ final class Mage
     /**
      * Get base URL path by type
      *
+     * @deprecated
      * @param string $type
      * @param null|bool $secure
      * @return string
@@ -251,6 +253,7 @@ final class Mage
     /**
      * Generate url by route and parameters
      *
+     * @deprecated
      * @param   string $route
      * @param   array $params
      * @return  string
@@ -265,6 +268,7 @@ final class Mage
     /**
      * Retrieve model object
      *
+     * @deprecated
      * @param   string $modelClass
      * @param   array|object $arguments
      * @return  Magento_Core_Model_Abstract|false
@@ -280,6 +284,7 @@ final class Mage
     /**
      * Retrieve model object singleton
      *
+     * @deprecated
      * @param   string $modelClass
      * @return  Magento_Core_Model_Abstract
      */
@@ -298,6 +303,7 @@ final class Mage
     /**
      * Retrieve object of resource model
      *
+     * @deprecated
      * @param   string $modelClass
      * @param   array $arguments
      * @return  Object
@@ -313,6 +319,7 @@ final class Mage
     /**
      * Retrieve resource model object singleton
      *
+     * @deprecated
      * @param   string $modelClass
      * @return  object
      */
@@ -331,6 +338,7 @@ final class Mage
     /**
      * Returns block singleton instance, if current action exists. Otherwise returns FALSE.
      *
+     * @deprecated
      * @param string $className
      * @return mixed
      */
@@ -343,6 +351,7 @@ final class Mage
     /**
      * Retrieve resource helper object
      *
+     * @deprecated
      * @param string $moduleName
      * @return Magento_Core_Model_Resource_Helper_Abstract
      */
@@ -355,6 +364,7 @@ final class Mage
     /**
      * Return new exception by module to be thrown
      *
+     * @deprecated
      * @param string $module
      * @param string $message
      * @param integer $code
@@ -369,6 +379,7 @@ final class Mage
     /**
      * Throw Exception
      *
+     * @deprecated
      * @param string $message
      * @param string $messageStorage
      * @throws Magento_Core_Exception
@@ -385,6 +396,7 @@ final class Mage
      * Get application object.
      *
      * @return Magento_Core_Model_App
+     * @deprecated
      */
     public static function app()
     {

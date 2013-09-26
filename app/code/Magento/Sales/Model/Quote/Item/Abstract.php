@@ -37,6 +37,37 @@ abstract class Magento_Sales_Model_Quote_Item_Abstract extends Magento_Core_Mode
     protected $_optionsByCode;
 
     /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_productFactory = $productFactory;
+    }
+
+    /**
      * Retrieve Quote instance
      *
      * @return Magento_Sales_Model_Quote
@@ -59,7 +90,7 @@ abstract class Magento_Sales_Model_Quote_Item_Abstract extends Magento_Core_Mode
     {
         $product = $this->_getData('product');
         if (($product === null) && $this->getProductId()) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
+            $product = $this->_productFactory->create()
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->load($this->getProductId());
             $this->setProduct($product);
@@ -584,8 +615,9 @@ abstract class Magento_Sales_Model_Quote_Item_Abstract extends Magento_Core_Mode
             $shipmentType = $this->getProduct()->getShipmentType();
         }
 
-        if ((null !== $shipmentType) &&
-            (int)$shipmentType === Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
+        if (null !== $shipmentType
+            && (int)$shipmentType === Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY
+        ) {
             return true;
         }
         return false;

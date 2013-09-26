@@ -18,23 +18,23 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
     /**
      * @var Magento_SalesArchive_Model_Config
      */
-    protected $_archiveConfig;
+    protected $_configModel;
 
     /**
-     * @param Magento_SalesArchive_Model_Config $archiveConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_SalesArchive_Model_Config $configModel
      * @param array $data
      */
     public function __construct(
-        Magento_SalesArchive_Model_Config $archiveConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_SalesArchive_Model_Config $configModel,
         array $data = array()
     ) {
-        $this->_archiveConfig = $archiveConfig;
+        $this->_configModel = $configModel;
         parent::__construct($coreData, $context, $registry, $data);
     }
 
@@ -66,7 +66,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
                 ));
             }
         } elseif ($this->getOrder()->getIsMoveable() !== false) {
-            $isActive = $this->_archiveConfig->isArchiveActive();
+            $isActive = $this->_configModel->isArchiveActive();
             if ($isActive) {
                 $archiveUrl = $this->getUrl(
                     '*/sales_archive/add',

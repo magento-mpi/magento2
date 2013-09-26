@@ -19,6 +19,23 @@
 class Magento_Review_Controller_Customer extends Magento_Core_Controller_Front_Action
 {
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Customer_Model_Session $customerSession
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($context);
+    }
+
+    /**
      * Action predispatch
      *
      * Check customer authentication for some actions
@@ -26,7 +43,7 @@ class Magento_Review_Controller_Customer extends Magento_Core_Controller_Front_A
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_customerSession->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }

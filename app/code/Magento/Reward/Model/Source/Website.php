@@ -20,14 +20,14 @@ class Magento_Reward_Model_Source_Website implements Magento_Core_Model_Option_A
     /**
      * @var Magento_Core_Model_System_Store
      */
-    protected $_systemStore;
+    protected $_store;
 
     /**
-     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Core_Model_System_Store $store
      */
-    public function __construct(Magento_Core_Model_System_Store $systemStore)
+    public function __construct(Magento_Core_Model_System_Store $store)
     {
-        $this->_systemStore = $systemStore;
+        $this->_store = $store;
     }
 
     /**
@@ -38,9 +38,10 @@ class Magento_Reward_Model_Source_Website implements Magento_Core_Model_Option_A
      */
     public function toOptionArray($withAll = true)
     {
-        $websites = $this->_systemStore->getWebsiteOptionHash();
+        $websites = $this->_store->getWebsiteOptionHash();
         if ($withAll) {
-            $websites = array_merge(array(__('All Websites')), $websites);
+            $websites = array(0 => __('All Websites'))
+                      + $websites;
         }
         return $websites;
     }

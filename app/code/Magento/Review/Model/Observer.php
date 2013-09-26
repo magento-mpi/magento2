@@ -19,27 +19,26 @@
 class Magento_Review_Model_Observer
 {
     /**
-     * @var Magento_Review_Model_Review
+     * @var Magento_Review_Model_ReviewFactory
      */
-    protected $_review;
+    protected $_reviewFactory;
 
     /**
      * @var Magento_Review_Model_Resource_Review
      */
-    protected $_reviewResource;
+    protected $_resourceReview;
 
     /**
-     * @param Magento_Review_Model_Review $review
-     * @param Magento_Review_Model_Resource_Review $reviewResource
+     * @param Magento_Review_Model_ReviewFactory $reviewFactory
+     * @param Magento_Review_Model_Resource_Review $resourceReview
      */
     public function __construct(
-        Magento_Review_Model_Review $review,
-        Magento_Review_Model_Resource_Review $reviewResource
+        Magento_Review_Model_ReviewFactory $reviewFactory,
+        Magento_Review_Model_Resource_Review $resourceReview
     ) {
-        $this->_review = $review;
-        $this->_reviewResource = $reviewResource;
+        $this->_reviewFactory = $reviewFactory;
+        $this->_resourceReview = $resourceReview;
     }
-
     /**
      * Add review summary info for tagged product collection
      *
@@ -49,7 +48,7 @@ class Magento_Review_Model_Observer
     public function tagProductCollectionLoadAfter(Magento_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
-        $this->_review->appendSummary($collection);
+        $this->_reviewFactory->create()->appendSummary($collection);
 
         return $this;
     }
@@ -64,7 +63,7 @@ class Magento_Review_Model_Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            $this->_reviewResource->deleteReviewsByProductId($eventProduct->getId());
+            $this->_resourceReview->deleteReviewsByProductId($eventProduct->getId());
         }
 
         return $this;
@@ -81,7 +80,7 @@ class Magento_Review_Model_Observer
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection instanceof Magento_Data_Collection) {
             $productCollection->load();
-            Mage::getModel('Magento_Review_Model_Review')->appendSummary($productCollection);
+            $this->_reviewFactory->create()->appendSummary($productCollection);
         }
 
         return $this;

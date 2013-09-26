@@ -154,6 +154,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -164,7 +165,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
         $this->_productFactory = $productFactory;
         $this->_ruleFactory = $ruleFactory;
         $this->_actionFactory = $actionFactory;
-        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
     }
 
 

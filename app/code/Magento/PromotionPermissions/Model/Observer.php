@@ -60,16 +60,22 @@ class Magento_PromotionPermissions_Model_Observer
     protected $_isEnterpriseReminderEnabled;
 
     /**
-     * Promotion Permissions Observer class constructor
-     *
-     * Sets necessary data
-     *
+     * @var Magento_Banner_Model_Resource_Banner_Collection
+     */
+    protected $_bannerCollection;
+
+    /**
      * @param Magento_PromotionPermissions_Helper_Data $promoPermData
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Banner_Model_Resource_Banner_Collection $bannerCollection
      */
     public function __construct(
-        Magento_PromotionPermissions_Helper_Data $promoPermData
+        Magento_PromotionPermissions_Helper_Data $promoPermData,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Banner_Model_Resource_Banner_Collection $bannerCollection
     ) {
-        $this->_request = Mage::app()->getRequest();
+        $this->_request = $request;
+        $this->_bannerCollection = $bannerCollection;
         $this->_canEditCatalogRules = $promoPermData->getCanAdminEditCatalogRules();
         $this->_canEditSalesRules = $promoPermData->getCanAdminEditSalesRules();
         $this->_canEditReminderRules = $promoPermData->getCanAdminEditReminderRules();
@@ -185,14 +191,14 @@ class Magento_PromotionPermissions_Model_Observer
             case 'related_catalogrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(Mage::getModel('Magento_Banner_Model_Banner')->getCollection()->getAllIds());
+                        ->setDisabledValues($this->_bannerCollection->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
             case 'related_salesrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(Mage::getModel('Magento_Banner_Model_Banner')->getCollection()->getAllIds());
+                        ->setDisabledValues($this->_bannerCollection->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;

@@ -17,8 +17,8 @@ class Magento_Sales_Model_Config_OrderTest extends PHPUnit_Framework_TestCase
     public function testGetSortedCollectorCodes($totalConfig, $expectedResult)
     {
         $mock = $this->getMockForAbstractClass('Magento_Sales_Model_Config_Ordered', array(
-            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false)
+            $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false)
         ));
 
         $method = new ReflectionMethod($mock, '_getSortedCollectorCodes');

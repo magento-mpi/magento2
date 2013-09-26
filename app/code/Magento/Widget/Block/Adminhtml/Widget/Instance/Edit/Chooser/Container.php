@@ -26,22 +26,22 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
     /**
      * @var Magento_Core_Model_Resource_Theme_CollectionFactory
      */
-    protected $_themeCollFactory;
+    protected $_themesFactory;
 
     /**
-     * @param Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory
      * @param Magento_Core_Block_Context $context
+     * @param Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themesFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory,
-        Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory,
         Magento_Core_Block_Context $context,
+        Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themesFactory,
         array $data = array()
     ) {
         $this->_layoutMergeFactory = $layoutMergeFactory;
-        $this->_themeCollFactory = $themeCollFactory;
+        $this->_themesFactory = $themesFactory;
         parent::__construct($context, $data);
     }
 
@@ -99,7 +99,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
     protected function _getThemeInstance($themeId)
     {
         /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
-        $themeCollection = $this->_themeCollFactory->create();
+        $themeCollection = $this->_themesFactory->create();
         return $themeCollection->getItemById($themeId);
     }
 }

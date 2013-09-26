@@ -24,15 +24,15 @@ class Magento_Reward_Block_Customer_Reward_Subscription extends Magento_Core_Blo
     protected $_customerSession;
 
     /**
-     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -46,7 +46,7 @@ class Magento_Reward_Block_Customer_Reward_Subscription extends Magento_Core_Blo
      */
     public function isSubscribedForUpdates()
     {
-        return (bool)$this->_customerSession->getCustomer()->getRewardUpdateNotification();
+        return (bool)$this->_getCustomer()->getRewardUpdateNotification();
     }
 
     /**
@@ -56,6 +56,16 @@ class Magento_Reward_Block_Customer_Reward_Subscription extends Magento_Core_Blo
      */
     public function isSubscribedForWarnings()
     {
-        return (bool)$this->_customerSession->getCustomer()->getRewardWarningNotification();
+        return (bool)$this->_getCustomer()->getRewardWarningNotification();
+    }
+
+    /**
+     * Retrieve customer model
+     *
+     * @return Magento_Customer_Model_Customer
+     */
+    protected function _getCustomer()
+    {
+        return $this->_customerSession->getCustomer();
     }
 }

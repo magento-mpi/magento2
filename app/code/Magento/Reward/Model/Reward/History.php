@@ -58,7 +58,6 @@
  */
 class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
 {
-    protected $_reward = null;
     /**
      * Reward data
      *
@@ -67,30 +66,38 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     protected $_rewardData = null;
 
     /**
-     * @var Magento_Reward_Model_Reward
+     * @var Magento_Core_Model_StoreManagerInterface
      */
-    protected $_rewardSingl;
+    protected $_storeManager;
 
     /**
-     * @param Magento_Reward_Model_Reward $rewardSingl
+     * @var Magento_Reward_Model_Reward
+     */
+    protected $_reward;
+
+    /**
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Reward_Model_Resource_Reward_History $resource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Reward_Model_Reward $reward
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Reward_Model_Reward $rewardSingl,
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Reward_Model_Resource_Reward_History $resource,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Reward_Model_Reward $reward,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_rewardSingl = $rewardSingl;
         $this->_rewardData = $rewardData;
+        $this->_storeManager = $storeManager;
+        $this->_reward = $reward;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -112,7 +119,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     {
         if ($this->getWebsiteId()) {
             $this->setBaseCurrencyCode(
-                Mage::app()->getWebsite($this->getWebsiteId())->getBaseCurrencyCode()
+                $this->_storeManager->getWebsite($this->getWebsiteId())->getBaseCurrencyCode()
             );
         }
         if ($this->getPointsDelta() < 0) {
@@ -171,7 +178,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     {
         $store = $this->getReward()->getStore();
         if ($store === null) {
-            $store = Mage::app()->getStore();
+            $store = $this->_storeManager->getStore();
         }
         $this->setRewardId($this->getReward()->getId())
             ->setWebsiteId($this->getReward()->getWebsiteId())
@@ -188,7 +195,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
                 'points' => $this->getReward()->getRate()->getPoints(),
                 'currency_amount' => $this->getReward()->getRate()->getCurrencyAmount(),
                 'direction' => $this->getReward()->getRate()->getDirection(),
-                'currency_code' => Mage::app()->getWebsite($this->getReward()->getWebsiteId())->getBaseCurrencyCode()
+                'currency_code' => $this->_storeManager->getWebsite($this->getReward()->getWebsiteId())->getBaseCurrencyCode()
             )
         ));
 
@@ -258,7 +265,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     public function getMessage()
     {
         if (!$this->hasData('message')) {
-            $action = $this->_rewardSingl->getActionInstance($this->getAction());
+            $action = $this->_reward->getActionInstance($this->getAction());
             $message = '';
             if ($action !== null) {
                 $message = $action->getHistoryMessage($this->getAdditionalData());

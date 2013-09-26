@@ -17,6 +17,30 @@
  */
 class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * @var Magento_Downloadable_Model_Link
+     */
+    protected $_link;
+
+    /**
+     * @var Magento_Downloadable_Model_Sample
+     */
+    protected $_sample;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Downloadable_Model_Link $link
+     * @param Magento_Downloadable_Model_Sample $sample
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Downloadable_Model_Link $link,
+        Magento_Downloadable_Model_Sample $sample
+    ) {
+        $this->_link = $link;
+        $this->_sample = $sample;
+        parent::__construct($context);
+    }
 
     /**
      * Upload file controller action
@@ -26,11 +50,11 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
         $type = $this->getRequest()->getParam('type');
         $tmpPath = '';
         if ($type == 'samples') {
-            $tmpPath = Magento_Downloadable_Model_Sample::getBaseTmpPath();
+            $tmpPath = $this->_sample->getBaseTmpPath();
         } elseif ($type == 'links') {
-            $tmpPath = Magento_Downloadable_Model_Link::getBaseTmpPath();
+            $tmpPath = $this->_link->getBaseTmpPath();
         } elseif ($type == 'link_samples') {
-            $tmpPath = Magento_Downloadable_Model_Link::getBaseSampleTmpPath();
+            $tmpPath = $this->_link->getBaseSampleTmpPath();
         }
         $result = array();
         try {

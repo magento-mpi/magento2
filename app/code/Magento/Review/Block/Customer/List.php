@@ -19,38 +19,54 @@
 class Magento_Review_Block_Customer_List extends Magento_Customer_Block_Account_Dashboard
 {
     /**
-     * @var Magento_Customer_Model_Session
-     */
-    protected $_customerSession;
-
-    /**
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_customerSession = $customerSession;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Product reviews collection
      *
      * @var Magento_Review_Model_Resource_Review_Product_Collection
      */
     protected $_collection;
 
+    /**
+     * @var Magento_Review_Model_Resource_Review_Product_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $collectionFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Review_Model_Resource_Review_Product_CollectionFactory $collectionFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _initCollection()
     {
-        $this->_collection = Mage::getModel('Magento_Review_Model_Review')->getProductCollection();
+        $this->_collection = $this->_collectionFactory->create();
         $this->_collection
-            ->addStoreFilter(Mage::app()->getStore()->getId())
+            ->addStoreFilter($this->_storeManager->getStore()->getId())
             ->addCustomerFilter($this->_customerSession->getCustomerId())
             ->setDateOrder();
         return $this;
@@ -120,7 +136,7 @@ class Magento_Review_Block_Customer_List extends Magento_Customer_Block_Account_
      */
     public function getReviewLink()
     {
-        return Mage::getUrl('review/customer/view/');
+        return $this->getUrl('review/customer/view/');
     }
 
     /**
@@ -130,7 +146,7 @@ class Magento_Review_Block_Customer_List extends Magento_Customer_Block_Account_
      */
     public function getProductLink()
     {
-        return Mage::getUrl('catalog/product/view/');
+        return $this->getUrl('catalog/product/view/');
     }
 
     /**

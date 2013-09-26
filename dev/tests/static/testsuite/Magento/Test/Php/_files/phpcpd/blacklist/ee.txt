@@ -2,6 +2,7 @@ Magento/Banner
 Magento/CatalogEvent/Block/Adminhtml
 Magento/CatalogPermissions/Model/Resource/Permission
 Magento/VersionsCms/Block/Adminhtml
+Magento/VersionsCms/Block/Js
 Magento/VersionsCms/Model/Resource/Page
 Magento/CustomerCustomAttributes
 Magento/CustomerBalance/Block/Adminhtml
