@@ -236,7 +236,7 @@ class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block
             return $this->getItem()->getOrder();
         }
 
-        Mage::throwException(__('We cannot get the order instance.'));
+        throw new Magento_Core_Exception(__('We cannot get the order instance.'));
     }
 
     /**

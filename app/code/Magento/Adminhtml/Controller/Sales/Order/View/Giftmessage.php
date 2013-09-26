@@ -48,7 +48,7 @@ class Magento_Adminhtml_Controller_Sales_Order_View_Giftmessage extends Magento_
      */
     protected function _getGiftmessageSaveModel()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Giftmessage_Save');
+        return $this->_objectManager->get('Magento_Adminhtml_Model_Giftmessage_Save');
     }
 
 }

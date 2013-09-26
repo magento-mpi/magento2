@@ -114,13 +114,14 @@ class Magento_Adminhtml_Controller_Promo_Widget extends Magento_Adminhtml_Contro
         $categoryId = (int)$this->getRequest()->getParam('id',false);
         $storeId    = (int)$this->getRequest()->getParam('store');
 
-        $category   = Mage::getModel('Magento_Catalog_Model_Category');
+        $category   = $this->_objectManager->create('Magento_Catalog_Model_Category');
         $category->setStoreId($storeId);
 
         if ($categoryId) {
             $category->load($categoryId);
             if ($storeId) {
-                $rootId = Mage::app()->getStore($storeId)->getRootCategoryId();
+                $rootId = $this->_objectManager->get('Magento_Core_Model_StoreManager')
+                    ->getStore($storeId)->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
                     $this->_redirect('*/*/', array('_current' => true, 'id' => null));
                     return false;

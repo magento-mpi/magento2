@@ -64,13 +64,13 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($invoiceId);
+            $invoice = $this->_objectManager->create('Magento_Sales_Model_Order_Invoice')->load($invoiceId);
             if (!$invoice->getId()) {
                 $this->_getSession()->addError(__('The invoice no longer exists.'));
                 return false;
             }
         } elseif ($orderId) {
-            $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
+            $order = $this->_objectManager->create('Magento_Sales_Model_Order')->load($orderId);
             /**
              * Check order existing
              */
@@ -86,10 +86,10 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
-            $invoice = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $order))
+            $invoice = $this->_objectManager->create('Magento_Sales_Model_Service_Order', array('order' => $order))
                 ->prepareInvoice($savedQtys);
             if (!$invoice->getTotalQty()) {
-                Mage::throwException(__('Cannot create an invoice without products.'));
+                throw new Magento_Core_Exception(__('Cannot create an invoice without products.'));
             }
         }
 
@@ -106,7 +106,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
     protected function _saveInvoice($invoice)
     {
         $invoice->getOrder()->setIsInProcess(true);
-        Mage::getModel('Magento_Core_Model_Resource_Transaction')
+        $this->_objectManager->create('Magento_Core_Model_Resource_Transaction')
             ->addObject($invoice)
             ->addObject($invoice->getOrder())
             ->save();
@@ -123,7 +123,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
     protected function _prepareShipment($invoice)
     {
         $savedQtys = $this->_getItemQtys();
-        $shipment = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $invoice->getOrder()))
+        $shipment = $this->_objectManager->create('Magento_Sales_Model_Service_Order', array('order' => $invoice->getOrder()))
             ->prepareShipment($savedQtys);
         if (!$shipment->getTotalQty()) {
             return false;
@@ -134,7 +134,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
         $tracks = $this->getRequest()->getPost('tracking');
         if ($tracks) {
             foreach ($tracks as $data) {
-                $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')
+                $track = $this->_objectManager->create('Magento_Sales_Model_Order_Shipment_Track')
                     ->addData($data);
                 $shipment->addTrack($track);
             }
@@ -182,7 +182,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
         if ($invoice) {
             $this->_title(__('New Invoice'));
 
-            $comment = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCommentText(true);
+            $comment = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getCommentText(true);
             if ($comment) {
                 $invoice->setCommentText($comment);
             }
@@ -235,7 +235,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
         $orderId = $this->getRequest()->getParam('order_id');
 
         if (!empty($data['comment_text'])) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setCommentText($data['comment_text']);
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setCommentText($data['comment_text']);
         }
 
         try {
@@ -263,7 +263,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
                 $invoice->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
                 $invoice->getOrder()->setIsInProcess(true);
 
-                $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
+                $transactionSave = $this->_objectManager->create('Magento_Core_Model_Resource_Transaction')
                     ->addObject($invoice)
                     ->addObject($invoice->getOrder());
                 $shipment = false;
@@ -304,7 +304,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
                         $this->_getSession()->addError(__('We can\'t send the shipment.'));
                     }
                 }
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCommentText(true);
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getCommentText(true);
                 $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
             } else {
                 $this->_redirect('*/*/new', array('order_id' => $orderId));
@@ -392,7 +392,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
             $this->getRequest()->setParam('invoice_id', $this->getRequest()->getParam('id'));
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                Mage::throwException(__('The Comment Text field cannot be empty.'));
+                throw new Magento_Core_Exception(__('The Comment Text field cannot be empty.'));
             }
             $invoice = $this->_initInvoice();
             $invoice->addComment(
