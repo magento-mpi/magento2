@@ -45,7 +45,7 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory
      * @param Magento_Widget_Model_Widget_InstanceFactory $widgetFactory
      * @param Magento_Banner_Model_BannerFactory $bannerFactory
-     * @param $resourceName
+     * @param string $resourceName
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */

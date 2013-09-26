@@ -36,7 +36,7 @@ class Magento_GiftWrapping_Model_Resource_Setup extends Magento_Sales_Model_Reso
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Catalog_Model_Product_TypeFactory $productTypeFactory
      * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
-     * @param $resourceName
+     * @param string $resourceName
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */

@@ -30,7 +30,7 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
-     * @param $resourceName
+     * @param string $resourceName
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */

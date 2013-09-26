@@ -34,7 +34,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param $resourceName
+     * @param string $resourceName
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
