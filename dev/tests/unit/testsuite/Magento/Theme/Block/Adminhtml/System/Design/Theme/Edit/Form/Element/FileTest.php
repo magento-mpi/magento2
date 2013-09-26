@@ -9,17 +9,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form_Element;
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
 
 class FileTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHtmlAttributes()
     {
-        /** @var $fileBlock \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form_Element_File */
+        /** @var $fileBlock \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File */
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array(), array(), '', false);
 
-        $fileBlock = $helper->getObject('Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File',
+        $fileBlock = $helper->getObject('Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File',
             array('factoryCollection' => $collectionFactory)
         );
 
