@@ -48,7 +48,6 @@ return array(
     array('_loadDefault', 'Magento_Core_Model_Resource_Store_Group_Collection'),
     array('_loadDefault', 'Magento_Core_Model_Resource_Website_Collection'),
     array('_mapper', 'Magento_ObjectManager_Config_Reader_Dom'),
-    array('_mappedTableNames', 'Magento_Core_Model_Resource'),
     array('_menu', 'Magento_Backend_Model_Menu_Builder'),
     array('_modulesReader', 'Magento_Core_Model_ObjectManager_ConfigLoader'),
     array('_moduleReader', 'Magento_Backend_Model_Menu_Config'),
