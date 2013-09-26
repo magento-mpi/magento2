@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\TestCase;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Test\TestCase;
-
 class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     protected $_bootstrap;

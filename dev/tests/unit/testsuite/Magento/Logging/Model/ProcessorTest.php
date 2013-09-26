@@ -1,4 +1,6 @@
 <?php
+
+namespace Magento\Logging\Model;
 /**
  * Test
  *
@@ -9,46 +11,44 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Logging\Model;
-
 class ProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Logging\Model\Processor */
     protected $_model;
 
-    /** @var  \Magento\Logging\Model\Config|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Logging\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $_configMock;
 
-    /** @var  \Magento\Logging\Model\Handler\Models|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Logging\Model\Handler\Models|\PHPUnit_Framework_MockObject_MockObject */
     protected $_handlerModelsMock;
 
-    /** @var  \Magento\Logging\Model\Handler\Controllers|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Logging\Model\Handler\Controllers|\PHPUnit_Framework_MockObject_MockObject */
     protected $_controllersMock;
 
-    /** @var  \Magento\Backend\Model\Auth\Session|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Backend\Model\Auth\Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $_authSessionMock;
 
-    /** @var \Magento\Backend\Model\Session|PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \Magento\Backend\Model\Session|\PHPUnit_Framework_MockObject_MockObject  */
     protected $_backendSessionMock;
 
-    /** @var  \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     /**
-     * @var \Magento\Logging\Model\EventFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Logging\Model\\EventFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventFactoryMock;
 
-    /** @var  \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Core\Controller\Request\Http|\PHPUnit_Framework_MockObject_MockObject */
     protected $_requestMock;
 
-    /** @var  \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Core\Model\Logger|\PHPUnit_Framework_MockObject_MockObject */
     protected $_loggerMock;
 
-    /** @var  \Magento\Sales\Model\Quote|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject */
     protected $_quoteMock;
 
-    /** @var  \Magento\Logging\Model\Event\Changes|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Logging\Model\Event\Changes|\PHPUnit_Framework_MockObject_MockObject */
     protected $_changesMock;
 
     public function setUp()
@@ -296,7 +296,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('test_events'))
             ->will($this->returnValue($eventGroupNode));
 
-        /** @var \Magento\Sales\Model\Quote|PHPUnit_Framework_MockObject_MockObject $modelMock */
+        /** @var \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject $modelMock */
         $this->_quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->setMethods(array('getId', 'getDataUsingMethod'))
             ->disableOriginalConstructor()

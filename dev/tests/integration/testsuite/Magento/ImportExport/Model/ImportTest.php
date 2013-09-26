@@ -8,12 +8,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model;
 
 /**
  * @magentoDataFixture Magento/ImportExport/_files/import_data.php
  */
-namespace Magento\ImportExport\Model;
-
 class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**

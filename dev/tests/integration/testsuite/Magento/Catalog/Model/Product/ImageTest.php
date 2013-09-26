@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product;
+
 /**
  * Class \Magento\Catalog\Model\Product\ImageTest
  * @magentoAppArea frontend
  */
-namespace Magento\Catalog\Model\Product;
-
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
     /**

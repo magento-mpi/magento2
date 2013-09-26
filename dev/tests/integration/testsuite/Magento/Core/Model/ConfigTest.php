@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model;
 
 /**
  * First part of \Magento\Core\Model\Config testing:
@@ -16,8 +17,6 @@
  *
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-namespace Magento\Core\Model;
-
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()

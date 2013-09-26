@@ -1,4 +1,7 @@
 <?php
+
+namespace Magento\Cms\Model\Wysiwyg\Images;
+
 /**
  * {license_notice}
  *
@@ -7,8 +10,6 @@
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Cms\Model\Wysiwyg\Images;
-
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**

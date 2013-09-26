@@ -10,15 +10,15 @@
  */
 
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
-
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_block;
 

@@ -1,4 +1,7 @@
 <?php
+
+namespace Magento\GoogleAdwords\Model\Validator;
+
 /**
  * {license_notice}
  *
@@ -6,8 +9,6 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\GoogleAdwords\Model\Validator;
-
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
