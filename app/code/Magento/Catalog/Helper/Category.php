@@ -45,13 +45,21 @@ class Category extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Data\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
+        \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -78,7 +86,7 @@ class Category extends \Magento\Core\Helper\AbstractHelper
         /* @var $category \Magento\Catalog\Model\Category */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
-                return new \Magento\Data\Collection();
+                return $this->_collectionFactory->create();
             }
             return array();
         }

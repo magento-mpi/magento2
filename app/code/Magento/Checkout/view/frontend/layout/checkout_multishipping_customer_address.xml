@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Customer Address Edit Form" type="page" parent="customer_address_form">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

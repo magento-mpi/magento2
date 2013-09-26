@@ -12,18 +12,44 @@ namespace Magento\Rma\Block\Returns;
 
 class History extends \Magento\Core\Block\Template
 {
+    /**
+     * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function _construct()
     {
         parent::_construct();
         $this->setTemplate('return/history.phtml');
-
-        $returns = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
+        /** @var $returns \Magento\Rma\Model\Resource\Rma\Grid\Collection */
+        $returns = $this->_collectionFactory->create()
             ->addFieldToSelect('*')
-            ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
-            ->setOrder('date_requested', 'desc')
-        ;
-
-
+            ->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId())
+            ->setOrder('date_requested', 'desc');
         $this->setReturns($returns);
     }
 

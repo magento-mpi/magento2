@@ -20,26 +20,31 @@ namespace Magento\ImportExport\Model\Source\Export;
 class Format implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var \Magento\ImportExport\Model\Config
+     * @var \Magento\ImportExport\Model\Export\ConfigInterface
      */
-    protected $_config;
+    protected $_exportConfig;
 
     /**
-     * @param \Magento\ImportExport\Model\Config $config
+     * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      */
-    public function __construct(\Magento\ImportExport\Model\Config $config)
-    {
-        $this->_config = $config;
+    public function __construct(
+        \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
+    ) {
+        $this->_exportConfig = $exportConfig;
     }
 
     /**
-     * Prepare and return array of available export file formats.
+     * Prepare and return array of import entities ids and their names
      *
      * @return array
      */
     public function toOptionArray()
     {
-        $formats = \Magento\ImportExport\Model\Export::CONFIG_KEY_FORMATS;
-        return $this->_config->getModelsComboOptions($formats);
+        $options = array();
+        foreach ($this->_exportConfig->getFileFormats() as $formatName => $formatConfig) {
+            $options[] = array('value' => $formatName, 'label' => __($formatConfig['label']));
+        }
+        return $options;
+
     }
 }

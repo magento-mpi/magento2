@@ -8,14 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Css" name="magento-cms-widgets-css">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Cms::widgets.css</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="footer">
+    </referenceBlock>
+    <referenceBlock name="footer">
         <block class="Magento\Cms\Block\Block" name="cms_footer_links" before="footer_links">
             <!--
                 The content of this block is taken from the database by its block_id.
@@ -25,5 +25,5 @@
                 <argument name="block_id" xsi:type="string">footer_links</argument>
             </action>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

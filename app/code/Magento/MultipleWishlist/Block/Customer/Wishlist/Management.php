@@ -10,10 +10,6 @@
 
 /**
  * Wishlist sidebar block
- *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist;
 
@@ -46,18 +42,30 @@ class Management extends \Magento\Core\Block\Template
     protected $_wishlistData = null;
 
     /**
-     * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        \Magento\MultipleWishlist\Helper\Data $wishlistData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\MultipleWishlist\Helper\Data $wishlistData,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
+        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -82,7 +90,7 @@ class Management extends \Magento\Core\Block\Template
     protected function _getCustomerId()
     {
         if (is_null($this->_customerId)) {
-            $this->_customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+            $this->_customerId = $this->_customerSession->getCustomerId();
         }
         return $this->_customerId;
     }

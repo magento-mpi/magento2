@@ -2,19 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * Logging event resource model
- *
- * @category    Magento
- * @package     Magento_Logging
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Logging\Model\Resource;
 
@@ -26,16 +19,28 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_filesystem;
 
     /**
+     * Archive factory
+     *
+     * @var \Magento\Logging\Model\ArchiveFactory
+     */
+    protected $_archiveFactory;
+
+    /**
      * Class constructor
      *
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
      * @throws \InvalidArgumentException
      */
-    public function __construct(\Magento\Core\Model\Resource $resource, \Magento\Filesystem $filesystem)
-    {
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Filesystem $filesystem,
+        \Magento\Logging\Model\ArchiveFactory $archiveFactory
+    ) {
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
+        $this->_archiveFactory = $archiveFactory;
     }
 
     /**
@@ -51,7 +56,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Convert data before save ip
      *
      * @param \Magento\Core\Model\AbstractModel $event
-     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this|\Magento_Core_Model_Resource_Db_AbstractDb
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $event)
     {
@@ -82,7 +87,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($latestLogEntry) {
             // make sure folder for dump file will exist
             /** @var \Magento\Logging\Model\Archive $archive */
-            $archive = \Mage::getModel('Magento\Logging\Model\Archive');
+            $archive = $this->_archiveFactory->create();
             $archive->createNew();
 
             $expr = new \Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');

@@ -29,13 +29,82 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_searchableAttributes;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Catalog search fulltext
+     *
+     * @var \Magento\CatalogSearch\Model\Fulltext
+     */
+    protected $_catalogSearchFulltext;
+
+    /**
+     * Attribute collection factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     */
+    protected $_attributeCollectionFactory;
+
+    /**
+     * Catalog search indexer fulltext
+     *
+     * @var \Magento\CatalogSearch\Model\Resource\Indexer\Fulltext
+     */
+    protected $_catalogSearchIndexerFulltext;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\CatalogSearch\Model\Resource\Indexer\Fulltext $catalogSearchIndexerFulltext
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\CatalogSearch\Model\Resource\Indexer\Fulltext $catalogSearchIndexerFulltext,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogSearchIndexerFulltext = $catalogSearchIndexerFulltext;
+        $this->_attributeCollectionFactory = $attributeCollectionFactory;
+        $this->_catalogSearchFulltext = $catalogSearchFulltext;
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retrieve resource instance
      *
      * @return \Magento\CatalogSearch\Model\Resource\Indexer\Fulltext
      */
     protected function _getResource()
     {
-        return \Mage::getResourceSingleton('Magento\CatalogSearch\Model\Resource\Indexer\Fulltext');
+        return $this->_catalogSearchIndexerFulltext;
     }
 
     /**
@@ -84,7 +153,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _getIndexer()
     {
-        return \Mage::getSingleton('Magento\CatalogSearch\Model\Fulltext');
+        return $this->_catalogSearchFulltext;
     }
 
     /**
@@ -205,7 +274,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Get data required for category'es products reindex
      *
      * @param \Magento\Index\Model\Event $event
-     * @return Magento_CatalogSearch_Model_Indexer_Search
+     * @return \Magento\CatalogSearch\Model\Indexer\Search
      */
     protected function _registerCatalogCategoryEvent(\Magento\Index\Model\Event $event)
     {
@@ -236,7 +305,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register data required by catatalog product process in event object
      *
      * @param \Magento\Index\Model\Event $event
-     * @return Magento_CatalogSearch_Model_Indexer_Search
+     * @return \Magento\CatalogSearch\Model\Indexer\Search
      */
     protected function _registerCatalogProductEvent(\Magento\Index\Model\Event $event)
     {
@@ -308,7 +377,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
     {
         if (is_null($this->_searchableAttributes)) {
             /** @var $attributeCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-            $attributeCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection');
+            $attributeCollection = $this->_attributeCollectionFactory->create();
             $attributeCollection->addIsSearchableFilter();
 
             foreach ($attributeCollection as $attribute) {
@@ -327,7 +396,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _isProductComposite($productId)
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
+        $product = $this->_productFactory->create()->load($productId);
         return $product->isComposite();
     }
 
@@ -375,7 +444,7 @@ class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
                 $actionType = $data['catalogsearch_action_type'];
 
                 foreach ($websiteIds as $websiteId) {
-                    foreach (\Mage::app()->getWebsite($websiteId)->getStoreIds() as $storeId) {
+                    foreach ($this->_storeManager->getWebsite($websiteId)->getStoreIds() as $storeId) {
                         if ($actionType == 'remove') {
                             $this->_getIndexer()
                                 ->cleanIndex($storeId, $productIds)

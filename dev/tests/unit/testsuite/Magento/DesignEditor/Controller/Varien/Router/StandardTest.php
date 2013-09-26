@@ -83,9 +83,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         );
 
         // test data to verify routers match logic
-        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
+            'Magento\Backend\Helper\DataProxy', false);
         $matchedRequest = $this->getMock('Magento\Core\Controller\Request\Http',
             $silencedMethods,
             array($helperMock, $vdeUrl)
@@ -215,6 +214,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             $app,
             $this->getMock('Magento\Core\Model\Config\Scope', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Route\Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
             $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
             'frontend',

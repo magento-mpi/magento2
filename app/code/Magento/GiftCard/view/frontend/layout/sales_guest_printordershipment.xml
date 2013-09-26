@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="sales.order.print.shipment">
+    <referenceBlock name="sales.order.print.shipment">
         <block class="Magento\GiftCard\Block\Sales\Order\Item\Renderer\Noquote" as="giftcard" template="Magento_Sales::order/shipment/items/renderer/default.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

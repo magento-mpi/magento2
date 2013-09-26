@@ -52,6 +52,39 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     );
 
     /**
+     * @var \Magento\SalesArchive\Model\Resource\Helper\Mysql4
+     */
+    protected $_salesHelper;
+
+    /**
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\SalesArchive\Model\Resource\Helper\Mysql4 $salesHelper
+     * @param $resourceName
+     */
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Config\Resource $resourcesConfig,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\SalesArchive\Model\Resource\Helper\Mysql4 $salesHelper,
+        $resourceName
+    ) {
+        $this->_salesHelper = $salesHelper;
+        parent::__construct(
+            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+        );
+    }
+
+    /**
      * Run each time after applying of all updates,
      * if setup model setted  $_callAfterApplyAllUpdates flag to true
      *
@@ -183,9 +216,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
-        $helper = \Mage::getResourceHelper('Magento_SalesArchive');
-        $helper->changeColumnPosition($table, $column, $after, $first);
-
+        $this->_salesHelper->changeColumnPosition($table, $column, $after, $first);
         return $this;
     }
 

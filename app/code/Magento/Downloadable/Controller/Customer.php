@@ -19,6 +19,22 @@ namespace Magento\Downloadable\Controller;
 
 class Customer extends \Magento\Core\Controller\Front\Action
 {
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($context);
+    }
 
     /**
      * Check customer authentication
@@ -26,10 +42,9 @@ class Customer extends \Magento\Core\Controller\Front\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        $action = $this->getRequest()->getActionName();
         $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
 
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this, $loginUrl)) {
+        if (!$this->_customerSession->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }

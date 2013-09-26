@@ -40,14 +40,49 @@ class View extends \Magento\Rma\Block\Form
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Rma\Model\Resource\Item\CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory
+     */
+    protected $_historiesFactory;
+
+    /**
+     * @var \Magento\Rma\Model\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Form\Factory
+     */
+    protected $_itemFormFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory
+     * @param \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $historiesFactory
+     * @param \Magento\Rma\Model\ItemFactory $itemFactory
+     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
      */
     public function __construct(
@@ -55,15 +90,26 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory,
+        \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $historiesFactory,
+        \Magento\Rma\Model\ItemFactory $itemFactory,
+        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
+        $this->_itemsFactory = $itemsFactory;
+        $this->_historiesFactory = $historiesFactory;
+        $this->_itemFactory = $itemFactory;
+        $this->_itemFormFactory = $itemFormFactory;
+        $this->_customerSession = $customerSession;
+        $this->_eavConfig = $eavConfig;
         parent::__construct($modelFactory, $formFactory, $eavConfig, $coreData, $context, $data);
     }
 
@@ -78,18 +124,15 @@ class View extends \Magento\Rma\Block\Form
         $this->setRma($this->_coreRegistry->registry('current_rma'));
         $this->setOrder($this->_coreRegistry->registry('current_order'));
 
-        /** @var $collection \Magento\Rma\Model\Resource\Item */
-        $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item\Collection')
+        /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
+        $collection = $this->_itemsFactory->create()
             ->addAttributeToSelect('*')
-            ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
-        ;
+            ->addFilter('rma_entity_id', $this->getRma()->getEntityId());
 
         $this->setItems($collection);
 
         /** @var $comments \Magento\Rma\Model\Resource\Rma\Status\History\Collection */
-        $comments = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Status\History\Collection')
-            ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
-        ;
+        $comments = $this->_historiesFactory->create()->addFilter('rma_entity_id', $this->getRma()->getEntityId());
         $this->setComments($comments);
     }
 
@@ -102,10 +145,9 @@ class View extends \Magento\Rma\Block\Form
     {
         $array = array();
 
-        /** @var $collection \Magento\Rma\Model\Resource\Item */
-        $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item\Collection')
-            ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
-        ;
+        /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
+        $collection = $this->_itemsFactory->create();
+        $collection->addFilter('rma_entity_id', $this->getRma()->getEntityId());
         foreach ($collection as $item) {
             foreach ($item->getData() as $attributeCode=>$value) {
                 $array[] = $attributeCode;
@@ -114,10 +156,10 @@ class View extends \Magento\Rma\Block\Form
         }
 
         /* @var $itemModel \Magento\Rma\Model\Item */
-        $itemModel = \Mage::getModel('Magento\Rma\Model\Item');
+        $itemModel = $this->_itemFactory->create();
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
-        $itemForm   = \Mage::getModel('Magento\Rma\Model\Item\Form');
+        $itemForm = $this->_itemFormFactory->create();
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);
@@ -153,7 +195,7 @@ class View extends \Magento\Rma\Block\Form
         foreach ($items as $item) {
             if (!$itemForm) {
                 /* @var $itemForm \Magento\Rma\Model\Item\Form */
-                $itemForm   = \Mage::getModel('Magento\Rma\Model\Item\Form');
+                $itemForm = $this->_itemFormFactory->create();
                 $itemForm->setFormCode('default')
                     ->setStore($this->getStore())
                     ->setEntity($item);
@@ -253,8 +295,8 @@ class View extends \Magento\Rma\Block\Form
 
     public function getBackUrl()
     {
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            return $this->getUrl('rma/returns/history');
+        if ($this->_customerSession->isLoggedIn()) {
+            return $this->getUrl('rma/return/history');
         } else {
             return $this->getUrl('rma/guest/returns');
         }
@@ -272,22 +314,23 @@ class View extends \Magento\Rma\Block\Form
 
     public function getCustomerName()
     {
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if ($this->_customerSession->isLoggedIn()) {
             return $this->_customerData->getCustomerName();
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
 
             $name = '';
-            $config = \Mage::getSingleton('Magento\Eav\Model\Config');
-            if ($config->getAttribute('customer', 'prefix')->getIsVisible() && $billingAddress->getPrefix()) {
+            if ($this->_eavConfig->getAttribute('customer', 'prefix')->getIsVisible() && $billingAddress->getPrefix()) {
                 $name .= $billingAddress->getPrefix() . ' ';
             }
             $name .= $billingAddress->getFirstname();
-            if ($config->getAttribute('customer', 'middlename')->getIsVisible() && $billingAddress->getMiddlename()) {
+            if ($this->_eavConfig->getAttribute('customer', 'middlename')->getIsVisible() 
+                && $billingAddress->getMiddlename()
+            ) {
                 $name .= ' ' . $billingAddress->getMiddlename();
             }
             $name .=  ' ' . $billingAddress->getLastname();
-            if ($config->getAttribute('customer', 'suffix')->getIsVisible() && $billingAddress->getSuffix()) {
+            if ($this->_eavConfig->getAttribute('customer', 'suffix')->getIsVisible() && $billingAddress->getSuffix()) {
                 $name .= ' ' . $billingAddress->getSuffix();
             }
             return $name;
@@ -301,7 +344,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getTrackingInfo()
     {
-       return $this->getBlockHtml('rma.returns.tracking');
+       return $this->getBlockHtml('rma.return.tracking');
     }
 
     /**

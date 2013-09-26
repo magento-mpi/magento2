@@ -51,12 +51,24 @@ abstract class AbstractCondition
     protected $_viewUrl;
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         $this->_viewUrl = $context->getViewUrl();
+        $this->_locale = $context->getLocale();
+        $this->_layout = $context->getLayout();
 
         parent::__construct($data);
 
@@ -334,7 +346,7 @@ abstract class AbstractCondition
         if ($this->getInputType() == 'date' && !$this->getIsValueParsed()) {
             // date format intentionally hard-coded
             $this->setValue(
-                \Mage::app()->getLocale()->date($this->getData('value'),
+                $this->_locale->date($this->getData('value'),
                 \Magento\Date::DATE_INTERNAL_FORMAT, null, false)->toString(\Magento\Date::DATE_INTERNAL_FORMAT)
             );
             $this->setIsValueParsed(true);
@@ -454,7 +466,7 @@ abstract class AbstractCondition
             'values' => $this->getAttributeSelectOptions(),
             'value' => $this->getAttribute(),
             'value_name' => $this->getAttributeName(),
-        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Editable'));
     }
 
     /**
@@ -489,7 +501,7 @@ abstract class AbstractCondition
             'value'         => $this->getOperator(),
             'value_name'    => $this->getOperatorName(),
         ));
-        $element->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
+        $element->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Editable'));
 
         return $element;
     }
@@ -505,7 +517,7 @@ abstract class AbstractCondition
     /**
      * Value element type will define renderer for condition value element
      *
-     * @see Magento\Data\Form\Element
+     * @see \Magento\Data\Form\Element
      * @return string
      */
     public function getValueElementType()
@@ -519,9 +531,9 @@ abstract class AbstractCondition
     public function getValueElementRenderer()
     {
         if (strpos($this->getValueElementType(), '/') !== false) {
-            return \Mage::getBlockSingleton($this->getValueElementType());
+            return $this->_layout->getBlockSingleton($this->getValueElementType());
         }
-        return \Mage::getBlockSingleton('Magento\Rule\Block\Editable');
+        return $this->_layout->getBlockSingleton('Magento\Rule\Block\Editable');
     }
 
     public function getValueElement()

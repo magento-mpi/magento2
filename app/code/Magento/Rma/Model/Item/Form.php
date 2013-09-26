@@ -10,10 +10,6 @@
 
 /**
  * RMA Item Form Model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Model\Item;
 
@@ -34,14 +30,27 @@ class Form extends \Magento\Eav\Model\Form
     protected $_entityTypeCode = 'rma_item';
 
     /**
+     * @var \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
+     */
+    public function __construct(\Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory)
+    {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct();
+    }
+
+    /**
      * Get EAV Entity Form Attribute Collection
      *
-     * @return Object
+     * @return \Magento\Rma\Model\Resource\Item\Form\Attribute\Collection
      */
     protected function _getFormAttributeCollection()
     {
-        return \Mage::getResourceModel(str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $this->_moduleName)
-                . '\Model\Resource\Item\Form\Attribute\Collection');
+        return $this->_collectionFactory->create();
     }
 
     /**
@@ -77,5 +86,4 @@ class Form extends \Magento\Eav\Model\Form
 
         return $errors;
     }
-
 }

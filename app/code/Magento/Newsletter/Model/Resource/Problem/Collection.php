@@ -12,9 +12,7 @@
 /**
  * Newsletter problems collection
  *
- * @category    Magento
- * @package     Magento_Newsletter
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Newsletter\Model\Resource\Problem;
 
@@ -33,6 +31,35 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @var bool
      */
     protected $_problemGrouped             = false;
+
+    /**
+     * Customer collection factory
+     *
+     * @var \Magento\Customer\Model\Resource\Customer\CollectionFactory
+     */
+    protected $_customerCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_customerCollectionFactory = $customerCollectionFactory;
+    }
 
     /**
      * Define resource model and model
@@ -95,8 +122,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             return;
         }
 
-        $customers = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
-            ->addNameToSelect()
+        /** @var \Magento\Customer\Model\Resource\Customer\Collection $customers */
+        $customers = $this->_customerCollectionFactory->create();
+        $customers->addNameToSelect()
             ->addAttributeToFilter('entity_id', array("in"=>$customersIds));
 
         $customers->load();

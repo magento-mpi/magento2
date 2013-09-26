@@ -102,10 +102,7 @@ class AssociatedProduct
     {
         parent::_initSelect();
 
-        $allowedProductTypes = array();
-        foreach ($this->_configurationHelper->getConfigurableAllowedTypes() as $type) {
-            $allowedProductTypes[] = $type->getName();
-        }
+        $allowedProductTypes = $this->_configurationHelper->getConfigurableAllowedTypes();
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('price')

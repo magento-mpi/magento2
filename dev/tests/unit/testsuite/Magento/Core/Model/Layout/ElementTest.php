@@ -30,7 +30,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         return array(
             array('<block name="name" />', 'name'),
             array('<container name="name" />', 'name'),
-            array('<reference name="name" />', 'name'),
+            array('<referenceBlock name="name" />', 'name'),
             array('<invalid name="name" />', false),
             array('<block />', ''),
         );

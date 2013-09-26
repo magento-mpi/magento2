@@ -19,9 +19,6 @@ class Product extends \Magento\Core\Helper\Url
     const XML_PATH_PRODUCT_URL_USE_CATEGORY          = 'catalog/seo/product_use_categories';
     const XML_PATH_USE_PRODUCT_CANONICAL_TAG         = 'catalog/seo/product_canonical_tag';
     const XML_PATH_AUTO_GENERATE_MASK                = 'catalog/fields_masks';
-    const XML_PATH_UNASSIGNABLE_ATTRIBUTES           = 'global/catalog/product/attributes/unassignable';
-    const XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION = 'global/catalog/product/attributes/used_in_autogeneration';
-    const XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL       = 'global/catalog/product/attributes/weight/type_switcher/label';
 
     /**
      * Flag that shows if Magento has to check product to be saleable (enabled and/or inStock)
@@ -64,6 +61,16 @@ class Product extends \Magento\Core\Helper\Url
     protected $_coreRegistry = null;
 
     /**
+     * @var string
+     */
+    protected $_typeSwitcherLabel;
+
+    /**
+     * @var \Magento\Catalog\Model\Attribute\Config
+     */
+    protected $_attributeConfig;
+
+    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -85,25 +92,30 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param $typeSwitcherLabel
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Model\Attribute\Config $attributeConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig,
+        $typeSwitcherLabel
     ) {
+        $this->_typeSwitcherLabel = $typeSwitcherLabel;
+        $this->_attributeConfig = $attributeConfig;
         $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
-        $this->_coreRegistry = $coreRegistry;
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
         $this->_coreConfig = $coreConfig;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_logger = $context->getLogger();
-        parent::__construct($context);
+        parent::__construct($context);        
     }
 
     /**
@@ -289,7 +301,7 @@ class Product extends \Magento\Core\Helper\Url
          */
         $inputTypes = array(
             'multiselect'   => array(
-                'backend_model'     => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'
+                'backend_model'     => 'Magento\Eav\Model\Entity\Attribute\Backend\Array'
             ),
             'boolean'       => array(
                 'source_model'      => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'
@@ -552,8 +564,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function getUnassignableAttributes()
     {
-        $data = $this->_coreConfig->getNode(self::XML_PATH_UNASSIGNABLE_ATTRIBUTES);
-        return false === $data || is_string($data->asArray()) ? array() : array_keys($data->asArray());
+        return $this->_attributeConfig->getAttributeNames('unassignable');
     }
 
     /**
@@ -563,7 +574,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function getAttributesAllowedForAutogeneration()
     {
-        return array_keys($this->_coreConfig->getNode(self::XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION)->asArray());
+        return $this->_attributeConfig->getAttributeNames('used_in_autogeneration');
     }
 
     /**
@@ -573,6 +584,6 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function getTypeSwitcherControlLabel()
     {
-        return __((string)$this->_coreConfig->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
+        return __($this->_typeSwitcherLabel);
     }
 }

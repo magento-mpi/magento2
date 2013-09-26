@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\Integrity\Modular;
-
 /**
  * This test ensures that all blocks have the appropriate constructor arguments that allow
  * them to be instantiated via the objectManager.
  *
  * @magentoAppIsolation
  */
+namespace Magento\Test\Integrity\Modular;
+
 class BlockInstantiationTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 {
     /**
@@ -32,6 +32,11 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\IntegrityAb
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope($area);
+
+        /** @var \Magento\Core\Model\App $app */
+        $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
+        $app->loadArea($area);
+
         $block = \Mage::getModel($class);
         $this->assertNotNull($block);
     }

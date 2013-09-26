@@ -15,6 +15,9 @@
         <param name="schemaLocator">
             <instance type="Magento\Widget\Model\Config\SchemaLocator" />
         </param>
+        <param name="fileResolver">
+            <instance type="Magento\Widget\Model\Config\FileResolver" />
+        </param>
     </type>
     <type name="Magento\Widget\Model\Config\Data">
         <param name='reader'>
@@ -22,6 +25,14 @@
         </param>
         <param name="cacheId">
             <value>widget_config</value>
+        </param>
+    </type>
+    <type name="Magento\Cms\Model\Template\FilterProvider">
+        <param name="pageFilter">
+            <value>Magento\Widget\Model\Template\Filter</value>
+        </param>
+        <param name="blockFilter">
+            <value>Magento\Widget\Model\Template\Filter</value>
         </param>
     </type>
 </config>

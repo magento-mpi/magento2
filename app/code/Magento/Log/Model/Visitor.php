@@ -46,11 +46,9 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_coreHttp = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Core\Model\Event\Manager
+     * @var array
      */
-    protected $_eventManager = null;
+    protected $_ignoredUserAgents;
 
     /**
      * Core store config
@@ -65,6 +63,26 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_coreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Context $context
@@ -74,9 +92,14 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Core\Model\Session $session,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -84,12 +107,17 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        array $ignoredUserAgents = array(),
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_session = $session;
+        $this->_storeManager = $storeManager;
         $this->_coreHttp = $coreHttp;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        $this->_ignoredUserAgents = $ignoredUserAgents;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -100,10 +128,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     {
         $this->_init('Magento\Log\Model\Resource\Visitor');
         $userAgent = $this->_coreHttp->getHttpUserAgent();
-        $ignoreAgents = $this->_coreConfig->getNode('global/ignore_user_agents');
-        if ($ignoreAgents) {
-            $ignoreAgents = $ignoreAgents->asArray();
-            if (in_array($userAgent, $ignoreAgents)) {
+        if ($this->_ignoredUserAgents) {
+            if (in_array($userAgent, $this->_ignoredUserAgents)) {
                 $this->_skipRequestLogging = true;
             }
         }
@@ -116,7 +142,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Core\Model\Session');
+        return $this->_session;
     }
 
     /**
@@ -129,7 +155,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         $this->addData(array(
             'server_addr'           => $this->_coreHttp->getServerAddr(true),
             'remote_addr'           => $this->_coreHttp->getRemoteAddr(true),
-            'http_secure'           => \Mage::app()->getStore()->isCurrentlySecure(),
+            'http_secure'           => $this->_storeManager->getStore()->isCurrentlySecure(),
             'http_host'             => $this->_coreHttp->getHttpHost(true),
             'http_user_agent'       => $this->_coreHttp->getHttpUserAgent(true),
             'http_accept_language'  => $this->_coreHttp->getHttpAcceptLanguage(true),
@@ -204,7 +230,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
             $this->setFirstVisitAt(now());
             $this->setIsNewVisitor(true);
             $this->save();
-            $this->_eventManager->dispatch('visitor_init', array('visitor' => $this));
+            $this->_eventDispatcher->dispatch('visitor_init', array('visitor' => $this));
         }
         return $this;
     }
@@ -316,7 +342,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         if (intval($customerId) <= 0) {
             return $this;
         }
-        $customerData = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
+        $customerData = $this->_customerFactory->create()->load($customerId);
         $newCustomerData = array();
         foreach ($customerData->getData() as $propName => $propValue) {
             $newCustomerData['customer_' . $propName] = $propValue;
@@ -336,7 +362,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         if (intval($quoteId) <= 0) {
             return $this;
         }
-        $data->setQuoteData(\Mage::getModel('Magento\Sales\Model\Quote')->load($quoteId));
+        $data->setQuoteData($this->_quoteFactory->create()->load($quoteId));
         return $this;
     }
 

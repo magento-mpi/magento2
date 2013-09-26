@@ -26,6 +26,17 @@ class Profile
      */
     protected $_coreRegistry = null;
 
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection
+     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile
+     * @param array $data
+     */
     public function __construct(
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Helper\Data $coreData,
@@ -33,11 +44,20 @@ class Profile
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection,
+        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct(
-            $coreData, $paymentData, $context, $storeManager, $urlModel, $data
+            $coreData,
+            $paymentData,
+            $context,
+            $storeManager,
+            $urlModel,
+            $profileCollection,
+            $recurringProfile,
+            $data
         );
     }
 
@@ -99,7 +119,7 @@ class Profile
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Recurring\Profile\Collection')
+        $collection = $this->_profileCollection->create()
             ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId());
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');

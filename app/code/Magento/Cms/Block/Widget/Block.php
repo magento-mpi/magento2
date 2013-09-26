@@ -21,6 +21,11 @@ namespace Magento\Cms\Block\Widget;
 class Block extends \Magento\Core\Block\Template implements \Magento\Widget\Block\BlockInterface
 {
     /**
+     * @var \Magento\Cms\Model\Template\FilterProvider
+     */
+    protected $_filterProvider;
+
+    /**
      * Storage for used widgets
      *
      * @var array
@@ -28,26 +33,41 @@ class Block extends \Magento\Core\Block\Template implements \Magento\Widget\Bloc
     static protected $_widgetUsageMap = array();
 
     /**
-     * Cms data
+     * Store manager
      *
-     * @var \Magento\Cms\Helper\Data
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_cmsData = null;
+    protected $_storeManager;
 
     /**
-     * @param \Magento\Cms\Helper\Data $cmsData
+     * Block factory
+     *
+     * @var \Magento\Cms\Model\BlockFactory
+     */
+    protected $_blockFactory;
+
+    /**
+     * Construct
+     * 
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
+     * @param \Magento\Cms\Model\BlockFactory $blockFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Cms\Helper\Data $cmsData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Cms\Model\Template\FilterProvider $filterProvider,
+        \Magento\Cms\Model\BlockFactory $blockFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_cmsData = $cmsData;
         parent::__construct($coreData, $context, $data);
+        $this->_filterProvider = $filterProvider;
+        $this->_blockFactory = $blockFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -68,15 +88,15 @@ class Block extends \Magento\Core\Block\Template implements \Magento\Widget\Bloc
         self::$_widgetUsageMap[$blockHash] = true;
 
         if ($blockId) {
-            $storeId = \Mage::app()->getStore()->getId();
-            $block = \Mage::getModel('Magento\Cms\Model\Block')
-                ->setStoreId($storeId)
+            $storeId = $this->_storeManager->getStore()->getId();
+            /** @var \Magento\Cms\Model\Block $block */
+            $block = $this->_blockFactory->create();
+            $block->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
-                /* @var $helper \Magento\Cms\Helper\Data */
-                $helper = $this->_cmsData;
-                $processor = $helper->getBlockTemplateProcessor();
-                $this->setText($processor->setStoreId($storeId)->filter($block->getContent()));
+                $this->setText(
+                    $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent())
+                );
             }
         }
 

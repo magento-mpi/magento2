@@ -17,11 +17,6 @@ class FulltextIndexRebuild
     protected $_searchHelper;
 
     /**
-     * @var \Magento\CatalogSearch\Helper\Data
-     */
-    protected $_catalogSearchHelper;
-
-    /**
      * @var \Magento\Search\Model\Catalog\Layer\Filter\Price
      */
     protected $_layerFilterPrice;
@@ -32,19 +27,24 @@ class FulltextIndexRebuild
     protected $_cache;
 
     /**
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
+     */
+    protected $_engineProvider = null;
+
+    /**
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchHelper
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchHelper
      * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $layerFilterPrice
      * @param \Magento\Core\Model\CacheInterface $cache
      */
     public function __construct(
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchHelper,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchHelper,
         \Magento\Search\Model\Catalog\Layer\Filter\Price $layerFilterPrice,
         \Magento\Core\Model\CacheInterface $cache
     ) {
+        $this->_engineProvider = $engineProvider;
         $this->_searchHelper = $searchHelper;
-        $this->_catalogSearchHelper = $catalogSearchHelper;
         $this->_layerFilterPrice = $layerFilterPrice;
         $this->_cache = $cache;
     }
@@ -65,7 +65,7 @@ class FulltextIndexRebuild
         }
 
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
-            $engine = $this->_catalogSearchHelper->getEngine();
+            $engine = $this->_engineProvider->get();
             if ($engine->holdCommit() && is_null($productIds)) {
                 $engine->setIndexNeedsOptimization();
             }
@@ -86,7 +86,7 @@ class FulltextIndexRebuild
     {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
 
-            $engine = $this->_catalogSearchHelper->getEngine();
+            $engine = $this->_engineProvider->get();
             if ($engine->allowCommit()) {
 
                 if ($engine->getIndexNeedsOptimization()) {

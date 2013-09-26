@@ -10,8 +10,6 @@
 
 /**
  * Billing agreements controller
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Controller\Billing;
 
@@ -90,14 +88,17 @@ class Agreement extends \Magento\Core\Controller\Front\Action
      */
     public function startWizardAction()
     {
-        $agreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement');
+        $agreement = $this->_objectManager->create('Magento\Sales\Model\Billing\Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         if ($paymentCode) {
             try {
-                $agreement->setStoreId(\Mage::app()->getStore()->getId())
+                $agreement
+                    ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
                     ->setMethodCode($paymentCode)
-                    ->setReturnUrl(\Mage::getUrl('*/*/returnWizard', array('payment_method' => $paymentCode)))
-                    ->setCancelUrl(\Mage::getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode)));
+                    ->setReturnUrl($this->_objectManager->create('Magento\Core\Model\Url')
+                        ->getUrl('*/*/returnWizard', array('payment_method' => $paymentCode)))
+                    ->setCancelUrl($this->_objectManager->create('Magento\Core\Model\Url')
+                        ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode)));
 
                 $this->_redirectUrl($agreement->initToken());
                 return $this;
@@ -117,15 +118,16 @@ class Agreement extends \Magento\Core\Controller\Front\Action
      */
     public function returnWizardAction()
     {
-        $agreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement');
+        $agreement = $this->_objectManager->create('Magento\Sales\Model\Billing\Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         $token = $this->getRequest()->getParam('token');
         if ($token && $paymentCode) {
             try {
-                $agreement->setStoreId(\Mage::app()->getStore()->getId())
+                $agreement
+                    ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
                     ->setToken($token)
                     ->setMethodCode($paymentCode)
-                    ->setCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer())
+                    ->setCustomer($this->_objectManager->get('Magento\Customer\Model\Session')->getCustomer())
                     ->place();
                 $this->_getSession()->addSuccess(
                     __('The billing agreement "%1" has been created.', $agreement->getReferenceId())
@@ -162,7 +164,9 @@ class Agreement extends \Magento\Core\Controller\Front\Action
         if ($agreement && $agreement->canCancel()) {
             try {
                 $agreement->cancel();
-                $this->_getSession()->addNotice(__('The billing agreement "%1" has been canceled.', $agreement->getReferenceId()));
+                $this->_getSession()->addNotice(
+                    __('The billing agreement "%1" has been canceled.', $agreement->getReferenceId())
+                );
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
@@ -182,7 +186,8 @@ class Agreement extends \Magento\Core\Controller\Front\Action
     {
         $agreementId = $this->getRequest()->getParam('agreement');
         if ($agreementId) {
-            $billingAgreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->load($agreementId);
+            $billingAgreement = $this->_objectManager->create('Magento\Sales\Model\Billing\Agreement')
+                ->load($agreementId);
             if (!$billingAgreement->getAgreementId()) {
                 $this->_getSession()->addError(__('Please specify the correct billing agreement ID and try again.'));
                 $this->_redirect('*/*/');
@@ -200,6 +205,6 @@ class Agreement extends \Magento\Core\Controller\Front\Action
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->_objectManager->get('Magento\Customer\Model\Session');
     }
 }

@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Address Edit Form" type="page" parent="customer_address_index">
     <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

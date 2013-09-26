@@ -10,20 +10,16 @@
 
 /**
  * Currency dropdown block
- *
- * @category   Magento
- * @package    Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Directory\Block;
 
 class Currency extends \Magento\Core\Block\Template
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
-    
+
     /**
      * Directory url
      *
@@ -32,21 +28,37 @@ class Currency extends \Magento\Core\Block\Template
     protected $_directoryUrl = null;
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
      * @param \Magento\Directory\Helper\Url $directoryUrl
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Directory\Helper\Url $directoryUrl,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         array $data = array()
     ) {
         $this->_directoryUrl = $directoryUrl;
         $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_currencyFactory = $currencyFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -73,17 +85,16 @@ class Currency extends \Magento\Core\Block\Template
         $currencies = $this->getData('currencies');
         if (is_null($currencies)) {
             $currencies = array();
-            $codes = \Mage::app()->getStore()->getAvailableCurrencyCodes(true);
+            $codes = $this->_storeManager->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes) > 1) {
-                $rates = \Mage::getModel('Magento\Directory\Model\Currency')->getCurrencyRates(
-                    \Mage::app()->getStore()->getBaseCurrency(),
+                $rates = $this->_currencyFactory->create()->getCurrencyRates(
+                    $this->_storeManager->getStore()->getBaseCurrency(),
                     $codes
                 );
 
                 foreach ($codes as $code) {
                     if (isset($rates[$code])) {
-                        $currencies[$code] = \Mage::app()->getLocale()
-                            ->getTranslation($code, 'nametocurrency');
+                        $currencies[$code] = $this->_locale->getTranslation($code, 'nametocurrency');
                     }
                 }
             }
@@ -122,9 +133,9 @@ class Currency extends \Magento\Core\Block\Template
     public function getCurrentCurrencyCode()
     {
         if (is_null($this->_getData('current_currency_code'))) {
-            // do not use \Mage::app()->getStore()->getCurrentCurrencyCode() because of probability
+            // do not use $this->_storeManager->getStore()->getCurrentCurrencyCode() because of probability
             // to get an invalid (without base rate) currency from code saved in session
-            $this->setData('current_currency_code', \Mage::app()->getStore()->getCurrentCurrency()->getCode());
+            $this->setData('current_currency_code', $this->_storeManager->getStore()->getCurrentCurrency()->getCode());
         }
 
         return $this->_getData('current_currency_code');

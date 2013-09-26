@@ -10,15 +10,21 @@
 
 /**
  * Sales Order Shipment PDF model
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order\Pdf\Shipment;
 
 class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
     /**
      * Usa data
      *
@@ -27,17 +33,44 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_usaData = null;
 
     /**
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Sales\Model\Order\Pdf\TotalFactory $pdfTotalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Layout $layout
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Sales\Model\Order\Pdf\TotalFactory $pdfTotalFactory,
+        \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Layout $layout,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
@@ -60,8 +93,8 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $page = $this->newPage();
 
         if ($shipment->getStoreId()) {
-            \Mage::app()->getLocale()->emulate($shipment->getStoreId());
-            \Mage::app()->setCurrentStore($shipment->getStoreId());
+            $this->_locale->emulate($shipment->getStoreId());
+            $this->_storeManager->setCurrentStore($shipment->getStoreId());
         }
 
         $this->_setFontRegular($page);
@@ -73,7 +106,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_afterGetPdf();
 
         if ($shipment->getStoreId()) {
-            \Mage::app()->getLocale()->revert();
+            $this->_locale->revert();
         }
         return $pdf;
     }
@@ -107,7 +140,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         if ($this->getPackageShippingBlock()) {
             $packaging = $this->getPackageShippingBlock();
         } else {
-            $packaging = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging');
+            $packaging = $this->_layout->getBlockSingleton('Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging');
         }
         $packages = $packaging->getPackages();
 

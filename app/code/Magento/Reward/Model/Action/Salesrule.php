@@ -26,7 +26,22 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
      */
     protected $_quote = null;
 
-     /**
+    /**
+     * @var \Magento\Reward\Model\Resource\RewardFactory
+     */
+    protected $_rewardFactory;
+
+    /**
+     * @param \Magento\Reward\Model\Resource\RewardFactory $rewardFactory
+     * @param array $data
+     */
+    public function __construct(\Magento\Reward\Model\Resource\RewardFactory $rewardFactory, array $data = array())
+    {
+        $this->_rewardFactory = $rewardFactory;
+        parent::__construct($data);
+    }
+
+    /**
      * Retrieve points delta for action
      *
      * @param int $websiteId
@@ -39,7 +54,7 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
             if ($this->_quote->getAppliedRuleIds()) { 
                 $ruleIds = explode(',', $this->_quote->getAppliedRuleIds());
                 $ruleIds = array_unique($ruleIds);
-                $data = \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward')->getRewardSalesrule($ruleIds);
+                $data = $this->_rewardFactory->create()->getRewardSalesrule($ruleIds);
                 foreach ($data as $rule) {
                     $pointsDelta += (int)$rule['points_delta'];
                 }

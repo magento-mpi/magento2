@@ -31,6 +31,7 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $coreDir
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param array $data
@@ -40,12 +41,13 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $coreDir,
         \Magento\Data\Collection\Db $resourceCollection = null,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($taxData, $context, $registry, $coreDir, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -88,7 +90,7 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => $this->_coreString->strSplit($attributes['option_label'], 45, true, true),
+                        'text'  => $this->_coreString->str_split($attributes['option_label'], 45, true, true),
                         'feed'  => 35
                     );
 
@@ -112,14 +114,14 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 $name = $_item->getName();
             }
             $line[] = array(
-                'text'  => $this->_coreString->strSplit($name, 35, true, true),
+                'text'  => $this->_coreString->str_split($name, 35, true, true),
                 'feed'  => $feed
             );
 
             // draw SKUs
             if (!$_item->getOrderItem()->getParentItem()) {
                 $text = array();
-                foreach ($this->_coreString->strSplit($item->getSku(), 17) as $part) {
+                foreach ($this->_coreString->str_split($item->getSku(), 17) as $part) {
                     $text[] = $part;
                 }
                 $line[] = array(
@@ -170,7 +172,7 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 foreach ($options['options'] as $option) {
                     $lines = array();
                     $lines[][] = array(
-                        'text'  => $this->_coreString->strSplit(strip_tags($option['label']), 40, true, true),
+                        'text'  => $this->_coreString->str_split(strip_tags($option['label']), 40, true, true),
                         'font'  => 'italic',
                         'feed'  => 35
                     );
@@ -182,7 +184,7 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                             : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach ($this->_coreString->strSplit($value, 30, true, true) as $_value) {
+                            foreach ($this->_coreString->str_split($value, 30, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }

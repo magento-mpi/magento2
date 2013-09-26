@@ -20,11 +20,17 @@ namespace Magento\Downloadable\Block\Catalog\Product;
 class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
+     * @var \Magento\Tax\Model\Calculation
+     */
+    protected $_calculationModel;
+
+    /**
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Tax\Model\Calculation $calculationModel
      * @param array $data
      */
     public function __construct(
@@ -33,8 +39,10 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Tax\Model\Calculation $calculationModel,
         array $data = array()
     ) {
+        $this->_calculationModel = $calculationModel;
         parent::__construct($registry, $taxData, $catalogData, $coreData, $context, $data);
     }
 
@@ -77,8 +85,6 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * @param \Magento\Downloadable\Model\Link $link
-     *
-     * @param \Magento\Downloadable\Model\Link $link
      * @return string
      */
     public function getFormattedLinkPrice($link)
@@ -90,7 +96,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             return '';
         }
 
-        $taxCalculation = \Mage::getSingleton('Magento\Tax\Model\Calculation');
+        $taxCalculation = $this->_calculationModel;
         if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
             $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }

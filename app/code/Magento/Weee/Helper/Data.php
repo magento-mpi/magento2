@@ -41,22 +41,38 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
-    
+
     /**
+     * @var \Magento\Weee\Model\Tax
+     */
+    protected $_weeeTax;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Weee\Model\Tax $weeeTax
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Weee\Model\Tax $weeeTax,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_weeeTax = $weeeTax;
         $this->_coreRegistry = $coreRegistry;
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -153,8 +169,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getAmount($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false)
     {
         if ($this->isEnabled()) {
-            return \Mage::getSingleton('Magento\Weee\Model\Tax')->
-                    getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
+            return $this->_weeeTax->getWeeeAmount($product, $shipping, $billing, $website, $calculateTaxes);
         }
         return 0;
     }
@@ -219,8 +234,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getProductWeeeAttributes($product, $shipping = null, $billing = null,
         $website = null, $calculateTaxes = false)
     {
-        return \Mage::getSingleton('Magento\Weee\Model\Tax')
-                ->getProductWeeeAttributes($product, $shipping, $billing, $website, $calculateTaxes);
+        return $this->_weeeTax->getProductWeeeAttributes(
+            $product, $shipping, $billing, $website, $calculateTaxes
+        );
     }
 
     /**
@@ -316,8 +332,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getAmountForDisplay($product)
     {
         if ($this->isEnabled()) {
-            return \Mage::getModel('Magento\Weee\Model\Tax')
-                    ->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
+            return $this->_weeeTax->getWeeeAmount($product, null, null, null, $this->typeOfDisplay($product, 1));
         }
         return 0;
     }
@@ -331,7 +346,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getOriginalAmount($product)
     {
         if ($this->isEnabled()) {
-            return \Mage::getModel('Magento\Weee\Model\Tax')->getWeeeAmount($product, null, null, null, false, true);
+            return $this->_weeeTax->getWeeeAmount($product, null, null, null, false, true);
         }
         return 0;
     }
@@ -346,7 +361,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function processTierPrices($product, &$tierPrices)
     {
         $weeeAmount = $this->getAmountForDisplay($product);
-        $store = \Mage::app()->getStore();
+        $store = $this->_storeManager->getStore();
         foreach ($tierPrices as $index => &$tier) {
             $html = $store->formatPrice($store->convertPrice(
                 $this->_taxData->getPrice($product, $tier['website_price'], true)+$weeeAmount), false);

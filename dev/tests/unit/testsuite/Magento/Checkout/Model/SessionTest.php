@@ -33,14 +33,15 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
 
+        $validatorMock = $this->getMock('Magento\Core\Model\Session\Validator', array(), array(), '', false);
+
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
-        
         /** @var \Magento\Checkout\Model\Session $session */
         $session = $this->getMock(
             'Magento\Checkout\Model\Session',
             array('init'),
-            array($logger, $orderFactory, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig),
+            array($validatorMock, $logger, $orderFactory, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig),
             ''
         );
         $session->setLastRealOrderId($orderId);

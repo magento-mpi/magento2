@@ -28,13 +28,29 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_coreString = null;
 
     /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Model\Resource $resource
     ) {
+        $this->_date = $date;
+        $this->_storeManager = $storeManager;
         $this->_coreString = $coreString;
         parent::__construct($resource);
     }
@@ -60,7 +76,7 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
             'first_visit_at'    => $visitor->getFirstVisitAt(),
             'last_visit_at'     => $visitor->getLastVisitAt(),
             'last_url_id'       => $visitor->getLastUrlId() ? $visitor->getLastUrlId() : 0,
-            'store_id'          => \Mage::app()->getStore()->getId(),
+            'store_id'          => $this->_storeManager->getStore()->getId(),
         );
     }
 
@@ -126,7 +142,7 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object load
      *
-     * @param \\Magento\Core\Model\AbstractModel|\\Magento\Object $object
+     * @param \Magento_Core_Model_AbstractModel|\Magento_Object $object
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
@@ -192,7 +208,7 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
         $data = new \Magento\Object(array(
             'url_id'        => $visitor->getLastUrlId(),
             'visitor_id'    => $visitor->getId(),
-            'visit_time'    => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate()
+            'visit_time'    => $this->_date->gmtDate()
         ));
         $bind = $this->_prepareDataForTable($data, $this->getTable('log_url'));
 
@@ -214,8 +230,8 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
             $data = new \Magento\Object(array(
                 'visitor_id'    => $visitor->getVisitorId(),
                 'customer_id'   => $visitor->getCustomerId(),
-                'login_at'      => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate(),
-                'store_id'      => \Mage::app()->getStore()->getId()
+                'login_at'      => $this->_date->gmtDate(),
+                'store_id'      => $this->_storeManager->getStore()->getId()
             ));
             $bind = $this->_prepareDataForTable($data, $this->getTable('log_customer'));
 
@@ -226,8 +242,8 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         if ($visitor->getDoCustomerLogout() && $logId = $visitor->getCustomerLogId()) {
             $data = new \Magento\Object(array(
-                'logout_at' => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate(),
-                'store_id'  => (int)\Mage::app()->getStore()->getId(),
+                'logout_at' => $this->_date->gmtDate(),
+                'store_id'  => (int)$this->_storeManager->getStore()->getId(),
             ));
 
             $bind = $this->_prepareDataForTable($data, $this->getTable('log_customer'));
@@ -259,7 +275,7 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
             $data = new \Magento\Object(array(
                 'quote_id'      => (int) $visitor->getQuoteId(),
                 'visitor_id'    => (int) $visitor->getId(),
-                'created_at'    => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate()
+                'created_at'    => $this->_date->gmtDate()
             ));
 
             $bind = $this->_prepareDataForTable($data, $this->getTable('log_quote'));

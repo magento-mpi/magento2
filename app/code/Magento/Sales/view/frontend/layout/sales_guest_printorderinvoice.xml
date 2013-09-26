@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Sales Invoice Print View" type="page" parent="sales_guest_print">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Sales\Block\Order\PrintOrder\Invoice" name="sales.order.print.invoice" template="order/print/invoice.phtml">
             <block class="Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer" as="default" template="order/invoice/items/renderer/default.phtml"/>
             <block class="Magento\Sales\Block\Order\Item\Renderer\Grouped" as="grouped" template="order/invoice/items/renderer/default.phtml"/>
@@ -22,5 +22,5 @@
                 <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml"/>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -19,6 +19,45 @@ class Expiration extends \Magento\Core\Model\Config\Value
     const XML_PATH_EXPIRATION_DAYS = 'magento_reward/general/expiration_days';
 
     /**
+     * @var \Magento\Core\Model\Resource\Config\Data\CollectionFactory
+     */
+    protected $_configFactory;
+
+    /**
+     * @var \Magento\Reward\Model\Resource\Reward\HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory
+     * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory,
+        \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_config = $config;
+        $this->_configFactory = $configFactory;
+        $this->_historyFactory = $historyFactory;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Update history expiration date to simplify frontend calculations
      *
      * @return \Magento\Reward\Model\System\Config\Backend\Expiration
@@ -32,16 +71,16 @@ class Expiration extends \Magento\Core\Model\Config\Value
 
         $websiteIds = array();
         if ($this->getWebsiteCode()) {
-            $websiteIds = array(\Mage::app()->getWebsite($this->getWebsiteCode())->getId());
+            $websiteIds = array($this->_storeManager->getWebsite($this->getWebsiteCode())->getId());
         } else {
-            $collection = \Mage::getResourceModel('Magento\Core\Model\Resource\Config\Data\Collection')
+            $collection = $this->_configFactory->create()
                 ->addFieldToFilter('path', self::XML_PATH_EXPIRATION_DAYS)
                 ->addFieldToFilter('scope', 'websites');
             $websiteScopeIds = array();
             foreach ($collection as $item) {
                 $websiteScopeIds[] = $item->getScopeId();
             }
-            foreach (\Mage::app()->getWebsites() as $website) {
+            foreach ($this->_storeManager->getWebsites() as $website) {
                 /* @var $website \Magento\Core\Model\Website */
                 if (!in_array($website->getId(), $websiteScopeIds)) {
                     $websiteIds[] = $website->getId();
@@ -49,8 +88,7 @@ class Expiration extends \Magento\Core\Model\Config\Value
             }
         }
         if (count($websiteIds) > 0) {
-            \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\History')
-                ->updateExpirationDate($this->getValue(), $websiteIds);
+            $this->_historyFactory->create()->updateExpirationDate($this->getValue(), $websiteIds);
         }
 
         return $this;
@@ -65,10 +103,9 @@ class Expiration extends \Magento\Core\Model\Config\Value
     {
         parent::_beforeDelete();
         if ($this->getWebsiteCode()) {
-            $default = (string)$this->_coreConfig->getValue(self::XML_PATH_EXPIRATION_DAYS, 'default');
-            $websiteIds = array(\Mage::app()->getWebsite($this->getWebsiteCode())->getId());
-            \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\History')
-                ->updateExpirationDate($default, $websiteIds);
+            $default = (string)$this->_config->getValue(self::XML_PATH_EXPIRATION_DAYS, 'default');
+            $websiteIds = array($this->_storeManager->getWebsite($this->getWebsiteCode())->getId());
+            $this->_historyFactory->create()->updateExpirationDate($default, $websiteIds);
         }
         return $this;
     }

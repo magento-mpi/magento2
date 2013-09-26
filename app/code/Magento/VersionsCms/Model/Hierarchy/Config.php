@@ -1,26 +1,17 @@
 <?php
 /**
+ * Cms Hierarchy Model for config processing
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Cms Hierarchy Model for config processing
- *
- * @category   Magento
- * @package    Magento_VersionsCms
- */
 namespace Magento\VersionsCms\Model\Hierarchy;
 
-class Config
+class Config extends \Magento\Config\Data\Scoped
+    implements \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
 {
-    const XML_PATH_CONTEXT_MENU_LAYOUTS = 'global/magento_versionscms/hierarchy/menu/layouts';
-
     /**
      * Menu layouts configuration
      * @var array
@@ -28,54 +19,25 @@ class Config
     protected $_contextMenuLayouts = null;
 
     /**
-     * Defalt code for menu layouts
-     * @var string
-     */
-    protected $_defaultMenuLayoutCode;
-
-    /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
+     * Scope priority loading scheme
      *
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @var array
+     */
+    protected $_scopePriorityScheme = array('global');
+
+    /**
+     * @param \Magento\VersionsCms\Model\Hierarchy\Config\Reader $reader
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Config\CacheInterface $cache
+     * @param string $cacheId
      */
     public function __construct(
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\VersionsCms\Model\Hierarchy\Config\Reader $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
+        $cacheId = "menuHierarchyConfigCache"
     ) {
-        $this->_coreConfig = $coreConfig;
-    }
-
-    /**
-     * Initialization for $_contextMenuLayouts
-     *
-     * @return \Magento\VersionsCms\Model\Hierarchy\Config
-     */
-    protected function _initContextMenuLayouts()
-    {
-        $config = $this->_coreConfig->getNode(self::XML_PATH_CONTEXT_MENU_LAYOUTS);
-        if ($this->_contextMenuLayouts !== null || !$config) {
-            return $this;
-        }
-        if (!is_array($this->_contextMenuLayouts)) {
-            $this->_contextMenuLayouts = array();
-        }
-        foreach ($config->children() as $layoutCode => $layoutConfig) {
-            $this->_contextMenuLayouts[$layoutCode] = new \Magento\Object(array(
-                'label'                 => __((string)$layoutConfig->label),
-                'code'                  => $layoutCode,
-                'layout_handle'         => (string)$layoutConfig->layout_handle,
-                'is_default'            => (int)$layoutConfig->is_default,
-                'page_layout_handles'   => (array)$layoutConfig->page_layout_handles,
-            ));
-            if ((bool)$layoutConfig->is_default) {
-                $this->_defaultMenuLayoutCode = $layoutCode;
-            }
-        }
-        return $this;
+        parent::__construct($reader, $configScope, $cache, $cacheId);
     }
 
     /**
@@ -83,32 +45,20 @@ class Config
      *
      * @return array
      */
-    public function getContextMenuLayouts()
+    public function getAllMenuLayouts()
     {
-        $this->_initContextMenuLayouts();
-        return $this->_contextMenuLayouts;
+        return $this->get();
     }
 
     /**
-     * Return Context Menu layout by its code
+     * Return Context Menu layout by its name
      *
-     * @param string $layoutCode
+     * @param string $layoutName
      * @return \Magento\Object|boolean
      */
-    public function getContextMenuLayout($layoutCode)
+    public function getContextMenuLayout($layoutName)
     {
-        $this->_initContextMenuLayouts();
-        return isset($this->_contextMenuLayouts[$layoutCode]) ? $this->_contextMenuLayouts[$layoutCode] : false;
-    }
-
-    /**
-     * Getter for $_defaultMenuLayoutCode
-     *
-     * @return string
-     */
-    public function getDefaultMenuLayoutCode()
-    {
-        $this->_initContextMenuLayouts();
-        return $this->_defaultMenuLayoutCode;
+        $menuLayouts = $this->get();
+        return isset($menuLayouts[$layoutName]) ? $menuLayouts[$layoutName] : false;
     }
 }

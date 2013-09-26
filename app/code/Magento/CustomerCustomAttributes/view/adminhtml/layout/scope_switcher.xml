@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <block class="Magento\CustomerCustomAttributes\Block\Adminhtml\Form\Renderer\Fieldset\Element" name="fieldset_element_renderer" template="form/renderer/fieldset/element.phtml"/>
-    <reference name="left">
+    <referenceContainer name="left">
         <block class="Magento\Backend\Block\Store\Switcher" name="website_switcher" before="-" template="Magento_CustomerCustomAttributes::website/switcher.phtml">
             <action method="setStoreVarName">
                 <argument name="value" xsi:type="string">website</argument>
@@ -18,5 +18,5 @@
                 <argument translate="true" name="name" xsi:type="string">Default Values</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -27,12 +27,49 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     protected $_collection;
 
+    /**
+     * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _initCollection()
     {
-        $this->_collection = \Mage::getModel('Magento\Review\Model\Review')->getProductCollection();
+        $this->_collection = $this->_collectionFactory->create();
         $this->_collection
-            ->addStoreFilter(\Mage::app()->getStore()->getId())
-            ->addCustomerFilter(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
+            ->addStoreFilter($this->_storeManager->getStore()->getId())
+            ->addCustomerFilter($this->_customerSession->getCustomerId())
             ->setDateOrder();
         return $this;
     }
@@ -101,7 +138,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getReviewLink()
     {
-        return \Mage::getUrl('review/customer/view/');
+        return $this->getUrl('review/customer/view/');
     }
 
     /**
@@ -111,7 +148,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getProductLink()
     {
-        return \Mage::getUrl('catalog/product/view/');
+        return $this->getUrl('catalog/product/view/');
     }
 
     /**

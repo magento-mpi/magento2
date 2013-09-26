@@ -28,12 +28,15 @@ class Sortby
     protected $_coreStoreConfig;
 
     /**
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($logger);
     }
 
     /**

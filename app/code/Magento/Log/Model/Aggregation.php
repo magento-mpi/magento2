@@ -30,6 +30,31 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
     protected $_lastRecord;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManger
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManger,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManger;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init model
      */
     protected function _construct()
@@ -43,7 +68,7 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
     public function run()
     {
         $this->_lastRecord = $this->_timestamp($this->_round($this->getLastRecordDate()));
-        foreach (\Mage::app()->getStores(false) as $store) {
+        foreach ($this->_storeManager->getStores(false) as $store) {
             $this->_process($store->getId());
         }
     }

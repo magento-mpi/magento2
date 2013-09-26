@@ -8,21 +8,32 @@
  * @license     {license_link}
  */
 
-
 /**
  * Quote resource model
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Resource;
 
 class Quote extends \Magento\Sales\Model\Resource\AbstractResource
 {
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Config $config
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Config $config
+    ) {
+        parent::__construct($resource);
+        $this->_config = $config;
+    }
+
+    /**
      * Initialize table nad PK name
-     *
      */
     protected function _construct()
     {
@@ -135,7 +146,7 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
     public function getReservedOrderId($quote)
     {
         $storeId = (int)$quote->getStoreId();
-        return \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType(\Magento\Sales\Model\Order::ENTITY)
+        return $this->_config->getEntityType(\Magento\Sales\Model\Order::ENTITY)
             ->fetchNewIncrementId($storeId);
     }
 

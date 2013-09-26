@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Quote item resource collection
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Resource\Quote\Item;
 
@@ -35,8 +30,48 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_productIds   = array();
 
     /**
+     * @var \Magento\Sales\Model\Resource\Quote\Item\Option\CollectionFactory
+     */
+    protected $_itemOptionCollFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $_productCollFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Quote\Config
+     */
+    protected $_quoteConfig;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Sales\Model\Resource\Quote\Item\Option\CollectionFactory $itemOptionCollFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
+     * @param \Magento\Sales\Model\Quote\Config $quoteConfig
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Sales\Model\Resource\Quote\Item\Option\CollectionFactory $itemOptionCollFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
+        \Magento\Sales\Model\Quote\Config $quoteConfig,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_itemOptionCollFactory = $itemOptionCollFactory;
+        $this->_productCollFactory = $productCollFactory;
+        $this->_quoteConfig = $quoteConfig;
+    }
+
+    /**
      * Initialize resource model
-     *
      */
     protected function _construct()
     {
@@ -136,8 +171,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _assignOptions()
     {
         $itemIds          = array_keys($this->_items);
-        $optionCollection = \Mage::getModel('Magento\Sales\Model\Quote\Item\Option')->getCollection()
-            ->addItemFilter($itemIds);
+        $optionCollection = $this->_itemOptionCollFactory->create()->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
         }
@@ -154,17 +188,17 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _assignProducts()
     {
-        \Magento\Profiler::start('QUOTE:'.__METHOD__, array('group' => 'QUOTE', 'method' => __METHOD__));
+        \Magento\Profiler::start('QUOTE:' . __METHOD__, array('group' => 'QUOTE', 'method' => __METHOD__));
         $productIds = array();
         foreach ($this as $item) {
             $productIds[] = (int)$item->getProductId();
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+        $productCollection = $this->_productCollFactory->create()
             ->setStoreId($this->getStoreId())
             ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect(\Mage::getSingleton('Magento\Sales\Model\Quote\Config')->getProductAttributes())
+            ->addAttributeToSelect($this->_quoteConfig->getProductAttributes())
             ->addOptionsToResult()
             ->addStoreFilter()
             ->addUrlRewrite()
@@ -220,7 +254,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if ($recollectQuote && $this->_quote) {
             $this->_quote->collectTotals();
         }
-        \Magento\Profiler::stop('QUOTE:'.__METHOD__);
+        \Magento\Profiler::stop('QUOTE:' . __METHOD__);
 
         return $this;
     }

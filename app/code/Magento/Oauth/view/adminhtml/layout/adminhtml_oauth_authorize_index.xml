@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="oauth_root_handle"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Oauth\Block\Adminhtml\Oauth\Authorize" name="oauth.authorize.form" template="authorize/form/login.phtml"/>
         <block class="Magento\Oauth\Block\Adminhtml\Oauth\Authorize\Button" name="oauth.authorize.button" template="authorize/button.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

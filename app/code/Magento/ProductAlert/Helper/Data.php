@@ -47,20 +47,36 @@ class Data extends \Magento\Core\Helper\Url
     protected $_layout;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\Session $session
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Layout $layout,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\Session $session,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_layout = $layout;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_session = $session;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -91,12 +107,12 @@ class Data extends \Magento\Core\Helper\Url
 
     public function getCustomer()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->_session;
     }
 
     public function getStore()
     {
-        return \Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     public function getSaveUrl($type)
@@ -112,6 +128,7 @@ class Data extends \Magento\Core\Helper\Url
      *
      * @param string|\Magento\Core\Block\AbstractBlock $block
      * @return \Magento\Core\Block\AbstractBlock
+     * @throws \Magento\Core\Exception
      */
     public function createBlock($block)
     {
@@ -121,7 +138,7 @@ class Data extends \Magento\Core\Helper\Url
             }
         }
         if (!$block instanceof \Magento\Core\Block\AbstractBlock) {
-            \Mage::throwException(__('Invalid block type: %1', $block));
+            throw new \Magento\Core\Exception(__('Invalid block type: %1', $block));
         }
         return $block;
     }

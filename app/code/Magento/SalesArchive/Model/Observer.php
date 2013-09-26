@@ -17,33 +17,59 @@ namespace Magento\SalesArchive\Model;
 class Observer
 {
     /**
-     * Archive model
-     * @var \Magento\SalesArchive\Model\Archive
+     * @var \Magento\SalesArchive\Model\ArchiveFactory
      */
-    protected $_archive;
+    protected $_archiveFactory;
 
     /**
-     * Archive config model
+     * @var \Magento\SalesArchive\Model\ArchivalList
+     */
+    protected $_archivalList;
+
+    /**
      * @var \Magento\SalesArchive\Model\Config
      */
     protected $_config;
 
     /**
-     * Adminhtml data
-     *
      * @var \Magento\Backend\Helper\Data
      */
-    protected $_backendData = null;
+    protected $_backendData;
 
     /**
+     * @var \Magento\SalesArchive\Model\Resource\Order\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\SalesArchive\Model\Resource\Order\CollectionFactory $collectionFactory
+     * @param \Magento\SalesArchive\Model\ArchiveFactory $archiveFactory
+     * @param \Magento\SalesArchive\Model\ArchivalList $archivalList
+     * @param \Magento\SalesArchive\Model\Config $config
      * @param \Magento\Backend\Helper\Data $backendData
      */
     public function __construct(
+        \Magento\SalesArchive\Model\Resource\Order\CollectionFactory $collectionFactory,
+        \Magento\SalesArchive\Model\ArchiveFactory $archiveFactory,
+        \Magento\SalesArchive\Model\ArchivalList $archivalList,
+        \Magento\SalesArchive\Model\Config $config,
         \Magento\Backend\Helper\Data $backendData
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_backendData = $backendData;
-        $this->_archive = \Mage::getModel('Magento\SalesArchive\Model\Archive');
-        $this->_config  = \Mage::getSingleton('Magento\SalesArchive\Model\Config');
+        $this->_archiveFactory = $archiveFactory;
+        $this->_archivalList = $archivalList;
+        $this->_config = $config;
+    }
+
+    /**
+     * Get archive instance
+     *
+     * @return \Magento\SalesArchive\Model\Archive
+     */
+    protected function _getArchive()
+    {
+        return $this->_archiveFactory->create();
     }
 
     /**
@@ -54,7 +80,7 @@ class Observer
     public function archiveOrdersByCron()
     {
         if ($this->_config->isArchiveActive()) {
-            $this->_archive->archiveOrders();
+            $this->_getArchive()->archiveOrders();
         }
 
         return $this;
@@ -72,12 +98,13 @@ class Observer
             return $this;
         }
         $object = $observer->getEvent()->getDataObject();
-        $archiveEntity = $this->_archive->detectArchiveEntity($object);
+        $archive = $this->_getArchive();
+        $archiveEntity = $this->_archivalList->getEntityByObject($object);
 
         if (!$archiveEntity) {
             return $this;
         }
-        $ids = $this->_archive->getIdsInArchive($archiveEntity, $object->getId());
+        $ids = $archive->getIdsInArchive($archiveEntity, $object->getId());
         $object->setIsArchived(!empty($ids));
 
         if ($object->getIsArchived()) {
@@ -106,19 +133,20 @@ class Observer
 
         $proxy = $observer->getEvent()->getProxy();
 
-        $archiveEntity = $this->_archive->detectArchiveEntity($proxy->getResource());
+        $archive = $this->_getArchive();
+        $archiveEntity = $this->_archivalList->getEntityByObject($proxy->getResource());
 
         if (!$archiveEntity) {
             return $this;
         }
 
         $ids = $proxy->getIds();
-        $idsInArchive = $this->_archive->getIdsInArchive($archiveEntity, $ids);
+        $idsInArchive = $archive->getIdsInArchive($archiveEntity, $ids);
         // Exclude archive records from default grid rows update
         $ids = array_diff($ids, $idsInArchive);
         // Check for newly created shipments, creditmemos, invoices
-        if ($archiveEntity != \Magento\SalesArchive\Model\Archive::ORDER && !empty($ids)) {
-            $relatedIds = $this->_archive->getRelatedIds($archiveEntity, $ids);
+        if ($archiveEntity != \Magento\SalesArchive\Model\ArchivalList::ORDER && !empty($ids)) {
+            $relatedIds = $archive->getRelatedIds($archiveEntity, $ids);
             $ids = array_diff($ids, $relatedIds);
             $idsInArchive = array_merge($idsInArchive, $relatedIds);
         }
@@ -126,7 +154,7 @@ class Observer
         $proxy->setIds($ids);
 
         if (!empty($idsInArchive)) {
-            $this->_archive->updateGridRecords($archiveEntity, $idsInArchive);
+            $archive->updateGridRecords($archiveEntity, $idsInArchive);
         }
 
         return $this;
@@ -149,8 +177,7 @@ class Observer
         $collectionSelect = $collection->getSelect();
         $cloneSelect = clone $collectionSelect;
 
-        $union = \Mage::getResourceModel('Magento\SalesArchive\Model\Resource\Order\Collection')
-            ->getOrderGridArchiveSelect($cloneSelect);
+        $union = $this->_collectionFactory->create()->getOrderGridArchiveSelect($cloneSelect);
 
         $unionParts = array($cloneSelect, $union);
 

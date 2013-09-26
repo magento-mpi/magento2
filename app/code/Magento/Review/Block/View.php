@@ -20,8 +20,59 @@ namespace Magento\Review\Block;
 
 class View extends \Magento\Catalog\Block\Product\AbstractProduct
 {
-
     protected $_template = 'view.phtml';
+
+    /**
+     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
+     */
+    protected $_voteFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Rating\Model\RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @var \Magento\Review\Model\ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        array $data = array()
+    ) {
+        $this->_voteFactory = $voteFactory;
+        $this->_storeManager = $storeManager;
+        $this->_ratingFactory = $ratingFactory;
+        $this->_reviewFactory = $reviewFactory;
+
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
 
     /**
      * Retrieve current product model from registry
@@ -50,7 +101,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getBackUrl()
     {
-        return \Mage::getUrl('*/*/list', array('id' => $this->getProductData()->getId()));
+        return $this->getUrl('*/*/list', array('id' => $this->getProductData()->getId()));
     }
 
     /**
@@ -61,11 +112,11 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
+            $ratingCollection = $this->_voteFactory->create()
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
-                ->setStoreFilter(\Mage::app()->getStore()->getId())
-                ->addRatingInfo(\Mage::app()->getStore()->getId())
+                ->setStoreFilter($this->_storeManager->getStore()->getId())
+                ->addRatingInfo($this->_storeManager->getStore()->getId())
                 ->load();
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
         }
@@ -80,7 +131,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
-            $this->setRatingSummaryCache(\Mage::getModel('Magento\Rating\Model\Rating')->getEntitySummary($this->getProductData()->getId()));
+            $this->setRatingSummaryCache(
+                $this->_ratingFactory->create()->getEntitySummary($this->getProductData()->getId())
+            );
         }
         return $this->getRatingSummaryCache();
     }
@@ -93,7 +146,11 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getTotalReviews()
     {
         if( !$this->getTotalReviewsCache() ) {
-            $this->setTotalReviewsCache(\Mage::getModel('Magento\Review\Model\Review')->getTotalReviews($this->getProductData()->getId(), false, \Mage::app()->getStore()->getId()));
+            $this->setTotalReviewsCache(
+                $this->_reviewFactory->create()->getTotalReviews(
+                    $this->getProductData()->getId(), false, $this->_storeManager->getStore()->getId()
+                )
+            );
         }
         return $this->getTotalReviewsCache();
     }

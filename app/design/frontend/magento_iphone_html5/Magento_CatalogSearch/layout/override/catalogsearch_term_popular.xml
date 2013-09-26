@@ -8,17 +8,17 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Popular Search Terms" type="page" parent="default">
-    <reference name="head">
+    <referenceBlock name="head">
         <action method="setTitle">
             <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
         </action>
-    </reference>
-    <reference name="root">
+    </referenceBlock>
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\CatalogSearch\Block\Term" name="seo.searchterm" template="term.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

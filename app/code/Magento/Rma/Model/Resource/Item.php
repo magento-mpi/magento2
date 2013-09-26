@@ -40,25 +40,37 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     );
 
     /**
-     * Rma data
-     *
      * @var \Magento\Rma\Helper\Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
+     */
+    protected $_ordersFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
 
     /**
      * Main constructor
      *
-     *
-     *
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param  $data
+     * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param array $data
      */
     public function __construct(
         \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
+        $this->_ordersFactory = $ordersFactory;
+        $this->_productFactory = $productFactory;
         parent::__construct($data);
     }
 
@@ -218,9 +230,9 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         $adapter = $this->getReadConnection();
         $expression = new \Zend_Db_Expr('(' . $adapter->quoteIdentifier('qty_shipped') . ' - '
             . $adapter->quoteIdentifier('qty_returned') . ')');
-        return \Mage::getModel('Magento\Sales\Model\Order\Item')
-            ->getCollection()
-            ->addExpressionFieldToSelect(
+        /** @var $collection \Magento\Sales\Model\Resource\Order\Item\Collection */
+        $collection = $this->_ordersFactory->create();
+        return $collection->addExpressionFieldToSelect(
                 'available_qty',
                 $expression,
                 array('qty_shipped', 'qty_returned')
@@ -257,7 +269,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         $parent = array();
 
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = $this->_productFactory->create();
 
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */

@@ -10,16 +10,12 @@
 
 /**
  * Order RMA Grid
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Block\Adminhtml\Order\View\Tab;
 
 class Rma
     extends \Magento\Rma\Block\Adminhtml\Rma\Grid
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
@@ -34,6 +30,8 @@ class Rma
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param array $data
      */
     public function __construct(
@@ -42,10 +40,12 @@ class Rma
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
+        \Magento\Rma\Model\RmaFactory $rmaFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $collectionFactory, $rmaFactory, $data);
     }
 
     public function _construct()
@@ -71,8 +71,8 @@ class Rma
         }
         if ($orderId) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
-                ->addFieldToFilter('order_id', $orderId);
+            $collection = $this->_collectionFactory->create();
+            $collection->addFieldToFilter('order_id', $orderId);
             $this->setCollection($collection);
         }
         return $this;

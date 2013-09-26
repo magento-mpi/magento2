@@ -13,6 +13,47 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var \Magento\Directory\Helper\Data
+     */
+    protected $_directoryHelper;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Directory\Helper\Data $directoryHelper
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Directory\Helper\Data $directoryHelper,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_systemStore = $systemStore;
+        $this->_directoryHelper = $directoryHelper;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Intialize form
      *
      * @return void
@@ -77,12 +118,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'scope'    => 'store'
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('website_ids', 'multiselect', array(
                 'name'     => 'website_ids',
                 'required' => true,
                 'label'    => __('Websites'),
-                'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(),
+                'values'   => $this->_systemStore->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds(),
             ));
             $renderer = $this->getLayout()->createBlock(
@@ -107,7 +148,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'name'     => 'base_price',
             'required' => true,
             'class'    => 'validate-not-negative-number',
-            'after_element_html' => '<strong>[' .  \Mage::app()->getBaseCurrencyCode() . ']</strong>'
+            'after_element_html' => '<strong>[' .  $this->_directoryHelper->getBaseCurrencyCode() . ']</strong>'
         ));
 
         $uploadButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')

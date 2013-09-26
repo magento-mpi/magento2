@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="page_one_column"/>
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Script" name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
@@ -20,6 +20,6 @@
                 <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
     <remove name="magento-catalog-zoom-css"/>
 </layout>

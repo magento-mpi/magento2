@@ -33,12 +33,6 @@ namespace Magento\Logging\Model\Event;
 class Changes extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * Config path to fields that must be not be logged for all models
-     *
-     */
-    const XML_PATH_SKIP_GLOBAL_FIELDS = 'adminhtml/magento/logging/skip_fields';
-
-    /**
      * Set of fields that should not be logged for all models
      *
      * @var array
@@ -60,36 +54,23 @@ class Changes extends \Magento\Core\Model\AbstractModel
     protected $_difference = null;
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $skipFields
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        array $skipFields = array(),
         array $data = array()
     ) {
-        $this->_coreConfig = $coreConfig;
-        parent::__construct(
-            $context,
-            $registry,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        $this->_globalSkipFields = $skipFields;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -99,9 +80,6 @@ class Changes extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_globalSkipFields = array_map('trim', array_filter(explode(',',
-            (string)$this->_coreConfig->getNode(self::XML_PATH_SKIP_GLOBAL_FIELDS))));
-
         $this->_init('Magento\Logging\Model\Resource\Event\Changes');
     }
 

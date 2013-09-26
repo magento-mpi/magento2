@@ -10,10 +10,6 @@
 
 /**
  * Order configuration model
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order;
 
@@ -32,30 +28,52 @@ class Config extends \Magento\Core\Model\Config\Base
     private $_states;
 
     /**
+     * @var \Magento\Sales\Model\Order\Status
+     */
+    protected $_orderStatusFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Status\CollectionFactory
+     */
+    protected $_orderStatusCollFactory;
+
+    /**
      * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Sales\Model\Order\StatusFactory $orderStatusFactory
+     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollFactory
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
+        \Magento\Sales\Model\Order\StatusFactory $orderStatusFactory,
+        \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollFactory,
         \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_coreConfig = $coreConfig;
         parent::__construct($this->_coreConfig->getNode('global/sales/order'));
+        $this->_orderStatusFactory = $orderStatusFactory;
+        $this->_orderStatusCollFactory = $orderStatusCollFactory;
     }
 
+    /**
+     * @param string $status
+     * @return \Magento\Simplexml\Element
+     */
     protected function _getStatus($status)
     {
-        return $this->getNode('statuses/'.$status);
+        return $this->getNode('statuses/' . $status);
     }
 
+    /**
+     * @param string $state
+     * @return \Magento\Simplexml\Element
+     */
     protected function _getState($state)
     {
-        return $this->getNode('states/'.$state);
+        return $this->getNode('states/' . $state);
     }
 
     /**
@@ -67,9 +85,9 @@ class Config extends \Magento\Core\Model\Config\Base
     public function getStateDefaultStatus($state)
     {
         $status = false;
-        if ($stateNode = $this->_getState($state)) {
-            $status = \Mage::getModel('Magento\Sales\Model\Order\Status')
-                ->loadDefaultByState($state);
+        $stateNode = $this->_getState($state);
+        if ($stateNode) {
+            $status = $this->_orderStatusFactory->create()->loadDefaultByState($state);
             $status = $status->getStatus();
         }
         return $status;
@@ -83,8 +101,7 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     public function getStatusLabel($code)
     {
-        $status = \Mage::getModel('Magento\Sales\Model\Order\Status')
-            ->load($code);
+        $status = $this->_orderStatusFactory->create()->load($code);
         return $status->getStoreLabel();
     }
 
@@ -96,8 +113,9 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     public function getStateLabel($state)
     {
-        if ($stateNode = $this->_getState($state)) {
-            $state = (string) $stateNode->label;
+        $stateNode = $this->_getState($state);
+        if ($stateNode) {
+            $state = (string)$stateNode->label;
             return __($state);
         }
         return $state;
@@ -111,8 +129,7 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     public function getStatuses()
     {
-        $statuses = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\Collection')
-            ->toOptionHash();
+        $statuses = $this->_orderStatusCollFactory->create()->toOptionHash();
         return $statuses;
     }
 
@@ -156,8 +173,9 @@ class Config extends \Magento\Core\Model\Config\Base
             $state = array($state);
         }
         foreach ($state as $_state) {
-            if ($stateNode = $this->_getState($_state)) {
-                $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\Collection')
+            $stateNode = $this->_getState($_state);
+            if ($stateNode) {
+                $collection = $this->_orderStatusCollFactory->create()
                     ->addStateFilter($_state)
                     ->orderByLabel();
                 foreach ($collection as $status) {
@@ -211,8 +229,7 @@ class Config extends \Magento\Core\Model\Config\Base
                 $isVisibleOnFront = (string)$state->visible_on_front;
                 if ((bool)$isVisibleOnFront || ($state->visible_on_front && $isVisibleOnFront == '')) {
                     $this->_states['visible'][] = $name;
-                }
-                else {
+                } else {
                     $this->_states['invisible'][] = $name;
                 }
                 foreach ($state->statuses->children() as $status) {

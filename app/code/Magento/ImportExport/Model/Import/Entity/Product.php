@@ -19,8 +19,6 @@ namespace Magento\ImportExport\Model\Import\Entity;
 
 class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 {
-    const CONFIG_KEY_PRODUCT_TYPES = 'global/importexport/import_product_types';
-
     /**
      * Size of bunch - part of products to save in one step.
      */
@@ -304,9 +302,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\ImportExport\Model\Import\Config
      */
-    protected $_coreConfig;
+    protected $_importConfig;
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -315,7 +313,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ImportExport\Helper\Data $importExportData
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\ImportExport\Model\Import\Config $importConfig
      * @param array $data
      */
     public function __construct(
@@ -325,19 +323,19 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Data $coreData,
         \Magento\ImportExport\Helper\Data $importExportData,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\ImportExport\Model\Import\Config $importConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_catalogData = $catalogData;
-        $this->_coreConfig = $coreConfig;
         parent::__construct($coreString, $coreData, $importExportData);
 
         $this->_optionEntity = isset($data['option_entity']) ? $data['option_entity']
             : \Mage::getModel('Magento\ImportExport\Model\Import\Entity\Product\Option',
                 array('data' => array('product_entity' => $this))
             );
+        $this->_importConfig = $importConfig;
 
         $this->_initWebsites()
             ->_initStores()
@@ -526,18 +524,18 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function _initTypeModels()
     {
-        $config = $this->_coreConfig->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
-        foreach ($config as $type => $typeModel) {
-            $params = array($this, $type);
-            if (!($model = \Mage::getModel($typeModel, array('params' => $params)))) {
-                \Mage::throwException("Entity type model '{$typeModel}' is not found");
+        $productTypes = $this->_importConfig->getProductTypes();
+        foreach ($productTypes as $productTypeName => $productTypeConfig) {
+            $params = array($this, $productTypeName);
+            if (!($model = \Mage::getModel($productTypeConfig['model'], array('params' => $params)))) {
+                \Mage::throwException("Entity type model '{$productTypeConfig['model']}' is not found");
             }
             if (! $model instanceof \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType) {
                 \Mage::throwException(__('Entity type model must be an instance of '
                     . 'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType'));
             }
             if ($model->isSuitable()) {
-                $this->_productTypeModels[$type] = $model;
+                $this->_productTypeModels[$productTypeName] = $model;
             }
             $this->_specialAttributes = array_merge(
                 $this->_specialAttributes,
@@ -1059,12 +1057,12 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $previousType = $productType;
                 }
                 if (!is_null($rowData[self::COL_ATTR_SET])) {
-                    $prevAttributeSet = $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_ATTR_SET];
+                    $prevAttributeSet = $rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_ATTR_SET];
                 }
                 if (self::SCOPE_NULL == $rowScope) {
                     // for multiselect attributes only
                     if (!is_null($prevAttributeSet)) {
-                        $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_ATTR_SET] = $prevAttributeSet;
+                        $rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_ATTR_SET] = $prevAttributeSet;
                     }
                     if (is_null($productType) && !is_null($previousType)) {
                         $productType = $previousType;
@@ -1092,7 +1090,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $storeIds  = array(0);
 
                     if ('datetime' == $attribute->getBackendType() && strtotime($attrValue)) {
-                        $attrValue = new \DateTime('@' . strtotime($attrValue));
+                        $attrValue = new DateTime('@' . strtotime($attrValue));
                         $attrValue = $attrValue->format(\Magento\Date::DATETIME_PHP_FORMAT);
                     } elseif ($backModel) {
                         $attribute->getBackend()->beforeSave($product);

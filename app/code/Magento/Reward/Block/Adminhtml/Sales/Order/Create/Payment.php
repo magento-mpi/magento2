@@ -28,18 +28,42 @@ class Payment extends \Magento\Backend\Block\Template
     protected $_rewardData = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Adminhtml\Model\Sales\Order\Create
+     */
+    protected $_orderCreate;
+
+    /**
+     * @var \Magento\Reward\Model\RewardFactory
+     */
+    protected $_rewardFactory;
+
+    /**
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Reward\Model\RewardFactory $rewardFactory,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
+        $this->_storeManager = $storeManager;
+        $this->_orderCreate = $orderCreate;
+        $this->_rewardFactory = $rewardFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -50,7 +74,7 @@ class Payment extends \Magento\Backend\Block\Template
      */
     protected function _getOrderCreateModel()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
+        return $this->_orderCreate;
     }
 
     /**
@@ -70,7 +94,7 @@ class Payment extends \Magento\Backend\Block\Template
      */
     public function canUseRewardPoints()
     {
-        $websiteId = \Mage::app()->getStore($this->getQuote()->getStoreId())->getWebsiteId();
+        $websiteId = $this->_storeManager->getStore($this->getQuote()->getStoreId())->getWebsiteId();
         $minPointsBalance = (int)$this->_storeConfig->getConfig(
             \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
             $this->getQuote()->getStoreId()
@@ -93,7 +117,7 @@ class Payment extends \Magento\Backend\Block\Template
     {
         if (!$this->_getData('reward')) {
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = \Mage::getModel('Magento\Reward\Model\Reward')
+            $reward = $this->_rewardFactory->create()
                 ->setCustomer($this->getQuote()->getCustomer())
                 ->setStore($this->getQuote()->getStore())
                 ->loadByCustomer();

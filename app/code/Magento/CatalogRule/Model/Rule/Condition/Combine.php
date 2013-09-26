@@ -16,11 +16,21 @@ namespace Magento\CatalogRule\Model\Rule\Condition;
 class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
+     * @var \Magento\CatalogRule\Model\Rule\Condition\ProductFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param \Magento\CatalogRule\Model\Rule\Condition\ProductFactory $conditionFactory
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
+    public function __construct(
+        \Magento\CatalogRule\Model\Rule\Condition\ProductFactory $conditionFactory,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
         parent::__construct($context, $data);
         $this->setType('Magento\CatalogRule\Model\Rule\Condition\Combine');
     }
@@ -30,12 +40,13 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
      */
     public function getNewChildSelectOptions()
     {
-        $productCondition = \Mage::getModel('Magento\CatalogRule\Model\Rule\Condition\Product');
-        $productAttributes = $productCondition->loadAttributeOptions()->getAttributeOption();
+        $productAttributes = $this->_conditionFactory->create()
+            ->loadAttributeOptions()
+            ->getAttributeOption();
         $attributes = array();
         foreach ($productAttributes as $code => $label) {
             $attributes[] = array(
-                'value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|' . $code, 'label' => $label
+                'value' => 'Magento_CatalogRule_Model_Rule_Condition_Product|' . $code, 'label' => $label
             );
         }
         $conditions = parent::getNewChildSelectOptions();

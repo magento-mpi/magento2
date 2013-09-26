@@ -28,18 +28,42 @@ class Additional extends \Magento\Core\Block\Template
     protected $_rewardData = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Reward\Model\RewardFactory
+     */
+    protected $_rewardFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Reward\Model\RewardFactory $rewardFactory,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
+        $this->_storeManager = $storeManager;
+        $this->_rewardFactory = $rewardFactory;
+        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -50,7 +74,7 @@ class Additional extends \Magento\Core\Block\Template
      */
     public function getCustomer()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     /**
@@ -60,7 +84,7 @@ class Additional extends \Magento\Core\Block\Template
      */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_customerSession->getQuote();
     }
 
     /**
@@ -71,9 +95,9 @@ class Additional extends \Magento\Core\Block\Template
     public function getReward()
     {
         if (!$this->getData('reward')) {
-            $reward = \Mage::getModel('Magento\Reward\Model\Reward')
+            $reward = $this->_rewardFactory->create()
                 ->setCustomer($this->getCustomer())
-                ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
+                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
                 ->loadByCustomer();
             $this->setData('reward', $reward);
         }
@@ -105,7 +129,7 @@ class Additional extends \Magento\Core\Block\Template
             return false;
         }
 
-        $minPointsToUse = $helper->getGeneralConfig('min_points_balance', (int)\Mage::app()->getWebsite()->getId());
+        $minPointsToUse = $helper->getGeneralConfig('min_points_balance', (int)$this->_storeManager->getWebsite()->getId());
         return (float)$this->getCurrencyAmount() > 0 && $this->getPointsBalance() >= $minPointsToUse;
     }
 

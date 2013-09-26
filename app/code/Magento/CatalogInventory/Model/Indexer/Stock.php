@@ -75,11 +75,15 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
      *
      * @var \Magento\CatalogInventory\Helper\Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_catalogInventoryData;
 
     /**
-     * Construct
-     *
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
@@ -88,6 +92,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param array $data
      */
     public function __construct(
+        \Magento\Index\Model\Indexer $indexer,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
@@ -96,6 +101,8 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+
+        $this->_indexer = $indexer;
         $this->_catalogInventoryData = $catalogInventoryData;
     }
 
@@ -212,9 +219,9 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
                 if ($event->getEntity() == \Magento\Core\Model\Config\Value::ENTITY) {
                     $configData = $event->getDataObject();
                     if ($configData->getPath() == \Magento\CatalogInventory\Helper\Data::XML_PATH_SHOW_OUT_OF_STOCK) {
-                        \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode('catalog_product_price')
+                        $this->_indexer->getProcessByCode('catalog_product_price')
                             ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
-                        \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode('catalog_product_attribute')
+                        $this->_indexer->getProcessByCode('catalog_product_attribute')
                             ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
                     }
                 }
@@ -280,7 +287,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
             $massObject = new \Magento\Object();
             $massObject->setAttributesData(array('force_reindex_required' => 1));
             $massObject->setProductIds(array($object->getProductId()));
-            \Mage::getSingleton('Magento\Index\Model\Indexer')->logEvent(
+            $this->_indexer->logEvent(
                 $massObject, \Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_MASS_ACTION
             );
         }

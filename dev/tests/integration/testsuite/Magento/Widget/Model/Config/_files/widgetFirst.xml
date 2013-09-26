@@ -16,9 +16,7 @@
         <parameters>
             <parameter name="display_type" xsi:type="select" required="true" visible="true">
                 <label translate="true">Display Type</label>
-                <description translate="true">All products - recently added products, New products - products marked as
-                    new
-                </description>
+                <description translate="true">All products - recently added products, New products - products marked as new</description>
                 <options>
                     <option name="default" value="all_products" selected="true">
                         <label translate="true">All products</label>

@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="category.edit">
+    <referenceBlock name="category.edit">
         <block class="Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons" name="event.buttons">
             <action method="addButtons"/>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

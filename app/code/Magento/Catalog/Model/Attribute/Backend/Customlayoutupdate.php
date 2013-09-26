@@ -20,6 +20,19 @@ namespace Magento\Catalog\Model\Attribute\Backend;
 
 class Customlayoutupdate extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
+    /**
+     * @var \Magento\Adminhtml\Model\LayoutUpdate\Validator
+     */
+    protected $_layoutValidator;
+
+    /**
+     * @param \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
+     */
+    public function __construct(
+        \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
+    ) {
+        $this->_layoutValidator = $validator;
+    }
 
    /**
     * Product custom layout update attribute validate function.
@@ -37,10 +50,8 @@ class Customlayoutupdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Abs
             return true;
         }
 
-        /** @var $validator \Magento\Adminhtml\Model\LayoutUpdate\Validator */
-        $validator = \Mage::getModel('Magento\Adminhtml\Model\LayoutUpdate\Validator');
-        if (!$validator->isValid($xml)) {
-            $messages = $validator->getMessages();
+        if (!$this->_layoutValidator->isValid($xml)) {
+            $messages = $this->_layoutValidator->getMessages();
             //Add first message to exception
             $massage = array_shift($messages);
             $eavExc = new \Magento\Eav\Model\Entity\Attribute\Exception($massage);

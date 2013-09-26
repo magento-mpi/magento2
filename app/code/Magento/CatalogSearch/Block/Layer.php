@@ -17,6 +17,11 @@ namespace Magento\CatalogSearch\Block;
 class Layer extends \Magento\Catalog\Block\Layer\View
 {
     /**
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
+     */
+    protected $_engineProvider;
+
+    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -31,22 +36,49 @@ class Layer extends \Magento\Catalog\Block\Layer\View
     protected $_catalogSearchData = null;
 
     /**
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog search layer
+     *
+     * @var \Magento\CatalogSearch\Model\Layer
+     */
+    protected $_catalogSearchLayer;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\CatalogSearch\Model\Layer $layer
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\CatalogSearch\Model\Layer $catalogSearchLayer
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\CatalogSearch\Model\Layer $layer,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\CatalogSearch\Model\Layer $catalogSearchLayer,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_engineProvider = $engineProvider;
         $this->_coreRegistry = $registry;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($coreData, $context, $data);
+        $this->_catalogSearchLayer = $catalogSearchLayer;
+        $this->_storeManager = $storeManager;
+        parent::__construct($layer, $coreData, $context, $data);
     }
 
     /**
@@ -69,30 +101,22 @@ class Layer extends \Magento\Catalog\Block\Layer\View
     }
 
     /**
-     * Get layer object
-     *
-     * @return \Magento\Catalog\Model\Layer
-     */
-    public function getLayer()
-    {
-        return \Mage::getSingleton('Magento\CatalogSearch\Model\Layer');
-    }
-
-    /**
      * Check availability display layer block
      *
      * @return bool
      */
     public function canShowBlock()
     {
-        $_isLNAllowedByEngine = $this->_catalogSearchData->getEngine()->isLayeredNavigationAllowed();
+        $_isLNAllowedByEngine = $this->_engineProvider->get()->isLayeredNavigationAllowed();
         if (!$_isLNAllowedByEngine) {
             return false;
         }
-        $availableResCount = (int)\Mage::app()->getStore()
+        $availableResCount = (int)$this->_storeManager->getStore()
             ->getConfig(\Magento\CatalogSearch\Model\Layer::XML_PATH_DISPLAY_LAYER_COUNT);
 
-        if (!$availableResCount || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())) {
+        if (!$availableResCount
+            || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())
+        ) {
             return parent::canShowBlock();
         }
         return false;

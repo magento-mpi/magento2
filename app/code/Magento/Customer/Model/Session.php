@@ -48,6 +48,17 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_coreUrl = null;
 
     /**
+     * Retrieve customer sharing configuration model
+     *
+     * @return \Magento\Customer\Model\Config\Share
+     */
+    public function getCustomerConfigShare()
+    {
+        return \Mage::getSingleton('Magento\Customer\Model\Config\Share');
+    }
+
+    /**
+     * @param \Magento\Core\Model\Session\Validator $validator
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Core\Model\Logger $logger
@@ -58,9 +69,10 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
-     * @param null $sessionName
+     * @param string $sessionName
      */
     public function __construct(
+        \Magento\Core\Model\Session\Validator $validator,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Core\Model\Logger $logger,
@@ -75,7 +87,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
-        parent::__construct($logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $namespace = 'customer';
         if ($configShare->isWebsiteScope()) {
             $namespace .= '_' . ($storeManager->getWebsite()->getCode());

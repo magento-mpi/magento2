@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Authoreze.Net dummy payment method model
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Pbridge\Model\Payment\Method\Payflow;
 
@@ -50,12 +45,17 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
     protected $_pbridgeData = null;
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale,
+     * @param \Magento\Centinel\Model\Service $centinelService,
      * @param \Magento\Core\Model\Logger $logger
      * @param array $data
      */
@@ -67,10 +67,14 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreData, $moduleList, $coreStoreConfig, $paymentData, $logger, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $coreData, $moduleList, $paymentData,
+            $logAdapterFactory, $locale, $centinelService, $data);
     }
 
     /**

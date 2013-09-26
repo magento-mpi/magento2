@@ -7,7 +7,7 @@
  */
 namespace Magento\Backend\Model\Config\Structure;
 
-class Data extends \Magento\Config\Data
+class Data extends \Magento\Config\Data\Scoped
 {
     /**
      * @param \Magento\Backend\Model\Config\Structure\Reader $reader
@@ -31,6 +31,9 @@ class Data extends \Magento\Config\Data
      */
     public function merge(array $config)
     {
-        parent::merge($config['config']['system']);
+        if (isset($config['config']['system'])) {
+            $config = $config['config']['system'];
+        }
+        parent::merge($config);
     }
 }

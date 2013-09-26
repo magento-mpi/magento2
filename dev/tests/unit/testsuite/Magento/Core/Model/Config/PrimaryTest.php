@@ -39,7 +39,7 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
         $this->_loaderMock = $this->getMock('Magento\Core\Model\Config\LoaderInterface');
         $that = $this;
         $this->_loaderMock->expects($this->once())->method('load')->will($this->returnCallback(
-            function($config) use ($that) {
+            function ($config) use ($that) {
                 $testConfig = new \Magento\Core\Model\Config\Base($that->getConfigString());
                 $config->getNode()->extend($testConfig->getNode());
             }

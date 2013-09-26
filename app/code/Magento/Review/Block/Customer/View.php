@@ -20,22 +20,88 @@ namespace Magento\Review\Block\Customer;
 
 class View extends \Magento\Catalog\Block\Product\AbstractProduct
 {
-
     protected $_template = 'customer/view.phtml';
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Review\Model\ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
+     */
+    protected $_voteFactory;
+
+    /**
+     * @var \Magento\Rating\Model\RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
+        $this->_reviewFactory = $reviewFactory;
+        $this->_voteFactory = $voteFactory;
+        $this->_ratingFactory = $ratingFactory;
+        $this->_customerSession = $customerSession;
+
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
 
     protected function _construct()
     {
         parent::_construct();
-
-
         $this->setReviewId($this->getRequest()->getParam('id', false));
     }
 
     public function getProductData()
     {
         if( $this->getReviewId() && !$this->getProductCacheData() ) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')
-                ->setStoreId(\Mage::app()->getStore()->getId())
+            $product = $this->_productFactory->create()
+                ->setStoreId($this->_storeManager->getStore()->getId())
                 ->load($this->getReviewData()->getEntityPkValue());
             $this->setProductCacheData($product);
         }
@@ -45,24 +111,24 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getReviewData()
     {
         if( $this->getReviewId() && !$this->getReviewCachedData() ) {
-            $this->setReviewCachedData(\Mage::getModel('Magento\Review\Model\Review')->load($this->getReviewId()));
+            $this->setReviewCachedData($this->_reviewFactory->create()->load($this->getReviewId()));
         }
         return $this->getReviewCachedData();
     }
 
     public function getBackUrl()
     {
-        return \Mage::getUrl('review/customer');
+        return $this->getUrl('review/customer');
     }
 
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
+            $ratingCollection = $this->_voteFactory->create()
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
-                ->addRatingInfo(\Mage::app()->getStore()->getId())
-                ->setStoreFilter(\Mage::app()->getStore()->getId())
+                ->addRatingInfo($this->_storeManager->getStore()->getId())
+                ->setStoreFilter($this->_storeManager->getStore()->getId())
                 ->load();
 
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
@@ -74,7 +140,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
-            $this->setRatingSummaryCache(\Mage::getModel('Magento\Rating\Model\Rating')->getEntitySummary($this->getProductData()->getId()));
+            $this->setRatingSummaryCache($this->_ratingFactory->create()->getEntitySummary($this->getProductData()->getId()));
         }
         return $this->getRatingSummaryCache();
     }
@@ -82,7 +148,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getTotalReviews()
     {
         if( !$this->getTotalReviewsCache() ) {
-            $this->setTotalReviewsCache(\Mage::getModel('Magento\Review\Model\Review')->getTotalReviews($this->getProductData()->getId()), false, \Mage::app()->getStore()->getId());
+            $this->setTotalReviewsCache($this->_reviewFactory->create()->getTotalReviews($this->getProductData()->getId()), false, $this->_storeManager->getStore()->getId());
         }
         return $this->getTotalReviewsCache();
     }
@@ -99,6 +165,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function isReviewOwner()
     {
-        return ($this->getReviewData()->getCustomerId() == \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId());
+        return ($this->getReviewData()->getCustomerId() == $this->_customerSession->getCustomerId());
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Core\Model\Url\SecurityInfo">
+        <param name="secureUrlList">
+            <value>
+                <downloadable>/downloadable/customer/</downloadable>
+                <downloadable_download>/downloadable/download/</downloadable_download>
+            </value>
+        </param>
+    </type>
+</config>

@@ -29,6 +29,25 @@ class Statuses
     protected $_values;
 
     /**
+     * @var \Magento\Sales\Model\Resource\Order\Status\CollectionFactory
+     */
+    protected $_orderStatusCollection;
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollection,
+        array $data = array()
+    ) {
+        $this->_orderStatusCollection = $orderStatusCollection;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
@@ -36,7 +55,7 @@ class Statuses
     {
         $html = '';
 
-        $statuses = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\Collection')->load()->toOptionHash();
+        $statuses = $this->_orderStatusCollection->create()->load()->toOptionHash();
 
         foreach ($statuses as $id => $status) {
             $html.= $this->_getFieldHtml($element, $id, $status);
@@ -61,7 +80,8 @@ class Statuses
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = \Mage::getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
+            $this->_fieldRenderer = $this->getLayout()
+                ->getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
         }
         return $this->_fieldRenderer;
     }

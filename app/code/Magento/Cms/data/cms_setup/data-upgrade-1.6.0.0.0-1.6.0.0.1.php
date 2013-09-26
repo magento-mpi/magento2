@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/** @var \Magento\Cms\Model\Resource\Setup $this */
 
 $pageContent = <<<EOD
 <p style="color: #ff0000; font-weight: bold; font-size: 13px">
@@ -238,9 +238,11 @@ $privacyPageData = array(
     'stores'          => array(0),
     'sort_order'      => 0
 );
- \Mage::getModel('Magento\Cms\Model\Page')->setData($privacyPageData)->save();
 
-$footerLinksBlock = \Mage::getModel('Magento\Cms\Model\Block')->load('footer_links','identifier');
+/** @var \Magento\Cms\Model\Page $page */
+$this->createPage()->setData($privacyPageData)->save();
+
+$footerLinksBlock = $this->createPage()->load('footer_links','identifier');
 
 if ($footerLinksBlock->getId()) {
     $content = $footerLinksBlock->getContent();

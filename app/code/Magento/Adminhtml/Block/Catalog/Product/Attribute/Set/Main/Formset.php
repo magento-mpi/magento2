@@ -7,33 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
 
-class Formset extends \Magento\Adminhtml\Block\Widget\Form
+class Formset
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
-    /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $data);
-    }
-
     /**
      * Prepares attribute set form
      *

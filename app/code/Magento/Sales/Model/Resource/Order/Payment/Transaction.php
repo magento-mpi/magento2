@@ -137,7 +137,7 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 
         if ($parentTxnId) {
             if (!$txnId || !$orderId || !$paymentId) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('We don\'t have enough information to save the parent transaction ID.'));
             }
             $parentId = (int)$this->_lookupByTxnId($orderId, $paymentId, $parentTxnId, $idFieldName);

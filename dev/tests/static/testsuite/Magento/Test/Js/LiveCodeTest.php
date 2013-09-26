@@ -41,8 +41,8 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
             return array($path);
         }
         $path = $path == '' ? __DIR__ : $path;
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
-        $regexIterator = new \RegexIterator($iterator, '/\\.js$/');
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+        $regexIterator = new RegexIterator($iterator, '/\\.js$/');
         $filePaths = array();
         foreach ($regexIterator as $filePath) {
             $filePaths[] = $filePath->getPathname();
@@ -71,7 +71,7 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
             self::$_whiteListJsFiles = array_merge(self::$_whiteListJsFiles, self::_scanJsFile($listFiles));
         }
         $blackListJsFiles = self::$_blackListJsFiles;
-        $filter = function($value) use ($blackListJsFiles) {
+        $filter = function ($value) use ($blackListJsFiles) {
             return !in_array($value, $blackListJsFiles);
         };
         self::$_whiteListJsFiles = array_filter(self::$_whiteListJsFiles, $filter);
@@ -101,7 +101,7 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
     public function codeJsHintDataProvider()
     {
         self::setUpBeforeClass();
-        $map = function($value) {
+        $map = function ($value) {
             return array($value);
         };
         return array_map($map, self::$_whiteListJsFiles);
@@ -121,9 +121,8 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
         foreach (glob($globPattern) as $list) {
             $result = array_merge($result, file($list));
         }
-        $map = function($value) {
-            return trim($value) ? \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
-                DIRECTORY_SEPARATOR .
+        $map = function ($value) {
+            return trim($value) ? \Magento\TestFramework\Utility\Files::init()->getPathToSource() . DIRECTORY_SEPARATOR .
                 str_replace('/', DIRECTORY_SEPARATOR, trim($value)) : '';
         };
         return array_filter(array_map($map, $result), 'file_exists');

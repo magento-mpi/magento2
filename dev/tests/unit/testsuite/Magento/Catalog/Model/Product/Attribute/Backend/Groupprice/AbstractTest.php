@@ -25,8 +25,14 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     protected $_helper;
 
+    /**
+     * @var \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_logger;
+
     protected function setUp()
     {
+        $this->_logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         $this->_helper = $this->getMock('Magento\Catalog\Helper\Data', array('isPriceGlobal'), array(), '', false);
         $this->_helper->expects($this->any())
             ->method('isPriceGlobal')
@@ -36,6 +42,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice',
             array(
                 'coreString' => $this->_helper,
+                'logger' => $this->_logger,
             )
         );
         $resource = $this->getMock('StdClass', array('getMainTable'));

@@ -8,13 +8,10 @@
  * @license     {license_link}
  */
 
-
 /**
  * Persistent Observer
  *
- * @category   Magento
- * @package    Magento_Persistent
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Persistent\Model;
 
@@ -56,21 +53,135 @@ class Observer
     protected $_eventManager = null;
 
     /**
+     * Layout model
+     *
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
+     * Request http
+     *
+     * @var \Magento\Core\Controller\Request\Http
+     */
+    protected $_requestHttp;
+
+    /**
+     * Persistent config factory
+     *
+     * @var \Magento\Persistent\Model\Persistent\ConfigFactory
+     */
+    protected $_persistentConfigFactory;
+
+    /**
+     * Customer factory
+     *
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Quote factory
+     *
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * Session factory
+     *
+     * @var \Magento\Persistent\Model\SessionFactory
+     */
+    protected $_sessionFactory;
+
+    /**
+     * Url model
+     *
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Session
+     *
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * Website collection factory
+     *
+     * @var \Magento\Core\Model\Resource\Website\CollectionFactory
+     */
+    protected $_websiteCollectionFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Persistent\Helper\Data $persistentData
+     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
+     * @param \Magento\Core\Controller\Request\Http $requestHttp
+     * @param \Magento\Core\Model\Layout $layout
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Persistent\Helper\Data $persistentData
+        \Magento\Persistent\Helper\Data $persistentData,
+        \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory,
+        \Magento\Core\Model\Session $session,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\UrlInterface $url,
+        \Magento\Persistent\Model\SessionFactory $sessionFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
+        \Magento\Core\Controller\Request\Http $requestHttp,
+        \Magento\Core\Model\Layout $layout
     ) {
         $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;
         $this->_coreData = $coreData;
         $this->_persistentData = $persistentData;
+        $this->_websiteCollectionFactory = $websiteCollectionFactory;
+        $this->_session = $session;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        $this->_url = $url;
+        $this->_sessionFactory = $sessionFactory;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_persistentConfigFactory = $persistentConfigFactory;
+        $this->_requestHttp = $requestHttp;
+        $this->_layout = $layout;
     }
 
     /**
@@ -83,12 +194,13 @@ class Observer
     {
         if (!$this->_persistentData->canProcess($observer)
             || !$this->_persistentSession->isPersistent()
-            || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
+            || $this->_customerSession->isLoggedIn()
         ) {
             return $this;
         }
-        \Mage::getModel('Magento\Persistent\Model\Persistent\Config')
-            ->setConfigFilePath($this->_persistentData->getPersistentConfigFilePath())
+        /** @var \Magento\Persistent\Model\Persistent\Config $persistentConfig */
+        $persistentConfig = $this->_persistentConfigFactory->create();
+        $persistentConfig->setConfigFilePath($this->_persistentData->getPersistentConfigFilePath())
             ->fire();
         return $this;
     }
@@ -101,7 +213,7 @@ class Observer
      */
     public function applyBlockPersistentData($observer)
     {
-        if (!$this->_persistentSession->isPersistent() || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if (!$this->_persistentSession->isPersistent() || $this->_customerSession->isLoggedIn()) {
             return $this;
         }
 
@@ -112,18 +224,17 @@ class Observer
             return $this;
         }
 
-        $xPath = '//instances/blocks/*[block_type="' . get_class($block) . '"]';
         $configFilePath = $observer->getEvent()->getConfigFilePath();
         if (!$configFilePath) {
             $configFilePath = $this->_persistentData->getPersistentConfigFilePath();
         }
 
         /** @var $persistentConfig \Magento\Persistent\Model\Persistent\Config */
-        $persistentConfig = \Mage::getModel('Magento\Persistent\Model\Persistent\Config')
-            ->setConfigFilePath($configFilePath);
+        $persistentConfig = $this->_persistentConfigFactory->create();
+        $persistentConfig->setConfigFilePath($configFilePath);
 
-        foreach ($persistentConfig->getXmlConfig()->xpath($xPath) as $persistentConfigInfo) {
-            $persistentConfig->fireOne($persistentConfigInfo->asArray(), $block);
+        foreach ($persistentConfig->getBlockConfigInfo(get_class($block)) as $persistentConfigInfo) {
+            $persistentConfig->fireOne($persistentConfigInfo, $block);
         }
 
         return $this;
@@ -142,7 +253,7 @@ class Observer
 
         $this->_applyAccountLinksPersistentData();
         $welcomeMessage = __('Welcome, %1!', $escapedName)
-            . ' ' . \Mage::app()->getLayout()->getBlock('header.additional')->toHtml();
+            . ' ' . $this->_layout->getBlock('header.additional')->toHtml();
         $block->setWelcome($welcomeMessage);
         return $this;
     }
@@ -152,8 +263,8 @@ class Observer
      */
     protected function _applyAccountLinksPersistentData()
     {
-        if (!\Mage::app()->getLayout()->getBlock('header.additional')) {
-            \Mage::app()->getLayout()->addBlock('Magento\Persistent\Block\Header\Additional', 'header.additional');
+        if (!$this->_layout->getBlock('header.additional')) {
+            $this->_layout->addBlock('Magento\Persistent\Block\Header\Additional', 'header.additional');
         }
     }
 
@@ -165,7 +276,7 @@ class Observer
     public function emulateTopLinks($block)
     {
         $this->_applyAccountLinksPersistentData();
-        $block->removeLinkByUrl(\Mage::getUrl('customer/account/login'));
+        $block->removeLinkByUrl($this->_url->getUrl('customer/account/login'));
     }
 
     /**
@@ -182,7 +293,7 @@ class Observer
 
         if (!$this->_persistentData->canProcess($observer)
             || !$this->_persistentSession->isPersistent()
-            || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
+            || $this->_customerSession->isLoggedIn()
         ) {
             return;
         }
@@ -195,12 +306,10 @@ class Observer
             return;
         }
 
-        /** @var $checkoutSession \Magento\Checkout\Model\Session */
-        $checkoutSession = \Mage::getSingleton('Magento\Checkout\Model\Session');
         if ($this->_isShoppingCartPersist()) {
-            $checkoutSession->setCustomer($this->_getPersistentCustomer());
-            if (!$checkoutSession->hasQuote()) {
-                $checkoutSession->getQuote();
+            $this->_checkoutSession->setCustomer($this->_getPersistentCustomer());
+            if (!$this->_checkoutSession->hasQuote()) {
+                $this->_checkoutSession->getQuote();
             }
         }
     }
@@ -239,10 +348,8 @@ class Observer
             return;
         }
 
-        /** @var $checkoutSession \Magento\Checkout\Model\Session */
-        $checkoutSession = $observer->getEvent()->getCheckoutSession();
-        if ($checkoutSession) {
-            $checkoutSession->setLoadInactive();
+        if ($this->_checkoutSession) {
+            $this->_checkoutSession->setLoadInactive();
         }
     }
 
@@ -302,11 +409,9 @@ class Observer
      */
     public function customerAuthenticatedEvent($observer)
     {
-        /** @var $customerSession \Magento\Customer\Model\Session */
-        $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
-        $customerSession->setCustomerId(null)->setCustomerGroupId(null);
+        $this->_customerSession->setCustomerId(null)->setCustomerGroupId(null);
 
-        if (\Mage::app()->getRequest()->getParam('context') != 'checkout') {
+        if ($this->_requestHttp->getParam('context') != 'checkout') {
             $this->_expirePersistentSession();
             return;
         }
@@ -326,10 +431,9 @@ class Observer
         }
 
         $this->_persistentSession->getSession()->removePersistentCookie();
-        /** @var $customerSession \Magento\Customer\Model\Session */
-        $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
-        if (!$customerSession->isLoggedIn()) {
-            $customerSession->setCustomerId(null)->setCustomerGroupId(null);
+
+        if (!$this->_customerSession->isLoggedIn()) {
+            $this->_customerSession->setCustomerId(null)->setCustomerGroupId(null);
         }
 
         $this->setQuoteGuest();
@@ -361,15 +465,13 @@ class Observer
         /** @var $controllerAction \Magento\Core\Controller\Front\Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
         if (method_exists($controllerAction, 'redirectLogin')) {
-            \Mage::getSingleton('Magento\Core\Model\Session')->addNotice(
-                __('To check out, please log in using your email address.')
-            );
+            $this->_session->addNotice(__('To check out, please log in using your email address.'));
             $controllerAction->redirectLogin();
             if ($controllerAction instanceof \Magento\GoogleCheckout\Controller\Redirect
                 || $controllerAction instanceof \Magento\Paypal\Controller\Express\AbstractExpress
             ) {
-                \Mage::getSingleton('Magento\Customer\Model\Session')
-                    ->setBeforeAuthUrl(\Mage::getUrl('persistent/index/expressCheckout'));
+                $this->_customerSession
+                    ->setBeforeAuthUrl($this->_url->getUrl('persistent/index/expressCheckout'));
             }
         }
     }
@@ -381,7 +483,7 @@ class Observer
      */
     protected function _getPersistentCustomer()
     {
-        return \Mage::getModel('Magento\Customer\Model\Session')->load(
+        return $this->_customerFactory->create()->load(
             $this->_persistentSession->getSession()->getCustomerId()
         );
     }
@@ -393,7 +495,8 @@ class Observer
      */
     protected function _getQuote()
     {
-        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->_quoteFactory->create();
         $quote->loadByCustomer($this->_getPersistentCustomer());
         return $quote;
     }
@@ -425,7 +528,7 @@ class Observer
      */
     protected function _isLoggedOut()
     {
-        return $this->_isPersistent() && !\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
+        return $this->_isPersistent() && !$this->_customerSession->isLoggedIn();
     }
 
     /**
@@ -446,13 +549,13 @@ class Observer
     public function setQuoteGuest($checkQuote = false)
     {
         /** @var $quote \Magento\Sales\Model\Quote */
-        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        $quote = $this->_checkoutSession->getQuote();
         if ($quote && $quote->getId()) {
             if ($checkQuote
                 && !$this->_persistentData->isShoppingCartPersist()
                 && !$quote->getIsPersistent()
             ) {
-                \Mage::getSingleton('Magento\Checkout\Model\Session')->unsetAll();
+                $this->_checkoutSession->unsetAll();
                 return;
             }
 
@@ -488,33 +591,26 @@ class Observer
             return;
         }
 
-        /** @var $customerSession \Magento\Customer\Model\Session */
-        $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
-
         if ($this->_persistentData->isEnabled()
             && !$this->_isPersistent()
-            && !$customerSession->isLoggedIn()
-            && \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()
+            && !$this->_customerSession->isLoggedIn()
+            && $this->_checkoutSession->getQuoteId()
             && !($observer->getControllerAction() instanceof \Magento\Checkout\Controller\Onepage)
             // persistent session does not expire on onepage checkout page to not spoil customer group id
         ) {
             $this->_eventManager->dispatch('persistent_session_expired');
             $this->_expirePersistentSession();
-            $customerSession->setCustomerId(null)->setCustomerGroupId(null);
+            $this->_customerSession->setCustomerId(null)->setCustomerGroupId(null);
         }
     }
 
     protected function _expirePersistentSession()
     {
-        /** @var $checkoutSession \Magento\Checkout\Model\Session */
-        $checkoutSession = \Mage::getSingleton('Magento\Checkout\Model\Session');
-
-        $quote = $checkoutSession->setLoadInactive()->getQuote();
+        $quote = $this->_checkoutSession->setLoadInactive()->getQuote();
         if ($quote->getIsActive() && $quote->getCustomerId()) {
-            $checkoutSession->setCustomer(null)->unsetAll();
+            $this->_checkoutSession->setCustomer(null)->unsetAll();
         } else {
-            $quote
-                ->setIsActive(true)
+            $quote->setIsActive(true)
                 ->setIsPersistent(false)
                 ->setCustomerId(null)
                 ->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
@@ -529,13 +625,13 @@ class Observer
      */
     public function clearExpiredCronJob(\Magento\Cron\Model\Schedule $schedule)
     {
-        $websiteIds = \Mage::getResourceModel('Magento\Core\Model\Resource\Website\Collection')->getAllIds();
+        $websiteIds = $this->_websiteCollectionFactory->create()->getAllIds();
         if (!is_array($websiteIds)) {
             return $this;
         }
 
         foreach ($websiteIds as $websiteId) {
-            \Mage::getModel('Magento\Persistent\Model\Session')->deleteExpired($websiteId);
+            $this->_sessionFactory->create()->deleteExpired($websiteId);
         }
 
         return $this;
@@ -575,11 +671,10 @@ class Observer
         }
 
         if ($this->_isLoggedOut()) {
-            /** @var $customer \Magento\Customer\Model\Session */
-            $customer = \Mage::getModel('Magento\Customer\Model\Session')->load(
-                $this->_persistentSession->getSession()->getCustomerId()
-            );
-            \Mage::getSingleton('Magento\Customer\Model\Session')
+            /** @var $customer \Magento\Customer\Model\Customer */
+            $customer = $this->_customerFactory->create();
+            $customer->load($this->_persistentSession->getSession()->getCustomerId());
+            $this->_customerSession
                 ->setCustomerId($customer->getId())
                 ->setCustomerGroupId($customer->getGroupId());
         }

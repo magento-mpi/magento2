@@ -10,12 +10,7 @@
 
 /**
  * Sales orders controller
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Sales\Controller;
 
 class Order extends \Magento\Sales\Controller\AbstractController
@@ -28,10 +23,9 @@ class Order extends \Magento\Sales\Controller\AbstractController
     public function preDispatch()
     {
         parent::preDispatch();
-        $action = $this->getRequest()->getActionName();
         $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
 
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this, $loginUrl)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -46,7 +40,8 @@ class Order extends \Magento\Sales\Controller\AbstractController
 
         $this->getLayout()->getBlock('head')->setTitle(__('My Orders'));
 
-        if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
+        $block = $this->getLayout()->getBlock('customer.account.link.back');
+        if ($block) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
         $this->renderLayout();

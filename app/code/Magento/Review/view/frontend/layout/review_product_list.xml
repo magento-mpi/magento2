@@ -8,19 +8,19 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product Reviews List" type="page" parent="default">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">2columns-right.phtml</argument>
         </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Css" name="magento-catalog-zoom-css">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Catalog::zoom.css</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\Review\Block\Product\View" name="product.info" template="Magento_Catalog::product/view.phtml">
             <block class="Magento\Catalog\Block\Product\View\BaseImage" name="product-info-base-image" as="base-image" template="product/view/base-image.phtml"/>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
@@ -44,5 +44,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -23,13 +23,18 @@ class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * @var \Magento\CatalogInventory\Model\Stock\Item
      */
-    protected $_inventory;
+    protected $_stockItemFactory;
 
-    public function __construct(array $data = array())
-    {
-        $this->_inventory = isset($data['inventory'])
-            ? $data['inventory']
-            : \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
+    /**
+     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\Core\Model\Logger $logger
+     */
+    public function __construct(
+        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\Core\Model\Logger $logger
+    ) {
+        $this->_stockItemFactory = $stockItemFactory;
+        parent::__construct($logger);
     }
 
     /**
@@ -40,12 +45,13 @@ class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      */
     public function afterLoad($object)
     {
-        $this->_inventory->loadByProduct($object);
+        $item = $this->_stockItemFactory->create();
+        $item->loadByProduct($object);
         $object->setData(
             $this->getAttribute()->getAttributeCode(),
             array(
-                'is_in_stock' => $this->_inventory->getIsInStock(),
-                'qty' => $this->_inventory->getQty(),
+                'is_in_stock' => $item->getIsInStock(),
+                'qty' => $item->getQty(),
             )
         );
         return parent::afterLoad($object);

@@ -35,17 +35,39 @@ class Result extends \Magento\Core\Block\Template
     protected $_catalogSearchData = null;
 
     /**
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog layer
+     *
+     * @var \Magento\Catalog\Model\Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         array $data = array()
     ) {
+        $this->_catalogLayer = $catalogLayer;
+        $this->_storeManager = $storeManager;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct($coreData, $context, $data);
     }
@@ -75,7 +97,7 @@ class Result extends \Magento\Core\Block\Template
             $breadcrumbs->addCrumb('home', array(
                 'label' => __('Home'),
                 'title' => __('Go to Home Page'),
-                'link'  => \Mage::getBaseUrl()
+                'link'  => $this->_storeManager->getStore()->getBaseUrl(),
             ))->addCrumb('search', array(
                 'label' => $title,
                 'title' => $title
@@ -116,8 +138,7 @@ class Result extends \Magento\Core\Block\Template
      */
     public function setListOrders()
     {
-        $category = \Mage::getSingleton('Magento\Catalog\Model\Layer')
-            ->getCurrentCategory();
+        $category = $this->_catalogLayer->getCurrentCategory();
         /* @var $category \Magento\Catalog\Model\Category */
         $availableOrders = $category->getAvailableSortByOptions();
         unset($availableOrders['position']);

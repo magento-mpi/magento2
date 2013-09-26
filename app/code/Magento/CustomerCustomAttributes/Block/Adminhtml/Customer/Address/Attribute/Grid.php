@@ -8,19 +8,39 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Address Attributes Grid Block
- *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute;
 
 class Grid
     extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
+    /**
+     * @var \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory
+     */
+    protected $_addressesFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory $addressesFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory $addressesFactory,
+        array $data = array()
+    ) {
+        $this->_addressesFactory = $addressesFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     /**
      * Initialize grid, set grid Id
      *
@@ -40,11 +60,9 @@ class Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
-        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Attribute\Collection')
-            ->addSystemHiddenFilter()
-            ->addExcludeHiddenFrontendFilter();
+        $collection = $this->_addressesFactory->create();
+        $collection->addSystemHiddenFilter()->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 

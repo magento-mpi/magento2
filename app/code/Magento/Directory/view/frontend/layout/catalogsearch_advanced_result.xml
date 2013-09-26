@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="right">
+    <referenceContainer name="right">
         <block class="Magento\Directory\Block\Currency" name="right_currency" before="-" template="currency.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="invoice_totals">
+    <referenceBlock name="invoice_totals">
         <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="customerbalance" template="Magento_CustomerBalance::sales/order/totals/customerbalance.phtml" after="-">
             <action method="setSourceField">
                 <argument name="value" xsi:type="string">customer_balance_amount</argument>
@@ -17,5 +17,5 @@
                 <argument name="value" xsi:type="string">Store Credit</argument>
             </action>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

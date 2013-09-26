@@ -17,7 +17,8 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
-abstract class AbstractAccordion extends \Magento\Adminhtml\Block\Widget\Grid
+abstract class AbstractAccordion
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Collection field name for using in controls
@@ -43,6 +44,12 @@ abstract class AbstractAccordion extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Data\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -51,6 +58,7 @@ abstract class AbstractAccordion extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -58,6 +66,7 @@ abstract class AbstractAccordion extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -107,7 +116,7 @@ abstract class AbstractAccordion extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getItemsCollection()
     {
-        return new \Magento\Data\Collection();
+        return $this->_collectionFactory->create();
     }
 
     /**

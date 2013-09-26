@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Weee\Helper\Data">
+        <param name="weeeTax">
+            <instance type="Magento\Weee\Model\Tax\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Weee\Model\Observer">
+        <param name="layout">
+            <instance type="Magento\Core\Model\Layout\Proxy" />
+        </param>
+        <param name="weeeTax">
+            <instance type="Magento\Weee\Model\Tax\Proxy" />
+        </param>
+        <param name="weeeData">
+            <instance type="Magento\Weee\Helper\Data\Proxy" />
+        </param>
+    </type>
+</config>

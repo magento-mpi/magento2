@@ -8,18 +8,18 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <action method="setCanLoadExtJs">
             <argument name="flag" xsi:type="string">1</argument>
         </action>
         <action method="setCanLoadRulesJs">
             <argument name="flag" xsi:type="string">1</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\TargetRule\Block\Adminhtml\Targetrule\Edit" name="magento_targetrule_edit"/>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tabs" name="magento_targetrule_edit_tabs">
             <block class="Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main" name="magento_targetrule_edit_tab_main"/>
             <block class="Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Conditions" name="magento_targetrule_edit_tab_conditions"/>
@@ -37,5 +37,5 @@
                 <argument name="block" xsi:type="string">magento_targetrule_edit_tab_actions</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

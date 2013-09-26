@@ -23,9 +23,17 @@ class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
      * Catalog Product Flat Config
      */
     const XML_PATH_USE_PRODUCT_FLAT          = 'catalog/frontend/flat_catalog_product';
-    const XML_NODE_ADD_FILTERABLE_ATTRIBUTES = 'global/catalog/product/flat/add_filterable_attributes';
-    const XML_NODE_ADD_CHILD_DATA            = 'global/catalog/product/flat/add_child_data';
 
+    /**
+     * @var int
+     */
+    protected $_addFilterableAttrs;
+
+    /**
+     * @var int
+     */
+    protected $_addChildData;
+    
     /**
      * Catalog Flat Product index process code
      */
@@ -62,32 +70,21 @@ class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
     protected $_flagObject;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
      * @param \Magento\Core\Helper\Context $context
+     * @param $addFilterableAttrs
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param $addChildData
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
+        $addFilterableAttrs,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig
+        $addChildData
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_addFilterableAttrs = intval($addFilterableAttrs);
+        $this->_addChildData = intval($addChildData);
         parent::__construct($context);
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -133,7 +130,7 @@ class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
      */
     public function isAddFilterableAttributes()
     {
-        return intval($this->_coreConfig->getNode(self::XML_NODE_ADD_FILTERABLE_ATTRIBUTES));
+        return $this->_addFilterableAttrs;
     }
 
     /**
@@ -143,6 +140,6 @@ class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
      */
     public function isAddChildData()
     {
-        return intval($this->_coreConfig->getNode(self::XML_NODE_ADD_CHILD_DATA));
+        return $this->_addChildData;
     }
 }

@@ -22,14 +22,25 @@ abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\M
     protected $_viewUrl;
 
     /**
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
      * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\Layout $layout
      * @param array $data
      */
-    public function __construct(\Magento\Core\Model\View\Url $viewUrl, array $data = array())
-    {
+    public function __construct(
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\Layout $layout,
+        array $data = array()
+    ) {
         $this->_viewUrl = $viewUrl;
+        $this->_layout = $layout;
 
         parent::__construct($data);
+
         $this->loadAttributeOptions()->loadOperatorOptions()->loadValueOptions();
 
         foreach (array_keys($this->getAttributeOption()) as $attr) {
@@ -228,7 +239,7 @@ abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\M
             'values' => $this->getAttributeSelectOptions(),
             'value' => $this->getAttribute(),
             'value_name' => $this->getAttributeName(),
-        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Editable'));
     }
 
     public function getOperatorElement()
@@ -238,7 +249,7 @@ abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\M
             'values' => $this->getOperatorSelectOptions(),
             'value' => $this->getOperator(),
             'value_name' => $this->getOperatorName(),
-        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Editable'));
     }
 
     public function getValueElement()
@@ -247,7 +258,7 @@ abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\M
             'name' => 'rule[actions][' . $this->getId() . '][value]',
             'value' => $this->getValue(),
             'value_name' => $this->getValueName(),
-        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Editable'));
     }
 
     /**

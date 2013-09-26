@@ -27,10 +27,22 @@ class Returns extends \Magento\Core\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
@@ -38,10 +50,14 @@ class Returns extends \Magento\Core\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
+        $this->_collectionFactory = $collectionFactory;
+        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -50,17 +66,15 @@ class Returns extends \Magento\Core\Block\Template
         parent::_construct();
         if ($this->_rmaData->isEnabled()) {
             $this->setTemplate('return/returns.phtml');
-
-            $returns = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
+            /** @var $returns \Magento\Rma\Model\Resource\Rma\Grid\Collection */
+            $returns = $this->_collectionFactory->create()
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', $this->_coreRegistry->registry('current_order')->getId())
                 ->setOrder('date_requested', 'desc');
 
-            $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
-            if ($customerSession->isLoggedIn()) {
-                $returns->addFieldToFilter('customer_id', $customerSession->getCustomer()->getId());
+            if ($this->_customerSession->isLoggedIn()) {
+                $returns->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId());
             }
-
             $this->setReturns($returns);
         }
     }

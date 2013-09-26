@@ -8,10 +8,12 @@
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Webhook\Block\Adminhtml\Registration\Create;
 
-class Form extends \Magento\Backend\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /** Constants for API user details */
     const API_KEY_LENGTH = 32;
@@ -24,32 +26,6 @@ class Form extends \Magento\Backend\Block\Widget\Form
     /** Data key for getting subscription id out of subscription data */
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
 
-    /** @var \Magento\Data\Form\Factory */
-    private $_formFactory;
-
-    /** @var \Magento\Core\Model\Registry  */
-    private $_registry;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
-        array $data = array()
-    ) {
-        parent::__construct($coreData, $context, $data);
-
-        $this->_formFactory = $formFactory;
-        $this->_registry = $registry;
-    }
-
     /**
      * Prepares registration form
      *
@@ -57,7 +33,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $subscription = $this->_registry->registry(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION);
+        $subscription = $this->_coreRegistry->registry(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION);
         $apiKey = $this->_generateRandomString(self::API_KEY_LENGTH);
         $apiSecret = $this->_generateRandomString(self::API_SECRET_LENGTH);
         $inputLength = max(self::API_KEY_LENGTH, self::API_SECRET_LENGTH, self::MIN_TEXT_INPUT_LENGTH);
@@ -120,7 +96,6 @@ class Form extends \Magento\Backend\Block\Widget\Form
     private function _generateRandomString($length)
     {
         return $this->_coreData
-            ->getRandomString($length,
-                \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS);
+            ->getRandomString($length, \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS);
     }
 }

@@ -13,7 +13,7 @@
  */
 namespace Magento\Tools\View\Generator;
 
-class ThemeLight extends \Varien_Object implements \Magento\Core\Model\ThemeInterface
+class ThemeLight extends \Magento\Object implements \Magento\Core\Model\ThemeInterface
 {
     /**
      * {@inheritdoc}

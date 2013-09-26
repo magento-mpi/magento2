@@ -10,15 +10,76 @@
 
 /**
  * RMA model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Model\Rma\Status;
 
 class History extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Rma\Model\RmaFactory
+     */
+    protected $_rmaFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Config
+     */
+    protected $_rmaConfig;
+
+    /**
+     * @var \Magento\Core\Model\Translate\Proxy
+     */
+    protected $_translate;
+
+    /**
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rma\Model\RmaFactory $rmaFactory
+     * @param \Magento\Rma\Model\Config $rmaConfig
+     * @param \Magento\Core\Model\Translate\Proxy $translate
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rma\Model\RmaFactory $rmaFactory,
+        \Magento\Rma\Model\Config $rmaConfig,
+        \Magento\Core\Model\Translate\Proxy $translate,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_rmaFactory = $rmaFactory;
+        $this->_rmaConfig = $rmaConfig;
+        $this->_translate = $translate;
+        $this->_templateFactory = $templateFactory;
+        $this->_date = $date;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     /**
      * Initialize resource model
      */
@@ -37,18 +98,20 @@ class History extends \Magento\Core\Model\AbstractModel
         if ($this->getOrder()) {
             return $this->getOrder()->getStore();
         }
-        return \Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**
      * Get RMA object
      *
-     * @return \Magento\Rma\Model\Rma;
+     * @return \Magento\Rma\Model\Rma
      */
     public function getRma()
     {
         if (!$this->hasData('rma') && $this->getRmaEntityId()) {
-            $rma = \Mage::getModel('Magento\Rma\Model\Rma')->load($this->getRmaEntityId());
+            /** @var $rma \Magento\Rma\Model\Rma */
+            $rma = $this->_rmaFactory->create();
+            $rma->load($this->getRmaEntityId());
             $this->setData('rma', $rma);
         }
         return $this->getData('rma');
@@ -61,8 +124,7 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     public function sendCommentEmail()
     {
-        /** @var $configRmaEmail \Magento\Rma\Model\Config */
-        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
+        $configRmaEmail = $this->_rmaConfig;
         $order = $this->getRma()->getOrder();
         if ($order->getCustomerIsGuest()) {
             $customerName = $order->getBillingAddress()->getName();
@@ -86,16 +148,13 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     public function sendCustomerCommentEmail()
     {
-        /** @var $configRmaEmail \Magento\Rma\Model\Config */
-        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
         $sendTo = array(
             array(
-                'email' => $configRmaEmail->getCustomerEmailRecipient($this->getStoreId()),
+                'email' => $this->_rmaConfig->getCustomerEmailRecipient($this->getStoreId()),
                 'name'  => null
             )
         );
-
-        return $this->_sendCommentEmail($configRmaEmail->getRootCustomerCommentEmail(), $sendTo, false);
+        return $this->_sendCommentEmail($this->_rmaConfig->getRootCustomerCommentEmail(), $sendTo, false);
     }
 
     /**
@@ -108,25 +167,19 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     public function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
     {
-        /** @var $configRmaEmail \Magento\Rma\Model\Config */
-        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
-        $configRmaEmail->init($rootConfig, $this->getStoreId());
-
-        if (!$configRmaEmail->isEnabled()) {
+        $this->_rmaConfig->init($rootConfig, $this->getStoreId());
+        if (!$this->_rmaConfig->isEnabled()) {
             return $this;
         }
 
         $order = $this->getRma()->getOrder();
         $comment = $this->getComment();
 
-        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
-        /* @var $translate \Magento\Core\Model\Translate */
-        $translate->setTranslateInline(false);
-
-        $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
-        /* @var $mailTemplate \Magento\Core\Model\Email\Template */
-        $copyTo = $configRmaEmail->getCopyTo();
-        $copyMethod = $configRmaEmail->getCopyMethod();
+        $this->_translate->setTranslateInline(false);
+        /** @var $mailTemplate \Magento\Core\Model\Email\Template */
+        $mailTemplate = $this->_templateFactory->create();
+        $copyTo = $this->_rmaConfig->getCopyTo();
+        $copyMethod = $this->_rmaConfig->getCopyMethod();
         if ($copyTo && $copyMethod == 'bcc') {
             foreach ($copyTo as $email) {
                 $mailTemplate->addBcc($email);
@@ -134,9 +187,9 @@ class History extends \Magento\Core\Model\AbstractModel
         }
 
         if ($isGuestAvailable && $order->getCustomerIsGuest()) {
-            $template = $configRmaEmail->getGuestTemplate();
+            $template = $this->_rmaConfig->getGuestTemplate();
         } else {
-            $template = $configRmaEmail->getTemplate();
+            $template = $this->_rmaConfig->getTemplate();
         }
 
         if ($copyTo && $copyMethod == 'copy') {
@@ -155,7 +208,7 @@ class History extends \Magento\Core\Model\AbstractModel
             ))
                 ->sendTransactional(
                     $template,
-                    $configRmaEmail->getIdentity(),
+                    $this->_rmaConfig->getIdentity(),
                     $recipient['email'],
                     $recipient['name'],
                     array(
@@ -166,7 +219,7 @@ class History extends \Magento\Core\Model\AbstractModel
                 );
         }
         $this->setEmailSent(true);
-        $translate->setTranslateInline(true);
+        $this->_translate->setTranslateInline(true);
 
         return $this;
     }
@@ -209,7 +262,7 @@ class History extends \Magento\Core\Model\AbstractModel
                 ->setComment($systemComments[$rma->getStatus()])
                 ->setIsVisibleOnFront(true)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate())
+                ->setCreatedAt($this->_date->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
         }

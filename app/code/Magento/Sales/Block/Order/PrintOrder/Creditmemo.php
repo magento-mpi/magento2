@@ -10,12 +10,7 @@
 
 /**
  * Sales order details block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Sales\Block\Order\PrintOrder;
 
 class Creditmemo extends \Magento\Sales\Block\Items\AbstractItems
@@ -54,16 +49,25 @@ class Creditmemo extends \Magento\Sales\Block\Items\AbstractItems
         );
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
-        return \Mage::getUrl('*/*/history');
+        return $this->getUrl('*/*/history');
     }
 
+    /**
+     * @return string
+     */
     public function getPrintUrl()
     {
-        return \Mage::getUrl('*/*/print');
+        return $this->getUrl('*/*/print');
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentInfoHtml()
     {
         return $this->getChildHtml('payment_info');

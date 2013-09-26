@@ -25,13 +25,18 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @var \Magento\Rma\Helper\Eav
      */
-    protected $_rmaEav = null;
+    protected $_rmaEav;
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Rma\Model\Item\FormFactory
+     */
+    protected $_itemFormFactory;
 
     /**
      * @param \Magento\Rma\Helper\Eav $rmaEav
@@ -39,6 +44,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param array $data
      */
     public function __construct(
@@ -47,10 +53,12 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaEav = $rmaEav;
+        $this->_itemFormFactory = $itemFormFactory;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -142,8 +150,9 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
             'class' => 'validate-greater-than-zero'
         ));
 
-        $reasonOtherAttribute =
-            \Mage::getModel('Magento\Rma\Model\Item\Form')->setFormCode('default')->getAttribute('reason_other');
+        /** @var $itemForm \Magento\Rma\Model\Item\Form */
+        $itemForm = $this->_itemFormFactory->create();
+        $reasonOtherAttribute = $itemForm->setFormCode('default')->getAttribute('reason_other');
 
         $fieldset->addField('reason_other', 'text', array(
             'label'     => $reasonOtherAttribute->getStoreLabel(),

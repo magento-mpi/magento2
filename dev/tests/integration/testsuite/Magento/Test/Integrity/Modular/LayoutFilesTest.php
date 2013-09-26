@@ -89,13 +89,15 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
             // ignored helpers
             || isset($argument['value']['helperClass']) &&
                 in_array($argument['value']['helperClass'] . '::' . $argument['value']['helperMethod'], array(
-                    'Magento\Pbridge\Helper\Data::getReviewButtonTemplate'
+                    'Magento_Pbridge_Helper_Data::getReviewButtonTemplate'
                 ))
 
             // ignored options
             || isset($argument['value']['model'])
                 && in_array($argument['value']['model'], array(
                     'Magento\Search\Model\Adminhtml\Search\Grid\Options',
+                    'Magento\Logging\Model\Resource\Grid\ActionsGroup',
+                    'Magento\Logging\Model\Resource\Grid\Actions',
                 ));
     }
 }

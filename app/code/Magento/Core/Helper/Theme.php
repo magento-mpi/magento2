@@ -88,7 +88,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
         /**
          * XPath selector to get CSS files from layout added for HEAD block using reference
          */
-        $xpathSelectorRefs = '//reference[@name="head"]'
+        $xpathSelectorRefs = '//referenceBlock[@name="head"]'
             . '/block[@class="Magento\Page\Block\Html\Head\Css"]/arguments/argument[@name="file"]';
 
         $elements = array_merge(
@@ -110,7 +110,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
             $file = array(
                 'id'       => $fileId,
                 'path'     => \Magento\Filesystem::fixSeparator($path),
-             );
+            );
             $file['safePath'] = $this->getSafePath($file['path'], $basePath);
 
             //keys are used also to remove duplicates

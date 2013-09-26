@@ -20,6 +20,19 @@ namespace Magento\Log\Model\Resource;
 class Shell
 {
     /**
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_resource;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(\Magento\Core\Model\Resource $resource)
+    {
+        $this->_resource = $resource;
+    }
+
+    /**
      * Retrieves information about log tables
      *
      * @return array
@@ -41,9 +54,8 @@ class Shell
 
         $resHelper = \Mage::getResourceHelper('Magento_Log');
         $result = array();
-        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         foreach ($tables as $table) {
-            $info = $resHelper->getTableInfo($resource->getTableName($table));
+            $info = $resHelper->getTableInfo($this->_resource->getTableName($table));
             if (!$info) {
                 continue;
             }

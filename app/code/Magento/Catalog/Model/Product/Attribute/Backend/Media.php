@@ -76,6 +76,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
      * @param \Magento\Core\Model\Dir $dirs
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -85,6 +86,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
         \Magento\Core\Model\Dir $dirs,
         \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Logger $logger,
         $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -95,6 +97,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
         $this->_mediaConfig = $mediaConfig;
         $this->_filesystem = $filesystem;
+        parent::__construct($logger);
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->setWorkingDirectory($dirs->getDir(\Magento\Core\Model\Dir::MEDIA));
         $this->_baseMediaPath = $this->_mediaConfig->getBaseMediaPath();

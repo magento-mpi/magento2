@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * @method \Magento\Sales\Model\Resource\Order\Invoice\Comment _getResource()
  * @method \Magento\Sales\Model\Resource\Order\Invoice\Comment getResource()
@@ -22,10 +21,6 @@
  * @method \Magento\Sales\Model\Order\Invoice\Comment setComment(string $value)
  * @method string getCreatedAt()
  * @method \Magento\Sales\Model\Order\Invoice\Comment setCreatedAt(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order\Invoice;
 
@@ -37,6 +32,35 @@ class Comment extends \Magento\Sales\Model\AbstractModel
      * @var \Magento\Sales\Model\Order\Invoice
      */
     protected $_invoice;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context, $registry, $coreLocale, $resource, $resourceCollection, $data
+        );
+        $this->_storeManager = $storeManager;
+    }
 
     /**
      * Initialize resource model
@@ -78,7 +102,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
         if ($this->getInvoice()) {
             return $this->getInvoice()->getStore();
         }
-        return \Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**

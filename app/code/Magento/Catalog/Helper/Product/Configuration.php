@@ -20,7 +20,10 @@ namespace Magento\Catalog\Helper\Product;
 class Configuration extends \Magento\Core\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
-    const XML_PATH_CONFIGURABLE_ALLOWED_TYPES = 'global/catalog/product/type/configurable/allow_product_types';
+    /**
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
+     */
+    protected $_config;
 
     /**
      * Core string
@@ -30,22 +33,17 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     protected $_coreString = null;
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
     ) {
         $this->_coreString = $coreString;
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $config;
         parent::__construct($context);
     }
 
@@ -278,12 +276,11 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     /**
      * Get allowed product types for configurable product
      *
-     * @return \SimpleXMLElement
+     * @return SimpleXMLElement
      */
     public function getConfigurableAllowedTypes()
     {
-        return $this->_coreConfig
-                ->getNode(self::XML_PATH_CONFIGURABLE_ALLOWED_TYPES)
-                ->children();
+        $configData = $this->_config->getType('configurable');
+        return isset($configData['allow_product_types']) ? $configData['allow_product_types'] : array();
     }
 }

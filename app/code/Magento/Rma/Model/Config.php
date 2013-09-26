@@ -10,10 +10,6 @@
 
 /**
  * RMA config
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Model;
 
@@ -53,24 +49,31 @@ class Config extends \Magento\Object
      */
     protected $_configPath = null;
 
-
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($data);
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        parent::__construct($data);
     }
 
     /**
@@ -99,9 +102,9 @@ class Config extends \Magento\Object
         if ($store instanceof \Magento\Core\Model\Store) {
             $this->_store = $store;
         } elseif ($store = intval($store)) {
-            $this->_store = \Mage::app()->getStore($store);
+            $this->_store = $this->_storeManager->getStore($store);
         } else {
-            $this->_store = \Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this;
     }
@@ -118,10 +121,10 @@ class Config extends \Magento\Object
             if ($store instanceof \Magento\Core\Model\Store) {
                 return $store;
             } elseif (is_int($store)) {
-                return \Mage::app()->getStore($store);
+                return $this->_storeManager->getStore($store);
             }
         } elseif (is_null($this->_store)) {
-            $this->_store = \Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this->_store;
     }

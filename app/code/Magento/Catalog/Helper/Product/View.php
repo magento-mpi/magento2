@@ -24,16 +24,11 @@ class View extends \Magento\Core\Helper\AbstractHelper
     public $ERR_BAD_CONTROLLER_INTERFACE = 2;
 
     /**
-     * Path to list of session models to get messages
-     */
-    const XML_PATH_SESSION_MESSAGE_MODELS = 'global/session/catalog/product/message_models';
-
-    /**
-     * General config object
+     * List of catalog product session message models name
      *
-     * @var \Magento\Core\Model\Config
+     * @var array
      */
-    protected $_config;
+    protected $_messageModels;
 
     /**
      * Core registry
@@ -68,23 +63,23 @@ class View extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Page\Helper\Layout $pageLayout
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $messageModels
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Page\Helper\Layout $pageLayout,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $messageModels = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogProduct = $catalogProduct;
         $this->_pageLayout = $pageLayout;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
-        $this->_config = $config;
+        $this->_messageModels = $messageModels;
     }
 
     /**
@@ -194,7 +189,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
         $this->initProductLayout($product, $controller);
 
         if ($controller instanceof \Magento\Catalog\Controller\Product\View\ViewInterface) {
-            foreach ($this->_getSessionMessageModels() as $sessionModel) {
+            foreach ($this->_messageModels as $sessionModel) {
                 $controller->initLayoutMessages($sessionModel);
             }
         } else {
@@ -206,17 +201,5 @@ class View extends \Magento\Core\Helper\AbstractHelper
         $controller->renderLayout();
 
         return $this;
-    }
-
-    /**
-     * Get list of session models with messages
-     *
-     * @return array
-     */
-    protected function _getSessionMessageModels()
-    {
-        $messageModels = $this->_config->getNode(self::XML_PATH_SESSION_MESSAGE_MODELS)
-            ->asArray();
-        return array_values($messageModels);
     }
 }

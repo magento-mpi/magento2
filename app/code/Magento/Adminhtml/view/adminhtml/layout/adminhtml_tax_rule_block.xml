@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.block.tax.rule.container">
+    <referenceBlock name="adminhtml.block.tax.rule.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.block.tax.rule.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">taxRuleGrid</argument>
@@ -89,5 +89,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

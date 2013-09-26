@@ -25,8 +25,6 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      */
     protected $_bannedAttributes = array('media_gallery');
 
-    const CONFIG_KEY_PRODUCT_TYPES = 'global/importexport/export_product_types';
-
     /**
      * Value that means all entities (e.g. websites, groups etc.)
      */
@@ -136,9 +134,9 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_headerColumns = array();
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\ImportExport\Model\Export\ConfigInterface
      */
-    protected $_coreConfig;
+    protected $_exportConfig;
 
     /**
      * @var \Magento\Core\Model\Logger
@@ -146,22 +144,19 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_logger;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
         \Magento\Catalog\Model\Resource\Product\Collection $collection,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
+        \Magento\Core\Model\Logger $logger
     ) {
-        $this->_entityCollection = $collection;
-        $this->_coreConfig = $coreConfig;
-        $this->_logger = $logger;
         parent::__construct();
 
+        $this->_entityCollection = $collection;
+        $this->_exportConfig = $exportConfig;
         $this->_initTypeModels()
             ->_initAttributes()
             ->_initStores()
@@ -220,10 +215,10 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      */
     protected function _initTypeModels()
     {
-        $config = $this->_coreConfig->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
-        foreach ($config as $type => $typeModel) {
-            if (!($model = \Mage::getModel($typeModel))) {
-                \Mage::throwException("Entity type model '{$typeModel}' is not found");
+        $productTypes = $this->_exportConfig->getProductTypes();
+        foreach ($productTypes as $productTypeName => $productTypeConfig) {
+            if (!($model = \Mage::getModel($productTypeConfig['model']))) {
+                \Mage::throwException("Entity type model '{$productTypeConfig['model']}' is not found");
             }
             if (! $model instanceof \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType) {
                 \Mage::throwException(
@@ -231,7 +226,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                 );
             }
             if ($model->isSuitable()) {
-                $this->_productTypeModels[$type] = $model;
+                $this->_productTypeModels[$productTypeName] = $model;
                 $this->_disabledAttrs            = array_merge($this->_disabledAttrs, $model->getDisabledAttrs());
                 $this->_indexValueAttributes     = array_merge(
                     $this->_indexValueAttributes, $model->getIndexValueAttributes()

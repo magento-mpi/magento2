@@ -21,6 +21,43 @@ class Info
     extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
 {
     /**
+     * @var \Magento\GiftWrapping\Model\WrappingFactory
+     */
+    protected $_wrappingFactory;
+
+    /**
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
+     * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
+        \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
+        array $data = array()
+    ) {
+        $this->_wrappingFactory = $wrappingFactory;
+        parent::__construct(
+            $giftWrappingData,
+            $coreData,
+            $context,
+            $registry,
+            $storeManager,
+            $wrappingCollFactory,
+            $data
+        );
+    }
+
+    /**
      * Prepare and return order items info
      *
      * @return \Magento\Object
@@ -44,7 +81,7 @@ class Info
             } else {
                 $data['price'] = $this->_preparePrices($order->getGwBasePrice(), $order->getGwPrice());
             }
-            $wrapping = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->load($order->getGwId());
+            $wrapping = $this->_wrappingFactory->create()->load($order->getGwId());
             $data['path'] = $wrapping->getImageUrl();
             $data['design'] = $wrapping->getDesign();
         }

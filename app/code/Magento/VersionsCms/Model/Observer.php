@@ -523,7 +523,9 @@ class Observer
      */
     public function affectCmsPageRender(\Magento\Event\Observer $observer)
     {
-        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
+        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node'))
+            || !$this->_cmsHierarchy->isEnabled()
+        ) {
             return $this;
         }
 
@@ -542,16 +544,15 @@ class Observer
         }
 
         // check whether menu handle is compatible with page handles
-        $allowedHandles = $menuLayout->getPageLayoutHandles();
+        $allowedHandles = $menuLayout['pageLayoutHandles'];
         if (is_array($allowedHandles) && count($allowedHandles) > 0) {
-            $allowedHandles = array_keys($allowedHandles);
             if (count(array_intersect($allowedHandles, $loadedHandles)) == 0) {
                 return $this;
             }
         }
 
         // add menu handle to layout update
-        $action->getLayout()->getUpdate()->addHandle($menuLayout->getLayoutHandle());
+        $action->getLayout()->getUpdate()->addHandle($menuLayout['handle']);
 
         return $this;
     }

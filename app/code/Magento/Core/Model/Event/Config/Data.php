@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Event\Config;
 
-class Data extends \Magento\Config\Data
+class Data extends \Magento\Config\Data\Scoped
 {
     /**
      * Scope priority loading scheme
@@ -27,7 +27,6 @@ class Data extends \Magento\Config\Data
      * @param \Magento\Core\Model\Event\Config\Reader $reader
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Config\CacheInterface $cache
-     * @param \Magento\Core\Model\App\State $appState
      * @param string $cacheId
      * @param \Magento\Core\Model\App\State $appState
      */

@@ -27,9 +27,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $xml = simplexml_load_file($file);
         $nodes = $xml->xpath(\Magento\Test\Integrity\Magento\AdminGws\ConfigTest::CLASSES_XPATH) ?: array();
         $errors = array();
-        /** @var \SimpleXMLElement $node */
+        /** @var SimpleXMLElement $node */
         foreach ($nodes as $node) {
-            $class = implode('\\', array_map('ucfirst', explode('_', $node->getName())));
+            $class = implode('_', array_map('ucfirst', explode('_', $node->getName())));
             if (!\Magento\TestFramework\Utility\Files::init()->classFileExists($class, $path)) {
                 $errors[] = "'{$node->getName()}' => '{$path}'";
             }
@@ -46,6 +46,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('config.xml');
+        return \Magento\TestFramework\Utility\Files::init()->getMainConfigFiles();
     }
 }

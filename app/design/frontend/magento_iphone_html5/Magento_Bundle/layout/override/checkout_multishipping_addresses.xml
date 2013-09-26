@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout_addresses">
+    <referenceBlock name="checkout_addresses">
         <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_Checkout::multishipping/item/default.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

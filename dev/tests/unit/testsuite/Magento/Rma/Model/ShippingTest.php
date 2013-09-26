@@ -21,7 +21,19 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento\Rma\Model\Shipping');
+
+        $orderFactory = $this->getMock('Magento\Sales\Model\OrderFactory', array('create'), array(), '', false);
+        $regionFactory = $this->getMock('Magento\Directory\Model\RegionFactory', array('create'), array(), '', false);
+        $returnFactory = $this->getMock('Magento\Shipping\Model\Shipment\ReturnFactory',
+            array('create'), array(), '', false);
+        $rmaFactory = $this->getMock('Magento\Rma\Model\RmaFactory', array('create'), array(), '', false);
+
+        $this->_model = $objectManagerHelper->getObject('Magento\Rma\Model\Shipping', array(
+            'orderFactory'  => $orderFactory,
+            'regionFactory' => $regionFactory,
+            'returnFactory' => $returnFactory,
+            'rmaFactory'    => $rmaFactory
+        ));
     }
 
     /**

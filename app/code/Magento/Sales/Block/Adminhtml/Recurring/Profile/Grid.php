@@ -26,11 +26,23 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     protected $_paymentData = null;
 
     /**
+     * @var \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory
+     */
+    protected $_profileCollection;
+
+    /**
+     * @var \Magento\Sales\Model\Recurring\ProfileFactory
+     */
+    protected $_recurringProfile;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection
+     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile
      * @param array $data
      */
     public function __construct(
@@ -39,9 +51,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection,
+        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
+        $this->_profileCollection = $profileCollection;
+        $this->_recurringProfile = $recurringProfile;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -60,7 +76,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Recurring\Profile\Collection');
+        $collection = $this->_profileCollection->create();
         $this->setCollection($collection);
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
@@ -75,7 +91,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
-        $profile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile');
+        $profile = $this->_recurringProfile->create();
 
         $this->addColumn('reference_id', array(
             'header' => $profile->getFieldLabel('reference_id'),
@@ -84,7 +100,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
             'width' => 1,
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'     => __('Store'),
                 'index'      => 'store_id',

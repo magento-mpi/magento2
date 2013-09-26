@@ -10,59 +10,101 @@
 
 /**
  * Review form block
- *
- * @category   Magento
- * @package    Magento_Rss
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rss\Block\Catalog;
 
 class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
 {
-    protected function _construct()
-    {
-        /*
-        * setting cache to save the rss for 10 minutes
-        */
-        //$this->setCacheKey('rss_catalog_new_'.$this->_getStoreId());
-        //$this->setCacheLifetime(600);
+    /**
+     * @var \Magento\Rss\Model\RssFactory
+     */
+    protected $_rssFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Iterator
+     */
+    protected $_resourceIterator;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Rss\Model\RssFactory $rssFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        array $data = array()
+    ) {
+        $this->_rssFactory = $rssFactory;
+        $this->_productFactory = $productFactory;
+        $this->_locale = $locale;
+        $this->_visibility = $visibility;
+        $this->_resourceIterator = $resourceIterator;
+        parent::__construct($catalogData, $coreData, $context, $storeManager, $customerSession, $data);
     }
 
     protected function _toHtml()
     {
         $storeId = $this->_getStoreId();
+        $storeModel = $this->_storeManager->getStore($storeId);
+        $newUrl = $this->_urlBuilder->getUrl('rss/catalog/new/store_id/' . $storeId);
+        $title = __('New Products from %1', $storeModel->getFrontendName());
+        $lang = $storeModel->getConfig('general/locale/code');
 
-        $newurl = \Mage::getUrl('rss/catalog/new/store_id/' . $storeId);
-        $title = __('New Products from %1', \Mage::getModel('Magento\Core\Model\StoreManagerInterface')->getStore($storeId)->getFrontendName());
-        $lang = $this->_storeConfig->getConfig('general/locale/code');
+        /** @var $rssObj \Magento\Rss\Model\Rss */
+        $rssObj = $this->_rssFactory->create();
+        $rssObj->_addHeader(array('title' => $title,
+            'description' => $title,
+            'link'        => $newUrl,
+            'charset'     => 'UTF-8',
+            'language'    => $lang
+        ));
 
-        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
-        $data = array('title' => $title,
-                'description' => $title,
-                'link'        => $newurl,
-                'charset'     => 'UTF-8',
-                'language'    => $lang
-                );
-        $rssObj->_addHeader($data);
-/*
-oringinal price - getPrice() - inputed in admin
-special price - getSpecialPrice()
-getFinalPrice() - used in shopping cart calculations
-*/
-
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
-
-        $todayStartOfDayDate  = \Mage::app()->getLocale()->date()
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $this->_productFactory->create();
+        $todayStartOfDayDate  = $this->_locale->date()
             ->setTime('00:00:00')
             ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
 
-        $todayEndOfDayDate  = \Mage::app()->getLocale()->date()
+        $todayEndOfDayDate  = $this->_locale->date()
             ->setTime('23:59:59')
             ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
 
-        $products = $product->getCollection()
-            ->setStoreId($storeId)
-            ->addStoreFilter()
+        /** @var $products \Magento\Catalog\Model\Resource\Product\Collection */
+        $products = $product->getCollection();
+        $products->setStoreId($storeId);
+        $products->addStoreFilter()
             ->addAttributeToFilter('news_from_date', array('or' => array(
                 0 => array('date' => true, 'to' => $todayEndOfDayDate),
                 1 => array('is' => new \Zend_Db_Expr('null')))
@@ -88,18 +130,16 @@ getFinalPrice() - used in shopping cart calculations
             )
             ->applyFrontendPriceLimitations()
         ;
-
-        $products->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
+        $products->setVisibility($this->_visibility->getVisibleInCatalogIds());
 
         /*
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-
-        \Mage::getSingleton('Magento\Core\Model\Resource\Iterator')->walk(
-                $products->getSelect(),
-                array(array($this, 'addNewItemXmlCallback')),
-                array('rssObj'=> $rssObj, 'product'=>$product)
+        $this->_resourceIterator->walk(
+            $products->getSelect(),
+            array(array($this, 'addNewItemXmlCallback')),
+            array('rssObj' => $rssObj, 'product' => $product)
         );
 
         return $rssObj->createRssXml();
@@ -112,8 +152,8 @@ getFinalPrice() - used in shopping cart calculations
      */
     public function addNewItemXmlCallback($args)
     {
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $args['product'];
-
         $product->setAllowedInRss(true);
         $product->setAllowedPriceInRss(true);
         $this->_eventManager->dispatch('rss_catalog_new_xml_callback', $args);
@@ -124,7 +164,6 @@ getFinalPrice() - used in shopping cart calculations
         }
 
         $allowedPriceInRss = $product->getAllowedPriceInRss();
-
         //$product->unsetData()->load($args['row']['entity_id']);
         $product->setData($args['row']);
         $description = '<table><tr>'
@@ -134,18 +173,17 @@ getFinalPrice() - used in shopping cart calculations
             '<td  style="text-decoration:none;">'.$product->getDescription();
 
         if ($allowedPriceInRss) {
-            $description .= $this->getPriceHtml($product,true);
+            $description .= $this->getPriceHtml($product, true);
         }
 
-        $description .= '</td>'.
-            '</tr></table>';
+        $description .= '</td>' . '</tr></table>';
 
+        /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $args['rssObj'];
-        $data = array(
-                'title'         => $product->getName(),
-                'link'          => $product->getProductUrl(),
-                'description'   => $description,
-            );
-        $rssObj->_addEntry($data);
+        $rssObj->_addEntry(array(
+            'title'       => $product->getName(),
+            'link'        => $product->getProductUrl(),
+            'description' => $description,
+        ));
     }
 }

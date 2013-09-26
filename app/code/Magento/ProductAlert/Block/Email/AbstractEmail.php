@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product Alert Abstract Email Block
  *
@@ -35,6 +34,27 @@ abstract class AbstractEmail extends \Magento\Core\Block\Template
     protected $_store;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Set Store scope
      *
      * @param int|string|\Magento\Core\Model\Website|\Magento\Core\Model\Store $store
@@ -46,7 +66,7 @@ abstract class AbstractEmail extends \Magento\Core\Block\Template
             $store = $store->getDefaultStore();
         }
         if (!$store instanceof \Magento\Core\Model\Store) {
-            $store = \Mage::app()->getStore($store);
+            $store = $this->_storeManager->getStore($store);
         }
 
         $this->_store = $store;
@@ -62,7 +82,7 @@ abstract class AbstractEmail extends \Magento\Core\Block\Template
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = \Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this->_store;
     }

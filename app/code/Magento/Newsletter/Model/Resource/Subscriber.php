@@ -56,15 +56,27 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_coreData = null;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * Date
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Helper\Data $coreData
     ) {
-        $this->_coreData = $coreData;
         parent::__construct($resource);
+        $this->_date = $date;
+        $this->_coreData = $coreData;
     }
 
     /**
@@ -158,12 +170,13 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Newsletter\Model\Subscriber $subscriber
      * @param \Magento\Newsletter\Model\Queue $queue
      * @return \Magento\Newsletter\Model\Resource\Subscriber
+     * @throws \Magento\Core\Exception
      */
     public function received(\Magento\Newsletter\Model\Subscriber $subscriber, \Magento\Newsletter\Model\Queue $queue)
     {
         $this->_write->beginTransaction();
         try {
-            $data['letter_sent_at'] = \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate();
+            $data['letter_sent_at'] = $this->_date->gmtDate();
             $this->_write->update($this->_subscriberLinkTable, $data, array(
                 'subscriber_id = ?' => $subscriber->getId(),
                 'queue_id = ?' => $queue->getId()
@@ -172,7 +185,7 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
         catch (\Exception $e) {
             $this->_write->rollBack();
-            \Mage::throwException(__('We cannot mark as received subscriber.'));
+            throw new \Magento\Core\Exception(__('We cannot mark as received subscriber.'));
         }
         return $this;
     }

@@ -49,8 +49,8 @@ class AbstractCart extends \Magento\Core\Block\Template
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
         $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

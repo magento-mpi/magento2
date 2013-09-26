@@ -27,12 +27,15 @@ class Msrp extends \Magento\Catalog\Model\Product\Attribute\Backend\Boolean
     protected $_catalogData = null;
 
     /**
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
      */
     public function __construct(
+        \Magento\Core\Model\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData
     ) {
         $this->_catalogData = $catalogData;
+        parent::__construct($logger);
     }
 
     /**

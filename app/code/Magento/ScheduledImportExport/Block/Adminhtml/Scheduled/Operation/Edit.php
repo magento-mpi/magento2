@@ -35,6 +35,12 @@ class Edit
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory
+     */
+    protected $_operationFactory;
+
+    /**
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -42,12 +48,14 @@ class Edit
      * @param array $data
      */
     public function __construct(
+        \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_operationFactory = $operationFactory;
         $this->_coreRegistry = $registry;
         $this->_importExportData = $importExportData;
         parent::__construct($coreData, $context, $data);
@@ -66,7 +74,8 @@ class Edit
         $this->_controller = 'adminhtml_scheduled_operation';
 
         $operationId = (int)$this->getRequest()->getParam($this->_objectId);
-        $operation = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation');
+        /** @var \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation */
+        $operation = $this->_operationFactory->create();
         if ($operationId) {
             $operation->load($operationId);
         } else {
@@ -82,19 +91,20 @@ class Edit
      * Prepare page layout.
      * Set form object to container.
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit
      */
     protected function _prepareLayout()
     {
         $operation = $this->_coreRegistry->registry('current_operation');
-        $blockName = 'Magento\\ScheduledImportExport\\Block\\Adminhtml\\Scheduled\\Operation\\Edit\\Form\\'
+        $blockName = 'Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\'
             . ucfirst($operation->getOperationType());
         $formBlock = $this->getLayout()
             ->createBlock($blockName);
         if ($formBlock) {
             $this->setChild('form', $formBlock);
         } else {
-            \Mage::throwException(__('Please correct the scheduled operation type.'));
+            throw new \Magento\Core\Exception(__('Please correct the scheduled operation type.'));
         }
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''

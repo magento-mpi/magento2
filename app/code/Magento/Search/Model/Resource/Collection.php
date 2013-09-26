@@ -119,42 +119,53 @@ class Collection
      *
      * @var \Magento\CatalogSearch\Helper\Data
      */
-    protected $_catalogSearchData = null;
+    protected $_catalogSearchData;
 
     /**
      * Search data
      *
      * @var \Magento\Search\Helper\Data
      */
-    protected $_searchData = null;
+    protected $_searchData;
 
     /**
-     * @param \Magento\Search\Helper\Data $searchData
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Search\Helper\Data $searchData,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\EntityFactory $entityFactory
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy,
+            $coreStoreConfig, $entityFactory);
         $this->_searchData = $searchData;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct(
-            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
-        );
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -354,7 +365,7 @@ class Collection
      */
     protected function _prepareBaseParams()
     {
-        $store  = \Mage::app()->getStore();
+        $store  = $this->_storeManager->getStore();
         $params = array(
             'store_id'      => $store->getId(),
             'locale_code'   => $store->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE),

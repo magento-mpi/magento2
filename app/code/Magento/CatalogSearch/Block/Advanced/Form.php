@@ -19,6 +19,61 @@ namespace Magento\CatalogSearch\Block\Advanced;
 
 class Form extends \Magento\Core\Block\Template
 {
+    /**
+     * Locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Currency factory
+     *
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * Catalog search advanced
+     *
+     * @var \Magento\CatalogSearch\Model\Advanced
+     */
+    protected $_catalogSearchAdvanced;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        array $data = array()
+    ) {
+        $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
+        $this->_currencyFactory = $currencyFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function _prepareLayout()
     {
         // add Home breadcrumb
@@ -26,7 +81,7 @@ class Form extends \Magento\Core\Block\Template
             $breadcrumbs->addCrumb('home', array(
                 'label'=>__('Home'),
                 'title'=>__('Go to Home Page'),
-                'link'=>\Mage::getBaseUrl()
+                'link' => $this->_storeManager->getStore()->getBaseUrl(),
             ))->addCrumb('search', array(
                 'label'=>__('Catalog Advanced Search')
             ));
@@ -98,10 +153,10 @@ class Form extends \Magento\Core\Block\Template
         $currencies = $this->getData('_currencies');
         if (is_null($currencies)) {
             $currencies = array();
-            $codes = \Mage::app()->getStore()->getAvailableCurrencyCodes(true);
+            $codes = $this->_storeManager->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes)) {
-                $rates = \Mage::getModel('Magento\Directory\Model\Currency')->getCurrencyRates(
-                    \Mage::app()->getStore()->getBaseCurrency(),
+                $rates = $this->_currencyFactory->create()->getCurrencyRates(
+                    $this->_storeManager->getStore()->getBaseCurrency(),
                     $codes
                 );
 
@@ -135,9 +190,9 @@ class Form extends \Magento\Core\Block\Template
      */
     public function getCurrency($attribute)
     {
-        return \Mage::app()->getStore()->getCurrentCurrencyCode();
+        return $this->_storeManager->getStore()->getCurrentCurrencyCode();
 
-        $baseCurrency = \Mage::app()->getStore()->getBaseCurrency()->getCurrencyCode();
+        $baseCurrency = $this->_storeManager->getStore()->getBaseCurrency()->getCurrencyCode();
         return $this->getAttributeValue($attribute, 'currency') ?
             $this->getAttributeValue($attribute, 'currency') : $baseCurrency;
     }
@@ -260,7 +315,7 @@ class Form extends \Magento\Core\Block\Template
      */
     public function getModel()
     {
-        return \Mage::getSingleton('Magento\CatalogSearch\Model\Advanced');
+        return $this->_catalogSearchAdvanced;
     }
 
     /**
@@ -291,7 +346,7 @@ class Form extends \Magento\Core\Block\Template
             ->setTitle($this->getAttributeLabel($attribute))
             ->setValue($value)
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat(\Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
+            ->setDateFormat($this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
             ->setClass('input-text')
             ->getHtml();
     }

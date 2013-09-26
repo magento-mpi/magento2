@@ -108,21 +108,12 @@ class Config implements \Magento\Core\Model\ConfigInterface
     protected $_storeCollection;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
      * @param \Magento\Core\Model\ObjectManager $objectManager
      * @param \Magento\Core\Model\Config\StorageInterface $storage
      * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Core\Model\Config\SectionPool $sectionPool
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\Core\Model\ObjectManager $objectManager,
@@ -130,11 +121,9 @@ class Config implements \Magento\Core\Model\ConfigInterface
         \Magento\Core\Model\Config\Modules\Reader $moduleReader,
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Config\ScopeInterface $configScope,
-        \Magento\Core\Model\Config\SectionPool $sectionPool,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Config\SectionPool $sectionPool
     ) {
         \Magento\Profiler::start('config_load');
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_objectManager = $objectManager;
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();
@@ -341,32 +330,6 @@ class Config implements \Magento\Core\Model\ConfigInterface
     }
 
     /**
-     * Check whether given path should be secure according to configuration security requirements for URL
-     * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
-     *
-     * @param string $url
-     * @return bool
-     */
-    public function shouldUrlBeSecure($url)
-    {
-        if (!$this->_coreStoreConfig->getConfigFlag(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND)) {
-            return false;
-        }
-
-        if (!isset($this->_secureUrlCache[$url])) {
-            $this->_secureUrlCache[$url] = false;
-            $secureUrls = $this->getNode('frontend/secure_url');
-            foreach ($secureUrls->children() as $match) {
-                if (strpos($url, (string)$match) === 0) {
-                    $this->_secureUrlCache[$url] = true;
-                    break;
-                }
-            }
-        }
-        return $this->_secureUrlCache[$url];
-    }
-
-    /**
      * Determine whether provided name begins from any available modules, according to namespaces priority
      * If matched, returns as the matched module "factory" name or a fully qualified module name
      *
@@ -385,10 +348,7 @@ class Config implements \Magento\Core\Model\ConfigInterface
             }
         }
 
-        $explodeString = (strpos($name, \Magento\Autoload\IncludePath::NS_SEPARATOR) === false) ?
-            '_' :  \Magento\Autoload\IncludePath::NS_SEPARATOR;
-        $name = explode($explodeString, strtolower($name));
-
+        $name = explode('_', strtolower($name));
         $partsNum = count($name);
         $defaultNamespaceFlag = false;
         foreach ($this->_moduleNamespaces as $namespaceName => $namespace) {

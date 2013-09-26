@@ -104,6 +104,13 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     protected $_useSession;
 
     /**
+     * Url security info list
+     *
+     * @var \Magento\Core\Model\Url\SecurityInfoInterface
+     */
+    protected $_urlSecurityInfo;
+
+    /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
@@ -111,37 +118,20 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     protected $_coreData = null;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
+        $this->_urlSecurityInfo = $urlSecurityInfo;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreConfig = $coreConfig;
+        $this->_coreData = $coreData;
         parent::__construct($data);
     }
 
@@ -342,7 +332,7 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
 
         if (!$this->hasData('secure')) {
             if ($this->getType() == \Magento\Core\Model\Store::URL_TYPE_LINK && !$store->isAdmin()) {
-                $pathSecure = $this->_coreConfig->shouldUrlBeSecure('/' . $this->getActionPath());
+                $pathSecure = $this->_urlSecurityInfo->isSecure('/' . $this->getActionPath());
                 $this->setData('secure', $pathSecure);
             } else {
                 $this->setData('secure', true);

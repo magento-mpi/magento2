@@ -20,45 +20,7 @@
             </websiterestriction_setup>
         </resources>
     </global>
-    <frontend>
-        <magento>
-            <websiterestriction>
-                <full_action_names>
-                    <generic>
-                        <captcha_refresh_index />
-                        <customer_account_login />
-                        <customer_account_loginPost />
-                        <customer_account_forgotpassword />
-                        <customer_account_forgotpasswordpost />
-                        <customer_account_confirm />
-                        <customer_account_confirmation />
-                        <customer_account_resetpassword />
-                        <customer_account_createpassword />
-                        <customer_account_resetpasswordpost />
-                        <core_index_noCookies />
-                        <paypal_ipn_standard />
-                        <paypal_ipn_express />
-                        <paypal_ipn_direct />
-                        <paypal_ipn_index />
-                        <paypaluk_ipn_express />
-                        <paypaluk_ipn_direct />
-                        <paypal_payflow_silentPost />
-                        <paypal_payflowadvanced_silentPost />
-                        <googlecheckout_api_index />
-                        <googlecheckout_api_beacon />
-                        <authorizenet_directpost_payment_response />
-                        <magento_pbridge_PbridgeIpn_index />
-                        <authorizenet_directpost_payment_response />
-                        <magento_pbridge_PbridgeIpn_index />
-                    </generic>
-                    <register>
-                        <customer_account_create />
-                        <customer_account_createpost />
-                    </register>
-                </full_action_names>
-            </websiterestriction>
-        </magento>
-    </frontend>
+
     <default>
         <general>
             <restriction>

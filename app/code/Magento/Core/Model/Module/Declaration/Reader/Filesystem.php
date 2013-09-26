@@ -55,7 +55,7 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
     /**
      * {@inheritdoc}
      */
-    public function read($scope)
+    public function read($scope = null)
     {
         $activeModules = $this->_filterActiveModules(parent::read($scope));
         foreach ($activeModules as $moduleConfig) {

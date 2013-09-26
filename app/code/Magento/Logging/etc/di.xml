@@ -16,4 +16,9 @@
             <value>logging_config</value>
         </param>
     </type>
+    <type name="Magento\Logging\Model\Processor">
+        <param name="controllersHandler">
+            <instance type="Magento\Logging\Model\Handler\Controllers\Proxy" />
+        </param>
+    </type>
 </config>

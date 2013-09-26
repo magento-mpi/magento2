@@ -11,10 +11,6 @@
 
 /**
  * Persistent Shopping Cart Data Helper
- *
- * @category   Magento
- * @package    Magento_Persistent
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Persistent\Helper;
 
@@ -23,7 +19,7 @@ class Session extends \Magento\Core\Helper\Data
     /**
      * Instance of Session Model
      *
-     * @var null|\Magento\Persistent\Model\Session
+     * @var \Magento\Persistent\Model\Session
      */
     protected $_sessionModel;
 
@@ -49,22 +45,54 @@ class Session extends \Magento\Core\Helper\Data
     protected $_persistentData = null;
 
     /**
+     * Persistent session factory
+     *
+     * @var \Magento\Persistent\Model\SessionFactory
+     */
+    protected $_sessionFactory;
+
+    /**
+     * Customer factory
+     *
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Persistent\Helper\Data $persistentData
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Persistent\Helper\Data $persistentData,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Persistent\Model\SessionFactory $sessionFactory
     ) {
         $this->_persistentData = $persistentData;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerFactory = $customerFactory;
+        $this->_sessionFactory = $sessionFactory;
         parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
     }
 
@@ -76,7 +104,7 @@ class Session extends \Magento\Core\Helper\Data
     public function getSession()
     {
         if (is_null($this->_sessionModel)) {
-            $this->_sessionModel = \Mage::getModel('Magento\Persistent\Model\Session');
+            $this->_sessionModel = $this->_sessionFactory->create();
             $this->_sessionModel->loadByCookieKey();
         }
         return $this->_sessionModel;
@@ -113,10 +141,10 @@ class Session extends \Magento\Core\Helper\Data
     {
         if (is_null($this->_isRememberMeChecked)) {
             //Try to get from checkout session
-            $isRememberMeChecked = \Mage::getSingleton('Magento\Checkout\Model\Session')->getRememberMeChecked();
+            $isRememberMeChecked = $this->_checkoutSession->getRememberMeChecked();
             if (!is_null($isRememberMeChecked)) {
                 $this->_isRememberMeChecked = $isRememberMeChecked;
-                \Mage::getSingleton('Magento\Checkout\Model\Session')->unsRememberMeChecked();
+                $this->_checkoutSession->unsRememberMeChecked();
                 return $isRememberMeChecked;
             }
 
@@ -147,7 +175,7 @@ class Session extends \Magento\Core\Helper\Data
     {
         if (is_null($this->_customer)) {
             $customerId = $this->getSession()->getCustomerId();
-            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
+            $this->_customer = $this->_customerFactory->create()->load($customerId);
         }
         return $this->_customer;
     }

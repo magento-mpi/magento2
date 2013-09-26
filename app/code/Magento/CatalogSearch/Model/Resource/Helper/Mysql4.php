@@ -20,6 +20,15 @@ namespace Magento\CatalogSearch\Model\Resource\Helper;
 
 class Mysql4 extends \Magento\Eav\Model\Resource\Helper\Mysql4
 {
+    /**
+     * Construct
+     *
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'Magento_CatalogSearch')
+    {
+        parent::__construct($modulePrefix);
+    }
 
     /**
      * Join information for usin full text search

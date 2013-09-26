@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_rating_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Rating\Rating" name="adminhtml.rating.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

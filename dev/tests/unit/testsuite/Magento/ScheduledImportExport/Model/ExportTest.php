@@ -24,6 +24,11 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_exportConfigMock;
+
+    /**
      * Date value for tests
      *
      * @var string
@@ -35,16 +40,18 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $this->_exportConfigMock = $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface');
+
         $dateModelMock = $this->getMock('Magento\Core\Model\Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
             ->will($this->returnCallback(array($this, 'getDateCallback')));
-        $config = $this->getMock('Magento\ImportExport\Model\Config', array('date'), array(), '', false);
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export(
+            $dateModelMock,
             $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false),
-            $config,
-            array('date_model' => $dateModelMock)
+            $this->_exportConfigMock,
+            array()
         );
     }
 

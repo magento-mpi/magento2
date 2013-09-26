@@ -27,6 +27,33 @@ class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
     protected $_renderDependentElement = false;
 
     /**
+     * @var \Magento\SalesRule\Model\Resource\Report\RuleFactory
+     */
+    protected $_reportRule;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
+     * @param \Magento\SalesRule\Model\Resource\Report\RuleFactory $reportRule
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
+        \Magento\SalesRule\Model\Resource\Report\RuleFactory $reportRule,
+        array $data = array()
+    ) {
+        $this->_reportRule = $reportRule;
+        parent::__construct($registry, $formFactory, $coreData, $context, $orderConfig, $data);
+    }
+
+    /**
      * Prepare form
      *
      * @return \Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon
@@ -49,7 +76,7 @@ class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
                 'label'   => __('Shopping Cart Price Rule'),
             ));
 
-            $rulesList = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Report\Rule')->getUniqRulesNamesList();
+            $rulesList = $this->_reportRule->create()->getUniqRulesNamesList();
 
             $rulesListOptions = array();
 

@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_system_design_theme_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Theme\Block\Adminhtml\System\Design\Theme" name="design_theme"/>
-    </reference>
+    </referenceContainer>
 </layout>

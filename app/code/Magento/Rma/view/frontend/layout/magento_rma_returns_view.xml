@@ -7,19 +7,19 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Return View" type="page" parent="magento_rma_returns_view_handle">
-    <reference name="customer_account_navigation">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Return View" type="page" parent="magento_rma_return_view_handle">
+    <referenceBlock name="customer_account_navigation">
         <action method="setActive">
-            <argument name="path" xsi:type="string">rma/returns/history/</argument>
+            <argument name="path" xsi:type="string">rma/return/history/</argument>
         </action>
-    </reference>
+    </referenceBlock>
     <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento\Rma\Block\Returns\View" name="rma.return.history">
             <container name="rma.return.history.info" as="info" label="Customer My Account Return View"/>
         </block>
         <block class="Magento\Rma\Block\Returns\View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
-    </reference>
-    <update handle="magento_rma_returns_view_handle"/>
+    </referenceContainer>
+    <update handle="magento_rma_return_view_handle"/>
     <block class="Magento\Rma\Block\Returns\Tracking" name="rma.return.tracking" as="tracking"/>
 </layout>

@@ -21,6 +21,35 @@ namespace Magento\Cms\Model\Resource;
 class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        parent::__construct($resource);
+        $this->_storeManager = $storeManager;
+        $this->_date = $date;
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -49,19 +78,21 @@ class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform operations before object save
      *
-     * @param \Magento\Cms\Model\Block $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return \Magento\Cms\Model\Resource\Block
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$this->getIsUniqueBlockToStores($object)) {
-            \Mage::throwException(__('A block identifier with the same properties already exists in the selected store.'));
+            throw new \Magento\Core\Exception(
+                __('A block identifier with the same properties already exists in the selected store.'));
         }
 
         if (! $object->getId()) {
-            $object->setCreationTime(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+            $object->setCreationTime($this->_date->gmtDate());
         }
-        $object->setUpdateTime(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+        $object->setUpdateTime($this->_date->gmtDate());
         return $this;
     }
 
@@ -179,7 +210,7 @@ class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getIsUniqueBlockToStores(\Magento\Core\Model\AbstractModel $object)
     {
-        if (\Mage::app()->hasSingleStore()) {
+        if ($this->_storeManager->hasSingleStore()) {
             $stores = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         } else {
             $stores = (array)$object->getData('stores');

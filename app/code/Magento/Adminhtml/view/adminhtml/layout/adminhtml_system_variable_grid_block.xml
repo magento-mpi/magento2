@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.system.variable.grid.container">
+    <referenceBlock name="adminhtml.system.variable.grid.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.system.variable.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">customVariablesGrid</argument>
@@ -46,5 +46,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

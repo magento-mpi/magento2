@@ -10,16 +10,33 @@
 
 /**
  * Grid column widget for rendering action grid cells
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid_Column_Renderer;
 
 class Reasonselect
-    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\AbstractRenderer
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid_Column_Renderer_AbstractRenderer
 {
+    /**
+     * @var \Magento\Rma\Model\Item\FormFactory
+     */
+    protected $_itemFormFactory;
+
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
+     * @param \Magento\Rma\Model\Item\Status $itemStatus
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Context $context,
+        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
+        \Magento\Rma\Model\Item\Status $itemStatus,
+        array $data = array()
+    ) {
+        $this->_itemFormFactory = $itemFormFactory;
+        parent::__construct($context, $itemStatus, $data);
+    }
+
     /**
      * Renders column as select when it is editable
      *
@@ -28,10 +45,9 @@ class Reasonselect
      */
     protected function _getEditableView(\Magento\Object $row)
     {
-        /** @var $rmaItemAttribute \Magento\Rma\Model\Item\Attribute */
-        $rmaItemAttribute = \Mage::getModel('Magento\Rma\Model\Item\Form')
-            ->setFormCode('default')
-            ->getAttribute('reason_other');
+        /** @var $itemForm \Magento\Rma\Model\Item\Form */
+        $itemForm = $this->_itemFormFactory->create();
+        $rmaItemAttribute = $itemForm->setFormCode('default')->getAttribute('reason_other');
 
         $selectName = 'items[' . $row->getId() . '][' . $this->getColumn()->getId() . ']';
         $html = '<select name="' . $selectName . '" class="action-select reason required-entry">'
@@ -67,10 +83,9 @@ class Reasonselect
      */
     protected function _getNonEditableView(\Magento\Object $row)
     {
-        /** @var $rmaItemAttribute \Magento\Rma\Model\Item\Attribute */
-        $rmaItemAttribute = \Mage::getModel('Magento\Rma\Model\Item\Form')
-            ->setFormCode('default')
-            ->getAttribute('reason_other');
+        /** @var $itemForm \Magento\Rma\Model\Item\Form */
+        $itemForm = $this->_itemFormFactory->create();
+        $rmaItemAttribute = $itemForm->setFormCode('default')->getAttribute('reason_other');
         $value = $row->getData($this->getColumn()->getIndex());
 
         if ($value == 0 && $row->getReasonOther() != '') {

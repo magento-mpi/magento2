@@ -78,7 +78,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
             $this->_coreRegistry->register('current_theme', $theme);
 
             $this->loadLayout();
-            /** @var $tab \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css */
+            /** @var $tab \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab_Css */
             $tab = $this->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
             if ($tab && $tab->canShowTab()) {
                 /** @var $helper \Magento\Core\Helper\Theme */
@@ -223,7 +223,7 @@ class Theme extends \Magento\Adminhtml\Controller\Action
         try {
             $theme = $themeFactory->create($themeId);
             if (!$theme) {
-                \Mage::throwException(__('We cannot find a theme with id "%1".', $themeId));
+                throw new \Magento\Core\Exception(__('We cannot find a theme with id "%1".', $themeId));
             }
             $jsFileData = $serviceModel->uploadJsFile('js_files_uploader');
             $jsFile = $jsService->create();

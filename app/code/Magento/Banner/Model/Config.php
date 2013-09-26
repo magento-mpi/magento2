@@ -16,19 +16,16 @@ namespace Magento\Banner\Model;
 class Config implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Core\Model\Config
+     * @var array
      */
-    protected $_coreConfig;
+    protected $_bannerTypes = array();
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param array $bannerTypes
      */
-    public function __construct(
-        \Magento\Core\Model\Config $coreConfig
-    ) {
-        $this->_coreConfig = $coreConfig;
+    public function __construct(array $bannerTypes = array())
+    {
+        $this->_bannerTypes = $bannerTypes;
     }
 
     /**
@@ -42,7 +39,7 @@ class Config implements \Magento\Core\Model\Option\ArrayInterface
     public function getTypes($sorted = true, $withEmpty = false)
     {
         $result = array();
-        foreach ($this->_coreConfig->getNode('global/magento/banner/types')->asCanonicalArray() as $type => $label) {
+        foreach ($this->_bannerTypes as $type => $label) {
             $result[$type] = __($label);
         }
         if ($sorted) {

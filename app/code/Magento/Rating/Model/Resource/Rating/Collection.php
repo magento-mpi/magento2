@@ -20,34 +20,35 @@ namespace Magento\Rating\Model\Resource\Rating;
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * Application instance
-     *
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_app;
+    protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @var \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory
+     */
+    protected $_ratingCollectionF;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
-     * @param array $data
-     * @throws \InvalidArgumentException
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
-        $data = array()
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        $this->_app = isset($data['app']) ? $data['app'] : \Mage::app();
-
-        if (!($this->_app instanceof \Magento\Core\Model\App)) {
-            throw new \InvalidArgumentException('Required app object is invalid');
-        }
+        $this->_storeManager = $storeManager;
+        $this->_ratingCollectionF = $ratingCollectionF;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
@@ -112,7 +113,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function setStoreFilter($storeId)
     {
-        if ($this->_app->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return $this;
         }
         $adapter = $this->getConnection();
@@ -152,7 +153,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $arrRatingId = $this->getColumnValues('rating_id');
 
         if (!empty($arrRatingId)) {
-            $collection = \Mage::getResourceModel('Magento\Rating\Model\Resource\Rating\Option\Collection')
+            /** @var \Magento\Rating\Model\Resource\Rating\Option\Collection $collection */
+            $collection = $this->_ratingCollectionF->create()
                 ->addRatingFilter($arrRatingId)
                 ->setPositionOrder()
                 ->load();
@@ -197,7 +199,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 array('review_store' => $this->getTable('review_store')),
                 'rating_option_vote.review_id=review_store.review_id AND review_store.store_id = :store_id',
                 array());
-        if (!$this->_app->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $select->join(
                 array('rst' => $this->getTable('rating_store')),
                 'rst.rating_id = rating_option_vote.rating_id AND rst.store_id = :rst_store_id',
@@ -214,7 +216,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
             ':pk_value'     => $entityPkValue
         );
-        if (!$this->_app->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $bind[':rst_store_id'] = (int)$storeId;
         }
 
@@ -253,7 +255,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addStoresToCollection()
     {
-        if ($this->_app->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return $this;
         }
         if (!$this->_isCollectionLoaded) {

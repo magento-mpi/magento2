@@ -9,10 +9,7 @@
  */
 
 /**
- *
  * PayPal Direct Module
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Model;
 
@@ -53,22 +50,31 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     protected $_proType = 'Magento\Paypal\Model\Pro';
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
         array $data = array()
     ) {
-        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+            $locale, $centinelService, $data);
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof \Magento\Paypal\Model\Pro)) {
             $this->_pro = $proInstance;
@@ -108,7 +114,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     /**
      * Payment action getter compatible with payment model
      *
-     * @see Magento_Sales_Model_Payment::place()
+     * @see \Magento\Sales\Model\Payment::place()
      * @return string
      */
     public function getConfigPaymentAction()

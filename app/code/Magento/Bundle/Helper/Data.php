@@ -19,27 +19,21 @@ namespace Magento\Bundle\Helper;
 
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
-    const XML_NODE_BUNDLE_PRODUCT_TYPE      = 'global/catalog/product/type/bundle';
-
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
-    protected $_coreConfig;
+    protected $_config;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
     ) {
-        parent::__construct(
-            $context
-        );
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $config;
+        parent::__construct($context);
     }
 
     /**
@@ -49,7 +43,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getAllowedSelectionTypes()
     {
-        $config = $this->_coreConfig->getNode(self::XML_NODE_BUNDLE_PRODUCT_TYPE);
-        return array_keys($config->allowed_selection_types->asArray());
+        $configData = $this->_config->getType('bundle');
+        return isset($configData['allowed_selection_types']) ? $configData['allowed_selection_types'] : array();
     }
 }

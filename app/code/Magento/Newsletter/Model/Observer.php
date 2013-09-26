@@ -11,17 +11,45 @@
 /**
  * Newsletter module observer
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Newsletter\Model;
 
 class Observer
 {
+    /**
+     * Queue collection factory
+     *
+     * @var \Magento\Newsletter\Model\Resource\Queue\CollectionFactory
+     */
+    protected $_queueCollectionFactory;
+
+    /**
+     * Subscriber factory
+     *
+     * @var \Magento\Newsletter\Model\SubscriberFactory
+     */
+    protected $_subscriberFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $queueCollectionFactory
+     */
+    public function __construct(
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $queueCollectionFactory
+    ) {
+        $this->_subscriberFactory = $subscriberFactory;
+        $this->_queueCollectionFactory = $queueCollectionFactory;
+    }
+
     public function subscribeCustomer($observer)
     {
         $customer = $observer->getEvent()->getCustomer();
         if (($customer instanceof \Magento\Customer\Model\Customer)) {
-            \Mage::getModel('Magento\Newsletter\Model\Subscriber')->subscribeCustomer($customer);
+            $this->_subscriberFactory->create()->subscribeCustomer($customer);
         }
         return $this;
     }
@@ -34,8 +62,9 @@ class Observer
      */
     public function customerDeleted($observer)
     {
-        $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')
-            ->loadByEmail($observer->getEvent()->getCustomer()->getEmail());
+        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+        $subscriber = $this->_subscriberFactory->create();
+        $subscriber->loadByEmail($observer->getEvent()->getCustomer()->getEmail());
         if($subscriber->getId()) {
             $subscriber->delete();
         }
@@ -47,8 +76,9 @@ class Observer
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        $collection = \Mage::getModel('Magento\Newsletter\Model\Queue')->getCollection()
-            ->setPageSize($countOfQueue)
+        /** @var \Magento\Newsletter\Model\Resource\Queue\Collection $collection */
+        $collection = $this->_queueCollectionFactory->create();
+        $collection->setPageSize($countOfQueue)
             ->setCurPage(1)
             ->addOnlyForSendingFilter()
             ->load();

@@ -21,6 +21,29 @@ class Import extends \Magento\ImportExport\Model\Import
     implements \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
 {
     /**
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\ImportExport\Helper\Data $importExportData
+     * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\ImportExport\Helper\Data $importExportData,
+        \Magento\ImportExport\Model\Import\ConfigInterface $importConfig,
+        array $data = array()
+    ) {
+        $this->_indexer = $indexer;
+        parent::__construct($logger, $importExportData, $importConfig, $data);
+    }
+
+    /**
      * Reindex indexes by process codes.
      *
      * @return \Magento\ScheduledImportExport\Model\Import
@@ -33,7 +56,7 @@ class Import extends \Magento\ImportExport\Model\Import
 
         $indexers = self::$_entityInvalidatedIndexes[$this->getEntity()];
         foreach ($indexers as $indexer) {
-            $indexProcess = \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode($indexer);
+            $indexProcess = $this->_indexer->getProcessByCode($indexer);
             if ($indexProcess) {
                 $indexProcess->reindexEverything();
             }

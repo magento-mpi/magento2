@@ -27,12 +27,20 @@ class Observer
     protected $_giftWrappingData = null;
 
     /**
+     * @var \Magento\GiftWrapping\Model\WrappingFactory
+     */
+    protected $_wrappingFactory;
+
+    /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
      */
     public function __construct(
-        \Magento\GiftWrapping\Helper\Data $giftWrappingData
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
     ) {
         $this->_giftWrappingData = $giftWrappingData;
+        $this->_wrappingFactory = $wrappingFactory;
     }
 
     /**
@@ -45,7 +53,7 @@ class Observer
     protected function _saveItemInfo($entity, $data)
     {
         if (is_array($data) && isset($data['design'])) {
-            $wrapping = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->load($data['design']);
+            $wrapping = $this->_wrappingFactory->create()->load($data['design']);
             $entity->setGwId($wrapping->getId())
                 ->save();
         }
@@ -64,7 +72,7 @@ class Observer
         if (is_array($data)) {
             $wrappingInfo = array();
             if (isset($data['design'])) {
-                $wrapping = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->load($data['design']);
+                $wrapping = $this->_wrappingFactory->create()->load($data['design']);
                 $wrappingInfo['gw_id'] = $wrapping->getId();
             }
             $wrappingInfo['gw_allow_gift_receipt'] = isset($data['allow_gift_receipt']);

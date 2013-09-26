@@ -34,20 +34,19 @@ class Export extends \Magento\ImportExport\Model\Export
     protected $_dateModel;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\ImportExport\Model\Config $config
+     * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Date $coreDate,
         \Magento\Core\Model\Logger $logger,
-        \Magento\ImportExport\Model\Config $config,
-        array $data = array())
-    {
-        parent::__construct($logger, $config, $data);
-
-        $this->_dateModel = isset($data['date_model']) ? $data['date_model'] : \Mage::getModel('Magento\Core\Model\Date');
+        \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
+        array $data = array()
+    ) {
+        $this->_dateModel = $coreDate;
+        parent::__construct($logger, $exportConfig, $data);
     }
 
     /**

@@ -14,12 +14,27 @@ namespace Magento\Rule\Model\Action;
 class Collection extends \Magento\Rule\Model\Action\AbstractAction
 {
     /**
+     * @var \Magento\Rule\Model\ActionFactory
+     */
+    protected $_actionFactory;
+
+    /**
      * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Rule\Model\ActionFactory $actionFactory
+     * @param \Magento\Core\Model\Layout $layout
      * @param array $data
      */
-    public function __construct(\Magento\Core\Model\View\Url $viewUrl, array $data = array())
-    {
-        parent::__construct($viewUrl, $data);
+    public function __construct(
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Rule\Model\ActionFactory $actionFactory,
+        \Magento\Core\Model\Layout $layout,
+        array $data = array()
+    ) {
+        $this->_actionFactory = $actionFactory;
+        $this->_layout = $layout;
+
+        parent::__construct($viewUrl, $layout, $data);
+
         $this->setActions(array());
         $this->setType('Magento\Rule\Model\Action\Collection');
     }
@@ -54,7 +69,7 @@ class Collection extends \Magento\Rule\Model\Action\AbstractAction
                 if (empty($actArr['type'])) {
                     continue;
                 }
-                $action = \Mage::getModel($actArr['type']);
+                $action = $this->_actionFactory->create($actArr['type']);
                 $action->loadArray($actArr);
                 $this->addAction($action);
             }
@@ -92,7 +107,7 @@ class Collection extends \Magento\Rule\Model\Action\AbstractAction
             'name' => 'rule[actions][' . $this->getId() . '][new_child]',
             'values' => $this->getNewChildSelectOptions(),
             'value_name' => $this->getNewChildName(),
-        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Newchild'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Newchild'));
     }
 
     /**

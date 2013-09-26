@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Setup Model of Sales Module
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Resource;
 
@@ -26,6 +21,11 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_coreData;
 
     /**
+     * @var \Magento\Core\Model\Resource\Setup\MigrationFactory
+     */
+    protected $_migrationFactory;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -35,7 +35,8 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param $resourceName
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param string $resourceName
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -47,13 +48,13 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
         $resourceName
     ) {
-        parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
-            $resource, $modulesReader, $cache, $resourceName
-        );
+        $this->_migrationFactory = $migrationFactory;
         $this->_coreData = $coreData;
+        parent::__construct($logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
+            $modulesReader, $cache, $resourceName);
     }
 
     /**
@@ -250,6 +251,8 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     }
 
     /**
+     * Get Core Helper
+     *
      * @return \Magento\Core\Helper\Data
      */
     public function getCoreData()
@@ -265,5 +268,16 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     public function getConfigModel()
     {
         return $this->_config;
+    }
+
+    /**
+     * Get migration instance
+     *
+     * @param array $data
+     * @return \Magento\Core\Model\Resource\Setup\Migration
+     */
+    public function getMigrationSetup(array $data = array())
+    {
+        return $this->_migrationFactory->create($data);
     }
 }

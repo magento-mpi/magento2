@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="top.container">
+    <referenceContainer name="top.container">
         <block class="Magento\CatalogEvent\Block\Catalog\Category\Event" after="-" name="catalog_category_event" template="catalog/category/event.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

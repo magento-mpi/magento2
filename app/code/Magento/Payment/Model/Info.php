@@ -10,10 +10,6 @@
 
 /**
  * Payment information model
- *
- * @category   Magento
- * @package    Magento_Payment
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Payment\Model;
 
@@ -102,7 +98,7 @@ class Info extends \Magento\Core\Model\AbstractModel
                     return $instance;
                 }
             }
-            \Mage::throwException(__('The payment method you requested is not available.'));
+            throw new \Magento\Core\Exception(__('The payment method you requested is not available.'));
         }
 
         return $this->_getData('method_instance');
@@ -149,7 +145,7 @@ class Info extends \Magento\Core\Model\AbstractModel
     public function setAdditionalInformation($key, $value = null)
     {
         if (is_object($value)) {
-            \Mage::throwException(__('The payment disallows storing objects.'));
+           throw new \Magento\Core\Exception(__('The payment disallows storing objects.'));
         }
         $this->_initAdditionalInformation();
         if (is_array($key) && is_null($value)) {

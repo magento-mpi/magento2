@@ -58,11 +58,36 @@ class Observer
     protected $_catalogPermData;
 
     /**
+     * @var \Magento\CatalogPermissions\Model\Permission\Index
+     */
+    protected $_permissionIndex;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\CatalogPermissions\Model\Permission\Index $permissionIndex
      * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
      */
-    public function __construct(\Magento\CatalogPermissions\Helper\Data $catalogPermData)
-    {
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\CatalogPermissions\Model\Permission\Index $permissionIndex,
+        \Magento\CatalogPermissions\Helper\Data $catalogPermData
+    ) {
+        $this->_storeManager    = $storeManager;
         $this->_catalogPermData = $catalogPermData;
+        $this->_permissionIndex = $permissionIndex;
+        $this->_customerSession = $customerSession;
     }
 
     /**
@@ -79,7 +104,7 @@ class Observer
 
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
 
-        $this->_getIndexModel()->addIndexToCategoryCollection(
+        $this->_permissionIndex->addIndexToCategoryCollection(
             $categoryCollection,
             $this->_getCustomerGroupId(),
             $this->_getWebsiteId()
@@ -105,7 +130,7 @@ class Observer
         $categoryIds = $categoryCollection->getColumnValues('entity_id');
 
         if ($categoryIds) {
-            $permissions = $this->_getIndexModel()->getIndexForCategory(
+            $permissions = $this->_permissionIndex->getIndexForCategory(
                 $categoryIds,
                 $this->_getCustomerGroupId(),
                 $this->_getWebsiteId()
@@ -135,7 +160,7 @@ class Observer
             return $this;
         }
 
-        $categoryIds = $this->_getIndexModel()->getRestrictedCategoryIds(
+        $categoryIds = $this->_permissionIndex->getRestrictedCategoryIds(
             $this->_getCustomerGroupId(),
             $this->_getWebsiteId()
         );
@@ -158,7 +183,7 @@ class Observer
         }
 
         $collection = $observer->getEvent()->getCollection();
-        $this->_getIndexModel()->addIndexToProductCount($collection, $this->_getCustomerGroupId());
+        $this->_permissionIndex->addIndexToProductCount($collection, $this->_getCustomerGroupId());
         return $this;
     }
 
@@ -175,7 +200,7 @@ class Observer
         }
 
         $category = $observer->getEvent()->getCategory();
-        $permissions = $this->_getIndexModel()->getIndexForCategory(
+        $permissions = $this->_permissionIndex->getIndexForCategory(
             $category->getId(),
             $this->_getCustomerGroupId(),
             $this->_getWebsiteId()
@@ -191,7 +216,7 @@ class Observer
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect($this->_catalogPermData->getLandingPageUrl());
 
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('You may need more permissions to access this category.')
             );
         }
@@ -211,7 +236,7 @@ class Observer
         }
 
         $collection = $observer->getEvent()->getCollection();
-        $this->_getIndexModel()->addIndexToProductCollection($collection, $this->_getCustomerGroupId());
+        $this->_permissionIndex->addIndexToProductCollection($collection, $this->_getCustomerGroupId());
         return $this;
     }
 
@@ -311,11 +336,11 @@ class Observer
         if ($product->getDisableAddToCart() && !$quoteItem->isDeleted()) {
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('You cannot add "%1" to the cart.', $parentItem->getName())
                 );
             } else {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('You cannot add "%1" to the cart.', $quoteItem->getName())
                 );
             }
@@ -342,7 +367,7 @@ class Observer
         }
 
         if (!empty($productIds)) {
-            $this->_permissionsQuoteCache += $this->_getIndexModel()->getIndexForProduct(
+            $this->_permissionsQuoteCache += $this->_permissionIndex->getIndexForProduct(
                 $productIds,
                 $this->_getCustomerGroupId(),
                 $quote->getStoreId()
@@ -396,13 +421,13 @@ class Observer
         }
 
         $product = $observer->getEvent()->getProduct();
-        $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
+        $this->_permissionIndex->addIndexToProduct($product, $this->_getCustomerGroupId());
         $this->_applyPermissionsOnProduct($product);
         if ($observer->getEvent()->getProduct()->getIsHidden()) {
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect($this->_catalogPermData->getLandingPageUrl());
 
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('You may need more permissions to access this product.')
             );
         }
@@ -525,17 +550,7 @@ class Observer
      */
     protected function _getCustomerGroupId()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
-    }
-
-    /**
-     * Retrieve permission index model
-     *
-     * @return \Magento\CatalogPermissions\Model\Permission\Index
-     */
-    protected function _getIndexModel()
-    {
-        return \Mage::getSingleton('Magento\CatalogPermissions\Model\Permission\Index');
+        return $this->_customerSession->getCustomerGroupId();
     }
 
     /**
@@ -545,7 +560,7 @@ class Observer
      */
     protected function _getWebsiteId()
     {
-        return \Mage::app()->getStore()->getWebsiteId();
+        return $this->_storeManager->getStore()->getWebsiteId();
     }
 
     /**

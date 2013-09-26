@@ -9,10 +9,10 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Store Credit" type="page" parent="customer_account_index">
     <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento\Core\Block\Template" name="customerbalance.wrapper" template="Magento_CustomerBalance::account/wrapper.phtml">
             <block class="Magento\CustomerBalance\Block\Account\Balance" name="balance" template="account/balance.phtml" before="-"/>
             <block class="Magento\CustomerBalance\Block\Account\History" name="history" template="account/history.phtml" after="-"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

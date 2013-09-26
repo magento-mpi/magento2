@@ -20,6 +20,31 @@ namespace Magento\Sales\Block\Adminhtml\Report\Filter;
 class Form extends \Magento\Adminhtml\Block\Report\Filter\Form
 {
     /**
+     * @var \Magento\Sales\Model\Order\ConfigFactory
+     */
+    protected $_orderConfig;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
+        array $data = array()
+    ) {
+        $this->_orderConfig = $orderConfig;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Add fields to base fieldset which are general to sales reports
      *
      * @return \Magento\Sales\Block\Adminhtml\Report\Filter\Form
@@ -34,7 +59,7 @@ class Form extends \Magento\Adminhtml\Block\Report\Filter\Form
 
         if (is_object($fieldset) && $fieldset instanceof \Magento\Data\Form\Element\Fieldset) {
 
-            $statuses = \Mage::getModel('Magento\Sales\Model\Order\Config')->getStatuses();
+            $statuses = $this->_orderConfig->create()->getStatuses();
             $values = array();
             foreach ($statuses as $code => $label) {
                 if (false === strpos($code, 'pending')) {

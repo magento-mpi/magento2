@@ -14,40 +14,35 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Controller\Rest\Response\Renderer\Factory */
     protected $_factory;
 
-    /** @var \Magento\Webapi\Controller\Rest\Request */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_requestMock;
 
-    /** @var \Magento\Core\Model\Config */
-    protected $_applicationMock;
-
-    /** @var \Magento\ObjectManager */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
-        /** Init dependencies for SUT. */
-        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()
-            ->getMock();
-        $this->_applicationMock = $this->getMockBuilder('Magento\Core\Model\Config')->disableOriginalConstructor()
-            ->getMock();
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request')
-            ->disableOriginalConstructor()->getMock();
-        /** Init SUT. */
+            ->disableOriginalConstructor()
+            ->getMock();
+        
+        $renders = array(
+            'default' => array(
+                'type' => '*/*',
+                'model' => 'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
+            ),
+            'application_json' => array(
+                'type' => 'application/json',
+                'model' => 'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
+            )
+        );
+
         $this->_factory = new \Magento\Webapi\Controller\Rest\Response\Renderer\Factory(
             $this->_objectManagerMock,
-            $this->_applicationMock,
-            $this->_requestMock
+            $this->_requestMock,
+            $renders
         );
-        parent::setUp();
-    }
-
-    protected function tearDown()
-    {
-        unset($this->_factory);
-        unset($this->_requestMock);
-        unset($this->_applicationMock);
-        unset($this->_objectManagerMock);
-        parent::tearDown();
     }
 
     /**
@@ -56,11 +51,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         $acceptTypes = array('application/json');
-        $availableRenders = $this->_createConfigElementForRenders();
-        /** Mock application config getNode method to return the list of renders. */
-        $this->_applicationMock->expects($this->once())->method('getNode')->will(
-            $this->returnValue($availableRenders)
-        );
+
         /** Mock request getAcceptTypes method to return specified value. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
         /** Mock renderer. */
@@ -72,25 +63,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
         )->will($this->returnValue($rendererMock));
         $this->_factory->get();
-    }
-
-    protected function _createConfigElementForRenders()
-    {
-        /** XML with the list of renders types and models. */
-        $rendersXml = <<<XML
-        <renders>
-            <default>
-                <type>*/*</type>
-                <model>Magento\Webapi\Controller\Rest\Response\Renderer\Json</model>
-            </default>
-            <application_json>
-                <type>application/json</type>
-                <model>Magento\Webapi\Controller\Rest\Response\Renderer\Json</model>
-            </application_json>
-        </renders>
-XML;
-        /** Return \Magento\Core\Model\Config\Element with stored renders data. */
-        return new \Magento\Core\Model\Config\Element($rendersXml);
     }
 
     /**
@@ -121,11 +93,6 @@ XML;
     public function testGetWithWrongRendererClass()
     {
         $acceptTypes = array('application/json');
-        $availableRenders = $this->_createConfigElementForRenders();
-        /** Mock application config getNode method to return the list of renders. */
-        $this->_applicationMock->expects($this->once())->method('getNode')->will(
-            $this->returnValue($availableRenders)
-        );
         /** Mock request getAcceptTypes method to return specified value. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
         /** Mock object to return \Magento\Object */

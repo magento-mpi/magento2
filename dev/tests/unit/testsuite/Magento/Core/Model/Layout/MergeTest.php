@@ -72,15 +72,16 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $this->_theme->expects($this->any())->method('getArea')->will($this->returnValue('area'));
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(100));
 
-        $this->_model = new \Magento\Core\Model\Layout\Merge(
-            $design,
-            $storeManager,
-            $fileSource,
-            $this->_resource,
-            $this->_appState,
-            $this->_cache,
-            $this->_theme
-        );
+        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $objectHelper->getObject('Magento\Core\Model\Layout\Merge', array(
+            'design' => $design,
+            'storeManager' => $storeManager,
+            'fileSource' => $fileSource,
+            'resource' => $this->_resource,
+            'appState' => $this->_appState,
+            'cache' => $this->_cache,
+            'theme' => $this->_theme,
+        ));
     }
 
     public function testAddUpdate()

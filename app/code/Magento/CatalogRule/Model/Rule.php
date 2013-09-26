@@ -49,11 +49,6 @@ namespace Magento\CatalogRule\Model;
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
     /**
-     * Related cache types config path
-     */
-    const XML_NODE_RELATED_CACHE = 'global/catalogrule/related_cache_types';
-
-    /**
      * Prefix of model events names
      *
      * @var string
@@ -107,39 +102,115 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * @var \Magento\Core\Model\Cache\TypeListInterface
      */
-    protected $_cacheTypeList;
+    protected $_cacheTypesList;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var array
      */
-    protected $_coreConfig;
+    protected $_relatedCacheTypes;
 
     /**
+     * @var \Magento\Core\Model\Resource\Iterator
+     */
+    protected $_resourceIterator;
+
+    /**
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\CatalogRule\Model\Rule\Condition\CombineFactory
+     */
+    protected $_combineFactory;
+
+    /**
+     * @var \Magento\CatalogRule\Model\Rule\Action\CollectionFactory
+     */
+    protected $_actionCollFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $_productCollFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory
+     * @param \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
+     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypesList
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
-     * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\CatalogRule\Model\Resource\Rule $resource
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $relatedCacheTypes
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory,
+        \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
+        \Magento\Core\Model\Cache\TypeListInterface $cacheTypesList,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Core\Model\Config $coreConfig,
-        \Magento\CatalogRule\Model\Resource\Rule $resource,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        array $relatedCacheTypes = array(),
         array $data = array()
     ) {
+        $this->_productCollFactory = $productCollFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_combineFactory = $combineFactory;
+        $this->_actionCollFactory = $actionCollFactory;
+        $this->_productFactory = $productFactory;
+        $this->_resourceIterator = $resourceIterator;
+        $this->_indexer = $indexer;
+        $this->_customerSession = $customerSession;
         $this->_catalogRuleData = $catalogRuleData;
-        $this->_cacheTypeList = $cacheTypeList;
-        $this->_coreConfig = $coreConfig;
-        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+        $this->_cacheTypesList = $cacheTypesList;
+        $this->_relatedCacheTypes = $relatedCacheTypes;
+        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -159,7 +230,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return \Mage::getModel('Magento\CatalogRule\Model\Rule\Condition\Combine');
+        return $this->_combineFactory->create();
     }
 
     /**
@@ -169,7 +240,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return \Mage::getModel('Magento\CatalogRule\Model\Rule\Action\Collection');
+        return $this->_actionCollFactory->create();
     }
 
     /**
@@ -222,19 +293,19 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
             if ($this->getWebsiteIds()) {
                 /** @var $productCollection \Magento\Catalog\Model\Resource\Product\Collection */
-                $productCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
+                $productCollection = $this->_productCollFactory->create();
                 $productCollection->addWebsiteFilter($this->getWebsiteIds());
                 if ($this->_productsFilter) {
                     $productCollection->addIdFilter($this->_productsFilter);
                 }
                 $this->getConditions()->collectValidatedAttributes($productCollection);
 
-                \Mage::getSingleton('Magento\Core\Model\Resource\Iterator')->walk(
+                $this->_resourceIterator->walk(
                     $productCollection->getSelect(),
                     array(array($this, 'callbackValidateProduct')),
                     array(
                         'attributes' => $this->getCollectedAttributes(),
-                        'product'    => \Mage::getModel('Magento\Catalog\Model\Product'),
+                        'product'    => $this->_productFactory->create(),
                     )
                 );
             }
@@ -270,7 +341,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function applyToProduct($product, $websiteIds = null)
     {
         if (is_numeric($product)) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($product);
+            $product = $this->_productFactory->create()->load($product);
         }
         if (is_null($websiteIds)) {
             $websiteIds = $this->getWebsiteIds();
@@ -288,7 +359,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->getResourceCollection()->walk(array($this->_getResource(), 'updateRuleProductData'));
         $this->_getResource()->applyAllRulesForDateRange();
         $this->_invalidateCache();
-        $indexProcess = \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode('catalog_product_price');
+        $indexProcess = $this->_indexer->getProcessByCode('catalog_product_price');
         if ($indexProcess) {
             $indexProcess->reindexAll();
         }
@@ -312,7 +383,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         }
 
         if ($productId) {
-            \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
+            $this->_indexer->processEntityAction(
                 new \Magento\Object(array('id' => $productId)),
                 \Magento\Catalog\Model\Product::ENTITY,
                 \Magento\Catalog\Model\Product\Indexer\Price::EVENT_TYPE_REINDEX_PRICE
@@ -332,13 +403,13 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $priceRules = null;
         $productId  = $product->getId();
         $storeId    = $product->getStoreId();
-        $websiteId  = \Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId  = $this->_storeManager->getStore($storeId)->getWebsiteId();
         if ($product->hasCustomerGroupId()) {
             $customerGroupId = $product->getCustomerGroupId();
         } else {
-            $customerGroupId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+            $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
-        $dateTs     = \Mage::app()->getLocale()->storeTimeStamp($storeId);
+        $dateTs     = $this->_locale->storeTimeStamp($storeId);
         $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";
 
         if (!array_key_exists($cacheKey, self::$_priceRulesData)) {
@@ -420,10 +491,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     protected function _invalidateCache()
     {
-        $types = $this->_coreConfig->getNode(self::XML_NODE_RELATED_CACHE);
-        if ($types) {
-            $types = $types->asArray();
-            $this->_cacheTypeList->invalidate(array_keys($types));
+        if (count($this->_relatedCacheTypes)) {
+            $this->_cacheTypesList->invalidate($this->_relatedCacheTypes);
         }
         return $this;
     }

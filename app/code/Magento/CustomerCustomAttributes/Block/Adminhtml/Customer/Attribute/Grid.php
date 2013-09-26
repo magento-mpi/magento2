@@ -8,19 +8,39 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Attributes Grid Block
- *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute;
 
 class Grid
     extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
+    /**
+     * @var \Magento\Customer\Model\Resource\Attribute\CollectionFactory
+     */
+    protected $_attributesFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Customer\Model\Resource\Attribute\CollectionFactory $attributesFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Customer\Model\Resource\Attribute\CollectionFactory $attributesFactory,
+        array $data = array()
+    ) {
+        $this->_attributesFactory = $attributesFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     /**
      * Initialize grid, set grid Id
      *
@@ -39,11 +59,10 @@ class Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection')
-            ->addSystemHiddenFilter()
-            ->addExcludeHiddenFrontendFilter();
+        /** @var $collection \Magento\Customer\Model\Resource\Attribute\Collection */
+        $collection = $this->_attributesFactory->create();
+        $collection->addSystemHiddenFilter()->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 

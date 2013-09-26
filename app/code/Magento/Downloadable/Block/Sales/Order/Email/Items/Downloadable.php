@@ -20,7 +20,40 @@ namespace Magento\Downloadable\Block\Sales\Order\Email\Items;
 
 class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
 {
-    protected $_purchased = null;
+    /**
+     * @var \Magento\Downloadable\Model\Link\Purchased
+     */
+    protected $_purchased;
+
+    /**
+     * @var \Magento\Downloadable\Model\Link\PurchasedFactory
+     */
+    protected $_purchasedFactory;
+
+    /**
+     * @var \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
+     * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
+        \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
+        array $data = array()
+    ) {
+        $this->_purchasedFactory = $purchasedFactory;
+        $this->_itemsFactory = $itemsFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
 
     /**
      * Enter description here...
@@ -29,9 +62,8 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
      */
     public function getLinks()
     {
-        $this->_purchased = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased')
-            ->load($this->getItem()->getOrder()->getId(), 'order_id');
-        $purchasedLinks = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased\Item')->getCollection()
+        $this->_purchased = $this->_purchasedFactory->create()->load($this->getItem()->getOrder()->getId(), 'order_id');
+        $purchasedLinks = $this->_itemsFactory->create()
             ->addFieldToFilter('order_item_id', $this->getItem()->getOrderItem()->getId());
         $this->_purchased->setPurchasedItems($purchasedLinks);
 

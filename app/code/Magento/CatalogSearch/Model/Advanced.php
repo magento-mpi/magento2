@@ -47,7 +47,7 @@ class Advanced extends \Magento\Core\Model\AbstractModel
     /**
      * Current search engine
      *
-     * @var object|\Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @var \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected $_engine;
 
@@ -61,24 +61,83 @@ class Advanced extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize dependencies
      *
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Attribute collection factory
+     *
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     */
+    protected $_attributeCollectionFactory;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Currency factory
+     *
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\CatalogSearch\Helper\Data $helper
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\CatalogSearch\Helper\Data $helper,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_engine = $helper->getEngine();
-        $this->_setResourceModel($this->_engine->getResourceName());
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_attributeCollectionFactory = $attributeCollectionFactory;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_engine = $engineProvider->get();
+        $this->_currencyFactory = $currencyFactory;
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
+        parent::__construct(
+            $context, $registry, $this->_engine->getResource(), $this->_engine->getResourceCollection(), $data
+        );
     }
 
     /**
@@ -91,11 +150,11 @@ class Advanced extends \Magento\Core\Model\AbstractModel
         /* @var $attributes \Magento\Catalog\Model\Resource\Eav\Resource\Product\Attribute\Collection */
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product');
-            $attributes = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+            $product = $this->_productFactory->create();
+            $attributes = $this->_attributeCollectionFactory->create()
                 ->addHasOptionsFilter()
                 ->addDisplayInAdvancedSearchFilter()
-                ->addStoreLabel(\Mage::app()->getStore()->getId())
+                ->addStoreLabel($this->_storeManager->getStore()->getId())
                 ->setOrder('main_table.attribute_id', 'asc')
                 ->load();
             foreach ($attributes as $attribute) {
@@ -131,7 +190,7 @@ class Advanced extends \Magento\Core\Model\AbstractModel
                 $value['to'] = isset($value['to']) ? trim($value['to']) : '';
                 if (is_numeric($value['from']) || is_numeric($value['to'])) {
                     if (!empty($value['currency'])) {
-                        $rate = \Mage::app()->getStore()->getBaseCurrency()->getRate($value['currency']);
+                        $rate = $this->_storeManager->getStore()->getBaseCurrency()->getRate($value['currency']);
                     } else {
                         $rate = 1;
                     }
@@ -192,7 +251,7 @@ class Advanced extends \Magento\Core\Model\AbstractModel
                 if (!empty($value['from']) || !empty($value['to'])) {
                     if (isset($value['currency'])) {
                         /** @var $currencyModel \Magento\Directory\Model\Currency */
-                        $currencyModel = \Mage::getModel('Magento\Directory\Model\Currency')->load($value['currency']);
+                        $currencyModel = $this->_currencyFactory->create()->load($value['currency']);
                         $from = $currencyModel->format($value['from'], array(), false);
                         $to = $currencyModel->format($value['to'], array(), false);
                     } else {
@@ -278,12 +337,12 @@ class Advanced extends \Magento\Core\Model\AbstractModel
      */
     public function prepareProductCollection($collection)
     {
-        $collection->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
-            ->setStore(\Mage::app()->getStore())
+        $collection->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
+            ->setStore($this->_storeManager->getStore())
             ->addMinimalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
-            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSearchIds());
+            ->setVisibility($this->_catalogProductVisibility->getVisibleInSearchIds());
 
         return $this;
     }

@@ -31,6 +31,30 @@ class Permissions
     protected $_catalogPermData = null;
 
     /**
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     */
+    protected $_groupCollFactory;
+
+    /**
+     * @var \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory
+     */
+    protected $_permissionCollFactory;
+
+    /**
+     * @var \Magento\CatalogPermissions\Model\Permission\IndexFactory
+     */
+    protected $_permIndexFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory
+     * @param \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
      * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -38,12 +62,20 @@ class Permissions
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory,
+        \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
         \Magento\CatalogPermissions\Helper\Data $catalogPermData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_permIndexFactory = $permIndexFactory;
+        $this->_permissionCollFactory = $permissionCollFactory;
+        $this->_groupCollFactory = $groupCollFactory;
         $this->_catalogPermData = $catalogPermData;
         parent::__construct($coreData, $context, $registry, $data);
     }
@@ -86,8 +118,8 @@ class Permissions
             }
         }
 
-        $config['single_mode']  = \Mage::app()->hasSingleStore();
-        $config['website_id']   = \Mage::app()->getStore(true)->getWebsiteId();
+        $config['single_mode']  = $this->_storeManager->hasSingleStore();
+        $config['website_id']   = $this->_storeManager->getStore(true)->getWebsiteId();
         $config['parent_vals']  = $this->getParentPermissions();
 
         $config['use_parent_allow'] = __('(Allow)');
@@ -111,8 +143,7 @@ class Permissions
     public function getPermissionCollection()
     {
         if (!$this->hasData('permission_collection')) {
-            $collection = \Mage::getModel('Magento\CatalogPermissions\Model\Permission')
-                ->getCollection()
+            $collection = $this->_permissionCollFactory->create()
                 ->addFieldToFilter('category_id', $this->getCategoryId())
                 ->setOrder('permission_id', 'asc');
             $this->setData('permisssion_collection', $collection);
@@ -139,7 +170,7 @@ class Permissions
 
         $permissions = array();
         if ($categoryId) {
-            $index  = \Mage::getModel('Magento\CatalogPermissions\Model\Permission\Index')
+            $index  = $this->_permIndexFactory->create()
                 ->getIndexForCategory($categoryId, null, null);
             foreach ($index as $row) {
                 $permissionKey = $row['website_id'] . '_' . $row['customer_group_id'];
@@ -151,10 +182,10 @@ class Permissions
             }
         }
 
-        $websites = \Mage::app()->getWebsites(false);
-        $groups   = \Mage::getModel('Magento\Customer\Model\Group')->getCollection()->getAllIds();
+        $websites = $this->_storeManager->getWebsites(false);
+        $groups   = $this->_groupCollFactory->create()->getAllIds();
 
-        /* @var $helper \Magento\CatalogPermissions\Helper\Data  */
+        /* @var $helper \Magento\CatalogPermissions\Helper\Data */
         $helper   = $this->_catalogPermData;
 
         $parent = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT;

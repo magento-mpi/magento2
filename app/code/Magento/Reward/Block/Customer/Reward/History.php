@@ -34,18 +34,42 @@ class History extends \Magento\Core\Block\Template
     protected $_rewardData = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Reward\Model\Resource\Reward\History\CollectionFactory
+     */
+    protected $_historyFactory;
+
+    /**
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
+        $this->_historyFactory = $historyFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -151,9 +175,9 @@ class History extends \Magento\Core\Block\Template
     protected function _getCollection()
     {
         if (!$this->_collection) {
-            $websiteId = \Mage::app()->getWebsite()->getId();
-            $this->_collection = \Mage::getModel('Magento\Reward\Model\Reward\History')->getCollection()
-                ->addCustomerFilter(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
+            $websiteId = $this->_storeManager->getWebsite()->getId();
+            $this->_collection = $this->_historyFactory->create()
+                ->addCustomerFilter($this->_customerSession->getCustomerId())
                 ->addWebsiteFilter($websiteId)
                 ->setExpiryConfig($this->_rewardData->getExpiryConfig())
                 ->addExpirationDate($websiteId)

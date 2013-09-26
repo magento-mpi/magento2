@@ -34,14 +34,33 @@ class Import
     protected $_importModel;
 
     /**
+     * @var \Magento\Backend\Model\Config\Source\Email\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
+     * @param \Magento\Core\Model\Option\ArrayPool $optionArrayPool
+     * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
+     * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\ImportExport\Model\Import $importModel
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
+        \Magento\Core\Model\Option\ArrayPool $optionArrayPool,
+        \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
+        \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
+        \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
@@ -49,8 +68,12 @@ class Import
         \Magento\ImportExport\Model\Import $importModel,
         array $data = array()
     ) {
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_templateFactory = $templateFactory;
         $this->_importModel = $importModel;
+        parent::__construct(
+            $optionArrayPool, $emailMethod, $emailIdentity, $operationData, $sourceYesno, $registry, $formFactory,
+            $coreData, $context, $data
+        );
     }
 
     /**
@@ -73,30 +96,26 @@ class Import
         // add behaviour fields
         $uniqueBehaviors = $this->_importModel->getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
-            /** @var $behaviorSource \Magento\ImportExport\Model\Source\Import\BehaviorAbstract */
-            $behaviorSource = \Mage::getModel($behaviorClass);
             $fieldset->addField($behaviorCode, 'select', array(
                 'name'     => 'behavior',
                 'title'    => __('Import Behavior'),
                 'label'    => __('Import Behavior'),
                 'required' => true,
                 'disabled' => true,
-                'values'   => $behaviorSource->toOptionArray()
+                'values'   => $this->_optionArrayPool->get($behaviorClass)->toOptionArray()
             ), 'entity');
         }
 
-        /** @var $operationData \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data */
-        $operationData = \Mage::getSingleton('Magento\ScheduledImportExport\Model\Scheduled\Operation\Data');
         $fieldset->addField('force_import', 'select', array(
             'name'     => 'force_import',
             'title'    => __('On Error'),
             'label'    => __('On Error'),
             'required' => true,
-            'values'   => $operationData->getForcedImportOptionArray()
+            'values'   => $this->_operationData->getForcedImportOptionArray()
         ), 'freq');
 
         $form->getElement('email_template')
-            ->setValues(\Mage::getModel('Magento\Backend\Model\Config\Source\Email\Template')
+            ->setValues($this->_templateFactory->create()
                 ->setPath('magento_scheduledimportexport_import_failed')
                 ->toOptionArray()
             );

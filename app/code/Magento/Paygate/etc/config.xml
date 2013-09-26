@@ -19,11 +19,6 @@
             </paygate_setup>
         </resources>
     </global>
-    <frontend>
-        <secure_url>
-            <authorizenet_paygate>/paygate/authorizenet_payment</authorizenet_paygate>
-        </secure_url>
-    </frontend>
     <default>
         <payment>
             <authorizenet>

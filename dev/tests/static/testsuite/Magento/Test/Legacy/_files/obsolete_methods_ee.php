@@ -57,37 +57,37 @@ return array(
     array('_getAmounts', 'Magento\GiftCard\Block\Catalog\Product\Price'),
     array('searchSuggestions', 'Magento\Search\Model\Client\Solr'),
     array('_registerProductsView', 'Magento\FullPageCache\Model\Container\Viewedproducts'),
-    array('_getForeignKeyName', 'Magento_DB_Adapter_Oracle'),
+    array('_getForeignKeyName', 'Magento\DB\Adapter\Oracle'),
     array('getCacheInstance', 'Magento\FullPageCache\Model\Cache'),
     array('saveCustomerSegments', 'Magento\Banner\Model\Resource\Banner'),
     array('saveOptions', 'Magento\FullPageCache\Model\Cache'),
     array('refreshRequestIds', 'Magento\FullPageCache\Model\Processor',
-        'Magento\FullPageCache\Model\Request\Identifier::refreshRequestIds'
+        'Magento_FullPageCache_Model_Request_Identifier::refreshRequestIds'
     ),
     array('removeCartLink', 'Magento\PersistentHistory\Model\Observer'),
     array('resetColumns', 'Magento\Banner\Model\Resource\Salesrule\Collection'),
     array('resetSelect', 'Magento\Banner\Model\Resource\Catalogrule\Collection'),
     array('prepareCacheId', 'Magento\FullPageCache\Model\Processor',
-        'Magento\FullPageCache\Model\Request\Identifier::prepareCacheId'
+        'Magento_FullPageCache_Model_Request_Identifier::prepareCacheId'
     ),
     array('_getQuote', 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form\Coupon',
-        'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form\Coupon::getQuote()'
+        'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon::getQuote()'
     ),
     array('_getQuote', 'Magento\GiftCardAccount\Block\Checkout\Cart\Total',
-        'Magento\GiftCardAccount\Block\Checkout\Cart\Total::getQuote()'
+        'Magento_GiftCardAccount_Block_Checkout_Cart_Total::getQuote()'
     ),
     array('_getQuote', 'Magento\GiftCardAccount\Block\Checkout\Onepage\Payment\Additional',
-        'Magento\GiftCardAccount\Block\Checkout\Onepage\Payment\Additional::getQuote()'
+        'Magento_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional::getQuote()'
     ),
     array('_getQuote', 'Magento\GiftWrapping\Block\Checkout\Options',
-        'Magento\GiftWrapping\Block\Checkout\Options::getQuote()'
+        'Magento_GiftWrapping_Block_Checkout_Options::getQuote()'
     ),
     array('addCustomerSegmentRelationsToCollection', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_getRuleProductsTable', 'Magento\TargetRule\Model\Resource\Rule'),
     array('getCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_saveCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_prepareRuleProducts', 'Magento\TargetRule\Model\Resource\Rule'),
-    array('getInetNtoaExpr', 'Magento_Logging_Model_Resource_Helper_Mysql4'),
+    array('getInetNtoaExpr', 'Magento\Logging\Model\Resource\Helper\Mysql4'),
     array('catalogCategoryIsCatalogPermissionsAllowed', 'Magento\AdminGws\Model\Models'),
     array('catalogCategoryMoveBefore', 'Magento\AdminGws\Model\Models'),
     array('catalogProductActionWithWebsitesAfter', 'Magento\AdminGws\Model\Models'),
@@ -96,4 +96,6 @@ return array(
     array('checkCategoryPermissions', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
     array('chargeById', 'Magento\GiftCardAccount\Model\Observer'),
     array('_helper', 'Magento\GiftRegistry\Model\Entity'),
+    array('_getIndexModel', 'Magento\CatalogPermissions\Model\Observer'),
+    array('_getConfig', 'Magento\SalesArchive\Model\Resource\Archive'),
 );

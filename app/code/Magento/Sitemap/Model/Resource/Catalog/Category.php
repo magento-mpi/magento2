@@ -35,26 +35,30 @@ class Category extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_attributesCache    = array();
 
     /**
-     * @var Magento_Catalog_Model_Resource_Category
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Category
      */
     protected $_categoryResource;
 
     /**
-     * @param Magento_Catalog_Model_Resource_Category $categoryResource
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Category $categoryResource,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Resource\Category $categoryResource
     ) {
+        $this->_storeManager = $storeManager;
         $this->_categoryResource = $categoryResource;
         parent::__construct($resource);
     }
 
-    /**
-     * Init resource model (catalog/category)
-     *
-     */
     protected function _construct()
     {
         $this->_init('catalog_category_entity', 'entity_id');
@@ -70,8 +74,8 @@ class Category extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $categories = array();
 
-        $store = \Mage::app()->getStore($storeId);
         /* @var $store \Magento\Core\Model\Store */
+        $store = $this->_storeManager->getStore($storeId);
 
         if (!$store) {
             return false;

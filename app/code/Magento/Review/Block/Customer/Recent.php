@@ -29,12 +29,43 @@ class Recent extends \Magento\Core\Block\Template
      */
     protected $_collection;
 
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_collection = $collectionFactory->create();
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _initCollection()
     {
-        $this->_collection = \Mage::getModel('Magento\Review\Model\Review')->getProductCollection();
         $this->_collection
-            ->addStoreFilter(\Mage::app()->getStore()->getId())
-            ->addCustomerFilter(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
+            ->addStoreFilter($this->_storeManager->getStore()->getId())
+            ->addCustomerFilter($this->_customerSession->getCustomerId())
             ->setDateOrder()
             ->setPageSize(5)
             ->load()
@@ -62,12 +93,12 @@ class Recent extends \Magento\Core\Block\Template
 
     public function getReviewLink()
     {
-        return \Mage::getUrl('review/customer/view/');
+        return $this->getUrl('review/customer/view/');
     }
 
     public function getProductLink()
     {
-        return \Mage::getUrl('catalog/product/view/');
+        return $this->getUrl('catalog/product/view/');
     }
 
     public function dateFormat($date)
@@ -77,11 +108,11 @@ class Recent extends \Magento\Core\Block\Template
 
     public function getAllReviewsUrl()
     {
-        return \Mage::getUrl('review/customer');
+        return $this->getUrl('review/customer');
     }
 
     public function getReviewUrl($id)
     {
-        return \Mage::getUrl('review/customer/view', array('id' => $id));
+        return $this->getUrl('review/customer/view', array('id' => $id));
     }
 }

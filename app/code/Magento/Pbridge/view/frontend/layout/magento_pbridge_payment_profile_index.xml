@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Payment Bridge Frame with Saved Payment Profiles" type="page">
     <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento\Pbridge\Block\Payment\Profile" name="pbridge.payment.profile" template="payment/profile.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

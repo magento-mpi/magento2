@@ -39,7 +39,7 @@ class Http extends \Zend_Controller_Request_Http
 
     protected $_route;
 
-    protected $_directFrontNames = null;
+    protected $_directFrontNames;
     protected $_controllerModule = null;
 
     /**
@@ -65,10 +65,12 @@ class Http extends \Zend_Controller_Request_Http
     /**
      * @param \Magento\Backend\Helper\DataProxy $helper
      * @param null $uri
+     * @param array $directFrontNames
      */
-    public function __construct(\Magento\Backend\Helper\DataProxy $helper, $uri = null)
+    public function __construct(\Magento\Backend\Helper\DataProxy $helper, $uri = null, $directFrontNames = array())
     {
         $this->_helper = $helper;
+        $this->_directFrontNames = $directFrontNames;
         parent::__construct($uri);
     }
 

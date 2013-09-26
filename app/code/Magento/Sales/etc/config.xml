@@ -103,15 +103,6 @@
                 </setup>
             </sales_setup>
         </resources>
-        <catalog>
-            <product>
-                <flat>
-                    <attribute_nodes>
-                        <sales_quote_item_product_collection>global/sales/quote/item/product_attributes</sales_quote_item_product_collection>
-                    </attribute_nodes>
-                </flat>
-            </product>
-        </catalog>
         <sales>
             <quote>
                 <totals>
@@ -155,36 +146,10 @@
                         <sort_order>1250</sort_order>
                     </nominal_shipping>
                 </nominal_totals>
-                <item>
-                    <product_attributes>
-                        <sku />
-                        <type_id />
-                        <name />
-                        <status />
-                        <visibility />
-                        <price />
-                        <weight />
-                        <url_path />
-                        <url_key />
-                        <thumbnail />
-                        <small_image />
-                        <tax_class_id />
-                        <special_from_date />
-                        <special_to_date />
-                        <special_price />
-                        <cost />
-                        <is_recurring />
-                        <recurring_profile />
-                        <gift_message_available />
-                        <msrp_enabled />
-                        <msrp />
-                        <msrp_display_actual_price_type />
-                    </product_attributes>
-                </item>
             </quote>
             <order>
                 <!-- /**
-                      * @depraceted after 1.4.2, statuses are saved into sales_order_status table
+                      * @deprecated after 1.4.2, statuses are saved into sales_order_status table
                       */
                 -->
                 <statuses>
@@ -336,14 +301,14 @@
         </sales>
         <pdf>
             <invoice>
-                <default>Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice</default>
+                <default>Magento\Sales\Model\Order\Pdf\Items\Invoice\Default</default>
                 <grouped>Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped</grouped>
             </invoice>
             <shipment>
-                <default>Magento\Sales\Model\Order\Pdf\Items\Shipment\DefaultShipment</default>
+                <default>Magento\Sales\Model\Order\Pdf\Items\Shipment\Default</default>
             </shipment>
             <creditmemo>
-                <default>Magento\Sales\Model\Order\Pdf\Items\Creditmemo\DefaultCreditmemo</default>
+                <default>Magento\Sales\Model\Order\Pdf\Items\Creditmemo\Default</default>
                 <grouped>Magento\Sales\Model\Order\Pdf\Items\Creditmemo\Grouped</grouped>
             </creditmemo>
             <totals>
@@ -394,11 +359,6 @@
             </totals>
         </pdf>
     </global>
-    <frontend>
-        <secure_url>
-            <sales>/sales/</sales>
-        </secure_url>
-    </frontend>
     <default>
         <sales>
             <totals_sort>

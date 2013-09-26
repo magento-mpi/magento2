@@ -29,6 +29,35 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Define resource model
      *
      */
@@ -100,12 +129,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                             continue;
                         }
                         if ($result[$item->getData('page_id')] == 0) {
-                            $stores = \Mage::app()->getStores(false, true);
+                            $stores = $this->_storeManager->getStores(false, true);
                             $storeId = current($stores)->getId();
                             $storeCode = key($stores);
                         } else {
                             $storeId = $result[$item->getData('page_id')];
-                            $storeCode = \Mage::app()->getStore($storeId)->getCode();
+                            $storeCode = $this->_storeManager->getStore($storeId)->getCode();
                         }
                         $item->setData('_first_store_id', $storeId);
                         $item->setData('store_code', $storeCode);

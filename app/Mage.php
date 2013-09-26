@@ -133,7 +133,7 @@ final class Mage
     static private $_isDownloader = false;
 
     /**
-     * Is allow throw Exception about headers already sent
+     * Is allow throw \Exception about headers already sent
      *
      * @var bool
      */
@@ -270,7 +270,7 @@ final class Mage
     public static function objects($key = null)
     {
         if (!self::$_objects) {
-            self::$_objects = new Magento\Object\Cache;
+            self::$_objects = new \Magento\Object\Cache;
         }
         if (is_null($key)) {
             return self::$_objects;
@@ -282,6 +282,7 @@ final class Mage
     /**
      * Retrieve application root absolute path
      *
+     * @deprecated
      * @param string $type
      * @return string
      */
@@ -307,6 +308,7 @@ final class Mage
     /**
      * Get base URL path by type
      *
+     * @deprecated
      * @param string $type
      * @param null|bool $secure
      * @return string
@@ -319,6 +321,7 @@ final class Mage
     /**
      * Generate url by route and parameters
      *
+     * @deprecated
      * @param   string $route
      * @param   array $params
      * @return  string
@@ -333,6 +336,7 @@ final class Mage
     /**
      * Retrieve model object
      *
+     * @deprecated
      * @param   string $modelClass
      * @param   array|object $arguments
      * @return  \Magento\Core\Model\AbstractModel|false
@@ -348,6 +352,7 @@ final class Mage
     /**
      * Retrieve model object singleton
      *
+     * @deprecated
      * @param   string $modelClass
      * @return  \Magento\Core\Model\AbstractModel
      */
@@ -366,6 +371,7 @@ final class Mage
     /**
      * Retrieve object of resource model
      *
+     * @deprecated
      * @param   string $modelClass
      * @param   array $arguments
      * @return  Object
@@ -381,6 +387,7 @@ final class Mage
     /**
      * Retrieve resource model object singleton
      *
+     * @deprecated
      * @param   string $modelClass
      * @return  object
      */
@@ -399,6 +406,7 @@ final class Mage
     /**
      * Returns block singleton instance, if current action exists. Otherwise returns FALSE.
      *
+     * @deprecated
      * @param string $className
      * @return mixed
      */
@@ -411,6 +419,7 @@ final class Mage
     /**
      * Retrieve resource helper object
      *
+     * @deprecated
      * @param string $moduleName
      * @return \Magento\Core\Model\Resource\Helper\AbstractHelper
      */
@@ -420,8 +429,7 @@ final class Mage
             ->get('Magento\Core\Model\Config\Resource')
             ->getResourceConnectionModel('core');
 
-        $helperClassName = str_replace('_', '\\', $moduleName) . '\\Model\\Resource\\Helper\\'
-            . ucfirst($connectionModel);
+        $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
         $connection = strtolower($moduleName);
         if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);
@@ -441,6 +449,7 @@ final class Mage
     /**
      * Return new exception by module to be thrown
      *
+     * @deprecated
      * @param string $module
      * @param string $message
      * @param integer $code
@@ -448,14 +457,14 @@ final class Mage
      */
     public static function exception($module = 'Magento_Core', $message = '', $code = 0)
     {
-        $module = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $module);
-        $className = $module . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Exception';
+        $className = $module . '_Exception';
         return new $className($message, $code);
     }
 
     /**
-     * Throw Exception
+     * Throw \Exception
      *
+     * @deprecated
      * @param string $message
      * @param string $messageStorage
      * @throws \Magento\Core\Exception
@@ -472,6 +481,7 @@ final class Mage
      * Get application object.
      *
      * @return \Magento\Core\Model\App
+     * @deprecated
      */
     public static function app()
     {
@@ -489,7 +499,7 @@ final class Mage
      */
     public static function isInstalled()
     {
-        return (bool) Mage::getSingleton('Magento\Core\Model\Config\Primary')->getInstallDate();
+        return (bool) \Mage::getSingleton('Magento\Core\Model\Config\Primary')->getInstallDate();
     }
 
     /**
@@ -517,10 +527,10 @@ final class Mage
     /**
      * Display exception
      *
-     * @param Exception $e
+     * @param \Exception $e
      * @param string $extra
      */
-    public static function printException(Exception $e, $extra = '')
+    public static function printException(\Exception $e, $extra = '')
     {
         if (self::getIsDeveloperMode()) {
             print '<pre>';
@@ -553,7 +563,7 @@ final class Mage
             try {
                 $storeCode = self::app()->getStore()->getCode();
                 $reportData['skin'] = $storeCode;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
 
             require_once(self::getBaseDir(\Magento\Core\Model\Dir::PUB) . DS . 'errors' . DS . 'report.php');

@@ -11,47 +11,45 @@ namespace Magento\Wishlist\Model;
 
 class Config
 {
-    const XML_PATH_PRODUCT_ATTRIBUTES = 'global/wishlist/item/product_attributes';
     const XML_PATH_SHARING_EMAIL_LIMIT = 'wishlist/email/number_limit';
     const XML_PATH_SHARING_TEXT_LIMIT = 'wishlist/email/text_limit';
     const SHARING_EMAIL_LIMIT = 10;
     const SHARING_TEXT_LIMIT = 255;
 
     /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    private $_catalogConfig;
+
+    /**
+     * @var \Magento\Catalog\Model\Attribute\Config
+     */
+    private $_attributeConfig;
+
+    /**
      * Number of emails allowed for sharing wishlist
      *
      * @var int
      */
-    protected $_sharingEmailLimit;
+    private $_sharingEmailLimit;
+
 
     /**
-     * Number of symbols in email for sharing
-     *
-     * @var int
-     */
-    protected $_sharingTextLimit;
-
-    /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Catalog\Model\Attribute\Config $attributeConfig
     ) {
-        $emailLimitInConfig = (int) $storeConfig->getConfig(self::XML_PATH_SHARING_EMAIL_LIMIT);
-        $textLimitInConfig = (int) $storeConfig->getConfig(self::XML_PATH_SHARING_TEXT_LIMIT);
+        $emailLimitInConfig = (int)$storeConfig->getConfig(self::XML_PATH_SHARING_EMAIL_LIMIT);
+        $textLimitInConfig = (int)$storeConfig->getConfig(self::XML_PATH_SHARING_TEXT_LIMIT);
         $this->_sharingEmailLimit = $emailLimitInConfig ?: self::SHARING_EMAIL_LIMIT;
         $this->_sharignTextLimit = $textLimitInConfig ?: self::SHARING_TEXT_LIMIT;
-        $this->_storeConfig = $storeConfig;
-        $this->_coreConfig = $coreConfig;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_attributeConfig = $attributeConfig;
     }
 
     /**
@@ -61,10 +59,9 @@ class Config
      */
     public function getProductAttributes()
     {
-        $attrsForCatalog  = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-        $attrsForWishlist = $this->_coreConfig->getNode(self::XML_PATH_PRODUCT_ATTRIBUTES)->asArray();
-
-        return array_merge($attrsForCatalog, array_keys($attrsForWishlist));
+        $catalogAttributes  = $this->_catalogConfig->getProductAttributes();
+        $wishlistAttributes = $this->_attributeConfig->getAttributeNames('wishlist_item');
+        return array_merge($catalogAttributes, $wishlistAttributes);
     }
 
     /**

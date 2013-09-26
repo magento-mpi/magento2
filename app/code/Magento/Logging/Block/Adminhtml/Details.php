@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
  */
 namespace Magento\Logging\Block\Adminhtml;
 
-class Details extends \Magento\Adminhtml\Block\Widget\Container
+class Details extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * Store curent event
@@ -37,19 +35,32 @@ class Details extends \Magento\Adminhtml\Block\Widget\Container
     protected $_coreRegistry = null;
 
     /**
+     * User model
+     *
+     * @var \Magento\User\Model\UserFactory
+     */
+    protected $_userFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\User\Model\UserFactory $userFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\User\Model\UserFactory $userFactory,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
+
+        $this->_coreRegistry = $registry;
+        $this->_userFactory = $userFactory;
     }
 
     /**
@@ -61,7 +72,7 @@ class Details extends \Magento\Adminhtml\Block\Widget\Container
         parent::_construct();
         $this->_addButton('back', array(
             'label'   => __('Back'),
-            'onclick' => "setLocation('" . \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/*/'). "')",
+            'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('*/*/') . "')",
             'class'   => 'back'
         ));
     }
@@ -142,7 +153,7 @@ class Details extends \Magento\Adminhtml\Block\Widget\Container
     public function getEventUser()
     {
         if (null === $this->_eventUser) {
-            $this->_eventUser = \Mage::getModel('Magento\User\Model\User')->load($this->getUserId());
+            $this->_eventUser = $this->_userFactory->create()->load($this->getUserId());
         }
         return $this->_eventUser;
     }

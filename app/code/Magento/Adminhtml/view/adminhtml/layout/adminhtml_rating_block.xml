@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.rating.container">
+    <referenceBlock name="adminhtml.rating.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.rating.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">ratingsGrid</argument>
@@ -68,5 +68,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

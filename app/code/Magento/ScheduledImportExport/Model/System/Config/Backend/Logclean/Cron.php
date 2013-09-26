@@ -25,8 +25,38 @@ class Cron extends \Magento\Core\Model\Config\Value
     const CRON_STRING_PATH = 'crontab/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr';
 
     /**
+     * @var \Magento\Core\Model\Config\ValueFactory
+     */
+    protected $_configValueFactory;
+
+    /**
+     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_configValueFactory = $configValueFactory;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Add cron task
      *
+     * @throws \Exception
      * @return void
      */
     protected function _afterSave()
@@ -49,7 +79,7 @@ class Cron extends \Magento\Core\Model\Config\Value
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            \Mage::getModel('Magento\Core\Model\Config\Value')
+            $this->_configValueFactory->create()
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
@@ -58,5 +88,4 @@ class Cron extends \Magento\Core\Model\Config\Value
             throw new \Exception(__('We were unable to save the cron expression.'));
         }
     }
-
 }

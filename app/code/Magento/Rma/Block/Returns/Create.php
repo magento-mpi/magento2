@@ -27,6 +27,16 @@ class Create extends \Magento\Rma\Block\Form
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Rma\Model\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Item\FormFactory
+     */
+    protected $_itemFormFactory;
+
+    /**
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Rma\Helper\Data $rmaData
@@ -34,6 +44,8 @@ class Create extends \Magento\Rma\Block\Form
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\ItemFactory $itemFactory
+     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param array $data
      */
     public function __construct(
@@ -44,10 +56,14 @@ class Create extends \Magento\Rma\Block\Form
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\ItemFactory $itemFactory,
+        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
+        $this->_itemFactory = $itemFactory;
+        $this->_itemFormFactory = $itemFormFactory;
         parent::__construct($modelFactory, $formFactory, $eavConfig, $coreData, $context, $data);
     }
 
@@ -62,14 +78,13 @@ class Create extends \Magento\Rma\Block\Form
         $items = $this->_rmaData->getOrderItems($order);
         $this->setItems($items);
 
-        $session = \Mage::getSingleton('Magento\Core\Model\Session');
-        $formData = $session->getRmaFormData(true);
+        $formData = $this->_session->getRmaFormData(true);
         if (!empty($formData)) {
             $data = new \Magento\Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
-        $errorKeys = $session->getRmaErrorKeys(true);
+        $errorKeys = $this->_session->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
             $data = new \Magento\Object();
             $data->addData($errorKeys);
@@ -96,7 +111,7 @@ class Create extends \Magento\Rma\Block\Form
 
     public function getBackUrl()
     {
-        return \Mage::getUrl('sales/order/history');
+        return $this->_urlBuilder->getUrl('sales/order/history');
     }
 
 
@@ -107,11 +122,11 @@ class Create extends \Magento\Rma\Block\Form
      */
     public function getAttributes()
     {
-        /* @var $itemModel */
-        $itemModel = \Mage::getModel('Magento\Rma\Model\Item');
+        /* @var $itemModel \Magento\Rma\Model\Item */
+        $itemModel = $this->_itemFactory->create();
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
-        $itemForm = \Mage::getModel('Magento\Rma\Model\Item\Form');
+        $itemForm = $this->_itemFormFactory->create();
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);

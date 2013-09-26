@@ -19,8 +19,5 @@
                 </setup>
             </index_setup>
         </resources>
-        <index>
-            <indexer />
-        </index>
     </global>
 </config>

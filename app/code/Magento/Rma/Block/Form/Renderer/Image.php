@@ -11,15 +11,33 @@
 
 /**
  * Rma Item Form Renderer Block for select
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Block\Form\Renderer;
 
 class Image extends \Magento\CustomAttribute\Block\Form\Renderer\Image
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($locale, $coreData, $context, $data);
+    }
 
     /**
      * Gets image url path
@@ -28,18 +46,9 @@ class Image extends \Magento\CustomAttribute\Block\Form\Renderer\Image
      */
     public function getImageUrl()
     {
-        $url = \Mage::getBaseUrl('media')
-            .\Magento\Rma\Model\Item::ITEM_IMAGE_URL;
-
-
+        $url = $this->_storeManager->getStore()->getBaseUrl('media') . \Magento\Rma\Model\Item::ITEM_IMAGE_URL;
         $file = $this->getValue();
-        if(substr($file, 0, 1) == '/') {
-            $file = $file;
-        }
-        $url = $url.$file;
-
+        $url = $url . $file;
         return $url;
     }
-
-
 }

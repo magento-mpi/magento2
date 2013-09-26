@@ -18,4 +18,9 @@
             <instance type="Magento\Core\Helper\StringProxy" />
         </param>
     </type>
+    <type name="Magento\Catalog\Helper\Product">
+        <param name="typeSwitcherLabel">
+            <value>Virtual / Downloadable</value>
+        </param>
+    </type>
 </config>

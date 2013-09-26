@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_catalog_event_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\CatalogEvent\Block\Adminhtml\Event" name="adminhtml.catalog.event.grid.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

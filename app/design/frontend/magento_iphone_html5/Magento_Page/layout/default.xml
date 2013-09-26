@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Css" name="css-iphone-css">
             <arguments>
                 <argument name="file" xsi:type="string">css/iphone.css</argument>
@@ -44,5 +44,5 @@
                 <argument name="file" xsi:type="string">js/modernizr.js</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

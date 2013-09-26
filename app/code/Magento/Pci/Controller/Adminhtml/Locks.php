@@ -49,14 +49,13 @@ class Locks extends \Magento\Adminhtml\Controller\Action
             // unlock users
             $userIds = $this->getRequest()->getPost('unlock');
             if ($userIds && is_array($userIds)) {
-                $affectedUsers = \Mage::getResourceSingleton('Magento\Pci\Model\Resource\Admin\User')
-                    ->unlock($userIds);
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                $affectedUsers = $this->_objectManager->get('Magento\Pci\Model\Resource\Admin\User')->unlock($userIds);
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                         ->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
             }
         }
         catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
     }

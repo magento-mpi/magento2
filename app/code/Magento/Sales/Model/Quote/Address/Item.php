@@ -107,6 +107,9 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         $this->_init('Magento\Sales\Model\Resource\Quote\Address\Item');
     }
 
+    /**
+     * @return $this|\Magento\Sales\Model\Quote\Item\AbstractItem
+     */
     protected function _beforeSave()
     {
         parent::_beforeSave();
@@ -149,7 +152,10 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         return $this->_quote;
     }
 
-
+    /**
+     * @param \Magento\Sales\Model\Quote\Item $quoteItem
+     * @return $this
+     */
     public function importQuoteItem(\Magento\Sales\Model\Quote\Item $quoteItem)
     {
         $this->_quote = $quoteItem->getQuote();
@@ -171,6 +177,10 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         return $this;
     }
 
+    /**
+     * @param string $code
+     * @return \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface|null
+     */
     public function getOptionBycode($code)
     {
         if ($this->getQuoteItem()) {

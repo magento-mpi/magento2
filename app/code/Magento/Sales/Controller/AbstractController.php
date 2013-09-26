@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Controller
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Controller;
 
@@ -47,11 +42,11 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
      */
     protected function _canViewOrder($order)
     {
-        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
-        $availableStates = \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates();
+        $customerId = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId();
+        $availableStates = $this->_objectManager->get('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates();
         if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)
-            && in_array($order->getState(), $availableStates, $strict = true)
-            ) {
+            && in_array($order->getState(), $availableStates, true)
+        ) {
             return true;
         }
         return false;
@@ -59,8 +54,6 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
 
     /**
      * Init layout, messages and set active block for customer
-     *
-     * @return null
      */
     protected function _viewAction()
     {
@@ -94,7 +87,7 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+        $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
 
         if ($this->_canViewOrder($order)) {
             $this->_coreRegistry->register('current_order', $order);
@@ -147,24 +140,21 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
         }
         $order = $this->_coreRegistry->registry('current_order');
 
-        $cart = \Mage::getSingleton('Magento\Checkout\Model\Cart');
-        $cartTruncated = false;
         /* @var $cart \Magento\Checkout\Model\Cart */
-
+        $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
         $items = $order->getItemsCollection();
         foreach ($items as $item) {
             try {
                 $cart->addOrderItem($item);
             } catch (\Magento\Core\Exception $e){
-                if (\Mage::getSingleton('Magento\Checkout\Model\Session')->getUseNotice(true)) {
-                    \Mage::getSingleton('Magento\Checkout\Model\Session')->addNotice($e->getMessage());
-                }
-                else {
-                    \Mage::getSingleton('Magento\Checkout\Model\Session')->addError($e->getMessage());
+                if ($this->_objectManager->get('Magento\Checkout\Model\Session')->getUseNotice(true)) {
+                    $this->_objectManager->get('Magento\Checkout\Model\Session')->addNotice($e->getMessage());
+                } else {
+                    $this->_objectManager->get('Magento\Checkout\Model\Session')->addError($e->getMessage());
                 }
                 $this->_redirect('*/*/history');
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Checkout\Model\Session')->addException($e,
+                $this->_objectManager->get('Magento\Checkout\Model\Session')->addException($e,
                     __('We cannot add this item to your shopping cart.')
                 );
                 $this->_redirect('checkout/cart');
@@ -194,11 +184,11 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
     {
         $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
+            $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
         }
 
         if ($this->_canViewOrder($order)) {
@@ -209,7 +199,7 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');
@@ -224,11 +214,11 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
     {
         $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
         if ($shipmentId) {
-            $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
+            $shipment = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
             $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
         }
         if ($this->_canViewOrder($order)) {
             $this->_coreRegistry->register('current_order', $order);
@@ -238,7 +228,7 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');
@@ -251,13 +241,13 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
      */
     public function printCreditmemoAction()
     {
-        $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
+        $creditmemoId = (int)$this->getRequest()->getParam('creditmemo_id');
         if ($creditmemoId) {
-            $creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
+            $creditmemo = $this->_objectManager->create('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();
         } else {
-            $orderId = (int) $this->getRequest()->getParam('order_id');
-            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+            $orderId = (int)$this->getRequest()->getParam('order_id');
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
         }
 
         if ($this->_canViewOrder($order)) {
@@ -268,7 +258,7 @@ abstract class AbstractController extends \Magento\Core\Controller\Front\Action
             $this->loadLayout('print');
             $this->renderLayout();
         } else {
-            if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
             } else {
                 $this->_redirect('sales/guest/form');

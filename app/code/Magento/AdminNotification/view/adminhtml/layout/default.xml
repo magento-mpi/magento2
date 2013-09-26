@@ -8,24 +8,24 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root">
+    <referenceBlock name="root">
         <container name="notifications" as="notifications" label="Notifications" after="header">
             <block class="Magento\AdminNotification\Block\System\Messages" name="system_messages" as="system_messages" before="-" template="Magento_AdminNotification::system/messages.phtml"/>
             <block class="Magento\AdminNotification\Block\System\Messages\UnreadMessagePopup" name="unread_system_messages" as="unread_system_messages" after="system_messages" template="Magento_AdminNotification::system/messages/popup.phtml"/>
             <block class="Magento\AdminNotification\Block\Window" name="notification_window" as="notification_window" acl="Magento_AdminNotification::show_toolbar" template="notification/window.phtml"/>
         </container>
-        <reference name="head">
+        <referenceBlock name="head">
             <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminnotification-system-notification-js">
                 <arguments>
                     <argument name="file" xsi:type="string">Magento_AdminNotification::system/notification.js</argument>
                 </arguments>
             </block>
-        </reference>
-    </reference>
-    <reference name="header">
+        </referenceBlock>
+    </referenceBlock>
+    <referenceBlock name="header">
         <block class="Magento\AdminNotification\Block\ToolbarEntry" template="toolbar_entry.phtml" before="-"/>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Css" name="magento-core-prototype-magento-css">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
@@ -36,5 +36,5 @@
                 <argument name="file" xsi:type="string">Magento_AdminNotification::toolbar_entry.js</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

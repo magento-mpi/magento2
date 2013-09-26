@@ -10,10 +10,6 @@
 
 /**
  * RMA create model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Model\Rma;
 
@@ -34,6 +30,31 @@ class Create extends \Magento\Object
     protected $_order = null;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        array $data = array()
+    ) {
+        $this->_customerFactory = $customerFactory;
+        $this->_orderFactory = $orderFactory;
+        parent::__construct($data);
+    }
+
+    /**
      * Get Customer object
      *
      * @param null|int $customerId
@@ -48,7 +69,8 @@ class Create extends \Magento\Object
             $customerId = intval($customerId);
 
             if ($customerId) {
-                $customer = \Mage::getModel('Magento\Customer\Model\Customer');
+                /** @var $customer \Magento\Customer\Model\Customer */
+                $customer = $this->_customerFactory->create();
                 $customer->load($customerId);
                 $this->_customer = $customer;
             } elseif (intval($this->getOrderId())) {
@@ -72,7 +94,8 @@ class Create extends \Magento\Object
             }
             $orderId = intval($orderId);
             if ($orderId) {
-                $order = \Mage::getModel('Magento\Sales\Model\Order');
+                /** @var $order \Magento\Sales\Model\Order */
+                $order = $this->_orderFactory->create();
                 $order->load($orderId);
                 $this->_order = $order;
             }

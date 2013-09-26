@@ -10,16 +10,43 @@
 
 /**
  * Admin RMA create order grid block
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Create\Order;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Config
+     */
+    protected $_orderConfig;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory,
+        \Magento\Sales\Model\Order\Config $orderConfig,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_orderConfig = $orderConfig;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     /**
      * Block constructor
@@ -39,8 +66,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Sales\Model\Resource\Order\Grid\Collection */
-        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Grid\Collection')
-            ->setOrder('entity_id');
+        $collection = $this->_collectionFactory->create();
+        $collection->setOrder('entity_id');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -59,7 +86,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'index' => 'increment_id',
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header' => __('Purchase Point'),
                 'index' => 'store_id',
@@ -105,7 +132,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'index' => 'status',
             'type' => 'options',
             'width' => '70px',
-            'options' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getStatuses(),
+            'options' => $this->_orderConfig->getStatuses(),
         ));
 
         return parent::_prepareColumns();
@@ -118,7 +145,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/new', array('order_id'=>$row->getId()));
+        return $this->getUrl('*/*/new', array('order_id' => $row->getId()));
     }
 
 }

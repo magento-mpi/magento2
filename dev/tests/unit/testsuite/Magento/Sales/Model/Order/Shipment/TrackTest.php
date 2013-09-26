@@ -21,7 +21,13 @@ class TrackTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento\Sales\Model\Order\Shipment\Track');
+        $arguments = array(
+            'shipmentFactory' => $this->getMock(
+                'Magento\Sales\Model\Order\ShipmentFactory', array(), array(), '', false
+            )
+        );
+
+        $this->_model = $objectManagerHelper->getObject('Magento\Sales\Model\Order\Shipment\Track', $arguments);
     }
 
     public function testAddData()

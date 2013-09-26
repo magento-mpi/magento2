@@ -15,11 +15,17 @@ class Collection extends \Magento\Rule\Model\Action\Collection
 {
     /**
      * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Rule\Model\ActionFactory $actionFactory
+     * @param \Magento\Core\Model\Layout $layout
      * @param array $data
      */
-    public function __construct(\Magento\Core\Model\View\Url $viewUrl, array $data = array())
-    {
-        parent::__construct($viewUrl, $data);
+    public function __construct(
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Rule\Model\ActionFactory $actionFactory,
+        \Magento\Core\Model\Layout $layout,
+        array $data = array()
+    ) {
+        parent::__construct($viewUrl, $actionFactory, $layout, $data);
         $this->setType('Magento\SalesRule\Model\Rule\Action\Collection');
     }
 

@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_catalog_search_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Search\Block\Adminhtml\Search\Edit" name="related_grid_edit"/>
         <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="related_grid_serializer">
             <arguments>
@@ -18,11 +18,11 @@
                 <argument name="input_element_name" xsi:type="string">selected_queries_grid</argument>
                 <argument name="reload_param_name" xsi:type="string">selected_queries_grid</argument>
             </arguments>
-            <reference name="related_grid_serializer">
+            <referenceBlock name="related_grid_serializer">
                 <action method="setFormId">
                     <argument name="value" xsi:type="string">edit_form</argument>
                 </action>
-            </reference>
+            </referenceBlock>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

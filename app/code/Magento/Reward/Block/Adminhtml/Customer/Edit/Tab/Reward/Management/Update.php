@@ -22,6 +22,39 @@ class Update
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\System\StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\System\StoreFactory $storeFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\System\StoreFactory $storeFactory,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_storeFactory = $storeFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Getter
      *
      * @return \Magento\Customer\Model\Customer
@@ -34,7 +67,7 @@ class Update
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Update
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Update
      */
     protected function _prepareForm()
     {
@@ -46,7 +79,7 @@ class Update
             'legend' => __('Update Reward Points Balance')
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $fieldset->addField('store', 'select', array(
                 'name'  => 'store_id',
                 'title' => __('Store'),
@@ -99,14 +132,13 @@ class Update
     {
         $customer = $this->getCustomer();
         if (!$customer->getWebsiteId()
-            || \Mage::app()->hasSingleStore()
+            || $this->_storeManager->hasSingleStore()
             || $customer->getSharingConfig()->isGlobalScope())
         {
-            return \Mage::getModel('Magento\Core\Model\System\Store')->getStoreValuesForForm();
+            return $this->_storeFactory->create()->getStoreValuesForForm();
         }
 
-        $stores = \Mage::getModel('Magento\Core\Model\System\Store')
-            ->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
+        $stores = $this->_storeFactory->create()->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
         $values = array();
 
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');

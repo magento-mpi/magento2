@@ -33,10 +33,12 @@ class ModuleList implements \Magento\Core\Model\ModuleListInterface
         \Magento\Config\CacheInterface $cache,
         $cacheId = 'modules_declaration_cache'
     ) {
-        $data = $cache->get($this->_scope, $cacheId);
+        $data = $cache->load($this->_scope . '::' .  $cacheId);
         if (!$data) {
             $data = $reader->read($this->_scope);
-            $cache->put($data, $this->_scope, $cacheId);
+            $cache->save(serialize($data), $this->_scope . '::' . $cacheId);
+        } else {
+            $data = unserialize($data);
         }
         $this->_data = $data;
     }

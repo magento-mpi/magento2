@@ -28,7 +28,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     protected $_catalogSearchData = null;
 
     /**
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * Catalog search fulltext
+     *
+     * @var \Magento\CatalogSearch\Model\Fulltext
+     */
+    protected $_catalogSearchFulltext;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -36,17 +44,21 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      */
     public function __construct(
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\EntityFactory $entityFactory
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData
     ) {
+        $this->_catalogSearchFulltext = $catalogSearchFulltext;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct(
             $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
@@ -71,7 +83,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addSearchFilter($query)
     {
-        \Mage::getSingleton('Magento\CatalogSearch\Model\Fulltext')->prepareResult();
+        $this->_catalogSearchFulltext->prepareResult();
 
         $this->getSelect()->joinInner(
             array('search_result' => $this->getTable('catalogsearch_result')),

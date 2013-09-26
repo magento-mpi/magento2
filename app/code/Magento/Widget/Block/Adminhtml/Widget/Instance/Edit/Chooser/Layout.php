@@ -26,22 +26,22 @@ class Layout extends \Magento\Core\Block\Html\Select
     /**
      * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
-    protected $_themeCollFactory;
+    protected $_themesFactory;
 
     /**
-     * @param \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory
-     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeCollFactory
      * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory,
-        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeCollFactory,
         \Magento\Core\Block\Context $context,
+        \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory,
         array $data = array()
     ) {
         $this->_layoutMergeFactory = $layoutMergeFactory;
-        $this->_themeCollFactory = $themeCollFactory;
+        $this->_themesFactory = $themesFactory;
         parent::__construct($context, $data);
     }
 
@@ -82,7 +82,7 @@ class Layout extends \Magento\Core\Block\Html\Select
     protected function _getThemeInstance($themeId)
     {
         /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
-        $themeCollection = $this->_themeCollFactory->create();
+        $themeCollection = $this->_themesFactory->create();
         return $themeCollection->getItemById($themeId);
     }
 

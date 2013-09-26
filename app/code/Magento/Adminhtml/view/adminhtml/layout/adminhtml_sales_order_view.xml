@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-sales-order-create-giftmessage-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/create/giftmessage.js</argument>
@@ -19,11 +19,11 @@
                 <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/giftoptions_tooltip.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Sales\Order\View" name="sales_order_edit"/>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento\Adminhtml\Block\Sales\Order\View\Tabs" name="sales_order_tabs">
             <block class="Magento\Adminhtml\Block\Sales\Order\View\Tab\Info" name="order_tab_info" template="sales/order/view/tab/info.phtml">
                 <block class="Magento\Adminhtml\Block\Sales\Order\View\Messages" name="order_messages"/>
@@ -82,5 +82,5 @@
                 <argument name="block" xsi:type="string">Magento\Adminhtml\Block\Sales\Order\View\Tab\Transactions</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

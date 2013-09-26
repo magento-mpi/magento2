@@ -29,6 +29,55 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     protected $_clientDocObjectName = 'Apache_Solr_Document';
 
     /**
+     * Catalog inventory data
+     *
+     * @var \Magento\CatalogInventory\Helper\Data
+     */
+    protected $_ctlgInventData;
+
+    /**
+     * Initialize connect to Solr Client
+     *
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
+     * @param \Magento\Search\Model\Resource\Index $resourceIndex
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Search\Model\Client\FactoryInterface $clientFactory
+     * @param \Magento\Search\Helper\ClientInterface $clientHelper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
+     * @param array $options
+     */
+    public function __construct(
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice,
+        \Magento\Search\Model\Resource\Index $resourceIndex,
+        \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
+        \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Search\Model\Client\FactoryInterface $clientFactory,
+        \Magento\Search\Helper\ClientInterface $clientHelper,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\CatalogInventory\Helper\Data $ctlgInventData,
+        $options = array()
+    ) {
+        $this->_ctlgInventData = $ctlgInventData;
+        parent::__construct($customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
+            $logger, $storeManager, $cache, $eavConfig, $clientFactory, $clientHelper, $registry, $coreStoreConfig,
+            $options);
+    }
+
+    /**
      * Simple Search interface
      *
      * @param string $query The raw query string
@@ -47,33 +96,6 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      *
      * @return array
      */
-    /**
-     * Catalog inventory data
-     *
-     * @var \Magento\CatalogInventory\Helper\Data
-     */
-    protected $_ctlgInventData = null;
-
-    /**
-     * Initialize connect to Solr Client
-     *
-     * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
-     * @param \Magento\Search\Model\Client\FactoryInterface $clientFactory
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param  $options
-     */
-    public function __construct(
-        \Magento\CatalogInventory\Helper\Data $ctlgInventData,
-        \Magento\Search\Model\Client\FactoryInterface $clientFactory,
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Search\Helper\ClientInterface $clientHelper,
-        $options = array()
-    ) {
-        $this->_ctlgInventData = $ctlgInventData;
-        parent::__construct($clientFactory, $logger, $clientHelper, $options);
-    }
-
     protected function _search($query, $params = array())
     {
         $searchConditions = $this->prepareSearchConditions($query);
@@ -243,7 +265,7 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
 
             return $result;
         } catch (\Exception $e) {
-            $this->_log->logException($e);
+            $this->_logger->logException($e);
         }
     }
 

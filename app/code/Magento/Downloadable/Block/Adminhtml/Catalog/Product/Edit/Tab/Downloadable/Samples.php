@@ -53,7 +53,17 @@ class Samples
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Downloadable\Model\Sample
+     */
+    protected $_sampleModel;
+
+    /**
+     * @var \Magento\Backend\Model\UrlFactory
+     */
+    protected $_urlFactory;
 
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
@@ -62,6 +72,8 @@ class Samples
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Downloadable\Model\Sample $sampleModel
+     * @param \Magento\Backend\Model\UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
@@ -71,12 +83,17 @@ class Samples
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Downloadable\Model\Sample $sampleModel,
+        \Magento\Backend\Model\UrlFactory $urlFactory,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
         $this->_storeManager = $storeManager;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_sampleModel = $sampleModel;
+        $this->_urlFactory = $urlFactory;
+
         parent::__construct($coreData, $context, $data);
     }
 
@@ -139,7 +156,7 @@ class Samples
                 'sort_order' => $item->getSortOrder(),
             );
             $file = $fileHelper->getFilePath(
-                \Magento\Downloadable\Model\Sample::getBasePath(), $item->getSampleFile()
+                $this->_sampleModel->getBasePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && !is_file($file)) {
                 $this->_coreFileStorageDb->saveFileToFilesystem($file);
@@ -215,9 +232,10 @@ class Samples
      */
     public function getConfigJson()
     {
-        $this->getConfig()->setUrl(\Mage::getModel('Magento\Backend\Model\Url')
+        $url = $this->_urlFactory->create()
             ->addSessionParam()
-            ->getUrl('*/downloadable_file/upload', array('type' => 'samples', '_secure' => true)));
+            ->getUrl('*/downloadable_file/upload', array('type' => 'samples', '_secure' => true));
+        $this->getConfig()->setUrl($url);
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('samples');
         $this->getConfig()->setFilters(array(

@@ -11,7 +11,7 @@
 /**
  * Customer balance history grid
  */
-namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History;
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance_History;
 
 class Grid
     extends \Magento\Adminhtml\Block\Widget\Grid
@@ -20,6 +20,47 @@ class Grid
      * @var \Magento\CustomerBalance\Model\Resource\Balance\Collection
      */
     protected $_collection;
+
+    /**
+     * @var \Magento\CustomerBalance\Model\Balance\History
+     */
+    protected $_history;
+
+    /**
+     * @var \Magento\CustomerBalance\Model\Balance\HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\CustomerBalance\Model\Balance\History $history
+     * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\CustomerBalance\Model\Balance\History $history,
+        \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        $this->_historyFactory = $historyFactory;
+        $this->_history = $history;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     /**
      * Initialize some params
@@ -36,11 +77,11 @@ class Grid
     /**
      * Prepare grid collection
      *
-     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid
+     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance_History_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\CustomerBalance\Model\Balance\History')
+        $collection = $this->_historyFactory->create()
             ->getCollection()
             ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
         $this->setCollection($collection);
@@ -51,7 +92,7 @@ class Grid
     /**
      * Prepare grid columns
      *
-     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid
+     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance_History_Grid
      */
     protected function _prepareColumns()
     {
@@ -63,12 +104,12 @@ class Grid
             'width'     => 200,
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header'    => __('Website'),
                 'index'     => 'website_id',
                 'type'      => 'options',
-                'options'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash(),
+                'options'   => $this->_systemStore->getWebsiteOptionHash(),
                 'sortable'  => false,
                 'width'     => 200,
             ));
@@ -80,7 +121,7 @@ class Grid
             'index'     => 'action',
             'sortable'  => false,
             'type'      => 'options',
-            'options'   => \Mage::getSingleton('Magento\CustomerBalance\Model\Balance\History')->getActionNamesArray()
+            'options'   => $this->_history->getActionNamesArray()
         ));
 
         $this->addColumn('balance_delta', array(

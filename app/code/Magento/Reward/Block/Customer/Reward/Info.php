@@ -34,18 +34,42 @@ class Info extends \Magento\Core\Block\Template
     protected $_rewardData = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Reward\Model\RewardFactory
+     */
+    protected $_rewardFactory;
+
+    /**
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Reward\Model\RewardFactory $rewardFactory,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
+        $this->_rewardFactory = $rewardFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -56,11 +80,11 @@ class Info extends \Magento\Core\Block\Template
      */
     protected function _toHtml()
     {
-        $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        $customer = $this->_customerSession->getCustomer();
         if ($customer && $customer->getId()) {
-            $this->_rewardInstance = \Mage::getModel('Magento\Reward\Model\Reward')
+            $this->_rewardInstance = $this->_rewardFactory->create()
                 ->setCustomer($customer)
-                ->setWebsiteId(\Mage::app()->getWebsite()->getId())
+                ->setWebsiteId($this->_storeManager->getWebsite()->getId())
                 ->loadByCustomer();
             if ($this->_rewardInstance->getId()) {
                 $this->_prepareTemplateData();

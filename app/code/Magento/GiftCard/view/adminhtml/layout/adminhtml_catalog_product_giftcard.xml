@@ -8,10 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="product_tabs">
+    <referenceBlock name="product_tabs">
         <action method="addTab">
             <argument name="name" xsi:type="string">giftcard_info</argument>
             <argument name="block" xsi:type="string">Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

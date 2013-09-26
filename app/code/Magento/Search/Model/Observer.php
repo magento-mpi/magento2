@@ -16,6 +16,41 @@ namespace Magento\Search\Model;
 class Observer
 {
     /**
+     * Index indexer
+     *
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * Search catalog layer
+     *
+     * @var \Magento\Search\Model\Catalog\Layer
+     */
+    protected $_searchCatalogLayer = null;
+
+    /**
+     * Search search layer
+     *
+     * @var \Magento\Search\Model\Search\Layer
+     */
+    protected $_searchSearchLayer = null;
+
+    /**
+     * Search recommendations factory
+     *
+     * @var \Magento\Search\Model\Resource\RecommendationsFactory
+     */
+    protected $_searchRecommendationsFactory = null;
+
+    /**
+     * Eav entity attribute option coll factory
+     *
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
+     */
+    protected $_eavEntityAttributeOptionCollFactory = null;
+
+    /**
      * Search data
      *
      * @var \Magento\Search\Helper\Data
@@ -30,25 +65,60 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
-     * Catalog search data
-     *
-     * @var \Magento\CatalogSearch\Helper\Data
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
      */
-    protected $_catalogSearchData = null;
+    protected $_engineProvider = null;
 
     /**
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * Source weight
+     *
+     * @var \Magento\Search\Model\Source\Weight
+     */
+    protected $_sourceWeight;
+
+    /**
+     * Request
+     *
+     * @var \Magento\Core\Controller\Request\Http
+     */
+    protected $_request;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollFactory
+     * @param \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory
+     * @param \Magento\Search\Model\Search\Layer $searchSearchLayer
+     * @param \Magento\Search\Model\Catalog\Layer $searchCatalogLayer
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Search\Model\Source\Weight $sourceWeight
+     * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollFactory,
+        \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
+        \Magento\Search\Model\Search\Layer $searchSearchLayer,
+        \Magento\Search\Model\Catalog\Layer $searchCatalogLayer,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchData,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Search\Model\Source\Weight $sourceWeight,
+        \Magento\Core\Controller\Request\Http $request
     ) {
-        $this->_coreRegistry = $coreRegistry;
-        $this->_catalogSearchData = $catalogSearchData;
+        $this->_eavEntityAttributeOptionCollFactory = $eavEntityAttributeOptionCollFactory;
+        $this->_searchRecommendationsFactory = $searchRecommendationsFactory;
+        $this->_searchSearchLayer = $searchSearchLayer;
+        $this->_searchCatalogLayer = $searchCatalogLayer;
+        $this->_indexer = $indexer;
+        $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_sourceWeight = $sourceWeight;
+        $this->_request = $request;
     }
 
     /**
@@ -70,7 +140,7 @@ class Observer
         $fieldset->addField('search_weight', 'select', array(
             'name'        => 'search_weight',
             'label'       => __('Search Weight'),
-            'values'      => \Mage::getModel('Magento\Search\Model\Source\Weight')->getOptions(),
+            'values'      => $this->_sourceWeight->getOptions(),
         ), 'is_searchable');
         /**
          * Disable default search fields
@@ -99,7 +169,7 @@ class Observer
             $relatedQueries = explode('&', $relatedQueries);
         }
 
-        \Mage::getResourceModel('Magento\Search\Model\Resource\Recommendations')
+        $this->_searchRecommendationsFactory->create()
             ->saveRelatedQueries($queryId, $relatedQueries);
     }
 
@@ -118,7 +188,7 @@ class Observer
 
         $object = $observer->getEvent()->getDataObject();
         if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
-            \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode('catalogsearch_fulltext')
+            $this->_indexer->getProcessByCode('catalogsearch_fulltext')
                 ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
     }
@@ -141,7 +211,7 @@ class Observer
                 continue;
             }
 
-            $optionCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
+            $optionCollection = $this->_eavEntityAttributeOptionCollFactory->create()
                 ->setAttributeFilter($attribute->getAttributeId())
                 ->setPositionOrder(\Magento\DB\Select::SQL_ASC, true)
                 ->load();
@@ -193,8 +263,7 @@ class Observer
         }
 
         if (!empty($storeIds)) {
-            $engine = $this->_catalogSearchData->getEngine();
-            $engine->cleanIndex($storeIds);
+            $this->_engineProvider->get()->cleanIndex($storeIds);
         }
     }
 
@@ -206,7 +275,7 @@ class Observer
     public function resetCurrentCatalogLayer(\Magento\Event\Observer $observer)
     {
         if ($this->_searchData->getIsEngineAvailableForNavigation()) {
-            $this->_coreRegistry->register('current_layer', \Mage::getSingleton('Magento\Search\Model\Catalog\Layer'));
+            $this->_coreRegistry->register('current_layer', $this->_searchCatalogLayer);
         }
     }
 
@@ -218,7 +287,7 @@ class Observer
     public function resetCurrentSearchLayer(\Magento\Event\Observer $observer)
     {
         if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
-            $this->_coreRegistry->register('current_layer', \Mage::getSingleton('Magento\Search\Model\Search\Layer'));
+            $this->_coreRegistry->register('current_layer', $this->_searchSearchLayer);
         }
     }
 
@@ -234,12 +303,12 @@ class Observer
         }
 
         /* @var \Magento\Search\Model\Indexer\Indexer $indexer */
-        $indexer = \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode('catalogsearch_fulltext');
+        $indexer = $this->_indexer->getProcessByCode('catalogsearch_fulltext');
         if (empty($indexer)) {
             return;
         }
 
-        if ('process' == strtolower(\Mage::app()->getRequest()->getControllerName())) {
+        if ('process' == strtolower($this->_request->getControllerName())) {
             $indexer->reindexAll();
         } else {
             $indexer->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);

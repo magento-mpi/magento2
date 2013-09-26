@@ -12,10 +12,6 @@
  * Sales Order Total PDF model
  *
  * @method \Magento\Sales\Model\Order getOrder()
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order\Pdf\Total;
 
@@ -39,23 +35,21 @@ class DefaultTotal extends \Magento\Object
     /**
      * Initialize dependencies
      *
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Tax\Model\Calculation $taxCalculation
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Tax\Model\Sales\Order\TaxFactory $taxFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Tax\Model\Calculation $taxCalculation,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Tax\Model\Sales\Order\TaxFactory $taxFactory,
         array $data = array()
     ){
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;
-        $this->_taxOrder = $objectManager->create('Magento\Tax\Model\Sales\Order\Tax');
-        parent::__construct($context, $data);
+        $this->_taxOrder = $taxFactory->create();
+        parent::__construct($data);
     }
 
     /**

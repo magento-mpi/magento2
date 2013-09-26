@@ -8,15 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout.onepage.review.button">
+    <referenceBlock name="checkout.onepage.review.button">
         <action method="setTemplate">
-            <argument name="template" xsi:type="helper" helper="Magento\Pbridge\Helper\Data::getReviewButtonTemplate">
+            <argument name="template" xsi:type="helper" helper="Magento_Pbridge_Helper_Data::getReviewButtonTemplate">
                 <param name="name">Magento_Pbridge::checkout/review/button.phtml</param>
                 <param name="block">checkout.onepage.review.button</param>
             </argument>
         </action>
-    </reference>
-    <reference name="checkout.onepage.review.info.items.after">
+    </referenceBlock>
+    <referenceContainer name="checkout.onepage.review.info.items.after">
         <block class="Magento\Pbridge\Block\Checkout\Payment\Review\Container" name="pbridge.checkout.payment.review.iframe" template="Magento_Pbridge::checkout/review/iframe.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -11,15 +11,81 @@
 /**
  * Multiple wishlist frontend search controller
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 
 namespace Magento\MultipleWishlist\Controller;
 
 class Index extends \Magento\Wishlist\Controller\Index
 {
+    /**
+     * Url model
+     *
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Wishlist session
+     *
+     * @var \Magento\Wishlist\Model\Session
+     */
+    protected $_wishlistSession;
+
+    /**
+     * Item factory
+     *
+     * @var \Magento\Wishlist\Model\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * Wishlist collection factory
+     *
+     * @var \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory
+     */
+    protected $_wishlistCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Model\Config $wishlistConfig
+     * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Core\Model\Session\Generic $wishlistSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\UrlInterface $url
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Model\Config $wishlistConfig,
+        \Magento\Wishlist\Model\ItemFactory $itemFactory,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Core\Model\Session\Generic $wishlistSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\UrlInterface $url,
+        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
+    ) {
+        $this->_itemFactory = $itemFactory;
+        $this->_wishlistFactory = $wishlistFactory;
+        $this->_wishlistSession = $wishlistSession;
+        $this->_customerSession = $customerSession;
+        $this->_url = $url;
+        $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
+        parent::__construct($context, $coreRegistry, $wishlistConfig);
+    }
+
     /**
      * Check if multiple wishlist is enabled on current store before all other actions
      *
@@ -49,7 +115,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->_customerSession;
     }
 
     /**
@@ -112,32 +178,33 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param bool $visibility
      * @param int $wishlistId
      * @return \Magento\Wishlist\Model\Wishlist
+     * @throws \Magento\Core\Exception
      */
     protected function _editWishlist($customerId, $wishlistName, $visibility = false, $wishlistId = null)
     {
-        $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
+        /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
+        $wishlist = $this->_wishlistFactory->create();
 
         if (!$customerId) {
-            \Mage::throwException(__('Log in to edit wish lists.'));
+            throw new \Magento\Core\Exception(__('Log in to edit wish lists.'));
         }
         if (!strlen($wishlistName)) {
-            \Mage::throwException(__('Provide wish list name'));
+            throw new \Magento\Core\Exception(__('Provide wish list name'));
         }
         if ($wishlistId){
             $wishlist->load($wishlistId);
             if ($wishlist->getCustomerId() !== $this->_getSession()->getCustomerId()) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('The wish list is not assigned to your account and cannot be edited.')
                 );
             }
         } else {
-            $wishlistCollection = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection()
-                ->filterByCustomerId($customerId);
+            /** @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistCollection */
+            $wishlistCollection = $this->_wishlistCollectionFactory->create();
+            $wishlistCollection->filterByCustomerId($customerId);
             $limit = $this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->getWishlistLimit();
             if ($this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isWishlistLimitReached($wishlistCollection)) {
-                \Mage::throwException(
-                    __('Only %1 wish lists can be created.', $limit)
-                );
+                throw new \Magento\Core\Exception(__('Only %1 wish lists can be created.', $limit));
             }
             $wishlist->setCustomerId($customerId);
         }
@@ -183,7 +250,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             $this->getResponse()->setHeader('Content-Type', 'application/json');
             $params = array();
             if (!$wishlist->getId()) {
-                $params = array('redirect' => \Mage::getUrl('*/*'));
+                $params = array('redirect' => $this->_url->getUrl('*/*'));
             } else {
                 $params = array('wishlist_id' => $wishlist->getId());
             }
@@ -201,6 +268,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * Delete wishlist by id
      *
      * @return void
+     * @throws \Magento\Core\Exception
      */
     public function deletewishlistAction()
     {
@@ -210,13 +278,11 @@ class Index extends \Magento\Wishlist\Controller\Index
                 return $this->norouteAction();
             }
             if ($this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isWishlistDefault($wishlist)) {
-                \Mage::throwException(
-                    __('The default wish list cannot be deleted.')
-                );
+                throw new \Magento\Core\Exception(__('The default wish list cannot be deleted.'));
             }
             $wishlist->delete();
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            \Mage::getSingleton('Magento\Wishlist\Model\Session')->addSuccess(
+            $this->_wishlistSession->addSuccess(
                 __('Wish list "%1" has been deleted.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName()))
             );
         } catch (\Magento\Core\Exception $e) {
@@ -256,7 +322,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             throw new \InvalidArgumentException();
         }
         if ($item->getWishlistId() == $wishlist->getId()) {
-            throw new \DomainException();
+            throw new DomainException();
         }
         $buyRequest = $item->getBuyRequest();
         if ($qty) {
@@ -297,7 +363,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             $productName = '';
             try {
                 /* @var \Magento\Wishlist\Model\Item $item */
-                $item = \Mage::getModel('Magento\Wishlist\Model\Item');
+                $item = $this->_itemFactory->create();
                 $item->loadWithOptions($itemId);
 
                 $wishlistName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName());
@@ -312,7 +378,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 $this->_getSession->addError(
                     __('The item was not found.')
                 );
-            } catch (\DomainException $e) {
+            } catch (DomainException $e) {
                 $this->_getSession()->addError(
                     __('"%1" is already present in %2.', $productName, $wishlistName)
                 );
@@ -359,14 +425,14 @@ class Index extends \Magento\Wishlist\Controller\Index
             foreach ($itemIds as $id => $value) {
                 try {
                     /* @var \Magento\Wishlist\Model\Item $item */
-                    $item = \Mage::getModel('Magento\Wishlist\Model\Item');
+                    $item = $this->_itemFactory->create();
                     $item->loadWithOptions($id);
 
                     $this->_copyItem($item, $wishlist, isset($qtys[$id]) ? $qtys[$id] : null);
                     $copied[$id] = $item;
                 } catch (\InvalidArgumentException $e) {
                     $notFound[] = $id;
-                } catch (\DomainException $e) {
+                } catch (DomainException $e) {
                     $alreadyPresent[$id] = $item;
                 } catch (\Exception $e) {
                     $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
@@ -427,10 +493,10 @@ class Index extends \Magento\Wishlist\Controller\Index
             throw new \InvalidArgumentException();
         }
         if ($item->getWishlistId() == $wishlist->getId()) {
-            throw new \DomainException(null, 1);
+            throw new DomainException(null, 1);
         }
         if (!$customerWishlists->getItemById($item->getWishlistId())) {
-            throw new \DomainException(null, 2);
+            throw new DomainException(null, 2);
         }
 
         $buyRequest = $item->getBuyRequest();
@@ -462,11 +528,12 @@ class Index extends \Magento\Wishlist\Controller\Index
 
         if ($itemId) {
             try {
-                $wishlists = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection()
-                    ->filterByCustomerId($this->_getSession()->getCustomerId());
+                /** @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists */
+                $wishlists = $this->_wishlistCollectionFactory->create();
+                $wishlists->filterByCustomerId($this->_getSession()->getCustomerId());
 
                 /* @var \Magento\Wishlist\Model\Item $item */
-                $item = \Mage::getModel('Magento\Wishlist\Model\Item');
+                $item = $this->_itemFactory->create();
                 $item->loadWithOptions($itemId);
 
                 $productName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($item->getProduct()->getName());
@@ -477,11 +544,11 @@ class Index extends \Magento\Wishlist\Controller\Index
                     __('"%1" was moved to %2.', $productName, $wishlistName)
                 );
                 $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $this->_getSession()->addError(
                     __("An item with this ID doesn't exist.")
                 );
-            } catch (\DomainException $e) {
+            } catch (DomainException $e) {
                 if ($e->getCode() == 1) {
                     $this->_getSession()->addError(
                         __('"%1" is already present in %2.', $productName, $wishlistName)
@@ -519,21 +586,22 @@ class Index extends \Magento\Wishlist\Controller\Index
         $notAllowed = array();
         $alreadyPresent = array();
         if (count($itemIds)) {
-            $wishlists = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection();
+            /** @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists */
+            $wishlists = $this->_wishlistCollectionFactory->create();
             $wishlists->filterByCustomerId($this->_getSession()->getCustomerId());
             $qtys = $this->getRequest()->getParam('qty', array());
 
             foreach ($itemIds as $id => $value) {
                 try {
                     /* @var \Magento\Wishlist\Model\Item $item */
-                    $item = \Mage::getModel('Magento\Wishlist\Model\Item');
+                    $item = $this->_itemFactory->create();
                     $item->loadWithOptions($id);
 
                     $this->_moveItem($item, $wishlist, $wishlists, isset($qtys[$id]) ? $qtys[$id] : null);
                     $moved[$id] = $item;
                 } catch (\InvalidArgumentException $e) {
                     $notFound[] = $id;
-                } catch (\DomainException $e) {
+                } catch (DomainException $e) {
                     if ($e->getCode() == 1) {
                         $alreadyPresent[$id] = $item;
                     } else {

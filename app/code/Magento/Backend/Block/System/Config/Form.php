@@ -17,10 +17,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Backend\Block\System\Config;
 
-class Form extends \Magento\Backend\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
 
     const SCOPE_DEFAULT = 'default';
@@ -112,32 +113,33 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected $_config;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Config\Factory $configFactory
-     * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Backend\Block\System\Config\Form\Fieldset\Factory $fieldsetFactory
      * @param \Magento\Backend\Block\System\Config\Form\Field\Factory $fieldFactory
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Factory $configFactory,
-        \Magento\Data\Form\Factory $formFactory,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Backend\Block\System\Config\Form\Fieldset\Factory $fieldsetFactory,
         \Magento\Backend\Block\System\Config\Form\Field\Factory $fieldFactory,
         \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_configFactory = $configFactory;
-        $this->_formFactory = $formFactory;
         $this->_configStructure = $configStructure;
         $this->_fieldsetFactory = $fieldsetFactory;
         $this->_fieldFactory = $fieldFactory;
@@ -199,7 +201,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
      *
      * @param \Magento\Backend\Model\Config\Structure\Element\Group $group
      * @param \Magento\Backend\Model\Config\Structure\Element\Section $section
-     * @param \Magento\Data\Form\Abstract $form
+     * @param \Magento\Data\Form\AbstractForm $form
      */
     protected function _initGroup(
         \Magento\Backend\Model\Config\Structure\Element\Group $group,

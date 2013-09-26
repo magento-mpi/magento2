@@ -13,4 +13,12 @@
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
+    <type name="Magento_SalesArchive_Model_Observer">
+        <param name="config">
+            <instance type="Magento_SalesArchive_Model_Config_Proxy" />
+        </param>
+        <param name="backendData">
+            <instance type="Magento_Backend_Helper_Data_Proxy" />
+        </param>
+    </type>
 </config>

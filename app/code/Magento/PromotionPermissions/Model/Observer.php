@@ -48,30 +48,36 @@ class Observer
     protected $_canEditReminderRules;
 
     /**
-     * Magento_Banner flag
+     * \Magento\Banner flag
      *
      * @var boolean
      */
     protected $_isEnterpriseBannerEnabled;
 
     /**
-     * Magento_Reminder flag
+     * \Magento\Reminder flag
      *
      * @var boolean
      */
     protected $_isEnterpriseReminderEnabled;
 
     /**
-     * Promotion Permissions Observer class constructor
-     *
-     * Sets necessary data
-     *
+     * @var \Magento\Banner\Model\Resource\Banner\Collection
+     */
+    protected $_bannerCollection;
+
+    /**
      * @param \Magento\PromotionPermissions\Helper\Data $promoPermData
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
      */
     public function __construct(
-        \Magento\PromotionPermissions\Helper\Data $promoPermData
+        \Magento\PromotionPermissions\Helper\Data $promoPermData,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
     ) {
-        $this->_request = \Mage::app()->getRequest();
+        $this->_request = $request;
+        $this->_bannerCollection = $bannerCollection;
         $this->_canEditCatalogRules = $promoPermData->getCanAdminEditCatalogRules();
         $this->_canEditSalesRules = $promoPermData->getCanAdminEditSalesRules();
         $this->_canEditReminderRules = $promoPermData->getCanAdminEditReminderRules();
@@ -113,7 +119,7 @@ class Observer
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
-            // Handle blocks related to Magento_CatalogRule module
+            // Handle blocks related to \Magento\CatalogRule module
             case 'promo_catalog' :
                 if (!$this->_canEditCatalogRules) {
                     $block->removeButton('add');
@@ -136,7 +142,7 @@ class Observer
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-            // Handle blocks related to Magento_SalesRule module
+            // Handle blocks related to \Magento\SalesRule module
             case 'promo_quote' :
                 if (!$this->_canEditSalesRules) {
                     $block->removeButton('add');
@@ -162,7 +168,7 @@ class Observer
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-            // Handle blocks related to Magento_Reminder module
+            // Handle blocks related to \Magento\Reminder module
             case 'magento_reminder' :
                 if (!$this->_canEditReminderRules) {
                     $block->removeButton('add');
@@ -183,18 +189,18 @@ class Observer
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-            // Handle blocks related to Magento_Banner module
+            // Handle blocks related to \Magento\Banner module
             case 'related_catalogrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(\Mage::getModel('Magento\Banner\Model\Banner')->getCollection()->getAllIds());
+                        ->setDisabledValues($this->_bannerCollection->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
             case 'related_salesrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(\Mage::getModel('Magento\Banner\Model\Banner')->getCollection()->getAllIds());
+                        ->setDisabledValues($this->_bannerCollection->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;

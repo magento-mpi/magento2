@@ -10,7 +10,6 @@
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 
-
 namespace Magento\Backend\Controller\Router;
 
 class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
@@ -55,14 +54,15 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
      * @param \Magento\Core\Model\Config\Scope $configScope
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Route\Config $routeConfig
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
      * @param \Magento\Core\Model\Config $config
-     * @param string $areaCode
-     * @param string $baseController
-     * @param string $routerId
-     * @param string $defaultRouteId
-     * @throws \InvalidArgumentException
+     * @param $areaCode
+     * @param $baseController
+     * @param $routerId
+     * @param $defaultRouteId
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         \Magento\Backend\Helper\Data $backendData,
@@ -72,6 +72,7 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
         \Magento\Core\Model\Config\Scope $configScope,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Route\Config $routeConfig,
+        \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
         \Magento\Core\Model\Config $config,
         $areaCode,
         $baseController,
@@ -85,6 +86,7 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
             $configScope,
             $coreStoreConfig,
             $routeConfig,
+            $securityInfo,
             $config,
             $areaCode,
             $baseController,
@@ -237,11 +239,8 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
          */
 
         $parts = explode('_', $realModule);
-        $realModule = implode(\Magento\Autoload\IncludePath::NS_SEPARATOR, array_splice($parts, 0, 2));
-        return $realModule . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR . ucfirst($this->_areaCode) .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR .
-            str_replace('_', '\\', uc_words(str_replace('_', ' ', $controller)));
+        $realModule = implode('_', array_splice($parts, 0, 2));
+        return $realModule . '_' . 'Controller' . '_'. ucfirst($this->_areaCode) . '_' . uc_words($controller);
     }
 
     /**

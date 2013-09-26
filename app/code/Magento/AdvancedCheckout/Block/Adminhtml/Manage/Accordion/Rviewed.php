@@ -31,7 +31,7 @@ class Rviewed
     protected $_adminhtmlSales;
 
     /**
-     * @var Magento_Reports_Model_EventFactory
+     * @var \Magento\Reports\Model\EventFactory
      */
     protected $_eventFactory;
 
@@ -41,20 +41,19 @@ class Rviewed
     protected $_productFactory;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Reports\Model\EventFactory $eventFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -63,7 +62,7 @@ class Rviewed
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_productFactory = $productFactory;
         $this->_eventFactory = $eventFactory;
     }

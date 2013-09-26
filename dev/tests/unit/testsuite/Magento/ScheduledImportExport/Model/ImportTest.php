@@ -24,19 +24,23 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_importConfigMock;
+
+    /**
      * Init model for future tests
      */
     protected function setUp()
     {
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array('date'), array(), '', false);
-        $config = $this->getMock('Magento\ImportExport\Model\Config', array('date'), array(), '', false);
-
+        $this->_importConfigMock = $this->getMock('Magento\ImportExport\Model\Import\ConfigInterface');
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $indexer = $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false);
         $this->_model = new \Magento\ScheduledImportExport\Model\Import(
-            $logger, 
+            $indexer,
+            $logger,
             $this->getMock('Magento\ScheduledImportExport\Helper\Data', array(), array(), '', false, false),
-            $coreConfig,
-            $config
+            $this->_importConfigMock
         );
     }
 

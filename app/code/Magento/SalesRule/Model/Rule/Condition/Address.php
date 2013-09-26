@@ -13,6 +13,52 @@ namespace Magento\SalesRule\Model\Rule\Condition;
 
 class Address extends \Magento\Rule\Model\Condition\AbstractCondition
 {
+    /**
+     * @var \Magento\Directory\Model\Config\Source\Country
+     */
+    protected $_directoryCountry;
+
+    /**
+     * @var \Magento\Directory\Model\Config\Source\Allregion
+     */
+    protected $_directoryAllregion;
+
+    /**
+     * @var \Magento\Shipping\Model\Config\Source\Allmethods
+     */
+    protected $_shippingAllmethods;
+
+    /**
+     * @var \Magento\Payment\Model\Config\Source\Allmethods
+     */
+    protected $_paymentAllmethods;
+
+    /**
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Directory\Model\Config\Source\Country $directoryCountry
+     * @param \Magento\Directory\Model\Config\Source\Allregion $directoryAllregion
+     * @param \Magento\Shipping\Model\Config\Source\Allmethods $shippingAllmethods
+     * @param \Magento\Payment\Model\Config\Source\Allmethods $paymentAllmethods
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Directory\Model\Config\Source\Country $directoryCountry,
+        \Magento\Directory\Model\Config\Source\Allregion $directoryAllregion,
+        \Magento\Shipping\Model\Config\Source\Allmethods $shippingAllmethods,
+        \Magento\Payment\Model\Config\Source\Allmethods $paymentAllmethods,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_directoryCountry = $directoryCountry;
+        $this->_directoryAllregion = $directoryAllregion;
+        $this->_shippingAllmethods = $shippingAllmethods;
+        $this->_paymentAllmethods = $paymentAllmethods;
+    }
+
+    /**
+     * @return $this
+     */
     public function loadAttributeOptions()
     {
         $attributes = array(
@@ -39,6 +85,9 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         return $element;
     }
 
+    /**
+     * @return string
+     */
     public function getInputType()
     {
         switch ($this->getAttribute()) {
@@ -51,6 +100,9 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         return 'string';
     }
 
+    /**
+     * @return string
+     */
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {
@@ -60,28 +112,27 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         return 'text';
     }
 
+    /**
+     * @return array|mixed
+     */
     public function getValueSelectOptions()
     {
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')
-                        ->toOptionArray();
+                    $options = $this->_directoryCountry->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Allregion')
-                        ->toOptionArray();
+                    $options = $this->_directoryAllregion->toOptionArray();
                     break;
 
                 case 'shipping_method':
-                    $options = \Mage::getModel('Magento\Shipping\Model\Config\Source\Allmethods')
-                        ->toOptionArray();
+                    $options = $this->_shippingAllmethods->toOptionArray();
                     break;
 
                 case 'payment_method':
-                    $options = \Mage::getModel('Magento\Payment\Model\Config\Source\Allmethods')
-                        ->toOptionArray();
+                    $options = $this->_paymentAllmethods->toOptionArray();
                     break;
 
                 default:

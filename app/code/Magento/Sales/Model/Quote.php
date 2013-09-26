@@ -115,10 +115,6 @@
  * @method \Magento\Sales\Model\Quote setGiftMessageId(int $value)
  * @method bool|null getIsPersistent()
  * @method \Magento\Sales\Model\Quote setIsPersistent(bool $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model;
 
@@ -217,6 +213,71 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @var \Magento\Sales\Model\Quote\AddressFactory
+     */
+    protected $_quoteAddressFactory;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\Customer\Model\GroupFactory
+     */
+    protected $_customerGroupFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory
+     */
+    protected $_quoteItemCollFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Quote\ItemFactory
+     */
+    protected $_quoteItemFactory;
+
+    /**
+     * @var \Magento\Core\Model\Message
+     */
+    protected $_message;
+
+    /**
+     * @var \Magento\Sales\Model\Status\ListFactory
+     */
+    protected $_statusListFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Quote\PaymentFactory
+     */
+    protected $_quotePaymentFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory
+     */
+    protected $_quotePaymentCollFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Recurring\ProfileFactory
+     */
+    protected $_recurringProfileFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
@@ -224,9 +285,24 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\GroupFactory $customerGroupFactory
+     * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollFactory
+     * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
+     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
+     * @param \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollFactory
+     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -236,6 +312,19 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\GroupFactory $customerGroupFactory,
+        \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollFactory,
+        \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
+        \Magento\Core\Model\Message $message,
+        \Magento\Sales\Model\Status\ListFactory $statusListFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
+        \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollFactory,
+        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -245,6 +334,19 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $this->_catalogProduct = $catalogProduct;
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_config = $config;
+        $this->_quoteAddressFactory = $quoteAddressFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_customerGroupFactory = $customerGroupFactory;
+        $this->_quoteItemCollFactory = $quoteItemCollFactory;
+        $this->_quoteItemFactory = $quoteItemFactory;
+        $this->_message = $message;
+        $this->_statusListFactory = $statusListFactory;
+        $this->_productFactory = $productFactory;
+        $this->_quotePaymentFactory = $quotePaymentFactory;
+        $this->_quotePaymentCollFactory = $quotePaymentCollFactory;
+        $this->_recurringProfileFactory = $recurringProfileFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -264,7 +366,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function getStoreId()
     {
         if (!$this->hasStoreId()) {
-            return \Mage::app()->getStore()->getId();
+            return $this->_storeManager->getStore()->getId();
         }
         return $this->_getData('store_id');
     }
@@ -276,7 +378,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getStore()
     {
-        return \Mage::app()->getStore($this->getStoreId());
+        return $this->_storeManager->getStore($this->getStoreId());
     }
 
     /**
@@ -329,8 +431,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
          * Rates:
          *      base_to_global & base_to_quote/base_to_order
          */
-
-        $globalCurrencyCode  = \Mage::app()->getBaseCurrencyCode();
+        $globalCurrencyCode  = $this->_config->getValue(
+            \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+            'default'
+        );
         $baseCurrency = $this->getStore()->getBaseCurrency();
 
         if ($this->hasForcedCurrency()) {
@@ -459,7 +563,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             } else {
                 $defaultBillingAddress = $customer->getDefaultBillingAddress();
                 if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
-                    $billingAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address')
+                    $billingAddress = $this->_quoteAddressFactory->create()
                         ->importCustomerAddress($defaultBillingAddress);
                     $this->setBillingAddress($billingAddress);
                 }
@@ -468,10 +572,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
             if (null === $shippingAddress) {
                 $defaultShippingAddress = $customer->getDefaultShippingAddress();
                 if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
-                    $shippingAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address')
+                    $shippingAddress = $this->_quoteAddressFactory->create()
                         ->importCustomerAddress($defaultShippingAddress);
                 } else {
-                    $shippingAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address');
+                    $shippingAddress = $this->_quoteAddressFactory->create();
                 }
             }
             $this->setShippingAddress($shippingAddress);
@@ -502,7 +606,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function getCustomer()
     {
         if (null === $this->_customer) {
-            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer');
+            $this->_customer = $this->_customerFactory->create();
             $customerId = $this->getCustomerId();
             if ($customerId) {
                 $this->_customer->load($customerId);
@@ -523,7 +627,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         if ($this->hasData('customer_group_id')) {
             return $this->getData('customer_group_id');
-        } else if ($this->getCustomerId()) {
+        } elseif ($this->getCustomerId()) {
             return $this->getCustomer()->getGroupId();
         } else {
             return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
@@ -535,12 +639,12 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getCustomerTaxClassId()
     {
-        /*
-        * tax class can vary at any time. so instead of using the value from session,
-        * we need to retrieve from db every time to get the correct tax class
-        */
+        /**
+         * tax class can vary at any time. so instead of using the value from session,
+         * we need to retrieve from db every time to get the correct tax class
+         */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
-        $classId = \Mage::getModel('Magento\Customer\Model\Group')->getTaxClassId($this->getCustomerGroupId());
+        $classId = $this->_customerGroupFactory->create()->getTaxClassId($this->getCustomerGroupId());
         $this->setCustomerTaxClassId($classId);
         //}
 
@@ -555,7 +659,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function getAddressesCollection()
     {
         if (null === $this->_addresses) {
-            $this->_addresses = \Mage::getModel('Magento\Sales\Model\Quote\Address')->getCollection()
+            $this->_addresses = $this->_quoteAddressFactory->create()->getCollection()
                 ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
@@ -581,7 +685,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             }
         }
 
-        $address = \Mage::getModel('Magento\Sales\Model\Quote\Address')->setAddressType($type);
+        $address = $this->_quoteAddressFactory->create()->setAddressType($type);
         $this->addAddress($address);
         return $address;
     }
@@ -613,8 +717,9 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         $addresses = array();
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getAddressType()==\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING
-                && !$address->isDeleted()) {
+            if ($address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING
+                && !$address->isDeleted()
+            ) {
                 $addresses[] = $address;
             }
         }
@@ -746,8 +851,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Enter description here...
-     *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @return \Magento\Sales\Model\Quote
      */
@@ -806,7 +909,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             return $this->getData('items_collection');
         }
         if (null === $this->_items) {
-            $this->_items = \Mage::getModel('Magento\Sales\Model\Quote\Item')->getCollection();
+            $this->_items = $this->_quoteItemCollFactory->create();
             $this->_items->setQuote($this);
         }
         return $this->_items;
@@ -985,6 +1088,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      *
      * @param   \Magento\Sales\Model\Quote\Item $item
      * @return  \Magento\Sales\Model\Quote
+     * @throws \Magento\Core\Exception
      */
     public function addItem(\Magento\Sales\Model\Quote\Item $item)
     {
@@ -997,7 +1101,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
          * Proper solution is to submit items one by one with customer confirmation each time.
          */
         if ($item->isNominal() && $this->hasItems() || $this->hasNominalItems()) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Sorry, but items with payment agreements must be ordered one at a time To continue, please remove or buy the other items in your cart, then order this item by itself.')
             );
         }
@@ -1018,6 +1122,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param null|float|\Magento\Object $request
      * @param null|string $processMode
      * @return \Magento\Sales\Model\Quote\Item|string
+     * @throws \Magento\Core\Exception
      */
     public function addProductAdvanced(\Magento\Catalog\Model\Product $product, $request = null, $processMode = null)
     {
@@ -1028,7 +1133,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             $request = new \Magento\Object(array('qty'=>$request));
         }
         if (!($request instanceof \Magento\Object)) {
-            \Mage::throwException(__('We found an invalid request for adding product to quote.'));
+            throw new \Magento\Core\Exception(__('We found an invalid request for adding product to quote.'));
         }
 
         $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($request, $product, $processMode);
@@ -1084,7 +1189,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             }
         }
         if (!empty($errors)) {
-            \Mage::throwException(implode("\n", $errors));
+            throw new \Magento\Core\Exception(implode("\n", $errors));
         }
 
         $this->_eventManager->dispatch('sales_quote_product_add_after', array('items' => $items));
@@ -1123,12 +1228,12 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $newItem = false;
         $item = $this->getItemByProduct($product);
         if (!$item) {
-            $item = \Mage::getModel('Magento\Sales\Model\Quote\Item');
+            $item = $this->_quoteItemFactory->create();
             $item->setQuote($this);
-            if (\Mage::app()->getStore()->isAdmin()) {
+            if ($this->_storeManager->getStore()->isAdmin()) {
                 $item->setStoreId($this->getStore()->getId());
             } else {
-                $item->setStoreId(\Mage::app()->getStore()->getId());
+                $item->setStoreId($this->_storeManager->getStore()->getId());
             }
             $newItem = true;
         }
@@ -1168,6 +1273,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Object $buyRequest
      * @param null|array|\Magento\Object $params
      * @return \Magento\Sales\Model\Quote\Item
+     * @throws \Magento\Core\Exception
      *
      * @see \Magento\Catalog\Helper\Product::addParamsToBuyRequest()
      */
@@ -1175,13 +1281,13 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         $item = $this->getItemById($itemId);
         if (!$item) {
-            \Mage::throwException(__('This is the wrong quote item id to update configuration.'));
+            throw new \Magento\Core\Exception(__('This is the wrong quote item id to update configuration.'));
         }
         $productId = $item->getProduct()->getId();
 
         //We need to create new clear product instance with same $productId
         //to set new option values from $buyRequest
-        $product = \Mage::getModel('Magento\Catalog\Model\Product')
+        $product = $this->_productFactory->create()
             ->setStoreId($this->getStore()->getId())
             ->load($productId);
 
@@ -1197,7 +1303,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $resultItem = $this->addProduct($product, $buyRequest);
 
         if (is_string($resultItem)) {
-            \Mage::throwException($resultItem);
+            throw new \Magento\Core\Exception($resultItem);
         }
 
         if ($resultItem->getParentItem()) {
@@ -1309,7 +1415,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function getPaymentsCollection()
     {
         if (null === $this->_payments) {
-            $this->_payments = \Mage::getModel('Magento\Sales\Model\Quote\Payment')->getCollection()
+            $this->_payments = $this->_quotePaymentCollFactory->create()
                 ->setQuoteFilter($this->getId());
 
             if ($this->getId()) {
@@ -1331,7 +1437,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
                 return $payment;
             }
         }
-        $payment = \Mage::getModel('Magento\Sales\Model\Quote\Payment');
+        $payment = $this->_quotePaymentFactory->create();
         $this->addPayment($payment);
         return $payment;
     }
@@ -1541,7 +1647,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         }
 
         if (is_string($message)) {
-            $message = \Mage::getSingleton('Magento\Core\Model\Message')->error($message);
+            $message = $this->_message->error($message);
         }
 
         $messages[$index] = $message;
@@ -1639,7 +1745,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function addErrorInfo($type = 'error', $origin = null, $code = null, $message = null, $additionalData = null)
     {
         if (!isset($this->_errorInfoGroups[$type])) {
-            $this->_errorInfoGroups[$type] = \Mage::getModel('Magento\Sales\Model\Status\ListStatus');
+            $this->_errorInfoGroups[$type] = $this->_statusListFactory->create();
         }
 
         $this->_errorInfoGroups[$type]->addItem($origin, $code, $message, $additionalData);
@@ -1970,7 +2076,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         foreach ($this->getAllVisibleItems() as $item) {
             $product = $item->getProduct();
             if (is_object($product) && ($product->isRecurring())
-                && $profile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')->importProduct($product)
+                && $profile = $this->_recurringProfileFactory->create()->importProduct($product)
             ) {
                 $profile->importQuote($this);
                 $profile->importQuoteItem($item);

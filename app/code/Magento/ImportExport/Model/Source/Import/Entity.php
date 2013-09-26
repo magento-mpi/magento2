@@ -20,16 +20,17 @@ namespace Magento\ImportExport\Model\Source\Import;
 class Entity implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var \Magento\ImportExport\Model\Config
+     * @var \Magento\ImportExport\Model\Import\ConfigInterface
      */
-    protected $_config;
+    protected $_importConfig;
 
     /**
-     * @param \Magento\ImportExport\Model\Config $config
+     * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
      */
-    public function __construct(\Magento\ImportExport\Model\Config $config)
-    {
-        $this->_config = $config;
+    public function __construct(
+        \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
+    ) {
+        $this->_importConfig = $importConfig;
     }
 
     /**
@@ -39,8 +40,15 @@ class Entity implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return $this->_config->getModelsComboOptions(
-            \Magento\ImportExport\Model\Import::CONFIG_KEY_ENTITIES, true
+        $options = array();
+        $options[] = array(
+            'label' => __('-- Please Select --'),
+            'value' => ''
         );
+        foreach ($this->_importConfig->getEntities() as $entityName => $entityConfig) {
+            $options[] = array('label' => __($entityConfig['label']), 'value' => $entityName);
+        }
+        return $options;
+
     }
 }

@@ -11,13 +11,39 @@
 /**
  * Sales abstract model
  * Provide date processing functionality
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model;
 
 abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_coreLocale;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    )
+    {
+        parent::__construct(
+            $context, $registry, $resource, $resourceCollection, $data
+        );
+        $this->_coreLocale = $coreLocale;
+    }
+
     /**
      * Get object store identifier
      *
@@ -46,7 +72,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     public function getCreatedAtDate()
     {
-        return \Mage::app()->getLocale()->date(
+        return $this->_coreLocale->date(
             \Magento\Date::toTimestamp($this->getCreatedAt()),
             null,
             null,
@@ -61,7 +87,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     public function getCreatedAtStoreDate()
     {
-        return \Mage::app()->getLocale()->storeDate(
+        return $this->_coreLocale->storeDate(
             $this->getStore(),
             \Magento\Date::toTimestamp($this->getCreatedAt()),
             true

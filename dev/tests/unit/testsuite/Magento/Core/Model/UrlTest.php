@@ -19,17 +19,22 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Core\Model\Url
      */
-    protected  $_model;
+    protected $_model;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_securityInfoMock;
 
     protected function setUp()
     {
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         
+        $this->_securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
         $this->_model = new \Magento\Core\Model\Url(
-            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false),
+            $this->_securityInfoMock,
             $coreStoreConfig,
-            $coreConfig
+            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)
         );
     }
 

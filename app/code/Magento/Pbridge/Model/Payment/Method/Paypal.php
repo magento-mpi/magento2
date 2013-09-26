@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Paypal Direct dummy payment method model
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
@@ -56,12 +51,17 @@ class Paypal extends \Magento\Paypal\Model\Direct
     protected $_pbridgeData = null;
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
      * @param array $data
      */
     public function __construct(
@@ -71,10 +71,14 @@ class Paypal extends \Magento\Paypal\Model\Direct
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($logger, $eventManager, $moduleList, $paymentData, $coreStoreConfig, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+            $locale, $centinelService, $data);
         $this->_pro->setPaymentMethod($this);
     }
 

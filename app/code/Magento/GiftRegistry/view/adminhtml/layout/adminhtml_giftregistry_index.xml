@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_giftregistry_grid_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\GiftRegistry\Block\Adminhtml\Giftregistry" name="adminhtml.giftregistry.grid.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -12,7 +12,7 @@ namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
 
 class Labels
     extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Store manager instance

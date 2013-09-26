@@ -17,7 +17,8 @@
  */
 namespace Magento\ScheduledImportExport\Block\Adminhtml\Export;
 
-class Filter extends \Magento\ImportExport\Block\Adminhtml\Export\Filter
+class Filter
+    extends \Magento\ImportExport\Block\Adminhtml\Export\Filter
 {
     /**
      * Get grid url

@@ -8,15 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer Account Confirmation" type="page" parent="customer_account">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
         <action method="setHeaderTitle">
             <argument translate="true" name="title" xsi:type="string">Send confirmation link</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\Core\Block\Template" name="accountConfirmation" template="Magento_Customer::form/confirmation.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

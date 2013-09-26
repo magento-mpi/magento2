@@ -70,9 +70,15 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     protected $_formFactory;
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -81,11 +87,13 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
+        $this->_locale = $locale;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -99,7 +107,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
         // Check if discount amount not negative
         if ($this->hasDiscountAmount()) {
             if ((int)$this->getDiscountAmount() < 0) {
-                \Mage::throwException(__('Invalid discount amount.'));
+                throw new \Magento\Core\Exception(__('Invalid discount amount.'));
             }
         }
 
@@ -320,7 +328,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
                  * Convert dates into \Zend_Date
                  */
                 if (in_array($key, array('from_date', 'to_date')) && $value) {
-                    $value = \Mage::app()->getLocale()->date(
+                    $value = $this->_locale->date(
                         $value,
                         \Magento\Date::DATE_INTERNAL_FORMAT,
                         null,

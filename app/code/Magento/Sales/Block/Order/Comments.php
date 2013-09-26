@@ -12,6 +12,22 @@ namespace Magento\Sales\Block\Order;
 class Comments extends \Magento\Core\Block\Template
 {
     /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\ResourceFactory $resourceFactory,
+        array $data = array()
+    ) {
+        $this->_resourceFactory = $resourceFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Current entity (model instance) with getCommentsCollection() method
      *
      * @var \Magento\Sales\Model\AbstractModel
@@ -52,6 +68,7 @@ class Comments extends \Magento\Core\Block\Template
      * Initialize model comments and return comment collection
      *
      * @return \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
+     * @throws \Magento\Core\Exception
      */
     public function getComments()
     {
@@ -64,10 +81,10 @@ class Comments extends \Magento\Core\Block\Template
             } else if ($entity instanceof \Magento\Sales\Model\Order\Shipment) {
                 $collectionClass = 'Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection';
             } else {
-                \Mage::throwException(__('We found an invalid entity model.'));
+                throw new \Magento\Core\Exception(__('We found an invalid entity model.'));
             }
 
-            $this->_commentCollection = \Mage::getResourceModel($collectionClass);
+            $this->_commentCollection = $this->_resourceFactory->create($collectionClass);
             $this->_commentCollection->setParentFilter($entity)
                ->setCreatedAtOrder()
                ->addVisibleOnFrontFilter();

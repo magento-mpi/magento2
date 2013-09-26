@@ -17,7 +17,9 @@
  */
 namespace Magento\Weee\Block\Renderer\Weee;
 
-class Tax extends \Magento\Backend\Block\Widget implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Tax
+    extends \Magento\Backend\Block\Widget
+    implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_element = null;
     protected $_countries = null;
@@ -32,17 +34,41 @@ class Tax extends \Magento\Backend\Block\Widget implements \Magento\Data\Form\El
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Directory\Model\Config\Source\Country
+     */
+    protected $_sourceCountry;
+
+    /**
+     * @var \Magento\Directory\Helper\Data
+     */
+    protected $_directoryHelper;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Config\Source\Country $sourceCountry
+     * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Config\Source\Country $sourceCountry,
+        \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_sourceCountry = $sourceCountry;
+        $this->_directoryHelper = $directoryHelper;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -125,13 +151,13 @@ class Tax extends \Magento\Backend\Block\Widget implements \Magento\Data\Form\El
 
     public function isMultiWebsites()
     {
-        return !\Mage::app()->hasSingleStore();
+        return !$this->_storeManager->hasSingleStore();
     }
 
     public function getCountries()
     {
         if (is_null($this->_countries)) {
-            $this->_countries = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')->toOptionArray();
+            $this->_countries = $this->_sourceCountry->toOptionArray();
         }
 
         return $this->_countries;
@@ -145,18 +171,18 @@ class Tax extends \Magento\Backend\Block\Widget implements \Magento\Data\Form\El
         $websites = array();
         $websites[0] = array(
             'name'     => __('All Websites'),
-            'currency' => \Mage::app()->getBaseCurrencyCode()
+            'currency' => $this->_directoryHelper->getBaseCurrencyCode()
         );
 
-        if (!\Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
+        if (!$this->_storeManager->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             if ($storeId = $this->getProduct()->getStoreId()) {
-                $website = \Mage::app()->getStore($storeId)->getWebsite();
+                $website = $this->_storeManager->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'     => $website->getName(),
                     'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
-                foreach (\Mage::app()->getWebsites() as $website) {
+                foreach ($this->_storeManager->getWebsites() as $website) {
                     if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
                         continue;
                     }

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.catalog.search.grid.container">
+    <referenceBlock name="adminhtml.catalog.search.grid.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.catalog.search.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">catalog_search_grid</argument>
@@ -127,5 +127,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

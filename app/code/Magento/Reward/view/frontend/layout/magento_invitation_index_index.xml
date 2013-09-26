@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="invitations.list.list.before">
+    <referenceContainer name="invitations.list.list.before">
         <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
             <arguments>
                 <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\InvitationCustomer</argument>
@@ -43,5 +43,5 @@
                 <argument translate="true" name="message" xsi:type="string">You can reward up to %s invitee purchase(s).</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

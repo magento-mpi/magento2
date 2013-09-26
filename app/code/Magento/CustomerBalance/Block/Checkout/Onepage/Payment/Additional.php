@@ -27,13 +27,58 @@ class Additional extends \Magento\Core\Block\Template
     protected $_balanceModel = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\CustomerBalance\Model\BalanceFactory
+     */
+    protected $_balanceFactory;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_balanceFactory = $balanceFactory;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get quote instance
      *
      * @return \Magento\Sales\Model\Quote
      */
     protected function _getQuote()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
@@ -54,9 +99,9 @@ class Additional extends \Magento\Core\Block\Template
     protected function _getBalanceModel()
     {
         if (is_null($this->_balanceModel)) {
-            $this->_balanceModel = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
+            $this->_balanceModel = $this->_balanceFactory->create()
                 ->setCustomer($this->_getCustomer())
-                ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
+                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
 
             //load customer balance for customer in case we have
             //registered customer and this is not guest checkout
@@ -74,7 +119,7 @@ class Additional extends \Magento\Core\Block\Template
      */
     protected function _getCustomer()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     /**

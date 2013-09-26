@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <action method="setCanLoadExtJs">
             <argument name="flag" xsi:type="string">1</argument>
         </action>
@@ -85,11 +85,11 @@
                 <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit" name="theme_edit"/>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tabs" name="theme_edit_tabs">
             <block class="Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css" template="tabs/css.phtml" name="theme_edit_tabs_tab_css_tab"/>
             <block class="Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js" template="tabs/js.phtml" name="theme_edit_tabs_tab_js_tab">
@@ -108,5 +108,5 @@
                 <argument name="block" xsi:type="string">theme_edit_tabs_tab_js_tab</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

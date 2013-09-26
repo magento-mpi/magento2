@@ -17,7 +17,8 @@
  */
 namespace Magento\ScheduledImportExport\Block\Adminhtml\System\Config;
 
-class Clean extends \Magento\Backend\Block\System\Config\Form\Field
+class Clean
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Remove scope label

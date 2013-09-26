@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout.onepage.billing">
+    <referenceBlock name="checkout.onepage.billing">
         <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">checkout_register</argument>
@@ -19,13 +19,13 @@
                 <argument name="code" xsi:type="string">customer_register_address</argument>
             </action>
         </block>
-    </reference>
-    <reference name="checkout.onepage.shipping">
+    </referenceBlock>
+    <referenceBlock name="checkout.onepage.shipping">
         <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">customer_register_address</argument>
             </action>
         </block>
-    </reference>
+    </referenceBlock>
     <update handle="customer_form_template_handle"/>
 </layout>

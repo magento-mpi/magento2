@@ -10,16 +10,43 @@
 
 /**
  * Comments History Block at RMA page
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
 class History
     extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
+    /**
+     * @var \Magento\Rma\Model\Config
+     */
+    protected $_rmaConfig;
+
+    /**
+     * @var \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\Config $rmaConfig
+     * @param \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\Config $rmaConfig,
+        \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory,
+        array $data = array()
+    ) {
+        $this->_rmaConfig = $rmaConfig;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
     /**
      * Prepare child blocks
      *
@@ -46,10 +73,8 @@ class History
      */
     public function canSendCommentEmail()
     {
-        /** @var $configRmaEmail \Magento\Rma\Model\Config */
-        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
-        $configRmaEmail->init($configRmaEmail->getRootCommentEmail(), $this->getOrder()->getStore());
-        return $configRmaEmail->isEnabled();
+        $this->_rmaConfig->init($this->_rmaConfig->getRootCommentEmail(), $this->getOrder()->getStore());
+        return $this->_rmaConfig->isEnabled();
     }
 
     /**
@@ -59,10 +84,8 @@ class History
      */
     public function canSendConfirmationEmail()
     {
-        /** @var $configRmaEmail \Magento\Rma\Model\Config */
-        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
-        $configRmaEmail->init($configRmaEmail->getRootRmaEmail(), $this->getOrder()->getStore());
-        return $configRmaEmail->isEnabled();
+        $this->_rmaConfig->init($this->_rmaConfig->getRootRmaEmail(), $this->getOrder()->getStore());
+        return $this->_rmaConfig->isEnabled();
     }
 
     /**
@@ -75,9 +98,13 @@ class History
         return $this->getUrl('*/*/addComment', array('id'=>$this->getRmaData('entity_id')));
     }
 
-    public function getComments() {
-        return \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Status\History\Collection')
-            ->addFieldToFilter('rma_entity_id', $this->_coreRegistry->registry('current_rma')->getId());
+    /**
+     * @return \Magento\Rma\Model\Resource\Rma\Status\History\Collection
+     */
+    public function getComments()
+    {
+        /** @var $collection \Magento\Rma\Model\Resource\Rma\Status\History\Collection */
+        $collection = $this->_collectionFactory->create();
+        return $collection->addFieldToFilter('rma_entity_id', $this->_coreRegistry->registry('current_rma')->getId());
     }
-
 }

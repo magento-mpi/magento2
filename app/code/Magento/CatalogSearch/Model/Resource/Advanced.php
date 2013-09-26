@@ -28,13 +28,25 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
+        $this->_storeManager = $storeManager;
         $this->_eventManager = $eventManager;
         parent::__construct($resource);
     }
@@ -65,7 +77,7 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
         $eventArgs = array(
             'select'          => $select,
             'table'           => 'price_index',
-            'store_id'        => \Mage::app()->getStore()->getId(),
+            'store_id'        => $this->_storeManager->getStore()->getId(),
             'response_object' => $response
         );
 
@@ -163,7 +175,7 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         $tableAlias = 'a_' . $attribute->getAttributeId();
-        $storeId    = \Mage::app()->getStore()->getId();
+        $storeId    = $this->_storeManager->getStore()->getId();
         $select     = $collection->getSelect();
 
         if (is_array($value)) {

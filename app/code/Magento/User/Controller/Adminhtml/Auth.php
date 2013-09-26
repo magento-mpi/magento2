@@ -2,23 +2,38 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Magento_User Auth controller
- *
- * @category   Magento
- * @package    Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
+ * \Magento\User Auth controller
  */
 namespace Magento\User\Controller\Adminhtml;
 
 class Auth extends \Magento\Backend\Controller\ActionAbstract
 {
+    /**
+     * User model factory
+     *
+     * @var \Magento\User\Model\UserFactory
+     */
+    protected $_userFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\User\Model\UserFactory $userFactory
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\User\Model\UserFactory $userFactory
+    ) {
+        parent::__construct($context);
+        $this->_userFactory = $userFactory;
+    }
+
     /**
      * Forgot administrator password action
      */
@@ -37,7 +52,8 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
 
                 if ($collection->getSize() > 0) {
                     foreach ($collection as $item) {
-                        $user = \Mage::getModel('Magento\User\Model\User')->load($item->getId());
+                        /** @var \Magento\User\Model\User $user */
+                        $user = $this->_userFactory->create()->load($item->getId());
                         if ($user->getId()) {
                             $newPassResetToken = $this->_objectManager->get('Magento\User\Helper\Data')
                                 ->generateResetPasswordLinkToken();
@@ -121,7 +137,7 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
         }
 
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('Magento\User\Model\User')->load($userId);
+        $user = $this->_userFactory->create()->load($userId);
         if ($password !== '') {
             $user->setPassword($password);
         }
@@ -166,27 +182,18 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
             || empty($userId)
             || $userId < 0
         ) {
-            throw \Mage::exception(
-                'Magento_Core',
-                __('Please correct the password reset token.')
-            );
+            throw new \Magento\Core\Exception(__('Please correct the password reset token.'));
         }
 
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('Magento\User\Model\User')->load($userId);
+        $user = $this->_userFactory->create()->load($userId);
         if (!$user->getId()) {
-            throw \Mage::exception(
-                'Magento_Core',
-                __('Please specify the correct account and try again.')
-            );
+            throw new \Magento\Core\Exception(__('Please specify the correct account and try again.'));
         }
 
         $userToken = $user->getRpToken();
         if (strcmp($userToken, $resetPasswordToken) != 0 || $user->isResetPasswordLinkTokenExpired()) {
-            throw \Mage::exception(
-                'Magento_Core',
-                __('Your password reset link has expired.')
-            );
+            throw new \Magento\Core\Exception(__('Your password reset link has expired.'));
         }
     }
 

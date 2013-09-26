@@ -10,10 +10,6 @@
 
 /**
  * Review form block
- *
- * @category   Magento
- * @package    Magento_Rss
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rss\Block\Catalog;
 
@@ -22,9 +18,52 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     /**
      * \Zend_Date object for date comparsions
      *
-     * @var \Zend_Date $_currentDate
+     * @var \Zend_Date
      */
     protected static $_currentDate = null;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Rss\Model\RssFactory
+     */
+    protected $_rssFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Iterator
+     */
+    protected $_resourceIterator;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Rss\Model\RssFactory $rssFactory,
+        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        $this->_rssFactory = $rssFactory;
+        $this->_resourceIterator = $resourceIterator;
+        parent::__construct($catalogData, $coreData, $context, $storeManager, $customerSession, $data);
+    }
 
     protected function _construct()
     {
@@ -39,56 +78,50 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     {
          //store id is store view id
         $storeId = $this->_getStoreId();
-        $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
 
         //customer group id
         $customerGroupId = $this->_getCustomerGroupId();
 
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
-
-        $fields = array(
-            'final_price',
-            'price'
-        );
-        $specials = $product->setStoreId($storeId)->getResourceCollection()
-            ->addPriceDataFieldFilter('%s < %s', $fields)
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $this->_productFactory->create();
+        $product->setStoreId($storeId);
+        $specials = $product->getResourceCollection()
+            ->addPriceDataFieldFilter('%s < %s', array('final_price', 'price'))
             ->addPriceData($customerGroupId, $websiteId)
-            ->addAttributeToSelect(
-                    array(
-                        'name', 'short_description', 'description', 'price', 'thumbnail',
-                        'special_price', 'special_to_date',
-                        'msrp_enabled', 'msrp_display_actual_price_type', 'msrp'
-                    ),
-                    'left'
-            )
+            ->addAttributeToSelect(array(
+                'name', 'short_description', 'description', 'price', 'thumbnail',
+                'special_price', 'special_to_date',
+                'msrp_enabled', 'msrp_display_actual_price_type', 'msrp'
+            ), 'left')
             ->addAttributeToSort('name', 'asc')
         ;
 
-        $newurl = \Mage::getUrl('rss/catalog/special/store_id/' . $storeId);
-        $title = __('%1 - Special Products', \Mage::app()->getStore()->getFrontendName());
+        $newUrl = $this->_urlBuilder->getUrl('rss/catalog/special/store_id/' . $storeId);
+        $title = __('%1 - Special Products', $this->_storeManager->getStore()->getFrontendName());
         $lang = $this->_storeConfig->getConfig('general/locale/code');
-
-        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
-        $data = array('title' => $title,
-                'description' => $title,
-                'link'        => $newurl,
-                'charset'     => 'UTF-8',
-                'language'    => $lang
-                );
-        $rssObj->_addHeader($data);
+        /** @var $rssObj \Magento\Rss\Model\Rss */
+        $rssObj = $this->_rssFactory->create();
+        $rssObj->_addHeader(array(
+            'title'       => $title,
+            'description' => $title,
+            'link'        => $newUrl,
+            'charset'     => 'UTF-8',
+            'language'    => $lang
+        ));
 
         $results = array();
         /*
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        \Mage::getSingleton('Magento\Core\Model\Resource\Iterator')->walk(
+        $this->_resourceIterator->walk(
             $specials->getSelect(),
             array(array($this, 'addSpecialXmlCallback')),
-            array('rssObj'=> $rssObj, 'results'=> &$results)
+            array('rssObj' => $rssObj, 'results' => &$results)
         );
 
-        if (sizeof($results)>0) {
+        if (sizeof($results) > 0) {
             foreach ($results as $result) {
                 // render a row for RSS feed
                 $product->setData($result);

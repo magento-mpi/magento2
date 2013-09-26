@@ -48,6 +48,79 @@ class Review extends \Magento\Core\Model\AbstractModel
     const STATUS_PENDING        = 2;
     const STATUS_NOT_APPROVED   = 3;
 
+    /**
+     * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Review\Model\Resource\Review\Status\CollectionFactory
+     */
+    protected $_statusFactory;
+
+    /**
+     * @var \Magento\Review\Model\Review\SummaryFactory
+     */
+    protected $_summaryFactory;
+
+    /**
+     * @var \Magento\Review\Model\Review\SummaryFactory
+     */
+    protected $_summaryModFactory;
+
+    /**
+     * @var \Magento\Review\Model\Review\Summary
+     */
+    protected $_reviewSummary;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_urlModel;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productFactory
+     * @param \Magento\Review\Model\Resource\Review\Status\CollectionFactory $statusFactory
+     * @param \Magento\Review\Model\Resource\Review\Summary\CollectionFactory $summaryFactory
+     * @param \Magento\Review\Model\Review\SummaryFactory $summaryModFactory
+     * @param \Magento\Review\Model\Review\Summary $reviewSummary
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\UrlInterface $urlModel
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productFactory,
+        \Magento\Review\Model\Resource\Review\Status\CollectionFactory $statusFactory,
+        \Magento\Review\Model\Resource\Review\Summary\CollectionFactory $summaryFactory,
+        \Magento\Review\Model\Review\SummaryFactory $summaryModFactory,
+        \Magento\Review\Model\Review\Summary $reviewSummary,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\UrlInterface $urlModel,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        $this->_statusFactory = $statusFactory;
+        $this->_summaryFactory = $summaryFactory;
+        $this->_summaryModFactory = $summaryModFactory;
+        $this->_reviewSummary = $reviewSummary;
+        $this->_storeManager = $storeManager;
+        $this->_urlModel = $urlModel;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento\Review\Model\Resource\Review');
@@ -55,12 +128,12 @@ class Review extends \Magento\Core\Model\AbstractModel
 
     public function getProductCollection()
     {
-        return \Mage::getResourceModel('Magento\Review\Model\Resource\Review\Product\Collection');
+        return $this->_productFactory->create();
     }
 
     public function getStatusCollection()
     {
-        return \Mage::getResourceModel('Magento\Review\Model\Resource\Review\Status\Collection');
+        return $this->_statusFactory->create();
     }
 
     public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
@@ -76,7 +149,7 @@ class Review extends \Magento\Core\Model\AbstractModel
 
     public function getEntitySummary($product, $storeId=0)
     {
-        $summaryData = \Mage::getModel('Magento\Review\Model\Review\Summary')
+        $summaryData = $this->_summaryModFactory->create()
             ->setStoreId($storeId)
             ->load($product->getId());
         $summary = new \Magento\Object();
@@ -91,7 +164,7 @@ class Review extends \Magento\Core\Model\AbstractModel
 
     public function getReviewUrl()
     {
-        return \Mage::getUrl('review/product/view', array('id' => $this->getReviewId()));
+        return $this->_urlModel->getUrl('review/product/view', array('id' => $this->getReviewId()));
     }
 
     public function validate()
@@ -144,9 +217,9 @@ class Review extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $summaryData = \Mage::getResourceModel('Magento\Review\Model\Resource\Review\Summary\Collection')
+        $summaryData = $this->_summaryFactory->create()
             ->addEntityFilter($entityIds)
-            ->addStoreFilter(\Mage::app()->getStore()->getId())
+            ->addStoreFilter($this->_storeManager->getStore()->getId())
             ->load();
 
         foreach ($collection->getItems() as $_item ) {
@@ -184,7 +257,7 @@ class Review extends \Magento\Core\Model\AbstractModel
      */
     public function isAvailableOnStore($store = null)
     {
-        $store = \Mage::app()->getStore($store);
+        $store = $this->_storeManager->getStore($store);
         if ($store) {
             return in_array($store->getId(), (array)$this->getStores());
         }

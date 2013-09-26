@@ -9,17 +9,12 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_sales_order_create_customer_block"/>
-    <reference name="page-title">
+    <referenceBlock name="page-title">
         <action method="setTitleId">
             <argument translate="true" name="id" xsi:type="string">order-header</argument>
         </action>
-    </reference>
-    <reference name="left">
-        <action method="setIsCollapsed">
-            <argument name="value" xsi:type="string">true</argument>
-        </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-sales-order-create-scripts-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/create/scripts.js</argument>
@@ -51,11 +46,11 @@
                 <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="js">
+    </referenceBlock>
+    <referenceContainer name="js">
         <block class="Magento\Adminhtml\Block\Template" template="sales/order/create/js.phtml" name="create"/>
-    </reference>
-    <reference name="root">
+    </referenceContainer>
+    <referenceBlock name="root">
         <block class="Magento\Adminhtml\Block\Sales\Order\Create" name="content">
             <block class="Magento\Adminhtml\Block\Sales\Order\Create\Form" template="sales/order/create/form.phtml" name="order_create_form" as="form">
                 <block class="Magento\Adminhtml\Block\Sales\Order\Create\Messages" name="message"/>
@@ -104,8 +99,8 @@
                 </block>
             </block>
         </block>
-    </reference>
-    <reference name="before_body_end">
+    </referenceBlock>
+    <referenceContainer name="before_body_end">
         <block class="Magento\Adminhtml\Block\Catalog\Product\Composite\Configure" template="catalog/product/composite/configure.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

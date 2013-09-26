@@ -156,6 +156,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -166,7 +167,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->_ruleFactory = $ruleFactory;
         $this->_actionFactory = $actionFactory;
-        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
     }
 
 
@@ -228,11 +229,11 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         if ($withEmpty) {
             $result[''] = __('-- Please Select --');
         }
-        $result[\Magento\TargetRule\Model\Rule::RELATED_PRODUCTS]
+        $result[Magento_TargetRule_Model_Rule::RELATED_PRODUCTS]
             = __('Related Products');
-        $result[\Magento\TargetRule\Model\Rule::UP_SELLS]
+        $result[Magento_TargetRule_Model_Rule::UP_SELLS]
             = __('Up-sells');
-        $result[\Magento\TargetRule\Model\Rule::CROSS_SELLS]
+        $result[Magento_TargetRule_Model_Rule::CROSS_SELLS]
             = __('Cross-sells');
 
         return $result;

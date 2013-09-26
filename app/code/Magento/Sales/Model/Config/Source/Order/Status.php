@@ -16,6 +16,9 @@ namespace Magento\Sales\Model\Config\Source\Order;
 class Status implements \Magento\Core\Model\Option\ArrayInterface
 {
     // set null to enable all possible
+    /**
+     * @var array
+     */
     protected $_stateStatuses = array(
         \Magento\Sales\Model\Order::STATE_NEW,
         \Magento\Sales\Model\Order::STATE_PROCESSING,
@@ -25,20 +28,35 @@ class Status implements \Magento\Core\Model\Option\ArrayInterface
         \Magento\Sales\Model\Order::STATE_HOLDED,
     );
 
+    /**
+     * @var \Magento\Sales\Model\Order\Config
+     */
+    protected $_orderConfig;
+
+    /**
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     */
+    public function __construct(\Magento\Sales\Model\Order\Config $orderConfig)
+    {
+        $this->_orderConfig = $orderConfig;
+    }
+
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         if ($this->_stateStatuses) {
-            $statuses = \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getStateStatuses($this->_stateStatuses);
-        }
-        else {
-            $statuses = \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getStatuses();
+            $statuses = $this->_orderConfig->getStateStatuses($this->_stateStatuses);
+        } else {
+            $statuses = $this->_orderConfig->getStatuses();
         }
         $options = array();
         $options[] = array(
-               'value' => '',
-               'label' => __('-- Please Select --')
-            );
-        foreach ($statuses as $code=>$label) {
+           'value' => '',
+           'label' => __('-- Please Select --')
+        );
+        foreach ($statuses as $code => $label) {
             $options[] = array(
                'value' => $code,
                'label' => $label

@@ -9,7 +9,7 @@
  */
 
 /**
- * \Directory data helper
+ * Directory data helper
  */
 namespace Magento\Directory\Helper;
 
@@ -71,7 +71,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Directory\Model\Resource\Region\Collection\Factory
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
      */
     protected $_regCollFactory;
 
@@ -86,20 +86,34 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * @var \Magento\Core\Model\Config
+     */
+    protected $_config;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Country\Collection $countryCollection
-     * @param \Magento\Directory\Model\Resource\Region\Collection\Factory $regCollFactory,
-     * @param \Magento\Core\Helper\Data $coreHelper,
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regCollFactory,
+     * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Country\Collection $countryCollection,
-        \Magento\Directory\Model\Resource\Region\Collection\Factory $regCollFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regCollFactory,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\Config $config
     ) {
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
@@ -107,6 +121,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_regCollFactory = $regCollFactory;
         $this->_coreHelper = $coreHelper;
         $this->_storeManager = $storeManager;
+        $this->_currencyFactory = $currencyFactory;
+        $this->_config = $config;
     }
 
     /**
@@ -144,7 +160,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getRegionJson()
     {
-
         \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (!$this->_regionJson) {
             $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . $this->_storeManager->getStore()->getId();
@@ -196,10 +211,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function currencyConvert($amount, $from, $to = null)
     {
         if (empty($this->_currencyCache[$from])) {
-            $this->_currencyCache[$from] = \Mage::getModel('Magento\Directory\Model\Currency')->load($from);
+            $this->_currencyCache[$from] = $this->_currencyFactory->create()->load($from);
         }
         if (is_null($to)) {
-            $to = \Mage::app()->getStore()->getCurrentCurrencyCode();
+            $to = $this->_storeManager->getStore()->getCurrentCurrencyCode();
         }
         $converted = $this->_currencyCache[$from]->convert($amount, $to);
         return $converted;
@@ -274,5 +289,15 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             return false;
         }
         return in_array($countryId, $countyList);
+    }
+
+    /**
+     * Retrieve application base currency code
+     *
+     * @return string
+     */
+    public function getBaseCurrencyCode()
+    {
+        return $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
     }
 }

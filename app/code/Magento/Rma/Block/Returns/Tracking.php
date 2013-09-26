@@ -87,8 +87,8 @@ class Tracking extends \Magento\Core\Block\Template
      */
     public function getErrorMessage()
     {
-        $message = \Mage::getSingleton('Magento\Core\Model\Session')->getErrorMessage();
-        \Mage::getSingleton('Magento\Core\Model\Session')->unsErrorMessage();
+        $message = $this->_session->getErrorMessage();
+        $this->_session->unsErrorMessage();
         return $message;
     }
 

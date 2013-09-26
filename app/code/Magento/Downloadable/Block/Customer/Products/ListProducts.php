@@ -20,15 +20,39 @@ namespace Magento\Downloadable\Block\Customer\Products;
 class ListProducts extends \Magento\Core\Block\Template
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory
+     */
+    protected $_linksFactory;
+
+    /**
+     * @var \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory $linksFactory
+     * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory $linksFactory,
+        \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_linksFactory = $linksFactory;
+        $this->_itemsFactory = $itemsFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -38,9 +62,8 @@ class ListProducts extends \Magento\Core\Block\Template
     protected function _construct()
     {
         parent::_construct();
-        $session = \Mage::getSingleton('Magento\Customer\Model\Session');
-        $purchased = \Mage::getResourceModel('Magento\Downloadable\Model\Resource\Link\Purchased\Collection')
-            ->addFieldToFilter('customer_id', $session->getCustomerId())
+        $purchased = $this->_linksFactory->create()
+            ->addFieldToFilter('customer_id', $this->_customerSession->getCustomerId())
             ->addOrder('created_at', 'desc');
         $this->setPurchased($purchased);
         $purchasedIds = array();
@@ -50,7 +73,7 @@ class ListProducts extends \Magento\Core\Block\Template
         if (empty($purchasedIds)) {
             $purchasedIds = array(null);
         }
-        $purchasedItems = \Mage::getResourceModel('Magento\Downloadable\Model\Resource\Link\Purchased\Item\Collection')
+        $purchasedItems = $this->_itemsFactory->create()
             ->addFieldToFilter('purchased_id', array('in' => $purchasedIds))
             ->addFieldToFilter('status',
                 array(

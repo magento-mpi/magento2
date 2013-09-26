@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.block.report.customer.wishlist.container">
+    <referenceBlock name="adminhtml.block.report.customer.wishlist.container">
         <block class="Magento\MultipleWishlist\Block\Adminhtml\Report\Customer\Wishlist\Grid" name="adminhtml.block.report.customer.wishlist.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">gridReportWishlists</argument>
@@ -143,5 +143,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

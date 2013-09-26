@@ -10,18 +10,62 @@
 
 /**
  * Sales order view block
- *
- * @method int|null getCustomerId()
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Block\Reorder;
 
 class Sidebar extends \Magento\Core\Block\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'order/history.phtml';
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
+     */
+    protected $_orderCollectionFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Config
+     */
+    protected $_orderConfig;
+
+    /**
+     * Store list manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
+        \Magento\Sales\Model\Order\Config $orderConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_orderCollectionFactory = $orderCollectionFactory;
+        $this->_orderConfig = $orderConfig;
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Init orders
@@ -29,12 +73,9 @@ class Sidebar extends \Magento\Core\Block\Template
     protected function _construct()
     {
         parent::_construct();
-
-        if ($this->_getCustomerSession()->isLoggedIn()) {
-
+        if ($this->_customerSession->isLoggedIn()) {
             $this->initOrders();
         }
-
     }
 
     /**
@@ -43,15 +84,15 @@ class Sidebar extends \Magento\Core\Block\Template
     public function initOrders()
     {
         $customerId = $this->getCustomerId() ? $this->getCustomerId()
-            : $this->_getCustomerSession()->getCustomer()->getId();
+            : $this->_customerSession->getCustomer()->getId();
 
-        $orders = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
+        $orders = $this->_orderCollectionFactory->create()
             ->addAttributeToFilter('customer_id', $customerId)
             ->addAttributeToFilter('state',
-                array('in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates())
+                array('in' => $this->_orderConfig->getVisibleOnFrontStates())
             )
             ->addAttributeToSort('created_at', 'desc')
-            ->setPage(1,1);
+            ->setPage(1, 1);
         //TODO: add filter by current website
 
         $this->setOrders($orders);
@@ -69,7 +110,7 @@ class Sidebar extends \Magento\Core\Block\Template
         $limit = 5;
 
         if ($order) {
-            $website = \Mage::app()->getStore()->getWebsiteId();
+            $website = $this->_storeManager->getStore()->getWebsiteId();
             foreach ($order->getParentItemsRandomCollection($limit) as $item) {
                 if ($item->getProduct() && in_array($website, $item->getProduct()->getWebsiteIds())) {
                     $items[] = $item;
@@ -125,16 +166,6 @@ class Sidebar extends \Magento\Core\Block\Template
      */
     protected function _toHtml()
     {
-        return $this->_getCustomerSession()->isLoggedIn() || $this->getCustomerId() ? parent::_toHtml() : '';
-    }
-
-    /**
-     * Retrieve customer session instance
-     *
-     * @return \Magento\Customer\Model\Session
-     */
-    protected function _getCustomerSession()
-    {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->_customerSession->isLoggedIn() || $this->getCustomerId() ? parent::_toHtml() : '';
     }
 }

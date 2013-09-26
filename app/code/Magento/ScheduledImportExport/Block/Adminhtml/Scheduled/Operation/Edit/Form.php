@@ -30,6 +30,65 @@ abstract class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data
+     */
+    protected $_operationData;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $_sourceYesno;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Email\Identity
+     */
+    protected $_emailIdentity;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Email\Method
+     */
+    protected $_emailMethod;
+
+    /**
+     * @var \Magento\Core\Model\Option\ArrayPool
+     */
+    protected $_optionArrayPool;
+
+    /**
+     * @param \Magento\Core\Model\Option\ArrayPool $optionArrayPool
+     * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
+     * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Model\Option\ArrayPool $optionArrayPool,
+        \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
+        \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
+        \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_optionArrayPool = $optionArrayPool;
+        $this->_emailMethod = $emailMethod;
+        $this->_emailIdentity = $emailIdentity;
+        $this->_operationData = $operationData;
+        $this->_sourceYesno = $sourceYesno;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare general form for scheduled operation
      *
      * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
@@ -105,8 +164,8 @@ abstract class Form
             'required'  => false
         ));
 
-        $entities = \Mage::getModel(
-            'Magento\ImportExport\Model\Source\\' . uc_words($operation->getOperationType()) . '\Entity'
+        $entities = $this->_optionArrayPool->get(
+            'Magento\ImportExport\Model\Source\' . uc_words($operation->getOperationType()) . '_Entity'
         )->toOptionArray();
 
         $fieldset->addField('entity', 'select', array(
@@ -124,15 +183,12 @@ abstract class Form
             'required'  => true,
         ));
 
-        /** @var $operationData \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data */
-        $operationData = \Mage::getSingleton('Magento\ScheduledImportExport\Model\Scheduled\Operation\Data');
-
         $fieldset->addField('freq', 'select', array(
             'name'      => 'freq',
             'title'     => __('Frequency'),
             'label'     => __('Frequency'),
             'required'  => true,
-            'values'    => $operationData->getFrequencyOptionArray()
+            'values'    => $this->_operationData->getFrequencyOptionArray()
         ));
 
         $fieldset->addField('status', 'select', array(
@@ -140,7 +196,7 @@ abstract class Form
             'title'     => __('Status'),
             'label'     => __('Status'),
             'required'  => true,
-            'values'    => $operationData->getStatusesOptionArray()
+            'values'    => $this->_operationData->getStatusesOptionArray()
         ));
 
         return $this;
@@ -155,9 +211,6 @@ abstract class Form
      */
     protected function _addFileSettings($form, $operation)
     {
-        /** @var $operationData \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data */
-        $operationData = \Mage::getSingleton('Magento\ScheduledImportExport\Model\Scheduled\Operation\Data');
-
         $fieldset = $form->addFieldset('file_settings', array(
             'legend' => $this->getFileSettingsLabel()
         ));
@@ -167,13 +220,13 @@ abstract class Form
             'title'     => __('Server Type'),
             'label'     => __('Server Type'),
             'required'  => true,
-            'values'    => $operationData->getServerTypesOptionArray(),
+            'values'    => $this->_operationData->getServerTypesOptionArray(),
         ));
 
         $fieldset->addField('file_path', 'text', array(
             'name'      => 'file_info[file_path]',
-            'title'     => __('File \Directory'),
-            'label'     => __('File \Directory'),
+            'title'     => __('File Directory'),
+            'label'     => __('File Directory'),
             'required'  => true,
             'note'      => __('For Type "Local Server" use relative path to Magento installation, e.g. var/export, var/import, var/export/some/dir')
         ));
@@ -203,17 +256,15 @@ abstract class Form
             'name'      => 'file_info[file_mode]',
             'title'     => __('File Mode'),
             'label'     => __('File Mode'),
-            'values'    => $operationData->getFileModesOptionArray(),
+            'values'    => $this->_operationData->getFileModesOptionArray(),
             'class'     => 'ftp-server server-dependent'
         ));
 
-        /** @var $sourceYesNo \Magento\Backend\Model\Config\Source\Yesno */
-        $sourceYesNo = \Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno');
         $fieldset->addField('passive', 'select', array(
             'name'      => 'file_info[passive]',
             'title'     => __('Passive Mode'),
             'label'     => __('Passive Mode'),
-            'values'    => $sourceYesNo->toOptionArray(),
+            'values'    => $this->_sourceYesno->toOptionArray(),
             'class'     => 'ftp-server server-dependent'
         ));
 
@@ -233,21 +284,18 @@ abstract class Form
             'legend' => $this->getEmailSettingsLabel()
         ));
 
-        /** @var $sourceEmailIdentity \Magento\Backend\Model\Config\Source\Email\Identity */
-        $sourceEmailIdentity = \Mage::getModel('Magento\Backend\Model\Config\Source\Email\Identity');
-
         $fieldset->addField('email_receiver', 'select', array(
             'name'      => 'email_receiver',
             'title'     => __('Failed Email Receiver'),
             'label'     => __('Failed Email Receiver'),
-            'values'    => $sourceEmailIdentity->toOptionArray()
+            'values'    => $this->_emailIdentity->toOptionArray()
         ));
 
         $fieldset->addField('email_sender', 'select', array(
             'name'      => 'email_sender',
             'title'     => __('Failed Email Sender'),
             'label'     => __('Failed Email Sender'),
-            'values'    => $sourceEmailIdentity->toOptionArray()
+            'values'    => $this->_emailIdentity->toOptionArray()
         ));
 
         $fieldset->addField('email_template', 'select', array(
@@ -262,14 +310,11 @@ abstract class Form
             'label'     => __('Send Failed Email Copy To')
         ));
 
-        /** @var $sourceEmailMethod \Magento\Backend\Model\Config\Source\Email\Method */
-        $sourceEmailMethod = \Mage::getModel('Magento\Backend\Model\Config\Source\Email\Method');
-
         $fieldset->addField('email_copy_method', 'select', array(
             'name'      => 'email_copy_method',
             'title'     => __('Send Failed Email Copy Method'),
             'label'     => __('Send Failed Email Copy Method'),
-            'values'    => $sourceEmailMethod->toOptionArray()
+            'values'    => $this->_emailMethod->toOptionArray()
         ));
 
         return $this;

@@ -10,46 +10,87 @@
 
 /**
  * Sales order history block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Sales\Block\Order;
 
 class Recent extends \Magento\Core\Block\Template
 {
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
+     */
+    protected $_orderCollectionFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Config
+     */
+    protected $_orderConfig;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\Order\Config $orderConfig,
+        array $data = array()
+    ) {
+        $this->_orderCollectionFactory = $orderCollectionFactory;
+        $this->_customerSession = $customerSession;
+        $this->_orderConfig = $orderConfig;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
         parent::_construct();
 
         //TODO: add full name logic
-        $orders = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
+        $orders = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
-            ->addAttributeToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
-            ->addAttributeToFilter('state', array('in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates()))
+            ->addAttributeToFilter('customer_id', $this->_customerSession->getCustomer()->getId())
+            ->addAttributeToFilter('state', array('in' => $this->_orderConfig->getVisibleOnFrontStates()))
             ->addAttributeToSort('created_at', 'desc')
             ->setPageSize('5')
-            ->load()
-        ;
+            ->load();
 
         $this->setOrders($orders);
     }
 
+    /**
+     * @param object $order
+     * @return string
+     */
     public function getViewUrl($order)
     {
         return $this->getUrl('sales/order/view', array('order_id' => $order->getId()));
     }
 
+    /**
+     * @param object $order
+     * @return string
+     */
     public function getTrackUrl($order)
     {
         return $this->getUrl('sales/order/track', array('order_id' => $order->getId()));
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         if ($this->getOrders()->getSize() > 0) {
@@ -58,6 +99,10 @@ class Recent extends \Magento\Core\Block\Template
         return '';
     }
 
+    /**
+     * @param object $order
+     * @return string
+     */
     public function getReorderUrl($order)
     {
         return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));

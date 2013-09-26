@@ -48,11 +48,6 @@ class Indexer
      */
     const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH = 'catalog/search/engine_commit_mode';
 
-
-
-
-
-
     /**
      * Search data
      *
@@ -61,11 +56,19 @@ class Indexer
     protected $_searchData = null;
 
     /**
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Search\Helper\Data $searchData
      */
     public function __construct(
+        \Magento\Index\Model\Indexer $indexer,
         \Magento\Search\Helper\Data $searchData
     ) {
+        $this->_indexer = $indexer;
         $this->_searchData = $searchData;
     }
 
@@ -78,7 +81,7 @@ class Indexer
     {
         if ($this->_searchData->isThirdPartyEngineAvailable()) {
             /* Change index status to running */
-            $indexProcess = \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode('catalogsearch_fulltext');
+            $indexProcess = $this->_indexer->getProcessByCode('catalogsearch_fulltext');
             if ($indexProcess) {
                 $indexProcess->reindexAll();
             }

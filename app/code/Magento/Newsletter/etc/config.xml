@@ -15,6 +15,7 @@
             <newsletter_setup>
                 <setup>
                     <module>Magento_Newsletter</module>
+                    <class>Magento\Newsletter\Model\Resource\Setup</class>
                 </setup>
             </newsletter_setup>
         </resources>
@@ -37,15 +38,7 @@
                 </newsletter_subscription_un_email_template>
             </email>
         </template>
-        <newsletter>
-            <tempate_filter>Magento\Newsletter\Model\Template\Filter</tempate_filter>
-        </newsletter>
     </global>
-    <frontend>
-        <secure_url>
-            <newsletter_manage>/newsletter/manage/</newsletter_manage>
-        </secure_url>
-    </frontend>
     <default>
         <newsletter>
             <subscription>

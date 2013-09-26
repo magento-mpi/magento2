@@ -11,10 +11,6 @@
 
 /**
  * Manage Customer Address Attributes Controller
- *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer\Address;
 
@@ -33,17 +29,41 @@ class Attribute
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Customer\Model\AttributeFactory
+     */
+    protected $_attrFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
+     */
+    protected $_attrSetFactory;
 
     /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\AttributeFactory $attrFactory
+     * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Model\AttributeFactory $attrFactory,
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_eavConfig = $eavConfig;
+        $this->_attrFactory = $attrFactory;
+        $this->_attrSetFactory = $attrSetFactory;
         parent::__construct($context);
     }
 
@@ -55,7 +75,7 @@ class Attribute
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer_address');
+            $this->_entityType = $this->_eavConfig->getEntityType('customer_address');
         }
         return $this->_entityType;
     }
@@ -85,7 +105,8 @@ class Attribute
      */
     protected function _initAttribute()
     {
-        $attribute = \Mage::getModel('Magento\Customer\Model\Attribute');
+        /** @var $attribute \Magento\Customer\Model\Attribute */
+        $attribute = $this->_attrFactory->create();
         $websiteId = $this->getRequest()->getParam('website');
         if ($websiteId) {
             $attribute->setWebsite($websiteId);
@@ -256,8 +277,9 @@ class Attribute
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
-                    ->getDefaultGroupId($data['attribute_set_id']);
+                /** @var $attrSet \Magento\Eav\Model\Entity\Attribute\Set */
+                $attrSet = $this->_attrSetFactory->create();
+                $data['attribute_group_id'] = $attrSet->getDefaultGroupId($data['attribute_set_id']);
             }
 
             if (isset($data['used_in_forms']) && is_array($data['used_in_forms'])) {

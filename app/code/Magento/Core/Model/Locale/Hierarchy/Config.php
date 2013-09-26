@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Locale\Hierarchy;
 
-class Config
+class Config extends \Magento\Config\Data
 {
     /**
      * Configuration data reader
@@ -33,25 +33,16 @@ class Config
     protected $_cacheId;
 
     /**
-     * Configuration scope
-     *
-     * @var string
-     */
-    protected $_scope = 'global';
-
-    /**
-     * @param \Magento\Core\Model\Locale\Hierarchy\Config\Reader $reader
+     * @param \Magento\Config\ReaderInterface $reader
      * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        \Magento\Core\Model\Locale\Hierarchy\Config\Reader $reader,
+        \Magento\Config\ReaderInterface $reader,
         \Magento\Config\CacheInterface $cache,
         $cacheId = 'local_hierarchy_cache'
     ) {
-        $this->_cache = $cache;
-        $this->_reader = $reader;
-        $this->_cacheId = $cacheId;
+        parent::__construct($reader, $cache, $cacheId);
     }
 
     /**
@@ -61,11 +52,6 @@ class Config
      */
     public function getHierarchy()
     {
-        $data = $this->_cache->get($this->_scope, $this->_cacheId);
-        if (!$data) {
-            $data = $this->_reader->read($this->_scope);
-            $this->_cache->put($data, $this->_scope, $this->_cacheId);
-        }
-        return $data;
+        return $this->get();
     }
 }

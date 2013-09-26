@@ -20,6 +20,45 @@ namespace Magento\Search\Model\Adapter;
 abstract class AbstractAdapter
 {
     /**
+     * @var \Magento\Search\Model\Resource\Index
+     */
+    protected $_resourceIndex;
+
+    /**
+     * @var \Magento\CatalogSearch\Model\Resource\Fulltext
+     */
+    protected $_resourceFulltext;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     */
+    protected $_attributeCollection;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Search\Model\Catalog\Layer\Filter\Price
+     */
+    protected $_filterPrice;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Cache
+     *
+     * @var \Magento\Core\Model\CacheInterface
+     */
+    protected $_cache;
+
+    /**
      * Field to use to determine and enforce document uniqueness
      *
      */
@@ -113,7 +152,6 @@ abstract class AbstractAdapter
      */
     protected $_indexNeedsOptimization = false;
 
-
     // Deprecated properties
 
     /**
@@ -139,13 +177,35 @@ abstract class AbstractAdapter
     protected $_logger;
 
     /**
-     * Constructor
+     * Construct
      *
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
+     * @param \Magento\Search\Model\Resource\Index $resourceIndex
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\CacheInterface $cache
      */
-    public function __construct(\Magento\Core\Model\Logger $logger)
-    {
+    public function __construct(
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice,
+        \Magento\Search\Model\Resource\Index $resourceIndex,
+        \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
+        \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\CacheInterface $cache
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_filterPrice = $filterPrice;
+        $this->_resourceIndex = $resourceIndex;
+        $this->_resourceFulltext = $resourceFulltext;
+        $this->_attributeCollection = $attributeCollection;
         $this->_logger = $logger;
+        $this->_storeManager = $storeManager;
+        $this->_cache = $cache;
     }
 
     /**
@@ -180,8 +240,8 @@ abstract class AbstractAdapter
         /**
          * Cleaning MAXPRICE cache
          */
-        $cacheTag = \Mage::getSingleton('Magento\Search\Model\Catalog\Layer\Filter\Price')->getCacheTag();
-        \Mage::app()->cleanCache(array($cacheTag));
+        $cacheTag = $this->_filterPrice->getCacheTag();
+        $this->_cache->clean(array($cacheTag));
 
         $this->_indexNeedsOptimization = true;
 
@@ -257,10 +317,10 @@ abstract class AbstractAdapter
     public function getPriceFieldName($customerGroupId = null, $websiteId = null)
     {
         if ($customerGroupId === null) {
-            $customerGroupId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+            $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
         if ($websiteId === null) {
-            $websiteId = \Mage::app()->getStore()->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
 
         if ($customerGroupId === null || !$websiteId) {
@@ -283,8 +343,7 @@ abstract class AbstractAdapter
     {
         $result = array();
 
-        $categoryProductData = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Index')
-                ->getCategoryProductIndexData($storeId, $productId);
+        $categoryProductData = $this->_resourceIndex->getCategoryProductIndexData($storeId, $productId);
 
         if (isset($categoryProductData[$productId])) {
             $categoryProductData = $categoryProductData[$productId];
@@ -314,13 +373,12 @@ abstract class AbstractAdapter
     {
         $result = array();
 
-        $productPriceIndexData = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Index')
-            ->getPriceIndexData($productId, $storeId);
+        $productPriceIndexData = $this->_resourceIndex->getPriceIndexData($productId, $storeId);
 
         if (isset($productPriceIndexData[$productId])) {
             $productPriceIndexData = $productPriceIndexData[$productId];
 
-            $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
             foreach ($productPriceIndexData as $customerGroupId => $price) {
                 $fieldName = $this->getPriceFieldName($customerGroupId, $websiteId);
                 $result[$fieldName] = sprintf('%F', $price);
@@ -552,7 +610,7 @@ abstract class AbstractAdapter
             return array();
         }
 
-        $this->_separator = \Mage::getResourceSingleton('Magento\CatalogSearch\Model\Resource\Fulltext')->getSeparator();
+        $this->_separator = $this->_resourceFulltext->getSeparator();
 
         $docs = array();
         foreach ($docData as $productId => $productIndexData) {
@@ -584,7 +642,7 @@ abstract class AbstractAdapter
      * Add prepared Solr Input documents to Solr index
      *
      * @param array $docs
-     * @return Magento_Search_Model_Adapter_Solr
+     * @return \Magento\Search\Model\Adapter\Solr
      */
     public function addDocs($docs)
     {
@@ -1143,9 +1201,7 @@ abstract class AbstractAdapter
     protected function _getIndexableAttributeParams()
     {
         if ($this->_indexableAttributeParams === null) {
-            $attributeCollection = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
-                    ->addToIndexFilter()
-                    ->getItems();
+            $attributeCollection = $this->_attributeCollection->addToIndexFilter()->getItems();
 
             $this->_indexableAttributeParams = array();
             foreach ($attributeCollection as $item) {

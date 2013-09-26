@@ -60,7 +60,27 @@ class Links
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Eav\Model\Entity\AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @var \Magento\Downloadable\Model\Link
+     */
+    protected $_link;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $_sourceModel;
+
+    /**
+     * @var \Magento\Backend\Model\UrlFactory
+     */
+    protected $_urlFactory;
 
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
@@ -69,6 +89,10 @@ class Links
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceModel
+     * @param \Magento\Downloadable\Model\Link $link
+     * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
+     * @param \Magento\Backend\Model\UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
@@ -78,12 +102,20 @@ class Links
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceModel,
+        \Magento\Downloadable\Model\Link $link,
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
+        \Magento\Backend\Model\UrlFactory $urlFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
         $this->_storeManager = $storeManager;
+        $this->_sourceModel = $sourceModel;
+        $this->_link = $link;
+        $this->_attributeFactory = $attributeFactory;
+        $this->_urlFactory = $urlFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -119,7 +151,7 @@ class Links
         if (is_null($this->_purchasedSeparatelyAttribute)) {
             $_attributeCode = 'links_purchased_separately';
 
-            $this->_purchasedSeparatelyAttribute = \Mage::getModel('Magento\Eav\Model\Entity\Attribute')
+            $this->_purchasedSeparatelyAttribute = $this->_attributeFactory->create()
                 ->loadByCode(\Magento\Catalog\Model\Product::ENTITY, $_attributeCode);
         }
 
@@ -136,7 +168,7 @@ class Links
         $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
             ->setName('product[links_purchased_separately]')
             ->setId('downloadable_link_purchase_type')
-            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray())
+            ->setOptions($this->_sourceModel->toOptionArray())
             ->setValue($this->getProduct()->getLinksPurchasedSeparately());
 
         return $select->getHtml();
@@ -187,7 +219,7 @@ class Links
      */
     public function getIsPriceWebsiteScope()
     {
-        $scope =  (int) \Mage::app()->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
+        $scope =  (int) $this->_storeManager->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
         if ($scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE) {
             return true;
         }
@@ -223,7 +255,7 @@ class Links
                 'sort_order' => $item->getSortOrder(),
             );
             $file = $fileHelper->getFilePath(
-                \Magento\Downloadable\Model\Link::getBasePath(), $item->getLinkFile()
+                $this->_link->getBasePath(), $item->getLinkFile()
             );
 
             if ($item->getLinkFile() && !is_file($file)) {
@@ -245,7 +277,7 @@ class Links
                     ));
             }
             $sampleFile = $fileHelper->getFilePath(
-                \Magento\Downloadable\Model\Link::getBaseSamplePath(), $item->getSampleFile()
+                $this->_link->getBaseSamplePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && is_file($sampleFile)) {
                 $tmpLinkItem['sample_file_save'] = array(
@@ -335,7 +367,7 @@ class Links
      */
     public function getUploadUrl($type)
     {
-        return \Mage::getModel('Magento\Backend\Model\Url')->addSessionParam()
+        return $this->_urlFactory->create()->addSessionParam()
             ->getUrl('*/downloadable_file/upload', array('type' => $type, '_secure' => true));
     }
 

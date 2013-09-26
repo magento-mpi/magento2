@@ -167,7 +167,17 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
 
+        $adminUser = $this->getMock('stdClass', array('getUsername'));
+        $adminUser->expects($this->any())
+            ->method('getUsername')
+            ->will($this->returnValue('admin'));
+        $authSession = $this->getMock('Magento\Backend\Model\Auth\Session', array('getUser'), array(), '', false);
+        $authSession->expects($this->once())
+            ->method('getUser')
+            ->will($this->returnValue($adminUser));
+
         $this->_model = new \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance(
+            $authSession,
             $coreData,
             $coreString,
             $moduleHelper,
@@ -239,19 +249,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
-            $arguments = $objectManagerHelper->getConstructArguments(
-                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
+            $arguments = $objectManagerHelper->getConstructArguments('Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
         }
-
-        $adminUser = $this->getMock('stdClass', array('getUsername'));
-        $adminUser->expects($this->any())
-            ->method('getUsername')
-            ->will($this->returnValue('admin'));
 
         $data = array(
             'data_source_model'            => $dataSourceModel,
@@ -269,7 +273,6 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             'customer_storage'             => $customerStorage,
             'object_factory'               => $objectFactory,
             'attribute_collection'         => $attributeCollection,
-            'admin_user'                   => $adminUser
         );
 
         return $data;
@@ -491,8 +494,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
-                                        ::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -504,8 +506,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
-                                    ::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -522,8 +523,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
-                                    ::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -535,8 +535,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
-                                        ::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -584,8 +583,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
-                                        ::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -597,8 +595,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
-                                        ::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
                                 )
                             )
                         ),

@@ -57,6 +57,36 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_countFilterPart    = array();
 
     /**
+     * Customer factory
+     *
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        // _customerFactory is used in parent class constructor
+        $this->_customerFactory = $customerFactory;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Constructor
      * Configures collection
      *
@@ -116,9 +146,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function showCustomerInfo()
     {
         $adapter = $this->getConnection();
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
-        $firstname  = $customer->getAttribute('firstname');
-        $lastname   = $customer->getAttribute('lastname');
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = $this->_customerFactory->create();
+        $firstname = $customer->getAttribute('firstname');
+        $lastname = $customer->getAttribute('lastname');
 
         $this->getSelect()
             ->joinLeft(
@@ -215,5 +246,15 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $this->addFieldToFilter('main_table.store_id', array('in'=>$storeIds));
         return $this;
+    }
+
+    /**
+     * Get queue joined flag
+     *
+     * @return bool
+     */
+    public function getQueueJoinedFlag()
+    {
+        return $this->_queueJoinedFlag;
     }
 }

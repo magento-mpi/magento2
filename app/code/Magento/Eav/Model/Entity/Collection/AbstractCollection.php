@@ -319,7 +319,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      *
      * @param mixed $attribute
      * @param mixed $condition
-     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection|\Varien_Data_Collection_Db
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection|\Magento\Data\Collection\Db
      */
     public function addFieldToFilter($attribute, $condition = null)
     {

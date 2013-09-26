@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Shopping Cart" type="page" parent="default">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\Checkout\Block\Cart" name="checkout.cart" template="cart.phtml">
             <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple" template="cart/item/default.phtml"/>
             <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="cart/item/default.phtml"/>
@@ -35,6 +35,6 @@
             <block class="Magento\Checkout\Block\Cart\Crosssell" name="checkout.cart.crosssell" as="crosssell" template="cart/crosssell.phtml"/>
             <block class="Magento\Checkout\Block\Cart\Totals" name="checkout.cart.totals" as="totals" template="cart/totals.phtml"/>
         </block>
-    </reference>
+    </referenceContainer>
     <container name="additional.product.info" label="Additional Product Info"/>
 </layout>

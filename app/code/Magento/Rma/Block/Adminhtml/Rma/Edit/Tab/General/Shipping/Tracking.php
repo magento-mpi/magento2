@@ -10,12 +10,7 @@
 
 /**
  * Shipment tracking
- *
- * @category    Magento
- * @package     Magento_RMA
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
 class Tracking extends \Magento\Backend\Block\Template
@@ -25,20 +20,32 @@ class Tracking extends \Magento\Backend\Block\Template
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
     
     /**
      * Rma data
      *
      * @var \Magento\Rma\Helper\Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
+
+    /**
+     * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
+     */
+    protected $_shippingFactory;
+
+    /**
+     * @var \Magento\Shipping\Model\Config
+     */
+    protected $_shippingConfig;
 
     /**
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingFactory
+     * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param array $data
      */
     public function __construct(
@@ -46,11 +53,14 @@ class Tracking extends \Magento\Backend\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-
+        \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingFactory,
+        \Magento\Shipping\Model\Config $shippingConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
+        $this->_shippingFactory = $shippingFactory;
+        $this->_shippingConfig = $shippingConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -81,10 +91,13 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getAllTracks()
     {
-        return \Mage::getResourceModel('Magento\Rma\Model\Resource\Shipping\Collection')
-            ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
-            ->addFieldToFilter('is_admin', array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
-        ;
+        /** @var $collection \Magento\Rma\Model\Resource\Shipping\Collection */
+        $collection = $this->_shippingFactory->create();
+        $collection->addFieldToFilter('rma_entity_id', $this->getRma()->getId());
+        $collection->addFieldToFilter('is_admin', array(
+            'neq' => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL
+        ));
+        return $collection;
     }
 
     /**
@@ -160,7 +173,7 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getCarrierTitle($code)
     {
-        $carrier = \Mage::getSingleton('Magento\Shipping\Model\Config')->getCarrierInstance($code);
+        $carrier = $this->_shippingConfig->getCarrierInstance($code);
         return $carrier ? $carrier->getConfigData('title') : __('Custom Value');
     }
 }

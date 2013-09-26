@@ -57,8 +57,11 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             ->method('getTableName')
             ->will($this->returnValue(self::TABLE_NAME));
 
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        $model = new \Magento\SalesRule\Model\Resource\Report\Rule($logger, $resourceMock);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $model = $objectManager->getObject(
+            'Magento\SalesRule\Model\Resource\Report\Rule',
+            array('resource' => $resourceMock)
+        );
 
         $expectedRuleNames = array();
         foreach ($this->_rules as $rule) {

@@ -18,13 +18,15 @@
  */
 namespace Magento\Sales\Model\Resource\Collection;
 
-abstract class AbstractCollection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+abstract class AbstractCollection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Check if $attribute is \Magento\Eav\Model\Entity\Attribute and convert to string field name
      *
      * @param string|\Magento\Eav\Model\Entity\Attribute $attribute
      * @return string
+     * @throws \Magento\Core\Exception
      */
     protected function _attributeToField($attribute)
     {
@@ -35,7 +37,7 @@ abstract class AbstractCollection extends \Magento\Core\Model\Resource\Db\Collec
             $field = $attribute->getAttributeCode();
         }
         if (!$field) {
-            \Mage::throwException(__('We cannot determine the field name.'));
+            throw new \Magento\Core\Exception(__('We cannot determine the field name.'));
         }
         return $field;
     }

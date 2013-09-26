@@ -32,21 +32,14 @@ class Encryption extends \Magento\Core\Model\Encryption
     protected $_keys = array();
 
     /**
-     * Constructor
-     *
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Config $config
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Config $coreConfig
-    ) {
-        parent::__construct(
-            $objectManager,
-            $coreConfig
-        );
+    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\Config $config)
+    {
+        parent::__construct($objectManager, $config);
         // load all possible keys
-        $this->_keys = preg_split('/\s+/s', trim((string)$this->_coreConfig->getNode('global/crypt/key')));
+        $this->_keys = preg_split('/\s+/s', trim((string)$config->getNode('global/crypt/key')));
         $this->_keyVersion = count($this->_keys) - 1;
     }
 
@@ -61,9 +54,11 @@ class Encryption extends \Magento\Core\Model\Encryption
      */
     public function validateCipher($version)
     {
+        $types = array(self::CIPHER_BLOWFISH, self::CIPHER_RIJNDAEL_128, self::CIPHER_RIJNDAEL_256);
+
         $version = (int)$version;
-        if (!in_array($version, array(self::CIPHER_BLOWFISH, self::CIPHER_RIJNDAEL_128, self::CIPHER_RIJNDAEL_256), true)) {
-            \Mage::throwException('Not supported cipher version');
+        if (!in_array($version, $types, true)) {
+            throw new \Magento\Core\Exception(__('Not supported cipher version'));
         }
         return $version;
     }

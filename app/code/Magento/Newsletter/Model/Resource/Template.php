@@ -21,6 +21,27 @@ namespace Magento\Newsletter\Model\Resource;
 class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Date
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     */
+    public function __construct(
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        parent::__construct($resource);
+        $this->_date = $date;
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -110,20 +131,21 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @return \Magento\Newsletter\Model\Resource\Template
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($this->checkCodeUsage($object)) {
-            \Mage::throwException(__('Duplicate template code'));
+            throw new \Magento\Core\Exception(__('Duplicate template code'));
         }
 
         if (!$object->hasTemplateActual()) {
             $object->setTemplateActual(1);
         }
         if (!$object->hasAddedAt()) {
-            $object->setAddedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+            $object->setAddedAt($this->_date->gmtDate());
         }
-        $object->setModifiedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+        $object->setModifiedAt($this->_date->gmtDate());
 
         return parent::_beforeSave($object);
     }

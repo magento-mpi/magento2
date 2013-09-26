@@ -25,16 +25,20 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $moduleList = $objectManager->get('Magento\Core\Model\ModuleListInterface');
         $paymentData = $objectManager->get('Magento\Payment\Helper\Data');
         $coreStoreConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $logger = $objectManager->get('Magento\Core\Model\Logger');
+        $logAdapterFactory = $objectManager->get('Magento\Core\Model\Log\AdapterFactory');
+        $locale = $objectManager->get('Magento\Core\Model\LocaleInterface');
+        $centinelService = $objectManager->get('Magento\Centinel\Model\Service');
 
         /** @var $order \Magento\Sales\Model\Order */
         $order = $objectManager->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $payment = $order->getPayment();
 
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         /** @var \Magento\Paypal\Model\Payflowpro $instance */
         $instance = $this->getMock('Magento\Paypal\Model\Payflowpro', array('_postRequest'),
-            array($eventManager, $coreData, $moduleList, $coreStoreConfig, $paymentData, $logger));
+            array($logger, $eventManager, $coreStoreConfig, $coreData, $moduleList, $paymentData, $logAdapterFactory,
+                $locale, $centinelService));
 
         $response = new \Magento\Object(array(
             'result' => '0',

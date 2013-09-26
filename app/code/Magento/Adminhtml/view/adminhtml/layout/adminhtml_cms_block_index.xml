@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Cms\Block" name="cms_block">
             <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.cms.block.grid" as="grid">
                 <arguments>
@@ -69,40 +69,6 @@
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="creation_time">
-                            <arguments>
-                                <argument name="header" xsi:type="string" translate="true">Identifier</argument>
-                                <argument name="align" xsi:type="string">left</argument>
-                                <argument name="index" xsi:type="string">identifier</argument>
-                            </arguments>
-                        </block>
-                        <block class="Magento\Backend\Block\Widget\Grid\Column\Multistore" as="store_id">
-                            <arguments>
-                                <argument name="header" xsi:type="string" translate="true">Store View</argument>
-                                <argument name="index" xsi:type="string">store_id</argument>
-                                <argument name="type" xsi:type="string">store</argument>
-                                <argument name="store_all" xsi:type="string">1</argument>
-                                <argument name="store_view" xsi:type="string">1</argument>
-                                <argument name="sortable" xsi:type="string">0</argument>
-                            </arguments>
-                        </block>
-                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="is_active">
-                            <arguments>
-                                <argument name="header" xsi:type="string" translate="true">Status</argument>
-                                <argument name="index" xsi:type="string">is_active</argument>
-                                <argument name="type" xsi:type="string">options</argument>
-                                <argument name="options" xsi:type="array">
-                                    <item name="disable" xsi:type="array">
-                                        <item name="value" xsi:type="string">0</item>
-                                        <item name="label" xsi:type="string" translate="true">Disabled</item>
-                                    </item>
-                                    <item name="enable" xsi:type="array">
-                                        <item name="value" xsi:type="string">1</item>
-                                        <item name="label" xsi:type="string" translate="true">Enabled</item>
-                                    </item>
-                                </argument>
-                            </arguments>
-                        </block>
-                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="creation_time">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Created</argument>
                             <argument name="type" xsi:type="string">datetime</argument>
@@ -119,5 +85,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -15,7 +15,6 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Sales\Controller;
 
 class Download extends \Magento\Core\Controller\Front\Action
@@ -33,10 +32,12 @@ class Download extends \Magento\Core\Controller\Front\Action
                 throw new \Exception();
             }
 
-            $filePath = \Mage::getBaseDir() . $info['order_path'];
+            $filePath = $this->_objectManager->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::ROOT) . $info['order_path'];
             if ((!is_file($filePath) || !is_readable($filePath)) && !$this->_processDatabaseFile($filePath)) {
                 //try get file from quote
-                $filePath = \Mage::getBaseDir() . $info['quote_path'];
+                $filePath = $this->_objectManager->get('Magento\Core\Model\Dir')
+                    ->getDir(\Magento\Core\Model\Dir::ROOT) . $info['quote_path'];
                 if ((!is_file($filePath) || !is_readable($filePath)) && !$this->_processDatabaseFile($filePath)) {
                     throw new \Exception();
                 }
@@ -64,7 +65,8 @@ class Download extends \Magento\Core\Controller\Front\Action
 
         $relativePath = $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')
             ->getMediaRelativePath($filePath);
-        $file = \Mage::getModel('Magento\Core\Model\File\Storage\Database')->loadByFilename($relativePath);
+        $file = $this->_objectManager->create('Magento\Core\Model\File\Storage\Database')
+            ->loadByFilename($relativePath);
 
         if (!$file->getId()) {
             return false;
@@ -90,7 +92,7 @@ class Download extends \Magento\Core\Controller\Front\Action
      */
     public function downloadProfileCustomOptionAction()
     {
-        $recurringProfile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')
+        $recurringProfile = $this->_objectManager->create('Magento\Sales\Model\Recurring\Profile')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$recurringProfile->getId()) {
@@ -112,7 +114,7 @@ class Download extends \Magento\Core\Controller\Front\Action
                 return;
             }
             // Check if the product exists
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($request['product']);
+            $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($request['product']);
             if (!$product || !$product->getId()) {
                 $this->_forward('noRoute');
                 return;
@@ -136,7 +138,7 @@ class Download extends \Magento\Core\Controller\Front\Action
     {
         $quoteItemOptionId = $this->getRequest()->getParam('id');
         /** @var $option \Magento\Sales\Model\Quote\Item\Option */
-        $option = \Mage::getModel('Magento\Sales\Model\Quote\Item\Option')->load($quoteItemOptionId);
+        $option = $this->_objectManager->create('Magento\Sales\Model\Quote\Item\Option')->load($quoteItemOptionId);
 
         if (!$option->getId()) {
             $this->_forward('noRoute');
@@ -153,7 +155,7 @@ class Download extends \Magento\Core\Controller\Front\Action
         $productOption = null;
         if ($optionId) {
             /** @var $productOption \Magento\Catalog\Model\Product\Option */
-            $productOption = \Mage::getModel('Magento\Catalog\Model\Product\Option')->load($optionId);
+            $productOption = $this->_objectManager->create('Magento\Catalog\Model\Product\Option')->load($optionId);
         }
         if (!$productOption || !$productOption->getId()
             || $productOption->getProductId() != $option->getProductId() || $productOption->getType() != 'file'

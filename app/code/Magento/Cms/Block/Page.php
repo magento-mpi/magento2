@@ -21,24 +21,53 @@ namespace Magento\Cms\Block;
 class Page extends \Magento\Core\Block\AbstractBlock
 {
     /**
-     * Cms data
-     *
-     * @var \Magento\Cms\Helper\Data
+     * @var \Magento\Cms\Model\Template\FilterProvider
      */
-    protected $_cmsData = null;
+    protected $_filterProvider;
 
     /**
-     * @param \Magento\Cms\Helper\Data $cmsData
+     * @var \Magento\Cms\Model\Page
+     */
+    protected $_page;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Page factory
+     *
+     * @var \Magento\Cms\Model\PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Cms\Model\Page $page
+     * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Cms\Helper\Data $cmsData,
         \Magento\Core\Block\Context $context,
+        \Magento\Cms\Model\Page $page,
+        \Magento\Cms\Model\Template\FilterProvider $filterProvider,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Cms\Model\PageFactory $pageFactory,
         array $data = array()
     ) {
-        $this->_cmsData = $cmsData;
         parent::__construct($context, $data);
+        // used singleton (instead factory) because there exist dependencies on \Magento\Cms\Helper\Page
+        $this->_page = $page;
+        $this->_filterProvider = $filterProvider;
+        $this->_storeManager = $storeManager;
+        $this->_pageFactory = $pageFactory;
     }
 
     /**
@@ -50,11 +79,12 @@ class Page extends \Magento\Core\Block\AbstractBlock
     {
         if (!$this->hasData('page')) {
             if ($this->getPageId()) {
-                $page = \Mage::getModel('Magento\Cms\Model\Page')
-                    ->setStoreId(\Mage::app()->getStore()->getId())
+                /** @var \Magento\Cms\Model\Page $page */
+                $page = $this->_pageFactory->create();
+                $page->setStoreId($this->_storeManager->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
             } else {
-                $page = \Mage::getSingleton('Magento\Cms\Model\Page');
+                $page = $this->_page;
             }
             $this->setData('page', $page);
         }
@@ -75,7 +105,8 @@ class Page extends \Magento\Core\Block\AbstractBlock
             && ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs'))
             && ($page->getIdentifier()!==$this->_storeConfig->getConfig('web/default/cms_home_page'))
             && ($page->getIdentifier()!==$this->_storeConfig->getConfig('web/default/cms_no_route'))) {
-                $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link' => \Mage::getBaseUrl()));
+                $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'),
+                    'link' => $this->_storeManager->getStore()->getBaseUrl()));
                 $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));
         }
 
@@ -108,10 +139,7 @@ class Page extends \Magento\Core\Block\AbstractBlock
      */
     protected function _toHtml()
     {
-        /* @var $helper \Magento\Cms\Helper\Data */
-        $helper = $this->_cmsData;
-        $processor = $helper->getPageTemplateProcessor();
-        $html = $processor->filter($this->getPage()->getContent());
+        $html = $this->_filterProvider->getPageFilter()->filter($this->getPage()->getContent());
         $html = $this->getLayout()->renderElement('messages') . $html;
         return $html;
     }

@@ -35,11 +35,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $_coreSessionMock;
 
     /**
-     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_coreHelperMock;
-
-    /**
      * @var \Magento\Core\Controller\Request\Http
      */
     protected $_storeConfigMock;
@@ -95,14 +90,15 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->with(\Magento\Backend\Model\Url::XML_PATH_STARTUP_MENU_ITEM)
             ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array('getHash'), array(), '', false);
         $this->_coreDataMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
+        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
+
         $this->_model = new \Magento\Backend\Model\Url(
+            $securityInfoMock,
             $this->_storeConfigMock,
-            $coreConfig,
             $helperMock,
             $this->_coreSessionMock,
             $this->_menuConfigMock,
@@ -174,11 +170,12 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+
+        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
 
         $urlModel = new \Magento\Backend\Model\Url(
+            $securityInfoMock,
             $this->_storeConfigMock,
-            $coreConfig,
             $helperMock,
             $this->_coreSessionMock,
             $this->_menuConfigMock,
@@ -211,11 +208,12 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue(''));
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+
+        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
 
         $urlModel = new \Magento\Backend\Model\Url(
+            $securityInfoMock,
             $this->_storeConfigMock,
-            $coreConfig,
             $helperMock,
             $this->_coreSessionMock,
             $this->_menuConfigMock,

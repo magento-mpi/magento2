@@ -45,16 +45,19 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Rating\Helper\Data $ratingData
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Review\Model\Resource\Review\Summary $reviewSummary
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Rating\Helper\Data $ratingData,
         \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Review\Model\Resource\Review\Summary $reviewSummary
     ) {
         $this->_ratingData = $ratingData;
         $this->_storeManager = $storeManager;
         $this->_logger = $logger;
+        $this->_reviewSummary = $reviewSummary;
         parent::__construct($resource);
     }
 
@@ -93,7 +96,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter    = $this->_getReadAdapter();
 
         $table      = $this->getMainTable();
-        $storeId    = (int)\Mage::app()->getStore()->getId();
+        $storeId    = (int)$this->_storeManager->getStore()->getId();
         $select     = parent::_getLoadSelect($field, $value, $object);
         $codeExpr   = $adapter->getIfNullSql('title.value', "{$table}.rating_code");
 
@@ -108,7 +111,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Actions after load
      *
-     * @param \Magento\Rating\Model\Rating $object
+     * @param \Magento\Core\Model\AbstractModel|\Magento\Rating\Model\Rating $object
      * @return \Magento\Rating\Model\Resource\Rating
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
@@ -154,7 +157,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Actions after save
      *
-     * @param \Magento\Rating\Model\Rating $object
+     * @param \Magento\Core\Model\AbstractModel|\Magento\Rating\Model\Rating $object
      * @return \Magento\Rating\Model\Resource\Rating
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
@@ -266,7 +269,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
             $clone->addData($row);
             $summary[$clone->getStoreId()][$clone->getEntityPkValue()] = $clone;
         }
-        \Mage::getResourceModel('Magento\Review\Model\Resource\Review\Summary')->reAggregate($summary);
+        $this->_reviewSummary->reAggregate($summary);
         return $this;
     }
 
@@ -283,18 +286,16 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         if ($onlyForCurrentStore) {
             foreach ($data as $row) {
-                if ($row['store_id']==\Mage::app()->getStore()->getId()) {
+                if ($row['store_id'] == $this->_storeManager->getStore()->getId()) {
                     $object->addData($row);
                 }
             }
             return $object;
         }
 
+        $stores = $this->_storeManager->getStores();
+
         $result = array();
-
-        //$stores = \Mage::app()->getStore()->getResourceCollection()->load();
-        $stores = \Mage::getModel('Magento\Core\Model\Store')->getResourceCollection()->load();
-
         foreach ($data as $row) {
             $clone = clone $object;
             $clone->addData($row);
@@ -302,7 +303,6 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         $usedStoresId = array_keys($result);
-
         foreach ($stores as $store) {
             if (!in_array($store->getId(), $usedStoresId)) {
                 $clone = clone $object;
@@ -312,7 +312,6 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $result[$store->getId()] = $clone;
             }
         }
-
         return array_values($result);
     }
 
@@ -402,7 +401,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         if ($onlyForCurrentStore) {
             foreach ($data as $row) {
-                if ($row['store_id'] == \Mage::app()->getStore()->getId()) {
+                if ($row['store_id'] == $this->_storeManager->getStore()->getId()) {
                     $object->addData($row);
                 }
             }
@@ -411,7 +410,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $result = array();
 
-        $stores = \Mage::app()->getStore()->getResourceCollection()->load();
+        $stores = $this->_storeManager->getStore()->getResourceCollection()->load();
 
         foreach ($data as $row) {
             $clone = clone $object;

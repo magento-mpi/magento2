@@ -8,10 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Category" type="page" parent="default">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Catalog\Block\Category\View" name="category.products" template="category/view.phtml">
             <block class="Magento\Catalog\Block\Product\ListProduct" name="product_list" template="product/list.phtml">
-                <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                <block class="Magento\Catalog\Block\Product\ListProduct\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
                     <block class="Magento\Page\Block\Html\Pager" name="product_list_toolbar_pager"/>
                 </block>
                 <action method="addColumnCountLayoutDepend">
@@ -39,6 +39,6 @@
                 </action>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
     <update handle="MAP_popup"/>
 </layout>

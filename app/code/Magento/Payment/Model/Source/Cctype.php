@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Payment CC Types Source Model
- *
- * @category    Magento
- * @package     Magento_Payment
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Payment\Model\Source;
 
@@ -25,6 +19,23 @@ class Cctype implements \Magento\Core\Model\Option\ArrayInterface
      * @var array
      */
     protected $_allowedTypes = array();
+
+    /**
+     * Payment config model
+     *
+     * @var \Magento\Payment\Model\Config
+     */
+    protected $_paymentConfig;
+
+    /**
+     * Config
+     *
+     * @param \Magento\Payment\Model\Config $paymentConfig
+     */
+    public function __construct(\Magento\Payment\Model\Config $paymentConfig)
+    {
+        $this->_paymentConfig = $paymentConfig;
+    }
 
     /**
      * Return allowed cc types for current method
@@ -56,7 +67,7 @@ class Cctype implements \Magento\Core\Model\Option\ArrayInterface
         $allowed = $this->getAllowedTypes();
         $options = array();
 
-        foreach (\Mage::getSingleton('Magento\Payment\Model\Config')->getCcTypes() as $code => $name) {
+        foreach ($this->_paymentConfig->getCcTypes() as $code => $name) {
             if (in_array($code, $allowed) || !count($allowed)) {
                 $options[] = array(
                    'value' => $code,

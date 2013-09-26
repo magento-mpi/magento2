@@ -22,13 +22,50 @@ namespace Magento\Rule\Model;
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
     /**
+     * @var \Magento\Rule\Model\Condition\Combine
+     */
+    protected $_conditions;
+
+    /**
+     * @var \Magento\Rule\Model\Action\Collection
+     */
+    protected $_actions;
+
+    /**
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Rule\Model\Condition\Combine $conditions
+     * @param \Magento\Rule\Model\Action\Collection $actions
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Rule\Model\Condition\CombineFactory $conditionsFactory,
+        \Magento\Rule\Model\Action\CollectionFactory $actionsFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_conditionsFactory = $conditionsFactory;
+        $this->_actionsFactory = $actionsFactory;
+        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Getter for rule combine conditions instance
      *
      * @return \Magento\Rule\Model\Condition\Combine
      */
     public function getConditionsInstance()
     {
-        return \Mage::getModel('Magento\Rule\Model\Condition\Combine');
+        return $this->_conditionsFactory->create();
     }
 
     /**
@@ -38,6 +75,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return \Mage::getModel('Magento\Rule\Model\Action\Collection');
+        return $this->_actionsFactory->create();
     }
 }

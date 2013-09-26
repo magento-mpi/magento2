@@ -29,10 +29,6 @@
  * @method \Magento\Sales\Model\Billing\Agreement setStoreId(int $value)
  * @method string getAgreementLabel()
  * @method \Magento\Sales\Model\Billing\Agreement setAgreementLabel(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Billing;
 
@@ -49,8 +45,42 @@ class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
     protected $_relatedOrders = array();
 
     /**
+     * @var \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory
+     */
+    protected $_billingAgreementFactory;
+
+    /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_dateFactory;
+
+    /**
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory
+     * @param \Magento\Core\Model\Date $dateFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory,
+        \Magento\Core\Model\Date $dateFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($paymentData, $context, $registry, $resource, $resourceCollection, $data);
+        $this->_billingAgreementFactory = $billingAgreementFactory;
+        $this->_dateFactory = $dateFactory;
+    }
+
+    /**
      * Init model
-     *
      */
     protected function _construct()
     {
@@ -64,7 +94,7 @@ class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
      */
     protected function _beforeSave()
     {
-        $date = \Mage::getModel('Magento\Core\Model\Date')->gmtDate();
+        $date = $this->_dateFactory->create()->gmtDate();
         if ($this->isObjectNew() && !$this->getCreatedAt()) {
             $this->setCreatedAt($date);
         } else {
@@ -98,6 +128,8 @@ class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
                 return __('Active');
             case self::STATUS_CANCELED:
                 return __('Canceled');
+            default:
+                return '';
         }
     }
 
@@ -229,12 +261,12 @@ class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
     /**
      * Retrieve available customer Billing Agreements
      *
-     * @param int $customer
-     * @return \Magento\Paypal\Controller\Express\AbstractExpress
+     * @param int $customerId
+     * @return \Magento\Sales\Model\Resource\Billing\Agreement\Collection
      */
     public function getAvailableCustomerBillingAgreements($customerId)
     {
-        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Billing\Agreement\Collection');
+        $collection = $this->_billingAgreementFactory->create();
         $collection->addFieldToFilter('customer_id', $customerId)
             ->addFieldToFilter('status', self::STATUS_ACTIVE)
             ->setOrder('agreement_id');
@@ -270,9 +302,8 @@ class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
     protected function _saveOrderRelations()
     {
         foreach ($this->_relatedOrders as $order) {
-            $orderId = $order instanceof \Magento\Sales\Model\Order ? $order->getId() : (int) $order;
+            $orderId = $order instanceof \Magento\Sales\Model\Order ? $order->getId() : (int)$order;
             $this->getResource()->addOrderRelation($this->getId(), $orderId);
         }
     }
-
 }

@@ -76,25 +76,56 @@ class Validator extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\SalesRule\Model\Resource\Rule\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\SalesRule\Model\Resource\Coupon\UsageFactory
+     */
+    protected $_usageFactory;
+    /**
+     * @var \Magento\SalesRule\Model\CouponFactory
+     */
+    protected $_couponFactory;
+
+    /**
+     * @var \Magento\SalesRule\Model\Rule\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param \Magento\SalesRule\Model\Resource\Coupon\UsageFactory $usageFactory
+     * @param \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
+     * @param \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\SalesRule\Model\Resource\Coupon\UsageFactory $usageFactory,
+        \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\SalesRule\Model\CouponFactory $couponFactory,
+        \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_usageFactory = $usageFactory;
+        $this->_collectionFactory = $collectionFactory;
         $this->_eventManager = $eventManager;
         $this->_taxData = $taxData;
+        $this->_couponFactory = $couponFactory;
+        $this->_customerFactory = $customerFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -116,7 +147,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
 
         $key = $websiteId . '_' . $customerGroupId . '_' . $couponCode;
         if (!isset($this->_rules[$key])) {
-            $this->_rules[$key] = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Rule\Collection')
+            $this->_rules[$key] = $this->_collectionFactory->create()
                 ->setValidationFilter($websiteId, $customerGroupId, $couponCode)
                 ->load();
         }
@@ -153,7 +184,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
         if ($rule->getCouponType() != \Magento\SalesRule\Model\Rule::COUPON_TYPE_NO_COUPON) {
             $couponCode = $address->getQuote()->getCouponCode();
             if (strlen($couponCode)) {
-                $coupon = \Mage::getModel('Magento\SalesRule\Model\Coupon');
+                $coupon = $this->_couponFactory->create();
                 $coupon->load($couponCode, 'code');
                 if ($coupon->getId()) {
                     // check entire usage limit
@@ -165,8 +196,9 @@ class Validator extends \Magento\Core\Model\AbstractModel
                     $customerId = $address->getQuote()->getCustomerId();
                     if ($customerId && $coupon->getUsagePerCustomer()) {
                         $couponUsage = new \Magento\Object();
-                        \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon\Usage')->loadByCustomerCoupon(
-                            $couponUsage, $customerId, $coupon->getId());
+                        $this->_usageFactory->create()->loadByCustomerCoupon(
+                            $couponUsage, $customerId, $coupon->getId()
+                        );
                         if ($couponUsage->getCouponId() &&
                             $couponUsage->getTimesUsed() >= $coupon->getUsagePerCustomer()
                         ) {
@@ -184,7 +216,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
         $ruleId = $rule->getId();
         if ($ruleId && $rule->getUsesPerCustomer()) {
             $customerId     = $address->getQuote()->getCustomerId();
-            $ruleCustomer   = \Mage::getModel('Magento\SalesRule\Model\Rule\Customer');
+            $ruleCustomer   = $this->_customerFactory->create();
             $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
             if ($ruleCustomer->getId()) {
                 if ($ruleCustomer->getTimesUsed() >= $rule->getUsesPerCustomer()) {
@@ -379,7 +411,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
 
                 case \Magento\SalesRule\Model\Rule::CART_FIXED_ACTION:
                     if (empty($this->_rulesItemTotals[$rule->getId()])) {
-                        \Mage::throwException(__('Item totals are not set for the rule.'));
+                        throw new \Magento\Core\Exception(__('Item totals are not set for the rule.'));
                     }
 
                     /**

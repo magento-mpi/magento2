@@ -9,17 +9,17 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="page_one_column"/>
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-checkout-js-opcheckout-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Checkout::js/opcheckout.js</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
     <move element="checkout.progress" destination="checkout.onepage" as="checkoutProgress" before="-"/>
     <remove name="checkout.progress.wrapper"/>
-    <reference name="checkout.onepage.payment">
+    <referenceBlock name="checkout.onepage.payment">
         <block class="Magento\Core\Block\Template" name="checkout.onepage.payment.additional" as="additional" after="checkout.payment.methods"/>
         <block class="Magento\Core\Block\Template" name="checkout.onepage.payment.methods_additional" as="methods_additional" after="checkout.onepage.payment.additional"/>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_sales_order_grid_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Sales\Order" name="sales_order.grid.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

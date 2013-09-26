@@ -61,6 +61,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reminder\Model\Resource\Rule $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -70,12 +71,13 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reminder\Model\Resource\Rule $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_reminderData = $reminderData;
-        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
     }
 
     /**

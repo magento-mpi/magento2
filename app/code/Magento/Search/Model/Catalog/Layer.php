@@ -17,25 +17,28 @@ namespace Magento\Search\Model\Catalog;
 class Layer extends \Magento\Catalog\Model\Layer
 {
     /**
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
+     */
+    protected $_engineProvider;
+
+    /**
      * Catalog search data
      *
      * @var \Magento\CatalogSearch\Helper\Data
      */
-    protected $_catalogSearchData = null;
+    protected $_catalogSearchData;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         array $data = array()
     ) {
+        $this->_engineProvider = $engineProvider;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct($data);
     }
@@ -50,8 +53,7 @@ class Layer extends \Magento\Catalog\Model\Layer
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
-            $engine = $this->_catalogSearchData->getEngine();
-            $collection = $engine->getResultCollection();
+            $collection = $this->_engineProvider->get()->getResultCollection();
             $collection->setStoreId($this->getCurrentCategory()->getStoreId())
                 ->addCategoryFilter($this->getCurrentCategory())
                 ->setGeneralDefaultQuery();

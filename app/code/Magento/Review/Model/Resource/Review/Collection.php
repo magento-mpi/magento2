@@ -69,12 +69,24 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_reviewData = null;
 
     /**
+     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
+     */
+    protected $_voteFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Core\Model\Resource\Db\Abstract $resource
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -82,9 +94,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_reviewData = $reviewData;
+        $this->_voteFactory = $voteFactory;
+        $this->_storeManager = $storeManager;
+
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
@@ -100,7 +117,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $this->_reviewStatusTable   = $this->getTable('review_status');
         $this->_reviewEntityTable   = $this->getTable('review_entity');
         $this->_reviewStoreTable    = $this->getTable('review_store');
-
     }
 
     /**
@@ -227,11 +243,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
+            $votesCollection = $this->_voteFactory->create()
                 ->getResourceCollection()
                 ->setReviewFilter($item->getId())
-                ->setStoreFilter(\Mage::app()->getStore()->getId())
-                ->addRatingInfo(\Mage::app()->getStore()->getId())
+                ->setStoreFilter($this->_storeManager->getStore()->getId())
+                ->addRatingInfo($this->_storeManager->getStore()->getId())
                 ->load();
             $item->setRatingVotes($votesCollection);
         }

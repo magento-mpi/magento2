@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Template" template="Magento_ImportExport::export/form/before.phtml" name="export.form.before" as="form_before"/>
         <block class="Magento\ImportExport\Block\Adminhtml\Export\Edit" name="export.form.container"/>
         <block class="Magento\ImportExport\Block\Adminhtml\Form\After" template="Magento_ImportExport::export/form/after.phtml" name="export.form.after" as="form_after"/>
-    </reference>
+    </referenceContainer>
 </layout>

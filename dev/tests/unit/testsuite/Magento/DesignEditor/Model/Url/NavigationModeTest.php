@@ -52,13 +52,12 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
              array('themeId', 1)
         )));
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
-        
+
         $this->_model = new \Magento\DesignEditor\Model\Url\NavigationMode(
+            $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
             $this->_helper,
-            $this->_coreData,
             $coreStoreConfig,
-            $coreConfig,
+            $this->_coreData,
             $this->_testData
         );
         $this->_model->setRequest($requestMock);

@@ -115,6 +115,7 @@ class Finance
     protected $_rewardFactory;
 
     /**
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
@@ -125,6 +126,7 @@ class Finance
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
@@ -145,7 +147,7 @@ class Finance
         $this->_importExportData = $importExportData;
 
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
-            : \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser();
+            : $authSession->getUser();
 
         $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
             __('Finance information website is not specified')

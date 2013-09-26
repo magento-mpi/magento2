@@ -26,14 +26,32 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
      *
      * @var array
      */
-    protected $_indexers;
+    protected $_indexers = array();
 
     /**
-     * Default Stock Indexer resource model name
-     *
-     * @var string
+     * @var \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory
      */
-    protected $_defaultIndexer   = 'Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock';
+    protected $_indexerFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Type
+     */
+    protected $_productType;
+
+    /**
+     * @param \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory $indexerFactory
+     * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory $indexerFactory,
+        \Magento\Catalog\Model\Product\Type $productType,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_indexerFactory = $indexerFactory;
+        $this->_productType = $productType;
+        parent::__construct($resource);
+    }
 
     /**
      * Initialize connection and define main table
@@ -67,6 +85,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
      * Refresh stock index for specific product ids
      *
      * @param array $productIds
+     * @throws \Exception
      * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
      */
     public function reindexProducts($productIds)
@@ -114,6 +133,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
      * Processing parent products after child product deleted
      *
      * @param \Magento\Index\Model\Event $event
+     * @throws \Exception
      * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
      */
     public function catalogProductDelete(\Magento\Index\Model\Event $event)
@@ -149,6 +169,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
      * Process product mass update action
      *
      * @param \Magento\Index\Model\Event $event
+     * @throws \Exception
      * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
      */
     public function catalogProductMassAction(\Magento\Index\Model\Event $event)
@@ -221,6 +242,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
     /**
      * Rebuild all index data
      *
+     * @throws \Exception
      * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
      */
     public function reindexAll()
@@ -250,19 +272,13 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
      */
     protected function _getTypeIndexers()
     {
-        if (is_null($this->_indexers)) {
-            $this->_indexers = array();
-            $types = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getTypesByPriority();
-            foreach ($types as $typeId => $typeInfo) {
-                if (isset($typeInfo['stock_indexer'])) {
-                    $modelName = $typeInfo['stock_indexer'];
-                } else {
-                    $modelName = $this->_defaultIndexer;
-                }
-                $isComposite = !empty($typeInfo['composite']);
-                $indexer = \Mage::getResourceModel($modelName)
+        if (empty($this->_indexers)) {
+            foreach ($this->_productType->getTypesByPriority() as $typeId => $typeInfo) {
+                $indexerClassName = isset($typeInfo['stock_indexer']) ? $typeInfo['stock_indexer'] : '';
+
+                $indexer = $this->_indexerFactory->create($indexerClassName)
                     ->setTypeId($typeId)
-                    ->setIsComposite($isComposite);
+                    ->setIsComposite(!empty($typeInfo['composite']));
 
                 $this->_indexers[$typeId] = $indexer;
             }

@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
- * \Directory Currency Resource Model
- *
- * @category    Magento
- * @package     Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Directory Currency Resource Model
  */
 namespace Magento\Directory\Model\Resource;
 
@@ -41,7 +36,7 @@ class Currency extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('directory_currency', 'currency_code');
-        $this->_currencyRateTable   = $this->getTable('directory_currency_rate');
+        $this->_currencyRateTable = $this->getTable('directory_currency_rate');
     }
 
     /**
@@ -132,6 +127,7 @@ class Currency extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Saving currency rates
      *
      * @param array $rates
+     * @throws \Magento\Core\Exception
      */
     public function saveRates($rates)
     {
@@ -155,7 +151,7 @@ class Currency extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $adapter->insertOnDuplicate($this->_currencyRateTable, $data, array('rate'));
             }
         } else {
-            \Mage::throwException(__('Please correct the rates received'));
+            throw new \Magento\Core\Exception(__('Please correct the rates received'));
         }
     }
 
@@ -172,8 +168,8 @@ class Currency extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $bind    = array(':config_path' => $path);
         $select  = $adapter->select()
-                ->from($this->getTable('core_config_data'))
-                ->where('path = :config_path');
+            ->from($this->getTable('core_config_data'))
+            ->where('path = :config_path');
         $result  = array();
         $rowSet  = $adapter->fetchAll($select, $bind);
         foreach ($rowSet as $row) {

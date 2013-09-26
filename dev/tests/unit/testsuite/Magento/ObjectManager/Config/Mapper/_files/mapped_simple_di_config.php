@@ -62,7 +62,7 @@ return array(
         ),
     ),
 
-    'Varien_Data_Collection_Db_FetchStrategy_Cache' => array(
+    'Magento_Data_Collection_Db_FetchStrategy_Cache' => array(
         'parameters' => array(
             'cacheIdPrefix' => 'collection_',
             'cacheLifetime' => '86400',

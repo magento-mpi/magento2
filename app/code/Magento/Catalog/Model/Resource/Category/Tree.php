@@ -2,19 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-
-/**
- * Category tree model
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Resource\Category;
 
@@ -24,6 +13,21 @@ class Tree extends \Magento\Data\Tree\Dbp
     const PATH_FIELD  = 'path';
     const ORDER_FIELD = 'order';
     const LEVEL_FIELD = 'level';
+
+    /**
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    private $_eventManager;
+    
+    /**
+     * @var \Magento\Catalog\Model\Attribute\Config
+     */
+    private $_attributeConfig;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Category\Collection\Factory
+     */
+    private $_collectionFactory;
 
     /**
      * Categories resource collection
@@ -61,29 +65,17 @@ class Tree extends \Magento\Data\Tree\Dbp
     protected $_storeId                          = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Core\Model\Event\Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
+     * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
+     * @param \Magento\Catalog\Model\Resource\Category\Collection\Factory $collectionFactory
      */
     public function __construct(
+        \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Catalog\Model\Attribute\Config $attributeConfig,
+        \Magento\Catalog\Model\Resource\Category\Collection\Factory $collectionFactory
     ) {
-        $this->_eventManager = $eventManager;
-        $this->_coreConfig = $coreConfig;
-        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
-
         parent::__construct(
             $resource->getConnection('catalog_write'),
             $resource->getTableName('catalog_category_entity'),
@@ -94,6 +86,9 @@ class Tree extends \Magento\Data\Tree\Dbp
                 \Magento\Data\Tree\Dbp::LEVEL_FIELD    => 'level',
             )
         );
+        $this->_eventManager = $eventManager;
+        $this->_attributeConfig = $attributeConfig;
+        $this->_collectionFactory = $collectionFactory;
     }
 
     /**
@@ -373,14 +368,8 @@ class Tree extends \Magento\Data\Tree\Dbp
     protected function _getDefaultCollection($sorted = false)
     {
         $this->_joinUrlRewriteIntoCollection = true;
-        $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection();
-        /** @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
-
-        $attributes = $this->_coreConfig->getNode('frontend/category/collection/attributes');
-        if ($attributes) {
-            $attributes = $attributes->asArray();
-            $attributes = array_keys($attributes);
-        }
+        $collection = $this->_collectionFactory->create();
+        $attributes = $this->_attributeConfig->getAttributeNames('catalog_category');
         $collection->addAttributeToSelect($attributes);
 
         if ($sorted) {
@@ -414,9 +403,6 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Move tree after
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Tree
-     * @param \Magento\Data\Tree\Node $newParent
-     * @param \Magento\Data\Tree\Node $prevNode
      * @return \Magento\Catalog\Model\Resource\Category\Tree
      */
     protected function _afterMove()

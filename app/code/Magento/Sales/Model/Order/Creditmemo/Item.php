@@ -74,10 +74,6 @@
  * @method \Magento\Sales\Model\Order\Creditmemo\Item setHiddenTaxAmount(float $value)
  * @method float getBaseHiddenTaxAmount()
  * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseHiddenTaxAmount(float $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order\Creditmemo;
 
@@ -87,6 +83,33 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_eventObject = 'creditmemo_item';
     protected $_creditmemo = null;
     protected $_orderItem = null;
+
+    /**
+     * @var \Magento\Sales\Model\Order\ItemFactory
+     */
+    protected $_orderItemFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\Order\ItemFactory $orderItemFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context, $registry, $resource, $resourceCollection, $data
+        );
+        $this->_orderItemFactory = $orderItemFactory;
+    }
 
     /**
      * Initialize resource model
@@ -142,8 +165,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             if ($this->getCreditmemo()) {
                 $this->_orderItem = $this->getCreditmemo()->getOrder()->getItemById($this->getOrderItemId());
             } else {
-                $this->_orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item')
-                    ->load($this->getOrderItemId());
+                $this->_orderItem = $this->_orderItemFactory->create()->load($this->getOrderItemId());
             }
         }
         return $this->_orderItem;
@@ -154,6 +176,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @param   float $qty
      * @return  \Magento\Sales\Model\Order\Creditmemo\Item
+     * @throws \Magento\Core\Exception
      */
     public function setQty($qty)
     {
@@ -169,7 +192,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if ($qty <= $this->getOrderItem()->getQtyToRefund() || $this->getOrderItem()->isDummy()) {
             $this->setData('qty', $qty);
         } else {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('We found an invalid quantity to refund item "%1".', $this->getName())
             );
         }

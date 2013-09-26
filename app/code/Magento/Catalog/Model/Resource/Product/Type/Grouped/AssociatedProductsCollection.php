@@ -28,15 +28,20 @@ class AssociatedProductsCollection
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
+     */
+    protected $_config;
+
+    /**
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
         \Magento\Core\Model\Registry $coreRegistry,
@@ -45,14 +50,14 @@ class AssociatedProductsCollection
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreConfig = $coreConfig;
-        parent::__construct(
-            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+        $this->_config = $config;
+        parent::__construct($catalogData, $catalogProductFlat, 
+            $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
         );
     }
 
@@ -73,13 +78,8 @@ class AssociatedProductsCollection
     {
         parent::_initSelect();
 
-        $allowProductTypes = array();
-        $allowProductTypeNodes = $this->_coreConfig
-            ->getNode(\Magento\Catalog\Model\Config::XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES)->children();
-        foreach ($allowProductTypeNodes as $type) {
-            $allowProductTypes[] = $type->getName();
-        }
-
+        $configData = $this->_config->getType('grouped');
+        $allowProductTypes = isset($configData['allow_product_types']) ? $configData['allow_product_types'] : array();
         $this->setProduct($this->_getProduct())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')

@@ -40,6 +40,30 @@ class Cron extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\Translate
+     */
+    protected $_translate;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Log\Model\Log
+     */
+    protected $_log;
+
+    /**
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Log\Model\Log $log
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -48,6 +72,10 @@ class Cron extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Log\Model\Log $log,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Translate $translate,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -55,6 +83,10 @@ class Cron extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_templateFactory = $templateFactory;
+        $this->_log = $log;
+        $this->_storeManager = $storeManager;
+        $this->_translate = $translate;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -73,23 +105,25 @@ class Cron extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
-        /* @var $translate \Magento\Core\Model\Translate */
-        $translate->setTranslateInline(false);
 
-        $emailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
+        $this->_translate->setTranslateInline(false);
+
+        $emailTemplate = $this->_templateFactory->create();
         /* @var $emailTemplate \Magento\Core\Model\Email\Template */
-        $emailTemplate->setDesignConfig(array('area' => 'backend', 'store' => \Mage::app()->getStore()->getId()))
-            ->sendTransactional(
-                $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE),
-                $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY),
-                $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT),
-                null,
-                array('warnings' => join("\n", $this->_errors))
-            );
+        $emailTemplate->setDesignConfig(
+            array(
+                'area' => 'backend',
+                'store' => $this->_storeManager->getStore()->getId()
+            )
+        )->sendTransactional(
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT),
+            null,
+            array('warnings' => join("\n", $this->_errors))
+        );
 
-        $translate->setTranslateInline(true);
-
+        $this->_translate->setTranslateInline(true);
         return $this;
     }
 
@@ -107,7 +141,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
         $this->_errors = array();
 
         try {
-            \Mage::getModel('Magento\Log\Model\Log')->clean();
+            $this->_log->clean();
         } catch (\Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();

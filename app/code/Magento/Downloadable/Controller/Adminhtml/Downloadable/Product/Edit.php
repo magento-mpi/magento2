@@ -17,7 +17,8 @@
  */
 namespace Magento\Downloadable\Controller\Adminhtml\Downloadable\Product;
 
-class Edit extends \Magento\Adminhtml\Controller\Catalog\Product
+class Edit
+    extends \Magento\Adminhtml\Controller\Catalog\Product
 {
     /**
      * Load downloadable tab fieldsets
@@ -82,7 +83,8 @@ class Edit extends \Magento\Adminhtml\Controller\Catalog\Product
     public function linkAction()
     {
         $linkId = $this->getRequest()->getParam('id', 0);
-        $link = \Mage::getModel('Magento\Downloadable\Model\Link')->load($linkId);
+        /** @var \Magento\Downloadable\Model\Link $link */
+        $link = $this->_createLink()->load($linkId);
         if ($link->getId()) {
             $resource = '';
             $resourceType = '';
@@ -91,7 +93,8 @@ class Edit extends \Magento\Adminhtml\Controller\Catalog\Product
                 $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_URL;
             } elseif ($link->getLinkType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
                 $resource = $this->_objectManager->get('Magento\Downloadable\Helper\File')->getFilePath(
-                    \Magento\Downloadable\Model\Link::getBasePath(), $link->getLinkFile()
+                    $this->_getLink()->getBasePath(),
+                    $link->getLinkFile()
                 );
                 $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE;
             }
@@ -104,4 +107,19 @@ class Edit extends \Magento\Adminhtml\Controller\Catalog\Product
         exit(0);
     }
 
+    /**
+     * @return \Magento\Downloadable\Model\Link
+     */
+    protected function _getLink()
+    {
+        return $this->_objectManager->get('Magento\Downloadable\Model\Link');
+    }
+
+    /**
+     * @return \Magento\Downloadable\Model\Link
+     */
+    protected function _createLink()
+    {
+        return $this->_objectManager->create('Magento\Downloadable\Model\Link');
+    }
 }

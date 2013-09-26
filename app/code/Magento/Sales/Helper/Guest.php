@@ -10,8 +10,6 @@
 
 /**
  * Sales module base helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Helper;
 
@@ -21,6 +19,10 @@ class Guest extends \Magento\Core\Helper\Data
      * Cookie params
      */
     protected $_cookieName  = 'guest-view';
+
+    /**
+     * @var int
+     */
     protected $_lifeTime    = 600;
 
     /**
@@ -31,12 +33,56 @@ class Guest extends \Magento\Core\Helper\Data
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\UrlFactory
+     */
+    protected $_urlFactory;
+
+    /**
+     * @var \Magento\Core\Model\Cookie
+     */
+    protected $_coreCookie;
+
+    /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_coreApp;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_coreSession;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\Core\Model\Cookie $coreCookie
+     * @param \Magento\Core\Model\App $coreApp
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Registry $coreRegistry,
@@ -44,9 +90,23 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\Core\Model\Cookie $coreCookie,
+        \Magento\Core\Model\App $coreApp,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Session $coreSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_customerSession = $customerSession;
+        $this->_urlFactory = $urlFactory;
+        $this->_coreCookie = $coreCookie;
+        $this->_coreApp = $coreApp;
+        $this->_storeManager = $storeManager;
+        $this->_coreSession = $coreSession;
+        $this->_orderFactory = $orderFactory;
         parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
     }
 
@@ -57,26 +117,19 @@ class Guest extends \Magento\Core\Helper\Data
      */
     public function loadValidOrder()
     {
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            \Mage::app()->getResponse()->setRedirect(\Mage::getUrl('sales/order/history'));
+        if ($this->_customerSession->isLoggedIn()) {
+            $this->_coreApp->getResponse()->setRedirect($this->_urlFactory->create()->getUrl('sales/order/history'));
             return false;
         }
 
-        $post = \Mage::app()->getRequest()->getPost();
-
-        $type           = '';
-        $incrementId    = '';
-        $lastName       = '';
-        $email          = '';
-        $zip            = '';
-        $protectCode    = '';
-        $errors         = false;
+        $post = $this->_coreApp->getRequest()->getPost();
+        $errors = false;
 
         /** @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = $this->_orderFactory->create();
 
-        if (empty($post) && !\Mage::getSingleton('Magento\Core\Model\Cookie')->get($this->_cookieName)) {
-            \Mage::app()->getResponse()->setRedirect(\Mage::getUrl('sales/guest/form'));
+        if (empty($post) && !$this->_coreCookie->get($this->_cookieName)) {
+            $this->_coreApp->getResponse()->setRedirect($this->_urlFactory->create()->getUrl('sales/guest/form'));
             return false;
         } elseif (!empty($post) && isset($post['oar_order_id']) && isset($post['oar_type']))  {
             $type           = $post['oar_type'];
@@ -110,16 +163,16 @@ class Guest extends \Magento\Core\Helper\Data
 
             if (!$errors) {
                 $toCookie = base64_encode($order->getProtectCode());
-                \Mage::getSingleton('Magento\Core\Model\Cookie')->set($this->_cookieName, $toCookie, $this->_lifeTime, '/');
+                $this->_coreCookie->set($this->_cookieName, $toCookie, $this->_lifeTime, '/');
             }
-        } elseif (\Mage::getSingleton('Magento\Core\Model\Cookie')->get($this->_cookieName)) {
-            $fromCookie     = \Mage::getSingleton('Magento\Core\Model\Cookie')->get($this->_cookieName);
+        } elseif ($this->_coreCookie->get($this->_cookieName)) {
+            $fromCookie     = $this->_coreCookie->get($this->_cookieName);
             $protectCode    = base64_decode($fromCookie);
 
             if (!empty($protectCode)) {
                 $order->loadByAttribute('protect_code', $protectCode);
 
-                \Mage::getSingleton('Magento\Core\Model\Cookie')->renew($this->_cookieName, $this->_lifeTime, '/');
+                $this->_coreCookie->renew($this->_cookieName, $this->_lifeTime, '/');
             } else {
                 $errors = true;
             }
@@ -130,10 +183,10 @@ class Guest extends \Magento\Core\Helper\Data
             return true;
         }
 
-        \Mage::getSingleton('Magento\Core\Model\Session')->addError(
+        $this->_coreSession->addError(
             __('You entered incorrect data. Please try again.')
         );
-        \Mage::app()->getResponse()->setRedirect(\Mage::getUrl('sales/guest/form'));
+        $this->_coreApp->getResponse()->setRedirect($this->_urlFactory->create()->getUrl('sales/guest/form'));
         return false;
     }
 
@@ -150,7 +203,7 @@ class Guest extends \Magento\Core\Helper\Data
             array(
                 'label' => __('Home'),
                 'title' => __('Go to Home Page'),
-                'link'  => \Mage::getBaseUrl()
+                'link'  => $this->_storeManager->getStore()->getBaseUrl()
             )
         );
         $breadcrumbs->addCrumb(

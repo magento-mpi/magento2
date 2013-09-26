@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,7 @@
 /**
  * Rolesedit Tab Display Block
  *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\User\Block\Role\Tab;
 
@@ -31,43 +27,51 @@ class Edit extends \Magento\Backend\Block\Widget\Form
     protected $_rootResource;
 
     /**
+     * Rules collection factory
+     *
+     * @var \Magento\User\Model\Resource\Rules\CollectionFactory
+     */
+    protected $_rulesCollectionFactory;
+
+    /**
+     * Acl builder
+     *
      * @var \Magento\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @var \Magento\User\Model\Resource\Rules\CollectionFactory
+     * Acl resource provider
+     *
+     * @var \Magento\Acl\Resource\ProviderInterface
      */
-    protected $_userRulesFactory;
+    protected $_aclResourceProvider;
 
     /**
-     * @var \Magento\Acl\Resource\Provider
-     */
-    protected $_aclProvider;
-
-    /**
-     * @param \Magento\Acl\Builder $aclBuilder
-     * @param \Magento\Acl\Resource\ProviderInterface $aclProvider
-     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $userRulesFactory
+     * Construct
+     *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
+     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
+     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param array $data
      */
     public function __construct(
-        \Magento\Acl\Builder $aclBuilder,
-        \Magento\Acl\Resource\ProviderInterface $aclProvider,
-        \Magento\User\Model\Resource\Rules\CollectionFactory $userRulesFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Acl\RootResource $rootResource,
+        \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
+        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
-        $this->_aclProvider = $aclProvider;
-        $this->_userRulesFactory = $userRulesFactory;
-        parent::__construct($coreData, $context, $data);
         $this->_rootResource = $rootResource;
+        $this->_rulesCollectionFactory = $rulesCollectionFactory;
+        $this->_aclResourceProvider = $aclResourceProvider;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -117,10 +121,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form
     {
         parent::_construct();
 
-        $rid = \Mage::app()->getRequest()->getParam('rid', false);
+        $rid = $this->_request->getParam('rid', false);
 
         $acl = $this->_aclBuilder->getAcl();
-        $rulesSet = $this->_userRulesFactory->create()->getByRoles($rid)->load();
+        $rulesSet = $this->_rulesCollectionFactory->create()->getByRoles($rid)->load();
 
         $selectedResourceIds = array();
 
@@ -151,7 +155,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form
      */
     public function getTree()
     {
-        $resources = $this->_aclProvider->getAclResources();
+        $resources = $this->_aclResourceProvider->getAclResources();
         $rootArray = $this->_mapResources(
             isset($resources[1]['children']) ? $resources[1]['children'] : array()
         );

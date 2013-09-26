@@ -8,16 +8,16 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Category (Non-Anchor)" type="page" parent="default">
-    <reference name="left">
+    <referenceContainer name="left">
         <block class="Magento\Catalog\Block\Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
-    </reference>
-    <reference name="breadcrumbs.container">
+    </referenceContainer>
+    <referenceContainer name="breadcrumbs.container">
         <block class="Magento\Catalog\Block\Category\View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
-    </reference>
-    <reference name="content">
+    </referenceContainer>
+    <referenceContainer name="content">
         <block class="Magento\Catalog\Block\Category\View" name="category.products" template="category/view.phtml">
             <block class="Magento\Catalog\Block\Product\ListProduct" name="product_list" template="product/list.phtml">
-                <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                <block class="Magento\Catalog\Block\Product\ListProduct\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
                     <block class="Magento\Page\Block\Html\Pager" name="product_list_toolbar_pager"/>
                 </block>
                 <action method="setToolbarBlockName">
@@ -25,6 +25,6 @@
                 </action>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
     <update handle="MAP_popup"/>
 </layout>

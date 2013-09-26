@@ -27,7 +27,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
+            $this->_wishlist = $this->_wishlistFactory->create();
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
@@ -49,7 +49,9 @@ class Rss extends \Magento\Rss\Block\Wishlist
     {
         $customer = $this->_getCustomer();
         if ($this->_getWishlist()->getCustomerId() !== $customer->getId()) {
-            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($this->_getWishlist()->getCustomerId());
+            /** @var \Magento\Customer\Model\Customer $customer */
+            $customer = $this->_customerFactory->create();
+            $customer->load($this->_getWishlist()->getCustomerId());
         }
         if ($this->_wishlistData->isWishlistDefault($this->_getWishlist())
             && $this->_getWishlist()->getName() == $this->_wishlistData->getDefaultWishlistName()

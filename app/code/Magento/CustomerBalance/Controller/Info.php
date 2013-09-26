@@ -25,7 +25,7 @@ class Info extends \Magento\Core\Controller\Front\Action
     {
         parent::preDispatch();
 
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }

@@ -20,6 +20,14 @@ namespace Magento\Core\Model\Resource\Helper;
 class Mysql4 extends \Magento\Core\Model\Resource\Helper\AbstractHelper
 {
     /**
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'core')
+    {
+        parent::__construct($modulePrefix);
+    }
+
+    /**
      * Returns array of quoted orders with direction
      *
      * @param \Magento\DB\Select $select

@@ -10,15 +10,70 @@
 
 /**
  * Review form block
- *
- * @category   Magento
- * @package    Magento_Rss
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rss\Block\Catalog;
 
 class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
 {
+    /**
+     * @var \Magento\Catalog\Model\Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @var \Magento\Rss\Model\RssFactory
+     */
+    protected $_rssFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\Rss\Model\RssFactory $rssFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory,
+        array $data = array()
+    ) {
+        $this->_catalogLayer = $catalogLayer;
+        $this->_visibility = $visibility;
+        $this->_rssFactory = $rssFactory;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($catalogData, $coreData, $context, $storeManager, $customerSession, $data);
+    }
+
     protected function _construct()
     {
         /*
@@ -27,7 +82,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->setCacheKey('rss_catalog_category_'
             . $this->getRequest()->getParam('cid') . '_'
             . $this->getRequest()->getParam('store_id') . '_'
-            . \Mage::getModel('Magento\Customer\Model\Session')->getId()
+            . $this->_customerSession->getId()
         );
         $this->setCacheLifetime(600);
     }
@@ -36,22 +91,24 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
     {
         $categoryId = $this->getRequest()->getParam('cid');
         $storeId = $this->_getStoreId();
-        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
+        /** @var $rssModel \Magento\Rss\Model\Rss */
+        $rssModel = $this->_rssFactory->create();
         if ($categoryId) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
+            $category = $this->_categoryFactory->create();
+            $category->load($categoryId);
             if ($category && $category->getId()) {
-                $layer = \Mage::getSingleton('Magento\Catalog\Model\Layer')->setStore($storeId);
+                /** @var $layer \Magento\Catalog\Model\Layer */
+                $layer = $this->_catalogLayer->setStore($storeId);
                 //want to load all products no matter anchor or not
                 $category->setIsAnchor(true);
-                $newurl = $category->getUrl();
+                $newUrl = $category->getUrl();
                 $title = $category->getName();
-                $data = array('title' => $title,
-                        'description' => $title,
-                        'link'        => $newurl,
-                        'charset'     => 'UTF-8',
-                        );
-
-                $rssObj->_addHeader($data);
+                $rssModel->_addHeader(array(
+                    'title'       => $title,
+                    'description' => $title,
+                    'link'        => $newUrl,
+                    'charset'     => 'UTF-8',
+                ));
 
                 $_collection = $category->getCollection();
                 $_collection->addAttributeToSelect('url_key')
@@ -61,7 +118,8 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
                     ->addIdFilter($category->getChildren())
                     ->load()
                 ;
-                $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection();
+                /** @var $productCollection \Magento\Catalog\Model\Resource\Product\Collection */
+                $productCollection = $this->_collectionFactory->create();
 
                 $currentCategory = $layer->setCurrentCategory($category);
                 $layer->prepareProductCollection($productCollection);
@@ -74,13 +132,13 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
                 $_productCollection = $currentCategory
                     ->getProductCollection()
                     ->addAttributeToSort('updated_at','desc')
-                    ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds())
+                    ->setVisibility($this->_visibility->getVisibleInCatalogIds())
                     ->setCurPage(1)
                     ->setPageSize(50)
                 ;
 
-                if ($_productCollection->getSize()>0) {
-                    $args = array('rssObj' => $rssObj);
+                if ($_productCollection->getSize() > 0) {
+                    $args = array('rssObj' => $rssModel);
                     foreach ($_productCollection as $_product) {
                         $args['product'] = $_product;
                         $this->addNewItemXmlCallback($args);
@@ -88,7 +146,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
                 }
             }
         }
-        return $rssObj->createRssXml();
+        return $rssModel->createRssXml();
     }
 
     /**
@@ -98,6 +156,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
      */
     public function addNewItemXmlCallback($args)
     {
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $args['product'];
         $product->setAllowedInRss(true);
         $product->setAllowedPriceInRss(true);
@@ -119,12 +178,13 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         }
 
         $description .= '</td></tr></table>';
+        /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $args['rssObj'];
         $data = array(
-                'title'         => $product->getName(),
-                'link'          => $product->getProductUrl(),
-                'description'   => $description,
-            );
+            'title'       => $product->getName(),
+            'link'        => $product->getProductUrl(),
+            'description' => $description,
+        );
 
         $rssObj->_addEntry($data);
     }

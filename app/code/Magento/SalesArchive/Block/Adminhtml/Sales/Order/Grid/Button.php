@@ -16,9 +16,32 @@ namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
 
 class Button extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
+    /**
+     * @var \Magento\SalesArchive\Model\Resource\Order\Collection
+     */
+    protected $_orderCollection;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
+        array $data = array()
+    ) {
+        $this->_orderCollection = $orderCollection;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
     protected function _prepareLayout()
     {
-        $ordersCount = \Mage::getResourceSingleton('Magento\SalesArchive\Model\Resource\Order\Collection')->getSize();
+        $ordersCount = $this->_orderCollection->getSize();
         $parent = $this->getLayout()->getBlock('sales_order.grid.container');
         if ($parent && $ordersCount) {
             $url = $this->getUrl('*/sales_archive/orders');

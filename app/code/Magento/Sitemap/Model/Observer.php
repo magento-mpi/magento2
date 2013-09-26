@@ -47,27 +47,43 @@ class Observer
     const XML_PATH_ERROR_RECIPIENT = 'sitemap/generate/error_email';
 
     /**
-     * @var \Magento\Core\Model\Translate
-     */
-    protected $_coreTranslate;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
-    
+
     /**
-     * @param \Magento\Core\Model\Translate $coreTranslate
+     * @var \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @var \Magento\Core\Model\Translate
+     */
+    protected $_translateModel;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Translate $translateModel
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
      */
     public function __construct(
-        \Magento\Core\Model\Translate $coreTranslate,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Translate $translateModel,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory
     ) {
-        $this->_coreTranslate = $coreTranslate;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_collectionFactory = $collectionFactory;
+        $this->_translateModel = $translateModel;
+        $this->_templateFactory = $templateFactory;
     }
 
     /**
@@ -84,7 +100,7 @@ class Observer
             return;
         }
 
-        $collection = \Mage::getModel('Magento\Sitemap\Model\Sitemap')->getCollection();
+        $collection = $this->_collectionFactory->create();
         /* @var $collection \Magento\Sitemap\Model\Resource\Sitemap\Collection */
         foreach ($collection as $sitemap) {
             /* @var $sitemap \Magento\Sitemap\Model\Sitemap */
@@ -98,9 +114,9 @@ class Observer
         }
 
         if ($errors && $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT)) {
-            $this->_coreTranslate->setTranslateInline(false);
+            $this->_translateModel->setTranslateInline(false);
 
-            $emailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
+            $emailTemplate = $this->_templateFactory->create();
             /* @var $emailTemplate \Magento\Core\Model\Email\Template */
             $emailTemplate->setDesignConfig(array('area' => 'backend'))
                 ->sendTransactional(
@@ -111,7 +127,7 @@ class Observer
                     array('warnings' => join("\n", $errors))
                 );
 
-            $this->_coreTranslate->setTranslateInline(true);
+            $this->_translateModel->setTranslateInline(true);
         }
     }
 }

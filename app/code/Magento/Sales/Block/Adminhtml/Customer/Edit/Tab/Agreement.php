@@ -40,6 +40,8 @@ class Agreement
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory
+     * @param \Magento\Sales\Model\Billing\Agreement $agreementModel
      * @param array $data
      */
     public function __construct(
@@ -49,10 +51,21 @@ class Agreement
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory,
+        \Magento\Sales\Model\Billing\Agreement $agreementModel,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $paymentData, $context, $storeManager, $urlModel, $data);
+        parent::__construct(
+            $coreData,
+            $paymentData,
+            $context,
+            $storeManager,
+            $urlModel,
+            $agreementFactory,
+            $agreementModel,
+            $data
+        );
     }
 
     /**
@@ -108,7 +121,7 @@ class Agreement
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/sales_billing_agreement/customerGrid', array('_current'=>true));
+        return $this->getUrl('*/sales_billing_agreement/customerGrid', array('_current' => true));
     }
 
     /**
@@ -128,7 +141,7 @@ class Agreement
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Billing\Agreement\Collection')
+        $collection = $this->_agreementFactory->create()
             ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
             ->setOrder('created_at');
         $this->setCollection($collection);

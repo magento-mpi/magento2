@@ -65,20 +65,36 @@ class Quote
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\Resource\TransactionFactory
+     */
+    protected $_transactionFactory;
+
+    /**
      * Class constructor
-     *
-     *
      *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Sales\Model\Quote $quote
+     * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Sales\Model\Quote $quote
+        \Magento\Sales\Model\Quote $quote,
+        \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
     ) {
         $this->_eventManager = $eventManager;
-        $this->_quote       = $quote;
-        $this->_convertor   = \Mage::getModel('Magento\Sales\Model\Convert\Quote');
+        $this->_quote = $quote;
+        $this->_convertor = $convertQuoteFactory->create();
+        $this->_customerSession = $customerSession;
+        $this->_transactionFactory = $transactionFactory;
     }
 
     /**
@@ -119,6 +135,7 @@ class Quote
      * Submit the quote. Quote submit process will create the order based on quote data
      *
      * @return \Magento\Sales\Model\Order
+     * @throws \Exception
      */
     public function submitOrder()
     {
@@ -127,7 +144,7 @@ class Quote
         $quote = $this->_quote;
         $isVirtual = $quote->isVirtual();
 
-        $transaction = \Mage::getModel('Magento\Core\Model\Resource\Transaction');
+        $transaction = $this->_transactionFactory->create();
         if ($quote->getCustomerId()) {
             $transaction->addObject($quote->getCustomer());
         }
@@ -172,15 +189,23 @@ class Quote
         /**
          * We can use configuration data for declare new order status
          */
-        $this->_eventManager->dispatch('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$quote));
-        $this->_eventManager->dispatch('sales_model_service_quote_submit_before', array('order'=>$order, 'quote'=>$quote));
+        $this->_eventManager->dispatch('checkout_type_onepage_save_order', array(
+            'order' => $order,
+            'quote' => $quote
+        ));
+        $this->_eventManager->dispatch('sales_model_service_quote_submit_before', array(
+            'order' => $order,
+            'quote' => $quote
+        ));
         try {
             $transaction->save();
             $this->_inactivateQuote();
-            $this->_eventManager->dispatch('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
+            $this->_eventManager->dispatch('sales_model_service_quote_submit_success', array(
+                'order' => $order,
+                'quote' => $quote
+            ));
         } catch (\Exception $e) {
-
-            if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            if (!$this->_customerSession->isLoggedIn()) {
                 // reset customer ID's on exception, because customer not saved
                 $quote->getCustomer()->setId(null);
             }
@@ -193,10 +218,16 @@ class Quote
                 $item->setItemId(null);
             }
 
-            $this->_eventManager->dispatch('sales_model_service_quote_submit_failure', array('order'=>$order, 'quote'=>$quote));
+            $this->_eventManager->dispatch('sales_model_service_quote_submit_failure', array(
+                'order' => $order,
+                'quote' => $quote
+            ));
             throw $e;
         }
-        $this->_eventManager->dispatch('sales_model_service_quote_submit_after', array('order'=>$order, 'quote'=>$quote));
+        $this->_eventManager->dispatch('sales_model_service_quote_submit_after', array(
+            'order' => $order,
+            'quote' => $quote
+        ));
         $this->_order = $order;
         return $order;
     }
@@ -275,6 +306,7 @@ class Quote
      * Validate quote data before converting to order
      *
      * @return \Magento\Sales\Model\Service\Quote
+     * @throws \Magento\Core\Exception
      */
     protected function _validate()
     {
@@ -282,26 +314,26 @@ class Quote
             $address = $this->getQuote()->getShippingAddress();
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Please check the shipping address information. %1', implode(' ', $addressValidation))
                 );
             }
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
             if (!$this->getQuote()->isVirtual() && (!$method || !$rate)) {
-                \Mage::throwException(__('Please specify a shipping method.'));
+                throw new \Magento\Core\Exception(__('Please specify a shipping method.'));
             }
         }
 
         $addressValidation = $this->getQuote()->getBillingAddress()->validate();
         if ($addressValidation !== true) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Please check the billing address information. %1', implode(' ', $addressValidation))
             );
         }
 
         if (!($this->getQuote()->getPayment()->getMethod())) {
-            \Mage::throwException(__('Please select a valid payment method.'));
+            throw new \Magento\Core\Exception(__('Please select a valid payment method.'));
         }
 
         return $this;
@@ -309,13 +341,15 @@ class Quote
 
     /**
      * Submit recurring payment profiles
+     *
+     * @throws \Magento\Core\Exception
      */
     protected function _submitRecurringPaymentProfiles()
     {
         $profiles = $this->_quote->prepareRecurringPaymentProfiles();
         foreach ($profiles as $profile) {
             if (!$profile->isValid()) {
-                \Mage::throwException($profile->getValidationErrors(true, true));
+                throw new \Magento\Core\Exception($profile->getValidationErrors(true, true));
             }
             $profile->submit();
         }

@@ -30,14 +30,17 @@ class Balance extends \Magento\Core\Model\Config\Value
         }
 
         if ($this->getFieldsetDataValue('min_points_balance') < 0) {
-            \Mage::throwException(__('"Minimum Reward Points Balance" should be either a positive number or left empty.'));
+            $message = __('"Minimum Reward Points Balance" should be either a positive number or left empty.');
+            throw new \Magento\Core\Exception($message);
         }
         if ($this->getFieldsetDataValue('max_points_balance') < 0) {
-            \Mage::throwException(__('"Cap Reward Points Balance" should be either a positive number or left empty.'));
+            $message = __('"Cap Reward Points Balance" should be either a positive number or left empty.');
+            throw new \Magento\Core\Exception($message);
         }
         if ($this->getFieldsetDataValue('max_points_balance') &&
             ($this->getFieldsetDataValue('min_points_balance') > $this->getFieldsetDataValue('max_points_balance'))) {
-            \Mage::throwException(__('"Minimum Reward Points Balance" should be less or equal to "Cap Reward Points Balance".'));
+            $message = __('"Minimum Reward Points Balance" should be less or equal to "Cap Reward Points Balance".');
+            throw new \Magento\Core\Exception($message);
         }
         return $this;
     }

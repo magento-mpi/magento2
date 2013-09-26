@@ -10,12 +10,7 @@
 
 /**
  * Customer reviews controller
- *
- * @category   Magento
- * @package    Magento_Rss
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Rss\Controller;
 
 class Order extends \Magento\Core\Controller\Front\Action

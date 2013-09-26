@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Order Address resource model
- *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Order;
 
@@ -22,11 +17,23 @@ class Address
     extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
 {
     /**
-     * Main entity resource model name
+     * Main entity resource model
      *
-     * @var string
+     * @var \Magento\Sales\Model\Resource\Order\Address
      */
-    protected $_parentResourceModelName = 'Magento\Sales\Model\Resource\Order\Address';
+    protected $_parentResourceModel;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Sales\Model\Resource\Order\Address $parentResourceModel
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Sales\Model\Resource\Order\Address $parentResourceModel
+    ) {
+        $this->_parentResourceModel = $parentResourceModel;
+        parent::__construct($resource);
+    }
 
     /**
      * Initializes resource
@@ -34,5 +41,15 @@ class Address
     protected function _construct()
     {
         $this->_init('magento_customercustomattributes_sales_flat_order_address', 'entity_id');
+    }
+
+    /**
+     * Return resource model of the main entity
+     *
+     * @return \Magento\Sales\Model\Resource\Order\Address
+     */
+    protected function _getParentResourceModel()
+    {
+        return $this->_parentResourceModel;
     }
 }

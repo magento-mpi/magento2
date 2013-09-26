@@ -76,8 +76,17 @@ class OperationTest extends \PHPUnit_Framework_TestCase
 
         //TODO Get rid of mocking methods from testing model when this model will be re-factored
 
+        $operationFactory = $this->getMOck(
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory', array(), array(), '', false
+        );
+        $emailInfoFactory = $this->getMOck('Magento\Core\Model\Email\InfoFactory', array(), array(), '', false);
+        $params = array(
+            'operationFactory' => $operationFactory,
+            'emailInfoFactory' => $emailInfoFactory,
+        );
         $arguments = $objectManagerHelper->getConstructArguments(
-            'Magento\ScheduledImportExport\Model\Scheduled\Operation');
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation', $params
+        );
         $arguments['dateModel'] = $dateModelMock;
         $model = $this->getMock(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation',

@@ -23,10 +23,10 @@ class Add extends \Magento\Core\Controller\Front\Action
     {
         parent::preDispatch();
 
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
-            if(!\Mage::getSingleton('Magento\Customer\Model\Session')->getBeforeUrl()) {
-                \Mage::getSingleton('Magento\Customer\Model\Session')->setBeforeUrl($this->_getRefererUrl());
+            if(!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
+                $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeUrl($this->_getRefererUrl());
             }
         }
     }
@@ -34,13 +34,13 @@ class Add extends \Magento\Core\Controller\Front\Action
     public function testObserverAction()
     {
         $object = new \Magento\Object();
-        $observer = \Mage::getSingleton('Magento\ProductAlert\Model\Observer');
+        $observer = $this->_objectManager->get('Magento\ProductAlert\Model\Observer');
         $observer->process($object);
     }
 
     public function priceAction()
     {
-        $session = \Mage::getSingleton('Magento\Catalog\Model\Session');
+        $session = $this->_objectManager->get('Magento\Catalog\Model\Session');
         $backUrl    = $this->getRequest()->getParam(\Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
@@ -48,7 +48,7 @@ class Add extends \Magento\Core\Controller\Front\Action
             return ;
         }
 
-        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
+        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId()) {
             /* @var $product \Magento\Catalog\Model\Product */
             $session->addError(__('There are not enough parameters.'));
@@ -61,11 +61,13 @@ class Add extends \Magento\Core\Controller\Front\Action
         }
 
         try {
-            $model  = \Mage::getModel('Magento\ProductAlert\Model\Price')
-                ->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getId())
+            $model = $this->_objectManager->create('Magento\ProductAlert\Model\Price')
+                ->setCustomerId($this->_objectManager->get('Magento\Customer\Model\Session')->getId())
                 ->setProductId($product->getId())
                 ->setPrice($product->getFinalPrice())
-                ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
+                ->setWebsiteId(
+                    $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+                );
             $model->save();
             $session->addSuccess(__('You saved the alert subscription.'));
         }
@@ -77,7 +79,7 @@ class Add extends \Magento\Core\Controller\Front\Action
 
     public function stockAction()
     {
-        $session = \Mage::getSingleton('Magento\Catalog\Model\Session');
+        $session = $this->_objectManager->get('Magento\Catalog\Model\Session');
         /* @var $session \Magento\Catalog\Model\Session */
         $backUrl    = $this->getRequest()->getParam(\Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
@@ -86,7 +88,7 @@ class Add extends \Magento\Core\Controller\Front\Action
             return ;
         }
 
-        if (!$product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId)) {
+        if (!$product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId)) {
             /* @var $product \Magento\Catalog\Model\Product */
             $session->addError(__('There are not enough parameters.'));
             $this->_redirectUrl($backUrl);
@@ -94,10 +96,12 @@ class Add extends \Magento\Core\Controller\Front\Action
         }
 
         try {
-            $model = \Mage::getModel('Magento\ProductAlert\Model\Stock')
-                ->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getId())
+            $model = $this->_objectManager->create('Magento\ProductAlert\Model\Stock')
+                ->setCustomerId($this->_objectManager->get('Magento\Customer\Model\Session')->getId())
                 ->setProductId($product->getId())
-                ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
+                ->setWebsiteId(
+                    $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+                );
             $model->save();
             $session->addSuccess(__('Alert subscription has been saved.'));
         }

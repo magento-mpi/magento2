@@ -41,7 +41,7 @@
     Fieldset.addToPrefix(<?php echo $this->helper('Magento\Adminhtml\Helper\Data')->getCurrentUserId() ?>);
 </script>
 
-<?php echo $this->helper('Magento\Core\Helper\Js')->getTranslatorScript() ?>
 <?php echo $this->getChildHtml('components'); ?>
 <?php echo $this->getChildHtml('calendar'); ?>
 <?php echo $this->getChildHtml('optional_zip_countries'); ?>
+<?php echo $this->helper('Magento\Core\Helper\Js')->getTranslatorScript() ?>

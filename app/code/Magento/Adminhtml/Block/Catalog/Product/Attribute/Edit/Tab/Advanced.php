@@ -18,15 +18,9 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
 
-class Advanced extends \Magento\Backend\Block\Widget\Form
+class Advanced
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
-    /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry = null;
-
     /**
      * Eav data
      *
@@ -35,30 +29,23 @@ class Advanced extends \Magento\Backend\Block\Widget\Form
     protected $_eavData = null;
 
     /**
-     * @var \Magento\Data\Form\Factory
-     */
-    protected $_formFactory;
-
-    /**
-     * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Eav\Helper\Data $eavData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
         \Magento\Eav\Helper\Data $eavData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        $this->_formFactory = $formFactory;
         $this->_eavData = $eavData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -194,7 +181,7 @@ class Advanced extends \Magento\Backend\Block\Widget\Form
         );
 
         if ($attributeObject->getAttributeCode() == 'status' || $attributeObject->getAttributeCode() == 'tax_class_id') {
-            unset($scopes[\Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE]);
+            unset($scopes[Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE]);
         }
 
         $fieldset->addField('is_global', 'select', array(

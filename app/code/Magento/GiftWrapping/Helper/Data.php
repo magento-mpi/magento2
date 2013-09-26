@@ -57,14 +57,30 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Tax\Model\Calculation
+     */
+    protected $_taxCalculation;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Tax\Model\Calculation $taxCalculation
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_taxCalculation = $taxCalculation;
         parent::__construct($context);
     }
 
@@ -422,13 +438,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Get gift wrapping items price with tax processing
      *
-     * @param  \Magento\Object $item
-     * @param  float $price
-     * @param  bool $includingTax
-     * @param  null|\Magento\Customer\Model\Address $shippingAddress
-     * @param  null|\Magento\Customer\Model\Address $billingAddress
-     * @param  null|int $ctc
-     * @param  mixed $store
+     * @param \Magento\Object $item
+     * @param float $price
+     * @param bool $includeTax
+     * @param null|\Magento\Customer\Model\Address $shippingAddress
+     * @param null|\Magento\Customer\Model\Address $billingAddress
+     * @param null|int $ctc
+     * @param mixed $store
      * @return float
      */
     public function getPrice($item, $price, $includeTax = false, $shippingAddress = null, $billingAddress = null,
@@ -437,16 +453,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if (!$price) {
             return $price;
         }
-        $store = \Mage::app()->getStore($store);
+        $store = $this->_storeManager->getStore($store);
         $taxClassId = $item->getTaxClassId();
         if ($taxClassId && $includeTax) {
-            $request = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRateRequest(
+            $request = $this->_taxCalculation->getRateRequest(
                 $shippingAddress,
                 $billingAddress,
                 $ctc,
                 $store
             );
-            $percent = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRate($request->setProductClassId($taxClassId));
+            $percent = $this->_taxCalculation->getRate($request->setProductClassId($taxClassId));
             if ($percent) {
                 $price = $price * (1 + ($percent / 100));
             }

@@ -49,6 +49,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     protected $_rulesIdsFilter;
 
     /**
+     * @param \Magento\SalesRule\Model\Resource\Report\RuleFactory $ruleFactory
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
@@ -56,12 +57,14 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
      * @param \Magento\Sales\Model\Resource\Report $resource
      */
     public function __construct(
+        \Magento\SalesRule\Model\Resource\Report\RuleFactory $ruleFactory,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Sales\Model\Resource\Report $resource
     ) {
+        $this->_ruleFactory = $ruleFactory;
         $resource->init($this->_aggregationTable);
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
@@ -154,10 +157,9 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             return $this;
         }
 
-        $rulesList = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Report\Rule')->getUniqRulesNamesList();
+        $rulesList = $this->_ruleFactory->getUniqRulesNamesList();
 
         $rulesFilterSqlParts = array();
-
         foreach ($this->_rulesIdsFilter as $ruleId) {
             if (!isset($rulesList[$ruleId])) {
                 continue;
@@ -169,6 +171,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
         if (!empty($rulesFilterSqlParts)) {
             $this->getSelect()->where(implode($rulesFilterSqlParts, ' OR '));
         }
+        return $this;
     }
 
     /**

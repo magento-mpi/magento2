@@ -86,9 +86,9 @@ class Banner
     protected $_customerSession;
 
     /**
-     * @var \Magento\Cms\Helper\Data
+     * @var \Magento\Cms\Model\Template\FilterProvider
      */
-    protected $_cmsHelper;
+    protected $_filterProvider;
 
     /**
      * @var int
@@ -107,16 +107,15 @@ class Banner
     protected $_renderedParams = array();
 
     /**
-     * @param array $data
      * @param \Magento\Core\Helper\Data $coreData
-     * @param  $context
-     * @param  $resource
-     * @param  $coreSession
-     * @param  $checkoutSession
-     * @param  $customerSession
-     * @param  $cmsHelper
-     * @param  $storeManager
-     * @param  $data
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Banner\Model\Resource\Banner $resource
+     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -125,7 +124,7 @@ class Banner
         \Magento\Core\Model\Session $coreSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Cms\Helper\Data $cmsHelper,
+        \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
@@ -134,7 +133,7 @@ class Banner
         $this->_coreSession = $coreSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
-        $this->_cmsHelper = $cmsHelper;
+        $this->_filterProvider = $filterProvider;
         $this->_currentStoreId  = $storeManager->getStore()->getId();
         $this->_currentWebsiteId  = $storeManager->getWebsite()->getId();
     }
@@ -244,9 +243,8 @@ class Banner
         $this->_bannerResource->filterByTypes();
 
         // Filtering directives
-        $processor = $this->_cmsHelper->getPageTemplateProcessor();
         foreach ($bannersContent as $bannerId => $content) {
-            $bannersContent[$bannerId] = $processor->filter($content);
+            $bannersContent[$bannerId] = $this->_filterProvider->getPageFilter()->filter($content);
         }
 
         return $bannersContent;

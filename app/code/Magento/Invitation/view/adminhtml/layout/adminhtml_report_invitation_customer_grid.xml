@@ -9,13 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_report_grid"/>
-    <reference name="adminhtml.report.grid">
+    <referenceBlock name="adminhtml.report.grid">
         <arguments>
             <argument name="id" xsi:type="string">report_invitation_customer</argument>
             <argument name="dataSource" xsi:type="object">Magento\Invitation\Model\Resource\Report\Invitation\Customer\Collection\Initial</argument>
         </arguments>
-    </reference>
-    <reference name="adminhtml.report.grid.export">
+    </referenceBlock>
+    <referenceBlock name="adminhtml.report.grid.export">
         <arguments>
             <argument name="exportTypes" xsi:type="array">
                 <item name="csv" xsi:type="array">
@@ -26,8 +26,8 @@
                 </item>
             </argument>
         </arguments>
-    </reference>
-    <reference name="adminhtml.report.grid.columnSet">
+    </referenceBlock>
+    <referenceBlock name="adminhtml.report.grid.columnSet">
         <block class="Magento\Backend\Block\Widget\Grid\Column" as="id">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">ID</argument>
@@ -86,5 +86,5 @@
                 <argument name="column_css_class" xsi:type="string">col-inv-acc</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -27,6 +27,54 @@ class Export
     extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
 {
     /**
+     * @var \Magento\ImportExport\Model\Source\Export\Format
+     */
+    protected $_sourceExportFormat;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Email\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
+     * @param \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat
+     * @param \Magento\Core\Model\Option\ArrayPool $optionArrayPool
+     * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
+     * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
+        \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat,
+        \Magento\Core\Model\Option\ArrayPool $optionArrayPool,
+        \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
+        \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
+        \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_sourceExportFormat = $sourceExportFormat;
+        $this->_templateFactory = $templateFactory;
+        parent::__construct(
+            $optionArrayPool, $emailMethod, $emailIdentity, $operationData, $sourceYesno, $registry, $formFactory,
+            $coreData, $context, $data
+        );
+    }
+
+    /**
      * Prepare form for export operation
      *
      * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export
@@ -42,20 +90,17 @@ class Export
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->_coreRegistry->registry('current_operation');
 
-        /** @var $fileFormatModel \Magento\ImportExport\Model\Source\Export\Format */
-        $fileFormatModel = \Mage::getModel('Magento\ImportExport\Model\Source\Export\Format');
-
         $fieldset = $form->getElement('operation_settings');
         $fieldset->addField('file_format', 'select', array(
             'name'      => 'file_info[file_format]',
             'title'     => __('File Format'),
             'label'     => __('File Format'),
             'required'  => true,
-            'values'    => $fileFormatModel->toOptionArray()
+            'values'    => $this->_sourceExportFormat->toOptionArray()
         ));
 
         $form->getElement('email_template')
-            ->setValues(\Mage::getModel('Magento\Backend\Model\Config\Source\Email\Template')
+            ->setValues($this->_templateFactory->create()
                 ->setPath('magento_scheduledimportexport_export_failed')
                 ->toOptionArray()
             );

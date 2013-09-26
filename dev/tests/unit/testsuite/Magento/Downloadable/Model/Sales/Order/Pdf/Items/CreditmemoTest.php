@@ -31,7 +31,33 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $orderConstructorArgs = $objectManager->getConstructArguments('Magento\Sales\Model\Order');
+        $arguments = array(
+            'productFactory' => $this->getMock(
+                'Magento\Catalog\Model\ProductFactory', array(), array(), '', false
+            ),
+            'templateMailerFactory' => $this->getMock(
+                'Magento\Core\Model\Email\Template\MailerFactory', array(), array(), '', false
+            ),
+            'emailInfoFactory' => $this->getMock(
+                'Magento\Core\Model\Email\InfoFactory', array(), array(), '', false
+            ),
+            'orderItemCollFactory' => $this->getMock(
+                'Magento\Sales\Model\Resource\Order\Item\CollectionFactory', array(), array(), '', false
+            ),
+            'serviceOrderFactory' => $this->getMock(
+                'Magento\Sales\Model\Service\OrderFactory', array(), array(), '', false
+            ),
+            'currencyFactory' => $this->getMock(
+                'Magento\Directory\Model\CurrencyFactory', array(), array(), '', false
+            ),
+            'orderHistoryFactory' => $this->getMock(
+                'Magento\Sales\Model\Order\Status\HistoryFactory', array(), array(), '', false
+            ),
+            'orderTaxCollFactory' => $this->getMock(
+                'Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory', array(), array(), '', false
+            ),
+        );
+        $orderConstructorArgs = $objectManager->getConstructArguments('Magento\Sales\Model\Order', $arguments);
         $this->_order = $this->getMock('Magento\Sales\Model\Order', array('formatPriceTxt'), $orderConstructorArgs);
         $this->_order
             ->expects($this->any())

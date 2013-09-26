@@ -21,6 +21,19 @@ namespace Magento\Rss\Model\Resource;
 class Order
 {
     /**
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_resource;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(\Magento\Core\Model\Resource $resource)
+    {
+        $this->_resource = $resource;
+    }
+
+    /**
      * Retrieve order comments
      *
      * @param int $orderId
@@ -29,7 +42,7 @@ class Order
     public function getAllCommentCollection($orderId)
     {
         /** @var $res \Magento\Core\Model\Resource */
-        $res = \Mage::getSingleton('Magento\Core\Model\Resource');
+        $res = $this->_resource;
         $read = $res->getConnection('core_read');
 
         $fields = array(

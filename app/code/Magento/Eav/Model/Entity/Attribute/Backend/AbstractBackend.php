@@ -70,11 +70,9 @@ abstract class AbstractBackend
 
     /**
      * @param \Magento\Core\Model\Logger $logger
-     * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        array $data = array()
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_logger = $logger;
     }

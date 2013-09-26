@@ -97,18 +97,46 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_authSession;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Store list manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param  $data
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param array $data
      */
     public function __construct(
         \Magento\PricePermissions\Helper\Data $pricePermData,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\ProductFactory  $productFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_pricePermData = $pricePermData;
-        $this->_request = (isset($data['request']) && false === $data['request']) ? false : \Mage::app()->getRequest();
+        $this->_request = $request;
+        $this->_authSession = $authSession;
+        $this->_storeManager = $storeManager;
+        $this->_productFactory = $productFactory;
         if (isset($data['can_edit_product_price']) && false === $data['can_edit_product_price']) {
             $this->_canEditProductPrice = false;
         }
@@ -130,11 +158,8 @@ class Observer
      */
     public function adminControllerPredispatch($observer)
     {
-        /* @var $session \Magento\Backend\Model\Auth\Session */
-        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
-
         // load role with true websites and store groups
-        if ($session->isLoggedIn() && $session->getUser()->getRole()) {
+        if ($this->_authSession->isLoggedIn() && $this->_authSession->getUser()->getRole()) {
             // Set all necessary flags
             /** @var $helper \Magento\PricePermissions\Helper\Data */
             $helper = $this->_pricePermData;
@@ -356,7 +381,7 @@ class Observer
      */
     protected function _removeColumnFromGrid($block, $column)
     {
-        if (!$block instanceof \Magento\Adminhtml\Block\Widget\Grid) {
+        if (!$block instanceof \Magento\Backend\Block\Widget\Grid\Extended) {
             return false;
         }
         return $block->removeColumn($column);
@@ -378,7 +403,7 @@ class Observer
             case 'adminhtml_recurring_profile_edit_form' :
                 if (!$this->_coreRegistry->registry('product')->isObjectNew()) {
                     if (!$this->_canReadProductPrice) {
-                        $block->setProductEntity(\Mage::getModel('Magento\Catalog\Model\Product'));
+                        $block->setProductEntity($this->_productFactory->create());
                     }
                 }
                 if (!$this->_canEditProductPrice) {
@@ -692,7 +717,7 @@ class Observer
                     if ($product->getTypeId() == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD
                     ) {
                         $storeId = (int) $this->_request->getParam('store', 0);
-                        $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
+                        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
                         $product->setGiftcardAmounts(array(
                             array(
                                 'website_id' => $websiteId,
@@ -722,7 +747,7 @@ class Observer
      */
     public function adminhtmlCatalogProductFormPrepareExcludedFieldList($observer)
     {
-        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab\Attributes */
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab_Attributes */
         $block = $observer->getEvent()->getObject();
         $excludedFieldList = array();
 
@@ -748,7 +773,7 @@ class Observer
      */
     public function catalogProductAttributeUpdateBefore($observer)
     {
-        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab\Attributes */
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab_Attributes */
         $attributesData = $observer->getEvent()->getAttributesData();
         $excludedAttributes = array();
 
@@ -847,7 +872,7 @@ class Observer
                     $amountsElement = $form->getElement('giftcard_amounts');
                     if (!is_null($amountsElement)) {
                         $storeId = (int) $this->_request->getParam('store', 0);
-                        $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
+                        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
                         $amountsElement->setValue(array(
                             array(
                                 'website_id'    => $websiteId,

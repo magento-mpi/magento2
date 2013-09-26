@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\CurrencySymbol\Block\Adminhtml\System\Currencysymbol" name="mage.system.currencysymbol" template="grid.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

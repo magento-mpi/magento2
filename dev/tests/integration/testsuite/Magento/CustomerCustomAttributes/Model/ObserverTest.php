@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerCustomAttributes\Model;
-
 /**
  * @magentoDataFixture Magento/CustomerCustomAttributes/_files/order_address_with_attribute.php
  */
+namespace Magento\CustomerCustomAttributes\Model;
+
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -33,14 +33,21 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_observer;
 
+    /**
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
     protected function setUp()
     {
-        $this->_observer = \Mage::getModel('Magento\CustomerCustomAttributes\Model\Observer');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_observer = $this->_objectManager->create('Magento\CustomerCustomAttributes\Model\Observer');
     }
 
     public function testSalesOrderAddressCollectionAfterLoad()
     {
-        $address = \Mage::getModel('Magento\Sales\Model\Order\Address');
+        /** @var $address \Magento\Sales\Model\Order\Address */
+        $address = $this->_objectManager->create('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
 
         $entity = new \Magento\Object(array('id' => $address->getId()));
@@ -62,7 +69,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testSalesOrderAddressAfterLoad()
     {
-        $address = \Mage::getModel('Magento\Sales\Model\Order\Address');
+        $address = $this->_objectManager->create('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
         $arguments = $this->_prepareConstructorArguments();
 

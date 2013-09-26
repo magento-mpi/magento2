@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Pbridge payment method model
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
@@ -71,9 +66,13 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_pbridgeData = null;
 
     /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
@@ -81,11 +80,12 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
 
     /**
@@ -264,7 +264,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param   \Magento\Object $payment
      * @param   float $amount
-     * @return  Magento_Payment_Model_Abstract
+     * @return  \Magento\Payment\Model\AbstractModel
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -319,7 +319,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * Cancel payment
      *
      * @param   \Magento\Object $payment
-     * @return  Magento_Payment_Model_Abstract
+     * @return  \Magento\Payment\Model\AbstractModel
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -332,7 +332,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param   \Magento\Object $payment
      * @param   float $amount
-     * @return  Magento_Payment_Model_Abstract
+     * @return  \Magento\Payment\Model\AbstractModel
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -373,7 +373,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param   \Magento\Object $payment
      * @param   float $amount
-     * @return  Magento_Payment_Model_Abstract
+     * @return  \Magento\Payment\Model\AbstractModel
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -417,7 +417,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * Void payment
      *
      * @param   \Magento\Object $payment
-     * @return  Magento_Payment_Model_Abstract
+     * @return  \Magento\Payment\Model\AbstractModel
      */
     public function void(\Magento\Object $payment)
     {

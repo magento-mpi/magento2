@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Confirm OAuth token authorization" type="page" parent="default">
     <update handle="oauth_root_handle"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Oauth\Block\Authorize\Button" name="oauth.authorize.confirm" template="authorize/confirm.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

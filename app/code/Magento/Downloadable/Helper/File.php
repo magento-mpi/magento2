@@ -65,7 +65,7 @@ class File extends \Magento\Core\Helper\AbstractHelper
                         $baseTmpPath, $basePath, $file[0]['file']
                     );
                 } catch (\Exception $e) {
-                    \Mage::throwException(__('Something went wrong while saving the file(s).'));
+                    throw new \Magento\Core\Exception(__('Something went wrong while saving the file(s).'));
                 }
             }
             return $fileName;

@@ -30,6 +30,23 @@ class Pager extends \Magento\Core\Helper\AbstractHelper
     protected $_items = null;
 
     /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Backend\Model\Session $backendSession
+     */
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Backend\Model\Session $backendSession
+    ) {
+        $this->_backendSession = $backendSession;
+        parent::__construct($context);
+    }
+
+    /**
      * Set storage id
      *
      * @param $storageId
@@ -115,7 +132,7 @@ class Pager extends \Magento\Core\Helper\AbstractHelper
     protected function _getStorageKey()
     {
         if (!$this->_storageId) {
-            \Mage::throwException(__('Storage key was not set'));
+            throw new \Magento\Core\Exception(__('Storage key was not set'));
         }
 
         return self::STORAGE_PREFIX . $this->_storageId;
@@ -128,6 +145,6 @@ class Pager extends \Magento\Core\Helper\AbstractHelper
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Session');
+        return $this->_backendSession;
     }
 }

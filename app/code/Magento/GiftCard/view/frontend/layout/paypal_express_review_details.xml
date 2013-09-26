@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="paypal.express.review.details">
+    <referenceBlock name="paypal.express.review.details">
         <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_Checkout::onepage/review/item.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

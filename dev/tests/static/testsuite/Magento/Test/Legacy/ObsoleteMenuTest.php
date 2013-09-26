@@ -35,6 +35,6 @@ class ObsoleteMenuTest extends \PHPUnit_Framework_TestCase
      */
     public function menuFilesDataProvider()
     {
-        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getMainConfigFiles();
     }
 }

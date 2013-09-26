@@ -10,12 +10,7 @@
 
 /**
  * Sales order details block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Sales\Block\Order\PrintOrder;
 
 class Shipment extends \Magento\Sales\Block\Items\AbstractItems
@@ -83,7 +78,8 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
 
     protected function _prepareLayout()
     {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
         $this->setChild(
@@ -92,16 +88,25 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
         );
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
-        return \Mage::getUrl('*/*/history');
+        return $this->getUrl('*/*/history');
     }
 
+    /**
+     * @return string
+     */
     public function getPrintUrl()
     {
-        return \Mage::getUrl('*/*/print');
+        return $this->getUrl('*/*/print');
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentInfoHtml()
     {
         return $this->getChildHtml('payment_info');
@@ -173,7 +178,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
     public function getBillingAddressFormattedHtml($order)
     {
         $billingAddress = $order->getBillingAddress();
-        if(!($billingAddress instanceof \Magento\Sales\Model\Order\Address)) {
+        if (!($billingAddress instanceof \Magento\Sales\Model\Order\Address)) {
             return '';
         }
         return $billingAddress->format('html');

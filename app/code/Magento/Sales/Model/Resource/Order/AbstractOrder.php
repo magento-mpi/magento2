@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Flat sales resource abstract
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Resource\Order;
 
@@ -84,14 +79,22 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\Eav\Model\Entity\TypeFactory
+     */
+    protected $_eavEntityTypeFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
     ) {
         $this->_eventManager = $eventManager;
+        $this->_eavEntityTypeFactory = $eavEntityTypeFactory;
         parent::__construct($resource);
     }
 
@@ -103,13 +106,14 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * @param array $joinCondition
      * @param string $column
      * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @throws \Magento\Core\Exception
      */
     public function addVirtualGridColumn($alias, $table, $joinCondition, $column)
     {
         $table = $this->getTable($table);
 
         if (!in_array($alias, $this->getGridColumns())) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Please specify a valid grid column alias name that exists in the grid table.')
             );
         }
@@ -331,6 +335,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * @param \Magento\Core\Model\AbstractModel $object
      * @param string $attribute
      * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
+     * @throws \Exception
      */
     public function saveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
     {
@@ -353,8 +358,8 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
 
                 $updateArray = $this->_prepareDataForTable($data, $this->getMainTable());
                 $this->_postSaveFieldsUpdate($object, $updateArray);
-                if (!$object->getForceUpdateGridRecords() &&
-                    count(array_intersect($this->getGridColumns(), $attribute)) > 0
+                if (!$object->getForceUpdateGridRecords()
+                    && count(array_intersect($this->getGridColumns(), $attribute)) > 0
                 ) {
                     $this->updateGridRecords($object->getId());
                 }
@@ -372,14 +377,14 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
      * @return \Magento\Sales\Model\Resource\Order\AbstractOrder
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($this->_useIncrementId && !$object->getIncrementId()) {
             /* @var $entityType \Magento\Eav\Model\Entity\Type */
-            $entityType = \Mage::getModel('Magento\Eav\Model\Entity\Type')->loadByCode($this->_entityTypeForIncrementId);
+            $entityType = $this->_eavEntityTypeFactory->create()->loadByCode($this->_entityTypeForIncrementId);
             $object->setIncrementId($entityType->fetchNewIncrementId($object->getStoreId()));
         }
         parent::_beforeSave($object);
@@ -398,7 +403,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
         if ($object->getId() && !empty($data)) {
             $table = $this->getMainTable();
             $this->_getWriteAdapter()->update($table, $data,
-                array($this->getIdFieldName() . '=?' => (int) $object->getId())
+                array($this->getIdFieldName() . '=?' => (int)$object->getId())
             );
             $object->addData($data);
         }

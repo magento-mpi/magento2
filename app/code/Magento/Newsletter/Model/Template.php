@@ -57,11 +57,25 @@ class Template extends \Magento\Core\Model\Template
     protected $_mail;
 
     /**
-     * Newsletter data
+     * Store manager to emulate design
      *
-     * @var \Magento\Newsletter\Helper\Data
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_newsletterData = null;
+    protected $_storeManager;
+
+    /**
+     * Http-request, used to determine current store in multi-store mode
+     *
+     * @var \Magento\Core\Controller\Request\Http
+     */
+    protected $_request;
+
+    /**
+     * Filter for newsletter text
+     *
+     * @var \Magento\Newsletter\Model\Template\Filter
+     */
+    protected $_templateFilter;
 
     /**
      * Core store config
@@ -71,24 +85,42 @@ class Template extends \Magento\Core\Model\Template
     protected $_coreStoreConfig;
 
     /**
+     * Template factory
+     *
+     * @var \Magento\Newsletter\Model\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param \Magento\Newsletter\Helper\Data $newsletterData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Newsletter\Model\Template\Filter $filter
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $design,
-        \Magento\Newsletter\Helper\Data $newsletterData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Newsletter\Model\Template\Filter $filter,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         array $data = array()
     ) {
-        $this->_newsletterData = $newsletterData;
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($design, $context, $registry, $data);
+        $this->_storeManager = $storeManager;
+        $this->_request = $request;
+        $this->_filter = $filter;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_templateFactory = $templateFactory;
     }
 
     /**
@@ -103,8 +135,8 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Validate Newsletter template
      *
-     * @throws \Magento\Core\Exception
      * @return bool
+     * @throws \Magento\Core\Exception
      */
     public function validate()
     {
@@ -132,7 +164,7 @@ class Template extends \Magento\Core\Model\Template
                 }
             }
 
-            \Mage::throwException(join("\n", $errorMessages));
+            throw new \Magento\Core\Exception(join("\n", $errorMessages));
         }
     }
 
@@ -202,28 +234,25 @@ class Template extends \Magento\Core\Model\Template
      */
     public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
     {
-        /* @var $processor \Magento\Newsletter\Model\Template\Filter */
-        $processor = $this->_newsletterData->getTemplateProcessor();
-
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
         }
 
-        if (\Mage::app()->hasSingleStore()) {
-            $processor->setStoreId(\Mage::app()->getStore());
+        if ($this->_storeManager->hasSingleStore()) {
+            $this->_filter->setStoreId($this->_storeManager->getStore()->getId());
         } else {
-            $processor->setStoreId(\Mage::app()->getRequest()->getParam('store_id'));
+            $this->_filter->setStoreId($this->_request->getParam('store_id'));
         }
 
-        $processor
+        $this->_filter
             ->setIncludeProcessor(array($this, 'getInclude'))
             ->setVariables($variables);
 
         if ($usePreprocess && $this->isPreprocessed()) {
-            return $processor->filter($this->getPreparedTemplateText(true));
+            return $this->_filter->filter($this->getPreparedTemplateText(true));
         }
 
-        return $processor->filter($this->getPreparedTemplateText());
+        return $this->_filter->filter($this->getPreparedTemplateText());
     }
 
     /**
@@ -253,9 +282,11 @@ class Template extends \Magento\Core\Model\Template
      */
     public function getInclude($templateCode, array $variables)
     {
-        return \Mage::getModel('Magento\Newsletter\Model\Template')
-            ->loadByCode($templateCode)
+        /** @var \Magento\Newsletter\Model\Template $template */
+        $template = $this->_templateFactory->create();
+        $template->loadByCode($templateCode)
             ->getProcessedTemplate($variables);
+        return $template;
     }
 
     /**

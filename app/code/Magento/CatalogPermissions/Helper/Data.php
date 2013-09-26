@@ -40,20 +40,28 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      */
     public function __construct(
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
     ) {
+        $this->_customerSession = $customerSession;
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
@@ -121,7 +129,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
         $groups = explode(',', $groups);
 
-        return !in_array(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId(), $groups);
+        return !in_array($this->_customerSession->getCustomerGroupId(), $groups);
     }
 
     /**
@@ -152,7 +160,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $groups = explode(',', $groups);
 
             if ($customerGroupId === null) {
-                $customerGroupId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+                $customerGroupId = $this->_customerSession->getCustomerGroupId();
             }
 
             return in_array(

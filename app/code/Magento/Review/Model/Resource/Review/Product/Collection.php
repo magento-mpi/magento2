@@ -50,14 +50,74 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     protected $_storesIds           = array();
 
     /**
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_resourceModel;
+
+    /**
+     * @var \Magento\Rating\Model\RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
+     */
+    protected $_voteFactory;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource $resourceModel
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource $resourceModel,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
+    ) {
+        $this->_resourceModel = $resourceModel;
+        $this->_ratingFactory = $ratingFactory;
+        $this->_storeManager = $storeManager;
+        $this->_voteFactory = $voteFactory;
+        parent::__construct(
+            $catalogData,
+            $catalogProductFlat,
+            $eventManager,
+            $logger,
+            $fetchStrategy,
+            $coreStoreConfig,
+            $entityFactory
+        );
+    }
+
+    /**
      * Define module
-     *
      */
     protected function _construct()
     {
         $this->_init('Magento\Catalog\Model\Product', 'Magento\Catalog\Model\Resource\Product');
         $this->setRowIdFieldName('review_id');
-        $this->_reviewStoreTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('review_store');
+        $this->_reviewStoreTable = $this->_resourceModel->getTableName('review_store');
         $this->_initTables();
     }
 
@@ -228,7 +288,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function addReviewSummary()
     {
         foreach ($this->getItems() as $item) {
-            $model = \Mage::getModel('Magento\Rating\Model\Rating');
+            $model = $this->_ratingFactory->create();
             $model->getReviewSummary($item->getReviewId());
             $item->addData($model->getData());
         }
@@ -243,10 +303,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
+            $votesCollection = $this->_voteFactory->create()
                 ->getResourceCollection()
                 ->setEntityPkFilter($item->getEntityId())
-                ->setStoreFilter(\Mage::app()->getStore()->getId())
+                ->setStoreFilter($this->_storeManager->getStore()->getId())
                 ->load();
             $item->setRatingVotes($votesCollection);
         }
@@ -260,8 +320,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _joinFields()
     {
-        $reviewTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('review');
-        $reviewDetailTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('review_detail');
+        $reviewTable = $this->_resourceModel->getTableName('review');
+        $reviewDetailTable = $this->_resourceModel->getTableName('review_detail');
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('sku');

@@ -54,6 +54,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $testData = array(array('some' => 'data'));
         $data = array('someBlockInstanceName' => $testData);
         $this->_readerMock->expects($this->once())->method('read')->with('global')->will($this->returnValue($data));
+        $this->_cacheMock->expects($this->once())->method('load')->will($this->returnValue(false));
         $this->assertEquals($testData, $this->_model->getPlaceholders('someBlockInstanceName'));
     }
 
@@ -61,6 +62,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $testData = array(array('some' => 'data'));
         $data = array('someBlockInstanceName' => $testData);
+        $this->_cacheMock->expects($this->once())->method('load')->will($this->returnValue(false));
         $this->_readerMock->expects($this->once())->method('read')->with('global')->will($this->returnValue($data));
         $this->assertEquals(array(), $this->_model->getPlaceholders('notExistedKey'));
     }

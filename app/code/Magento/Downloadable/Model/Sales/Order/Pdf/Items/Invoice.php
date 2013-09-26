@@ -33,6 +33,10 @@ class Invoice
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
+     * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -42,12 +46,27 @@ class Invoice
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
+        \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $taxData,
+            $context,
+            $registry,
+            $coreDir,
+            $coreStoreConfig,
+            $purchasedFactory,
+            $itemsFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -65,13 +84,13 @@ class Invoice
         // draw Product name
         $stringHelper = $this->_coreString;
         $lines[0] = array(array(
-            'text' => $stringHelper->strSplit($item->getName(), 35, true, true),
+            'text' => $stringHelper->str_split($item->getName(), 35, true, true),
             'feed' => 35,
         ));
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => $stringHelper->strSplit($this->getSku($item), 17),
+            'text'  => $stringHelper->str_split($this->getSku($item), 17),
             'feed'  => 290,
             'align' => 'right'
         );
@@ -135,7 +154,7 @@ class Invoice
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => $stringHelper->strSplit(strip_tags($option['label']), 40, true, true),
+                    'text' => $stringHelper->str_split(strip_tags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
@@ -149,7 +168,7 @@ class Invoice
                     $values = explode(', ', $_printValue);
                     foreach ($values as $value) {
                         $lines[][] = array(
-                            'text' => $stringHelper->strSplit($value, 30, true, true),
+                            'text' => $stringHelper->str_split($value, 30, true, true),
                             'feed' => 40
                         );
                     }
@@ -162,7 +181,7 @@ class Invoice
 
         // draw Links title
         $lines[][] = array(
-            'text' => $stringHelper->strSplit($this->getLinksTitle(), 70, true, true),
+            'text' => $stringHelper->str_split($this->getLinksTitle(), 70, true, true),
             'font' => 'italic',
             'feed' => 35
         );
@@ -170,7 +189,7 @@ class Invoice
         // draw Links
         foreach ($_purchasedItems as $_link) {
             $lines[][] = array(
-                'text' => $stringHelper->strSplit($_link->getLinkTitle(), 50, true, true),
+                'text' => $stringHelper->str_split($_link->getLinkTitle(), 50, true, true),
                 'feed' => 40
             );
         }

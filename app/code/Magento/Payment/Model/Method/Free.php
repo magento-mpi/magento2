@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Free payment method
- *
- * @category   Magento
- * @package    Magento_Payment
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Payment\Model\Method;
 
@@ -41,6 +36,35 @@ class Free extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_code = 'free';
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Check whether method is available
      *
      * @param \Magento\Sales\Model\Quote|null $quote
@@ -49,7 +73,7 @@ class Free extends \Magento\Payment\Model\Method\AbstractMethod
     public function isAvailable($quote = null)
     {
         return parent::isAvailable($quote) && !empty($quote)
-            && \Mage::app()->getStore()->roundPrice($quote->getGrandTotal()) == 0;
+            && $this->_storeManager->getStore()->roundPrice($quote->getGrandTotal()) == 0;
     }
 
     /**

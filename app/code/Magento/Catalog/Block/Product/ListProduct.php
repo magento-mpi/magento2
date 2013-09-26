@@ -171,7 +171,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
                 return $block;
             }
         }
-        $block = $this->getLayout()->createBlock($this->_defaultToolbarBlock, microtime());
+        $block = $this->getLayout()->createBlock($this->_defaultToolbarBlock, uniqid(microtime()));
         return $block;
     }
 

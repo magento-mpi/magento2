@@ -9,12 +9,10 @@
  */
 
  /**
- * Enterprise search recommendations model
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
- */
+  * Enterprise search recommendations model
+  *
+  * @SuppressWarnings(PHPMD.LongVariable)
+  */
 namespace Magento\Search\Model;
 
 class Recommendations
@@ -34,13 +32,29 @@ class Recommendations
     protected $_searchData = null;
 
     /**
+     * @var \Magento\Search\Model\Search\Layer
+     */
+    protected $_searchLayer;
+
+    /**
+     * @var \Magento\Search\Model\Resource\RecommendationsFactory
+     */
+    protected $_recommendationsFactory;
+
+    /**
+     * @param \Magento\Search\Model\Resource\RecommendationsFactory $recommendationsFactory
+     * @param \Magento\Search\Model\Search\Layer $searchLayer
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      */
     public function __construct(
+        \Magento\Search\Model\Resource\RecommendationsFactory $recommendationsFactory,
+        \Magento\Search\Model\Search\Layer $searchLayer,
         \Magento\Search\Helper\Data $searchData,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData
     ) {
+        $this->_recommendationsFactory = $recommendationsFactory;
+        $this->_searchLayer = $searchLayer;
         $this->_searchData = $searchData;
         $this->_catalogSearchData = $catalogSearchData;
     }
@@ -52,7 +66,7 @@ class Recommendations
      */
     public function getSearchRecommendations()
     {
-        $productCollection = \Mage::getSingleton('Magento\Search\Model\Search\Layer')->getProductCollection();
+        $productCollection = $this->_searchLayer->getProductCollection();
         $searchQueryText = $this->_catalogSearchData->getQuery()->getQueryText();
 
         $params = array(
@@ -68,8 +82,8 @@ class Recommendations
             $searchRecommendationsCount = 1;
         }
         if ($searchRecommendationsEnabled) {
-            $model = \Mage::getResourceModel('Magento\Search\Model\Resource\Recommendations');
-            return $model->getRecommendationsByQuery($searchQueryText, $params, $searchRecommendationsCount);
+            return $this->_recommendationsFactory->create()
+                ->getRecommendationsByQuery($searchQueryText, $params, $searchRecommendationsCount);
         } else {
             return array();
         }

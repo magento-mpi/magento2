@@ -35,14 +35,37 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
     protected $_eventObject    = 'order_collection';
 
     /**
+     * @var \Magento\Core\Model\Resource\Helper\Mysql4
+     */
+    protected $_coreResourceHelper;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Helper\Mysql4 $coreResourceHelper
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Helper\Mysql4 $coreResourceHelper,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_coreResourceHelper = $coreResourceHelper;
+    }
+
+    /**
      * Model initialization
-     *
      */
     protected function _construct()
     {
         $this->_init('Magento\Sales\Model\Order', 'Magento\Sales\Model\Resource\Order');
-        $this
-            ->addFilterToMap('entity_id', 'main_table.entity_id')
+        $this->addFilterToMap('entity_id', 'main_table.entity_id')
             ->addFilterToMap('customer_id', 'main_table.customer_id')
             ->addFilterToMap('quote_address_id', 'main_table.quote_address_id');
     }
@@ -137,7 +160,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
                     $shippingAliasName . '.postcode'
                 )
             );
-        \Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect());
+        $this->_coreResourceHelper->prepareColumnsList($this->getSelect());
         return $this;
     }
 
@@ -179,7 +202,6 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
         if (is_array($attributes) && !empty($attributes)) {
             $this->_addAddressFields();
 
-            $toFilterData = array();
             foreach ($attributes as $attribute) {
                 $this->addFieldToSearchFilter($this->_attributeToField($attribute['attribute']), $attribute);
             }

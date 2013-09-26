@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="giftcard" label="Gift Card" modelInstance="Magento\GiftCard\Model\Catalog\Product\Type\Giftcard" composite='false' indexPriority="45" isQty="true">
+        <priceModel instance="Magento\GiftCard\Model\Catalog\Product\Price\Giftcard" />
+        <indexerModel instance="Magento\GiftCard\Model\Resource\Indexer\Price" />
+    </type>
+</config>

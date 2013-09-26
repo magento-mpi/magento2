@@ -15,23 +15,9 @@
             <widget_setup>
                 <setup>
                     <module>Magento_Widget</module>
-                    <class>Magento\Widget\Model\Resource\Setup</class>
+                    <class>Magento\Core\Model\Resource\Setup\Generic</class>
                 </setup>
             </widget_setup>
         </resources>
-        <cms>
-            <page>
-                <tempate_filter>Magento\Widget\Model\Template\Filter</tempate_filter>
-            </page>
-            <block>
-                <tempate_filter>Magento\Widget\Model\Template\Filter</tempate_filter>
-            </block>
-        </cms>
-        <widget>
-            <related_cache_types>
-                <block_html />
-                <layout />
-            </related_cache_types>
-        </widget>
     </global>
 </config>

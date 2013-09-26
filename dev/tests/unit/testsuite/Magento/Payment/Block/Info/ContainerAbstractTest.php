@@ -22,7 +22,11 @@ class ContainerAbstractTest extends \PHPUnit_Framework_TestCase
             array('getChildBlock', 'getPaymentInfo'), array(), '', false);
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $paymentInfo = $objectManagerHelper->getObject('Magento\Payment\Model\Info');
-        $methodInstance = $objectManagerHelper->getObject('Magento\Payment\Model\Method\Checkmo');
+        $adapterFactoryMock = $this->getMock('Magento\Core\Model\Log\AdapterFactory', array('create'),
+            array(), '', false);
+        $methodInstance = $objectManagerHelper->getObject('Magento\Payment\Model\Method\Checkmo', array(
+            'logAdapterFactory' => $adapterFactoryMock,
+        ));
         $paymentInfo->setMethodInstance($methodInstance);
         $block->expects($this->atLeastOnce())
             ->method('getPaymentInfo')

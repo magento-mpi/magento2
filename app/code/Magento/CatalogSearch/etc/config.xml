@@ -18,13 +18,6 @@
                 </setup>
             </catalogsearch_setup>
         </resources>
-        <index>
-            <indexer>
-                <catalogsearch_fulltext>
-                    <model>Magento\CatalogSearch\Model\Indexer\Fulltext</model>
-                </catalogsearch_fulltext>
-            </indexer>
-        </index>
     </global>
     <default>
         <catalog>

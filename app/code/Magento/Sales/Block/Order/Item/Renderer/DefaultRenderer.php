@@ -27,18 +27,26 @@ class DefaultRenderer extends \Magento\Core\Block\Template
     protected $_coreString = null;
 
     /**
+     * @var \Magento\Catalog\Model\Product\OptionFactory
+     */
+    protected $_productOptionFactory;
+
+    /**
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
+        $this->_productOptionFactory = $productOptionFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -76,7 +84,8 @@ class DefaultRenderer extends \Magento\Core\Block\Template
     public function getItemOptions()
     {
         $result = array();
-        if ($options = $this->getOrderItem()->getProductOptions()) {
+        $options = $this->getOrderItem()->getProductOptions();
+        if ($options) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);
             }
@@ -131,7 +140,7 @@ class DefaultRenderer extends \Magento\Core\Block\Template
             $_default = array('value' => $optionValue);
             if (isset($optionInfo['option_type'])) {
                 try {
-                    $group = \Mage::getModel('Magento\Catalog\Model\Product\Option')->groupFactory($optionInfo['option_type']);
+                    $group = $this->_productOptionFactory->create()->groupFactory($optionInfo['option_type']);
                     return array('value' => $group->getCustomizedView($optionInfo));
                 } catch (\Exception $e) {
                     return $_default;
@@ -169,9 +178,6 @@ class DefaultRenderer extends \Magento\Core\Block\Template
      */
     public function getSku()
     {
-        /*if ($this->getOrderItem()->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
-            return $this->getOrderItem()->getProductOptionByCode('simple_sku');
-        }*/
         return $this->getItem()->getSku();
     }
 

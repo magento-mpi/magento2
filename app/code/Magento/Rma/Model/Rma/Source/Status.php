@@ -10,10 +10,6 @@
 
 /**
  * RMA Item status attribute model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Model\Rma\Source;
 
@@ -35,6 +31,22 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
     const STATE_CLOSED             = 'closed';
     const STATE_PROCESSED_CLOSED   = 'processed_closed';
 
+    /**
+     * @var \Magento\Rma\Model\Item\Attribute\Source\StatusFactory
+     */
+    protected $_statusFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
+    ) {
+        $this->_statusFactory = $statusFactory;
+        parent::__construct($coreData);
+    }
 
     /**
      * Get state label based on the code
@@ -74,22 +86,23 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
      * and returns it
      *
      * @param array $itemStatusArray Array of RMA items status
-     * @throws \Magento\Core\Exception
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function getStatusByItems($itemStatusArray)
     {
         if (!is_array($itemStatusArray) || empty($itemStatusArray)) {
-            \Mage::throwException(__('This is the wrong RMA item status.'));
+            throw new \Magento\Core\Exception(__('This is the wrong RMA item status.'));
         }
 
         $itemStatusArray = array_unique($itemStatusArray);
 
-        $itemStatusModel = \Mage::getModel('Magento\Rma\Model\Item\Attribute\Source\Status');
+        /** @var $itemStatusModel \Magento\Rma\Model\Item\Attribute\Source\Status */
+        $itemStatusModel = $this->_statusFactory->create();
 
         foreach ($itemStatusArray as $status) {
             if (!$itemStatusModel->checkStatus($status)) {
-                \Mage::throwException(__('This is the wrong RMA item status.'));
+                throw new \Magento\Core\Exception(__('This is the wrong RMA item status.'));
             }
         }
 

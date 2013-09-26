@@ -39,6 +39,7 @@ class Session
     protected $_aclBuilder;
 
     /**
+     * @param \Magento\Core\Model\Session\Validator $validator
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Acl\Builder $aclBuilder
@@ -48,6 +49,7 @@ class Session
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Session\Validator $validator,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Acl\Builder $aclBuilder,
@@ -57,7 +59,7 @@ class Session
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
-        parent::__construct($logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('admin');
     }
 

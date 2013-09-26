@@ -58,12 +58,17 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
     protected $_response;
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Paygate\Helper\Data $paygateData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -78,6 +83,9 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
@@ -85,7 +93,8 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
         \Magento\Authorizenet\Model\Directpost\Response $response,
         array $data = array()
     ) {
-        parent::__construct($logger, $eventManager, $paygateData, $moduleList, $coreStoreConfig, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $paygateData, $moduleList, $coreStoreConfig, $paymentData,
+            $logAdapterFactory, $locale, $centinelService, $data);
         $this->_storeManager = $storeManager;
         $this->_orderFactory = $orderFactory;
         $this->_quoteFactory = $quoteFactory;

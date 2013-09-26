@@ -11,14 +11,14 @@
  */
 return array(
     array('Mage_Admin_Helper_Data', 'Magento\Backend\Helper\Data'),
-    array('Mage_Admin_Model_Acl', 'Magento\Acl'),
+    array('Mage_Admin_Model_Acl', 'Magento_Acl'),
     array('Mage_Admin_Model_Acl_Role'),
     array('Mage_Admin_Model_Acl_Resource', 'Magento\Acl\Resource'),
     array('Mage_Admin_Model_Acl_Role_Registry', 'Magento\Acl\Role\Registry'),
     array('Mage_Admin_Model_Acl_Role_Generic', 'Magento\User\Model\Acl\Role\Generic'),
     array('Mage_Admin_Model_Acl_Role_Group', 'Magento\User\Model\Acl\Role\Group'),
     array('Mage_Admin_Model_Acl_Role_User', 'Magento\User\Model\Acl\Role\User'),
-    array('Mage_Admin_Model_Resource_Acl', 'Magento_User_Model_Resource_Acl'),
+    array('Mage_Admin_Model_Resource_Acl', 'Magento\User\Model\Resource\Acl'),
     array('Mage_Admin_Model_Observer'),
     array('Mage_Admin_Model_Session', 'Magento\Backend\Model\Auth\Session'),
     array('Mage_Admin_Model_Resource_Acl_Role'),
@@ -28,15 +28,15 @@ return array(
     array('Mage_Admin_Model_Resource_User', 'Magento\User\Model\Resource\User'),
     array('Mage_Admin_Model_Resource_User_Collection', 'Magento\User\Model\Resource\User\Collection'),
     array('Mage_Admin_Model_Role', 'Magento\User\Model\Role'),
-    array('Mage_Admin_Model_Roles', 'Magento_User_Model_Roles'),
+    array('Mage_Admin_Model_Roles', 'Magento\User\Model\Roles'),
     array('Mage_Admin_Model_Rules', 'Magento\User\Model\Rules'),
     array('Mage_Admin_Model_Resource_Role', 'Magento\User\Model\Resource\Role'),
-    array('Mage_Admin_Model_Resource_Roles', 'Magento_User_Model_Resource_Roles'),
+    array('Mage_Admin_Model_Resource_Roles', 'Magento\User\Model\Resource\Roles'),
     array('Mage_Admin_Model_Resource_Rules', 'Magento\User\Model\Resource\Rules'),
     array('Mage_Admin_Model_Resource_Role_Collection', 'Magento\User\Model\Resource\Role\Collection'),
-    array('Mage_Admin_Model_Resource_Roles_Collection', 'Magento_User_Model_Resource_Roles_Collection'),
+    array('Mage_Admin_Model_Resource_Roles_Collection', 'Magento\User\Model\Resource\Roles\Collection'),
     array('Mage_Admin_Model_Resource_Roles_User_Collection',
-        'Magento_User_Model_Resource_Roles_User_Collection'),
+        'Magento\User\Model\Resource\Roles\User\Collection'),
     array('Mage_Admin_Model_Resource_Rules_Collection', 'Magento\User\Model\Resource\Rules\Collection'),
     array('Mage_Admin_Model_Resource_Permissions_Collection',
         'Magento\User\Model\Resource\Permissions\Collection'),
@@ -127,7 +127,7 @@ return array(
         'Magento\Backend\Block\System\Config\Form\Field\Datetime'
     ),
     array('Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract',
-        'Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray'
+        'Magento\Backend\Block\System\Config\Form\Field\Array\AbstractArray'
     ),
     array('Mage_Adminhtml_Block_System_Config_Form_Fieldset',
         'Magento\Backend\Block\System\Config\Form\Fieldset'
@@ -274,7 +274,7 @@ return array(
         'Magento\Catalog\Model\Config\Backend\Seo\Product'
     ),
     array('Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array',
-        'Magento\Backend\Model\Config\Backend\Serialized\ArraySerialized'
+        'Magento\Backend\Model\Config\Backend\Serialized\Array'
     ),
     array('Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate',
         'Magento\Shipping\Model\Config\Backend\Tablerate'
@@ -422,7 +422,7 @@ return array(
         'Magento\AdminNotification\Model\Config\Source\Frequency'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Order_Status_New',
-        'Magento\Sales\Model\Config\Source\Order\Status\New'
+        'Magento\Sales\Model\Config\Source\Order\Status\NewStatus'
     ),
     array('Mage_Adminhtml_Model_System_Config_Source_Order_Status_Newprocessing',
         'Magento\Sales\Model\Config\Source\Order\Status\Newprocessing'
@@ -564,9 +564,9 @@ return array(
     array('Mage_Core_Block_Template_Facade'),
     array('Mage_Core_Block_Template_Smarty'),
     array('Mage_Core_Block_Template_Zend'),
-    array('Mage_Core_Controller_Varien_Router_Admin', 'Magento\Backend\Controller\Router\DefaultRouter'),
+    array('Mage_Core_Controller_Magento_Router_Admin', 'Magento\Backend\Controller\Router\DefaultRouter'),
     array('Mage_Core_Model_Convert'),
-    array('Mage_Core_Model_Config_Fieldset', 'Magento_Core_Model_Fieldset_Config'),
+    array('Mage_Core_Model_Config_Fieldset', 'Magento\Core\Model\Fieldset\Config'),
     array('Mage_Core_Model_Config_Options', 'Magento\Core\Model\Dir'),
     array('Mage_Core_Model_Config_Module'),
     array('Mage_Core_Model_Config_System'),
@@ -579,7 +579,7 @@ return array(
     array('Mage_Core_Model_Session_Abstract_Zend'),
     array('Mage_Core_Model_Store_Group_Limitation'),
     array('Mage_Core_Model_Store_Limitation'),
-    array('Magento_Core_Model_Variable_Observer'),
+    array('Magento\Core\Model\Variable\Observer'),
     array('Mage_Core_Model_Website_Limitation'),
     array('Mage_Core_Model_Layout_Data', 'Magento\Core\Model\Layout\Update'),
     array('Mage_Core_Model_Theme_Customization_Link'),
@@ -603,7 +603,7 @@ return array(
     array('Mage_GiftMessage_IndexController'),
     array('Mage_GiftMessage_Model_Entity_Attribute_Backend_Boolean_Config'),
     array('Mage_GiftMessage_Model_Entity_Attribute_Source_Boolean_Config'),
-    array('Mage_GoogleOptimizer_IndexController', 'Magento_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController'),
+    array('Mage_GoogleOptimizer_IndexController', 'Magento\GoogleOptimizer\Adminhtml\Googleoptimizer\IndexController'),
     array('Mage_GoogleShopping_Block_Adminhtml_Types_Grid'),
     array('Mage_GoogleShopping_Helper_SiteVerification', 'Mage_GoogleShopping_Block_SiteVerification'),
     array('Mage_ImportExport_Model_Import_Adapter_Abstract', 'Mage_ImportExport_Model_Import_SourceAbstract'),
@@ -626,7 +626,7 @@ return array(
     array('Mage_Reports_Model_Resource_Refunded_Collection'),
     array('Mage_Reports_Model_Resource_Shipping_Collection'),
     array('Mage_Rss_Model_Observer'),
-    array('Mage_Rss_Model_Session', 'Magento\Backend\Model\Auth and \Magento\Backend\Model\Auth\Session'),
+    array('Mage_Rss_Model_Session', 'Magento_Backend_Model_Auth and \Magento\Backend\Model\Auth\Session'),
     array('Mage_Sales_Block_Order_Details'),
     array('Mage_Sales_Block_Order_Tax'),
     array('Mage_Sales_Block_Guest_Links'),
@@ -712,7 +712,7 @@ return array(
     array('Mage_User_Model_Resource_Roles_Collection'),
     array('Mage_User_Model_Resource_Roles_User_Collection'),
     array('Mage_Widget_Block_Adminhtml_Widget_Instance_Grid'),
-    array('Magento_Widget_Model_Observer'),
+    array('Magento\Widget\Model\Observer'),
     array('Mage_Wishlist_Model_Resource_Product_Collection'),
     array('Varien_Convert_Action'),
     array('Varien_Convert_Action_Abstract'),
@@ -744,13 +744,13 @@ return array(
     array('Varien_Convert_Validator_Dryrun'),
     array('Varien_Convert_Validator_Interface'),
     array('Mage_File_Uploader_Image'),
-    array('Varien_Profiler', 'Magento\Profiler'),
+    array('Varien_Profiler', 'Magento_Profiler'),
     array('Mage_Adminhtml_Block_Notification_Window', 'Magento\AdminNotification\Block\Window'),
     array('Mage_Adminhtml_Block_Notification_Toolbar'),
     array('Mage_Adminhtml_Block_Notification_Survey'),
     array('Mage_Adminhtml_Block_Notification_Security'),
     array('Mage_Adminhtml_Block_Notification_Inbox'),
-    array('Mage_Adminhtml_Block_Notification_Grid', 'Magento_AdminNotification_Block_Notification_Grid'),
+    array('Mage_Adminhtml_Block_Notification_Grid', 'Magento\AdminNotification\Block\Notification\Grid'),
     array('Mage_Adminhtml_Block_Notification_Baseurl'),
     array('Mage_Adminhtml_Block_Notification_Grid_Renderer_Severity',
         'Magento\AdminNotification\Block\Grid\Renderer\Severity'),
@@ -768,11 +768,11 @@ return array(
     array('Mage_DB_Mysqli'),
     array('Mage_DB_Exception'),
     array(
-        'Magento_Catalog_Block_Product_View_Media',
-        'Decomposed into Magento_Catalog_Block_Product_View_Gallery'
-            . ' and Magento_Catalog_Block_Product_View_BaseImage classes'
+        'Magento\Catalog\Block\Product\View\Media',
+        'Decomposed into \Magento\Catalog\Block\Product\View\Gallery'
+            . ' and \Magento\Catalog\Block\Product\View\BaseImage classes'
     ),
-    array('Magento_Wishlist_Block_Links', 'Magento_Wishlist_Block_Link'),
+    array('Magento\Wishlist\Block\Links', 'Magento\Wishlist\Block\Link'),
     array('Mage_Adminhtml_Block_Api_Tab_Userroles'),
     array('Mage_Adminhtml_Block_Api_Tab_Roleinfo'),
     array('Mage_Adminhtml_Block_Api_Tab_Rolesusers'),
@@ -955,4 +955,6 @@ return array(
     array('Mage_Sales_Model_Order_Api'),
     array('Mage_Sales_Model_Order_Creditmemo_Api_V2'),
     array('Mage_Sales_Model_Order_Creditmemo_Api'),
+    array('Magento\ImportExport\Model\Config'),
+    array('Magento\Data\Collection\Factory', 'Magento\Data\CollectionFactory'),
 );

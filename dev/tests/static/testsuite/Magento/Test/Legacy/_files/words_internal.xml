@@ -23,8 +23,6 @@
         <word>secure_public_url}}js/</word>
         <word>\Magento\Core\Model\App_Options</word>
         <word>Magento_Adminhtml_Utility_Controller</word>
-        <word>saas</word>
-        <word>tmt</word>
     </words>
     <whitelist>
         <item>

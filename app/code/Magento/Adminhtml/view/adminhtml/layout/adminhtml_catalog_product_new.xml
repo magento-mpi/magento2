@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="editor"/>
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
@@ -95,8 +95,8 @@
                 <argument name="file" xsi:type="string">Magento_Catalog::js/new-category-dialog.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Catalog\Product\Edit" name="product_edit">
             <container name="product-type-tabs" label="Tabs">
             </container>
@@ -104,14 +104,14 @@
         <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\AttributeSet" name="attribute-set-info" template="Magento_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
         <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\NewCategory" name="new-category" template="Magento_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
         <block class="Magento\Core\Block\Template" name="affected-attribute-set-form" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs" name="product_tabs"/>
-    </reference>
-    <reference name="js">
+    </referenceContainer>
+    <referenceContainer name="js">
         <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Js" name="catalog_product_js" template="catalog/product/js.phtml"/>
         <block class="Magento\Core\Block\Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml"/>
         <block class="Magento\Catalog\Block\Product\Configurable\AttributeSelector" template="Magento_Catalog::product/configurable/attribute-selector/js.phtml"/>
         <block class="Magento\Catalog\Block\Product\Configurable\AttributeSelector" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

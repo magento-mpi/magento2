@@ -27,18 +27,26 @@ class Link extends \Magento\Adminhtml\Block\Template
     protected $_giftWrappingData = null;
 
     /**
+     * @var \Magento\GiftWrapping\Model\WrappingFactory
+     */
+    protected $_wrappingFactory;
+
+    /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
      * @param array $data
      */
     public function __construct(
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
+        $this->_wrappingFactory = $wrappingFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -60,7 +68,7 @@ class Link extends \Magento\Adminhtml\Block\Template
     public function getDesign()
     {
         if ($this->getItem()->getGwId()) {
-            $wrappingModel = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')
+            $wrappingModel = $this->_wrappingFactory->create()
                 ->load($this->getItem()->getGwId());
             if ($wrappingModel->getId()) {
                 return $this->escapeHtml($wrappingModel->getDesign());

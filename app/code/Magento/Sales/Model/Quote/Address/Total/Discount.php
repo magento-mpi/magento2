@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Sales\Model\Quote\Address\Total;
 
 class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
@@ -21,28 +20,40 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
+        $this->_storeManager = $storeManager;
     }
 
+    /**
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return $this|\Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $quote = $address->getQuote();
         $eventArgs = array(
-            'website_id'=>\Mage::app()->getStore($quote->getStoreId())->getWebsiteId(),
-            'customer_group_id'=>$quote->getCustomerGroupId(),
-            'coupon_code'=>$quote->getCouponCode(),
+            'website_id' => $this->_storeManager->getStore($quote->getStoreId())->getWebsiteId(),
+            'customer_group_id' => $quote->getCustomerGroupId(),
+            'coupon_code' => $quote->getCouponCode(),
         );
 
         $address->setFreeShipping(0);
         $totalDiscountAmount = 0;
-        $subtotalWithDiscount= 0;
+        $subtotalWithDiscount = 0;
         $baseTotalDiscountAmount = 0;
-        $baseSubtotalWithDiscount= 0;
+        $baseSubtotalWithDiscount = 0;
 
         $items = $address->getAllItems();
         if (!count($items)) {
@@ -53,7 +64,6 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             return $this;
         }
 
-        $hasDiscount = false;
         foreach ($items as $item) {
             if ($item->getNoDiscount()) {
                 $item->setDiscountAmount(0);
@@ -61,10 +71,9 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $item->setRowTotalWithDiscount($item->getRowTotal());
                 $item->setBaseRowTotalWithDiscount($item->getRowTotal());
 
-                $subtotalWithDiscount+=$item->getRowTotal();
-                $baseSubtotalWithDiscount+=$item->getBaseRowTotal();
-            }
-            else {
+                $subtotalWithDiscount += $item->getRowTotal();
+                $baseSubtotalWithDiscount += $item->getBaseRowTotal();
+            } else {
                 /**
                  * Child item discount we calculate for parent
                  */
@@ -80,10 +89,6 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                     foreach ($item->getChildren() as $child) {
                         $eventArgs['item'] = $child;
                         $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
-
-                        if ($child->getDiscountAmount() || $child->getFreeShipping()) {
-                            $hasDiscount = true;
-                        }
 
                         /**
                          * Parent free shipping we apply to all children
@@ -101,28 +106,24 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                         $totalDiscountAmount += $child->getDiscountAmount();//*$item->getQty();
                         $baseTotalDiscountAmount += $child->getBaseDiscountAmount();//*$item->getQty();
 
-                        $child->setRowTotalWithDiscount($child->getRowTotal()-$child->getDiscountAmount());
-                        $child->setBaseRowTotalWithDiscount($child->getBaseRowTotal()-$child->getBaseDiscountAmount());
+                        $child->setRowTotalWithDiscount($child->getRowTotal() - $child->getDiscountAmount());
+                        $child->setBaseRowTotalWithDiscount($child->getBaseRowTotal() - $child->getBaseDiscountAmount());
 
                         $subtotalWithDiscount+=$child->getRowTotalWithDiscount();
                         $baseSubtotalWithDiscount+=$child->getBaseRowTotalWithDiscount();
                     }
-                }
-                else {
+                } else {
                     $eventArgs['item'] = $item;
                     $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
 
-                    if ($item->getDiscountAmount() || $item->getFreeShipping()) {
-                        $hasDiscount = true;
-                    }
                     $totalDiscountAmount += $item->getDiscountAmount();
                     $baseTotalDiscountAmount += $item->getBaseDiscountAmount();
 
-                    $item->setRowTotalWithDiscount($item->getRowTotal()-$item->getDiscountAmount());
-                    $item->setBaseRowTotalWithDiscount($item->getBaseRowTotal()-$item->getBaseDiscountAmount());
+                    $item->setRowTotalWithDiscount($item->getRowTotal() - $item->getDiscountAmount());
+                    $item->setBaseRowTotalWithDiscount($item->getBaseRowTotal() - $item->getBaseDiscountAmount());
 
-                    $subtotalWithDiscount+=$item->getRowTotalWithDiscount();
-                    $baseSubtotalWithDiscount+=$item->getBaseRowTotalWithDiscount();
+                    $subtotalWithDiscount += $item->getRowTotalWithDiscount();
+                    $baseSubtotalWithDiscount += $item->getBaseRowTotalWithDiscount();
                 }
             }
         }
@@ -136,6 +137,10 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         return $this;
     }
 
+    /**
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return $this
+     */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $amount = $address->getDiscountAmount();
@@ -146,9 +151,9 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $title = __('Discount (%1)', $code);
             }
             $address->addTotal(array(
-                'code'=>$this->getCode(),
-                'title'=>$title,
-                'value'=>-$amount
+                'code' => $this->getCode(),
+                'title' => $title,
+                'value' => -$amount
             ));
         }
         return $this;

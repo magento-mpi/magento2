@@ -42,6 +42,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
+     * Should inherited page be rendered
+     *
+     * @var bool
+     */
+    protected $_isRenderInherited;
+
+    /**
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
@@ -54,6 +61,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Controller\Varien\Front $frontController
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param boolean $isRenderInherited
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
@@ -62,19 +70,31 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Controller\Varien\Front $frontController,
         \Magento\Core\Model\Layout $layout,
-        \Magento\Core\Model\Event\Manager $eventManager
+        \Magento\Core\Model\Event\Manager $eventManager,
+        $isRenderInherited
     ) {
-        $this->_request         = $request;
-        $this->_response        = $response;
-        $this->_objectManager   = $objectManager;
-        $this->_frontController = $frontController;
-        $this->_layout          = $layout;
-        $this->_eventManager    = $eventManager;
-        $this->_logger          = $logger;
+        $this->_request           = $request;
+        $this->_response          = $response;
+        $this->_objectManager     = $objectManager;
+        $this->_frontController   = $frontController;
+        $this->_layout            = $layout;
+        $this->_eventManager      = $eventManager;
+        $this->_isRenderInherited = $isRenderInherited;
+        $this->_logger            = $logger;
     }
 
     /**
-     * @return \Magento\Core\Controller\Varien\Front
+     * Should inherited page be rendered
+     *
+     * @return bool
+     */
+    public function isRenderInherited()
+    {
+        return $this->_isRenderInherited;
+    }
+
+    /**
+     * @return \Magento_Core_Controller_Varien_Front
      */
     public function getFrontController()
     {
@@ -82,7 +102,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Layout
+     * @return \Magento_Core_Model_Layout
      */
     public function getLayout()
     {
@@ -90,7 +110,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\ObjectManager
+     * @return \Magento_ObjectManager
      */
     public function getObjectManager()
     {
@@ -98,7 +118,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Controller\Request\Http
+     * @return \Magento_Core_Controller_Request_Http
      */
     public function getRequest()
     {
@@ -106,7 +126,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Controller\Response\Http
+     * @return \Magento_Core_Controller_Response_Http
      */
     public function getResponse()
     {
@@ -114,7 +134,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Event\Manager
+     * @return \Magento_Core_Model_Event_Manager
      */
     public function getEventManager()
     {

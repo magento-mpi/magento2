@@ -10,9 +10,8 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
 
-class Js extends \Magento\Adminhtml\Block\Template
+class Js extends \Magento\Backend\Block\Template
 {
-
     /**
      * Core registry
      *

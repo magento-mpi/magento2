@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales observer
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model;
 
@@ -68,12 +63,30 @@ class Observer
     protected $_coreConfig;
 
     /**
+     * @var \Magento\Sales\Model\Resource\Quote\CollectionFactory
+     */
+    protected $_quoteCollectionFactory;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_coreLocale;
+
+    /**
+     * @var \Magento\Sales\Model\ResourceFactory
+     */
+    protected $_resourceFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -81,7 +94,10 @@ class Observer
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Sales\Model\ResourceFactory $resourceFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
@@ -89,6 +105,9 @@ class Observer
         $this->_customerAddress = $customerAddress;
         $this->_catalogData = $catalogData;
         $this->_coreConfig = $coreConfig;
+        $this->_quoteCollectionFactory = $quoteFactory;
+        $this->_coreLocale = $coreLocale;
+        $this->_resourceFactory = $resourceFactory;
     }
 
     /**
@@ -106,7 +125,7 @@ class Observer
             $lifetime *= 86400;
 
             /** @var $quotes \Magento\Sales\Model\Resource\Quote\Collection */
-            $quotes = \Mage::getModel('Magento\Sales\Model\Quote')->getCollection();
+            $quotes = $this->_quoteCollectionFactory->create();
 
             $quotes->addFieldToFilter('store_id', $storeId);
             $quotes->addFieldToFilter('updated_at', array('to'=>date("Y-m-d", time()-$lifetime)));
@@ -151,11 +170,11 @@ class Observer
      */
     public function aggregateSalesReportOrderData($schedule)
     {
-        \Mage::app()->getLocale()->emulate(0);
-        $currentDate = \Mage::app()->getLocale()->date();
+        $this->_coreLocale->emulate(0);
+        $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Order')->aggregate($date);
-        \Mage::app()->getLocale()->revert();
+        $this->_resourceFactory->create('Magento\Sales\Model\Resource\Report\Order')->aggregate($date);
+        $this->_coreLocale->revert();
         return $this;
     }
 
@@ -167,11 +186,11 @@ class Observer
      */
     public function aggregateSalesReportShipmentData($schedule)
     {
-        \Mage::app()->getLocale()->emulate(0);
-        $currentDate = \Mage::app()->getLocale()->date();
+        $this->_coreLocale->emulate(0);
+        $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Shipping')->aggregate($date);
-        \Mage::app()->getLocale()->revert();
+        $this->_resourceFactory->create('Magento\Sales\Model\Resource\Report\Shipping')->aggregate($date);
+        $this->_coreLocale->revert();
         return $this;
     }
 
@@ -183,11 +202,11 @@ class Observer
      */
     public function aggregateSalesReportInvoicedData($schedule)
     {
-        \Mage::app()->getLocale()->emulate(0);
-        $currentDate = \Mage::app()->getLocale()->date();
+        $this->_coreLocale->emulate(0);
+        $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Invoiced')->aggregate($date);
-        \Mage::app()->getLocale()->revert();
+        $this->_resourceFactory->create('Magento\Sales\Model\Resource\Report\Invoiced')->aggregate($date);
+        $this->_coreLocale->revert();
         return $this;
     }
 
@@ -199,11 +218,11 @@ class Observer
      */
     public function aggregateSalesReportRefundedData($schedule)
     {
-        \Mage::app()->getLocale()->emulate(0);
-        $currentDate = \Mage::app()->getLocale()->date();
+        $this->_coreLocale->emulate(0);
+        $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Refunded')->aggregate($date);
-        \Mage::app()->getLocale()->revert();
+        $this->_resourceFactory->create('Magento\Sales\Model\Resource\Report\Refunded')->aggregate($date);
+        $this->_coreLocale->revert();
         return $this;
     }
 
@@ -215,11 +234,11 @@ class Observer
      */
     public function aggregateSalesReportBestsellersData($schedule)
     {
-        \Mage::app()->getLocale()->emulate(0);
-        $currentDate = \Mage::app()->getLocale()->date();
+        $this->_coreLocale->emulate(0);
+        $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
-        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Bestsellers')->aggregate($date);
-        \Mage::app()->getLocale()->revert();
+        $this->_resourceFactory->create('Magento\Sales\Model\Resource\Report\Bestsellers')->aggregate($date);
+        $this->_coreLocale->revert();
         return $this;
     }
 
@@ -235,8 +254,8 @@ class Observer
 
         $canApplyMsrp = false;
         if ($this->_catalogData->isMsrpEnabled()) {
-            foreach ($quote->getAllAddresses() as $adddress) {
-                if ($adddress->getCanApplyMsrp()) {
+            foreach ($quote->getAllAddresses() as $address) {
+                if ($address->getCanApplyMsrp()) {
                     $canApplyMsrp = true;
                     break;
                 }
@@ -291,6 +310,7 @@ class Observer
                 break;
             default:
                 $requiredAddress = $salesModel->getBillingAddress();
+                break;
         }
         return $requiredAddress;
     }
@@ -312,6 +332,7 @@ class Observer
                 break;
             default:
                 $requiredAddress = $customer->getDefaultBilling();
+                break;
         }
         return $requiredAddress;
     }

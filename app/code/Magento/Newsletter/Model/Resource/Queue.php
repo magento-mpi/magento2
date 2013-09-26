@@ -21,6 +21,27 @@ namespace Magento\Newsletter\Model\Resource;
 class Queue extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Subscriber collection
+     *
+     * @var \Magento\Newsletter\Model\Resource\Subscriber\Collection
+     */
+    protected $_subscriberCollection;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Newsletter\Model\Resource\Subscriber\Collection $subscriberCollection
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Newsletter\Model\Resource\Subscriber\Collection $subscriberCollection
+    ) {
+        parent::__construct($resource);
+        $this->_subscriberCollection = $subscriberCollection;
+    }
+
+    /**
      * Define main table
      *
      */
@@ -34,15 +55,16 @@ class Queue extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Newsletter\Model\Queue $queue
      * @param array $subscriberIds
+     * @throws \Magento\Core\Exception
      */
     public function addSubscribersToQueue(\Magento\Newsletter\Model\Queue $queue, array $subscriberIds)
     {
         if (count($subscriberIds)==0) {
-            \Mage::throwException(__('There are no subscribers selected.'));
+            throw new \Magento\Core\Exception(__('There are no subscribers selected.'));
         }
 
-        if (!$queue->getId() && $queue->getQueueStatus()!=\Magento\Newsletter\Model\Queue::STATUS_NEVER) {
-            \Mage::throwException(__('You selected an invalid queue.'));
+        if (!$queue->getId() && $queue->getQueueStatus()!=Magento_Newsletter_Model_Queue::STATUS_NEVER) {
+            throw new \Magento\Core\Exception(__('You selected an invalid queue.'));
         }
 
         $adapter = $this->_getWriteAdapter();
@@ -128,8 +150,7 @@ class Queue extends \Magento\Core\Model\Resource\Db\AbstractDb
             return $this;
         }
 
-        $subscribers = \Mage::getResourceSingleton('Magento\Newsletter\Model\Resource\Subscriber\Collection')
-            ->addFieldToFilter('store_id', array('in'=>$stores))
+        $subscribers = $this->_subscriberCollection->addFieldToFilter('store_id', array('in'=>$stores))
             ->useOnlySubscribed()
             ->load();
 

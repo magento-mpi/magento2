@@ -50,8 +50,8 @@ class Config implements \Magento\Core\Model\Route\ConfigInterface
      */
     public function getRoutes($areaCode, $routerId)
     {
-        $cacheId = $this->_cacheId . '-' . $routerId;
-        $cachedRoutes = $this->_cache->get($areaCode, $cacheId);
+        $cacheId = $areaCode . '::'  . $this->_cacheId . '-' . $routerId;
+        $cachedRoutes = unserialize($this->_cache->load($cacheId));
         if (is_array($cachedRoutes)) {
             return $cachedRoutes;
         }
@@ -60,7 +60,7 @@ class Config implements \Magento\Core\Model\Route\ConfigInterface
         $areaConfig = $this->_reader->read($areaCode);
         if (array_key_exists($routerId, $areaConfig)) {
             $routes = $areaConfig[$routerId]['routes'];
-            $this->_cache->put($routes, $areaCode, $cacheId);
+            $this->_cache->save(serialize($routes), $cacheId);
         }
 
         return $routes;

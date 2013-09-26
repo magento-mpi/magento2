@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="additional.product.info">
+    <referenceBlock name="additional.product.info">
         <block class="Magento\GiftWrapping\Block\Product\Info" name="giftwrapping.product.info" template="product/info.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -24,6 +24,35 @@ class Helper extends \Magento\Core\Block\Template
         'short'   => 'helper/summary_short.phtml'
     );
 
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Review\Model\ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_reviewFactory = $reviewFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getSummaryHtml($product, $templateType, $displayIfNoReviews)
     {
         // pick template among available
@@ -35,8 +64,7 @@ class Helper extends \Magento\Core\Block\Template
         $this->setDisplayIfEmpty($displayIfNoReviews);
 
         if (!$product->getRatingSummary()) {
-            \Mage::getModel('Magento\Review\Model\Review')
-               ->getEntitySummary($product, \Mage::app()->getStore()->getId());
+            $this->_reviewFactory->create()->getEntitySummary($product, $this->_storeManager->getStore()->getId());
         }
         $this->setProduct($product);
 
@@ -55,7 +83,7 @@ class Helper extends \Magento\Core\Block\Template
 
     public function getReviewsUrl()
     {
-        return \Mage::getUrl('review/product/list', array(
+        return $this->getUrl('review/product/list', array(
            'id'        => $this->getProduct()->getId(),
            'category'  => $this->getProduct()->getCategoryId()
         ));

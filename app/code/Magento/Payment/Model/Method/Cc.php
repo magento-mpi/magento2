@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Payment\Model\Method;
 
 class Cc extends \Magento\Payment\Model\Method\AbstractMethod
@@ -23,16 +22,37 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_moduleList;
 
     /**
+     * Locale model
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Centinel service model
+     *
+     * @var \Magento\Centinel\Model\Service
+     */
+    protected $_centinelService;
+
+    /**
+     * Construct
+     *
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
      * @param array $data
      */
     public function __construct(
@@ -41,11 +61,16 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
         array $data = array()
     ) {
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
         $this->_moduleList = $moduleList;
         $this->_logger = $logger;
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        $this->_locale = $locale;
+        $this->_centinelService = $centinelService;
     }
 
     /**
@@ -77,7 +102,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Prepare info instance for save
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
      */
     public function prepareSave()
     {
@@ -94,7 +119,8 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Validate payment method information object
      *
-     * @return  Magento_Payment_Model_Abstract
+     * @return  \Magento\Payment\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -120,7 +146,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         if (in_array($info->getCcType(), $availableTypes)) {
             if ($this->validateCcNum($ccNumber)
                 // Other credit card type number validation
-                || ($this->otherCcType($info->getCcType()) && $this->validateCcNumOther($ccNumber))) {
+                || ($this->OtherCcType($info->getCcType()) && $this->validateCcNumOther($ccNumber))) {
 
                 $ccTypeRegExpList = array(
                     //Solo, Switch or Maestro. International safe
@@ -154,7 +180,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
                     && preg_match($ccTypeRegExpList[$info->getCcType()], $ccNumber);
                 $ccType = $ccNumAndTypeMatches ? $info->getCcType() : 'OT';
 
-                if (!$ccNumAndTypeMatches && !$this->otherCcType($info->getCcType())) {
+                if (!$ccNumAndTypeMatches && !$this->OtherCcType($info->getCcType())) {
                     $errorMsg = __('Credit card number mismatch with credit card type.');
                 }
             } else {
@@ -179,7 +205,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         }
 
         if ($errorMsg) {
-            \Mage::throwException($errorMsg);
+            throw new \Magento\Core\Exception($errorMsg);
         }
 
         //This must be after all validation conditions
@@ -217,7 +243,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
 
     protected function _validateExpDate($expYear, $expMonth)
     {
-        $date = \Mage::app()->getLocale()->date();
+        $date = $this->_locale->date();
         if (!$expYear || !$expMonth || ($date->compareYear($expYear) == 1)
             || ($date->compareYear($expYear) == 0 && ($date->compareMonth($expMonth) == 1))
         ) {
@@ -226,7 +252,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         return true;
     }
 
-    public function otherCcType($type)
+    public function OtherCcType($type)
     {
         return $type=='OT';
     }
@@ -311,13 +337,12 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getCentinelValidator()
     {
-        $validator = \Mage::getSingleton('Magento\Centinel\Model\Service');
-        $validator
+        $this->_centinelService
             ->setIsModeStrict($this->getConfigData('centinel_is_mode_strict'))
             ->setCustomApiEndpointUrl($this->getConfigData('centinel_api_url'))
             ->setStore($this->getStore())
             ->setIsPlaceOrder($this->_isPlaceOrder());
-        return $validator;
+        return $this->_centinelService;
     }
 
     /**

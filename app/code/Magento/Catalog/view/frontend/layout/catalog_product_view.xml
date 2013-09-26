@@ -8,25 +8,25 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product View (Any)" type="page" parent="default">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">2columns-right.phtml</argument>
         </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Css" name="magento-catalog-zoom-css">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Catalog::zoom.css</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
     <update handle="page_calendar"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Catalog\Block\Product\View" name="product.info" template="product/view.phtml">
             <block class="Magento\Catalog\Block\Product\View\BaseImage" name="product-info-base-image" as="base-image" template="product/view/base-image.phtml"/>
             <block class="Magento\Catalog\Block\Product\View\Gallery" name="product-info-gallery" as="gallery" template="product/view/gallery.phtml"/>
             <container name="alert.urls" as="alert_urls" label="Alert Urls"/>
-            <block class="Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
+            <block class="Magento\Catalog\Block\Product\ListProduct\Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
                 <action method="setColumnCount">
                     <argument name="columns" xsi:type="string">4</argument>
                 </action>
@@ -74,10 +74,10 @@
                 </block>
             </block>
         </block>
-    </reference>
-    <reference name="right">
-        <block class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" before="-" template="product/list/related.phtml"/>
-    </reference>
+    </referenceContainer>
+    <referenceContainer name="right">
+        <block class="Magento\Catalog\Block\Product\ListProduct\Related" name="catalog.product.related" before="-" template="product/list/related.phtml"/>
+    </referenceContainer>
     <update handle="MAP_popup"/>
     <update handle="MAP_price_msrp_item"/>
 </layout>

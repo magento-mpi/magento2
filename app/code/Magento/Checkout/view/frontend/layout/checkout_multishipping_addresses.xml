@@ -9,11 +9,11 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Address (Any) Form" type="page" parent="checkout_multishipping">
     <update handle="checkout_multishipping"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Checkout\Block\Multishipping\Addresses" name="checkout_addresses" template="multishipping/addresses.phtml">
             <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="multishipping/item/default.phtml"/>
             <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="multishipping/item/default.phtml"/>
             <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="multishipping/item/default.phtml"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

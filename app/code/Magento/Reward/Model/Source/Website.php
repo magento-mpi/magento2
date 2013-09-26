@@ -20,6 +20,19 @@ namespace Magento\Reward\Model\Source;
 class Website implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_store;
+
+    /**
+     * @param \Magento\Core\Model\System\Store $store
+     */
+    public function __construct(\Magento\Core\Model\System\Store $store)
+    {
+        $this->_store = $store;
+    }
+
+    /**
      * Prepare and return array of website ids and their names
      *
      * @param bool $withAll Whether to prepend "All websites" option on not
@@ -27,7 +40,7 @@ class Website implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray($withAll = true)
     {
-        $websites = \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash();
+        $websites = $this->_store->getWebsiteOptionHash();
         if ($withAll) {
             $websites = array(0 => __('All Websites'))
                       + $websites;

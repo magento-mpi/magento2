@@ -20,7 +20,7 @@ class Cart extends \Magento\Core\Controller\Front\Action
     {
         parent::preDispatch();
 
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -36,15 +36,15 @@ class Cart extends \Magento\Core\Controller\Front\Action
             return $this->_redirect('customer/account/');
         }
 
-        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        $quote = $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote();
 
         if ($quote->getUseRewardPoints()) {
             $quote->setUseRewardPoints(false)->collectTotals()->save();
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->addSuccess(
+            $this->_objectManager->get('Magento\Checkout\Model\Session')->addSuccess(
                 __('You removed the reward points from this order.')
             );
         } else {
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->addError(
+            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(
                 __('Reward points will not be used in this order.')
             );
         }

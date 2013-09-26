@@ -30,19 +30,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_observer = $this->getMock('Magento\PricePermissions\Model\Observer',
-            array('_removeColumnFromGrid', '_hidePriceElements'),
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $constructArguments = $objectManager->getConstructArguments(
+            'Magento\PricePermissions\Model\Observer',
             array(
-                $this->getMock('Magento\PricePermissions\Helper\Data', array(), array(), '', false),
-                $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
-                array(
-                    'request' => false,
+                'productFactory' => $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),
+                'data' => array(
                     'can_edit_product_price' => false,
                     'can_read_product_price' => false,
                     'can_edit_product_status' => false,
                     'default_product_price_string' => 'default'
-                ),
-            )
+        )));
+
+        $this->_observer = $this->getMock(
+            'Magento\PricePermissions\Model\Observer',
+            array('_removeColumnFromGrid', '_hidePriceElements'),
+            $constructArguments
         );
         $this->_block = $this->getMock('Magento\Adminhtml\Block\Widget\Grid',
             array('getNameInLayout', 'getMassactionBlock', 'setCanReadPrice', 'setCanEditPrice', 'setTabData',

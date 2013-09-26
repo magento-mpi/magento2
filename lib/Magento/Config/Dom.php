@@ -22,6 +22,11 @@ class Dom
     const ROOT_NAMESPACE_PREFIX = 'x';
 
     /**
+     * Format of items in errors array to be used by default. Available placeholders - fields of LibXMLError.
+     */
+    const ERROR_FORMAT_DEFAULT = "%message%\nLine: %line%\n";
+
+    /**
      * Dom document
      *
      * @var \DOMDocument
@@ -43,6 +48,13 @@ class Dom
     protected $_schemaFile;
 
     /**
+     * Format of error messages
+     *
+     * @var string
+     */
+    protected $_errorFormat;
+
+    /**
      * Default namespace for xml elements
      *
      * @var string
@@ -58,12 +70,15 @@ class Dom
      * @param string $xml
      * @param array $idAttributes
      * @param string $schemaFile
+     * @param string $errorFormat
      * @throws \Magento\Config\Dom\ValidationException
      */
-    public function __construct($xml, array $idAttributes = array(), $schemaFile = null)
-    {
+    public function __construct(
+        $xml, array $idAttributes = array(), $schemaFile = null, $errorFormat = self::ERROR_FORMAT_DEFAULT
+    ) {
         $this->_schemaFile    = $schemaFile;
         $this->_idAttributes  = $idAttributes;
+        $this->_errorFormat   = $errorFormat;
         $this->_dom           = $this->_initDom($xml);
         $this->_rootNamespace = $this->_dom->lookupNamespaceUri($this->_dom->namespaceURI);
     }
@@ -133,7 +148,7 @@ class Dom
      */
     protected function _isTextNode($node)
     {
-        return $node->childNodes->length == 1 && $node->childNodes->item(0) instanceof \DOMText;
+        return $node->childNodes->length == 1 && $node->childNodes->item(0) instanceof DOMText;
     }
 
     /**
@@ -209,10 +224,12 @@ class Dom
      *
      * @param \DOMDocument $dom
      * @param string $schemaFileName
+     * @param string $errorFormat
      * @return array of errors
      */
-    public static function validateDomDocument(\DOMDocument $dom, $schemaFileName)
-    {
+    public static function validateDomDocument(
+        \DOMDocument $dom, $schemaFileName, $errorFormat = self::ERROR_FORMAT_DEFAULT
+    ) {
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate($schemaFileName);
         $errors = array();
@@ -220,7 +237,7 @@ class Dom
             $validationErrors = libxml_get_errors();
             if (count($validationErrors)) {
                 foreach ($validationErrors as $error) {
-                    $errors[] = "{$error->message} Line: {$error->line}\n";
+                    $errors[] = self::_renderErrorMessage($error, $errorFormat);
                 }
             } else {
                 $errors[] = 'Unknown validation error';
@@ -228,6 +245,28 @@ class Dom
         }
         libxml_use_internal_errors(false);
         return $errors;
+    }
+
+    /**
+     * Render error message string by replacing placeholders '%field%' with properties of LibXMLError
+     *
+     * @param LibXMLError $errorInfo
+     * @param string $format
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    private static function _renderErrorMessage(LibXMLError $errorInfo, $format)
+    {
+        $result = $format;
+        foreach ($errorInfo as $field => $value) {
+            $placeholder = '%' . $field . '%';
+            $value = trim((string)$value);
+            $result = str_replace($placeholder, $value, $result);
+        }
+        if (strpos($result, '%') !== false) {
+            throw new \InvalidArgumentException("Error format '$format' contains unsupported placeholders.");
+        }
+        return $result;
     }
 
     /**
@@ -252,7 +291,7 @@ class Dom
         $dom = new \DOMDocument();
         $dom->loadXML($xml);
         if ($this->_schemaFile) {
-            $errors = self::validateDomDocument($dom, $this->_schemaFile);
+            $errors = self::validateDomDocument($dom, $this->_schemaFile, $this->_errorFormat);
             if (count($errors)) {
                 throw new \Magento\Config\Dom\ValidationException(implode("\n", $errors));
             }
@@ -269,7 +308,7 @@ class Dom
      */
     public function validate($schemaFileName, &$errors = array())
     {
-        $errors = self::validateDomDocument($this->_dom, $schemaFileName);
+        $errors = self::validateDomDocument($this->_dom, $schemaFileName, $this->_errorFormat);
         return !count($errors);
     }
 

@@ -9,7 +9,6 @@
 /**
  * Catalog Events Adminhtml controller
  */
-
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
 class Event extends \Magento\Adminhtml\Controller\Action
@@ -75,7 +74,7 @@ class Event extends \Magento\Adminhtml\Controller\Action
     /**
      * Init action breadcrumbs and active menu
      *
-     * @return Magento_CatalogEvent_IndexController
+     * @return \Magento\CatalogEvent\IndexController
      */
     public function _initAction()
     {
@@ -127,7 +126,7 @@ class Event extends \Magento\Adminhtml\Controller\Action
 
         $this->_title($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
 
-        $sessionData = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getEventData(true);
+        $sessionData = $this->_getSession()->getEventData(true);
         if (!empty($sessionData)) {
             $event->addData($sessionData);
         }

@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_sku_errors_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku\Errors" name="errors"/>
-    </reference>
+    </referenceContainer>
 </layout>

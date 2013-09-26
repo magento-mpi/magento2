@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/** @var \Magento\Cms\Model\Resource\Setup $this */
 
-$cookieRestrictionModel = \Mage::getModel('Magento\Cms\Model\Page')
+$cookieRestriction = $this->createPage()
     ->load('privacy-policy-cookie-restriction-mode','identifier');
 
-if ($cookieRestrictionModel->getId()) {
-    $content = $cookieRestrictionModel->getContent();
+if ($cookieRestriction->getId()) {
+    $content = $cookieRestriction->getContent();
     $replacment = '{{config path="general/store_information/street_line1"}} '
         . '{{config path="general/store_information/street_line2"}} '
         . '{{config path="general/store_information/city"}} '
@@ -20,5 +21,5 @@ if ($cookieRestrictionModel->getId()) {
         . '{{config path="general/store_information/region_id"}} '
         . '{{config path="general/store_information/country_id"}}';
     $content = preg_replace('/{{config path="general\\/store_information\\/address"}}/ims', $replacment, $content);
-    $cookieRestrictionModel->setContent($content)->save();
+    $cookieRestriction->setContent($content)->save();
 }

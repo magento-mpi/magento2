@@ -21,6 +21,45 @@ namespace Magento\Search\Model\Resource;
 class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
 {
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Core resource helper
+     *
+     * @var \Magento\Core\Model\Resource\Helper\Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Helper\Mysql4 $resourceHelper
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\Helper\Mysql4 $resourceHelper
+    ) {
+        parent::__construct($eventManager, $coreString, $catalogSearchData, $resource, $coreStoreConfig);
+        $this->_storeManager = $storeManager;
+        $this->_resourceHelper = $resourceHelper;
+    }
+
+    /**
      * Return array of price data per customer and website by products
      *
      * @param   null|array $productIds
@@ -58,7 +97,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     {
         $priceProductsIndexData = $this->_getCatalogProductPriceData($productIds);
 
-        $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
         if (!isset($priceProductsIndexData[$websiteId])) {
             return array();
         }
@@ -166,11 +205,9 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
             ->where('product_id IN (?)', $productIds)
             ->where('store_id = ?', $storeId)
             ->group('product_id');
-        /** @var \Magento\Core\Model\Resource\Helper\Mysql4 $helper */
-        $helper = \Mage::getResourceHelper('Magento_Core');
-        $helper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
-        $helper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');
-        $helper->addGroupConcatColumn($select, 'positions', array('category_id', 'position'), ' ', '_');
+        $this->_resourceHelper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
+        $this->_resourceHelper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');
+        $this->_resourceHelper->addGroupConcatColumn($select, 'positions', array('category_id', 'position'), ' ', '_');
 
         $result = array();
         foreach ($adapter->fetchAll($select) as $row) {

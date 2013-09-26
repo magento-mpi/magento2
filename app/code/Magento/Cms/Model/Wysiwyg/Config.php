@@ -64,37 +64,45 @@ class Config extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var array
      */
-    protected $_coreConfig;
-    
+    protected $_windowSize;
+
     /**
+     * @var \Magento\Backend\Model\Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Cms\Helper\Data $cmsData
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Variable\Config $variableConfig
      * @param \Magento\Widget\Model\Widget\Config $widgetConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param array $windowSize
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Model\Url $backendUrl,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Cms\Helper\Data $cmsData,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\Variable\Config $variableConfig,
         \Magento\Widget\Model\Widget\Config $widgetConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        array $windowSize = array(),
         array $data = array()
     ) {
+        $this->_backendUrl = $backendUrl;
         $this->_eventManager = $eventManager;
         $this->_cmsData = $cmsData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -102,8 +110,8 @@ class Config extends \Magento\Object
         $this->_viewUrl = $viewUrl;
         $this->_variableConfig = $variableConfig;
         $this->_widgetConfig = $widgetConfig;
+        $this->_windowSize = $windowSize;
         parent::__construct($data);
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -136,8 +144,7 @@ class Config extends \Magento\Object
             'no_display'                    => false,
             'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
-            'directives_url'                =>
-                \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/cms_wysiwyg/directive'),
+            'directives_url'                => $this->_backendUrl->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>
                 $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
@@ -151,10 +158,9 @@ class Config extends \Magento\Object
         if ($this->_authorization->isAllowed('Magento_Cms::media_gallery')) {
             $config->addData(array(
                 'add_images' => true,
-                'files_browser_window_url' => \Mage::getSingleton('Magento\Backend\Model\Url')
-                    ->getUrl('*/cms_wysiwyg_images/index'),
-                'files_browser_window_width' => (int) $this->_coreConfig->getNode('adminhtml/cms/browser/window_width'),
-                'files_browser_window_height'=> (int) $this->_coreConfig->getNode('adminhtml/cms/browser/window_height'),
+                'files_browser_window_url' => $this->_backendUrl->getUrl('*/cms_wysiwyg_images/index'),
+                'files_browser_window_width' => $this->_windowSize['width'],
+                'files_browser_window_height'=> $this->_windowSize['height'],
             ));
         }
 

@@ -20,32 +20,25 @@ namespace Magento\Catalog\Model\Config\Source;
 
 class ListPerPage implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @var array
+     */
+    protected $_pagerOptions;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @param string $options
      */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
-     * @param \Magento\Core\Model\Config $coreConfig
-     */
-    public function __construct(
-        \Magento\Core\Model\Config $coreConfig
-    ) {
-        $this->_coreConfig = $coreConfig;
+    public function __construct($options)
+    {
+        $this->_pagerOptions = explode(',', $options);
     }
 
     public function toOptionArray()
     {
-        $result = array();
-        $perPageValues = $this->_coreConfig->getNode('frontend/catalog/per_page_values/list');
-        $perPageValues = explode(',', $perPageValues);
-        foreach ($perPageValues as $option) {
-            $result[] = array('value' => $option, 'label' => $option);
+        $output = array();
+        foreach ($this->_pagerOptions as $option) {
+            $output[] = array('value' => $option, 'label' => $option);
         }
-        return $result;
+        return $output;
     }
-
 }

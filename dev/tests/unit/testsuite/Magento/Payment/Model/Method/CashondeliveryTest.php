@@ -20,14 +20,20 @@ class CashondeliveryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
+        $adapterFactoryMock = $this->getMock('Magento\Core\Model\Log\AdapterFactory', array('create'),
+            array(), '', false);
+
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $this->_object = new \Magento\Payment\Model\Method\Cashondelivery(
-            $eventManager, 
-            $paymentDataMock, 
-            $coreStoreConfig
-        );
+        $this->_object = $helper->getObject('Magento\Payment\Model\Method\Cashondelivery', array(
+            'eventManager' => $eventManager,
+            'paymentData' => $paymentDataMock,
+            'coreStoreConfig' => $coreStoreConfig,
+            'logAdapterFactory' => $adapterFactoryMock,
+        ));
     }
 
     public function testGetInfoBlockType()

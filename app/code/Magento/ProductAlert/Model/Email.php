@@ -88,10 +88,34 @@ class Email extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\Core\Model\App\Emulation
+     */
+    protected $_appEmulation;
+
+    /**
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\App\Emulation $appEmulation
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -101,12 +125,20 @@ class Email extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\App\Emulation $appEmulation,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productAlertData = $productAlertData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_customerFactory = $customerFactory;
+        $this->_appEmulation = $appEmulation;
+        $this->_templateFactory = $templateFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -150,7 +182,7 @@ class Email extends \Magento\Core\Model\AbstractModel
      */
     public function setWebsiteId($websiteId)
     {
-        $this->_website = \Mage::app()->getWebsite($websiteId);
+        $this->_website = $this->_storeManager->getWebsite($websiteId);
         return $this;
     }
 
@@ -162,7 +194,7 @@ class Email extends \Magento\Core\Model\AbstractModel
      */
     public function setCustomerId($customerId)
     {
-        $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
+        $this->_customer = $this->_customerFactory->create()->load($customerId);
         return $this;
     }
 
@@ -276,8 +308,7 @@ class Email extends \Magento\Core\Model\AbstractModel
             return false;
         }
 
-        $appEmulation = \Mage::getSingleton('Magento\Core\Model\App\Emulation');
-        $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+        $initialEnvironmentInfo = $this->_appEmulation->startEnvironmentEmulation($storeId);
 
         if ($this->_type == 'price') {
             $this->_getPriceBlock()
@@ -301,9 +332,9 @@ class Email extends \Magento\Core\Model\AbstractModel
             $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId);
         }
 
-        $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+        $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
-        \Mage::getModel('Magento\Core\Model\Email\Template')
+        $this->_templateFactory->create()
             ->setDesignConfig(array(
                 'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $storeId

@@ -37,19 +37,17 @@ class NavigationMode extends \Magento\Core\Model\Url
     protected $_themeId;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
      * @param \Magento\DesignEditor\Helper\Data $helper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
         \Magento\DesignEditor\Helper\Data $helper,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_helper = $helper;
@@ -60,12 +58,7 @@ class NavigationMode extends \Magento\Core\Model\Url
         if (isset($data['themeId'])) {
             $this->_themeId = $data['themeId'];
         }
-        parent::__construct(
-            $coreData,
-            $coreStoreConfig,
-            $coreConfig,
-            $data
-        );
+        parent::__construct($securityInfo, $coreStoreConfig, $coreData, $data);
     }
 
     /**

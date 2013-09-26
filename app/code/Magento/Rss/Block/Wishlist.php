@@ -34,6 +34,59 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected $_mapRenderer = 'msrp_rss';
 
     /**
+     * @var \Magento\Wishlist\Model\WishlistFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Rss\Model\RssFactory
+     */
+    protected $_rssFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Rss\Model\RssFactory $rssFactory,
+        array $data = array()
+    ) {
+        $this->_wishlistFactory = $wishlistFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_customerSession = $customerSession;
+        $this->_rssFactory = $rssFactory;
+        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve Wishlist model
      *
      * @return \Magento\Wishlist\Model\Wishlist
@@ -41,7 +94,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
+            $this->_wishlist = $this->_wishlistFactory->create();
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
@@ -65,12 +118,12 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected function _getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer');
+            $this->_customer = $this->_customerFactory->create();
 
             $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
-            if ($cId && ($cId == \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) ) {
+            if ($cId && ($cId == $this->_customerSession->getCustomerId()) ) {
                 $this->_customer->load($cId);
             }
         }
@@ -96,16 +149,13 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected function _toHtml()
     {
         /* @var $rssObj \Magento\Rss\Model\Rss */
-        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
-
+        $rssObj = $this->_rssFactory->create();
         if ($this->_getWishlist()->getId()) {
-            $newUrl = \Mage::getUrl('wishlist/shared/index', array(
-                'code'  => $this->_getWishlist()->getSharingCode()
+            $newUrl = $this->_urlBuilder->getUrl('wishlist/shared/index', array(
+                'code' => $this->_getWishlist()->getSharingCode()
             ));
-
-            $title  = $this->_getTitle();
-            $lang   = $this->_storeConfig->getConfig('general/locale/code');
-
+            $title = $this->_getTitle();
+            $lang = $this->_storeConfig->getConfig('general/locale/code');
             $rssObj->_addHeader(array(
                 'title'         => $title,
                 'description'   => $title,
@@ -130,39 +180,37 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                     continue;
                 }
 
+                /** @var $outputHelper \Magento\Catalog\Helper\Output */
+                $outputHelper = $this->helper('Magento\Catalog\Helper\Output');
                 $description = '<table><tr><td><a href="' . $productUrl . '"><img src="'
                     . $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75)
                     . '" border="0" align="left" height="75" width="75"></a></td>'
                     . '<td style="text-decoration:none;">'
-                    . $this->helper('Magento\Catalog\Helper\Output')
-                        ->productAttribute($product, $product->getShortDescription(), 'short_description')
+                    . $outputHelper->productAttribute($product, $product->getShortDescription(), 'short_description')
                     . '<p>';
 
                 if ($product->getAllowedPriceInRss()) {
                     $description .= $this->getPriceHtml($product, true);
                 }
                 $description .= '</p>';
+
                 if ($this->hasDescription($product)) {
                     $description .= '<p>' . __('Comment:')
-                        . ' ' . $this->helper('Magento\Catalog\Helper\Output')
-                            ->productAttribute($product, $product->getDescription(), 'description')
+                        . ' ' . $outputHelper->productAttribute($product, $product->getDescription(), 'description')
                         . '<p>';
                 }
-
                 $description .= '</td></tr></table>';
-
                 $rssObj->_addEntry(array(
-                    'title'         => $this->helper('Magento\Catalog\Helper\Output')
-                        ->productAttribute($product, $product->getName(), 'name'),
-                    'link'          => $productUrl,
-                    'description'   => $description,
+                    'title'       => $outputHelper->productAttribute($product, $product->getName(), 'name'),
+                    'link'        => $productUrl,
+                    'description' => $description,
                 ));
             }
         } else {
             $rssObj->_addHeader(array(
                 'title'         => __('We cannot retrieve the wish list.'),
                 'description'   => __('We cannot retrieve the wish list.'),
-                'link'          => \Mage::getUrl(),
+                'link'          => $this->_urlBuilder->getUrl(),
                 'charset'       => 'UTF-8',
             ));
         }

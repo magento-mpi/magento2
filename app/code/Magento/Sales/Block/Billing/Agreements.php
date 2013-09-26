@@ -32,6 +32,35 @@ class Agreements extends \Magento\Core\Block\Template
     protected $_billingAgreements = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory
+     */
+    protected $_agreementCollection;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_agreementCollection = $agreementCollection;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Set Billing Agreement instance
      *
      * @return \Magento\Core\Block\AbstractBlock
@@ -55,8 +84,8 @@ class Agreements extends \Magento\Core\Block\Template
     public function getBillingAgreements()
     {
         if (is_null($this->_billingAgreements)) {
-            $this->_billingAgreements = \Mage::getResourceModel('Magento\Sales\Model\Resource\Billing\Agreement\Collection')
-                ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
+            $this->_billingAgreements = $this->_agreementCollection->create()
+                ->addFieldToFilter('customer_id', $this->_customerSession->getCustomerId())
                 ->setOrder('agreement_id', 'desc');
         }
         return $this->_billingAgreements;
@@ -65,7 +94,7 @@ class Agreements extends \Magento\Core\Block\Template
     /**
      * Retrieve item value by key
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Object|\Magento\Sales\Model\Billing\Agreement $item
      * @param string $key
      * @return mixed
      */
@@ -75,7 +104,8 @@ class Agreements extends \Magento\Core\Block\Template
             case 'created_at':
             case 'updated_at':
                 $value = ($item->getData($key))
-                    ? $this->helper('Magento\Core\Helper\Data')->formatDate($item->getData($key), 'short', true) : __('N/A');
+                    ? $this->helper('Magento\Core\Helper\Data')->formatDate($item->getData($key), 'short', true)
+                    : __('N/A');
                 break;
             case 'edit_url':
                 $value = $this->getUrl('*/billing_agreement/view', array('agreement' => $item->getAgreementId()));
@@ -89,6 +119,7 @@ class Agreements extends \Magento\Core\Block\Template
                 break;
             default:
                 $value = ($item->getData($key)) ? $item->getData($key) : __('N/A');
+                break;
         }
         return $this->escapeHtml($value);
     }

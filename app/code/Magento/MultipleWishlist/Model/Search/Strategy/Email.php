@@ -27,16 +27,43 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
     protected $_email;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Customer factory
+     *
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_customerFactory = $customerFactory;
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Set search fields required by search strategy
      *
      * @param array $params
+     * @throws \InvalidArgumentException
      */
     public function setSearchParams(array $params)
     {
         if (empty($params['email']) || !\Zend_Validate::is($params['email'], 'EmailAddress')) {
-            throw new \InvalidArgumentException(
-                __('Please input a valid email address.')
-            );
+            throw new \InvalidArgumentException(__('Please input a valid email address.'));
         }
         $this->_email = $params['email'];
     }
@@ -49,8 +76,9 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
      */
     public function filterCollection(\Magento\Wishlist\Model\Resource\Wishlist\Collection $collection)
     {
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer')
-            ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = $this->_customerFactory->create();
+        $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
             ->loadByEmail($this->_email);
 
         $collection->filterByCustomer($customer);

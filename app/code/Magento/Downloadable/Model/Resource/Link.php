@@ -25,21 +25,41 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @var \Magento\Catalog\Helper\Data
      */
-    protected $_catalogData = null;
+    protected $_catalogData;
 
     /**
-     * Class constructor
-     *
-     *
-     *
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\App $app,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_catalogData = $catalogData;
+        $this->_app = $app;
+        $this->_currencyFactory = $currencyFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($resource);
     }
 
@@ -136,12 +156,12 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
                 if ($linkObject->getWebsiteId() == 0 && $_isNew && !$this->_catalogData->isPriceGlobal()) {
                     $websiteIds = $linkObject->getProductWebsiteIds();
                     foreach ($websiteIds as $websiteId) {
-                        $baseCurrency = \Mage::app()->getBaseCurrencyCode();
-                        $websiteCurrency = \Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+                        $baseCurrency = $this->_app->getBaseCurrencyCode();
+                        $websiteCurrency = $this->_storeManager->getWebsite($websiteId)->getBaseCurrencyCode();
                         if ($websiteCurrency == $baseCurrency) {
                             continue;
                         }
-                        $rate = \Mage::getModel('Magento\Directory\Model\Currency')->load($baseCurrency)->getRate($websiteCurrency);
+                        $rate = $this->_createCurrency()->load($baseCurrency)->getRate($websiteCurrency);
                         if (!$rate) {
                             $rate = 1;
                         }
@@ -215,5 +235,13 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
         );
 
         return $adapter->fetchCol($select, $bind);
+    }
+
+    /**
+     * @return \Magento\Directory\Model\Currency
+     */
+    protected function _createCurrency()
+    {
+        return $this->_currencyFactory->create();
     }
 }

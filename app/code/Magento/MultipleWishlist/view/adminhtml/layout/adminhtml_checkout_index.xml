@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout.accordion">
+    <referenceBlock name="checkout.accordion">
         <block class="Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion\Wishlist" name="wishlist"/>
-    </reference>
+    </referenceBlock>
 </layout>

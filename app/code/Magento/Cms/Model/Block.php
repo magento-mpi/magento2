@@ -53,8 +53,8 @@ class Block extends \Magento\Core\Model\AbstractModel
     /**
      * Prevent blocks recursion
      *
-     * @throws \Magento\Core\Exception
      * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {
@@ -62,7 +62,7 @@ class Block extends \Magento\Core\Model\AbstractModel
         if (false == strstr($this->getContent(), $needle)) {
             return parent::_beforeSave();
         }
-        \Mage::throwException(
+        throw new \Magento\Core\Exception(
             __('Make sure that static block content does not reference the block itself.')
         );
     }

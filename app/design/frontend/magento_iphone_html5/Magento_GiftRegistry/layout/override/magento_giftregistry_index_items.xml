@@ -9,12 +9,12 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry Items List" type="page" parent="magento_giftregistry_index_share">
     <update handle="customer_account"/>
-    <reference name="customer_account_navigation">
+    <referenceBlock name="customer_account_navigation">
         <action method="setActive">
             <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
         </action>
-    </reference>
-    <reference name="my.account.wrapper">
+    </referenceBlock>
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento\GiftRegistry\Block\Items" name="giftregistry.customer.items" template="customer/items.phtml">
             <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_GiftRegistry::customer/items/default.phtml"/>
             <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple" template="Magento_GiftRegistry::customer/items/default.phtml"/>
@@ -23,5 +23,5 @@
             <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_GiftRegistry::customer/items/default.phtml"/>
             <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_GiftRegistry::customer/items/default.phtml"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

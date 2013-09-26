@@ -26,8 +26,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('select')
             ->will($this->returnValue($select));
 
-        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb', array(), '',
-            false, true,
+        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb', array(), '', false, true,
             true, array('getReadConnection', 'getMainTable', 'getTable'));
         $resource->expects($this->any())
             ->method('getReadConnection')
@@ -37,7 +36,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
-        $helperMock = $this->getMock('Magento\Core\Helper\String', array(), array(), '', false);
+        $stringHelper = $this->getMock('Magento\Core\Helper\String', array(), array(), '', false);
         $localeMock = $this->getMock('Magento\Core\Model\LocaleInterface');
         $localeMock->expects($this->any())->method('getCountryTranslation')->will($this->returnArgument(0));
 
@@ -45,15 +44,21 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
         $storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        $this->_model = $this->getMock('Magento\Directory\Model\Resource\Country\Collection',
-            array('_toOptionArray'),
-            array(
-                $logger, $eventManager, $helperMock, $localeMock,
-                $fetchStrategy, $entityFactory, $storeConfigMock, $resource
-            ),
-            '',
-            true
+        $countryFactory = $this->getMock('Magento\Directory\Model\Resource\CountryFactory',
+            array(), array(), '', false);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $arguments = array(
+            'logger' => $logger,
+            'eventManager' => $eventManager,
+            'stringHelper' => $stringHelper,
+            'locale' => $localeMock,
+            'fetchStrategy' => $fetchStrategy,
+            'entityFactory' => $entityFactory,
+            'coreStoreConfig' => $storeConfigMock,
+            'countryFactory' => $countryFactory,
+            'resource' => $resource,
         );
+        $this->_model = $objectManager->getObject('Magento\Directory\Model\Resource\Country\Collection', $arguments);
     }
 
     /**
@@ -65,9 +70,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testToOptionArray($optionsArray, $emptyLabel, $foregroundCountries, $expectedResults)
     {
-        $this->_model->expects($this->any())
-            ->method('_toOptionArray')
-            ->will($this->returnValue($optionsArray));
+        foreach ($optionsArray as $itemData) {
+            $this->_model->addItem(new \Magento\Object($itemData));
+        }
 
         $this->_model->setForegroundCountries($foregroundCountries);
         $result = $this->_model->toOptionArray($emptyLabel);
@@ -83,10 +88,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function toOptionArrayDataProvider()
     {
         $optionsArray = array(
-            array('title' => 'AD', 'value' => 'AD', 'label' => ''),
-            array('title' => 'US', 'value' => 'US', 'label' => ''),
-            array('title' => 'ES', 'value' => 'ES', 'label' => ''),
-            array('title' => 'BZ', 'value' => 'BZ', 'label' => ''),
+            array('iso2_code' => 'AD', 'country_id' => 'AD', 'name' => ''),
+            array('iso2_code' => 'US', 'country_id' => 'US', 'name' => ''),
+            array('iso2_code' => 'ES', 'country_id' => 'ES', 'name' => ''),
+            array('iso2_code' => 'BZ', 'country_id' => 'BZ', 'name' => ''),
         );
         return array(
             array($optionsArray, false, array(), array('AD', 'US', 'ES', 'BZ')),

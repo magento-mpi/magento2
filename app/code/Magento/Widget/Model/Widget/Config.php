@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Widget\Model\Widget;
 
 class Config
@@ -35,21 +34,26 @@ class Config
     protected $_coreHelper;
 
     /**
-     * @param \Magento\Widget\Model\Widget $widget
+     * @var \Magento\Widget\Model\WidgetFactory
+     */
+    protected $_widgetFactory;
+
+    /**
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Widget\Model\WidgetFactory $widgetFactory
      */
     public function __construct(
-        \Magento\Widget\Model\Widget $widget,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Core\Model\View\Url $viewUrl
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Widget\Model\WidgetFactory $widgetFactory
     ) {
-        $this->_widget = $widget;
         $this->_backendUrl = $backendUrl;
         $this->_coreHelper = $coreHelper;
         $this->_viewUrl = $viewUrl;
+        $this->_widgetFactory = $widgetFactory;
     }
 
     /**
@@ -65,7 +69,7 @@ class Config
         );
         $settings = array(
             'widget_plugin_src'   => $url,
-            'widget_placeholders' => $this->_widget->getPlaceholderImageUrls(),
+            'widget_placeholders' => $this->_widgetFactory->create()->getPlaceholderImageUrls(),
             'widget_window_url'   => $this->getWidgetWindowUrl($config)
         );
 
@@ -84,8 +88,8 @@ class Config
 
         $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
         if ($config->hasData('widget_filters')) {
-            $all = $this->_widget->getWidgets();
-            $filtered = $this->_widget->getWidgets($config->getData('widget_filters'));
+            $all = $this->_widgetFactory->create()->getWidgets();
+            $filtered = $this->_widgetFactory->create()->getWidgets($config->getData('widget_filters'));
             foreach ($all as $code => $widget) {
                 if (!isset($filtered[$code])) {
                     $skipped[] = $widget['@']['type'];

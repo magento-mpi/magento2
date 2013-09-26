@@ -117,10 +117,6 @@
  * @method \Magento\Sales\Model\Order\Payment setCcTransId(string $value)
  * @method string getAddressStatus()
  * @method \Magento\Sales\Model\Order\Payment setAddressStatus(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order;
 
@@ -180,11 +176,41 @@ class Payment extends \Magento\Payment\Model\Info
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\Sales\Model\Service\Order
+     */
+    protected $_serviceOrderFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Payment\TransactionFactory
+     */
+    protected $_transactionFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory
+     */
+    protected $_transactionCollFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Billing\AgreementFactory
+     */
+    protected $_agreementFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\Service\Order $serviceOrderFactory
+     * @param \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory
+     * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollFactory
+     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -195,11 +221,21 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\Service\Order $serviceOrderFactory,
+        \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
+        \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollFactory,
+        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
+        $this->_serviceOrderFactory = $serviceOrderFactory;
+        $this->_transactionFactory = $transactionFactory;
+        $this->_transactionCollFactory = $transactionCollFactory;
+        $this->_agreementFactory = $agreementFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $paymentData, $context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -243,7 +279,7 @@ class Payment extends \Magento\Payment\Model\Info
         if (!$this->getMethodInstance()->canCapture()) {
             return false;
         }
-        // Check Authoriztion transaction state
+        // Check Authorization transaction state
         $authTransaction = $this->getAuthorizationTransaction();
         if ($authTransaction && $authTransaction->getIsClosed()) {
             $orderTransaction = $this->_lookupTransaction(null, \Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER);
@@ -254,16 +290,25 @@ class Payment extends \Magento\Payment\Model\Info
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function canRefund()
     {
         return $this->getMethodInstance()->canRefund();
     }
 
+    /**
+     * @return bool
+     */
     public function canRefundPartialPerInvoice()
     {
         return $this->getMethodInstance()->canRefundPartialPerInvoice();
     }
 
+    /**
+     * @return bool
+     */
     public function canCapturePartial()
     {
         return $this->getMethodInstance()->canCapturePartial();
@@ -289,8 +334,6 @@ class Payment extends \Magento\Payment\Model\Info
         $methodInstance->setStore($order->getStoreId());
 
         $orderState = \Magento\Sales\Model\Order::STATE_NEW;
-        $orderStatus= false;
-
         $stateObject = new \Magento\Object();
 
         /**
@@ -369,8 +412,9 @@ class Payment extends \Magento\Payment\Model\Info
      *
      * TODO: eliminate logic duplication with registerCaptureNotification()
      *
-     * @return \Magento\Sales\Model\Order\Payment
+     * @param null|\Magento\Sales\Model\Order\Invoice $invoice
      * @throws \Magento\Core\Exception
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function capture($invoice)
     {
@@ -439,7 +483,7 @@ class Payment extends \Magento\Payment\Model\Info
             $this->getMethodInstance()->processInvoice($invoice, $this);
             return $this;
         }
-        \Mage::throwException(
+        throw new \Magento\Core\Exception(
             __('The transaction "%1" cannot be captured yet.', $invoice->getTransactionId())
         );
     }
@@ -579,6 +623,7 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * Check order payment void availability
      *
+     * @param \Magento\Object $document
      * @return bool
      */
     public function canVoid(\Magento\Object $document)
@@ -612,7 +657,7 @@ class Payment extends \Magento\Payment\Model\Info
      *
      * @see self::_void()
      * @param float $amount
-     * @return Magento_Sales_Model_Payment
+     * @return \Magento\Sales\Model\Payment
      */
     public function registerVoidNotification($amount = null)
     {
@@ -629,6 +674,7 @@ class Payment extends \Magento\Payment\Model\Info
      *
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
      * @return \Magento\Sales\Model\Order\Payment
+     * @throws \Exception|\Magento\Core\Exception
      */
     public function refund($creditmemo)
     {
@@ -736,7 +782,7 @@ class Payment extends \Magento\Payment\Model\Info
             return $this;
         }
 
-        $serviceModel = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $order));
+        $serviceModel = $this->_serviceOrderFactory->create(array('order' => $order));
         if ($invoice) {
             if ($invoice->getBaseTotalRefunded() > 0) {
                 $adjustment = array('adjustment_positive' => $amount);
@@ -840,6 +886,9 @@ class Payment extends \Magento\Payment\Model\Info
         return (bool)$this->getMethodInstance()->canReviewPayment($this);
     }
 
+    /**
+     * @return bool
+     */
     public function canFetchTransactionInfo()
     {
         return (bool)$this->getMethodInstance()->canFetchTransactionInfo();
@@ -875,6 +924,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param string $action
      * @param bool $isOnline
      * @return \Magento\Sales\Model\Order\Payment
+     * @throws \Exception
      */
     public function registerPaymentReviewAction($action, $isOnline)
     {
@@ -1057,6 +1107,7 @@ class Payment extends \Magento\Payment\Model\Info
      * Public access to _authorize method
      * @param bool $isOnline
      * @param float $amount
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function authorize($isOnline, $amount)
     {
@@ -1162,7 +1213,7 @@ class Payment extends \Magento\Payment\Model\Info
                 $transaction = $this->_lookupTransaction($transactionId);
             }
             if (!$transaction) {
-                $transaction = \Mage::getModel('Magento\Sales\Model\Order\Payment\Transaction')->setTxnId($transactionId);
+                $transaction = $this->_transactionFactory->create()->setTxnId($transactionId);
             }
             $transaction
                 ->setOrderPaymentObject($this)
@@ -1209,12 +1260,12 @@ class Payment extends \Magento\Payment\Model\Info
     }
 
     /**
-     * Public acces to _addTransaction method
+     * Public access to _addTransaction method
      *
      * @param string $type
      * @param \Magento\Sales\Model\AbstractModel $salesDocument
      * @param bool $failsafe
-     * @param string $message
+     * @param bool|string $message
      * @return null|\Magento\Sales\Model\Order\Payment\Transaction
      */
     public function addTransaction($type, $salesDocument = null, $failsafe = false, $message = false)
@@ -1336,7 +1387,7 @@ class Payment extends \Magento\Payment\Model\Info
      */
     protected function _formatAmount($amount, $asFloat = false)
     {
-         $amount = \Mage::app()->getStore()->roundPrice($amount);
+         $amount = $this->_storeManager->getStore()->roundPrice($amount);
          return !$asFloat ? (string)$amount : $amount;
     }
 
@@ -1352,15 +1403,16 @@ class Payment extends \Magento\Payment\Model\Info
 
     /**
      * Find one transaction by ID or type
+     *
      * @param string $txnId
-     * @param string $txnType
+     * @param bool|string $txnType
      * @return \Magento\Sales\Model\Order\Payment\Transaction|false
      */
     protected function _lookupTransaction($txnId, $txnType = false)
     {
         if (!$txnId) {
             if ($txnType && $this->getId()) {
-                $collection = \Mage::getModel('Magento\Sales\Model\Order\Payment\Transaction')->getCollection()
+                $collection = $this->_transactionCollFactory->create()
                     ->setOrderFilter($this->getOrder())
                     ->addPaymentIdFilter($this->getId())
                     ->addTxnTypeFilter($txnType)
@@ -1377,7 +1429,7 @@ class Payment extends \Magento\Payment\Model\Info
         if (isset($this->_transactionsLookup[$txnId])) {
             return $this->_transactionsLookup[$txnId];
         }
-        $txn = \Mage::getModel('Magento\Sales\Model\Order\Payment\Transaction')
+        $txn = $this->_transactionFactory->create()
             ->setOrderPaymentObject($this)
             ->loadByTxnId($txnId);
         if ($txn->getId()) {
@@ -1390,8 +1442,9 @@ class Payment extends \Magento\Payment\Model\Info
 
     /**
      * Find one transaction by ID or type
+     *
      * @param string $txnId
-     * @param string $txnType
+     * @param bool|string $txnType
      * @return \Magento\Sales\Model\Order\Payment\Transaction|false
      */
     public function lookupTransaction($txnId, $txnType = false)
@@ -1432,7 +1485,7 @@ class Payment extends \Magento\Payment\Model\Info
      * If no transactions were set before invoking, may generate an "offline" transaction id
      *
      * @param string $type
-     * @param \Magento\Sales\Model\Order\Payment\Transaction $transactionBasedOn
+     * @param bool|\Magento\Sales\Model\Order\Payment\Transaction $transactionBasedOn
      */
     protected function _generateTransactionId($type, $transactionBasedOn = false)
     {
@@ -1499,7 +1552,7 @@ class Payment extends \Magento\Payment\Model\Info
     {
         if ($this->getBillingAgreementData()) {
             $order = $this->getOrder();
-            $agreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->importOrderPayment($this);
+            $agreement = $this->_agreementFactory->create()->importOrderPayment($this);
             if ($agreement->isValid()) {
                 $message = __('Created billing agreement #%1.', $agreement->getReferenceId());
                 $order->addRelatedObject($agreement);
@@ -1513,9 +1566,9 @@ class Payment extends \Magento\Payment\Model\Info
     }
 
     /**
-     * Additionnal transaction info setter
+     * Additional transaction info setter
      *
-     * @param sting $key
+     * @param string $key
      * @param string $value
      */
     public function setTransactionAdditionalInfo($key, $value)

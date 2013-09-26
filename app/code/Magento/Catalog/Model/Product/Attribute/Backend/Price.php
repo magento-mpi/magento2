@@ -29,13 +29,14 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 
     /**
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param array $data
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
-        $data = array()
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_helper = $catalogData;
+        parent::__construct($logger);
     }
 
     /**

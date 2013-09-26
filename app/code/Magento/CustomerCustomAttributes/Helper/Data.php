@@ -59,7 +59,7 @@ class Data extends \Magento\CustomAttribute\Helper\Data
      */
     public function getAttributeFormOptions()
     {
-        \Mage::throwException(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Core\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -69,7 +69,7 @@ class Data extends \Magento\CustomAttribute\Helper\Data
      */
     protected function _getEntityTypeCode()
     {
-        \Mage::throwException(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Core\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**

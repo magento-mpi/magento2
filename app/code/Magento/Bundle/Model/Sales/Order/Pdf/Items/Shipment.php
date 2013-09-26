@@ -31,6 +31,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $coreDir
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param array $data
@@ -40,12 +41,13 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $coreDir,
         \Magento\Data\Collection\Db $resourceCollection = null,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($taxData, $context, $registry, $coreDir, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -89,7 +91,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => $this->_coreString->strSplit($attributes['option_label'], 60, true, true),
+                        'text'  => $this->_coreString->str_split($attributes['option_label'], 60, true, true),
                         'feed'  => 60
                     );
 
@@ -132,7 +134,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 $name = $_item->getName();
             }
             $text = array();
-            foreach ($stringHelper->strSplit($name, 60, true, true) as $part) {
+            foreach ($stringHelper->str_split($name, 60, true, true) as $part) {
                 $text[] = $part;
             }
             $line[] = array(
@@ -142,7 +144,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
 
             // draw SKUs
             $text = array();
-            foreach ($this->_coreString->strSplit($_item->getSku(), 25) as $part) {
+            foreach ($this->_coreString->str_split($_item->getSku(), 25) as $part) {
                 $text[] = $part;
             }
             $line[] = array(
@@ -160,7 +162,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 foreach ($options['options'] as $option) {
                     $lines = array();
                     $lines[][] = array(
-                        'text'  => $stringHelper->strSplit(strip_tags($option['label']), 70, true, true),
+                        'text'  => $stringHelper->str_split(strip_tags($option['label']), 70, true, true),
                         'font'  => 'italic',
                         'feed'  => 60
                     );
@@ -172,7 +174,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                             : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach ($stringHelper->strSplit($value, 50, true, true) as $_value) {
+                            foreach ($stringHelper->str_split($value, 50, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }

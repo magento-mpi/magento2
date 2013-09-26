@@ -11,10 +11,6 @@
 
 /**
  * RMA Helper
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Helper;
 
@@ -26,6 +22,43 @@ class Eav extends \Magento\Eav\Helper\Data
      * @var array
      */
     protected $_attributeOptionValues = array();
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource
+     */
+    protected $_resource;
+
+    /**
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_collectionFactory = $collectionFactory;
+        $this->_resource = $resource;
+        parent::__construct($context, $attributeConfig, $coreStoreConfig);
+    }
 
     /**
      * Default attribute entity type code
@@ -169,23 +202,21 @@ class Eav extends \Magento\Eav\Helper\Data
     protected function _getAttributeOptionValues($storeId = null, $useDefaultValue = true)
     {
         if (is_null($storeId)) {
-            $storeId = \Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         } elseif ($storeId instanceof \Magento\Core\Model\Store) {
             $storeId = $storeId->getId();
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
-            $optionCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
-                ->setStoreFilter($storeId, $useDefaultValue);
-
+            $optionCollection = $this->_collectionFactory->create()->setStoreFilter($storeId, $useDefaultValue);
             $optionCollection
                 ->getSelect()
                 ->join(
-                    array('ea' => \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('eav_attribute')),
+                    array('ea' => $this->_resource->getTableName('eav_attribute')),
                     'main_table.attribute_id = ea.attribute_id',
                     array('attribute_code' => 'ea.attribute_code'))
                 ->join(
-                    array('eat' => \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('eav_entity_type')),
+                    array('eat' => $this->_resource->getTableName('eav_entity_type')),
                     'ea.entity_type_id = eat.entity_type_id',
                     array(''))
                 ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());

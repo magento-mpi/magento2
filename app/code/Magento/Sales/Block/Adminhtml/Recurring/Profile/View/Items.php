@@ -20,12 +20,35 @@ namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View;
 class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
+    /**
      * Retrieve required options from parent
      */
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            \Mage::throwException(__('Invalid parent block for this block'));
+            throw new \Magento\Core\Exception(__('Invalid parent block for this block'));
         }
         parent::_beforeToHtml();
     }
@@ -51,14 +74,14 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     }
 
     /**
-     * Retrieve formated price
+     * Retrieve formatted price
      *
      * @param   decimal $value
      * @return  string
      */
     public function formatPrice($value)
     {
-        $store = \Mage::app()->getStore($this->_getRecurringProfile()->getStore());
+        $store = $this->_storeManager->getStore($this->_getRecurringProfile()->getStore());
         return $store->formatPrice($value);
     }
 }

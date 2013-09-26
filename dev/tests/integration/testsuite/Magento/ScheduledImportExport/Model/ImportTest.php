@@ -15,26 +15,23 @@ class ImportTest extends \PHPUnit_Framework_TestCase
      */
     public function testRunSchedule()
     {
-        /** @var Magento_TestFramework_ObjectManager $objectManager */
+        /** @var \Magento\TestFramework\ObjectManager $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $productModel = $objectManager->create('Magento\Catalog\Model\Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);
 
         $importExportData = $objectManager->get('Magento\ImportExport\Helper\Data');
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        
+        $importConfig = $objectManager->get('Magento\ImportExport\Model\Import\ConfigInterface');
+        $logger = $objectManager->get('Magento\Core\Model\Logger');
+        $indexer = $objectManager->get('Magento\Index\Model\Indexer');
+
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
-        /** @var \Magento\ImportExport\Model\Import $model */
-        $model = $this->getMock(
-            'Magento\ScheduledImportExport\Model\Import',
-            array('reindexAll'),
-            array(
-                'logger' => $logger,
-                'importExportData' => $importExportData,
-                'coreConfig' => $objectManager->create('Magento\Core\Model\Config'),
-                'config' => $objectManager->create('Magento\ImportExport\Model\Config'),
-                'data' => array('entity' => 'catalog_product', 'behavior' => 'append')
+        $model = $this->getMock('Magento\ScheduledImportExport\Model\Import', array('reindexAll'), array(
+            $indexer, $logger, $importExportData, $importConfig, array(
+                'entity'   => 'catalog_product',
+                'behavior' => 'append',
+            )
         ));
         $model->expects($this->once())
             ->method('reindexAll')

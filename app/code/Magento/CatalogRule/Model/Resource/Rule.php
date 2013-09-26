@@ -58,15 +58,47 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory
+     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory,
+        \Magento\Core\Model\Date $coreDate,
+        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
         \Magento\Core\Model\Resource $resource
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_conditionFactory = $conditionFactory;
+        $this->_coreDate = $coreDate;
+        $this->_eavConfig = $eavConfig;
         $this->_eventManager = $eventManager;
         $this->_catalogRuleData = $catalogRuleData;
         parent::__construct($resource);
@@ -331,7 +363,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         /**
          * Join default price and websites prices to result
          */
-        $priceAttr  = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'price');
+        $priceAttr  = $this->_eavConfig->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'price');
         $priceTable = $priceAttr->getBackend()->getTable();
         $attributeId= $priceAttr->getId();
 
@@ -345,7 +377,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         );
 
         if ($websiteId !== null) {
-            $website  = \Mage::app()->getWebsite($websiteId);
+            $website  = $this->_storeManager->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
             if ($defaultGroup instanceof \Magento\Core\Model\Store\Group) {
                 $storeId = $defaultGroup->getDefaultStoreId();
@@ -369,7 +401,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                 array($fieldAlias=>$tableAlias.'.value')
             );
         } else {
-            foreach (\Mage::app()->getWebsites() as $website) {
+            foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId  = $website->getId();
                 $defaultGroup = $website->getDefaultGroup();
                 if ($defaultGroup instanceof \Magento\Core\Model\Store\Group) {
@@ -447,7 +479,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
              * Update products rules prices per each website separately
              * because of max join limit in mysql
              */
-            foreach (\Mage::app()->getWebsites(false) as $website) {
+            foreach ($this->_storeManager->getWebsites(false) as $website) {
                 $productsStmt = $this->_getRuleProductsStmt(
                    $fromDate,
                    $toDate,
@@ -525,7 +557,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
             $write->delete($this->getTable('catalogrule_group_website'), array());
 
-            $timestamp = \Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp();
+            $timestamp = $this->_coreDate->gmtTimestamp();
 
             $select = $write->select()
                 ->distinct(true)
@@ -542,7 +574,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             throw $e;
         }
 
-        $productCondition = \Mage::getModel('Magento\Catalog\Model\Product\Condition')
+        $productCondition = $this->_conditionFactory->create()
             ->setTable($this->getTable('catalogrule_affected_product'))
             ->setPkFieldName('product_id');
         $this->_eventManager->dispatch('catalogrule_after_apply', array(
@@ -580,7 +612,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             $ruleData['action_amount'],
             $productPrice);
 
-        return \Mage::app()->getStore()->roundPrice($productPrice);
+        return $this->_storeManager->getStore()->roundPrice($productPrice);
     }
 
     /**

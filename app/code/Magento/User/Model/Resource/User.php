@@ -2,19 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * ACL user resource
- *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\User\Model\Resource;
 
@@ -26,13 +19,27 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_aclCache;
 
     /**
+     * Role model
+     *
+     * @var \Magento\User\Model\RoleFactory
+     */
+    protected $_roleFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Acl\CacheInterface $aclCache
+     * @param \Magento\User\Model\RoleFactory $roleFactory
      */
-    public function __construct(\Magento\Core\Model\Resource $resource, \Magento\Acl\CacheInterface $aclCache)
-    {
-        $this->_aclCache = $aclCache;
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Acl\CacheInterface $aclCache,
+        \Magento\User\Model\RoleFactory $roleFactory
+    ) {
         parent::__construct($resource);
+        $this->_aclCache = $aclCache;
+        $this->_roleFactory = $roleFactory;
     }
 
     /**
@@ -112,7 +119,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Check if user is assigned to any role
      *
-     * @param int|Magento_Core_Admin_Model_User $user
+     * @param int|\Magento\Core\Admin\Model\User $user
      * @return null|false|array
      */
     public function hasAssigned2Role($user)
@@ -198,7 +205,8 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _createUserRole($parentId, \Magento\User\Model\User $user)
     {
         if ($parentId > 0) {
-            $parentRole = \Mage::getModel('Magento\User\Model\Role')->load($parentId);
+            /** @var \Magento\User\Model\Role $parentRole */
+            $parentRole = $this->_roleFactory->create()->load($parentId);
         } else {
             $role = new \Magento\Object();
             $role->setTreeLevel(0);

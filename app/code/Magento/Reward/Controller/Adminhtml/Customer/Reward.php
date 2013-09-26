@@ -63,7 +63,7 @@ class Reward extends \Magento\Adminhtml\Controller\Action
         $customerId = $this->getRequest()->getParam('id', 0);
         if ($customerId) {
             try {
-                \Mage::getModel('Magento\Reward\Model\Reward')
+                $this->_objectManager->create('Magento\Reward\Model\Reward')
                     ->deleteOrphanPointsByCustomer($customerId);
                 $this->_getSession()
                     ->addSuccess(__('You removed the orphan points.'));

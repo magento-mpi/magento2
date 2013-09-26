@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="product.info.simple.extra">
+    <referenceContainer name="product.info.simple.extra">
         <block class="Magento\CatalogInventory\Block\Stockqty\DefaultStockqty" template="stockqty/default.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

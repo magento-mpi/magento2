@@ -74,6 +74,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_taxData = null;
 
     /**
+     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
+     */
+    protected $_engineProvider;
+
+    /**
      * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
@@ -81,25 +86,50 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Tax\Helper\Data $taxData
+     * Locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Context $context,
+        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
+        \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Config $coreConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
+        $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -308,7 +338,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             return false;
         }
 
-        $locale = \Mage::app()->getStore()->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $locale = $this->_storeManager->getStore()
+            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
@@ -324,7 +355,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
 
-            $format = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!is_empty_date($val)) {
@@ -343,7 +374,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         }
 
         if ($attribute->usesSource()) {
-            $attribute->setStoreId(\Mage::app()->getStore()->getId());
+            $attribute->setStoreId($this->_storeManager->getStore()->getId());
         }
 
         return array($field => $value);
@@ -356,16 +387,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isActiveEngine()
     {
-        $engine = $this->getSearchConfigData('engine');
-
-        if ($engine) {
-            $model = \Mage::getResourceSingleton($engine);
-            if ($model && $model->test() && $model->allowAdvancedIndex()) {
-                return true;
-            }
-        }
-
-        return false;
+        $engine = $this->_engineProvider->get();
+        return is_object($engine) && $engine->allowAdvancedIndex();
     }
 
     /**

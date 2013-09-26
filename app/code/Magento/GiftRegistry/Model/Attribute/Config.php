@@ -9,74 +9,25 @@
  */
 
 /**
- * Gift registry custom attribute config model
+ * Gift registry attributes config model
  */
 namespace Magento\GiftRegistry\Model\Attribute;
 
-class Config extends \Magento\Core\Model\AbstractModel
+class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
 {
-    protected $_config = null;
-    protected $_staticTypes = null;
-
     /**
-     * @var \Magento\Core\Model\Cache\Type\Config
-     */
-    protected $_configCacheType;
-
-    /**
-     * @var \Magento\Core\Model\Config\StorageInterface
-     */
-    protected $_configReader;
-
-    /**
-     * Pathes to attribute groups and types nodes
-     */
-    const XML_ATTRIBUTE_GROUPS_PATH = 'prototype/attribute_groups';
-    const XML_ATTRIBUTE_TYPES_PATH = 'prototype/attribute_types';
-
-    /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Config\Modules\Reader $configReader,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        $this->_configCacheType = $configCacheType;
-        $this->_configReader = $configReader;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-    }
-
-    /**
-     * Load config from giftregistry.xml files and try to cache it
+     * Modules configuration model
      *
-     * @return \Magento\Simplexml\Config
+     * @var \Magento\GiftRegistry\Model\Config\Data
      */
-    public function getXmlConfig()
+    protected $_dataContainer;
+
+    /**
+     * @param \Magento\GiftRegistry\Model\Config\Data $dataContainer
+     */
+    public function __construct(\Magento\GiftRegistry\Model\Config\Data $dataContainer)
     {
-        if (is_null($this->_config)) {
-            $cachedXml = $this->_configCacheType->load('giftregistry_config');
-            if ($cachedXml) {
-                $xmlConfig = new \Magento\Simplexml\Config($cachedXml);
-            } else {
-                $xmlConfig = new \Magento\Simplexml\Config();
-                $xmlConfig->loadString('<?xml version="1.0"?><prototype></prototype>');
-                $this->_configReader->loadModulesConfiguration('giftregistry.xml', $xmlConfig);
-                $this->_configCacheType->save($xmlConfig->getXmlString(), 'giftregistry_config');
-            }
-            $this->_config = $xmlConfig;
-        }
-        return $this->_config;
+        $this->_dataContainer = $dataContainer;
     }
 
     /**
@@ -142,10 +93,7 @@ class Config extends \Magento\Core\Model\AbstractModel
      */
     public function getAttributeGroups()
     {
-        $groups = $this->getXmlConfig()->getNode(self::XML_ATTRIBUTE_GROUPS_PATH);
-        if ($groups) {
-            return $groups->asCanonicalArray();
-        }
+        return $this->_dataContainer->get('attribute_groups');
     }
 
     /**
@@ -155,17 +103,14 @@ class Config extends \Magento\Core\Model\AbstractModel
      */
     public function getStaticTypes()
     {
-        if (is_null($this->_staticTypes)) {
-            $staticTypes = array();
-            foreach (array('registry', 'registrant') as $node) {
-                $node = $this->getXmlConfig()->getNode('prototype/' . $node . '/attributes/static');
-                if ($node) {
-                    $staticTypes = array_merge($staticTypes, $node->asCanonicalArray());
-                }
-            }
-            $this->_staticTypes = $staticTypes;
+        $staticTypes = array();
+
+        foreach (array('registry', 'registrant') as $section) {
+            $sectionArray = $this->_dataContainer->get($section);
+            $staticTypes = array_merge($staticTypes, $sectionArray['static_attributes']);
         }
-        return $this->_staticTypes;
+
+        return $staticTypes;
     }
 
     /**
@@ -201,7 +146,7 @@ class Config extends \Magento\Core\Model\AbstractModel
      */
     public function getStaticDateType()
     {
-        foreach ($this->getStaticTypes() as $code => $type) {
+        foreach ($this->getStaticTypes() as $code =>$type) {
             if (isset($type['type']) && $type['type'] == 'date') {
                 return $code;
             }
@@ -231,10 +176,10 @@ class Config extends \Magento\Core\Model\AbstractModel
      */
     public function getAttributeCustomTypesOptions()
     {
-        $types = $this->getXmlConfig()->getNode(self::XML_ATTRIBUTE_TYPES_PATH);
+        $types = $this->_dataContainer->get('attribute_types');
         $options = array();
 
-        foreach ($types->asCanonicalArray() as $code => $type) {
+        foreach ($types as $code => $type) {
             $options[] = array(
                 'value' => $code,
                 'label' => $type['label']
@@ -252,7 +197,7 @@ class Config extends \Magento\Core\Model\AbstractModel
     {
         $options = array();
         foreach ($this->getStaticTypes() as $code => $type) {
-            if (empty($type['visible'])) {
+            if ($type['visible'] !== 'true') {
                 continue;
             }
             $valueParts = array($type['type'], $code);

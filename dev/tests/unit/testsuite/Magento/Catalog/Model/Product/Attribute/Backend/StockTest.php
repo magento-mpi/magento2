@@ -29,12 +29,22 @@ class StockTest extends \PHPUnit_Framework_TestCase
     {
         $this->_inventory = $this->getMock('Magento\CatalogInventory\Model\Stock\Item',
             array('getIsInStock', 'getQty', 'loadByProduct'), array(), '', false);
+
+        $itemFactory = $this->getMock('Magento\CatalogInventory\Model\Stock\ItemFactory', array('create'),
+            array(), '', false);
+        $itemFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_inventory));
+
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+
         $this->_model = $this->getMock('Magento\Catalog\Model\Product\Attribute\Backend\Stock', array('getAttribute'),
-            array(array('inventory' => $this->_inventory))
-        );
+            array($itemFactory, $logger));
+
         $attribute = $this->getMock('Magento\Object', array('getAttributeCode'));
         $attribute->expects($this->atLeastOnce())->method('getAttributeCode')
             ->will($this->returnValue(self::ATTRIBUTE_NAME));
+
         $this->_model->expects($this->atLeastOnce())->method('getAttribute')->will($this->returnValue($attribute));
     }
 

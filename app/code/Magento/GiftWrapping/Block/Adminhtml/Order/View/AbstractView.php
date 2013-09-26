@@ -19,6 +19,9 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 
 class AbstractView extends \Magento\Core\Block\Template
 {
+    /**
+     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     */
     protected $_designCollection;
 
     /**
@@ -36,10 +39,24 @@ class AbstractView extends \Magento\Core\Block\Template
     protected $_giftWrappingData = null;
 
     /**
+     * @var \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory
+     */
+    protected $_wrappingCollFactory;
+
+    /**
+     * Store list manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
      * @param array $data
      */
     public function __construct(
@@ -47,14 +64,18 @@ class AbstractView extends \Magento\Core\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_giftWrappingData = $giftWrappingData;
+        $this->_storeManager = $storeManager;
+        $this->_wrappingCollFactory = $wrappingCollFactory;
         parent::__construct($coreData, $context, $data);
     }
 
-    /*
+    /**
      * Retrieve order model instance
      *
      * @return \Magento\Sales\Model\Order
@@ -64,7 +85,7 @@ class AbstractView extends \Magento\Core\Block\Template
         return $this->_coreRegistry->registry('sales_order');
     }
 
-    /*
+    /**
      * Get store id
      *
      * @return int
@@ -82,8 +103,8 @@ class AbstractView extends \Magento\Core\Block\Template
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $store = \Mage::app()->getStore($this->getStoreId());
-            $this->_designCollection = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->getCollection()
+            $store = $this->_storeManager->getStore($this->getStoreId());
+            $this->_designCollection = $this->_wrappingCollFactory->create()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());

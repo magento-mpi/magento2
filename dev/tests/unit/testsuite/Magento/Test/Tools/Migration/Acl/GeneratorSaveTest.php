@@ -117,7 +117,7 @@ class GeneratorSaveTest extends \PHPUnit_Framework_TestCase
                 'wrap' => 1000
             ))
             ->will($this->returnCallback(
-                function($string) {
+                function ($string) {
                     return 'formatted' . $string;
                 }
             ));

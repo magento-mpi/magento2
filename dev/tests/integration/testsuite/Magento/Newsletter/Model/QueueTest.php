@@ -43,8 +43,11 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         );
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        $filter = $objectManager->get('Magento\Newsletter\Model\Template\Filter');
+
         $emailTemplate = $this->getMock('Magento\Core\Model\Email\Template',
-            array('_getMail', '_getLogoUrl', '__wakeup'),
+            array('_getMail', '_getLogoUrl', '__wakeup', 'setTemplateFilter'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
                 $objectManager->get('Magento\Core\Model\Registry'),
@@ -56,6 +59,9 @@ class QueueTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Core\Model\Config')
             )
         );
+        $emailTemplate->expects($this->once())
+            ->method('setTemplateFilter')
+            ->with($filter);
 
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $coreStoreConfig = new \ReflectionProperty($emailTemplate, '_coreStoreConfig');
@@ -67,7 +73,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         ));
 
         $queue = \Mage::getModel('Magento\Newsletter\Model\Queue',
-            array('data' => array('email_template' => $emailTemplate))
+            array('filter' => $filter, 'data' => array('email_template' => $emailTemplate))
         );
         $queue->load('Subject', 'newsletter_subject'); // fixture
         $queue->sendPerSubscriber();

@@ -66,18 +66,22 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_authorizationCountKey = 'authorization_count';
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof \Magento\Paypal\Model\Pro)) {
             $this->_pro = $proInstance;
@@ -132,7 +136,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Payment action getter compatible with payment model
      *
-     * @see Magento_Sales_Model_Payment::place()
+     * @see \Magento\Sales\Model\Payment::place()
      * @return string
      */
     public function getConfigPaymentAction()
@@ -631,9 +635,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
             $orderValidPeriod = abs(intval($this->getConfigData('order_valid_period')));
 
-            $dateCompass = new \DateTime($orderTransaction->getCreatedAt());
+            $dateCompass = new DateTime($orderTransaction->getCreatedAt());
             $dateCompass->modify('+' . $orderValidPeriod . ' days');
-            $currentDate = new \DateTime();
+            $currentDate = new DateTime();
 
             if ($currentDate > $dateCompass || $orderValidPeriod == 0) {
                 return false;
@@ -679,7 +683,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
             return true;
         }
 
-        $transactionClosingDate = new \DateTime($transaction->getCreatedAt(), new \DateTimeZone('GMT'));
+        $transactionClosingDate = new DateTime($transaction->getCreatedAt(), new \DateTimeZone('GMT'));
         $transactionClosingDate->setTimezone(new \DateTimeZone('US/Pacific'));
         /**
          * 11:49:00 PayPal transactions closing time
@@ -687,7 +691,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         $transactionClosingDate->setTime(11, 49, 00);
         $transactionClosingDate->modify('+' . $period . ' days');
 
-        $currentTime = new \DateTime(null, new \DateTimeZone('US/Pacific'));
+        $currentTime = new DateTime(null, new \DateTimeZone('US/Pacific'));
 
         if ($currentTime > $transactionClosingDate) {
             return true;

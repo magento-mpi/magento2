@@ -55,6 +55,27 @@ class View extends \Magento\Core\Block\Template
     protected $_decimalFilterBlockName;
 
     /**
+     * @var \Magento\Catalog\Model\Layer
+     */
+    protected $_layer;
+
+    /**
+     * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Layer $layer,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_layer = $layer;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Internal constructor
      */
     protected function _construct()
@@ -122,7 +143,7 @@ class View extends \Magento\Core\Block\Template
      */
     public function getLayer()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Layer');
+        return $this->_layer;
     }
 
     /**

@@ -30,14 +30,23 @@ class Order
     protected $_convertor;
 
     /**
-     * Class constructor
-     *
-     * @param \Magento\Sales\Model\Order $order
+     * @var \Magento\Tax\Model\Config
      */
-    public function __construct(\Magento\Sales\Model\Order $order)
-    {
-        $this->_order       = $order;
-        $this->_convertor   = \Mage::getModel('Magento\Sales\Model\Convert\Order');
+    protected $_taxConfig;
+
+    /**
+     * @param \Magento\Sales\Model\Order $order
+     * @param \Magento\Sales\Model\Convert\OrderFactory $convertOrderFactory
+     * @param \Magento\Tax\Model\Config $taxConfig
+     */
+    public function __construct(
+        \Magento\Sales\Model\Order $order,
+        \Magento\Sales\Model\Convert\OrderFactory $convertOrderFactory,
+        \Magento\Tax\Model\Config $taxConfig
+    ) {
+        $this->_order = $order;
+        $this->_convertor = $convertOrderFactory->create();
+        $this->_taxConfig = $taxConfig;
     }
 
     /**
@@ -80,7 +89,7 @@ class Order
             $item = $this->_convertor->itemToInvoiceItem($orderItem);
             if ($orderItem->isDummy()) {
                 $qty = $orderItem->getQtyOrdered() ? $orderItem->getQtyOrdered() : 1;
-            } else if (!empty($qtys)) {
+            } elseif (!empty($qtys)) {
                 if (isset($qtys[$orderItem->getId()])) {
                     $qty = (float) $qtys[$orderItem->getId()];
                 }
@@ -198,6 +207,7 @@ class Order
     /**
      * Prepare order creditmemo based on invoice items and requested requested params
      *
+     * @param object $invoice
      * @param array $data
      * @return \Magento\Sales\Model\Order\Creditmemo
      */
@@ -246,7 +256,7 @@ class Order
                 $qty = 1;
             } else {
                 if (isset($qtys[$orderItem->getId()])) {
-                    $qty = (float) $qtys[$orderItem->getId()];
+                    $qty = (float)$qtys[$orderItem->getId()];
                 } elseif (!count($qtys)) {
                     $qty = $orderItem->getQtyToRefund();
                 } else {
@@ -266,11 +276,11 @@ class Order
         $this->_initCreditmemoData($creditmemo, $data);
         if (!isset($data['shipping_amount'])) {
             $order = $invoice->getOrder();
-            $isShippingInclTax = \Mage::getSingleton('Magento\Tax\Model\Config')->displaySalesShippingInclTax($order->getStoreId());
+            $isShippingInclTax = $this->_taxConfig->displaySalesShippingInclTax($order->getStoreId());
             if ($isShippingInclTax) {
                 $baseAllowedAmount = $order->getBaseShippingInclTax()
-                        - $order->getBaseShippingRefunded()
-                        - $order->getBaseShippingTaxRefunded();
+                    - $order->getBaseShippingRefunded()
+                    - $order->getBaseShippingTaxRefunded();
             } else {
                 $baseAllowedAmount = $order->getBaseShippingAmount() - $order->getBaseShippingRefunded();
                 $baseAllowedAmount = min($baseAllowedAmount, $invoice->getBaseShippingAmount());
@@ -311,7 +321,7 @@ class Order
      * @param array $qtys
      * @return bool
      */
-    protected function _canInvoiceItem($item, $qtys=array())
+    protected function _canInvoiceItem($item, $qtys = array())
     {
         if ($item->getLockedDoInvoice()) {
             return false;
@@ -385,7 +395,7 @@ class Order
                 }
             }
         } else {
-            return $item->getQtyToShip()>0;
+            return $item->getQtyToShip() > 0;
         }
     }
 

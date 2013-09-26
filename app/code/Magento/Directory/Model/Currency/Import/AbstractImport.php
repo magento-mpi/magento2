@@ -10,13 +10,11 @@
 
 /**
  * Abstract model for import currency
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Directory\Model\Currency\Import;
 
-abstract class AbstractImport implements
-    \Magento\Directory\Model\Currency\Import\ImportInterface
+abstract class AbstractImport
+    implements \Magento\Directory\Model\Currency\Import\ImportInterface
 {
     /**
      * Messages
@@ -26,13 +24,26 @@ abstract class AbstractImport implements
     protected $_messages = array();
 
     /**
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     */
+    public function __construct(\Magento\Directory\Model\CurrencyFactory $currencyFactory)
+    {
+        $this->_currencyFactory = $currencyFactory;
+    }
+
+    /**
      * Retrieve currency codes
      *
      * @return array
      */
     protected function _getCurrencyCodes()
     {
-        return \Mage::getModel('Magento\Directory\Model\Currency')->getConfigAllowCurrencies();
+        return $this->_currencyFactory->create()->getConfigAllowCurrencies();
     }
 
     /**
@@ -42,7 +53,7 @@ abstract class AbstractImport implements
      */
     protected function _getDefaultCurrencyCodes()
     {
-        return \Mage::getModel('Magento\Directory\Model\Currency')->getConfigBaseCurrencies();
+        return $this->_currencyFactory->create()->getConfigBaseCurrencies();
     }
 
     /**
@@ -63,7 +74,7 @@ abstract class AbstractImport implements
     protected function _saveRates($rates)
     {
         foreach ($rates as $currencyCode => $currencyRates) {
-            \Mage::getModel('Magento\Directory\Model\Currency')
+            $this->_currencyFactory->create()
                 ->setId($currencyCode)
                 ->setRates($currencyRates)
                 ->save();
@@ -83,6 +94,9 @@ abstract class AbstractImport implements
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function fetchRates()
     {
         $data = array();
@@ -99,7 +113,9 @@ abstract class AbstractImport implements
                     $data[$currencyFrom][$currencyTo] = $this->_numberFormat(1);
                 }
                 else {
-                    $data[$currencyFrom][$currencyTo] = $this->_numberFormat($this->_convert($currencyFrom, $currencyTo));
+                    $data[$currencyFrom][$currencyTo] = $this->_numberFormat(
+                        $this->_convert($currencyFrom, $currencyTo)
+                    );
                 }
             }
             ksort($data[$currencyFrom]);
@@ -113,6 +129,9 @@ abstract class AbstractImport implements
         return $number;
     }
 
+    /**
+     * @return array
+     */
     public function getMessages()
     {
         return $this->_messages;

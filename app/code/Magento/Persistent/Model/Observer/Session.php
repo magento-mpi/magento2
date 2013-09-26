@@ -11,10 +11,6 @@
 
 /**
  * Persistent Session Observer
- *
- * @category   Magento
- * @package    Magento_Persistent
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Persistent\Model\Observer;
 
@@ -40,15 +36,57 @@ class Session
     protected $_persistentData = null;
 
     /**
+     * Session factory
+     *
+     * @var \Magento\Persistent\Model\SessionFactory
+     */
+    protected $_sessionFactory;
+
+    /**
+     * Cookie model
+     *
+     * @var \Magento\Core\Model\Cookie
+     */
+    protected $_cookie;
+
+    /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      */
     public function __construct(
         \Magento\Persistent\Helper\Data $persistentData,
-        \Magento\Persistent\Helper\Session $persistentSession
+        \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Persistent\Model\SessionFactory $sessionFactory
     ) {
         $this->_persistentData = $persistentData;
         $this->_persistentSession = $persistentSession;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        $this->_cookie = $cookie;
+        $this->_sessionFactory = $sessionFactory;
     }
 
     public function synchronizePersistentOnLogin(\Magento\Event\Observer $observer)
@@ -60,7 +98,7 @@ class Session
             || !$customer->getId()
             || !$this->_persistentSession->isRememberMeChecked()
         ) {
-            \Mage::getModel('Magento\Persistent\Model\Session')->removePersistentCookie();
+            $this->_sessionFactory->create()->removePersistentCookie();
             return;
         }
 
@@ -68,7 +106,7 @@ class Session
         // Delete persistent session, if persistent could not be applied
         if ($this->_persistentData->isEnabled() && ($persistentLifeTime <= 0)) {
             // Remove current customer persistent session
-            \Mage::getModel('Magento\Persistent\Model\Session')->deleteByCustomerId($customer->getId());
+            $this->_sessionFactory->create()->deleteByCustomerId($customer->getId());
             return;
         }
 
@@ -77,12 +115,14 @@ class Session
 
         // Check if session is wrong or not exists, so create new session
         if (!$sessionModel->getId() || ($sessionModel->getCustomerId() != $customer->getId())) {
-            $sessionModel = \Mage::getModel('Magento\Persistent\Model\Session')
-                ->setLoadExpired()
+            /** @var \Magento\Persistent\Model\Session $sessionModel */
+            $sessionModel = $this->_sessionFactory->create();
+            $sessionModel->setLoadExpired()
                 ->loadByCustomerId($customer->getId());
             if (!$sessionModel->getId()) {
-                $sessionModel = \Mage::getModel('Magento\Persistent\Model\Session')
-                    ->setCustomerId($customer->getId())
+                /** @var \Magento\Persistent\Model\Session $sessionModel */
+                $sessionModel = $this->_sessionFactory->create();
+                $sessionModel->setCustomerId($customer->getId())
                     ->save();
             }
 
@@ -91,7 +131,7 @@ class Session
 
         // Set new cookie
         if ($sessionModel->getId()) {
-            \Mage::getSingleton('Magento\Core\Model\Cookie')->set(
+            $this->_cookie->set(
                 \Magento\Persistent\Model\Session::COOKIE_NAME,
                 $sessionModel->getKey(),
                 $persistentLifeTime
@@ -117,7 +157,7 @@ class Session
             return;
         }
 
-        \Mage::getModel('Magento\Persistent\Model\Session')->removePersistentCookie();
+        $this->_sessionFactory->create()->removePersistentCookie();
 
         // Unset persistent session
         $this->_persistentSession->setSession(null);
@@ -143,7 +183,7 @@ class Session
         $request = $observer->getEvent()->getFront()->getRequest();
 
         // Quote Id could be changed only by logged in customer
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
+        if ($this->_customerSession->isLoggedIn()
             || ($request && $request->getActionName() == 'logout' && $request->getControllerName() == 'account')
         ) {
             $sessionModel->save();
@@ -173,7 +213,7 @@ class Session
                 $controllerAction->getFullActionName() == 'checkout_onepage_saveBilling'
                     || $controllerAction->getFullActionName() == 'customer_account_createpost'
             ) {
-                \Mage::getSingleton('Magento\Checkout\Model\Session')->setRememberMeChecked((bool)$rememberMeCheckbox);
+                $this->_checkoutSession->setRememberMeChecked((bool)$rememberMeCheckbox);
             }
         }
     }
@@ -195,10 +235,10 @@ class Session
         /** @var $controllerAction \Magento\Core\Controller\Front\Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
 
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
+        if ($this->_customerSession->isLoggedIn()
             || $controllerAction->getFullActionName() == 'customer_account_logout'
         ) {
-            \Mage::getSingleton('Magento\Core\Model\Cookie')->renew(
+            $this->_cookie->renew(
                 \Magento\Persistent\Model\Session::COOKIE_NAME,
                 $this->_persistentData->getLifeTime()
             );

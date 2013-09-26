@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Quote Address Total  abstract model
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Quote\Address\Total;
 
@@ -57,7 +52,7 @@ abstract class AbstractTotal
     /**
      * Retrieve total code name
      *
-     * @return unknown
+     * @return string
      */
     public function getCode()
     {
@@ -118,13 +113,13 @@ abstract class AbstractTotal
     /**
      * Get quote address object
      *
-     * @throw   \Magento\Core\Exception if address not declared
      * @return  \Magento\Sales\Model\Quote\Address
+     * @throws   \Magento\Core\Exception if address not declared
      */
     protected function _getAddress()
     {
         if ($this->_address === null) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('The address model is not defined.')
             );
         }
@@ -148,7 +143,8 @@ abstract class AbstractTotal
     /**
      * Set total model base amount value to address
      *
-     * @param   float $amount
+     * @param float $baseAmount
+     * @internal param float $amount
      * @return  \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
     protected function _setBaseAmount($baseAmount)
@@ -176,7 +172,7 @@ abstract class AbstractTotal
     /**
      * Add total model base amount value to address
      *
-     * @param   float $amount
+     * @param float $baseAmount
      * @return  \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
     protected function _addBaseAmount($baseAmount)

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <format code="text" title="Text" />
+    <format code="oneline" title="Text One Line" />
+    <format code="html" title="HTML" escapeHtml="true" />
+    <format code="pdf" title="PDF" />
+</config>

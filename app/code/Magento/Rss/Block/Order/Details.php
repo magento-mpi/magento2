@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Rss\Block\Order;
 
 class Details extends \Magento\Core\Block\Template

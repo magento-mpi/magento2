@@ -75,6 +75,13 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
     protected $_routes;
 
     /**
+     * Url security information.
+     *
+     * @var \Magento\Core\Model\Url\SecurityInfoInterface
+     */
+    protected $_urlSecurityInfo;
+
+    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -93,13 +100,13 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Config\Scope $configScope
-     * @param \Magento\Core\Model\Route\Config $routeConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Route\Config $routeConfig
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Core\Model\Config $config
-     * @param string $areaCode
-     * @param string $baseController
-     * @param string $routerId
-     * @throws \InvalidArgumentException
+     * @param $areaCode
+     * @param $baseController
+     * @param $routerId
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Factory $controllerFactory,
@@ -108,6 +115,7 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
         \Magento\Core\Model\Config\Scope $configScope,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Route\Config $routeConfig,
+        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Config $config,
         $areaCode,
         $baseController,
@@ -120,11 +128,12 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
         $this->_areaCode        = $areaCode;
         $this->_baseController  = $baseController;
         $this->_configScope     = $configScope;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_config          = $config;
-        $this->_configScope     = $configScope;
         $this->_routeConfig     = $routeConfig;
         $this->_routerId        = $routerId;
+        $this->_urlSecurityInfo = $urlSecurityInfo;
+        $this->_configScope     = $configScope;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_config          = $config;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new \InvalidArgumentException("Not enough options to initialize router.");
@@ -565,10 +574,7 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
 
     public function getControllerClassName($realModule, $controller)
     {
-        $class = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $realModule) .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Controller' .
-            \Magento\Autoload\IncludePath::NS_SEPARATOR .
-            str_replace('_','\\', uc_words(str_replace('_', ' ', $controller)));
+        $class = $realModule . '_' . 'Controller'  . '_' . uc_words($controller);
         return $class;
     }
 
@@ -642,7 +648,8 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
     }
 
     /**
-     * Check whether URL for corresponding path should use https protocol
+     * Check whether given path should be secure according to configuration security requirements for URL
+     * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
      *
      * @param string $path
      * @return bool
@@ -652,6 +659,6 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
         return substr($this->_coreStoreConfig->getConfig('web/unsecure/base_url'), 0, 5) === 'https'
             || $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_frontend')
                 && substr($this->_coreStoreConfig->getConfig('web/secure/base_url'), 0, 5) == 'https'
-                && $this->_config->shouldUrlBeSecure($path);
+                && $this->_urlSecurityInfo->isSecure($path);
     }
 }

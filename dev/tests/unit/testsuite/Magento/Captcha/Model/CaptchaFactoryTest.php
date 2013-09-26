@@ -23,25 +23,32 @@ class CaptchaFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreatePositive()
     {
-        $instance = 'sample_captcha_instance';
+        $captchaType = 'default';
+
         $defaultCaptchaMock = $this->getMock('Magento\Captcha\Model\DefaultModel', array(), array(), '', false);
+
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($instance, array())
+            ->with($this->equalTo('Magento\Captcha\Model\\' . ucfirst($captchaType)))
             ->will($this->returnValue($defaultCaptchaMock));
 
-        $this->assertEquals($defaultCaptchaMock, $this->_model->create($instance));
+        $this->assertEquals($defaultCaptchaMock, $this->_model->create($captchaType, 'form_id'));
     }
 
     public function testCreateNegative()
     {
-        $instance = 'wrong_instance';
-        $defaultCaptchaMock = $this->getMock('stdClass', array(), array(), '', false);
-        $this->_objectManagerMock->expects($this->once())->method('create')
-            ->with($instance, array())->will($this->returnValue($defaultCaptchaMock));
-        $this->setExpectedException('InvalidArgumentException',
-            'wrong_instance does not implements \Magento\Captcha\Model\ModelInterface');
+        $captchaType = 'wrong_instance';
 
-        $this->assertEquals($defaultCaptchaMock, $this->_model->create($instance));
+        $defaultCaptchaMock = $this->getMock('stdClass', array(), array(), '', false);
+
+        $this->_objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with($this->equalTo('Magento\Captcha\Model\\' . ucfirst($captchaType)))
+            ->will($this->returnValue($defaultCaptchaMock));
+
+        $this->setExpectedException('InvalidArgumentException',
+            'Magento\Captcha\Model\\' . ucfirst($captchaType) . ' does not implement \Magento\Captcha\Model\ModelInterface');
+
+        $this->assertEquals($defaultCaptchaMock, $this->_model->create($captchaType, 'form_id'));
     }
 }

@@ -27,17 +27,25 @@ class Suggestions extends \Magento\Core\Block\Template
     protected $_searchData = null;
 
     /**
+     * @var \Magento\Search\Model\Suggestions
+     */
+    protected $_suggestions;
+
+    /**
+     * @param \Magento\Search\Model\Suggestions $suggestions
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Search\Model\Suggestions $suggestions,
         \Magento\Search\Helper\Data $searchData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_suggestions = $suggestions;
         $this->_searchData = $searchData;
         parent::__construct($coreData, $context, $data);
     }
@@ -56,8 +64,7 @@ class Suggestions extends \Magento\Core\Block\Template
             return array();
         }
 
-        $suggestionsModel = \Mage::getSingleton('Magento\Search\Model\Suggestions');
-        $suggestions = $suggestionsModel->getSearchSuggestions();
+        $suggestions = $this->_suggestions->getSearchSuggestions();
 
         foreach ($suggestions as $key => $suggestion) {
             $suggestions[$key]['link'] = $this->getUrl('*/*/') . '?q=' . urlencode($suggestion['word']);

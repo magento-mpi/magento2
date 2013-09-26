@@ -35,10 +35,9 @@ class Form extends \Magento\Backend\Block\AbstractBlock
      *
      * @var \Magento\Sales\Model\Recurring\Profile
      */
-    protected $_profile = null;
+    protected $_profile;
 
     /**
-     * @var \Magento\Catalog\Model\Product
      * @var \Magento\Catalog\Model\Product
      */
     protected $_product = null;
@@ -49,16 +48,24 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     protected $_formFactory;
 
     /**
+     * @var \Magento\Sales\Model\Recurring\Profile
+     */
+    protected $_recurringProfile;
+
+    /**
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Sales\Model\Recurring\Profile $recurringProfile
      * @param array $data
      */
     public function __construct(
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Backend\Block\Context $context,
+        \Magento\Sales\Model\Recurring\Profile $recurringProfile,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
+        $this->_profile = $recurringProfile;
         parent::__construct($context, $data);
     }
 
@@ -66,6 +73,7 @@ class Form extends \Magento\Backend\Block\AbstractBlock
      * Setter for parent element
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @return $this
      */
     public function setParentElement(\Magento\Data\Form\Element\AbstractElement $element)
     {
@@ -77,20 +85,12 @@ class Form extends \Magento\Backend\Block\AbstractBlock
      * Setter for current product
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return $this
      */
     public function setProductEntity(\Magento\Catalog\Model\Product $product)
     {
         $this->_product = $product;
         return $this;
-    }
-
-    /**
-     * Instantiate a recurring payment profile to use it as a helper
-     */
-    protected function _construct()
-    {
-        $this->_profile = \Mage::getSingleton('Magento\Sales\Model\Recurring\Profile');
-        return parent::_construct();
     }
 
     /**
@@ -214,6 +214,7 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     /**
      * Getter for period unit options with "Please Select" label
      *
+     * @param string $emptyLabel
      * @return array
      */
     protected function _getPeriodUnitOptions($emptyLabel)

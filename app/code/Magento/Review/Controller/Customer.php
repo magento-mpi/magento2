@@ -21,6 +21,23 @@ namespace Magento\Review\Controller;
 class Customer extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($context);
+    }
+
+    /**
      * Action predispatch
      *
      * Check customer authentication for some actions
@@ -28,7 +45,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_customerSession->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }

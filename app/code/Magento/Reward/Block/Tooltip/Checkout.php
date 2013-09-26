@@ -10,10 +10,6 @@
 
 /**
  * Checkout Tooltip block to show checkout cart message for gaining reward points
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reward\Block\Tooltip;
 
@@ -30,8 +26,8 @@ class Checkout extends \Magento\Reward\Block\Tooltip
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Reward\Model\Reward $rewardInstance
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
@@ -40,10 +36,11 @@ class Checkout extends \Magento\Reward\Block\Tooltip
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Reward\Model\Reward $rewardInstance,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
+        $this->_checkoutSession = $checkoutSession;
         parent::__construct(
             $context,
             $rewardHelper,
@@ -53,10 +50,11 @@ class Checkout extends \Magento\Reward\Block\Tooltip
             $coreData,
             $data
         );
-        $this->_checkoutSession = $checkoutSession;
     }
 
-
+    /**
+     * @return $this|\Magento\Core\Block\AbstractBlock
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();

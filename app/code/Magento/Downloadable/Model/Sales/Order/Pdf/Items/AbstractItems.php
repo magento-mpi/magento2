@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Order Downloadable Pdf Items renderer
- *
- * @category   Magento
- * @package    Magento_Downloadable
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
 
@@ -35,10 +30,23 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Downloadable\Model\Link\PurchasedFactory
+     */
+    protected $_purchasedFactory;
+
+    /**
+     * @var \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    /**
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $coreDir
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
+     * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -47,13 +55,18 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $coreDir,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
+        \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
+        $this->_purchasedFactory = $purchasedFactory;
+        $this->_itemsFactory = $itemsFactory;
+        parent::__construct($taxData, $context, $registry, $coreDir, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -63,10 +76,11 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
      */
     public function getLinks()
     {
-        $this->_purchasedLinks = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased')
-            ->load($this->getOrder()->getId(), 'order_id');
-        $purchasedItems = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased\Item')->getCollection()
-            ->addFieldToFilter('order_item_id', $this->getItem()->getOrderItem()->getId());
+        $this->_purchasedLinks = $this->_purchasedFactory->create()->load($this->getOrder()->getId(), 'order_id');
+        $purchasedItems = $this->_itemsFactory->create()->addFieldToFilter(
+            'order_item_id',
+            $this->getItem()->getOrderItem()->getId()
+        );
         $this->_purchasedLinks->setPurchasedItems($purchasedItems);
 
         return $this->_purchasedLinks;

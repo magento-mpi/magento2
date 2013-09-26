@@ -12,7 +12,7 @@ namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
 
 class Actions
     extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare content for tab

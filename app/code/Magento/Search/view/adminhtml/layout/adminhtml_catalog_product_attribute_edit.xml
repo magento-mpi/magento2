@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="js">
+    <referenceContainer name="js">
         <block class="Magento\Search\Block\Adminhtml\Catalog\Attribute\Edit" template="js.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

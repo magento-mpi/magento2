@@ -20,27 +20,25 @@ namespace Magento\Newsletter\Helper;
 
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
-    const XML_PATH_TEMPLATE_FILTER = 'global/newsletter/tempate_filter';
-
     /**
-     * @var \Magento\Core\Model\Config
+     * Url
+     *
+     * @var \Magento\Core\Model\UrlInterface
      */
-    protected $_coreConfig;
+    protected $_url;
 
     /**
      * Constructor
      *
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\UrlInterface $url
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\UrlInterface $url
     ) {
-        parent::__construct(
-            $context
-        );
-        $this->_coreConfig = $coreConfig;
+        parent::__construct($context);
+        $this->_url = $url;
     }
 
     /**
@@ -51,12 +49,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getConfirmationUrl($subscriber)
     {
-        return \Mage::getModel('Magento\Core\Model\Url')
-            ->setStore($subscriber->getStoreId())
+        return $this->_url->setStore($subscriber->getStoreId())
             ->getUrl('newsletter/subscriber/confirm', array(
                 'id'     => $subscriber->getId(),
                 'code'   => $subscriber->getCode(),
-                '_nosid' => true
+                '_nosid' => true,
             ));
     }
 
@@ -68,23 +65,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getUnsubscribeUrl($subscriber)
     {
-        return \Mage::getModel('Magento\Core\Model\Url')
-            ->setStore($subscriber->getStoreId())
+        return $this->_url->setStore($subscriber->getStoreId())
             ->getUrl('newsletter/subscriber/unsubscribe', array(
                 'id'     => $subscriber->getId(),
                 'code'   => $subscriber->getCode(),
-                '_nosid' => true
+                '_nosid' => true,
             ));
-    }
-
-    /**
-     * Retrieve Template processor for Newsletter template
-     *
-     * @return \Magento\Filter\Template
-     */
-    public function getTemplateProcessor()
-    {
-        $model = (string)$this->_coreConfig->getNode(self::XML_PATH_TEMPLATE_FILTER);
-        return \Mage::getModel($model);
     }
 }

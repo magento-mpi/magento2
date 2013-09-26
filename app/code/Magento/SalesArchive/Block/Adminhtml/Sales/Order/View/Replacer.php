@@ -17,6 +17,29 @@ namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View;
 class Replacer
     extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
+    /**
+     * @var \Magento\SalesArchive\Model\Config
+     */
+    protected $_configModel;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\SalesArchive\Model\Config $configModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\SalesArchive\Model\Config $configModel,
+        array $data = array()
+    ) {
+        $this->_configModel = $configModel;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
     protected function _prepareLayout()
     {
         if ($this->getOrder()->getIsArchived()) {
@@ -45,7 +68,7 @@ class Replacer
                 ));
             }
         } elseif ($this->getOrder()->getIsMoveable() !== false) {
-            $isActive = \Mage::getSingleton('Magento\SalesArchive\Model\Config')->isArchiveActive();
+            $isActive = $this->_configModel->isArchiveActive();
             if ($isActive) {
                 $archiveUrl = $this->getUrl(
                     '*/sales_archive/add',

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="left">
+    <referenceContainer name="left">
         <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" before="-"/>
-    </reference>
+    </referenceContainer>
 </layout>

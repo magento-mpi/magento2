@@ -11,16 +11,14 @@
 
 /**
  * Block of links in Order view page
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Block\Order\Info;
 
 class Buttons extends \Magento\Core\Block\Template
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'order/info/buttons.phtml';
 
     /**
@@ -31,18 +29,26 @@ class Buttons extends \Magento\Core\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -59,12 +65,12 @@ class Buttons extends \Magento\Core\Block\Template
     /**
      * Get url for printing order
      *
-     * @param Magento_Sales_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return string
      */
     public function getPrintUrl($order)
     {
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if (!$this->_customerSession->isLoggedIn()) {
             return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
         }
         return $this->getUrl('sales/order/print', array('order_id' => $order->getId()));
@@ -73,12 +79,12 @@ class Buttons extends \Magento\Core\Block\Template
     /**
      * Get url for reorder action
      *
-     * @param Magento_Sales_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return string
      */
     public function getReorderUrl($order)
     {
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if (!$this->_customerSession->isLoggedIn()) {
             return $this->getUrl('sales/guest/reorder', array('order_id' => $order->getId()));
         }
         return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Captcha\Model\DefaultModel">
+        <param name="session">
+            <instance type="Magento\Customer\Model\Session" />
+        </param>
+    </type>
+    <type name="Magento\Captcha\Model\Observer">
+        <param name="session">
+            <instance type="Magento\Customer\Model\Session" />
+        </param>
+    </type>
+</config>

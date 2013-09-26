@@ -8,15 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout.onepage.review.info.items.after">
+    <referenceContainer name="checkout.onepage.review.info.items.after">
         <block class="Magento\Paypal\Block\Iframe" name="paypal.iframe"/>
-    </reference>
-    <reference name="checkout.onepage.review.button">
+    </referenceContainer>
+    <referenceBlock name="checkout.onepage.review.button">
         <action method="setTemplate">
-            <argument name="template" xsi:type="helper" helper="Magento\Paypal\Helper\Hss::getReviewButtonTemplate">
+            <argument name="template" xsi:type="helper" helper="Magento_Paypal_Helper_Hss::getReviewButtonTemplate">
                 <param name="name">Magento_Paypal::hss/review/button.phtml</param>
                 <param name="block">checkout.onepage.review.button</param>
             </argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

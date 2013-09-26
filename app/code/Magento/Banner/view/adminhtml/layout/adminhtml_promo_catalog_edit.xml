@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="promo_catalog_edit_tabs">
+    <referenceBlock name="promo_catalog_edit_tabs">
         <block class="Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners" name="catalogrule.related.banners">
             <block class="Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners\Grid" name="related_catalogrule_banners_grid"/>
             <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="banners_grid_serializer">
@@ -25,5 +25,5 @@
             <argument name="block" xsi:type="string">catalogrule.related.banners</argument>
         </action>
         <block class="Magento\Banner\Block\Adminhtml\Permission\Monitor" name="bannner.permission.monitor"/>
-    </reference>
+    </referenceBlock>
 </layout>

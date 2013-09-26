@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,24 +9,35 @@ namespace Magento\User\Controller\Adminhtml;
 
 class User extends \Magento\Backend\Controller\ActionAbstract
 {
-
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * User model factory
+     *
+     * @var \Magento\User\Model\UserFactory
+     */
+    protected $_userFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\User\Model\UserFactory $userFactory
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\User\Model\UserFactory $userFactory
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_userFactory = $userFactory;
     }
 
     protected function _initAction()
@@ -59,7 +68,8 @@ class User extends \Magento\Backend\Controller\ActionAbstract
         $this->_title(__('Users'));
 
         $userId = $this->getRequest()->getParam('user_id');
-        $model = \Mage::getModel('Magento\User\Model\User');
+        /** @var \Magento\User\Model\User $model */
+        $model = $this->_userFactory->create();
 
         if ($userId) {
             $model->load($userId);
@@ -162,7 +172,8 @@ class User extends \Magento\Backend\Controller\ActionAbstract
                 return;
             }
             try {
-                $model = \Mage::getModel('Magento\User\Model\User');
+                /** @var \Magento\User\Model\User $model */
+                $model = $this->_userFactory->create();
                 $model->setId($userId);
                 $model->delete();
                 $this->_session->addSuccess(__('You deleted the user.'));
@@ -182,7 +193,8 @@ class User extends \Magento\Backend\Controller\ActionAbstract
     public function rolesGridAction()
     {
         $userId = $this->getRequest()->getParam('user_id');
-        $model = \Mage::getModel('Magento\User\Model\User');
+        /** @var \Magento\User\Model\User $model */
+        $model = $this->_userFactory->create();
 
         if ($userId) {
             $model->load($userId);
@@ -202,5 +214,4 @@ class User extends \Magento\Backend\Controller\ActionAbstract
     {
         return $this->_authorization->isAllowed('Magento_User::acl_users');
     }
-
 }

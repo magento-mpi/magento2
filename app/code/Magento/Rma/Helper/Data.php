@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * RMA Helper
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Helper;
 
@@ -74,7 +69,42 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Rma\Model\Resource\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_authSession;
+
+    /**
+     * @var \Magento\Sales\Model\Quote\AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @var \Magento\Rma\Model\CarrierFactory
+     */
+    protected $_carrierFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -83,6 +113,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
+     * @param \Magento\Rma\Model\CarrierFactory $carrierFactory
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -90,13 +127,27 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Directory\Model\RegionFactory $regionFactory
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
+        \Magento\Rma\Model\CarrierFactory $carrierFactory
     ) {
         $this->_coreData = $coreData;
         $this->_app = $app;
         $this->_storeConfig = $storeConfig;
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_itemFactory = $itemFactory;
+        $this->_customerSession = $customerSession;
+        $this->_authSession = $authSession;
+        $this->_addressFactory = $addressFactory;
+        $this->_carrierFactory = $carrierFactory;
         parent::__construct($context);
     }
 
@@ -132,8 +183,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      *
      * @param  int|\Magento\Sales\Model\Order $orderId
      * @param  bool $onlyParents If needs only parent items (only for backend)
-     * @throws \Magento\Core\Exception
      * @return \Magento\Sales\Model\Resource\Order\Item\Collection
+     * @throws \Magento\Core\Exception
      */
     public function getOrderItems($orderId, $onlyParents = false)
     {
@@ -141,11 +192,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $orderId = $orderId->getId();
         }
         if (!is_numeric($orderId)) {
-            \Mage::throwException(__('This is not a valid order.'));
+            throw new \Magento\Core\Exception(__('This is not a valid order.'));
         }
         if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
-            $this->_orderItems[$orderId] = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
-                ->getOrderItems($orderId);
+            $this->_orderItems[$orderId] = $this->_itemFactory->create()->getOrderItems($orderId);
         }
 
         if ($onlyParents) {
@@ -171,10 +221,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getReturnCreateUrl($order)
     {
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            return \Mage::getUrl('rma/returns/create', array('order_id' => $order->getId()));
+        if ($this->_customerSession->isLoggedIn()) {
+            return $this->_getUrl('rma/return/create', array('order_id' => $order->getId()));
         } else {
-            return \Mage::getUrl('rma/guest/create', array('order_id' => $order->getId()));
+            return $this->_getUrl('rma/guest/create', array('order_id' => $order->getId()));
         }
     }
 
@@ -219,7 +269,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         $contactName = new \Magento\Object();
         if ($this->_storeConfig->getConfigFlag(\Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
-            $admin = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser();
+            $admin = $this->_authSession->getUser();
             $contactName->setFirstName($admin->getFirstname());
             $contactName->setLastName($admin->getLastname());
             $contactName->setName($admin->getName());
@@ -240,11 +290,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getReturnAddressModel($storeId = null)
     {
-        $addressModel = \Mage::getModel('Magento\Sales\Model\Quote\Address');
+        /** @var $addressModel \Magento\Sales\Model\Quote\Address */
+        $addressModel = $this->_addressFactory->create();
         $addressModel->setData($this->getReturnAddressData($storeId));
         $addressModel->setCountryId($addressModel->getData('countryId'));
         $addressModel->setStreet($addressModel->getData('street1')."\n".$addressModel->getData('street2'));
-
         return $addressModel;
     }
 
@@ -312,7 +362,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected function _getCountryModel()
     {
         if (is_null($this->_countryModel)) {
-            $this->_countryModel = \Mage::getModel('Magento\Directory\Model\Country');
+            $this->_countryModel = $this->_countryFactory->create();
         }
         return $this->_countryModel;
     }
@@ -365,21 +415,21 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      *
      * @param string $code Shipping method code
      * @param mixed $storeId
-     * @return false|\Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+     * @return bool|\Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
      */
     public function getCarrier($code, $storeId = null)
     {
-        $data           = explode('_', $code, 2);
-        $carrierCode    = $data[0];
+        $data  = explode('_', $code, 2);
+        $carrierCode = $data[0];
 
         if (!$this->_storeConfig->getConfig('carriers/' . $carrierCode . '/active_rma', $storeId)) {
             return false;
         }
-        $className = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/model', $storeId);
+        $className = $this->_storeConfig->getConfig('carriers/' . $carrierCode . '/model', $storeId);
         if (!$className) {
             return false;
         }
-        $obj = \Mage::getModel($className);
+        $obj = $this->_carrierFactory->create($className);
         if ($storeId) {
             $obj->setStore($storeId);
         }
@@ -395,15 +445,15 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPackagePopupUrlByRmaModel($model, $action = 'package')
     {
-        $key    = 'rma_id';
+        $key = 'rma_id';
         $method = 'getId';
         $param = array(
              'hash' => $this->_coreData->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
         );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
-         $storeModel = \Mage::app()->getStore($storeId);
-         return $storeModel->getUrl('rma/tracking/'.$action, $param);
+         $storeModel = $this->_storeManager->getStore($storeId);
+         return $storeModel->getUrl('rma/tracking/' . $action, $param);
     }
 
     /**
@@ -436,7 +486,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
          );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
-         $storeModel = \Mage::app()->getStore($storeId);
+         $storeModel = $this->_storeManager->getStore($storeId);
          return $storeModel->getUrl('rma/tracking/popup', $param);
     }
 
@@ -487,11 +537,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getFormatedDate($date)
     {
-        $storeDate = \Mage::app()->getLocale()
-            ->storeDate(\Mage::app()->getStore(), \Magento\Date::toTimestamp($date), true);
-
-        return $this->_coreData
-            ->formatDate($storeDate, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $storeDate = $this->_locale->storeDate(
+            $this->_storeManager->getStore(), \Magento\Date::toTimestamp($date), true
+        );
+        return $this->_coreData->formatDate($storeDate, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

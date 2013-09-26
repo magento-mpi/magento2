@@ -20,7 +20,32 @@ namespace Magento\Downloadable\Block\Sales\Order\Email\Items\Order;
 
 class Downloadable extends \Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder
 {
-    protected $_purchased = null;
+    /**
+     * @var \Magento\Downloadable\Model\Link\Purchased
+     */
+    protected $_purchased;
+
+    /**
+     * @var \Magento\Downloadable\Model\Link\PurchasedFactory
+     */
+    protected $_purchasedFactory;
+
+    /**
+     * @var \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
+        \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
+        array $data = array()
+    ) {
+        $this->_purchasedFactory = $purchasedFactory;
+        $this->_itemsFactory = $itemsFactory;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Enter description here...
@@ -29,10 +54,8 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\Order\DefaultO
      */
     public function getLinks()
     {
-        $this->_purchased = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased')
-            ->load($this->getItem()->getOrder()->getId(), 'order_id');
-        $purchasedLinks = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased\Item')->getCollection()
-            ->addFieldToFilter('order_item_id', $this->getItem()->getId());
+        $this->_purchased = $this->_purchasedFactory->create()->load($this->getItem()->getOrder()->getId(), 'order_id');
+        $purchasedLinks = $this->_itemsFactory->create()->addFieldToFilter('order_item_id', $this->getItem()->getId());
         $this->_purchased->setPurchasedItems($purchasedLinks);
 
         return $this->_purchased;

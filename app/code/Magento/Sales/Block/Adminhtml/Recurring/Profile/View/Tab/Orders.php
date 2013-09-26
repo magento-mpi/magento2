@@ -25,11 +25,23 @@ class Orders
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory
+     */
+    protected $_orderCollection;
+
+    /**
+     * @var \Magento\Sales\Model\Order\ConfigFactory
+     */
+    protected $_orderConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $orderCollection
+     * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
      * @param array $data
      */
     public function __construct(
@@ -38,9 +50,13 @@ class Orders
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $orderCollection,
+        \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_orderCollection = $orderCollection;
+        $this->_orderConfig = $orderConfig;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -62,7 +78,7 @@ class Orders
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Grid\Collection')
+        $collection = $this->_orderCollection->create()
             ->addRecurringProfilesFilter($this->_coreRegistry->registry('current_recurring_profile')->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -84,7 +100,7 @@ class Orders
             'index' => 'increment_id',
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'    => __('Purchase Point'),
                 'index'     => 'store_id',
@@ -130,7 +146,7 @@ class Orders
             'index' => 'status',
             'type'  => 'options',
             'width' => '70px',
-            'options' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getStatuses(),
+            'options' => $this->_orderConfig->create()->getStatuses(),
         ));
 
         if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {

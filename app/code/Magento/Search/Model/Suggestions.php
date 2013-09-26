@@ -20,14 +20,26 @@ namespace Magento\Search\Model;
 class Suggestions
 {
     /**
+     * @var \Magento\Search\Model\Search\Layer
+     */
+    protected $_searchLayer;
+
+    /**
+     * @param \Magento\Search\Model\Search\Layer $searchLayer
+     */
+    function __construct(
+        \Magento\Search\Model\Search\Layer $searchLayer
+    ) {
+        $this->_searchLayer = $searchLayer;
+    }
+
+    /**
      * Retrieve search suggestions
      *
      * @return array
      */
     public function getSearchSuggestions()
     {
-        return \Mage::getSingleton('Magento\Search\Model\Search\Layer')
-            ->getProductCollection()
-            ->getSuggestionsData();
+        return $this->_searchLayer->getProductCollection()->getSuggestionsData();
     }
 }

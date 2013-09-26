@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Css" name="mui-reset-css">
             <arguments>
                 <argument name="file" xsi:type="string">mui/reset.css</argument>
@@ -113,5 +113,5 @@
                 <argument name="file" xsi:type="string">js/jquery.details.js</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

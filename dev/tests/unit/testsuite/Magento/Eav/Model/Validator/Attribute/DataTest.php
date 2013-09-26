@@ -185,11 +185,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function whiteBlackListProvider()
     {
-        $whiteCallback = function($validator) {
+        $whiteCallback = function ($validator) {
             $validator->setAttributesWhiteList(array('attribute'));
         };
 
-        $blackCallback = function($validator) {
+        $blackCallback = function ($validator) {
             $validator->setAttributesBlackList(array('attribute2'));
         };
         return array(

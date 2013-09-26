@@ -8,21 +8,21 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="cart_sidebar">
+    <referenceBlock name="cart_sidebar">
         <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_Checkout::cart/sidebar/default.phtml"/>
-    </reference>
-    <reference name="wishlist_sidebar">
+    </referenceBlock>
+    <referenceBlock name="wishlist_sidebar">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">bundle</argument>
             <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
             <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
         </action>
-    </reference>
-    <reference name="catalog_product_price_template">
+    </referenceBlock>
+    <referenceBlock name="catalog_product_price_template">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">bundle</argument>
             <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
             <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -26,7 +26,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_SEO_SAVE_HISTORY        = 'catalog/seo/save_rewrites_history';
     const CONFIG_USE_STATIC_URLS           = 'cms/wysiwyg/use_static_urls_in_catalog';
     const CONFIG_PARSE_URL_DIRECTIVES      = 'catalog/frontend/parse_url_directives';
-    const XML_PATH_CONTENT_TEMPLATE_FILTER = 'global/catalog/content/tempate_filter';
     const XML_PATH_DISPLAY_PRODUCT_COUNT   = 'catalog/layered_navigation/display_product_count';
 
     /**
@@ -88,17 +87,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreString = null;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
+     * @var string
      */
-    protected $_coreStoreConfig;
+    protected $_templateFilterModel;
 
-    /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-    
     /**
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Catalog\Helper\Category $catalogCategory
@@ -106,7 +98,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param $templateFilterModel
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
@@ -115,15 +107,15 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig
+        $templateFilterModel
     ) {
         $this->_coreString = $coreString;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogProduct = $catalogProduct;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreRegistry = $coreRegistry;
+        $this->_templateFilterModel = $templateFilterModel;
         parent::__construct($context);
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -223,7 +215,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $productId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId();
         if ($productId) {
             $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
-            /* @var $product Magento\Catalog\Model\Product */
+            /* @var $product \Magento\Catalog\Model\Product */
             if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
@@ -231,7 +223,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $categoryId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedCategoryId();
         if ($categoryId) {
             $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
-            /* @var $category Magento\Catalog\Model\Category */
+            /* @var $category \Magento\Catalog\Model\Category */
             if (!$this->_catalogCategory->canShow($category)) {
                 return '';
             }
@@ -250,7 +242,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function splitSku($sku, $length = 30)
     {
-        return $this->_coreString->strSplit($sku, $length, true, false, '[\-\s]');
+        return $this->_coreString->str_split($sku, $length, true, false, '[\-\s]');
     }
 
     /**
@@ -339,8 +331,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPageTemplateProcessor()
     {
-        $model = (string)$this->_coreConfig->getNode(self::XML_PATH_CONTENT_TEMPLATE_FILTER);
-        return \Mage::getModel($model);
+        return \Mage::getModel($this->_templateFilterModel);
     }
 
     /**

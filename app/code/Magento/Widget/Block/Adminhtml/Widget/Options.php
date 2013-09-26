@@ -25,19 +25,20 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
      * @var string
      */
     protected $_defaultElementType = 'text';
-
+    
     /**
      * @var \Magento\Widget\Model\Widget
      */
     protected $_widget;
 
     /**
-     * @var \Magento\Core\Model\Option\ArrayFactory
+     * @var \Magento\Widget\Model\Widget\Instance\OptionsFactory
+     * @var \Magento\Core\Model\Option\ArrayPool
      */
-    protected $_sourceModelFactory;
+    protected $_sourceModelPool;
 
     /**
-     * @param \Magento\Core\Model\Option\ArrayFactory $sourceModelFactory
+     * @param \Magento\Core\Model\Option\ArrayPool $sourceModelPool
      * @param \Magento\Widget\Model\Widget $widget
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
@@ -46,7 +47,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Option\ArrayFactory $sourceModelFactory,
+        \Magento\Core\Model\Option\ArrayPool $sourceModelPool,
         \Magento\Widget\Model\Widget $widget,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
@@ -54,7 +55,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
-        $this->_sourceModelFactory = $sourceModelFactory;
+        $this->_sourceModelPool = $sourceModelPool;
         $this->_widget = $widget;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -117,7 +118,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
      * Add fields to main fieldset based on specified widget type
      *
      * @throws \Magento\Core\Exception
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     public function addFields()
     {
@@ -181,7 +182,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
         }
         // otherwise, a source model is specified
         elseif ($sourceModel = $parameter->getSourceModel()) {
-            $data['values'] = $this->_sourceModelFactory->create($sourceModel)->toOptionArray();
+            $data['values'] = $this->_sourceModelPool->get($sourceModel)->toOptionArray();
         }
 
         // prepare field type or renderer

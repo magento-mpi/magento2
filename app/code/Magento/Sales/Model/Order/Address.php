@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales order address model
  *
@@ -50,19 +49,62 @@
  * @method \Magento\Sales\Model\Order\Address setSuffix(string $value)
  * @method string getCompany()
  * @method \Magento\Sales\Model\Order\Address setCompany(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order;
 
 class Address extends \Magento\Customer\Model\Address\AbstractAddress
 {
+    /**
+     * @var \Magento\Sales\Model\Order
+     */
     protected $_order;
 
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'sales_order_address';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'address';
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $eventManager,
+            $directoryData,
+            $context,
+            $registry,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_orderFactory = $orderFactory;
+    }
 
     /**
      * Initialize resource
@@ -75,6 +117,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Set order
      *
+     * @param \Magento\Sales\Model\Order $order
      * @return \Magento\Sales\Model\Order\Address
      */
     public function setOrder(\Magento\Sales\Model\Order $order)
@@ -91,7 +134,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function getOrder()
     {
         if (!$this->_order) {
-            $this->_order = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getParentId());
+            $this->_order = $this->_orderFactory->create()->load($this->getParentId());
         }
         return $this->_order;
     }

@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Gift Message resource setup
- *
- * @category    Magento
- * @package     Magento_GiftMessage
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\GiftMessage\Model\Resource;
 
@@ -26,7 +21,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_catalogSetupFactory;
 
     /**
-     * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -36,10 +30,11 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param $resourceName
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
+     * @param string $resourceName
      */
     public function __construct(
-        \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -49,20 +44,20 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         $resourceName
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        parent::__construct(
-            $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
-            $resource, $modulesReader, $cache, $resourceName
-        );
+        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
+            $resource, $modulesReader, $cache, $migrationFactory, $resourceName);
     }
 
     /**
      * Create Catalog Setup Factory for GiftMessage
      *
      * @param array $data
-     * @return Magento_Catalog_Model_Resource_Setup
+     * @return \Magento\Catalog\Model\Resource\Setup
      */
     public function createGiftMessageSetup(array $data = array())
     {

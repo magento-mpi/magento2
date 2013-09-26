@@ -36,10 +36,33 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
     const XML_CONFIG_POOL_SIZE   = 'giftcard/giftcardaccount_general/pool_size';
     const XML_CONFIG_POOL_THRESHOLD = 'giftcard/giftcardaccount_general/pool_threshold';
 
-    const XML_CHARSET_NODE      = 'global/magento/giftcardaccount/charset/%s';
-    const XML_CHARSET_SEPARATOR = 'global/magento/giftcardaccount/separator';
-
     const CODE_GENERATION_ATTEMPTS = 1000;
+
+    /**
+     * @var array
+     */
+    protected $_giftCardCodeParams = array();
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $giftCardCodeParams
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $giftCardCodeParams = array(),
+        array $data = array()
+    ) {
+        $this->_giftCardCodeParams = $giftCardCodeParams;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
 
     protected function _construct()
     {
@@ -102,10 +125,13 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         $prefix  = $website->getConfig(self::XML_CONFIG_CODE_PREFIX);
 
         $splitChar = $this->getCodeSeparator();
-        $charset = str_split((string) \Mage::app()->getConfig()->getNode(sprintf(self::XML_CHARSET_NODE, $format)));
+        $charset = isset($this->_giftCardCodeParams['charset'][$format])
+            ? $this->_giftCardCodeParams['charset'][$format]
+            : '';
+        $charset = str_split($charset);
 
         $code = '';
-        for ($i=0; $i<$length; $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $char = $charset[array_rand($charset)];
             if ($split > 0 && ($i%$split) == 0 && $i != 0) {
                 $char = "{$splitChar}{$char}";
@@ -119,6 +145,6 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
 
     public function getCodeSeparator()
     {
-        return (string) \Mage::app()->getConfig()->getNode(self::XML_CHARSET_SEPARATOR);
+        return isset($this->_giftCardCodeParams['separator']) ? $this->_giftCardCodeParams['separator'] : '';
     }
 }

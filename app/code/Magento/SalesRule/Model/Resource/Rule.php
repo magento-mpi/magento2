@@ -46,14 +46,22 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_coreString = null;
 
     /**
+     * @var \Magento\SalesRule\Model\Resource\Coupon
+     */
+    protected $_resourceCoupon;
+
+    /**
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\SalesRule\Model\Resource\Coupon $resourceCoupon
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\SalesRule\Model\Resource\Coupon $resourceCoupon
     ) {
         $this->_coreString = $coreString;
+        $this->_resourceCoupon = $resourceCoupon;
         parent::__construct($resource);
     }
 
@@ -140,7 +148,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         // Update auto geterated specific coupons if exists
         if ($object->getUseAutoGeneration() && $object->hasDataChanges()) {
-            \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon')->updateSpecificCoupons($object);
+            $this->_resourceCoupon->updateSpecificCoupons($object);
         }
         return parent::_afterSave($object);
     }
@@ -167,7 +175,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param int $ruleId
      * @param array $labels
-     *
+     * @throws \Exception
      * @return \Magento\SalesRule\Model\Resource\Rule
      */
     public function saveStoreLabels($ruleId, $labels)
@@ -204,7 +212,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
-
         }
         $adapter->commit();
 

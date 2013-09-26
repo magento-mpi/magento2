@@ -11,9 +11,7 @@
 /**
  * Multiple wishlist frontend search controller
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\MultipleWishlist\Controller;
 
@@ -34,14 +32,106 @@ class Search extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
+     * Locale model
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Checkout cart
+     *
+     * @var \Magento\Checkout\Model\Cart
+     */
+    protected $_checkoutCart;
+
+    /**
+     * Checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Strategy name factory
+     *
+     * @var \Magento\MultipleWishlist\Model\Search\Strategy\NameFactory
+     */
+    protected $_strategyNameFactory;
+
+    /**
+     * Strategy email factory
+     *
+     * @var \Magento\MultipleWishlist\Model\Search\Strategy\EmailFactory
+     */
+    protected $_strategyEmailFactory;
+
+    /**
+     * Search factory
+     *
+     * @var \Magento\MultipleWishlist\Model\SearchFactory
+     */
+    protected $_searchFactory;
+
+    /**
+     * Wishlist factory
+     *
+     * @var \Magento\Wishlist\Model\WishlistFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
+     * Item model factory
+     *
+     * @var \Magento\Wishlist\Model\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\MultipleWishlist\Model\SearchFactory $searchFactory
+     * @param \Magento\MultipleWishlist\Model\Search\Strategy\EmailFactory $strategyEmailFactory
+     * @param \Magento\MultipleWishlist\Model\Search\Strategy\NameFactory $strategyNameFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Checkout\Model\Cart $checkoutCart
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Model\ItemFactory $itemFactory,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\MultipleWishlist\Model\SearchFactory $searchFactory,
+        \Magento\MultipleWishlist\Model\Search\Strategy\EmailFactory $strategyEmailFactory,
+        \Magento\MultipleWishlist\Model\Search\Strategy\NameFactory $strategyNameFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Checkout\Model\Cart $checkoutCart,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\LocaleInterface $locale
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_itemFactory = $itemFactory;
+        $this->_wishlistFactory = $wishlistFactory;
+        $this->_searchFactory = $searchFactory;
+        $this->_strategyEmailFactory = $strategyEmailFactory;
+        $this->_strategyNameFactory = $strategyNameFactory;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_checkoutCart = $checkoutCart;
+        $this->_customerSession = $customerSession;
+        $this->_locale = $locale;
         parent::__construct($context);
     }
 
@@ -55,7 +145,7 @@ class Search extends \Magento\Core\Controller\Front\Action
     {
         if (!$this->_localFilter) {
             $this->_localFilter = new \Zend_Filter_LocalizedToNormalized(
-                array('locale' => \Mage::app()->getLocale()->getLocaleCode())
+                array('locale' => $this->_locale->getLocaleCode())
             );
         }
         $qty = $this->_localFilter->filter($qty);
@@ -81,16 +171,6 @@ class Search extends \Magento\Core\Controller\Front\Action
     }
 
     /**
-     * Get current customer session
-     *
-     * @return \Magento\Customer\Model\Session
-     */
-    protected function _getSession()
-    {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
-    }
-
-    /**
      * Index action
      */
     public function indexAction()
@@ -106,6 +186,8 @@ class Search extends \Magento\Core\Controller\Front\Action
 
     /**
      * Wishlist search action
+     *
+     * @throws \Magento\Core\Exception
      */
     public function resultsAction()
     {
@@ -114,35 +196,32 @@ class Search extends \Magento\Core\Controller\Front\Action
         try {
             $params = $this->getRequest()->getParam('params');
             if (empty($params) || !is_array($params) || empty($params['search'])) {
-                \Mage::throwException(
-                    __('Please specify correct search options.')
-                );
+                throw new \Magento\Core\Exception(__('Please specify correct search options.'));
             };
 
             $strategy = null;
             switch ($params['search']) {
                 case 'type':
-                    $strategy = \Mage::getModel('Magento\MultipleWishlist\Model\Search\Strategy\Name');
+                    $strategy = $this->_strategyNameFactory->create();
                     break;
                 case 'email':
-                    $strategy = \Mage::getModel('Magento\MultipleWishlist\Model\Search\Strategy\Email');
+                    $strategy = $this->_strategyEmailFactory->create();
                     break;
                 default:
-                    \Mage::throwException(
-                        __('Please specify correct search options.')
-                    );
+                    throw new \Magento\Core\Exception(__('Please specify correct search options.'));
             }
 
             $strategy->setSearchParams($params);
-            $search = \Mage::getModel('Magento\MultipleWishlist\Model\Search');
+            /** @var \Magento\MultipleWishlist\Model\Search $search */
+            $search = $this->_searchFactory->create();
             $this->_coreRegistry->register('search_results', $search->getResults($strategy));
-            $this->_getSession()->setLastWishlistSearchParams($params);
+            $this->_customerSession->setLastWishlistSearchParams($params);
         } catch (\InvalidArgumentException $e) {
-            $this->_getSession()->addNotice($e->getMessage());
+            $this->_customerSession->addNotice($e->getMessage());
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->_customerSession->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addError(__('We could not perform the search.'));
+            $this->_customerSession->addError(__('We could not perform the search.'));
         }
 
         $this->_initLayoutMessages('Magento\Customer\Model\Session');
@@ -162,10 +241,11 @@ class Search extends \Magento\Core\Controller\Front\Action
         if (!$wishlistId) {
             return $this->norouteAction();
         }
-        $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
+        /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
+        $wishlist = $this->_wishlistFactory->create();
         $wishlist->load($wishlistId);
         if (!$wishlist->getId()
-            || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_getSession()->getCustomerId())) {
+            || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_customerSession->getCustomerId())) {
             return $this->norouteAction();
         }
         $this->_coreRegistry->register('wishlist', $wishlist);
@@ -190,14 +270,14 @@ class Search extends \Magento\Core\Controller\Front\Action
         $hasOptions = array();
 
         /** @var \Magento\Checkout\Model\Cart $cart  */
-        $cart = \Mage::getSingleton('Magento\Checkout\Model\Cart');
+        $cart = $this->_checkoutCart;
         $qtys = $this->getRequest()->getParam('qty');
         $selected = $this->getRequest()->getParam('selected');
         foreach ($qtys as $itemId => $qty) {
             if ($qty && isset($selected[$itemId])) {
                 try {
                     /** @var \Magento\Wishlist\Model\Item $item*/
-                    $item = \Mage::getModel('Magento\Wishlist\Model\Item');
+                    $item = $this->_itemFactory->create();
                     $item->loadWithOptions($itemId);
                     $item->unsProduct();
                     $qty = $this->_processLocalizedQty($qty);
@@ -249,9 +329,8 @@ class Search extends \Magento\Core\Controller\Front\Action
                 $item = $hasOptions[0];
                 $redirectUrl = $item->getProductUrl();
             } else {
-                $wishlistSession = \Mage::getSingleton('Magento\Checkout\Model\Session');
                 foreach ($messages as $message) {
-                    $wishlistSession->addError($message);
+                    $this->_checkoutSession->addError($message);
                 }
             }
         }
@@ -262,7 +341,7 @@ class Search extends \Magento\Core\Controller\Front\Action
                 $products[] = '"' . $product->getName() . '"';
             }
 
-            \Mage::getSingleton('Magento\Checkout\Model\Session')->addSuccess(
+            $this->_checkoutSession->addSuccess(
                 __('%1 product(s) have been added to shopping cart: %2.', count($addedItems), join(', ', $products))
             );
         }

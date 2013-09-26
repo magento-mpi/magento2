@@ -8,15 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="right">
+    <referenceContainer name="right">
         <block class="Magento\Sales\Block\Reorder\Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
-    </reference>
-    <reference name="footer_links">
+    </referenceContainer>
+    <referenceBlock name="footer_links">
         <block class="Magento\Sales\Block\Guest\Link" name="sales-guest-form-link">
             <arguments>
                 <argument name="label" xsi:type="string">Orders and Returns</argument>
                 <argument name="path" xsi:type="string">sales/guest/form</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -22,7 +22,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_catalogHelperMock;
+    protected $_engineProviderMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -51,8 +51,9 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->_engineProviderMock = $this->getMock('Magento\CatalogSearch\Model\Resource\EngineProvider', array(),
+            array(), '', false);
         $this->_searchHelperMock = $this->getMock('Magento\Search\Helper\Data', array(), array(), '', false);
-        $this->_catalogHelperMock = $this->getMock('Magento\CatalogSearch\Helper\Data', array(), array(), '', false);
         $this->_cacheMock = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false);
         $this->_searchEngineMock = $this->getMock('Magento\Search\Model\Resource\Engine', array(), array(), '', false);
         $this->_fulltextSearchMock = $this->getMock(
@@ -65,8 +66,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->_arguments = array(1, array(1,2));
 
         $this->_model = new \Magento\Search\Model\Plugin\FulltextIndexRebuild(
+            $this->_engineProviderMock,
             $this->_searchHelperMock,
-            $this->_catalogHelperMock,
             $this->_filterPriceMock,
             $this->_cacheMock
         );
@@ -81,8 +82,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             ->method('isThirdPartyEngineAvailable')
             ->will($this->returnValue(false));
 
-        $this->_catalogHelperMock->expects($this->never())
-            ->method('getEngine');
+        $this->_engineProviderMock->expects($this->never())
+            ->method('get');
 
         $this->assertEquals($this->_arguments, $this->_model->beforeRebuildIndex($this->_arguments));
     }
@@ -103,8 +104,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->_searchEngineMock->expects($this->never())
             ->method('setIndexNeedsOptimization');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $this->assertEquals($this->_arguments, $this->_model->beforeRebuildIndex($this->_arguments));
@@ -126,8 +127,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->_searchEngineMock->expects($this->once())
             ->method('setIndexNeedsOptimization');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $arguments = $this->_arguments;
@@ -151,8 +152,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->_searchEngineMock->expects($this->never())
             ->method('setIndexNeedsOptimization');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $this->assertEquals($this->_arguments, $this->_model->beforeRebuildIndex($this->_arguments));
@@ -167,8 +168,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             ->method('isThirdPartyEngineAvailable')
             ->will($this->returnValue(false));
 
-        $this->_catalogHelperMock->expects($this->never())
-            ->method('getEngine');
+        $this->_engineProviderMock->expects($this->never())
+            ->method('get');
 
         $this->assertEquals($this->_fulltextSearchMock, $this->_model->afterRebuildIndex($this->_fulltextSearchMock));
     }
@@ -189,8 +190,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->_searchEngineMock->expects($this->never())
             ->method('getIndexNeedsOptimization');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $this->assertEquals($this->_fulltextSearchMock, $this->_model->afterRebuildIndex($this->_fulltextSearchMock));
@@ -219,8 +220,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->_searchEngineMock->expects($this->never())
             ->method('commitChanges');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $cacheTag = 'cacheTag';
@@ -258,8 +259,8 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->_searchEngineMock->expects($this->once())
             ->method('commitChanges');
 
-        $this->_catalogHelperMock->expects($this->once())
-            ->method('getEngine')
+        $this->_engineProviderMock->expects($this->once())
+            ->method('get')
             ->will($this->returnValue($this->_searchEngineMock));
 
         $cacheTag = 'cacheTag';

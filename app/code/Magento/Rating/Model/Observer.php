@@ -8,18 +8,26 @@
  * @license     {license_link}
  */
 
-
 /**
  * Rating Observer Model
- *
- * @category   Magento
- * @package    Magento_Rating
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rating\Model;
 
 class Observer
 {
+    /**
+     * @var \Magento\Rating\Model\Resource\Rating
+     */
+    protected $_resourceRating;
+
+    /**
+     * @param \Magento\Rating\Model\Resource\Rating $resourceRating
+     */
+    public function __construct(\Magento\Rating\Model\Resource\Rating $resourceRating)
+    {
+        $this->_resourceRating = $resourceRating;
+    }
+
     /**
      * Cleanup product ratings after product delete
      *
@@ -30,8 +38,7 @@ class Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            \Mage::getResourceSingleton('Magento\Rating\Model\Resource\Rating')
-                ->deleteAggregatedRatingsByProductId($eventProduct->getId());
+            $this->_resourceRating->deleteAggregatedRatingsByProductId($eventProduct->getId());
         }
         return $this;
     }

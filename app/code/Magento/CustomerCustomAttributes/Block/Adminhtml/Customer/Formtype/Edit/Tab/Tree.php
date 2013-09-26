@@ -14,29 +14,53 @@
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
 
 class Tree
-    extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Form
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory
+     */
+    protected $_fieldsetFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Form\Element\CollectionFactory
+     */
+    protected $_elementsFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetFactory
+     * @param \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetFactory,
+        \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_storeManager = $storeManager;
+        $this->_fieldsetFactory = $fieldsetFactory;
+        $this->_elementsFactory = $elementsFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -95,7 +119,7 @@ class Tree
     public function getStores()
     {
         if (!$this->hasData('stores')) {
-            $this->setData('stores', \Mage::app()->getStores(false));
+            $this->setData('stores', $this->_storeManager->getStores(false));
         }
         return $this->_getData('stores');
     }
@@ -124,13 +148,14 @@ class Tree
     public function getAttributesJson()
     {
         $nodes = array();
+        /** @var $fieldsetCollection \Magento\Eav\Model\Resource\Form\Fieldset\Collection */
+        $fieldsetCollection = $this->_fieldsetFactory->create();
+        $fieldsetCollection->addTypeFilter($this->_getFormType())->setSortOrder();
 
-        $fieldsetCollection = \Mage::getModel('Magento\Eav\Model\Form\Fieldset')->getCollection()
-            ->addTypeFilter($this->_getFormType())
-            ->setSortOrder();
-        $elementCollection = \Mage::getModel('Magento\Eav\Model\Form\Element')->getCollection()
-            ->addTypeFilter($this->_getFormType())
-            ->setSortOrder();
+        /** @var $elementCollection \Magento\Eav\Model\Resource\Form\Element\Collection */
+        $elementCollection  = $this->_elementsFactory->create();
+        $elementCollection = $elementCollection->addTypeFilter($this->_getFormType())->setSortOrder();
+
         foreach ($fieldsetCollection as $fieldset) {
             /* @var $fieldset \Magento\Eav\Model\Form\Fieldset */
             $node = array(

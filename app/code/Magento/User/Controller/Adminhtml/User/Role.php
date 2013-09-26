@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Magento_User roles controller
- *
- * @category   Magento
- * @package    Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
+ * \Magento\User roles controller
  */
 namespace Magento\User\Controller\Adminhtml\User;
 
@@ -28,15 +22,57 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
     protected $_coreRegistry = null;
 
     /**
+     * Factory for user role model
+     *
+     * @var \Magento\User\Model\RoleFactory
+     */
+    protected $_roleFactory;
+
+    /**
+     * User model factory
+     *
+     * @var \Magento\User\Model\UserFactory
+     */
+    protected $_userFactory;
+
+    /**
+     * Rules model factory
+     *
+     * @var \Magento\User\Model\RulesFactory
+     */
+    protected $_rulesFactory;
+
+    /**
+     * Backend auth session
+     *
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_authSession;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\User\Model\RoleFactory $roleFactory
+     * @param \Magento\User\Model\UserFactory $userFactory
+     * @param \Magento\User\Model\RulesFactory $rulesFactory
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\User\Model\RoleFactory $roleFactory,
+        \Magento\User\Model\UserFactory $userFactory,
+        \Magento\User\Model\RulesFactory $rulesFactory,
+        \Magento\Backend\Model\Auth\Session $authSession
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_roleFactory = $roleFactory;
+        $this->_userFactory = $userFactory;
+        $this->_rulesFactory = $rulesFactory;
+        $this->_authSession = $authSession;
     }
 
     /**
@@ -57,13 +93,14 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
     /**
      * Initialize role model by passed parameter in request
      *
+     * @param string $requestVariable
      * @return \Magento\User\Model\Role
      */
     protected function _initRole($requestVariable = 'rid')
     {
         $this->_title(__('Roles'));
 
-        $role = \Mage::getModel('Magento\User\Model\Role')->load($this->getRequest()->getParam($requestVariable));
+        $role = $this->_roleFactory->create()->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
         if ($role->getId() && $role->getRoleType() != 'G') {
             $role->unsetData($role->getIdFieldName());
@@ -132,10 +169,8 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
     public function deleteAction()
     {
         $rid = $this->getRequest()->getParam('rid', false);
-
-        $currentUser = \Mage::getModel('Magento\User\Model\User')->setId(
-            $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser()->getId()
-        );
+        /** @var \Magento\User\Model\User $currentUser */
+        $currentUser = $this->_userFactory->create()->setId($this->_authSession->getUser()->getId());
 
         if (in_array($rid, $currentUser->getRoles()) ) {
             $this->_session->addError(
@@ -200,7 +235,7 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
             );
             $role->save();
 
-            \Mage::getModel('Magento\User\Model\Rules')
+            $this->_rulesFactory->create()
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();
@@ -246,7 +281,7 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
     protected function _deleteUserFromRole($userId, $roleId)
     {
         try {
-            \Mage::getModel('Magento\User\Model\User')
+            $this->_userFactory->create()
                 ->setRoleId($roleId)
                 ->setUserId($userId)
                 ->deleteFromRole();
@@ -266,7 +301,7 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
      */
     protected function _addUserToRole($userId, $roleId)
     {
-        $user = \Mage::getModel('Magento\User\Model\User')->load($userId);
+        $user = $this->_userFactory->create()->load($userId);
         $user->setRoleId($roleId);
 
         if ($user->roleUserExists() === true ) {

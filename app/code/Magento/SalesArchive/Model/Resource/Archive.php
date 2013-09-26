@@ -26,15 +26,44 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @var $_tables array
      */
     protected $_tables   = array(
-        \Magento\SalesArchive\Model\Archive::ORDER
+        \Magento\SalesArchive\Model\ArchivalList::ORDER
             => array('sales_flat_order_grid', 'magento_sales_order_grid_archive'),
-        \Magento\SalesArchive\Model\Archive::INVOICE
+        \Magento\SalesArchive\Model\ArchivalList::INVOICE
             => array('sales_flat_invoice_grid', 'magento_sales_invoice_grid_archive'),
-        \Magento\SalesArchive\Model\Archive::SHIPMENT
+        \Magento\SalesArchive\Model\ArchivalList::SHIPMENT
             => array('sales_flat_shipment_grid', 'magento_sales_shipment_grid_archive'),
-        \Magento\SalesArchive\Model\Archive::CREDITMEMO
+        \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO
             => array('sales_flat_creditmemo_grid', 'magento_sales_creditmemo_grid_archive')
     );
+
+    /**
+     * Sales archive config
+     *
+     * @var \Magento\SalesArchive\Model\Config
+     */
+    protected $_salesArchiveConfig;
+
+    /**
+     * Sales archival model list
+     *
+     * @var \Magento\SalesArchive\Model\ArchivalList
+     */
+    protected $_archivalList;
+
+    /**
+     * @param \Magento\SalesArchive\Model\Config $salesArchiveConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\SalesArchive\Model\ArchivalList $archivalList
+     */
+    public function __construct(
+        \Magento\SalesArchive\Model\Config $salesArchiveConfig,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\SalesArchive\Model\ArchivalList $archivalList
+    ) {
+        $this->_salesArchiveConfig = $salesArchiveConfig;
+        $this->_archivalList = $archivalList;
+        parent::__construct($resource);
+    }
 
     /**
      * Model initialization
@@ -54,16 +83,6 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function isArchiveEntityExists($archiveEntity)
     {
         return isset($this->_tables[$archiveEntity]);
-    }
-
-    /**
-     * Get archive config
-     *
-     * @return \Magento\SalesArchive\Model\Config
-     */
-    protected function _getConfig()
-    {
-        return \Mage::getSingleton('Magento\SalesArchive\Model\Config');
     }
 
     /**
@@ -127,8 +146,8 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getOrderIdsForArchive($orderIds = array(), $useAge = false)
     {
-        $statuses = $this->_getConfig()->getArchiveOrderStatuses();
-        $archiveAge = ($useAge ? $this->_getConfig()->getArchiveAge() : 0);
+        $statuses = $this->_salesArchiveConfig->getArchiveOrderStatuses();
+        $archiveAge = ($useAge ? $this->_salesArchiveConfig->getArchiveAge() : 0);
 
         if (empty($statuses)) {
             return array();
@@ -151,7 +170,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getOrderIdsForArchiveSelect($statuses, $archiveAge)
     {
         $adapter = $this->_getReadAdapter();
-        $table = $this->getArchiveEntitySourceTable(\Magento\SalesArchive\Model\Archive::ORDER);
+        $table = $this->getArchiveEntitySourceTable(\Magento\SalesArchive\Model\ArchivalList::ORDER);
         $select = $adapter->select()
             ->from($table, 'entity_id')
             ->where('status IN(?)', $statuses);
@@ -174,8 +193,8 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getOrderIdsForArchiveExpression()
     {
-        $statuses = $this->_getConfig()->getArchiveOrderStatuses();
-        $archiveAge = $this->_getConfig()->getArchiveAge();
+        $statuses = $this->_salesArchiveConfig->getArchiveOrderStatuses();
+        $archiveAge = $this->_salesArchiveConfig->getArchiveAge();
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -187,13 +206,12 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Move records to from regular grid tables to archive
      *
-     * @param \Magento\SalesArchive\Model\Archive $archive
      * @param string $archiveEntity
      * @param string $conditionField
      * @param array $conditionValue
      * @return \Magento\SalesArchive\Model\Resource\Archive
      */
-    public function moveToArchive($archive, $archiveEntity, $conditionField, $conditionValue)
+    public function moveToArchive($archiveEntity, $conditionField, $conditionValue)
     {
         if (!$this->isArchiveEntityExists($archiveEntity)) {
             return $this;
@@ -219,13 +237,12 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Remove regords from source grid table
      *
-     * @param \Magento\SalesArchive\Model\Archive $archive
      * @param string $archiveEntity
      * @param string $conditionField
      * @param array $conditionValue
      * @return \Magento\SalesArchive\Model\Resource\Archive
      */
-    public function removeFromGrid($archive, $archiveEntity, $conditionField, $conditionValue)
+    public function removeFromGrid($archiveEntity, $conditionField, $conditionValue)
     {
         if (!$this->isArchiveEntityExists($archiveEntity)) {
             return $this;
@@ -233,7 +250,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
         $sourceTable = $this->getArchiveEntitySourceTable($archiveEntity);
         $targetTable = $this->getArchiveEntityTable($archiveEntity);
-        $sourceResource = \Mage::getResourceSingleton($archive->getEntityResourceModel($archiveEntity));
+        $sourceResource = $this->_archivalList->getResource($archiveEntity);
         if ($conditionValue instanceof \Zend_Db_Expr) {
             $select = $adapter->select();
             // Remove order grid records moved to archive
@@ -257,7 +274,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param array $conditionValue
      * @return \Magento\SalesArchive\Model\Resource\Archive
      */
-    public function removeFromArchive($archive, $archiveEntity, $conditionField = '', $conditionValue = null)
+    public function removeFromArchive($archiveEntity, $conditionField = '', $conditionValue = null)
     {
         if (!$this->isArchiveEntityExists($archiveEntity)) {
             return $this;
@@ -265,7 +282,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
         $sourceTable = $this->getArchiveEntityTable($archiveEntity);
         $targetTable = $this->getArchiveEntitySourceTable($archiveEntity);
-        $sourceResource = \Mage::getResourceSingleton($archive->getEntityResourceModel($archiveEntity));
+        $sourceResource = $this->_archivalList->getResource($archiveEntity);
 
         $insertFields = array_intersect(
             array_keys($adapter->describeTable($targetTable)),
@@ -306,19 +323,18 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Update grid records
      *
-     * @param \Magento\SalesArchive\Model\Archive $archive
      * @param string $archiveEntity
      * @param array $ids
      * @return \Magento\SalesArchive\Model\Resource\Archive
      */
-    public function updateGridRecords($archive, $archiveEntity, $ids)
+    public function updateGridRecords($archiveEntity, $ids)
     {
         if (!$this->isArchiveEntityExists($archiveEntity) || empty($ids)) {
             return $this;
         }
 
         /* @var $resource \Magento\Sales\Model\Resource\AbstractResource */
-        $resource = \Mage::getResourceSingleton($archive->getEntityResourceModel($archiveEntity));
+        $resource = $this->_archivalList->getResource($archiveEntity);
 
         $gridColumns = array_keys($this->_getWriteAdapter()->describeTable(
             $this->getArchiveEntityTable($archiveEntity)
@@ -338,21 +354,18 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Find related to order entity ids for checking of new items in archive
      *
-     * @param \Magento\SalesArchive\Model\Archive $archive
      * @param string $archiveEntity
      * @param array $ids
      * @return array
      */
-    public function getRelatedIds($archive, $archiveEntity, $ids)
+    public function getRelatedIds($archiveEntity, $ids)
     {
-        $resourceClass = $archive->getEntityResourceModel($archiveEntity);
-
-        if (empty($resourceClass) || empty($ids)) {
+        if (empty($archiveEntity) || empty($ids)) {
             return array();
         }
 
         /** @var $resource \Magento\Sales\Model\Resource\AbstractResource */
-        $resource = \Mage::getResourceSingleton($resourceClass);
+        $resource = $this->_archivalList->getResource($archiveEntity);
 
         $select = $this->_getReadAdapter()->select()
             ->from(array('main_table' => $resource->getMainTable()), 'entity_id')

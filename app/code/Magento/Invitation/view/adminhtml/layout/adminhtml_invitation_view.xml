@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Invitation\Block\Adminhtml\Invitation\View" name="invitation_view_page" template="view.phtml">
             
         </block>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento\Invitation\Block\Adminhtml\Invitation\View\Tabs" name="invitation_view_tabs" as="tabs">
             <action method="addTab">
                 <argument name="tab" xsi:type="string">general</argument>
@@ -27,5 +27,5 @@
                 <argument name="id" xsi:type="string">invitation-elements</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

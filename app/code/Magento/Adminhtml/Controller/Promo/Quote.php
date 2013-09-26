@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Adminhtml\Controller\Promo;
 
 class Quote extends \Magento\Adminhtml\Controller\Action
@@ -379,7 +378,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
                 }
 
                 /** @var $generator \Magento\SalesRule\Model\Coupon\Massgenerator */
-                $generator = $rule->getCouponMassGenerator();
+                $generator = $this->_objectManager->get('Magento\SalesRule\Model\Coupon\Massgenerator');
                 if (!$generator->validateData($data)) {
                     $result['error'] = __('Invalid data provided');
                 } else {

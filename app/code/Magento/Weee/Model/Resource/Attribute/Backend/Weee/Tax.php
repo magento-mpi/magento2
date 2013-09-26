@@ -21,6 +21,23 @@ namespace Magento\Weee\Model\Resource\Attribute\Backend\Weee;
 class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Defines main resource table and table identifier field
      *
      */
@@ -52,7 +69,7 @@ class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
         } else {
             $storeId = $product->getStoreId();
             if ($storeId) {
-                $select->where('website_id IN (?)', array(0, \Mage::app()->getStore($storeId)->getWebsiteId()));
+                $select->where('website_id IN (?)', array(0, $this->_storeManager->getStore($storeId)->getWebsiteId()));
             }
         }
         return $this->_getReadAdapter()->fetchAll($select);
@@ -76,7 +93,7 @@ class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
         if (!$attribute->isScopeGlobal()) {
             $storeId = $product->getStoreId();
             if ($storeId) {
-                $where['website_id IN(?)'] =  array(0, \Mage::app()->getStore($storeId)->getWebsiteId());
+                $where['website_id IN(?)'] =  array(0, $this->_storeManager->getStore($storeId)->getWebsiteId());
             }
         }
         $adapter->delete($this->getMainTable(), $where);

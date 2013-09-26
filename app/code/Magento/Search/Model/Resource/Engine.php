@@ -17,7 +17,7 @@
  */
 namespace Magento\Search\Model\Resource;
 
-class Engine
+class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
 {
     /**
      * Store search engine adapter model instance
@@ -57,11 +57,84 @@ class Engine
     );
 
     /**
+     * Catalog product visibility
+     *
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Search resource index
+     *
+     * @var \Magento\Search\Model\Resource\Index
+     */
+    protected $_searchResourceIndex;
+
+    /**
+     * Catalog search resource fulltext
+     *
+     * @var \Magento\CatalogSearch\Model\Resource\Fulltext
+     */
+    protected $_catalogSearchResourceFulltext;
+
+    /**
+     * Search coll factory
+     *
+     * @var \Magento\Search\Model\Resource\CollectionFactory
+     */
+    protected $_searchCollFactory;
+
+    /**
+     * @var \Magento\Search\Model\Resource\Advanced
+     */
+    protected $_searchResource;
+
+    /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     * 
+     * @param \Magento\Search\Model\Resource\CollectionFactory $searchCollFactory
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext
+     * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Search\Model\AdapterInterface $adapter
+     * @param \Magento\Search\Model\Resource\Advanced $searchResource
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Search\Model\Resource\CollectionFactory $searchCollFactory,
+        \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext,
+        \Magento\Search\Model\Resource\Index $searchResourceIndex,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Search\Model\AdapterInterface $adapter,
+        \Magento\Search\Model\Resource\Advanced $searchResource,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_searchCollFactory = $searchCollFactory;
+        $this->_catalogSearchResourceFulltext = $catalogSearchResourceFulltext;
+        $this->_searchResourceIndex = $searchResourceIndex;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_adapter = $adapter;
+        $this->_searchResource = $searchResource;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_initAdapter();
+    }
 
     /**
      * Check if hold commit action is possible depending on current commit mode
@@ -109,28 +182,23 @@ class Engine
     }
 
     /**
-     * Set search engine adapter
+     * Retrieve search resource model
      *
-     * @param \Magento\Search\Model\AdapterInterface $adapter
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @return \Magento\Search\Model\Resource\Advanced
      */
-    public function __construct(
-        \Magento\Search\Model\AdapterInterface $adapter,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_adapter = $adapter;
-        $this->_initAdapter();
+    public function getResource()
+    {
+        return $this->_searchResource;
     }
 
     /**
      * Retrieve search resource model
      *
-     * @return string
+     * @return null
      */
-    public function getResourceName()
+    public function getResourceCollection()
     {
-        return 'Magento\Search\Model\Resource\Advanced';
+        return null;
     }
 
     /**
@@ -221,7 +289,7 @@ class Engine
         }
 
         if (is_null($storeIds) || $storeIds == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID) {
-            $storeIds = array_keys(\Mage::app()->getStores());
+            $storeIds = array_keys($this->_storeManager->getStores());
         } else {
             $storeIds = (array) $storeIds;
         }
@@ -263,7 +331,7 @@ class Engine
      */
     public function getResultCollection()
     {
-        return \Mage::getResourceModel('Magento\Search\Model\Resource\Collection')->setEngine($this);
+        return $this->_searchCollFactory->create()->setEngine($this);
     }
 
     /**
@@ -295,7 +363,7 @@ class Engine
      */
     public function getAllowedVisibility()
     {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds();
+        return $this->_catalogProductVisibility->getVisibleInSiteIds();
     }
 
     /**
@@ -432,10 +500,6 @@ class Engine
         return $this->_adapter->getSearchEngineFieldName($attribute, $target);
     }
 
-
-
-
-
     /**
      * Refresh products indexes affected on category update
      *
@@ -446,12 +510,11 @@ class Engine
     public function updateCategoryIndex($productIds, $categoryIds)
     {
         if (!is_array($productIds) || empty($productIds)) {
-            $productIds = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Index')
-                ->getMovedCategoryProductIds($categoryIds[0]);
+            $productIds = $this->_searchResourceIndex->getMovedCategoryProductIds($categoryIds[0]);
         }
 
         if (!empty($productIds)) {
-            \Mage::getResourceSingleton('Magento\CatalogSearch\Model\Resource\Fulltext')->rebuildIndex(null, $productIds);
+            $this->_catalogSearchResourceFulltext->rebuildIndex(null, $productIds);
         }
 
         return $this;
@@ -484,8 +547,7 @@ class Engine
      */
     public function addAdvancedIndex($index, $storeId, $productIds = null)
     {
-        return \Mage::getResourceSingleton('Magento\Search\Model\Resource\Index')
-            ->addAdvancedIndex($index, $storeId, $productIds);
+        return $this->_searchResourceIndex->addAdvancedIndex($index, $storeId, $productIds);
     }
 
     /**

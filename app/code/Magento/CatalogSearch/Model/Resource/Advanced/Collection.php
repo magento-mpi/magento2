@@ -21,10 +21,45 @@ namespace Magento\CatalogSearch\Model\Resource\Advanced;
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
+     * Date
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Date $date
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Date $date
+    ) {
+        $this->_date = $date;
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig,
+            $entityFactory);
+    }
+
+    /**
      * Add not indexable fields to search
      *
      * @param array $fields
      * @return \Magento\CatalogSearch\Model\Resource\Advanced\Collection
+     * @throws \Magento\Core\Exception
      */
     public function addFieldsToFilter($fields)
     {
@@ -80,31 +115,28 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                             $invalidDateMessage = __('Please specify correct data.');
                             if ($conditionValue['from']) {
                                 if (!\Zend_Date::isDate($conditionValue['from'])) {
-                                    \Mage::throwException($invalidDateMessage);
+                                    throw new \Magento\Core\Exception($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['from'])){
-                                    $conditionValue['from'] = \Mage::getSingleton('Magento\Core\Model\Date')
-                                        ->gmtDate(null, $conditionValue['from']);
+                                    $conditionValue['from'] = $this->_date->gmtDate(null, $conditionValue['from']);
                                     if (!$conditionValue['from']) {
-                                        $conditionValue['from'] = \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate();
+                                        $conditionValue['from'] = $this->_date->gmtDate();
                                     }
                                 }
                                 $conditionData[] = array('gteq' => $conditionValue['from']);
                             }
                             if ($conditionValue['to']) {
                                 if (!\Zend_Date::isDate($conditionValue['to'])) {
-                                    \Mage::throwException($invalidDateMessage);
+                                    throw new \Magento\Core\Exception($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['to'])){
-                                    $conditionValue['to'] = \Mage::getSingleton('Magento\Core\Model\Date')
-                                        ->gmtDate(null, $conditionValue['to']);
+                                    $conditionValue['to'] = $this->_date->gmtDate(null, $conditionValue['to']);
                                     if (!$conditionValue['to']) {
-                                        $conditionValue['to'] = \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate();
+                                        $conditionValue['to'] = $this->_date->gmtDate();
                                     }
                                 }
                                 $conditionData[] = array('lteq' => $conditionValue['to']);
                             }
-
                         }
                     } else {
                         $conditionData[] = array('eq' => $conditionValue);

@@ -19,13 +19,36 @@ class Actions
     protected $_template = 'system/config/actions.phtml';
 
     /**
+     * @var \Magento\Logging\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @param \Magento\Logging\Model\Config $config
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Logging\Model\Config $config,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        array $data = array()
+    ) {
+        $this->_config = $config;
+        parent::__construct($coreData, $context, $application, $data);
+    }
+
+    /**
      * Action group labels getter
      *
      * @return array
      */
     public function getLabels()
     {
-        return \Mage::getSingleton('Magento\Logging\Model\Config')->getLabels();
+        return $this->_config->getLabels();
     }
 
     /**
@@ -36,7 +59,7 @@ class Actions
      */
     public function getIsChecked($key)
     {
-        return \Mage::getSingleton('Magento\Logging\Model\Config')->isEventGroupLogged($key);
+        return $this->_config->isEventGroupLogged($key);
     }
 
     /**

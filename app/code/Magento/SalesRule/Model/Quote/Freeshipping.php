@@ -20,10 +20,22 @@ class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
      */
     protected $_calculator;
 
-    public function __construct()
-    {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\SalesRule\Model\Validator $validator
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\SalesRule\Model\Validator $validator
+    ) {
         $this->setCode('discount');
-        $this->_calculator = \Mage::getSingleton('Magento\SalesRule\Model\Validator');
+        $this->_calculator = $validator;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -36,7 +48,7 @@ class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
     {
         parent::collect($address);
         $quote = $address->getQuote();
-        $store = \Mage::app()->getStore($quote->getStoreId());
+        $store = $this->_storeManager->getStore($quote->getStoreId());
 
         $address->setFreeShipping(0);
         $items = $this->_getAddressItems($address);

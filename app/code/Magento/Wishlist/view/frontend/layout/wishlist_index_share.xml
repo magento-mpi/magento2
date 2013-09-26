@@ -9,12 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Wish List Sharing Form" type="page" parent="wishlist_index_index">
     <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento\Wishlist\Block\Customer\Sharing" name="wishlist.sharing" template="sharing.phtml"/>
-    </reference>
-    <reference name="right">
-        <action method="unsetChild">
-            <argument name="name" xsi:type="string">wishlist_customer_sidebar</argument>
-        </action>
-    </reference>
+    </referenceContainer>
 </layout>

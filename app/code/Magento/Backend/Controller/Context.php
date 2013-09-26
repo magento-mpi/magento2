@@ -43,9 +43,10 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Controller\Varien\Front $frontController
      * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param bool $isRenderInherited
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
-     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\Translate $translator
      *
@@ -59,12 +60,15 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         \Magento\Core\Controller\Varien\Front $frontController,
         \Magento\Core\Model\Layout $layout,
         \Magento\Core\Model\Event\Manager $eventManager,
+        $isRenderInherited,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\Translate $translator
     ) {
-        parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager);
+        parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, 
+            $isRenderInherited
+        );
         $this->_session = $session;
         $this->_helper = $helper;
         $this->_authorization = $authorization;
@@ -72,7 +76,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     }
 
     /**
-     * @return \Magento\Backend\Helper\Data
+     * @return \Magento_Backend_Helper_Data
      */
     public function getHelper()
     {
@@ -80,7 +84,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     }
 
     /**
-     * @return \Magento\Backend\Model\Session
+     * @return \Magento_Backend_Model_Session
      */
     public function getSession()
     {
@@ -88,7 +92,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     }
 
     /**
-     * @return \Magento\AuthorizationInterface
+     * @return \Magento_AuthorizationInterface
      */
     public function getAuthorization()
     {
@@ -96,7 +100,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     }
 
     /**
-     * @return \Magento\Core\Model\Translate
+     * @return \Magento_Core_Model_Translate
      */
     public function getTranslator()
     {

@@ -32,10 +32,39 @@ class Problem extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Current Subscriber
-     * 
+     *
      * @var \Magento\Newsletter\Model\Subscriber
      */
     protected  $_subscriber = null;
+
+    /**
+     * Subscriber factory
+     *
+     * @var \Magento\Newsletter\Model\SubscriberFactory
+     */
+    protected $_subscriberFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_subscriberFactory = $subscriberFactory;
+    }
 
     /**
      * Initialize Newsletter Problem Model
@@ -94,7 +123,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
         }
 
         if (is_null($this->_subscriber)) {
-            $this->_subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')
+            $this->_subscriber = $this->_subscriberFactory->create()
                 ->load($this->getSubscriberId());
         }
 

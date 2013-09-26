@@ -10,12 +10,7 @@
 
 /**
  * Admin RMA create order grid block
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
 class Grid
@@ -42,14 +37,24 @@ class Grid
      *
      * @var \Magento\Rma\Helper\Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
 
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Rma\Model\Resource\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
 
     /**
      * @param \Magento\Rma\Helper\Data $rmaData
@@ -58,6 +63,8 @@ class Grid
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
@@ -67,10 +74,14 @@ class Grid
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $coreRegistry;
+        $this->_itemFactory = $itemFactory;
+        $this->_productFactory = $productFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -94,14 +105,10 @@ class Grid
     protected function _prepareCollection()
     {
         $orderId = $this->_coreRegistry->registry('current_order')->getId();
-
-        /** @var $collection \Magento\Rma\Model\Resource\Item */
-
-        $orderItemsCollection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
-            ->getOrderItemsCollection($orderId);
-
+        /** @var $resourceItem \Magento\Rma\Model\Resource\Item */
+        $resourceItem = $this->_itemFactory->create();
+        $orderItemsCollection = $resourceItem->getOrderItemsCollection($orderId);
         $this->setCollection($orderItemsCollection);
-
         return parent::_prepareCollection();
     }
 
@@ -111,16 +118,18 @@ class Grid
      * Filter items collection due to RMA needs. Remove forbidden items, non-applicable
      * bundles (and their children) and configurables
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order_Grid
      */
     protected function _afterLoadCollection()
     {
         $orderId = $this->_coreRegistry->registry('current_order')->getId();
-        $itemsInActiveRmaArray = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
-            ->getItemsIdsByOrder($orderId);
+        /** @var $resourceItem \Magento\Rma\Model\Resource\Item */
+        $resourceItem = $this->_itemFactory->create();
+        $itemsInActiveRmaArray = $resourceItem->getItemsIdsByOrder($orderId);
 
-        $fullItemsCollection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
-            ->getOrderItemsCollection($orderId);
+        /** @var $resourceItem \Magento\Rma\Model\Resource\Item */
+        $resourceItem = $this->_itemFactory->create();
+        $fullItemsCollection = $resourceItem->getOrderItemsCollection($orderId);
         /**
          * contains data that defines possibility of return for an order item
          * array value ['self'] refers to item's own rules
@@ -129,7 +138,7 @@ class Grid
         $parent = array();
 
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = $this->_productFactory->create();
 
         foreach ($fullItemsCollection as $item) {
             $allowed = true;
@@ -239,7 +248,7 @@ class Grid
             'header'=> __('Remaining'),
             'type'  => 'text',
             'index' => 'available_qty',
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
+            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
             'filter' => false,
             'sortable' => false,
             'header_css_class'  => 'col-qty',
@@ -313,7 +322,7 @@ class Grid
      * Setting column filters to collection
      *
      * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
-     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order_Grid
      */
     protected function _addColumnFilterToCollection($column)
     {

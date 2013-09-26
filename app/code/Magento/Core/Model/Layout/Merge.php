@@ -93,6 +93,16 @@ class Merge
     protected $_cache;
 
     /**
+     * @var \Magento\Adminhtml\Model\LayoutUpdate\Validator
+     */
+    protected $_layoutValidator;
+
+    /**
+     * @var \Magento\Core\Model\Logger
+     */
+    protected $_logger;
+
+    /**
      * Init merge model
      *
      * @param \Magento\Core\Model\View\DesignInterface $design
@@ -101,6 +111,8 @@ class Merge
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Theme $theme Non-injectable theme instance
      */
     public function __construct(
@@ -110,6 +122,8 @@ class Merge
         \Magento\Core\Model\Resource\Layout\Update $resource,
         \Magento\Core\Model\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,
+        \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Theme $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
@@ -118,6 +132,8 @@ class Merge
         $this->_resource = $resource;
         $this->_appState = $appState;
         $this->_cache = $cache;
+        $this->_layoutValidator = $validator;
+        $this->_logger = $logger;
     }
 
     /**
@@ -391,14 +407,29 @@ class Merge
             $this->_merge($handle);
         }
 
-        $this->_saveCache($this->asString(), $cacheId, $this->getHandles());
+        $layout = $this->asString();
+        if ($this->_appState->getMode() === \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+            if (!$this->_layoutValidator->isValid(
+                    $layout,
+                    \Magento\Adminhtml\Model\LayoutUpdate\Validator::LAYOUT_SCHEMA_MERGED,
+                    false
+            )) {
+                $messages = $this->_layoutValidator->getMessages();
+                //Add first message to exception
+                $message = array_shift($messages);
+                $this->_logger->addStreamLog(\Magento\Core\Model\Logger::LOGGER_SYSTEM);
+                $this->_logger->log('Cache file with merged layout: ' . $cacheId. ': ' . $message, \Zend_Log::ERR);
+            }
+        }
+
+        $this->_saveCache($layout, $cacheId, $this->getHandles());
         return $this;
     }
 
     /**
      * Get layout updates as \Magento\Core\Model\Layout\Element object
      *
-     * @return \SimpleXMLElement
+     * @return SimpleXMLElement
      */
     public function asSimplexml()
     {
@@ -412,7 +443,7 @@ class Merge
      * Return object representation of XML string
      *
      * @param string $xmlString
-     * @return \SimpleXMLElement
+     * @return SimpleXMLElement
      */
     protected function _loadXmlString($xmlString)
     {
@@ -517,7 +548,7 @@ class Merge
     /**
      * Add handles declared as '<update handle="handle_name"/>' directives
      *
-     * @param \SimpleXMLElement $updateXml
+     * @param SimpleXMLElement $updateXml
      * @return \Magento\Core\Model\Layout\Merge
      */
     protected function _fetchRecursiveUpdates($updateXml)
@@ -642,10 +673,10 @@ class Merge
     /**
      * Return attributes of XML node rendered as a string
      *
-     * @param \SimpleXMLElement $node
+     * @param SimpleXMLElement $node
      * @return string
      */
-    protected function _renderXmlAttributes(\SimpleXMLElement $node)
+    protected function _renderXmlAttributes(SimpleXMLElement $node)
     {
         $result = '';
         foreach ($node->attributes() as $attributeName => $attributeValue) {

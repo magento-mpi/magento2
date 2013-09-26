@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create" name="sales_creditmemo_create">
             <block class="Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create\Form" name="form" template="sales/order/creditmemo/create/form.phtml">
                 <block class="Magento\Adminhtml\Block\Sales\Order\View\Info" name="order_info" template="sales/order/view/info.phtml"/>
@@ -36,7 +36,7 @@
                     <block class="Magento\Adminhtml\Block\Sales\Order\Creditmemo\Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
                         <block class="Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create\Adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml"/>
                         <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Tax" name="tax" template="sales/order/totals/tax.phtml"/>
-<!--
+                        <!--
                         <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="footer" template="sales/order/totals/footer.phtml">
                             <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="grand" template="sales/order/totals/grand.phtml">
                                 <action method="setGrandTotalTitle">
@@ -53,15 +53,6 @@
                                     <argument name="value" xsi:type="string">Tax</argument>
                                 </action>
                             </block>
-                            <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                                <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="tax" template="sales/order/totals/item.phtml">
-                                    <action method="setSourceField">
-                                        <argument name="value" xsi:type="string">tax_amount</argument>
-                                    </action>
-                                    <action method="setLabel">
-                                        <argument name="value" xsi:type="string">Tax</argument>
-                                    </action>
-                                </block>
                             <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="discount" template="sales/order/totals/item.phtml">
                                 <action method="setSourceField">
                                     <argument name="value" xsi:type="string">discount_amount</argument>
@@ -79,5 +70,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -12,11 +12,6 @@
 -->
 <config>
     <global>
-        <dev>
-            <design_fallback>
-                <allow_map_update>0</allow_map_update>
-            </design_fallback>
-        </dev>
         <configurators>
             <integration_tests>Magento\TestFramework\ObjectManager\Configurator</integration_tests>
         </configurators>

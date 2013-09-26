@@ -18,7 +18,7 @@
 
 /**
  * TODO: Refactor use of \Magento\Core\Model\Option\ArrayInterface in library. Probably will be refactored while
- * moving Magento_Core to library
+ * moving \Magento\Core to library
  */
 namespace Magento\Data;
 
@@ -74,7 +74,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      *
      * if page size is false, then we works with all items
      *
-     * @var int | false
+     * @var int|false
      */
     protected $_pageSize = false;
 
@@ -122,7 +122,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      */
     public function addFilter($field, $value, $type = 'and')
     {
-        $filter = new \Magento\Object(); // implements \ArrayAccess
+        $filter = new \Magento\Object(); // implements ArrayAccess
         $filter['field']   = $field;
         $filter['value']   = $value;
         $filter['type']    = strtolower($type);
@@ -182,8 +182,8 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Set collection loading status flag
      *
-     * @param unknown_type $flag
-     * @return unknown
+     * @param bool $flag
+     * @return $this
      */
     protected function _setIsLoaded($flag = true)
     {
@@ -201,8 +201,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     {
         if ($this->_curPage + $displacement < 1) {
             return 1;
-        }
-        elseif ($this->_curPage + $displacement > $this->getLastPageNumber()) {
+        } elseif ($this->_curPage + $displacement > $this->getLastPageNumber()) {
             return $this->getLastPageNumber();
         } else {
             return $this->_curPage + $displacement;
@@ -219,11 +218,9 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
         $collectionSize = (int) $this->getSize();
         if (0 === $collectionSize) {
             return 1;
-        }
-        elseif($this->_pageSize) {
+        } elseif($this->_pageSize) {
             return ceil($collectionSize/$this->_pageSize);
-        }
-        else{
+        } else {
             return 1;
         }
     }
@@ -326,7 +323,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
 
         $res = array();
         foreach ($this as $item) {
-            if ($item->getData($column)==$value) {
+            if ($item->getData($column) == $value) {
                 $res[] = $item;
             }
         }
@@ -345,7 +342,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
         $this->load();
 
         foreach ($this as $item) {
-            if ($item->getData($column)==$value) {
+            if ($item->getData($column) == $value) {
                 return $item;
             }
         }
@@ -357,6 +354,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      *
      * @param   \Magento\Object $item
      * @return  \Magento\Data\Collection
+     * @throws \Exception
      */
     public function addItem(\Magento\Object $item)
     {
@@ -364,7 +362,9 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
 
         if (!is_null($itemId)) {
             if (isset($this->_items[$itemId])) {
-                throw new \Exception('Item ('.get_class($item).') with the same id "'.$item->getId().'" already exist');
+                throw new \Exception(
+                    'Item (' . get_class($item) . ') with the same id "' . $item->getId() . '" already exist'
+                );
             }
             $this->_items[$itemId] = $item;
         } else {
@@ -453,15 +453,16 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      *
      * Returns array with results of callback for each item
      *
-     * @param string $method
+     * @param string $callback
      * @param array $args
+     * @internal param string $method
      * @return array
      */
     public function walk($callback, array $args=array())
     {
         $results = array();
-        $useItemCallback = is_string($callback) && strpos($callback, '::')===false;
-        foreach ($this->getItems() as $id=>$item) {
+        $useItemCallback = is_string($callback) && strpos($callback, '::') === false;
+        foreach ($this->getItems() as $id => $item) {
             if ($useItemCallback) {
                 $cb = array($item, $callback);
             } else {
@@ -473,10 +474,14 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
         return $results;
     }
 
-    public function each($obj_method, $args=array())
+    /**
+     * @param string|array $objMethod
+     * @param array $args
+     */
+    public function each($objMethod, $args = array())
     {
         foreach ($args->_items as $k => $item) {
-            $args->_items[$k] = call_user_func($obj_method, $item);
+            $args->_items[$k] = call_user_func($objMethod, $item);
         }
     }
 
@@ -487,10 +492,10 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * @param   mixed $value
      * @return  \Magento\Data\Collection
      */
-    public function setDataToAll($key, $value=null)
+    public function setDataToAll($key, $value = null)
     {
         if (is_array($key)) {
-            foreach ($key as $k=>$v) {
+            foreach ($key as $k => $v) {
                 $this->setDataToAll($k, $v);
             }
             return $this;
@@ -543,7 +548,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      *
      * @param  string $className
      * @return \Magento\Data\Collection
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     function setItemObjectClass($className)
     {
@@ -598,6 +603,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * Set select distinct
      *
      * @param bool $flag
+     * @return $this
      */
     public function distinct($flag)
     {
@@ -607,6 +613,8 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Load data
      *
+     * @param bool $printQuery
+     * @param bool $logQuery
      * @return  \Magento\Data\Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
@@ -617,6 +625,8 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Load data
      *
+     * @param bool $printQuery
+     * @param bool $logQuery
      * @return  \Magento\Data\Collection
      */
     public function load($printQuery = false, $logQuery = false)
@@ -633,13 +643,13 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     {
         $xml = '<?xml version="1.0" encoding="UTF-8"?>
         <collection>
-           <totalRecords>'.$this->_totalRecords.'</totalRecords>
+           <totalRecords>' . $this->_totalRecords . '</totalRecords>
            <items>';
 
         foreach ($this as $item) {
-            $xml.=$item->toXml();
+            $xml .= $item->toXml();
         }
-        $xml.= '</items>
+        $xml .= '</items>
         </collection>';
         return $xml;
     }
@@ -647,6 +657,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Convert collection to array
      *
+     * @param array $arrRequiredFields
      * @return array
      */
     public function toArray($arrRequiredFields = array())
@@ -672,11 +683,12 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      *      )
      * )
      *
-     * @param   string $valueField
-     * @param   string $labelField
-     * @return  array
+     * @param string $valueField
+     * @param string $labelField
+     * @param array $additional
+     * @return array
      */
-    protected function _toOptionArray($valueField='id', $labelField='name', $additional=array())
+    protected function _toOptionArray($valueField = 'id', $labelField = 'name', $additional = array())
     {
         $res = array();
         $additional['value'] = $valueField;
@@ -691,11 +703,17 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
         return $res;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return $this->_toOptionArray();
     }
 
+    /**
+     * @return array
+     */
     public function toOptionHash()
     {
         return $this->_toOptionHash();

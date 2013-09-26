@@ -8,11 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="catalog.product.related">
+    <referenceBlock name="catalog.product.related">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">giftcard</argument>
             <argument name="block" xsi:type="string">Magento\GiftCard\Block\Catalog\Product\Price</argument>
             <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

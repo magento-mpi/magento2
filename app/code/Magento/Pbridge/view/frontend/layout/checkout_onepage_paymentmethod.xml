@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout.onepage.payment.methods.scripts">
+    <referenceBlock name="checkout.onepage.payment.methods.scripts">
         <block class="Magento\Core\Block\Template" template="Magento_Pbridge::checkout/payment/scripts.phtml" name="pbridge.scripts"/>
-    </reference>
+    </referenceBlock>
 </layout>

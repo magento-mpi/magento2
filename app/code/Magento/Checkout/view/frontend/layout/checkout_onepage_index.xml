@@ -8,18 +8,17 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="One Page Checkout" type="page" parent="default">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">2columns-right.phtml</argument>
         </action>
-    </reference>
-    <reference name="right">
-        <action method="unsetChildren"/>
+    </referenceBlock>
+    <referenceContainer name="right">
         <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTag="div" htmlId="checkout-progress-wrapper">
             <block class="Magento\Checkout\Block\Onepage\Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>
         </container>
-    </reference>
-    <reference name="content">
+    </referenceContainer>
+    <referenceContainer name="content">
         <block class="Magento\Checkout\Block\Onepage" name="checkout.onepage" template="onepage.phtml">
             <block class="Magento\Checkout\Block\Onepage\Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml">
                 <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTag="div"/>
@@ -40,5 +39,5 @@
             </block>
             <block class="Magento\Checkout\Block\Onepage\Review" name="checkout.onepage.review" as="review" template="onepage/review.phtml"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

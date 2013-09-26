@@ -45,12 +45,14 @@ class ConfigLoader
      */
     public function load($area)
     {
-        $cacheId = 'DiConfig';
-        $data = $this->_cache->get($area, $cacheId);
+        $cacheId = $area . '::DiConfig';
+        $data = $this->_cache->load($cacheId);
 
         if (!$data) {
             $data = $this->_reader->read($area);
-            $this->_cache->put($data, $area, $cacheId);
+            $this->_cache->save(serialize($data), $cacheId);
+        } else {
+            $data = unserialize($data);
         }
 
         return $data;

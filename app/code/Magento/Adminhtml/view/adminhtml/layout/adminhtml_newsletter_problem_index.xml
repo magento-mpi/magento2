@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_newsletter_problem_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Newsletter\Problem" name="adminhtml.newsletter.problem.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

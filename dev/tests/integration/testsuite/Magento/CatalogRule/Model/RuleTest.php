@@ -23,8 +23,17 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $resourceMock = $this->getMock('Magento\CatalogRule\Model\Resource\Rule',
+        array('getIdFieldName', 'getRulesFromProduct'), array(), '', false);
+        $resourceMock->expects($this->any())
+            ->method('getIdFieldName')
+            ->will($this->returnValue('id'));
+        $resourceMock->expects($this->any())
+            ->method('getRulesFromProduct')
+            ->will($this->returnValue($this->_getCatalogRulesFixtures()));
+
         $this->_object = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogRule\Model\Rule');
+            ->create('Magento\CatalogRule\Model\Rule', array('resource' => $resourceMock));
     }
 
     /**
@@ -33,44 +42,11 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testCalcProductPriceRule()
     {
-        $resourceMock = $this->getMock('Magento\CatalogRule\Model\Resource\Rule',
-            array('getIdFieldName'), array(), '', false);
-        $resourceMock->expects($this->any())
-            ->method('getIdFieldName')
-            ->will($this->returnValue('id'));
-        $contextMock = $this->getMock('Magento\Core\Model\Context',
-            array(), array(), '', false);
-        $registryMock = $this->getMock('Magento\Core\Model\Registry',
-            array(), array(), '', false);
-        $formFactoryMock = $this->getMock('Magento\Data\Form\Factory',
-            array(), array(), '', false);
-        $ctlgRuleHlprMock = $this->getMock('Magento\CatalogRule\Helper\Data',
-            array('__construct'), array(), '', false);
-        $cacheTypeList = $this->getMock('Magento\Core\Model\Cache\TypeListInterface', array(), array(), '', false);
-        $config = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
-        /** @var $catalogRule \Magento\CatalogRule\Model\Rule */
-        $catalogRule = $this->getMock(
-            'Magento\CatalogRule\Model\Rule',
-            array('_getRulesFromProduct'),
-            array(
-                $ctlgRuleHlprMock,
-                $formFactoryMock,
-                $contextMock,
-                $registryMock,
-                $cacheTypeList,
-                $config,
-                $resourceMock
-        ));
-
-        $catalogRule->expects(self::any())
-            ->method('_getRulesFromProduct')
-            ->will($this->returnValue($this->_getCatalogRulesFixtures()));
-
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Product');
-        $this->assertEquals($catalogRule->calcProductPriceRule($product, 100), 45);
+        $this->assertEquals($this->_object->calcProductPriceRule($product, 100), 45);
         $product->setParentId(true);
-        $this->assertEquals($catalogRule->calcProductPriceRule($product, 50), 5);
+        $this->assertEquals($this->_object->calcProductPriceRule($product, 50), 5);
     }
 
     /**

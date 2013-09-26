@@ -26,7 +26,7 @@ class Settings
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\Core\Model\Theme\LabelFactory
@@ -34,23 +34,22 @@ class Settings
     protected $_themeLabelFactory;
 
     /**
-     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
         $this->_themeLabelFactory = $themeLabelFactory;
-        $this->_coreRegistry = $registry;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 

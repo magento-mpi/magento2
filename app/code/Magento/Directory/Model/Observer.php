@@ -9,7 +9,7 @@
  */
 
 /**
- * \Directory module observer
+ * Directory module observer
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -29,7 +29,7 @@ class Observer
      * @var \Magento\Directory\Model\Currency\Import\Factory
      */
     protected $_importFactory;
-    
+
     /**
      * Core store config
      *
@@ -38,21 +38,55 @@ class Observer
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\Translate
+     */
+    protected $_translate;
+
+    /**
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_emailTemplateFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
      * @param \Magento\Directory\Model\Currency\Import\Factory $importFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      */
     public function __construct(
         \Magento\Directory\Model\Currency\Import\Factory $importFactory,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory
     ) {
         $this->_importFactory = $importFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_translate = $translate;
+        $this->_emailTemplateFactory = $emailTemplateFactory;
+        $this->_storeManager = $storeManager;
+        $this->_currencyFactory = $currencyFactory;
     }
 
     public function scheduledUpdateCurrencyRates($schedule)
     {
         $importWarnings = array();
-        if(!$this->_coreStoreConfig->getConfig(self::IMPORT_ENABLE) || !$this->_coreStoreConfig->getConfig(self::CRON_STRING_PATH)) {
+        if (!$this->_coreStoreConfig->getConfig(self::IMPORT_ENABLE)
+            || !$this->_coreStoreConfig->getConfig(self::CRON_STRING_PATH)
+        ) {
             return;
         }
 
@@ -64,7 +98,7 @@ class Observer
         try {
             $importModel = $this->_importFactory->create($service);
         } catch (\Exception $e) {
-            $importWarnings[] = __('FATAL ERROR:') . ' ' . \Mage::throwException(__("We can't initialize the import model."));
+            $importWarnings[] = __('FATAL ERROR:') . ' ' . __('We can\'t initialize the import model.');
         }
 
         $rates = $importModel->fetchRates();
@@ -77,18 +111,15 @@ class Observer
         }
 
         if (sizeof($importWarnings) == 0) {
-            \Mage::getModel('Magento\Directory\Model\Currency')->saveRates($rates);
-        }
-        else {
-            $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
-            /* @var $translate \Magento\Core\Model\Translate */
-            $translate->setTranslateInline(false);
+            $this->_currencyFactory->create()->saveRates($rates);
+        } else {
+            $this->_translate->setTranslateInline(false);
 
             /* @var $mailTemplate \Magento\Core\Model\Email\Template */
-            $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
+            $mailTemplate = $this->_emailTemplateFactory->create();
             $mailTemplate->setDesignConfig(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => \Mage::app()->getStore()->getId()
+                'store' => $this->_storeManager->getStore()->getId()
             ))
                 ->sendTransactional(
                     $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE),
@@ -98,8 +129,7 @@ class Observer
                     array('warnings'    => join("\n", $importWarnings),
                 )
             );
-
-            $translate->setTranslateInline(true);
+            $this->_translate->setTranslateInline(true);
         }
     }
 }

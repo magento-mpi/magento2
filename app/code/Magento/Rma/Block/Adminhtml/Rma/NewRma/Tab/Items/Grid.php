@@ -10,17 +10,11 @@
 
 /**
  * Admin RMA create order grid block
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items;
 
 class Grid
     extends \Magento\Backend\Block\Widget\Grid\Extended
-//    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -34,14 +28,19 @@ class Grid
      *
      * @var \Magento\Rma\Helper\Eav
      */
-    protected $_rmaEav = null;
+    protected $_rmaEav;
 
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Rma\Model\Resource\Item\CollectionFactory
+     */
+    protected $_collectionFactory;
 
     /**
      * @param \Magento\Rma\Helper\Eav $rmaEav
@@ -50,6 +49,7 @@ class Grid
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
@@ -59,10 +59,12 @@ class Grid
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -106,9 +108,9 @@ class Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
-        $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item\Collection');
+        $collection = $this->_collectionFactory->create();
         $collection->addAttributeToSelect('*');
-        $collection->addAttributeToFilter('entity_id', NULL);
+        $collection->addAttributeToFilter('entity_id', null);
 
         $this->setCollection($collection);
 
@@ -150,7 +152,7 @@ class Grid
             'index' => 'qty_ordered',
             'sortable' => false,
             'order_data' => $this->getOrderItemsData(),
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
+            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
         ));
@@ -214,7 +216,7 @@ class Grid
         $this->addColumn('action',
             array(
                 'header'    =>  __('Action'),
-                'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
+                'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action',
                 'actions'   => $actionsArray,
                 'sortable'  => false,
                 'is_system' => true,

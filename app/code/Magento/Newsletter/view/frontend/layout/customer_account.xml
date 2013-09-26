@@ -8,14 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer-account-navigation">
-        <block class="Magento\Page\Block\Link\Current"
-               name="customer-account-navigation-newsletter-subscriptions-link">
+    <referenceBlock name="customer_account_navigation">
+        <block class="Magento\Page\Block\Link\Current" name="customer-account-navigation-newsletter-subscriptions-link">
             <arguments>
                 <argument name="path" xsi:type="string">newsletter/manage</argument>
                 <argument name="label" xsi:type="string">Newsletter Subscriptions</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
     <remove name="newsletter_subscription"/>
 </layout>

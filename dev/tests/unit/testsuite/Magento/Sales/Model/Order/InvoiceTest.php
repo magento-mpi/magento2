@@ -40,7 +40,33 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('canVoid'))
             ->getMock();
 
-        $this->_model = $helperManager->getObject('Magento\Sales\Model\Order\Invoice', array());
+        $arguments = array(
+            'orderFactory' => $this->getMock(
+                'Magento\Sales\Model\OrderFactory', array(), array(), '', false
+            ),
+            'orderResourceFactory' => $this->getMock(
+                'Magento\Sales\Model\Resource\OrderFactory', array(), array(), '', false
+            ),
+            'calculatorFactory' => $this->getMock(
+                'Magento\Core\Model\CalculatorFactory', array(), array(), '', false
+            ),
+            'invoiceItemCollFactory' => $this->getMock(
+                'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', array(), array(), '', false
+            ),
+            'invoiceCommentFactory' => $this->getMock(
+                'Magento\Sales\Model\Order\Invoice\CommentFactory', array(), array(), '', false
+            ),
+            'commentCollFactory' => $this->getMock(
+                'Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory', array(), array(), '', false
+            ),
+            'templateMailerFactory' => $this->getMock(
+                'Magento\Core\Model\Email\Template\MailerFactory', array(), array(), '', false
+            ),
+            'emailInfoFactory' => $this->getMock(
+                'Magento\Core\Model\Email\InfoFactory', array(), array(), '', false
+            ),
+        );
+        $this->_model = $helperManager->getObject('Magento\Sales\Model\Order\Invoice', $arguments);
         $this->_model->setOrder($this->_orderMock);
     }
 

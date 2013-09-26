@@ -20,12 +20,12 @@ class Instance extends \Magento\Adminhtml\Controller\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\Widget\Model\Widget\InstanceFactory
      */
-    protected $_instanceFactory;
+    protected $_widgetFactory;
 
     /**
      * @var \Magento\Core\Model\Logger
@@ -33,20 +33,20 @@ class Instance extends \Magento\Adminhtml\Controller\Action
     protected $_logger;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Widget\Model\Widget\InstanceFactory $instanceFactory
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Widget\Model\Widget\InstanceFactory $instanceFactory,
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
+        \Magento\Core\Model\Logger $logger
     ) {
-        $this->_logger = $logger;
-        $this->_instanceFactory = $instanceFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_widgetFactory = $widgetFactory;
+        $this->_logger = $logger;
         parent::__construct($context);
     }
 
@@ -76,7 +76,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Frontend Apps'));
 
         /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
-        $widgetInstance = $this->_instanceFactory->create();
+        $widgetInstance = $this->_widgetFactory->create();
 
         $instanceId = $this->getRequest()->getParam('instance_id', null);
         $type = $this->getRequest()->getParam('type', null);
@@ -197,9 +197,9 @@ class Instance extends \Magento\Adminhtml\Controller\Action
                 $this->_redirect('*/*/');
             }
             return;
-        } catch (\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
-            $this->_logger->logException($e);
+        } catch (\Exception $exception) {
+            $this->_getSession()->addError($exception->getMessage());
+            $this->_logger->logException($exception);
             $this->_redirect('*/*/edit', array('_current' => true));
             return;
         }

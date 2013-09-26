@@ -10,10 +10,6 @@
 
 /**
  * Sales Order PDF abstract model
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order\Pdf;
 
@@ -98,12 +94,44 @@ abstract class AbstractPdf extends \Magento\Object
     protected $_coreConfig;
 
     /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_coreDir;
+
+    /**
+     * @var \Magento\Shipping\Model\Config
+     */
+    protected $_shippingConfig;
+
+    /**
+     * @var \Magento\Core\Model\Translate
+     */
+    protected $_translate;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Pdf\TotalFactory
+     */
+    protected $_pdfTotalFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Pdf\ItemsFactory
+     */
+    protected $_pdfItemsFactory;
+
+    /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Sales\Model\Order\Pdf\TotalFactory $pdfTotalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
@@ -118,6 +146,11 @@ abstract class AbstractPdf extends \Magento\Object
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        $this->_coreDir = $coreDir;
+        $this->_shippingConfig = $shippingConfig;
+        $this->_translate = $translate;
+        $this->_pdfTotalFactory = $pdfTotalFactory;
+        $this->_pdfItemsFactory = $pdfItemsFactory;
         parent::__construct($data);
     }
 
@@ -196,7 +229,7 @@ abstract class AbstractPdf extends \Magento\Object
         $this->y = $this->y ? $this->y : 815;
         $image = $this->_coreStoreConfig->getConfig('sales/identity/logo', $store);
         if ($image) {
-            $image = \Mage::getBaseDir('media') . '/sales/store/logo/' . $image;
+            $image = $this->_coreDir->getDir(\Magento\Core\Model\Dir::MEDIA) . '/sales/store/logo/' . $image;
             if (is_file($image)) {
                 $image       = \Zend_Pdf_Image::imageWithPath($image);
                 $top         = 830; //top border of the page
@@ -247,7 +280,7 @@ abstract class AbstractPdf extends \Magento\Object
         foreach (explode("\n", $this->_coreStoreConfig->getConfig('sales/identity/address', $store)) as $value){
             if ($value !== '') {
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
-                foreach ($this->_coreString->strSplit($value, 45, true, true) as $_value) {
+                foreach ($this->_coreString->str_split($value, 45, true, true) as $_value) {
                     $page->drawText(trim(strip_tags($_value)),
                         $this->getAlignRight($_value, 130, 440, $font, 10),
                         $top,
@@ -269,7 +302,7 @@ abstract class AbstractPdf extends \Magento\Object
     {
         $return = array();
         foreach (explode('|', $address) as $str) {
-            foreach ($this->_coreString->strSplit($str, 45, true, true) as $part) {
+            foreach ($this->_coreString->str_split($str, 45, true, true) as $part) {
                 if (empty($part)) {
                     continue;
                 }
@@ -291,7 +324,7 @@ abstract class AbstractPdf extends \Magento\Object
         foreach ($address as $value){
             if ($value !== '') {
                 $text = array();
-                foreach ($this->_coreString->strSplit($value, 55, true, true) as $_value) {
+                foreach ($this->_coreString->str_split($value, 55, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -400,7 +433,7 @@ abstract class AbstractPdf extends \Magento\Object
         foreach ($billingAddress as $value){
             if ($value !== '') {
                 $text = array();
-                foreach ($this->_coreString->strSplit($value, 45, true, true) as $_value) {
+                foreach ($this->_coreString->str_split($value, 45, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -417,7 +450,7 @@ abstract class AbstractPdf extends \Magento\Object
             foreach ($shippingAddress as $value){
                 if ($value!=='') {
                     $text = array();
-                    foreach ($this->_coreString->strSplit($value, 45, true, true) as $_value) {
+                    foreach ($this->_coreString->str_split($value, 45, true, true) as $_value) {
                         $text[] = $_value;
                     }
                     foreach ($text as $part) {
@@ -459,7 +492,7 @@ abstract class AbstractPdf extends \Magento\Object
             if (trim($value) != '') {
                 //Printing "Payment Method" lines
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
-                foreach ($this->_coreString->strSplit($value, 45, true, true) as $_value) {
+                foreach ($this->_coreString->str_split($value, 45, true, true) as $_value) {
                     $page->drawText(strip_tags(trim($_value)), $paymentLeft, $yPayments, 'UTF-8');
                     $yPayments -= 15;
                 }
@@ -479,7 +512,7 @@ abstract class AbstractPdf extends \Magento\Object
             $methodStartY = $this->y;
             $this->y     -= 15;
 
-            foreach ($this->_coreString->strSplit($shippingMethod, 45, true, true) as $_value) {
+            foreach ($this->_coreString->str_split($shippingMethod, 45, true, true) as $_value) {
                 $page->drawText(strip_tags(trim($_value)), 285, $this->y, 'UTF-8');
                 $this->y -= 15;
             }
@@ -514,7 +547,7 @@ abstract class AbstractPdf extends \Magento\Object
 
                     $CarrierCode = $track->getCarrierCode();
                     if ($CarrierCode != 'custom') {
-                        $carrier = \Mage::getSingleton('Magento\Shipping\Model\Config')->getCarrierInstance($CarrierCode);
+                        $carrier = $this->_shippingConfig->getCarrierInstance($CarrierCode);
                         $carrierTitle = $carrier->getConfigData('title');
                     } else {
                         $carrierTitle = __('Custom Value');
@@ -584,24 +617,25 @@ abstract class AbstractPdf extends \Magento\Object
      *
      * @param  \Magento\Sales\Model\AbstractModel $source
      * @return array
+     * @throws \Magento\Core\Exception
      */
     protected function _getTotalsList($source)
     {
         $totals = $this->_coreConfig->getNode('global/pdf/totals')->asArray();
         usort($totals, array($this, '_sortTotalsList'));
         $totalModels = array();
-        foreach ($totals as $index => $totalInfo) {
+        foreach ($totals as $totalInfo) {
             if (!empty($totalInfo['model'])) {
-                $totalModel = \Mage::getModel($totalInfo['model']);
+                $totalModel = $this->_pdfTotalFactory->create($totalInfo['model']);
                 if ($totalModel instanceof \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal) {
                     $totalInfo['model'] = $totalModel;
                 } else {
-                    \Mage::throwException(
-                        __('The PDF total model should extend \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal.')
+                    throw new \Magento\Core\Exception(
+                        __('The PDF total model should extend \Magento\Sales\Model\Order\Pdf\Total\Default.')
                     );
                 }
             } else {
-                $totalModel = \Mage::getModel($this->_defaultTotalModel);
+                $totalModel = $this->_pdfTotalFactory->create($this->_defaultTotalModel);
             }
             $totalModel->setData($totalInfo);
             $totalModels[] = $totalModel;
@@ -676,19 +710,17 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * Before getPdf processing
      */
-    protected function _beforeGetPdf() {
-        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
-        /* @var $translate \Magento\Core\Model\Translate */
-        $translate->setTranslateInline(false);
+    protected function _beforeGetPdf()
+    {
+        $this->_translate->setTranslateInline(false);
     }
 
     /**
      * After getPdf processing
      */
-    protected function _afterGetPdf() {
-        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
-        /* @var $translate \Magento\Core\Model\Translate */
-        $translate->setTranslateInline(true);
+    protected function _afterGetPdf()
+    {
+        $this->_translate->setTranslateInline(true);
     }
 
     /**
@@ -737,8 +769,8 @@ abstract class AbstractPdf extends \Magento\Object
      * Retrieve renderer model
      *
      * @param  string $type
-     * @throws \Magento\Core\Exception
      * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
+     * @throws \Magento\Core\Exception
      */
     protected function _getRenderer($type)
     {
@@ -747,11 +779,11 @@ abstract class AbstractPdf extends \Magento\Object
         }
 
         if (!isset($this->_renderers[$type])) {
-            \Mage::throwException(__('We found an invalid renderer model.'));
+            throw new \Magento\Core\Exception(__('We found an invalid renderer model.'));
         }
 
         if (is_null($this->_renderers[$type]['renderer'])) {
-            $this->_renderers[$type]['renderer'] = \Mage::getSingleton($this->_renderers[$type]['model']);
+            $this->_renderers[$type]['renderer'] = $this->_pdfItemsFactory->get($this->_renderers[$type]['model']);
         }
 
         return $this->_renderers[$type]['renderer'];
@@ -802,7 +834,9 @@ abstract class AbstractPdf extends \Magento\Object
      */
     protected function _setFontRegular($object, $size = 7)
     {
-        $font = \Zend_Pdf_Font::fontWithPath(\Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
+        $font = \Zend_Pdf_Font::fontWithPath(
+            $this->_coreDir->getDir(\Magento\Core\Model\Dir::ROOT) . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf'
+        );
         $object->setFont($font, $size);
         return $font;
     }
@@ -816,7 +850,9 @@ abstract class AbstractPdf extends \Magento\Object
      */
     protected function _setFontBold($object, $size = 7)
     {
-        $font = \Zend_Pdf_Font::fontWithPath(\Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf');
+        $font = \Zend_Pdf_Font::fontWithPath(
+            $this->_coreDir->getDir(\Magento\Core\Model\Dir::ROOT) . '/lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
+        );
         $object->setFont($font, $size);
         return $font;
     }
@@ -830,7 +866,9 @@ abstract class AbstractPdf extends \Magento\Object
      */
     protected function _setFontItalic($object, $size = 7)
     {
-        $font = \Zend_Pdf_Font::fontWithPath(\Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_It-2.8.2.ttf');
+        $font = \Zend_Pdf_Font::fontWithPath(
+            $this->_coreDir->getDir(\Magento\Core\Model\Dir::ROOT) . '/lib/LinLibertineFont/LinLibertine_It-2.8.2.ttf'
+        );
         $object->setFont($font, $size);
         return $font;
     }
@@ -856,7 +894,7 @@ abstract class AbstractPdf extends \Magento\Object
     protected function _getPdf()
     {
         if (!$this->_pdf instanceof \Zend_Pdf) {
-            \Mage::throwException(__('Please define the PDF object before using.'));
+            throw new \Magento\Core\Exception(__('Please define the PDF object before using.'));
         }
 
         return $this->_pdf;
@@ -907,7 +945,9 @@ abstract class AbstractPdf extends \Magento\Object
     {
         foreach ($draw as $itemsProp) {
             if (!isset($itemsProp['lines']) || !is_array($itemsProp['lines'])) {
-                \Mage::throwException(__('We don\'t recognize the draw line data. Please define the "lines" array.'));
+                throw new \Magento\Core\Exception(
+                    __('We don\'t recognize the draw line data. Please define the "lines" array.')
+                );
             }
             $lines  = $itemsProp['lines'];
             $height = isset($itemsProp['height']) ? $itemsProp['height'] : 10;
@@ -977,8 +1017,7 @@ abstract class AbstractPdf extends \Magento\Object
                             case 'right':
                                 if ($width) {
                                     $feed = $this->getAlignRight($part, $feed, $width, $font, $fontSize);
-                                }
-                                else {
+                                } else {
                                     $feed = $feed - $this->widthForStringUsingFontSize($part, $font, $fontSize);
                                 }
                                 break;
@@ -986,6 +1025,8 @@ abstract class AbstractPdf extends \Magento\Object
                                 if ($width) {
                                     $feed = $this->getAlignCenter($part, $feed, $width, $font, $fontSize);
                                 }
+                                break;
+                            default:
                                 break;
                         }
                         $page->drawText($part, $feed, $this->y-$top, 'UTF-8');

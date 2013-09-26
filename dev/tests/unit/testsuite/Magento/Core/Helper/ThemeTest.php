@@ -165,11 +165,11 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<reference name="head">
+                '<referenceBlock name="head">
                     <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test21.css</argument></arguments>
                     </block>
-                </reference>',
+                </referenceBlock>',
                 array(
                     'test21.css' => array(
                         'id'       => 'test21.css',
@@ -179,13 +179,13 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<reference name="head">
+                '<referenceBlock name="head">
                     <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
                         </arguments>
                     </block>
-                </reference>',
+                </referenceBlock>',
                 array(
                     'Magento_Core::test23.css' => array(
                         'id'       => 'Magento_Core::test23.css',
@@ -216,21 +216,21 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                 array(),
             ),
             array(
-                '<reference name="some_block_name">
+                '<referenceBlock name="some_block_name">
                     <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test23.css</argument></arguments>
                     </block>
-                </reference>',
+                </referenceBlock>',
                 array(),
             ),
             array(
-                '<reference name="some_block_name">
+                '<referenceBlock name="some_block_name">
                     <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
                         </arguments>
                     </block>
-                </reference>',
+                </referenceBlock>',
                 array(),
             ),
             array(
@@ -244,14 +244,14 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                         </arguments>
                     </block>
                 </block>
-                <reference name="head">
+                <referenceBlock name="head">
                     <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">testh.css</argument></arguments>
                     </block>
                     <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">Magento_Core::test.css</argument></arguments>
                     </block>
-                </reference>
+                </referenceBlock>
                 <block type="Some_Block_Class">
                     <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">testa.css</argument></arguments>
@@ -262,7 +262,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                         </arguments>
                     </block>
                 </block>
-                <reference name="some_block_name">
+                <referenceBlock name="some_block_name">
                     <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">testb.css</argument></arguments>
                     </block>
@@ -271,7 +271,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                             <argument name="file" xsi:type="string">Magento_Core::testb.css</argument>
                         </arguments>
                     </block>
-                </reference>',
+                </referenceBlock>',
                 array(
                     'testh.css' => array(
                         'id' => 'testh.css',
@@ -533,7 +533,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                 array('area11/vendor11_theme11', $theme11),
                 array('area12/vendor12_theme12', $theme12),
                 array('area13/vendor13_theme13', $theme13),
-        )));
+            )));
 
         return $themeCollection;
     }

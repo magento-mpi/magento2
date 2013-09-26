@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Configure Wishlist Item (Bundle)" type="page" parent="catalog_product_view">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-bundle-bundle-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Bundle::bundle.js</argument>
@@ -19,8 +19,8 @@
                 <argument name="file" xsi:type="string">Magento_Bundle::js/product-summary.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="product.info">
+    </referenceBlock>
+    <referenceBlock name="product.info">
         <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.bundle" as="product_type_data" template="catalog/product/view/type/bundle.phtml">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
@@ -33,8 +33,8 @@
                 </action>
             </block>
         </block>
-    </reference>
-    <reference name="product.info.options.wrapper">
+    </referenceBlock>
+    <referenceBlock name="product.info.options.wrapper">
         <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.bundle.options" as="type_bundle_options" template="catalog/product/view/type/bundle/options.phtml" before="-">
             <action method="addRenderer">
                 <argument name="type" xsi:type="string">select</argument>
@@ -53,17 +53,17 @@
                 <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox</argument>
             </action>
         </block>
-    </reference>
-    <reference name="product.info.options.wrapper.bottom">
+    </referenceBlock>
+    <referenceBlock name="product.info.options.wrapper.bottom">
         <remove name="product.tierprices"/>
         <block class="Magento\Bundle\Block\Catalog\Product\View" name="bundle.tierprices" as="tierprices" before="-" template="Magento_Bundle::catalog/product/view/tierprices.phtml"/>
         <block class="Magento\CatalogInventory\Block\Qtyincrements" name="product.info.qtyincrements" before="-" template="qtyincrements.phtml"/>
-    </reference>
-    <reference name="product.clone_prices">
+    </referenceBlock>
+    <referenceBlock name="product.clone_prices">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">bundle</argument>
             <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
             <argument name="template" xsi:type="string">catalog/product/view/price.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

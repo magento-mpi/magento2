@@ -18,7 +18,7 @@
  */
 namespace Magento\Customer\Model\Address;
 
-class Config extends \Magento\Core\Model\Config\Base
+class Config extends \Magento\Config\Data
 {
     const DEFAULT_ADDRESS_RENDERER  = 'Magento\Customer\Block\Address\Renderer\DefaultRenderer';
     const XML_PATH_ADDRESS_TEMPLATE = 'customer/address_templates/';
@@ -47,27 +47,43 @@ class Config extends \Magento\Core\Model\Config\Base
     protected $_defaultTypes    = array();
 
     /**
-     * Customer address
-     *
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @var \Magento\Customer\Helper\Address
      */
-    protected $_customerAddress = null;
+    protected $_addressHelper;
 
     /**
-     * Core store config
+     * @param \Magento\Customer\Model\Address\Config\Reader $reader
+     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param string $cacheId
+     */
+    public function __construct(
+        \Magento\Customer\Model\Address\Config\Reader $reader,
+        \Magento\Config\CacheInterface $cache,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Helper\Address $addressHelper,
+        $cacheId = 'address_format'
+    ) {
+        parent::__construct($reader, $cache, $cacheId);
+        $this->_storeManager = $storeManager;
+        $this->_addressHelper = $addressHelper;
+    }
+
+    /**
+     * Set store
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @return \Magento\Customer\Model\Address\Config
      */
-    protected $_coreStoreConfig;
-
-    /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
     public function setStore($store)
     {
-        $this->_store = \Mage::app()->getStore($store);
+        $this->_store = $this->_storeManager->getStore($store);
         return $this;
     }
 
@@ -79,25 +95,9 @@ class Config extends \Magento\Core\Model\Config\Base
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = \Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this->_store;
-    }
-
-    /**
-     * @param \Magento\Customer\Helper\Address $customerAddress
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
-     */
-    public function __construct(
-        \Magento\Customer\Helper\Address $customerAddress,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig
-    ) {
-        $this->_customerAddress = $customerAddress;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreConfig = $coreConfig;
-        parent::__construct($this->_coreConfig->getNode()->global->customer->address);
     }
 
     /**
@@ -111,24 +111,29 @@ class Config extends \Magento\Core\Model\Config\Base
         $storeId = $store->getId();
         if (!isset($this->_types[$storeId])) {
             $this->_types[$storeId] = array();
-            foreach ($this->getNode('formats')->children() as $typeCode => $typeConfig) {
+            foreach ($this->get() as $typeCode => $typeConfig) {
                 $path = sprintf('%s%s', self::XML_PATH_ADDRESS_TEMPLATE, $typeCode);
                 $type = new \Magento\Object();
-                $escapeHtml = strtolower($typeConfig->escapeHtml);
-                $escapeHtml = $escapeHtml == 'false' || $escapeHtml == '0' || $escapeHtml == 'no'
-                        || !strlen($typeConfig->escapeHtml) ? false : true;
+                if (isset($typeConfig['escapeHtml'])
+                    && ($typeConfig['escapeHtml'] == 'true' || $typeConfig['escapeHtml'] == '1')
+                ) {
+                    $escapeHtml = true;
+                } else {
+                    $escapeHtml = false;
+                }
+
                 $type->setCode($typeCode)
-                    ->setTitle((string)$typeConfig->title)
-                    ->setDefaultFormat($this->_coreStoreConfig->getConfig($path, $store))
+                    ->setTitle((string)$typeConfig['title'])
+                    ->setDefaultFormat($store->getConfig($path))
                     ->setEscapeHtml($escapeHtml);
 
-                $renderer = (string)$typeConfig->renderer;
+                $renderer = isset($typeConfig['renderer']) ? (string)$typeConfig['renderer'] : null;
                 if (!$renderer) {
                     $renderer = self::DEFAULT_ADDRESS_RENDERER;
                 }
 
                 $type->setRenderer(
-                    $this->_customerAddress->getRenderer($renderer)->setType($type)
+                    $this->_addressHelper->getRenderer($renderer)->setType($type)
                 );
 
                 $this->_types[$storeId][] = $type;
@@ -147,7 +152,7 @@ class Config extends \Magento\Core\Model\Config\Base
     {
         $store = $this->getStore();
         $storeId = $store->getId();
-        if(!isset($this->_defaultType[$storeId])) {
+        if (!isset($this->_defaultType[$storeId])) {
             $this->_defaultType[$storeId] = new \Magento\Object();
             $this->_defaultType[$storeId]->setCode('default')
                 ->setDefaultFormat('{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}'
@@ -155,8 +160,9 @@ class Config extends \Magento\Core\Model\Config\Base
                         . '{{var street}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}');
 
             $this->_defaultType[$storeId]->setRenderer(
-                $this->_customerAddress
-                    ->getRenderer(self::DEFAULT_ADDRESS_RENDERER)->setType($this->_defaultType[$storeId])
+                $this->_addressHelper
+                    ->getRenderer(self::DEFAULT_ADDRESS_RENDERER)
+                    ->setType($this->_defaultType[$storeId])
             );
         }
         return $this->_defaultType[$storeId];
@@ -170,8 +176,8 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     public function getFormatByCode($typeCode)
     {
-        foreach($this->getFormats() as $type) {
-            if($type->getCode()==$typeCode) {
+        foreach ($this->getFormats() as $type) {
+            if ($type->getCode() == $typeCode) {
                 return $type;
             }
         }

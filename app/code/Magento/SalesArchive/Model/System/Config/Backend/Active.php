@@ -14,6 +14,43 @@ class Active
     implements \Magento\Backend\Model\Config\CommentInterface
 {
     /**
+     * @var \Magento\SalesArchive\Model\Archive
+     */
+    protected $_archive;
+
+    /**
+     * @var \Magento\SalesArchive\Model\Resource\Order\Collection
+     */
+    protected $_orderCollection;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\SalesArchive\Model\Archive $archive
+     * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\SalesArchive\Model\Archive $archive,
+        \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_archive = $archive;
+        $this->_orderCollection = $orderCollection;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Cache tags to clean
      *
      * @var array
@@ -30,7 +67,7 @@ class Active
     {
         parent::_afterSave();
         if ($this->isValueChanged() && !$this->getValue()) {
-            \Mage::getModel('Magento\SalesArchive\Model\Archive')->removeOrdersFromArchive();
+            $this->_archive->removeOrdersFromArchive();
         }
         return $this;
     }
@@ -44,8 +81,7 @@ class Active
     public function getCommentText($currentValue)
     {
         if ($currentValue) {
-            $ordersCount = \Mage::getResourceSingleton('Magento\SalesArchive\Model\Resource\Order\Collection')
-                ->getSize();
+            $ordersCount = $this->_orderCollection->getSize();
             if ($ordersCount) {
                 return __('There are %1 orders in this archive. All of them will be moved to the regular table after the archive is disabled.', $ordersCount);
             }

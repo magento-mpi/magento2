@@ -10,6 +10,7 @@
 
 /**
  * Nominal items total
+ *
  * Collects only items segregated by isNominal property
  * Aggregates row totals per item
  */
@@ -18,16 +19,28 @@ namespace Magento\Sales\Model\Quote\Address\Total;
 class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
+     * @var \Magento\Sales\Model\Quote\Address\Total\Nominal\CollectorFactory
+     */
+    protected $_collectorFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Quote\Address\Total\Nominal\CollectorFactory $collectorFactory
+     */
+    public function __construct(\Magento\Sales\Model\Quote\Address\Total\Nominal\CollectorFactory $collectorFactory)
+    {
+        $this->_collectorFactory = $collectorFactory;
+    }
+
+    /**
      * Invoke collector for nominal items
      *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param \Magento\Sales\Model\Quote\Address\Total\Nominal
+     * @return $this|\Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
-        $collector = \Mage::getModel('Magento\Sales\Model\Quote\Address\Total\Nominal\Collector',
-            array('store' => $address->getQuote()->getStore())
-        );
+        $collector = $this->_collectorFactory->create(array('store' => $address->getQuote()->getStore()));
 
         // invoke nominal totals
         foreach ($collector->getCollectors() as $model) {

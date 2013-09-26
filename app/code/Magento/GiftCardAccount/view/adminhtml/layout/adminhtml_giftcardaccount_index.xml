@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_giftcardaccount_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount" name="adminhtml.gift.card.account.grid.container" as="giftcardaccount_list">
             <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" as="store_switcher">
                 <action method="setUseConfirm">
@@ -18,5 +18,5 @@
                 </action>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

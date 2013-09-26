@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="type_one" label="Label One" modelInstance="Instance_Type" composite="true" indexPriority="40" canUseQtyDecimals="true" isQty="true">
+        <priceModel instance="Instance_Type_One" />
+        <indexerModel instance="Instance_Type_Two" />
+        <false/>
+        <stockIndexerModel instance="Instance_Type_Three" />
+        <allowProductTypes>
+            <type name="type_one" />
+        </allowProductTypes>
+    </type>
+    <type name="type_two" modelInstance="Instance_Type">
+        <allowedSelectionTypes>
+            <type name="type_two" />
+        </allowedSelectionTypes>
+    </type>
+</config>

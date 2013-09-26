@@ -21,6 +21,39 @@ namespace Magento\CatalogSearch\Model\Config\Backend\Search;
 class Type extends \Magento\Core\Model\Config\Value
 {
     /**
+     * Catalog search fulltext
+     *
+     * @var \Magento\CatalogSearch\Model\Fulltext
+     */
+    protected $_catalogSearchFulltext;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
+        array $data = array()
+    ) {
+        $this->_catalogSearchFulltext = $catalogSearchFulltext;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * After change Catalog Search Type process
      *
      * @return \Magento\CatalogSearch\Model\Config\Backend\Search\Type|\Magento\Core\Model\AbstractModel
@@ -28,13 +61,13 @@ class Type extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         $newValue = $this->getValue();
-        $oldValue = $this->_coreConfig->getValue(
+        $oldValue = $this->_config->getValue(
             \Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()
         );
         if ($newValue != $oldValue) {
-            \Mage::getSingleton('Magento\CatalogSearch\Model\Fulltext')->resetSearchResults();
+            $this->_catalogSearchFulltext->resetSearchResults();
         }
 
         return $this;

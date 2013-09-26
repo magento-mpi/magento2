@@ -28,17 +28,21 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_eventManager = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
+        \Magento\Core\Model\Date $date,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Resource $resource
     ) {
+        $this->_date = $date;
         $this->_eventManager = $eventManager;
         parent::__construct($resource);
     }
@@ -80,7 +84,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
 
-        $timeLimit = $this->formatDate(\Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp() - $time);
+        $timeLimit = $this->formatDate($this->_date->gmtTimestamp() - $time);
 
         while (true) {
             $select = $readAdapter->select()
@@ -129,7 +133,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
 
-        $timeLimit = $this->formatDate(\Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp() - $time);
+        $timeLimit = $this->formatDate($this->_date->gmtTimestamp() - $time);
 
         // retrieve last active customer log id
         $lastLogId = $readAdapter->fetchOne(

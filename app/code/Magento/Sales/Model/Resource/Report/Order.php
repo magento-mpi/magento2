@@ -8,21 +8,42 @@
  * @license     {license_link}
  */
 
-
 /**
  * Order entity resource model
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Resource\Report;
 
 class Order extends \Magento\Sales\Model\Resource\Report\AbstractReport
 {
     /**
+     * @var \Magento\Sales\Model\Resource\Report\Order\CreatedatFactory
+     */
+    protected $_createDatFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Report\Order\UpdatedatFactory
+     */
+    protected $_updateDatFactory;
+
+    /**
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Sales\Model\Resource\Report\Order\CreatedatFactory $createDatFactory
+     * @param \Magento\Sales\Model\Resource\Report\Order\UpdatedatFactory $updateDatFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Sales\Model\Resource\Report\Order\CreatedatFactory $createDatFactory,
+        \Magento\Sales\Model\Resource\Report\Order\UpdatedatFactory $updateDatFactory
+    ) {
+        parent::__construct($logger, $resource);
+        $this->_createDatFactory = $createDatFactory;
+        $this->_updateDatFactory = $updateDatFactory;
+    }
+
+    /**
      * Model initialization
-     *
      */
     protected function _construct()
     {
@@ -38,10 +59,9 @@ class Order extends \Magento\Sales\Model\Resource\Report\AbstractReport
      */
     public function aggregate($from = null, $to = null)
     {
-        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Order\Createdat')->aggregate($from, $to);
-        \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Order\Updatedat')->aggregate($from, $to);
+        $this->_createDatFactory->create()->aggregate($from, $to);
+        $this->_updateDatFactory->create()->aggregate($from, $to);
         $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_ORDER_FLAG_CODE);
-
         return $this;
     }
 }

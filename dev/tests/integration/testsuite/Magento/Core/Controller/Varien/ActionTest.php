@@ -29,14 +29,14 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
         $arguments = array(
             'request'  => $request,
             'response' => $this->_objectManager->get('Magento\TestFramework\Response'),
-        );        
+        );
         $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
@@ -173,11 +173,19 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      * @param array $expected
      *
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture global/dev/page_type/render_inherited 1
      * @dataProvider addActionLayoutHandlesInheritedDataProvider
      */
     public function testAddActionLayoutHandlesInherited($route, $controller, $action, $expected)
     {
+        $arguments = array(
+            'request'  => $this->_objectManager->get('Magento\TestFramework\Request'),
+            'response' => $this->_objectManager->get('Magento\TestFramework\Response'),
+            'isRenderInherited' => true,
+        );
+        $context = $this->_objectManager->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
+        $this->_object = $this->getMockForAbstractClass('Magento\Core\Controller\Varien\Action',
+            array('context' => $context));
+
         $this->_object->getRequest()
             ->setRouteName($route)
             ->setControllerName($controller)
@@ -241,9 +249,9 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     public function testDispatch()
     {
         if (headers_sent()) {
-            $this->markTestSkipped('Can\'t dispatch - headers already sent');
+            $this->markTestSkipped('Can\' dispatch - headers already sent');
         }
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
@@ -313,7 +321,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         ));
         $controller = $this->_objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
-        
+
         $design = $this->_objectManager->get('Magento\Core\Model\View\DesignInterface');
 
         $this->assertEquals($expectedArea, $design->getArea());

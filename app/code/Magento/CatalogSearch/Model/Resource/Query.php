@@ -21,6 +21,27 @@ namespace Magento\CatalogSearch\Model\Resource;
 class Query extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Date
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $date
+    ) {
+        $this->_date = $date;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init resource data
      */
     protected function _construct()
@@ -98,7 +119,7 @@ class Query extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
-        $object->setUpdatedAt($this->formatDate(\Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp()));
+        $object->setUpdatedAt($this->formatDate($this->_date->gmtTimestamp()));
         return $this;
     }
 }

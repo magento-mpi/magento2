@@ -1,6 +1,4 @@
 <?php
-namespace Magento\Widget\Model\Config;
-
 /**
  * \Magento\Widget\Model\Config\Reader
  *
@@ -10,6 +8,8 @@ namespace Magento\Widget\Model\Config;
  * @license     {license_link}
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
+namespace Magento\Widget\Model\Config;
+
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,8 +25,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
-                    \Magento\Core\Model\Dir::MODULES => __DIR__ . '/_files',
-                    \Magento\Core\Model\Dir::CONFIG => __DIR__ . '/_files'
+                    \Magento\Core\Model\Dir::MODULES => __DIR__ . '/_files/code',
+                    \Magento\Core\Model\Dir::CONFIG => __DIR__ . '/_files/code'
                 )
             )
         );
@@ -61,9 +61,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\Core\Model\Config\FileResolver $fileResolver */
+        /** @var \Magento\Widget\Model\Config\FileResolver $fileResolver */
         $fileResolver = $objectManager->create(
-            'Magento\Core\Model\Config\FileResolver', array(
+            'Magento\Widget\Model\Config\FileResolver', array(
                 'moduleReader' => $moduleReader,
             )
         );
@@ -83,14 +83,14 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $result = $this->_model->read('global');
-        $expected = include '_files/expectedArray.php';
+        $expected = include '_files/expectedGlobalArray.php';
         $this->assertEquals($expected, $result);
     }
 
     public function testReadFile()
     {
-        $result = $this->_model->readFile(__DIR__ . '/_files/Magento/Test/etc/widget.xml');
-        $expected = include '_files/expectedArray.php';
+        $result = $this->_model->readFile(__DIR__ . '/_files/code/Magento/Test/etc/widget.xml');
+        $expected = include '_files/expectedGlobalArray.php';
         $this->assertEquals($expected, $result);
     }
 
@@ -120,6 +120,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 'perFileSchema' => $perFileSchema
             )
         );
-        $model->read('global');
+        $output = $model->read('global');
+        $expected = include '_files/expectedMergedArray.php';
+        $this->assertEquals($expected, $output);
     }
 }

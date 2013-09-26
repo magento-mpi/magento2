@@ -67,8 +67,34 @@ class Query extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Search collection factory
+     *
+     * @var \Magento\CatalogSearch\Model\Resource\Search\CollectionFactory
+     */
+    protected $_searchCollectionFactory;
+
+    /**
+     * Query collection factory
+     *
+     * @var \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory
+     */
+    protected $_queryCollectionFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory
+     * @param \Magento\CatalogSearch\Model\Resource\Search\CollectionFactory $searchCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -77,11 +103,17 @@ class Query extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory,
+        \Magento\CatalogSearch\Model\Resource\Search\CollectionFactory $searchCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_queryCollectionFactory = $queryCollectionFactory;
+        $this->_searchCollectionFactory = $searchCollectionFactory;
+        $this->_storeManager = $storeManager;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -102,7 +134,7 @@ class Query extends \Magento\Core\Model\AbstractModel
      */
     public function getSearchCollection()
     {
-        return \Mage::getResourceModel('Magento\CatalogSearch\Model\Resource\Search\Collection');
+        return $this->_searchCollectionFactory->create();
     }
 
     /**
@@ -139,7 +171,7 @@ class Query extends \Magento\Core\Model\AbstractModel
     {
         $collection = $this->getData('suggest_collection');
         if (is_null($collection)) {
-            $collection = \Mage::getResourceModel('Magento\CatalogSearch\Model\Resource\Query\Collection')
+            $collection = $this->_queryCollectionFactory->create()
                 ->setStoreId($this->getStoreId())
                 ->setQueryFilter($this->getQueryText());
             $this->setData('suggest_collection', $collection);
@@ -194,7 +226,7 @@ class Query extends \Magento\Core\Model\AbstractModel
     public function getStoreId()
     {
         if (!$storeId = $this->getData('store_id')) {
-            $storeId = \Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
         return $storeId;
     }

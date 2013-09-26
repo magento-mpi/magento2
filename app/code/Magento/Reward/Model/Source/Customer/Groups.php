@@ -21,13 +21,26 @@ namespace Magento\Reward\Model\Source\Customer;
 class Groups implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     */
+    protected $_groupsFactory;
+
+    /**
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory
+     */
+    public function __construct(\Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory)
+    {
+        $this->_groupsFactory = $groupsFactory;
+    }
+
+    /**
      * Retrieve option array of customer groups
      *
      * @return array
      */
     public function toOptionArray()
     {
-        $groups = \Mage::getResourceModel('Magento\Customer\Model\Resource\Group\Collection')
+        $groups = $this->_groupsFactory->create()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

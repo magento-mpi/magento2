@@ -83,14 +83,30 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_coreHttp = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Rating\Model\Rating\Option\VoteFactory
+     */
+    protected $_ratingOptionVoteF;
+
+    /**
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Rating\Model\Rating\Option\VoteFactory $ratingOptionVoteF
      */
     public function __construct(
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Rating\Model\Rating\Option\VoteFactory $ratingOptionVoteF
     ) {
         $this->_coreHttp = $coreHttp;
+        $this->_customerSession = $customerSession;
+        $this->_ratingOptionVoteF = $ratingOptionVoteF;
         parent::__construct($resource);
     }
 
@@ -130,7 +146,7 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
         if (!$option->getDoUpdate()) {
             $data['remote_ip']       = $this->_coreHttp->getRemoteAddr();
             $data['remote_ip_long']  = $this->_coreHttp->getRemoteAddr(true);
-            $data['customer_id']     = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+            $data['customer_id']     = $this->_customerSession->getCustomerId();
             $data['entity_pk_value'] = $option->getEntityPkValue();
             $data['rating_id']       = $option->getRatingId();
         }
@@ -164,7 +180,7 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function aggregate($option)
     {
-        $vote = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')->load($option->getVoteId());
+        $vote = $this->_ratingOptionVoteF->create()->load($option->getVoteId());
         $this->aggregateEntityByRatingId($vote->getRatingId(), $vote->getEntityPkValue());
     }
 

@@ -21,11 +21,27 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     protected $_customerBalanceData = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\CustomerBalance\Model\BalanceFactory
+     */
+    protected $_balanceFactory;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_balanceFactory = $balanceFactory;
         $this->_customerBalanceData = $customerBalanceData;
         $this->setCode('customerbalance');
     }
@@ -54,8 +70,8 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
         $baseBalance = $balance = 0;
         if ($quote->getCustomer()->getId()) {
             if ($quote->getUseCustomerBalance()) {
-                $store = \Mage::app()->getStore($quote->getStoreId());
-                $baseBalance = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
+                $store = $this->_storeManager->getStore($quote->getStoreId());
+                $baseBalance = $this->_balanceFactory->create()
                     ->setCustomer($quote->getCustomer())
                     ->setCustomerId($quote->getCustomer()->getId())
                     ->setWebsiteId($store->getWebsiteId())

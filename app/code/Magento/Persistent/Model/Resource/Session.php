@@ -11,10 +11,6 @@
 
 /**
  * Persistent Session Resource Model
- *
- * @category    Magento
- * @package     Magento_Persistent
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Persistent\Model\Resource;
 
@@ -26,6 +22,27 @@ class Session extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @var boolean
      */
     protected $_useIsObjectNew = true;
+
+    /**
+     * Session factory
+     *
+     * @var \Magento\Persistent\Model\SessionFactory
+     */
+    protected $_sessionFactory;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Persistent\Model\SessionFactory $sessionFactory
+    ) {
+        $this->_sessionFactory = $sessionFactory;
+        parent::__construct($resource);
+    }
 
     /**
      * Initialize connection and define main table and primary key
@@ -76,7 +93,7 @@ class Session extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function isKeyAllowed($key)
     {
-        $sameSession = \Mage::getModel('Magento\Persistent\Model\Session')->setLoadExpired();
+        $sameSession = $this->_sessionFactory->create()->setLoadExpired();
         $sameSession->loadByCookieKey($key);
         return !$sameSession->getId();
     }

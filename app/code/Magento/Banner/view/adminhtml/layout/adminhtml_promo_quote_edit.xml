@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="promo_quote_edit_tabs">
+    <referenceBlock name="promo_quote_edit_tabs">
         <block class="Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners" name="salesrule.related.banners">
             <block class="Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners\Grid" name="related_salesrule_banners_grid"/>
             <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="banners_grid_serializer">
@@ -25,5 +25,5 @@
             <argument name="block" xsi:type="string">salesrule.related.banners</argument>
         </action>
         <block class="Magento\Banner\Block\Adminhtml\Permission\Monitor" name="bannner.permission.monitor"/>
-    </reference>
+    </referenceBlock>
 </layout>

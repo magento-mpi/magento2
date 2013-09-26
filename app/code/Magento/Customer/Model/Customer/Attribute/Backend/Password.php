@@ -17,7 +17,8 @@
  */
 namespace Magento\Customer\Model\Customer\Attribute\Backend;
 
-class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Password
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     const MIN_PASSWORD_LENGTH = 6;
 
@@ -30,11 +31,14 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
 
     /**
      * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_coreString = $coreString;
+        parent::__construct($logger);
     }
 
     /**

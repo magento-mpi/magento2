@@ -366,7 +366,7 @@ class Usps
 
         if ($this->_isUSCountry($r->getDestCountryId())) {
             $xml = $this->_xmlElFactory->create(
-                array('<?xml version="1.0" encoding="UTF-8"?><RateV4Request/>')
+                array('data' => '<?xml version="1.0" encoding="UTF-8"?><RateV4Request/>')
             );
             $xml->addAttribute('USERID', $r->getUserId());
             // according to usps v4 documentation
@@ -408,7 +408,7 @@ class Usps
             $api = 'RateV4';
         } else {
             $xml = $this->_xmlElFactory->create(
-                array('<?xml version = "1.0" encoding = "UTF-8"?><IntlRateV2Request/>')
+                array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><IntlRateV2Request/>')
             );
             $xml->addAttribute('USERID', $r->getUserId());
             // according to usps v4 documentation
@@ -859,7 +859,7 @@ class Usps
 
          foreach ($trackings as $tracking) {
              $xml = $this->_xmlElFactory->create(
-                 array('<?xml version = "1.0" encoding = "UTF-8"?><TrackRequest/>')
+                 array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><TrackRequest/>')
              );
              $xml->addAttribute('USERID', $r->getUserId());
 
@@ -1277,7 +1277,7 @@ class Usps
         $rootNode = 'ExpressMailLabelRequest';
         // the wrap node needs for remove xml declaration above
         $xmlWrap = $this->_xmlElFactory->create(
-            array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
+            array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $xml = $xmlWrap->addChild($rootNode);
         $xml->addAttribute('USERID', $this->getConfigData('userid'));
@@ -1366,7 +1366,7 @@ class Usps
         }
         // the wrap node needs for remove xml declaration above
         $xmlWrap = $this->_xmlElFactory->create(
-            array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
+            array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $xml = $xmlWrap->addChild($rootNode);
         $xml->addAttribute('USERID', $this->getConfigData('userid'));
@@ -1484,7 +1484,7 @@ class Usps
 
         // the wrap node needs for remove xml declaration above
         $xmlWrap = $this->_xmlElFactory->create(
-            array('<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
+            array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><wrap/>')
         );
         $method = '';
         if (stripos($shippingMethod, 'Priority') !== false) {

@@ -8,17 +8,13 @@
  * @license     {license_link}
  */
 
-
 /**
  * Billing agreements resource collection
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Resource\Billing\Agreement;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Mapping for fields
@@ -34,8 +30,32 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     ));
 
     /**
+     * @var \Magento\Customer\Model\Resource\Customer
+     */
+    protected $_customerResource;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Customer\Model\Resource\Customer $customerResource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Customer\Model\Resource\Customer $customerResource,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_customerResource = $customerResource;
+    }
+
+    /**
      * Collection initialization
-     *
      */
     protected function _construct()
     {
@@ -43,7 +63,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
-     * Add cutomer details(email, firstname, lastname) to select
+     * Add customer details(email, firstname, lastname) to select
      *
      * @return \Magento\Sales\Model\Resource\Billing\Agreement\Collection
      */
@@ -55,11 +75,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             array('customer_email' => 'email')
         );
 
-        $customer = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer');
         $adapter  = $this->getConnection();
-        $attr     = $customer->getAttribute('firstname');
+        $attr     = $this->_customerResource->getAttribute('firstname');
         $joinExpr = 'firstname.entity_id = main_table.customer_id AND '
-            . $adapter->quoteInto('firstname.entity_type_id = ?', $customer->getTypeId()) . ' AND '
+            . $adapter->quoteInto('firstname.entity_type_id = ?', $this->_customerResource->getTypeId()) . ' AND '
             . $adapter->quoteInto('firstname.attribute_id = ?', $attr->getAttributeId());
 
         $select->joinLeft(
@@ -68,9 +87,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             array('customer_firstname' => 'value')
         );
 
-        $attr = $customer->getAttribute('lastname');
+        $attr = $this->_customerResource->getAttribute('lastname');
         $joinExpr = 'lastname.entity_id = main_table.customer_id AND '
-            . $adapter->quoteInto('lastname.entity_type_id = ?', $customer->getTypeId()) . ' AND '
+            . $adapter->quoteInto('lastname.entity_type_id = ?', $this->_customerResource->getTypeId()) . ' AND '
             . $adapter->quoteInto('lastname.attribute_id = ?', $attr->getAttributeId());
 
         $select->joinLeft(

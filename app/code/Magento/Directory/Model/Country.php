@@ -19,33 +19,85 @@
  * @method \Magento\Directory\Model\Country setIso2Code(string $value)
  * @method string getIso3Code()
  * @method \Magento\Directory\Model\Country setIso3Code(string $value)
- *
- * @category    Magento
- * @package     Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Directory\Model;
 
 class Country extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @var array
+     */
     static public $_format = array();
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Directory\Model\Country\FormatFactory
+     */
+    protected $_formatFactory;
+
+    /**
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
+     */
+    protected $_regionCollFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Directory\Model\Country\FormatFactory $formatFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Directory\Model\Country\FormatFactory $formatFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context, $registry, $resource, $resourceCollection, $data
+        );
+        $this->_locale = $locale;
+        $this->_formatFactory = $formatFactory;
+        $this->_regionCollFactory = $regionCollFactory;
+    }
 
     protected function _construct()
     {
         $this->_init('Magento\Directory\Model\Resource\Country');
     }
 
+    /**
+     * @param string $code
+     * @return $this
+     */
     public function loadByCode($code)
     {
         $this->_getResource()->loadByCode($this, $code);
         return $this;
     }
 
+    /**
+     * @return \Magento\Directory\Model\Resource\Region\Collection
+     */
     public function getRegions()
     {
         return $this->getLoadedRegionCollection();
     }
 
+    /**
+     * @return \Magento\Directory\Model\Resource\Region\Collection
+     */
     public function getLoadedRegionCollection()
     {
         $collection = $this->getRegionCollection();
@@ -53,14 +105,22 @@ class Country extends \Magento\Core\Model\AbstractModel
         return $collection;
     }
 
+    /**
+     * @return \Magento\Directory\Model\Resource\Region\Collection
+     */
     public function getRegionCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Directory\Model\Resource\Region\Collection');
+        $collection = $this->_regionCollFactory->create();
         $collection->addCountryFilter($this->getId());
         return $collection;
     }
 
-    public function formatAddress(\Magento\Object $address, $html=false)
+    /**
+     * @param \Magento\Object $address
+     * @param bool $html
+     * @return string
+     */
+    public function formatAddress(\Magento\Object $address, $html = false)
     {
         //TODO: is it still used?
         $address->getRegion();
@@ -68,7 +128,7 @@ class Country extends \Magento\Core\Model\AbstractModel
 
 
 
-        $template = $this->getData('address_template_'.($html ? 'html' : 'plain'));
+        $template = $this->getData('address_template_' . ($html ? 'html' : 'plain'));
         if (empty($template)) {
             if (!$this->getId()) {
                 $template = '{{firstname}} {{lastname}}';
@@ -99,17 +159,15 @@ T: {{telephone}}";
     }
 
     /**
-     * Retrive formats for
+     * Retrieve formats for
      *
      * @return \Magento\Directory\Model\Resource\Country\Format\Collection
      */
     public function getFormats()
     {
         if (!isset(self::$_format[$this->getId()]) && $this->getId()) {
-            self::$_format[$this->getId()] = \Mage::getModel('Magento\Directory\Model\Country\Format')
-                                                ->getCollection()
-                                                ->setCountryFilter($this)
-                                                ->load();
+            self::$_format[$this->getId()] = $this->_formatFactory->create()
+                ->getCollection()->setCountryFilter($this)->load();
         }
 
         if (isset(self::$_format[$this->getId()])) {
@@ -120,7 +178,7 @@ T: {{telephone}}";
     }
 
     /**
-     * Retrive format
+     * Retrieve format
      *
      * @param string $type
      * @return \Magento\Directory\Model\Country\Format
@@ -129,7 +187,7 @@ T: {{telephone}}";
     {
         if ($this->getFormats()) {
             foreach ($this->getFormats() as $format) {
-                if ($format->getType()==$type) {
+                if ($format->getType() == $type) {
                     return $format;
                 }
             }
@@ -137,13 +195,13 @@ T: {{telephone}}";
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         if (!$this->getData('name')) {
-            $this->setData(
-                'name',
-                \Mage::app()->getLocale()->getCountryTranslation($this->getId())
-            );
+            $this->setData('name', $this->_locale->getCountryTranslation($this->getId()));
         }
         return $this->getData('name');
     }

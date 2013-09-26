@@ -10,7 +10,6 @@
 
 /**
  * Base payment iformation block
- *
  */
 namespace Magento\Payment\Block;
 
@@ -26,15 +25,42 @@ class Info extends \Magento\Core\Block\Template
     protected $_template = 'Magento_Payment::info/default.phtml';
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Retrieve info model
      *
      * @return \Magento\Payment\Model\Info
+     * @throws \Magento\Core\Exception
      */
     public function getInfo()
     {
         $info = $this->getData('info');
         if (!($info instanceof \Magento\Payment\Model\Info)) {
-            \Mage::throwException(__('We cannot retrieve the payment info model object.'));
+            throw new \Magento\Core\Exception(__('We cannot retrieve the payment info model object.'));
         }
         return $info;
     }
@@ -92,7 +118,7 @@ class Info extends \Magento\Core\Block\Template
      *
      * @param mixed $value
      * @param bool $escapeHtml
-     * @return $array
+     * @return array
      */
     public function getValueAsArray($value, $escapeHtml = false)
     {
@@ -128,7 +154,7 @@ class Info extends \Magento\Core\Block\Template
         if (!$method = $payment->getMethodInstance()) {
             return true;
         }
-        return !\Mage::app()->getStore($method->getStore())->isAdmin();
+        return !$this->_storeManager->getStore($method->getStore())->isAdmin();
     }
 
     /**

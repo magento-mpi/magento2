@@ -19,7 +19,7 @@ try {
         'mode|w' => "Application mode.  Preview mode is default. If set to 'write' - database is updated.",
         'output|f-w' => "Report output type. Report is flushed to console by default."
         . "If set to 'file', report is written to file /log/report.log",
-        'dbprovider=w' => "Database adapter class name. Default: Varien_Db_Adapter_Pdo_Mysql",
+        'dbprovider=w' => "Database adapter class name. Default: Magento_Db_Adapter_Pdo_Mysql",
         'dbhost=s' => "Database server host",
         'dbuser=s' => "Database server user",
         'dbpassword=s' => "Database server password",

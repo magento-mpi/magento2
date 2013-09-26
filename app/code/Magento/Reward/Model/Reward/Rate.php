@@ -42,10 +42,22 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected $_rewardData = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Locale
+     */
+    protected $_locale;
+
+    /**
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Reward\Model\Resource\Reward\Rate $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -54,10 +66,14 @@ class Rate extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Reward\Model\Resource\Reward\Rate $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Locale $locale,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -77,6 +93,8 @@ class Rate extends \Magento\Core\Model\AbstractModel
                 return $this->_rewardData->formatRateToCurrency($points, $amount, $currencyCode);
             case self::RATE_EXCHANGE_DIRECTION_TO_POINTS:
                 return $this->_rewardData->formatRateToPoints($points, $amount, $currencyCode);
+            default;
+                return null;
         }
     }
 
@@ -245,8 +263,8 @@ class Rate extends \Magento\Core\Model\AbstractModel
             if ($websiteId === null) {
                 $websiteId = $this->getWebsiteId();
             }
-            $currencyCode = \Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
-            return \Mage::app()->getLocale()->currency($currencyCode)->toCurrency($amount);
+            $currencyCode = $this->_storeManager->getWebsite($websiteId)->getBaseCurrencyCode();
+            return $this->_locale->currency($currencyCode)->toCurrency($amount);
         }
         return $amount;
     }

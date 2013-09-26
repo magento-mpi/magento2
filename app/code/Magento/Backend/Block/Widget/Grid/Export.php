@@ -43,6 +43,27 @@ class Export
      */
     protected $_exportPath;
 
+    /**
+     * @var \Magento\Data\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -474,7 +495,7 @@ class Export
         if (null === $baseCollection) {
             $baseCollection = $this->getParentBlock()->getPreparedCollection();
         }
-        $collection = new \Magento\Data\Collection();
+        $collection = $this->_collectionFactory->create();
 
         /** @var $item \Magento\Object */
         foreach ($baseCollection as $item) {

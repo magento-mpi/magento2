@@ -30,32 +30,28 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_configFileName = 'persistent.xml';
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
      * @var \Magento\Core\Model\Config
      */
-    protected $_coreConfig;
+    protected $_config;
 
     /**
-     * Constructor
-     *
+     * @var \Magento\Core\Model\Store\Config
+     */
+    protected $_storeConfig;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $storeConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $config;
+        $this->_storeConfig = $storeConfig;
     }
 
     /**
@@ -65,7 +61,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPersistentConfigFilePath()
     {
-        return $this->_coreConfig->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
+        return $this->_config->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
     }
 
     /**
@@ -76,7 +72,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isWishlistPersist($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_PERSIST_WISHLIST, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_WISHLIST, $store);
     }
 
     /**
@@ -87,7 +83,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isOrderedItemsPersist($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_PERSIST_ORDERED_ITEMS, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_ORDERED_ITEMS, $store);
     }
 
     /**
@@ -98,7 +94,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isCompareProductsPersist($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_PERSIST_COMPARE_PRODUCTS, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_COMPARE_PRODUCTS, $store);
     }
 
     /**
@@ -109,7 +105,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isComparedProductsPersist($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_PERSIST_COMPARED_PRODUCTS, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_COMPARED_PRODUCTS, $store);
     }
 
     /**
@@ -120,7 +116,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isViewedProductsPersist($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_PERSIST_VIEWED_PRODUCTS, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_VIEWED_PRODUCTS, $store);
     }
 
     /**
@@ -131,6 +127,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isCustomerAndSegmentsPersist($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_PERSIST_CUSTOMER_AND_SEGM, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_CUSTOMER_AND_SEGM, $store);
     }
 }

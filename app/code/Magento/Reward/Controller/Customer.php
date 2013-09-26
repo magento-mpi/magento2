@@ -46,7 +46,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabledOnFront()) {
@@ -132,7 +132,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->_objectManager->get('Magento\Customer\Model\Session');
     }
 
     /**
@@ -152,9 +152,10 @@ class Customer extends \Magento\Core\Controller\Front\Action
      */
     protected function _getReward()
     {
-        $reward = \Mage::getModel('Magento\Reward\Model\Reward')
+        $reward = $this->_objectManager->create('Magento\Reward\Model\Reward')
             ->setCustomer($this->_getCustomer())
-            ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
+            ->setWebsiteId($this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()->getWebsiteId())
             ->loadByCustomer();
         return $reward;
     }

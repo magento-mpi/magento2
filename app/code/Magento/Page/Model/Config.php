@@ -1,5 +1,7 @@
 <?php
 /**
+ * Page layout config model
+ * 
  * {license_notice}
  *
  * @category    Magento
@@ -7,21 +9,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Page layout config model
- *
- * @category   Magento
- * @package    Magento_Page
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Page\Model;
 
 class Config
 {
-    const XML_PATH_PAGE_LAYOUTS = 'global/page/layouts';
-    const XML_PATH_CMS_LAYOUTS = 'global/cms/layouts';
-
     /**
      * Available page layouts
      *
@@ -29,20 +20,18 @@ class Config
      */
     protected $_pageLayouts = null;
 
-    /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
+    /** @var  \Magento\Config\DataInterface */
+    protected $_dataStorage;
 
     /**
      * Constructor
      *
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Config\DataInterface $dataStorage
      */
     public function __construct(
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Config\DataInterface $dataStorage
     ) {
-        $this->_coreConfig = $coreConfig;
+        $this->_dataStorage = $dataStorage;
     }
 
     /**
@@ -54,34 +43,10 @@ class Config
     {
         if ($this->_pageLayouts === null) {
             $this->_pageLayouts = array();
-            $this->_appendPageLayouts(self::XML_PATH_CMS_LAYOUTS);
-            $this->_appendPageLayouts(self::XML_PATH_PAGE_LAYOUTS);
-        }
-        return $this;
-    }
-
-    /**
-     * Fill in $_pageLayouts by reading layouts from config
-     *
-     * @param string $xmlPath XML path to layouts root
-     * @return \Magento\Page\Model\Config
-     */
-    protected function _appendPageLayouts($xmlPath)
-    {
-        if (!$this->_coreConfig->getNode($xmlPath)) {
-            return $this;
-        }
-        if (!is_array($this->_pageLayouts)) {
-            $this->_pageLayouts = array();
-        }
-        foreach ($this->_coreConfig->getNode($xmlPath)->children() as $layoutCode => $layoutConfig) {
-            $this->_pageLayouts[$layoutCode] = new \Magento\Object(array(
-                'label'         => __((string)$layoutConfig->label),
-                'code'          => $layoutCode,
-                'template'      => (string)$layoutConfig->template,
-                'layout_handle' => (string)$layoutConfig->layout_handle,
-                'is_default'    => (int)$layoutConfig->is_default,
-            ));
+            foreach ($this->_dataStorage->get(null) as $layoutCode => $layoutConfig) {
+                $layoutConfig['label'] = __($layoutConfig['label']);
+                $this->_pageLayouts[$layoutCode] = new \Magento\Object($layoutConfig);
+            }
         }
         return $this;
     }
@@ -89,7 +54,7 @@ class Config
     /**
      * Retrieve available page layouts
      *
-     * @return array
+     * @return array \Magento\Object[]
      */
     public function getPageLayouts()
     {

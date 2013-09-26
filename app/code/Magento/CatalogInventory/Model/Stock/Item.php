@@ -162,6 +162,21 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_locale;
 
     /**
+     * @var \Magento\CatalogInventory\Model\Stock\Status
+     */
+    protected $_stockStatus;
+
+    /**
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * Construct
      * 
      * @param \Magento\Core\Model\Context $context
@@ -177,6 +192,9 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
@@ -190,6 +208,10 @@ class Item extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+
+        $this->_customerSession = $customerSession;
+        $this->_indexer = $indexer;
+        $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_coreData = $coreData;
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
@@ -320,8 +342,9 @@ class Item extends \Magento\Core\Model\AbstractModel
         $product->setStockItem($this);
 
         $product->setIsInStock($this->getIsInStock());
-        \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')
-            ->assignProduct($product, $this->getStockId(), $this->getStockStatus());
+
+        $this->_stockStatus->assignProduct($product, $this->getStockId(), $this->getStockStatus());
+
         return $this;
     }
 
@@ -369,7 +392,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if (!$customerGroupId) {
             $customerGroupId = $this->_storeManager->getStore()->isAdmin()
                 ? \Magento\Customer\Model\Group::CUST_GROUP_ALL
-                : \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+                : $this->_customerSession->getCustomerGroupId();
         }
 
         if (!isset($this->_minSaleQtyCache[$customerGroupId])) {
@@ -732,7 +755,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Add join for catalog in stock field to product collection
      *
-     * @param Magento_Catalog_Model_Entity_Product_Collection $productCollection
+     * @param \Magento\Catalog\Model\Entity\Product\Collection $productCollection
      * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     public function addCatalogInventoryToProductCollection($productCollection)
@@ -843,12 +866,10 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         parent::_afterSave();
 
-        /** @var $indexer \Magento\Index\Model\Indexer */
-        $indexer = \Mage::getSingleton('Magento\Index\Model\Indexer');
         if ($this->_processIndexEvents) {
-            $indexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
+            $this->_indexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         } else {
-            $indexer->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
+            $this->_indexer->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         }
         return $this;
     }

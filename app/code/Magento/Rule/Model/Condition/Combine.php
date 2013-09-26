@@ -21,6 +21,11 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
     static protected $_conditionModels = array();
 
     /**
+     * @var \Magento\Rule\Model\ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
@@ -31,6 +36,9 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
+        $this->_conditionFactory = $context->getConditionFactory();
+        $this->_logger = $context->getLogger();
+
         parent::__construct($context, $data);
         $this->setType('Magento\Rule\Model\Condition\Combine')
             ->setAggregator('all')
@@ -47,8 +55,6 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
                 break;
             }
         }
-
-        $this->_logger = $context->getLogger();
     }
 
     /**
@@ -67,7 +73,7 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
         }
 
         if (!array_key_exists($modelClass, self::$_conditionModels)) {
-            $model = \Mage::getModel($modelClass);
+            $model = $this->_conditionFactory->create($modelClass);
             self::$_conditionModels[$modelClass] = $model;
         } else {
             $model = self::$_conditionModels[$modelClass];
@@ -130,7 +136,7 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
             'values' => $this->getAggregatorSelectOptions(),
             'value' => $this->getAggregator(),
             'value_name' => $this->getAggregatorName(),
-        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Editable'));
     }
     /* end aggregator methods */
 
@@ -287,7 +293,7 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
             'name' => 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][new_child]',
             'values' => $this->getNewChildSelectOptions(),
             'value_name' => $this->getNewChildName(),
-        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Newchild'));
+        ))->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Newchild'));
     }
 
     /**

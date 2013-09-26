@@ -10,10 +10,6 @@
 
 /**
  * Sales Order Invoice Pdf default items renderer
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order\Pdf\Items\Invoice;
 
@@ -31,6 +27,7 @@ class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Dir $coreDir
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -40,12 +37,13 @@ class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Dir $coreDir,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($taxData, $context, $registry, $coreDir, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -60,15 +58,14 @@ class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
         $lines  = array();
 
         // draw Product name
-        $stringHelper = $this->_coreString;
         $lines[0] = array(array(
-            'text' => $this->_coreString->strSplit($item->getName(), 35, true, true),
+            'text' => $this->_coreString->str_split($item->getName(), 35, true, true),
             'feed' => 35,
         ));
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit($this->getSku($item), 17),
+            'text'  => $this->_coreString->str_split($this->getSku($item), 17),
             'feed'  => 290,
             'align' => 'right'
         );
@@ -132,7 +129,7 @@ class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => $this->_coreString->strSplit(strip_tags($option['label']), 40, true, true),
+                    'text' => $this->_coreString->str_split(strip_tags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
@@ -146,7 +143,7 @@ class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
                     $values = explode(', ', $_printValue);
                     foreach ($values as $value) {
                         $lines[][] = array(
-                            'text' => $this->_coreString->strSplit($value, 30, true, true),
+                            'text' => $this->_coreString->str_split($value, 30, true, true),
                             'feed' => 40
                         );
                     }

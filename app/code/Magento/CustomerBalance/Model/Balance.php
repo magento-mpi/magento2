@@ -41,6 +41,47 @@ class Balance extends \Magento\Core\Model\AbstractModel
     protected $_eventObject = 'balance';
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\CustomerBalance\Model\Balance\HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_customerFactory = $customerFactory;
+        $this->_historyFactory = $historyFactory;
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      *
      */
@@ -72,10 +113,10 @@ class Balance extends \Magento\Core\Model\AbstractModel
         if ($this->hasWebsiteId()) {
             $websiteId = $this->getWebsiteId();
         } else {
-            if (\Mage::app()->getStore()->isAdmin()) {
-                \Mage::throwException(__('A website ID must be set.'));
+            if ($this->_storeManager->isAdmin()) {
+                throw new \Magento\Core\Exception(__('A website ID must be set.'));
             }
-            $websiteId = \Mage::app()->getStore()->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
         $this->getResource()->loadByCustomerAndWebsiteIds($this, $this->getCustomerId(), $websiteId);
         return $this;
@@ -94,7 +135,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
         $this->setData('notify_by_email', $shouldNotify);
         if ($shouldNotify) {
             if (null === $storeId) {
-                \Mage::throwException(__('Please also set the Store ID.'));
+                throw new \Magento\Core\Exception(__('Please also set the Store ID.'));
             }
             $this->setStoreId($storeId);
         }
@@ -112,7 +153,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
         $this->_ensureCustomer();
 
         if (0 == $this->getWebsiteId()) {
-            \Mage::throwException(__('A website ID must be set.'));
+            throw new \Magento\Core\Exception(__('A website ID must be set.'));
         }
 
         // check history action
@@ -132,7 +173,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
             $this->setNotifyByEmail(false);
         }
         if ($this->getNotifyByEmail() && !$this->hasStoreId()) {
-            \Mage::throwException(__('The Store ID must be set to send email notifications.'));
+            throw new \Magento\Core\Exception(__('The Store ID must be set to send email notifications.'));
         }
 
         return parent::_beforeSave();
@@ -149,7 +190,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
 
         // save history action
         if (abs($this->getAmountDelta())) {
-            $history = \Mage::getModel('Magento\CustomerBalance\Model\Balance\History')
+            $this->_historyFactory->create()
                 ->setBalanceModel($this)
                 ->save();
         }
@@ -168,13 +209,15 @@ class Balance extends \Magento\Core\Model\AbstractModel
             $this->setCustomerId($this->getCustomer()->getId());
         }
         if (!$this->getCustomerId()) {
-            \Mage::throwException(__('A customer ID must be specified.'));
+            throw new \Magento\Core\Exception(__('A customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
-            $this->setCustomer(\Mage::getModel('Magento\Customer\Model\Customer')->load($this->getCustomerId()));
+            $this->setCustomer(
+                $this->_customerFactory->create()->load($this->getCustomerId())
+            );
         }
         if (!$this->getCustomer()->getId()) {
-            \Mage::throwException(__('This customer is not set or does not exist.'));
+            throw new \Magento\Core\Exception(__('This customer is not set or does not exist.'));
         }
     }
 

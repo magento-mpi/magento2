@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="product.info.extrahint">
+    <referenceContainer name="product.info.extrahint">
         <block class="Magento\CatalogInventory\Block\Qtyincrements" name="product.info.extrahint.qtyincrements" template="qtyincrements.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

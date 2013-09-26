@@ -10,10 +10,6 @@
 
 /**
  * RMA model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Model;
 
@@ -30,44 +26,173 @@ class Rma extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\Rma\Model\Rma
      */
-    protected $_rma = null;
+    protected $_rma;
 
     /**
      * Rma items collection
      *
      * @var null
      */
-    protected $_items           = null;
+    protected $_items;
 
     /**
      * Rma order object
      *
      * @var \Magento\Sales\Model\Order
      */
-    protected $_order           = null;
-
-    protected $_trackingNumbers = null;
-    protected $_shippingLabel   = null;
+    protected $_order;
 
     /**
-     * Rma data
-     *
+     * @var \Magento\Rma\Model\Resource\Shipping\Collection
+     */
+    protected $_trackingNumbers;
+
+    /**
+     * @var \Magento\Rma\Model\Shipping
+     */
+    protected $_shippingLabel;
+
+    /**
      * @var \Magento\Rma\Helper\Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
 
     /**
-     * Core data
-     *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @var \Magento\Core\Model\Translate\Proxy
+     */
+    protected $_translate;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Rma\Model\Config
+     */
+    protected $_rmaConfig;
+
+    /**
+     * @var \Magento\Rma\Model\ItemFactory
+     */
+    protected $_rmaItemFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Item\Attribute\Source\StatusFactory
+     */
+    protected $_attrSourceFactory;
+
+    /**
+     * @var \Magento\Rma\Model\GridFactory
+     */
+    protected $_rmaGridFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Rma\Status\HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Rma\Source\StatusFactory
+     */
+    protected $_statusFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Resource\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Resource\Item\CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
+     */
+    protected $_rmaShippingFactory;
+
+    /**
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Quote\Address\RateFactory
+     */
+    protected $_quoteRateFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Quote\ItemFactory
+     */
+    protected $_quoteItemFactory;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
+     */
+    protected $_ordersFactory;
+
+    /**
+     * @var \Magento\Shipping\Model\Rate\RequestFactory
+     */
+    protected $_rateRequestFactory;
+
+    /**
+     * @var \Magento\Shipping\Model\ShippingFactory
+     */
+    protected $_shippingFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Core\Model\Translate\Proxy $translate
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Rma\Model\Config $rmaConfig
+     * @param \Magento\Rma\Model\ItemFactory $rmaItemFactory
+     * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory
+     * @param \Magento\Rma\Model\GridFactory $rmaGridFactory
+     * @param \Magento\Rma\Model\Rma\Status\HistoryFactory $historyFactory
+     * @param \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory
+     * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
+     * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory
+     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $rmaShippingFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\Quote\Address\RateFactory $quoteRateFactory
+     * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
+     * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
+     * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
      * @param \Magento\Rma\Model\Resource\Rma $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -77,12 +202,54 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Session $session,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Core\Model\Translate\Proxy $translate,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Rma\Model\Config $rmaConfig,
+        \Magento\Rma\Model\ItemFactory $rmaItemFactory,
+        \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory,
+        \Magento\Rma\Model\GridFactory $rmaGridFactory,
+        \Magento\Rma\Model\Rma\Status\HistoryFactory $historyFactory,
+        \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory,
+        \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
+        \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory,
+        \Magento\Rma\Model\Resource\Shipping\CollectionFactory $rmaShippingFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\Quote\Address\RateFactory $quoteRateFactory,
+        \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
+        \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
+        \Magento\Shipping\Model\ShippingFactory $shippingFactory,
         \Magento\Rma\Model\Resource\Rma $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_rmaData = $rmaData;
+        $this->_session = $session;
+        $this->_templateFactory = $templateFactory;
+        $this->_translate = $translate;
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        $this->_rmaConfig = $rmaConfig;
+        $this->_rmaItemFactory = $rmaItemFactory;
+        $this->_attrSourceFactory = $attrSourceFactory;
+        $this->_rmaGridFactory = $rmaGridFactory;
+        $this->_historyFactory = $historyFactory;
+        $this->_statusFactory = $statusFactory;
+        $this->_itemFactory = $itemFactory;
+        $this->_itemsFactory = $itemsFactory;
+        $this->_rmaShippingFactory = $rmaShippingFactory;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_quoteRateFactory = $quoteRateFactory;
+        $this->_quoteItemFactory = $quoteItemFactory;
+        $this->_orderFactory = $orderFactory;
+        $this->_ordersFactory = $ordersFactory;
+        $this->_rateRequestFactory = $rateRequestFactory;
+        $this->_shippingFactory = $shippingFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -105,9 +272,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         parent::_beforeSave();
 
         if (!$this->getIncrementId()) {
-            $incrementId = \Mage::getSingleton('Magento\Eav\Model\Config')
-                ->getEntityType('rma_item')
-                ->fetchNewIncrementId($this->getStoreId());
+            $incrementId = $this->_eavConfig->getEntityType('rma_item')->fetchNewIncrementId($this->getStoreId());
             $this->setIncrementId($incrementId);
         }
         if (!$this->getIsUpdate()) {
@@ -126,11 +291,14 @@ class Rma extends \Magento\Core\Model\AbstractModel
         parent::_afterSave();
 
         /** @var $gridModel \Magento\Rma\Model\Grid */
-        $gridModel = \Mage::getModel('Magento\Rma\Model\Grid');
+        $gridModel = $this->_rmaGridFactory->create();
         $gridModel->addData($this->getData());
         $gridModel->save();
 
-        \Mage::getModel('Magento\Rma\Model\Rma\Status\History')->setRma($this)->saveSystemComment();
+        /** @var $statusHistory  \Magento\Rma\Model\Rma\Status\History */
+        $statusHistory = $this->_historyFactory->create();
+        $statusHistory->setRma($this);
+        $statusHistory->saveSystemComment();
 
         $itemsCollection = $this->getItemsCollection();
         if (is_array($itemsCollection)) {
@@ -163,7 +331,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function getAllStatuses()
     {
-        return \Mage::getModel('Magento\Rma\Model\Rma\Source\Status')->getAllOptionsForGrid();
+        /** @var $sourceStatus \Magento\Rma\Model\Rma\Source\Status */
+        $sourceStatus = $this->_statusFactory->create();
+        return $sourceStatus->getAllOptionsForGrid();
     }
 
     /**
@@ -173,10 +343,10 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function getStatusLabel()
     {
-        if (is_null(parent::getStatusLabel())){
-            $this->setStatusLabel(
-                \Mage::getModel('Magento\Rma\Model\Rma\Source\Status')->getItemLabel($this->getStatus())
-            );
+        if (is_null(parent::getStatusLabel())) {
+            /** @var $sourceStatus \Magento\Rma\Model\Rma\Source\Status */
+            $sourceStatus = $this->_statusFactory->create();
+            $this->setStatusLabel($sourceStatus->getItemLabel($this->getStatus()));
         }
         return parent::getStatusLabel();
     }
@@ -206,7 +376,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     public function getOrder()
     {
         if (!$this->_order) {
-            $this->_order = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getOrderId());
+            $this->_order = $this->_orderFactory->create()->load($this->getOrderId());
         }
         return $this->_order;
     }
@@ -254,11 +424,10 @@ class Rma extends \Magento\Core\Model\AbstractModel
         if ($this->getCustomerCustomEmail()) {
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
-                $session = \Mage::getSingleton('Magento\Core\Model\Session');
                 foreach ($validateEmail as $error) {
-                    $session->addError($error);
+                    $this->_session->addError($error);
                 }
-                $session->setRmaFormData($data);
+                $this->_session->setRmaFormData($data);
                 $errors = 1;
             }
         }
@@ -280,9 +449,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function sendNewRmaEmail()
     {
-        /** @var $configRmaEmail \Magento\Rma\Model\Config */
-        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
-        return $this->_sendRmaEmailWithItems($configRmaEmail->getRootRmaEmail());
+        return $this->_sendRmaEmailWithItems($this->_rmaConfig->getRootRmaEmail());
     }
 
     /**
@@ -295,9 +462,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         if (!$this->getIsSendAuthEmail()) {
             return $this;
         }
-        /** @var $configRmaEmail \Magento\Rma\Model\Config */
-        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
-        return $this->_sendRmaEmailWithItems($configRmaEmail->getRootAuthEmail());
+        return $this->_sendRmaEmailWithItems($this->_rmaConfig->getRootAuthEmail());
     }
 
     /**
@@ -308,22 +473,16 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function _sendRmaEmailWithItems($rootConfig)
     {
-        /** @var $configRmaEmail \Magento\Rma\Model\Config */
-        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
-        $configRmaEmail->init($rootConfig, $this->getStoreId());
-
-        if (!$configRmaEmail->isEnabled()) {
+        $this->_rmaConfig->init($rootConfig, $this->getStoreId());
+        if (!$this->_rmaConfig->isEnabled()) {
             return $this;
         }
 
-        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
-        /* @var $translate \Magento\Core\Model\Translate */
-        $translate->setTranslateInline(false);
-
-        $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
+        $this->_translate->setTranslateInline(false);
+        $mailTemplate = $this->_templateFactory->create();
         /* @var $mailTemplate \Magento\Core\Model\Email\Template */
-        $copyTo = $configRmaEmail->getCopyTo();
-        $copyMethod = $configRmaEmail->getCopyMethod();
+        $copyTo = $this->_rmaConfig->getCopyTo();
+        $copyMethod = $this->_rmaConfig->getCopyMethod();
         if ($copyTo && $copyMethod == 'bcc') {
             foreach ($copyTo as $email) {
                 $mailTemplate->addBcc($email);
@@ -331,10 +490,10 @@ class Rma extends \Magento\Core\Model\AbstractModel
         }
 
         if ($this->getOrder()->getCustomerIsGuest()) {
-            $template = $configRmaEmail->getGuestTemplate();
+            $template = $this->_rmaConfig->getGuestTemplate();
             $customerName = $this->getOrder()->getBillingAddress()->getName();
         } else {
-            $template = $configRmaEmail->getTemplate();
+            $template = $this->_rmaConfig->getTemplate();
             $customerName = $this->getCustomerName();
         }
 
@@ -370,7 +529,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
             ))
                 ->sendTransactional(
                     $template,
-                    $configRmaEmail->getIdentity(),
+                    $this->_rmaConfig->getIdentity(),
                     $recipient['email'],
                     $recipient['name'],
                     array(
@@ -383,7 +542,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
                 );
         }
         $this->setEmailSent(true);
-        $translate->setTranslateInline(true);
+        $this->_translate->setTranslateInline(true);
 
         return $this;
     }
@@ -430,7 +589,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
 
         $stat = \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING;
         if (!empty($preparePost['status'])) {
-            $status = \Mage::getModel('Magento\Rma\Model\Item\Attribute\Source\Status');
+            /** @var $status \Magento\Rma\Model\Item\Attribute\Source\Status */
+            $status = $this->_attrSourceFactory->create();
             if ($status->checkStatus($preparePost['status'])) {
                 $stat = $preparePost['status'];
             }
@@ -473,8 +633,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         }
 
         if ($errors) {
-            $session = \Mage::getSingleton('Magento\Core\Model\Session');
-            $session->addError(
+            $this->_session->addError(
                 __('There is an error in quantities for item %1.', $preparePost['product_name'])
             );
         }
@@ -496,8 +655,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
         if (!$this->getIsUpdate()) {
             $availableItems = $this->_rmaData->getOrderItems($orderId);
         } else {
-            $availableItems = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
-                ->getOrderItemsCollection($orderId);
+            /** @var $itemResource \Magento\Rma\Model\Resource\Item */
+            $itemResource = $this->_itemFactory->create();
+            $availableItems = $itemResource->getOrderItemsCollection($orderId);
         }
 
         $itemsArray = array();
@@ -614,7 +774,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
                     if ($itemModel) {
                         $firstModel = $itemModel;
                     }
-                    $itemModel                  = \Mage::getModel('Magento\Rma\Model\Item');
+                    /** @var $itemModel \Magento\Rma\Model\Item */
+                    $itemModel                  = $this->_rmaItemFactory->create();
                     $subItem                    = $item;
                     unset($subItem['items']);
                     $subItem['order_item_id']   = $id;
@@ -639,7 +800,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
                     $itemModels[] = $itemModel;
                 }
             } else {
-                $itemModel = \Mage::getModel('Magento\Rma\Model\Item');
+                /** @var $itemModel \Magento\Rma\Model\Item */
+                $itemModel = $this->_rmaItemFactory->create();
                 if (isset($item['entity_id']) && $item['entity_id']) {
                     $itemModel->load($item['entity_id']);
                     if ($itemModel->getId()) {
@@ -689,17 +851,15 @@ class Rma extends \Magento\Core\Model\AbstractModel
             $errorKeys  = array_merge($errorKey, $errorKeys);
         }
 
-        $session    = \Mage::getSingleton('Magento\Core\Model\Session');
-        $eMessages  = $session->getMessages()->getErrors();
-
+        $eMessages  = $this->_session->getMessages()->getErrors();
         if (!empty($errors) || !empty($eMessages)) {
-            $session->setRmaFormData($data);
+            $this->_session->setRmaFormData($data);
             if (!empty($errorKeys)) {
-                $session->setRmaErrorKeys($errorKeys);
+                $this->_session->setRmaErrorKeys($errorKeys);
             }
             if (!empty($errors)) {
                 foreach ($errors as $message) {
-                    $session->addError($message);
+                    $this->_session->addError($message);
                 }
             }
             return false;
@@ -782,22 +942,22 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function getShippingMethods($returnItems = false)
     {
-        $found      = false;
-
-        $rmaItems   = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
-            ->getAuthorizedItems($this->getId())
-        ;
+        $found = false;
+        $address = false;
+        /** @var $itemResource \Magento\Rma\Model\Resource\Item */
+        $itemResource = $this->_itemFactory->create();
+        $rmaItems = $itemResource->getAuthorizedItems($this->getId());
 
         if (!empty($rmaItems)) {
-            $quoteItemsCollection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Item\Collection')
-                ->addFieldToFilter('item_id', array('in' => array_keys($rmaItems)))
-                ->getData()
-            ;
+            /** @var $quoteItemsCollection \Magento\Sales\Model\Resource\Order\Item\Collection */
+            $quoteItemsCollection = $this->_ordersFactory->create();
+            $quoteItemsCollection->addFieldToFilter('item_id', array('in' => array_keys($rmaItems)))->getData();
 
             $quoteItems = array();
             $subtotal   = $weight = $qty = $storeId = 0;
             foreach ($quoteItemsCollection as $item) {
-                $itemModel = \Mage::getModel('Magento\Sales\Model\Quote\Item');
+                /** @var $itemModel \Magento\Sales\Model\Quote\Item */
+                $itemModel = $this->_quoteItemFactory->create();
 
                 $item['qty']                    = $rmaItems[$item['item_id']]['qty'];
                 $item['name']                   = $rmaItems[$item['item_id']]['product_name'];
@@ -818,11 +978,14 @@ class Rma extends \Magento\Core\Model\AbstractModel
 
                 if (!$storeId) {
                     $storeId = $item['store_id'];
-                    /** @var $address \Magento\Sales\Model\Order */
-                    $address = \Mage::getModel('Magento\Sales\Model\Order')->load($item['order_id'])->getShippingAddress();
+                    /** @var $order \Magento\Sales\Model\Order */
+                    $order = $this->_orderFactory->create()->load($item['order_id']);
+                    /** @var $address \Magento\Sales\Model\Order\Address */
+                    $address = $order->getShippingAddress();
                 }
-                $quote = \Mage::getModel('Magento\Sales\Model\Quote')
-                        ->setStoreId($storeId);
+                /** @var $quote \Magento\Sales\Model\Quote */
+                $quote = $this->_quoteFactory->create();
+                $quote->setStoreId($storeId);
                 $itemModel->setQuote($quote);
             }
 
@@ -830,7 +993,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
                 return $quoteItems;
             }
 
-            $store      = \Mage::app()->getStore($storeId);
+            $store = $this->_storeManager->getStore($storeId);
             $this->setStore($store);
 
             $found = $this->_requestShippingRates($quoteItems, $address, $store, $subtotal, $weight, $qty);
@@ -842,12 +1005,12 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Returns Shipping Rates
      *
-     * @param  $items
-     * @param  $address Shop address
-     * @param  $store
-     * @param  $subtotal
-     * @param  $weight
-     * @param  $qty
+     * @param array $items
+     * @param \Magento\Sales\Model\Order\Address|bool $address Shop address
+     * @param \Magento\Core\Model\Store $store
+     * @param int $subtotal
+     * @param int $weight
+     * @param int $qty
      *
      * @return array|bool
      */
@@ -859,7 +1022,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         );
 
         /** @var $request \Magento\Shipping\Model\Rate\Request */
-        $request = \Mage::getModel('Magento\Shipping\Model\Rate\Request');
+        $request = $this->_rateRequestFactory->create();
         $request->setAllItems($items);
         $request->setDestCountryId($shippingDestinationInfo->getCountryId());
         $request->setDestRegionId($shippingDestinationInfo->getRegionId());
@@ -917,9 +1080,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
 
         $request->setIsReturn(true);
 
-        /** @var $result \Magento\Shipping\Model\Shipping */
-        $result = \Mage::getModel('Magento\Shipping\Model\Shipping')
-            ->setCarrierAvailabilityConfigField('active_rma')
+        /** @var $shipping \Magento\Shipping\Model\Shipping */
+        $shipping = $this->_shippingFactory->create();
+        $result = $shipping->setCarrierAvailabilityConfigField('active_rma')
             ->collectRates($request)
             ->getResult();
 
@@ -934,7 +1097,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
                         array_keys($this->_rmaData->getShippingCarriers())
                     )
                 ) {
-                    $found[] = \Mage::getModel('Magento\Sales\Model\Quote\Address\Rate')->importShippingRate($shippingRate);
+                    /** @var $addressRate \Magento\Sales\Model\Quote\Address\Rate */
+                    $addressRate = $this->_quoteRateFactory->create();
+                    $found[] = $addressRate->importShippingRate($shippingRate);
                 }
             }
         }
@@ -949,10 +1114,11 @@ class Rma extends \Magento\Core\Model\AbstractModel
     public function getTrackingNumbers()
     {
         if (is_null($this->_trackingNumbers)) {
-            $this->_trackingNumbers = \Mage::getModel('Magento\Rma\Model\Shipping')
-            ->getCollection()
-            ->addFieldToFilter('rma_entity_id', $this->getEntityId())
-            ->addFieldToFilter('is_admin', array('neq' => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL));
+            $this->_trackingNumbers = $this->_rmaShippingFactory->create();
+            $this->_trackingNumbers->addFieldToFilter('rma_entity_id', $this->getEntityId());
+            $this->_trackingNumbers->addFieldToFilter('is_admin', array(
+                'neq' => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL
+            ));
         }
         return $this->_trackingNumbers;
     }
@@ -965,11 +1131,11 @@ class Rma extends \Magento\Core\Model\AbstractModel
     public function getShippingLabel()
     {
         if (is_null($this->_shippingLabel)) {
-            $this->_shippingLabel = \Mage::getModel('Magento\Rma\Model\Shipping')
-            ->getCollection()
-            ->addFieldToFilter('rma_entity_id', $this->getEntityId())
-            ->addFieldToFilter('is_admin', \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL)
-            ->getFirstItem();
+            /** @var $shippingCollection \Magento\Rma\Model\Resource\Shipping\Collection */
+            $shippingCollection = $this->_rmaShippingFactory->create();
+            $this->_shippingLabel = $shippingCollection->addFieldToFilter('rma_entity_id', $this->getEntityId())
+                ->addFieldToFilter('is_admin', \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL)
+                ->getFirstItem();
         }
         return $this->_shippingLabel;
     }
@@ -1003,8 +1169,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     protected function _isItemsAvailableForPrintLabel()
     {
-        $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item\Collection')
-            ->addFieldToFilter('rma_entity_id', $this->getEntityId());
+        /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
+        $collection = $this->_itemsFactory->create();
+        $collection->addFieldToFilter('rma_entity_id', $this->getEntityId());
 
         $return = false;
         foreach ($collection as $item) {
@@ -1034,8 +1201,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function getItemsForDisplay($withoutAttributes = false)
     {
-        $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item\Collection')
-            ->addFieldToFilter('rma_entity_id', $this->getEntityId())
+        /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
+        $collection = $this->_itemsFactory->create();
+        $collection->addFieldToFilter('rma_entity_id', $this->getEntityId())
             ->setOrder('order_item_id')
             ->setOrder('entity_id');
 
@@ -1052,10 +1220,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function getButtonDisabledStatus()
     {
-        return (bool)(
-            \Mage::getModel('Magento\Rma\Model\Rma\Source\Status')->getButtonDisabledStatus($this->getStatus())
-            && $this->_isItemsNotInPendingStatus()
-        );
+        /** @var $sourceStatus \Magento\Rma\Model\Rma\Source\Status */
+        $sourceStatus = $this->_statusFactory->create();
+        return $sourceStatus->getButtonDisabledStatus($this->getStatus()) && $this->_isItemsNotInPendingStatus();
     }
 
     /**
@@ -1065,8 +1232,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function _isItemsNotInPendingStatus()
     {
-        $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item\Collection')
-            ->addFieldToFilter('rma_entity_id', $this->getEntityId());
+        /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
+        $collection = $this->_itemsFactory->create();
+        $collection->addFieldToFilter('rma_entity_id', $this->getEntityId());
 
         foreach ($collection as $item) {
             if ($item->getStatus() == \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING) {

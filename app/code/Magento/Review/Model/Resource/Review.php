@@ -70,6 +70,48 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
     private $_deleteCache   = array();
 
     /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Rating\Model\RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @var \Magento\Rating\Model\Resource\Rating\Option
+     */
+    protected $_ratingOptions;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Rating\Model\Resource\Rating\Option $ratingOptions
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Rating\Model\Resource\Rating\Option $ratingOptions
+    ) {
+        $this->_date = $date;
+        $this->_storeManager = $storeManager;
+        $this->_ratingFactory = $ratingFactory;
+        $this->_ratingOptions = $ratingOptions;
+
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table. Define other tables name
      *
      */
@@ -111,7 +153,7 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getId()) {
-            $object->setCreatedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+            $object->setCreatedAt($this->_date->gmtDate());
         }
         if ($object->hasData('stores') && is_array($object->getStores())) {
             $stores = $object->getStores();
@@ -201,8 +243,8 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
             ->from($this->_reviewStoreTable, array('store_id'))
             ->where('review_id = :review_id');
         $stores = $adapter->fetchCol($select, array(':review_id' => $object->getId()));
-        if (empty($stores) && \Mage::app()->hasSingleStore()) {
-            $object->setStores(array(\Mage::app()->getStore(true)->getId()));
+        if (empty($stores) && $this->_storeManager->hasSingleStore()) {
+            $object->setStores(array($this->_storeManager->getStore(true)->getId()));
         } else {
             $object->setStores($stores);
         }
@@ -289,7 +331,7 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
             $object->load($object->getReviewId());
         }
 
-        $ratingModel    = \Mage::getModel('Magento\Rating\Model\Rating');
+        $ratingModel    = $this->_ratingFactory->create();
         $ratingSummaries= $ratingModel->getEntitySummary($object->getEntityPkValue(), false);
 
         foreach ($ratingSummaries as $ratingSummaryObject) {
@@ -371,9 +413,8 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($ratingIds && !is_array($ratingIds)) {
             $ratingIds = array((int)$ratingIds);
         }
-        if ($ratingIds && $entityPkValue
-            && ($resource = \Mage::getResourceSingleton('Magento\Rating\Model\Resource\Rating\Option'))
-            ) {
+        $resource = $this->_ratingOptions;
+        if ($ratingIds && $entityPkValue && $resource) {
             foreach ($ratingIds as $ratingId) {
                 $resource->aggregateEntityByRatingId(
                     $ratingId, $entityPkValue

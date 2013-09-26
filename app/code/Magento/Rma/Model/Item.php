@@ -10,10 +10,6 @@
 
 /**
  * RMA Item model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Model;
 
@@ -59,6 +55,55 @@ class Item extends \Magento\Core\Model\AbstractModel
     const ITEM_IMAGE_URL    = 'rma_item';
 
     /**
+     * @var \Magento\Rma\Model\RmaFactory
+     */
+    protected $_rmaFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Item\Attribute\Source\StatusFactory
+     */
+    protected $_statusFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var \Magento\Rma\Model\Item\FormFactory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\RmaFactory $rmaFactory
+     * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
+     * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
+     * @param \Magento\Rma\Model\Item\FormFactory $formFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\RmaFactory $rmaFactory,
+        \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory,
+        \Magento\Sales\Model\Order\ItemFactory $itemFactory,
+        \Magento\Rma\Model\Item\FormFactory $formFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_rmaFactory = $rmaFactory;
+        $this->_statusFactory = $statusFactory;
+        $this->_itemFactory = $itemFactory;
+        $this->_formFactory = $formFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model
      */
     protected function _construct()
@@ -88,7 +133,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $rmaId = $this->getRmaEntityId();
         if (is_null($this->_rma) && $rmaId) {
-            $rma = \Mage::getModel('Magento\Rma\Model\Rma');
+            /** @var $rma \Magento\Rma\Model\Rma */
+            $rma = $this->_rmaFactory->create();
             $rma->load($rmaId);
             $this->setRma($rma);
         }
@@ -103,9 +149,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getStatusLabel()
     {
         if (is_null(parent::getStatusLabel())) {
-            $this->setStatusLabel(
-                \Mage::getModel('Magento\Rma\Model\Item\Attribute\Source\Status')->getItemLabel($this->getStatus())
-            );
+            $this->setStatusLabel($this->_statusFactory->create()->getItemLabel($this->getStatus()));
         }
         return parent::getStatusLabel();
     }
@@ -153,7 +197,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
 
         if ($qtyReturnedChange) {
-            $item = \Mage::getModel('Magento\Sales\Model\Order\Item')->load($this->getOrderItemId());
+            $item = $this->_itemFactory->create()->load($this->getOrderItemId());
             if ($item->getId()) {
                 $item->setQtyReturned($item->getQtyReturned() + $qtyReturnedChange)
                     ->save();
@@ -215,10 +259,8 @@ class Item extends \Magento\Core\Model\AbstractModel
         $httpRequest->setPost($itemPost);
 
         /** @var $itemForm \Magento\Rma\Model\Item\Form */
-        $itemForm = \Mage::getModel('Magento\Rma\Model\Item\Form');
-        $itemForm->setFormCode('default')
-            ->setEntity($this);
-
+        $itemForm = $this->_formFactory->create();
+        $itemForm->setFormCode('default')->setEntity($this);
         $itemData = $itemForm->extractData($httpRequest);
 
         $files = array();

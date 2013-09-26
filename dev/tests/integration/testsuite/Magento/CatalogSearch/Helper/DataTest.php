@@ -48,18 +48,17 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckNotesEscapesHtmlWhenQueryIsCut()
     {
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
+        /** @var \Magento\TestFramework\ObjectManager  $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $context = $objectManager->get('Magento\Core\Helper\Context');
-        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         /** @var $mock \Magento\CatalogSearch\Helper\Data */
         $mock = $this->getMock(
             'Magento\CatalogSearch\Helper\Data',
             array('getQueryText'),
             array(
+                $objectManager->get('Magento\Core\Helper\Context'),
                 $objectManager->get('Magento\Core\Helper\String'),
-                $context,
-                $storeConfig
+                $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
+                $objectManager->get('Magento\CatalogSearch\Model\QueryFactory'),
         ));
         $mock->expects($this->any())
             ->method('getQueryText')

@@ -8,13 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="top.links">
+    <referenceBlock name="top.links">
         <block class="Magento\Customer\Block\Account\Link" name="my-account-link">
             <arguments>
                 <argument name="label" xsi:type="string">My Account</argument>
             </arguments>
         </block>
-        <block class="Magento\Customer\Block\Account\AuthorizationLink"
-               name="authorization-link" after="onepage-checkout-link"/>
-    </reference>
+        <block class="Magento\Customer\Block\Account\AuthorizationLink" name="authorization-link" after="onepage-checkout-link"/>
+    </referenceBlock>
 </layout>

@@ -27,7 +27,7 @@ class Generic extends \Magento\Backend\Block\Widget\Form
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @param \Magento\Core\Model\Registry $registry

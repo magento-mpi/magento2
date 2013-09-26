@@ -299,6 +299,7 @@ class Store extends \Magento\Object
      */
     public function getStoreGroupOptionHash($attribute = 'name')
     {
+        $options = array();
         foreach ($this->_groupCollection as $group) {
             $options[$group->getId()] = $group->getDataUsingMethod($attribute);
         }

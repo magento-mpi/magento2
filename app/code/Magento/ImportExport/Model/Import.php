@@ -22,11 +22,6 @@ namespace Magento\ImportExport\Model;
 
 class Import extends \Magento\ImportExport\Model\AbstractModel
 {
-    /**
-     * Import entities config key
-     */
-    const CONFIG_KEY_ENTITIES = 'global/importexport/import_entities';
-
     /**#@+
      * Import behaviors
      */
@@ -80,38 +75,25 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected $_importExportData = null;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\ImportExport\Model\Import\ConfigInterface
      */
-    protected $_coreConfig;
+    protected $_importConfig;
 
     /**
-     * @var \Magento\ImportExport\Model\Config
-     */
-    protected $_config;
-
-    /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\ImportExport\Helper\Data $importExportData
-     * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\ImportExport\Model\Config $config
+     * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\ImportExport\Helper\Data $importExportData,
-        \Magento\Core\Model\Config $coreConfig,
-        \Magento\ImportExport\Model\Config $config,
+        \Magento\ImportExport\Model\Import\ConfigInterface $importConfig,
         array $data = array()
     ) {
-        $this->_importExportData = $importExportData;
-        $this->_coreConfig = $coreConfig;
-        $this->_config = $config;
         parent::__construct($logger, $data);
+        $this->_importExportData = $importExportData;
+        $this->_importConfig = $importConfig;
     }
 
     /**
@@ -123,11 +105,11 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected function _getEntityAdapter()
     {
         if (!$this->_entityAdapter) {
-            $entityTypes = $this->_config->getModels(self::CONFIG_KEY_ENTITIES);
+            $entities = $this->_importConfig->getEntities();
 
-            if (isset($entityTypes[$this->getEntity()])) {
+            if (isset($entities[$this->getEntity()])) {
                 try {
-                    $this->_entityAdapter = \Mage::getModel($entityTypes[$this->getEntity()]['model']);
+                    $this->_entityAdapter = \Mage::getModel($entities[$this->getEntity()]['model']);
                 } catch (\Exception $e) {
                     $this->_logger->logException($e);
                     \Mage::throwException(
@@ -572,21 +554,20 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      *     ...
      * )
      *
-     * @static
      * @return array
      */
     public function getEntityBehaviors()
     {
         $behaviourData = array();
-        $entitiesConfig = $this->_coreConfig->getNode(self::CONFIG_KEY_ENTITIES)->asArray();
-        foreach ($entitiesConfig as $entityCode => $entityData) {
-            $behaviorToken = isset($entityData['behavior_token']) ? $entityData['behavior_token'] : null;
-            if ($behaviorToken && class_exists($behaviorToken)) {
-                /** @var $behaviorModel \Magento\ImportExport\Model\Source\Import\BehaviorAbstract */
-                $behaviorModel = \Mage::getModel($behaviorToken);
+        $entities = $this->_importConfig->getEntities();
+        foreach ($entities as $entityCode => $entityData) {
+            $behaviorClassName = isset($entityData['behaviorModel']) ? $entityData['behaviorModel'] : null;
+            if ($behaviorClassName && class_exists($behaviorClassName)) {
+                /** @var $behavior \Magento\ImportExport\Model\Source\Import\BehaviorAbstract */
+                $behavior = \Mage::getModel($behaviorClassName);
                 $behaviourData[$entityCode] = array(
-                    'token' => $behaviorToken,
-                    'code'  => $behaviorModel->getCode() . '_behavior',
+                    'token' => $behaviorClassName,
+                    'code'  => $behavior->getCode() . '_behavior',
                 );
             } else {
                 \Mage::throwException(
@@ -604,7 +585,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      *     ...
      * )
      *
-     * @static
      * @return array
      */
     public function getUniqueEntityBehaviors()

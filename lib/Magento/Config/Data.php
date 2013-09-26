@@ -1,21 +1,16 @@
 <?php
 /**
- * {license_notice}
+ * Config data. Represents loaded and cached configuration data. Should be used to gain access to different types
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * {license_notice}
+ * 
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 namespace Magento\Config;
 
 class Data implements \Magento\Config\DataInterface
 {
-    /**
-     * Configuration scope resolver model
-     *
-     * @var \Magento\Config\ScopeInterface
-     */
-    protected $_configScope;
-
     /**
      * Configuration reader model
      *
@@ -29,6 +24,7 @@ class Data implements \Magento\Config\DataInterface
      * @var \Magento\Config\CacheInterface
      */
     protected $_cache;
+
 
     /**
      * Cache tag
@@ -45,35 +41,23 @@ class Data implements \Magento\Config\DataInterface
     protected $_data = array();
 
     /**
-     * Scope priority loading scheme
-     *
-     * @var array
-     */
-    protected $_scopePriorityScheme = array();
-
-    /**
-     * Loaded scopes
-     *
-     * @var array
-     */
-    protected $_loadedScopes = array();
-
-    /**
      * @param \Magento\Config\ReaderInterface $reader
-     * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Config\CacheInterface $cache
-     * @param string $cacheId
+     * @param $cacheId
      */
     public function __construct(
         \Magento\Config\ReaderInterface $reader,
-        \Magento\Config\ScopeInterface $configScope,
         \Magento\Config\CacheInterface $cache,
         $cacheId
     ) {
-        $this->_reader = $reader;
-        $this->_configScope = $configScope;
-        $this->_cache = $cache;
-        $this->_cacheId = $cacheId;
+        $data = $cache->load($cacheId);
+        if (false === $data) {
+            $data = $reader->read();
+            $cache->save(serialize($data), $cacheId);
+        } else {
+            $data = unserialize($data);
+        }
+        $this->merge($data);
     }
 
     /**
@@ -95,7 +79,6 @@ class Data implements \Magento\Config\DataInterface
      */
     public function get($path = null, $default = null)
     {
-        $this->_loadScopedData();
         if ($path === null) {
             return $this->_data;
         }
@@ -109,32 +92,5 @@ class Data implements \Magento\Config\DataInterface
             }
         }
         return $data;
-    }
-
-    /**
-     * Load data for current scope
-     */
-    protected function _loadScopedData()
-    {
-        $scope = $this->_configScope->getCurrentScope();
-        if (false == isset($this->_loadedScopes[$scope])) {
-            if (false == in_array($scope, $this->_scopePriorityScheme)) {
-                $this->_scopePriorityScheme[] = $scope;
-            }
-            foreach ($this->_scopePriorityScheme as $scopeCode) {
-                if (false == isset($this->_loadedScopes[$scopeCode])) {
-                    $data = $this->_cache->get($scopeCode, $this->_cacheId);
-                    if (false === $data) {
-                        $data = $this->_reader->read($scopeCode);
-                        $this->_cache->put($data, $scopeCode, $this->_cacheId);
-                    }
-                    $this->merge($data);
-                    $this->_loadedScopes[$scopeCode] = true;
-                }
-                if ($scopeCode == $scope) {
-                    break;
-                }
-            }
-        }
     }
 }

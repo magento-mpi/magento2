@@ -47,14 +47,15 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
 
     /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
      */
     public function __construct(
-        \Magento\GiftWrapping\Helper\Data $giftWrappingData
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\Tax\Model\Calculation $taxCalculation
     ) {
         $this->_giftWrappingData = $giftWrappingData;
+        $this->_taxCalculationModel = $taxCalculation;
         $this->setCode('tax_giftwrapping');
-
-        $this->_taxCalculationModel = \Mage::getSingleton('Magento\Tax\Model\Calculation');
     }
 
     /**
@@ -166,7 +167,7 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
             $address->getGwCardTaxAmount() + $quote->getGwCardTaxAmount()
         );
 
-        $applied = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getAppliedRates($this->_request);
+        $applied = $this->_taxCalculationModel->getAppliedRates($this->_request);
         $this->_saveAppliedTaxes($address, $applied, $taxAmount, $baseTaxAmount, $this->_rate);
 
         return $this;

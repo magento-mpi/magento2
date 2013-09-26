@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * @method \Magento\Sales\Model\Resource\Order\Invoice _getResource()
  * @method \Magento\Sales\Model\Resource\Order\Invoice getResource()
@@ -94,10 +93,6 @@
  * @method \Magento\Sales\Model\Order\Invoice setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Order\Invoice setBaseShippingInclTax(float $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order;
 
@@ -189,15 +184,72 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Sales\Model\Order\Invoice\Config
+     */
+    protected $_invoiceConfig;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\OrderFactory
+     */
+    protected $_orderResourceFactory;
+
+    /**
+     * @var \Magento\Core\Model\CalculatorFactory
+     */
+    protected $_calculatorFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory
+     */
+    protected $_invoiceItemCollFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Invoice\CommentFactory
+     */
+    protected $_invoiceCommentFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory
+     */
+    protected $_commentCollFactory;
+
+    /**
+     * @var \Magento\Core\Model\Email\Template\MailerFactory
+     */
+    protected $_templateMailerFactory;
+
+    /**
+     * @var \Magento\Core\Model\Email\InfoFactory
+     */
+    protected $_emailInfoFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory
+     * @param \Magento\Core\Model\CalculatorFactory $calculatorFactory
+     * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollFactory
+     * @param \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory
+     * @param \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollFactory
+     * @param \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory
+     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -206,6 +258,16 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory,
+        \Magento\Core\Model\CalculatorFactory $calculatorFactory,
+        \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollFactory,
+        \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory,
+        \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollFactory,
+        \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory,
+        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -214,7 +276,16 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_invoiceConfig = $invoiceConfig;
+        $this->_orderFactory = $orderFactory;
+        $this->_orderResourceFactory = $orderResourceFactory;
+        $this->_calculatorFactory = $calculatorFactory;
+        $this->_invoiceItemCollFactory = $invoiceItemCollFactory;
+        $this->_invoiceCommentFactory = $invoiceCommentFactory;
+        $this->_commentCollFactory = $commentCollFactory;
+        $this->_templateMailerFactory = $templateMailerFactory;
+        $this->_emailInfoFactory = $emailInfoFactory;
+        parent::__construct($context, $registry, $coreLocale, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -251,7 +322,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     public function getConfig()
     {
-        return \Mage::getSingleton('Magento\Sales\Model\Order\Invoice\Config');
+        return $this->_invoiceConfig;
     }
 
     /**
@@ -286,7 +357,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function getOrder()
     {
         if (!$this->_order instanceof \Magento\Sales\Model\Order) {
-            $this->_order = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getOrderId());
+            $this->_order = $this->_orderFactory->create()->load($this->getOrderId());
         }
         return $this->_order->setHistoryEntityName(self::HISTORY_ENTITY_NAME);
     }
@@ -298,7 +369,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     public function getOrderIncrementId()
     {
-        return \Mage::getModel('Magento\Sales\Model\Order')->getResource()->getIncrementId($this->getOrderId());
+        return $this->_orderResourceFactory->create()->getIncrementId($this->getOrderId());
     }
 
     /**
@@ -523,8 +594,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     {
         if ($price) {
             if (!isset($this->_rounders[$type])) {
-                $this->_rounders[$type] = \Mage::getModel('Magento\Core\Model\Calculator',
-                    array('store' => $this->getStore()));
+                $this->_rounders[$type] = $this->_calculatorFactory->create(array('store' => $this->getStore()));
             }
             $price = $this->_rounders[$type]->deltaRound($price, $negative);
         }
@@ -539,8 +609,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Invoice\Item\Collection')
-                ->setInvoiceFilter($this->getId());
+            $this->_items = $this->_invoiceItemCollFactory->create()->setInvoiceFilter($this->getId());
 
             if ($this->getId()) {
                 foreach ($this->_items as $item) {
@@ -639,11 +708,12 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * Apply to order, order items etc.
      *
      * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function register()
     {
         if ($this->getId()) {
-            \Mage::throwException(__('We cannot register an existing invoice'));
+            throw new \Magento\Core\Exception(__('We cannot register an existing invoice'));
         }
 
         foreach ($this->getAllItems() as $item) {
@@ -700,7 +770,10 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $this->setState(self::STATE_OPEN);
         }
 
-        $this->_eventManager->dispatch('sales_order_invoice_register', array($this->_eventObject=>$this, 'order' => $order));
+        $this->_eventManager->dispatch('sales_order_invoice_register', array(
+            $this->_eventObject => $this,
+            'order' => $order
+        ));
         return $this;
     }
 
@@ -731,7 +804,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function addComment($comment, $notify = false, $visibleOnFront = false)
     {
         if (!($comment instanceof \Magento\Sales\Model\Order\Invoice\Comment)) {
-            $comment = \Mage::getModel('Magento\Sales\Model\Order\Invoice\Comment')
+            $comment = $this->_invoiceCommentFactory->create()
                 ->setComment($comment)
                 ->setIsCustomerNotified($notify)
                 ->setIsVisibleOnFront($visibleOnFront);
@@ -753,7 +826,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function getCommentsCollection($reload=false)
     {
         if (is_null($this->_comments) || $reload) {
-            $this->_comments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection')
+            $this->_comments = $this->_commentCollFactory->create()
                 ->setInvoiceFilter($this->getId())
                 ->setCreatedAtOrder();
             /**
@@ -806,9 +879,9 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = \Mage::getModel('Magento\Core\Model\Email\Template\Mailer');
+        $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
-            $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
+            $emailInfo = $this->_emailInfoFactory->create();
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -822,7 +895,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
+                $emailInfo = $this->_emailInfoFactory->create();
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -879,9 +952,9 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = \Mage::getModel('Magento\Core\Model\Email\Template\Mailer');
+        $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
-            $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
+            $emailInfo = $this->_emailInfoFactory->create();
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -895,7 +968,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
+                $emailInfo = $this->_emailInfoFactory->create();
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }

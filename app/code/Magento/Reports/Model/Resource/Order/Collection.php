@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reports orders collection
- *
- * @category    Magento
- * @package     Magento_Reports
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reports\Model\Resource\Order;
 
@@ -45,20 +40,22 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Resource\Helper\Mysql4 $coreResourceHelper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Resource\Helper\Mysql4 $coreResourceHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $coreResourceHelper, $resource);
     }
 
     /**

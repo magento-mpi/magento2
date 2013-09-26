@@ -10,10 +10,6 @@
 
 /**
  * Payment Observer
- *
- * @category    Magento
- * @package     Magento_Payment
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Payment\Model;
 
@@ -25,11 +21,44 @@ class Observer
     protected $_objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * Locale model
+     *
+     * @var \Magento\Core\Model\LocaleInterface
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
-    {
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Recurring profile factory
+     *
+     * @var \Magento\Payment\Model\Recurring\ProfileFactory
+     */
+    protected $_profileFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
+     */
+    public function __construct(
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
+    ) {
         $this->_objectManager = $objectManager;
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+        $this->_profileFactory = $profileFactory;
     }
     /**
      * Set forced canCreditmemo flag
@@ -77,9 +106,10 @@ class Observer
             return;
         }
 
-        $profile = \Mage::getModel('Magento\Payment\Model\Recurring\Profile')
-            ->setLocale(\Mage::app()->getLocale())
-            ->setStore(\Mage::app()->getStore())
+        /** @var \Magento\Payment\Model\Recurring\Profile $profile */
+        $profile = $this->_profileFactory->create();
+        $profile->setLocale($this->_locale)
+            ->setStore($this->_storeManager->getStore())
             ->importBuyRequest($buyRequest)
             ->importProduct($product);
         if (!$profile) {

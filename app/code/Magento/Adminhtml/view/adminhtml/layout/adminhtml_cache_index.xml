@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_cache_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Cache" name="adminhtml.cache.container"/>
         <block class="Magento\Adminhtml\Block\Cache\Additional" name="cache.additional" template="system/cache/additional.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

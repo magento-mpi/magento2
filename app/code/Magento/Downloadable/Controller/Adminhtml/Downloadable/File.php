@@ -19,6 +19,30 @@ namespace Magento\Downloadable\Controller\Adminhtml\Downloadable;
 
 class File extends \Magento\Adminhtml\Controller\Action
 {
+    /**
+     * @var \Magento\Downloadable\Model\Link
+     */
+    protected $_link;
+
+    /**
+     * @var \Magento\Downloadable\Model\Sample
+     */
+    protected $_sample;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Downloadable\Model\Link $link
+     * @param \Magento\Downloadable\Model\Sample $sample
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Downloadable\Model\Link $link,
+        \Magento\Downloadable\Model\Sample $sample
+    ) {
+        $this->_link = $link;
+        $this->_sample = $sample;
+        parent::__construct($context);
+    }
 
     /**
      * Upload file controller action
@@ -28,11 +52,11 @@ class File extends \Magento\Adminhtml\Controller\Action
         $type = $this->getRequest()->getParam('type');
         $tmpPath = '';
         if ($type == 'samples') {
-            $tmpPath = \Magento\Downloadable\Model\Sample::getBaseTmpPath();
+            $tmpPath = $this->_sample->getBaseTmpPath();
         } elseif ($type == 'links') {
-            $tmpPath = \Magento\Downloadable\Model\Link::getBaseTmpPath();
+            $tmpPath = $this->_link->getBaseTmpPath();
         } elseif ($type == 'link_samples') {
-            $tmpPath = \Magento\Downloadable\Model\Link::getBaseSampleTmpPath();
+            $tmpPath = $this->_link->getBaseSampleTmpPath();
         }
         $result = array();
         try {

@@ -30,7 +30,6 @@ namespace Magento\Index\Model;
 
 class Process extends \Magento\Core\Model\AbstractModel
 {
-    const XML_PATH_INDEXER_DATA     = 'global/index/indexer';
     /**
      * Process statuses
      */
@@ -54,7 +53,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     const MODE_REAL_TIME           = 'real_time';
 
     /**
-     * Indexer stategy object
+     * Indexer strategy object
      *
      * @var \Magento\Index\Model\Indexer\AbstractIndexer
      */
@@ -75,7 +74,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     protected $_processFile;
 
     /**
-     * Event repostiory
+     * Event repository
      *
      * @var \Magento\Index\Model\EventRepository
      */
@@ -89,7 +88,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Index\Model\IndexerFactory
+     * @var \Magento\Index\Model\Indexer\Factory
      */
     protected $_indexerFactory;
 
@@ -104,48 +103,48 @@ class Process extends \Magento\Core\Model\AbstractModel
     protected $_resourceEvent;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Index\Model\Indexer\ConfigInterface
      */
-    protected $_coreConfig;
-    
+    protected $_indexerConfig;
+
     /**
      * @param \Magento\Index\Model\Resource\Event $resourceEvent
-     * @param \Magento\Index\Model\IndexerFactory $indexerFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Index\Model\Lock\Storage $lockStorage
      * @param \Magento\Index\Model\EventRepository $eventRepository
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Index\Model\Indexer\Factory $indexerFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     *
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Index\Model\Resource\Event $resourceEvent,
-        \Magento\Index\Model\IndexerFactory $indexerFactory,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Context $context,
+        \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Index\Model\Lock\Storage $lockStorage,
         \Magento\Index\Model\EventRepository $eventRepository,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Index\Model\Indexer\Factory $indexerFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_lockStorage = $lockStorage;
-        $this->_eventRepository = $eventRepository;
+        $this->_indexerConfig = $indexerConfig;
         $this->_indexerFactory = $indexerFactory;
         $this->_indexer = $indexer;
         $this->_resourceEvent = $resourceEvent;
-        $this->_coreConfig = $coreConfig;
+        $this->_lockStorage = $lockStorage;
+        $this->_eventRepository = $eventRepository;
     }
 
     /**
@@ -234,7 +233,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      * Reindex all data what this process responsible is
      *
      * @throws \Magento\Core\Exception
-     * @throws Exception
+     * @throws \Exception
      */
     public function reindexAll()
     {
@@ -356,11 +355,20 @@ class Process extends \Magento\Core\Model\AbstractModel
     public function getIndexer()
     {
         if ($this->_currentIndexer === null) {
-            $code = $this->_getData('indexer_code');
-            if (!$code) {
-                throw new \Magento\Core\Exception(__('Indexer code is not defined.'));
+            $name = $this->_getData('indexer_code');
+            if (!$name) {
+                throw new \Magento\Core\Exception(__('Indexer name is not defined.'));
             }
-            $this->_currentIndexer = $this->_indexerFactory->create($code);
+            $indexerConfiguration = $this->_indexerConfig->getIndexer($name);
+            if (!$indexerConfiguration || empty($indexerConfiguration['instance'])) {
+                throw new \Magento\Core\Exception(__('Indexer model is not defined.'));
+            }
+            $indexerModel = $this->_indexerFactory->create($indexerConfiguration['instance']);
+            if ($indexerModel instanceof \Magento\Index\Model\Indexer\AbstractIndexer) {
+                $this->_currentIndexer = $indexerModel;
+            } else {
+                throw new \Magento\Core\Exception(__('Indexer model should extend \Magento\Index\Model\Indexer\Abstract.'));
+            }
         }
         return $this->_currentIndexer;
     }
@@ -583,12 +591,10 @@ class Process extends \Magento\Core\Model\AbstractModel
         $depends = $this->getData('depends');
         if (is_null($depends)) {
             $depends = array();
-            $path = self::XML_PATH_INDEXER_DATA . '/' . $this->getIndexerCode();
-            $node = $this->_coreConfig->getNode($path);
-            if ($node) {
-                $data = $node->asArray();
-                if (isset($data['depends']) && is_array($data['depends'])) {
-                    $depends = array_keys($data['depends']);
+            $indexerConfiguration = $this->_indexerConfig->getIndexer($this->getIndexerCode());
+            if ($indexerConfiguration) {
+                if (isset($indexerConfiguration['depends']) && is_array($indexerConfiguration['depends'])) {
+                    $depends = $indexerConfiguration['depends'];
                 }
             }
 

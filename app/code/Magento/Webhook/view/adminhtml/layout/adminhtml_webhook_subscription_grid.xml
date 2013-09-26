@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="webhook.subscriptions.list">
+    <referenceBlock name="webhook.subscriptions.list">
         <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml_subscription.grid" as="grid">
             <arguments>
                 <argument name="dataSource" xsi:type="object">Magento\Webhook\Model\Resource\Subscription\Grid\Collection</argument>
@@ -76,5 +76,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

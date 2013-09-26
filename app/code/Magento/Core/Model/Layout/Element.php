@@ -16,32 +16,24 @@ class Element extends \Magento\Simplexml\Element
     public function prepare($args)
     {
         switch ($this->getName()) {
-            case 'layoutUpdate':
-                break;
-
-            case 'layout':
-                break;
-
-            case 'update':
-                break;
-
-            case 'remove':
-                break;
-
-            case 'block':
+            case Magento_Core_Model_Layout::TYPE_BLOCK:
                 $this->prepareBlock($args);
                 break;
 
-            case 'reference':
+            case Magento_Core_Model_Layout::TYPE_REFERENCE_BLOCK:
+            case Magento_Core_Model_Layout::TYPE_REFERENCE_CONTAINER:
                 $this->prepareReference($args);
                 break;
 
-            case 'action':
+            case Magento_Core_Model_Layout::TYPE_ACTION:
                 $this->prepareAction($args);
                 break;
 
-            default:
+            case Magento_Core_Model_Layout::TYPE_ARGUMENT:
                 $this->prepareActionArgument($args);
+                break;
+
+            default:
                 break;
         }
         foreach ($this as $child) {
@@ -53,7 +45,10 @@ class Element extends \Magento\Simplexml\Element
     public function getBlockName()
     {
         $tagName = (string)$this->getName();
-        if ('block'!==$tagName && 'reference'!==$tagName || empty($this['name'])) {
+        if (empty($this['name']) || !in_array($tagName, array(
+                Magento_Core_Model_Layout::TYPE_BLOCK,
+                Magento_Core_Model_Layout::TYPE_REFERENCE_BLOCK,
+        ))) {
             return false;
         }
         return (string)$this['name'];
@@ -69,7 +64,12 @@ class Element extends \Magento\Simplexml\Element
     public function getElementName()
     {
         $tagName = $this->getName();
-        if (!in_array($tagName, array('block', 'reference', 'container'))) {
+        if (!in_array($tagName, array(
+            Magento_Core_Model_Layout::TYPE_BLOCK,
+            Magento_Core_Model_Layout::TYPE_REFERENCE_BLOCK,
+            Magento_Core_Model_Layout::TYPE_CONTAINER,
+            Magento_Core_Model_Layout::TYPE_REFERENCE_CONTAINER
+        ))) {
             return false;
         }
         return $this->getAttribute('name');
@@ -119,5 +119,4 @@ class Element extends \Magento\Simplexml\Element
     {
         return $this;
     }
-
 }

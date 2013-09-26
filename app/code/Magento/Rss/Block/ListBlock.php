@@ -10,10 +10,6 @@
 
 /**
  * Review form block
- *
- * @category   Magento
- * @package    Magento_Rss
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rss\Block;
 
@@ -23,6 +19,42 @@ class ListBlock extends \Magento\Core\Block\Template
 
     protected $_rssFeeds = array();
 
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
+        $this->_categoryFactory = $categoryFactory;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Add Link elements to head
@@ -54,20 +86,21 @@ class ListBlock extends \Magento\Core\Block\Template
     /**
      * Add new rss feed
      *
-     * @param   string $url
-     * @param   string $label
+     * @param string $url
+     * @param string $label
+     * @param array $param
+     * @param bool $customerGroup
      * @return  \Magento\Core\Helper\AbstractHelper
      */
-    public function addRssFeed($url, $label, $param = array(), $customerGroup=false)
+    public function addRssFeed($url, $label, $param = array(), $customerGroup = false)
     {
         $param = array_merge($param, array('store_id' => $this->getCurrentStoreId()));
         if ($customerGroup) {
             $param = array_merge($param, array('cid' => $this->getCurrentCustomerGroupId()));
         }
-
         $this->_rssFeeds[] = new \Magento\Object(
             array(
-                'url'   => \Mage::getUrl($url, $param),
+                'url'   => $this->_urlBuilder->getUrl($url, $param),
                 'label' => $label
             )
         );
@@ -76,17 +109,17 @@ class ListBlock extends \Magento\Core\Block\Template
 
     public function resetRssFeed()
     {
-        $this->_rssFeeds=array();
+        $this->_rssFeeds = array();
     }
 
     public function getCurrentStoreId()
     {
-        return \Mage::app()->getStore()->getId();
+        return $this->_storeManager->getStore()->getId();
     }
 
     public function getCurrentCustomerGroupId()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+        return $this->_customerSession->getCustomerGroupId();
     }
 
     /**
@@ -99,65 +132,50 @@ class ListBlock extends \Magento\Core\Block\Template
     public function getRssCatalogFeeds()
     {
         $this->resetRssFeed();
-        $this->categoriesRssFeed();
+        $this->CategoriesRssFeed();
         return $this->getRssFeeds();
     }
 
     public function getRssMiscFeeds()
     {
         $this->resetRssFeed();
-        $this->newProductRssFeed();
-        $this->specialProductRssFeed();
-        $this->salesRuleProductRssFeed();
+        $this->NewProductRssFeed();
+        $this->SpecialProductRssFeed();
+        $this->SalesRuleProductRssFeed();
         return $this->getRssFeeds();
     }
 
-    /*
-    public function getCatalogRssUrl($code)
+    public function NewProductRssFeed()
     {
-        $store_id = \Mage::app()->getStore()->getId();
-        $param = array('store_id' => $store_id);
-        $custGroup = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
-        if ($custGroup) {
-            $param = array_merge($param, array('cid' => $custGroup));
-        }
-
-        return \Mage::getUrl('rss/catalog/'.$code, $param);
-    }
-    */
-
-    public function newProductRssFeed()
-    {
-        $path = self::XML_PATH_RSS_METHODS.'/catalog/new';
-        if((bool)$this->_storeConfig->getConfig($path)){
+        $path = self::XML_PATH_RSS_METHODS . '/catalog/new';
+        if ((bool)$this->_storeConfig->getConfig($path)) {
             $this->addRssFeed($path, __('New Products'));
         }
     }
 
-    public function specialProductRssFeed()
+    public function SpecialProductRssFeed()
     {
-        $path = self::XML_PATH_RSS_METHODS.'/catalog/special';
-        if((bool)$this->_storeConfig->getConfig($path)){
-            $this->addRssFeed($path, __('Special Products'),array(),true);
+        $path = self::XML_PATH_RSS_METHODS . '/catalog/special';
+        if ((bool)$this->_storeConfig->getConfig($path)) {
+            $this->addRssFeed($path, __('Special Products'), array(), true);
         }
     }
 
-    public function salesRuleProductRssFeed()
+    public function SalesRuleProductRssFeed()
     {
-        $path = self::XML_PATH_RSS_METHODS.'/catalog/salesrule';
-        if((bool)$this->_storeConfig->getConfig($path)){
-            $this->addRssFeed($path, __('Coupons/Discounts'),array(),true);
+        $path = self::XML_PATH_RSS_METHODS . '/catalog/salesrule';
+        if ((bool)$this->_storeConfig->getConfig($path)) {
+            $this->addRssFeed($path, __('Coupons/Discounts'), array(), true);
         }
     }
 
-    public function categoriesRssFeed()
+    public function CategoriesRssFeed()
     {
-        $path = self::XML_PATH_RSS_METHODS.'/catalog/category';
-        if((bool)$this->_storeConfig->getConfig($path)){
-            $category = \Mage::getModel('Magento\Catalog\Model\Category');
-
-            /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
-            $treeModel = $category->getTreeModel()->loadNode(\Mage::app()->getStore()->getRootCategoryId());
+        $path = self::XML_PATH_RSS_METHODS . '/catalog/category';
+        if ((bool)$this->_storeConfig->getConfig($path)) {
+            /** @var $category \Magento\Catalog\Model\Category */
+            $category = $this->_categoryFactory->create();
+            $treeModel = $category->getTreeModel()->loadNode($this->_storeManager->getStore()->getRootCategoryId());
             $nodes = $treeModel->loadChildren()->getChildren();
 
             $nodeIds = array();
@@ -165,17 +183,18 @@ class ListBlock extends \Magento\Core\Block\Template
                 $nodeIds[] = $node->getId();
             }
 
-            $collection = $category->getCollection()
+            /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
+            $collection = $category->getCollection();
+            $collection->addIdFilter($nodeIds)
                 ->addAttributeToSelect('url_key')
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('is_anchor')
-                ->addAttributeToFilter('is_active',1)
-                ->addIdFilter($nodeIds)
+                ->addAttributeToFilter('is_active', 1)
                 ->addAttributeToSort('name')
                 ->load();
 
             foreach ($collection as $category) {
-                $this->addRssFeed('rss/catalog/category', $category->getName(),array('cid'=>$category->getId()));
+                $this->addRssFeed('rss/catalog/category', $category->getName(), array('cid' => $category->getId()));
             }
         }
     }

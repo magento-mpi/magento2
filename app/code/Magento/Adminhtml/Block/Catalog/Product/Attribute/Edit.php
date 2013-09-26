@@ -17,6 +17,13 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Attribute;
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
+     * Block group name
+     *
+     * @var string
+     */
+    protected $_blockGroup = 'Magento_Adminhtml';
+
+    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry

@@ -5,27 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Directory\Helper;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Directory\Model\Resource\Country\Collection|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Resource\Country\Collection|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_countryCollection;
 
     /**
-     * @var \Magento\Directory\Model\Resource\Region\Collection\Factory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Resource\Region\CollectionFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_regionCollection;
 
     /**
-     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreHelper;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Store|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_store;
 
@@ -47,7 +48,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_regionCollection = $this->getMock('Magento\Directory\Model\Resource\Region\Collection', array(),
             array(), '', false);
-        $regCollFactory = $this->getMock('Magento\Directory\Model\Resource\Region\Collection\Factory', array(),
+        $regCollFactory = $this->getMock('Magento\Directory\Model\Resource\Region\CollectionFactory', array('create'),
             array(), '', false);
         $regCollFactory->expects($this->any())
             ->method('create')
@@ -61,8 +62,19 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($this->_store));
 
-        $this->_object = new \Magento\Directory\Helper\Data($context, $configCacheType, $this->_countryCollection,
-            $regCollFactory, $this->_coreHelper, $storeManager);
+        $currencyFactory = $this->getMock('Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
+
+        $arguments = array(
+            'context' => $context,
+            'configCacheType' => $configCacheType,
+            'countryCollection' => $this->_countryCollection,
+            'regCollFactory' => $regCollFactory,
+            'coreHelper' => $this->_coreHelper,
+            'storeManager' => $storeManager,
+            'currencyFactory' => $currencyFactory,
+            'config' => $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
+        );
+        $this->_object = $objectManager->getObject('Magento\Directory\Helper\Data', $arguments);
     }
 
     public function testGetRegionJson()

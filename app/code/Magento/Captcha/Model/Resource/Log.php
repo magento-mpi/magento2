@@ -30,6 +30,13 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     const TYPE_LOGIN = 2;
 
     /**
+     * Core Date
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_coreDate;
+
+    /**
      * Core http
      *
      * @var \Magento\Core\Helper\Http
@@ -37,17 +44,16 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_coreHttp = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
+     * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
+        \Magento\Core\Model\Date $coreDate,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Resource $resource
     ) {
+        $this->_coreDate = $coreDate;
         $this->_coreHttp = $coreHttp;
         parent::__construct($resource);
     }
@@ -69,12 +75,12 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function logAttempt($login)
     {
-        if ($login != null){
+        if ($login != null) {
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
                 array(
                      'type' => self::TYPE_LOGIN, 'value' => $login, 'count' => 1,
-                     'updated_at' => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate()
+                     'updated_at' => $this->_coreDate->gmtDate()
                 ),
                 array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
@@ -85,7 +91,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $this->getMainTable(),
                 array(
                      'type' => self::TYPE_REMOTE_ADDRESS, 'value' => $ip, 'count' => 1,
-                     'updated_at' => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate()
+                     'updated_at' => $this->_coreDate->gmtDate()
                 ),
                 array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
@@ -160,7 +166,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('updated_at < ?' => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate(null, time() - 60*30))
+            array('updated_at < ?' => $this->_coreDate->gmtDate(null, time() - 60*30))
         );
     }
 }

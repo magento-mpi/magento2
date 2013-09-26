@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Block\Order;
-
 /**
  * "Returns" link
  */
+namespace Magento\Rma\Block\Order;
+
 class Link extends \Magento\Sales\Block\Order\Link
 {
     /**
@@ -19,12 +19,18 @@ class Link extends \Magento\Sales\Block\Order\Link
     protected $_rmaHelper;
 
     /**
+     * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
      * Constructor
      *
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
@@ -32,9 +38,11 @@ class Link extends \Magento\Sales\Block\Order\Link
         \Magento\Rma\Helper\Data $rmaHelper,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_rmaHelper = $rmaHelper;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($context, $registry, $coreData, $data);
     }
 
@@ -57,8 +65,9 @@ class Link extends \Magento\Sales\Block\Order\Link
     protected function _isRmaAviable()
     {
         if ($this->_rmaHelper->isEnabled()) {
-            $returns = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
-                ->addFieldToSelect('*')
+            /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
+            $collection = $this->_collectionFactory->create();
+            $returns = $collection->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', $this->_registry->registry('current_order')->getId())
                 ->count();
 

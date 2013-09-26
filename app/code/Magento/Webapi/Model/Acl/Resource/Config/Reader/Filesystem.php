@@ -28,19 +28,8 @@ class Filesystem extends \Magento\Config\Reader\Filesystem
         $domDocumentClass = 'Magento\Acl\Resource\Config\Dom'
     ) {
         parent::__construct(
-            $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass
+            $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass,
+            'webapi'
         );
-    }
-
-    /**
-     * Read webapi resource list
-     *
-     * @param string $scope
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function read($scope)
-    {
-        return parent::read('webapi');
     }
 }

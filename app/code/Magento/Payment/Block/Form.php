@@ -19,13 +19,14 @@ class Form extends \Magento\Core\Block\Template
      * Retrieve payment method model
      *
      * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @throws \Magento\Core\Exception
      */
     public function getMethod()
     {
         $method = $this->getData('method');
 
         if (!($method instanceof \Magento\Payment\Model\Method\AbstractMethod)) {
-            \Mage::throwException(__('We cannot retrieve the payment method model object.'));
+            throw new \Magento\Core\Exception(__('We cannot retrieve the payment method model object.'));
         }
         return $method;
     }

@@ -8,17 +8,47 @@
  * @license     {license_link}
  */
 
-
 /**
  * Form Types Grid Block
- *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * @var \Magento\Eav\Model\Resource\Form\Type\CollectionFactory
+     */
+    protected $_formTypesFactory;
+
+    /**
+     * @var \Magento\Core\Model\Theme\LabelFactory
+     */
+    protected $_themeLabelFactory;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory
+     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory,
+        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
+        array $data = array()
+    ) {
+        $this->_formTypesFactory = $formTypesFactory;
+        $this->_themeLabelFactory = $themeLabelFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     /**
      * Initialize Grid Block
      *
@@ -38,9 +68,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Eav\Model\Form\Type')
-            ->getCollection();
-
+        /** @var $collection \Magento\Eav\Model\Resource\Form\Type\Collection */
+        $collection = $this->_formTypesFactory->create();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -69,7 +98,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         ));
 
         /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
+        $label = $this->_themeLabelFactory->create();
         $design = $label->getLabelsCollection();
         array_unshift($design, array(
             'value' => 'all',

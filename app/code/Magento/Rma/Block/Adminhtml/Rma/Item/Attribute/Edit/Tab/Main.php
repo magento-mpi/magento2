@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * RMA Item Attributes Edit Form
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
 
@@ -30,12 +25,19 @@ class Main
     protected $_rmaEav = null;
 
     /**
+     * @var \Magento\Backend\Model\Config\Source\YesnoFactory
+     */
+    protected $_configFactory;
+
+    /**
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Backend\Model\Config\Source\YesnoFactory configFctory
+     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
      * @param array $data
      */
     public function __construct(
@@ -45,10 +47,13 @@ class Main
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Model\Config\Source\YesnoFactory $configFactory,
+        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $data);
+        $this->_configFactory = $configFactory;
+        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $attributeConfig, $data);
     }
 
     /**
@@ -69,7 +74,7 @@ class Main
     /**
      * Adding customer form elements for edit form
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab\Main
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab_Main
      */
     protected function _prepareForm()
     {
@@ -162,7 +167,9 @@ class Main
             'values'    => array('' => __('None')),
         ));
 
-        $yesnoSource = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
+        /** @var $config \Magento\Backend\Model\Config\Source\Yesno */
+        $config = $this->_configFactory->create();
+        $yesnoSource = $config->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => __('Frontend Properties')

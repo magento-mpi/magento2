@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="page_one_column"/>
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Script" name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
@@ -20,11 +20,11 @@
                 <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
     <remove name="magento-catalog-zoom-css"/>
-    <reference name="product.info">
+    <referenceBlock name="product.info">
         <block class="Magento\Catalog\Block\Product\View" name="product.tierprices" as="tierprices" template="product/view/tierprices.phtml"/>
-    </reference>
+    </referenceBlock>
     <move element="catalog.product.related" destination="product.info" as="relatedProducts"/>
     <move element="product.clone_prices" destination="product.info.options.wrapper.bottom" after="product.info.addto.additional"/>
     <move element="product.tierprices.additional" destination="product.info.options.wrapper.bottom" after="product.clone_prices"/>

@@ -10,12 +10,7 @@
 
 /**
  * Sales widget search form for orders and returns block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Sales\Block\Widget\Guest;
 
 class Form
@@ -23,13 +18,34 @@ class Form
     implements \Magento\Widget\Block\BlockInterface
 {
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Check whether module is available
      *
      * @return bool
      */
     public function isEnable()
     {
-        return !(\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn());
+        return !($this->_customerSession->isLoggedIn());
     }
 
     /**

@@ -49,6 +49,56 @@ class Track extends \Magento\Sales\Model\AbstractModel
     protected $_eventObject = 'track';
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Shipping\Model\Config
+     */
+    protected $_shippingConfig;
+
+    /**
+     * @var \Magento\Sales\Model\Order\ShipmentFactory
+     */
+    protected $_shipmentFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $coreLocale,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_storeManager = $storeManager;
+        $this->_shippingConfig = $shippingConfig;
+        $this->_shipmentFactory = $shipmentFactory;
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -97,7 +147,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
     public function getShipment()
     {
         if (!($this->_shipment instanceof \Magento\Sales\Model\Order\Shipment)) {
-            $this->_shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($this->getParentId());
+            $this->_shipment = $this->_shipmentFactory->create()->load($this->getParentId());
         }
 
         return $this->_shipment;
@@ -130,8 +180,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
      */
     public function getNumberDetail()
     {
-        $carrierInstance = \Mage::getSingleton('Magento\Shipping\Model\Config')
-            ->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = $this->_shippingConfig->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title'] = $this->getTitle();
@@ -141,7 +190,8 @@ class Track extends \Magento\Sales\Model\AbstractModel
             $carrierInstance->setStore($this->getStore());
         }
 
-        if (!$trackingInfo = $carrierInstance->getTrackingInfo($this->getNumber())) {
+        $trackingInfo = $carrierInstance->getTrackingInfo($this->getNumber());
+        if (!$trackingInfo) {
             return __('No detail for number "%1"', $this->getNumber());
         }
 
@@ -158,7 +208,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
         if ($this->getShipment()) {
             return $this->getShipment()->getStore();
         }
-        return \Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**

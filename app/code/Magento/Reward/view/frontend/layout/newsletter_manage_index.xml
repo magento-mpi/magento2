@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer.newsletter.form.before">
+    <referenceContainer name="customer.newsletter.form.before">
         <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
             <arguments>
                 <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Newsletter</argument>
@@ -20,5 +20,5 @@
                 <argument translate="true" name="message" xsi:type="string">Subscribe to our newsletter now and earn %1.</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

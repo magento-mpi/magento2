@@ -21,6 +21,27 @@ namespace Magento\Review\Model;
 class Observer
 {
     /**
+     * @var \Magento\Review\Model\ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @var \Magento\Review\Model\Resource\Review
+     */
+    protected $_resourceReview;
+
+    /**
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
+     * @param \Magento\Review\Model\Resource\Review $resourceReview
+     */
+    public function __construct(
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        \Magento\Review\Model\Resource\Review $resourceReview
+    ) {
+        $this->_reviewFactory = $reviewFactory;
+        $this->_resourceReview = $resourceReview;
+    }
+    /**
      * Add review summary info for tagged product collection
      *
      * @param \Magento\Event\Observer $observer
@@ -29,8 +50,7 @@ class Observer
     public function tagProductCollectionLoadAfter(\Magento\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
-        \Mage::getSingleton('Magento\Review\Model\Review')
-            ->appendSummary($collection);
+        $this->_reviewFactory->create()->appendSummary($collection);
 
         return $this;
     }
@@ -45,8 +65,7 @@ class Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            \Mage::getResourceSingleton('Magento\Review\Model\Resource\Review')
-                ->deleteReviewsByProductId($eventProduct->getId());
+            $this->_resourceReview->deleteReviewsByProductId($eventProduct->getId());
         }
 
         return $this;
@@ -63,7 +82,7 @@ class Observer
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection instanceof \Magento\Data\Collection) {
             $productCollection->load();
-            \Mage::getModel('Magento\Review\Model\Review')->appendSummary($productCollection);
+            $this->_reviewFactory->create()->appendSummary($productCollection);
         }
 
         return $this;

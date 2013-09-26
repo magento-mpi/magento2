@@ -49,4 +49,12 @@ class Setup extends \Magento\Core\Model\Resource\Setup
 
         $this->_modelBlockFactory = $modelBlockFactory;
     }
+
+    /**
+     * @return \Magento_Cms_Model_Block
+     */
+    public function getModelBlock()
+    {
+        return $this->_modelBlockFactory->create();
+    }
 }

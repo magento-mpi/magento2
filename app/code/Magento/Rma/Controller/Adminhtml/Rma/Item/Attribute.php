@@ -46,7 +46,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('rma_item');
+            $this->_entityType = $this->_objectManager->get('Magento\Eav\Model\Config')->getEntityType('rma_item');
         }
         return $this->_entityType;
     }
@@ -76,7 +76,8 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initAttribute()
     {
-        $attribute = \Mage::getModel('Magento\Rma\Model\Item\Attribute');
+        /** @var $attribute \Magento\Rma\Model\Item\Attribute */
+        $attribute = $this->_objectManager->create('Magento\Rma\Model\Item\Attribute');
         $websiteId = $this->getRequest()->getParam('website');
         if ($websiteId) {
             $attribute->setWebsite($websiteId);
@@ -190,7 +191,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
         if ($this->getRequest()->isPost() && $data) {
             /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
             $attributeObject = $this->_initAttribute();
-            /* @var $helper Magento\Rma\Helper\Eav */
+            /* @var $helper \Magento\Rma\Helper\Eav */
             $helper = $this->_objectManager->get('Magento\Rma\Helper\Eav');
 
             try {
@@ -231,7 +232,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
+                $data['attribute_group_id'] = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')
                     ->getDefaultGroupId($data['attribute_set_id']);
             }
 

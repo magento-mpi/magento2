@@ -44,8 +44,8 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
 
         $this->_cacheMock
             ->expects($this->once())
-            ->method('get')
-            ->with($area, 'DiConfig')
+            ->method('load')
+            ->with($area . '::DiConfig')
             ->will($this->returnValue(false));
 
         $this->_readerMock

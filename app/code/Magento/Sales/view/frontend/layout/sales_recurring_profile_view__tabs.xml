@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Recurring Profile View Tabs" type="page" parent="sales_recurring_profile_index">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">2columns-left.phtml</argument>
         </action>
-    </reference>
-    <reference name="my.account.wrapper">
+    </referenceBlock>
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento\Sales\Block\Recurring\Profile\View\Data" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
             <action method="setShouldPrepareInfoTabs">
                 <argument name="value" xsi:type="string">1</argument>
@@ -67,5 +67,5 @@
             </block>
             -->
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

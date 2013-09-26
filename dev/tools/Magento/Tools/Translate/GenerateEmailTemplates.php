@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Tools\Translate;
 
 define('USAGE', <<<USAGE
  Create translation file(s) from e-mail templates of locale
@@ -27,7 +26,7 @@ USAGE
 
 
 define('DS', DIRECTORY_SEPARATOR);
-define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
+define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 
 define('MESSAGE_TYPE_NOTICE', '0');
 define('MESSAGE_TYPE_WARNING', '1');
@@ -41,7 +40,7 @@ define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS . 
 
 include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
 
-global $argv;
+namespace Magento\Tools\Translate;
 
 class GenerateEmailTemplates
 {
@@ -50,7 +49,7 @@ class GenerateEmailTemplates
      *
      * @var array
      */
-    protected $_namePatterns = array('#^(Magento_\w+)\.csv$#', '#^(translate).csv$#');
+    protected $_namePatterns = array('#^(\Magento\\w+)\.csv$#', '#^(translate).csv$#');
 
     /**
      * Pattern of the locale path
@@ -108,7 +107,7 @@ class GenerateEmailTemplates
      */
     protected $_error = false;
 
-    protected function _isWritable($filePath)
+    protected function _is_writable($filePath)
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $f = @fopen($filePath, 'a');
@@ -207,7 +206,7 @@ class GenerateEmailTemplates
             return;
         }
 
-        if (!is_dir($outputName) && file_exists($outputName) && !$this->_isWritable($outputName)) {
+        if (!is_dir($outputName) && file_exists($outputName) && !$this->_is_writable($outputName)) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("Output file '%s' is not writable", $outputName));
             $this->_error = true;
             return;
@@ -241,12 +240,12 @@ class GenerateEmailTemplates
      * @param int $flags
      * @return array
      */
-    protected function globRecursive($pattern, $flags = 0)
+    protected function glob_recursive($pattern, $flags = 0)
     {
         $files = glob($pattern, $flags);
         foreach (glob(dirname($pattern) . DS . '*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
         {
-            $files = array_merge($files, $this->globRecursive($dir . DS . basename($pattern), $flags));
+            $files = array_merge($files, $this->glob_recursive($dir . DS . basename($pattern), $flags));
         }
         return $files;
     }
@@ -263,7 +262,7 @@ class GenerateEmailTemplates
         $result = array();
         $prefix = (substr($path, -1) == DS ? $path : $path . DS);
 
-        $files = $this->globRecursive($prefix . $pattern);
+        $files = $this->glob_recursive($prefix . $pattern);
         foreach ($files as $filename) {
             $result[pathinfo($filename, PATHINFO_FILENAME)]=$filename;
         }

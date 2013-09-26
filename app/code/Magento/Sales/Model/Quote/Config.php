@@ -2,44 +2,31 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Quote;
 
 class Config
 {
-    const XML_PATH_QUOTE_PRODUCT_ATTRIBUTES = 'global/sales/quote/item/product_attributes';
+    /**
+     * @var \Magento\Catalog\Model\Attribute\Config
+     */
+    private $_attributeConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      */
-    protected $_coreConfig;
-
-    /**
-     * @param \Magento\Core\Model\Config $coreConfig
-     */
-    public function __construct(
-        \Magento\Core\Model\Config $coreConfig
-    ) {
-        $this->_coreConfig = $coreConfig;
+    public function __construct(\Magento\Catalog\Model\Attribute\Config $attributeConfig)
+    {
+        $this->_attributeConfig = $attributeConfig;
     }
-    
+
     /**
      * @return array
      */
     public function getProductAttributes()
     {
-        $attributes = $this->_coreConfig->getNode(self::XML_PATH_QUOTE_PRODUCT_ATTRIBUTES)->asArray();
-        return array_keys($attributes);
-    }
-
-    public function getTotalModels()
-    {
-
+        return $this->_attributeConfig->getAttributeNames('sales_quote_item');
     }
 }

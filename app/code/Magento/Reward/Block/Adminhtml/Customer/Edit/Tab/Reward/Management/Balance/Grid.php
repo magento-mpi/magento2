@@ -16,7 +16,7 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance;
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance;
 
 class Grid
     extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -34,12 +34,23 @@ class Grid
      * @var \Magento\Reward\Helper\Data
      */
     protected $_rewardData = null;
+
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Reward\Model\Resource\Reward\CollectionFactory
+     */
+    protected $_rewardsFactory;
+
+    /**
+     * @var \Magento\Reward\Model\Source\WebsiteFactory
+     */
+    protected $_websitesFactory;
 
     /**
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -48,6 +59,8 @@ class Grid
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory
+     * @param \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory
      * @param array $data
      */
     public function __construct(
@@ -57,11 +70,14 @@ class Grid
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-
+        \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory,
+        \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_rewardData = $rewardData;
+        $this->_rewardsFactory = $rewardsFactory;
+        $this->_websitesFactory = $websitesFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -91,13 +107,11 @@ class Grid
     /**
      * Prepare grid collection
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Reward\Model\Reward')
-            ->getCollection()
-            ->addFieldToFilter('customer_id', $this->getCustomer()->getId());
+        $collection = $this->_rewardsFactory->addFieldToFilter('customer_id', $this->getCustomer()->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -105,7 +119,7 @@ class Grid
     /**
      * After load collection processing
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance_Grid
      */
     protected function _afterLoadCollection()
     {
@@ -141,17 +155,17 @@ class Grid
     /**
      * Prepare grid columns
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance_Grid
      */
     protected function _prepareColumns()
     {
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header'   => __('Website'),
                 'index'    => 'website_id',
                 'sortable' => false,
                 'type'     => 'options',
-                'options'  => \Mage::getModel('Magento\Reward\Model\Source\Website')->toOptionArray(false)
+                'options'  => $this->_websitesFactory->create()->toOptionArray(false)
             ));
         }
 

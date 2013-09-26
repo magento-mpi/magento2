@@ -8,8 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <remove name="catalog.leftnav"/>
         <block class="Magento\Search\Block\Catalog\Layer\View" name="magentocatalog.leftnav" after="-" template="Magento_Catalog::layer/view.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

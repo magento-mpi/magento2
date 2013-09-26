@@ -188,26 +188,29 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_locale;
 
     /**
+     * Construct
+     * 
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
-     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\String $coreString
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Ogone\Model\Config $config
-     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
-     * @return \Magento\Ogone\Model\Api
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\UrlInterface $urlBuilder,
-        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Ogone\Model\Config $config,
-        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -215,7 +218,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_urlBuilder = $urlBuilder;
         $this->_coreString = $coreString;
         $this->_config = $config;
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
 
     /**
@@ -414,9 +417,9 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected function _getOgonePaymentOperation()
     {
         $value = $this->getPaymentAction();
-        if ($value==\Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE) {
+        if ($value==Magento_Payment_Model_Method_AbstractMethod::ACTION_AUTHORIZE) {
             $value = \Magento\Ogone\Model\Api::OGONE_AUTHORIZE_ACTION;
-        } elseif ($value==\Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE) {
+        } elseif ($value==Magento_Payment_Model_Method_AbstractMethod::ACTION_AUTHORIZE_CAPTURE) {
             $value = \Magento\Ogone\Model\Api::OGONE_AUTHORIZE_CAPTURE_ACTION;
         }
         return $value;

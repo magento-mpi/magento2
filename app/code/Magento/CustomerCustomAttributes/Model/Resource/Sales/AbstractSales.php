@@ -11,10 +11,6 @@
 
 /**
  * Customer Sales abstract resource
- *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
 
@@ -33,14 +29,6 @@ abstract class AbstractSales extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @var bool
      */
     protected $_isPkAutoIncrement  = false;
-
-    /**
-     * Main entity resource model name
-     * Should be overwritten in subclasses.
-     *
-     * @var string
-     */
-    protected $_parentResourceModelName = '';
 
     /**
      * Return column name for attribute
@@ -124,14 +112,11 @@ abstract class AbstractSales extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Return resource model of the main entity
      *
-     * @return \Magento\Core\Model\Resource\AbstractResource | null
+     * @return null
      */
     protected function _getParentResourceModel()
     {
-        if (!$this->_parentResourceModelName) {
-            return null;
-        }
-        return \Mage::getResourceSingleton($this->_parentResourceModelName);
+        return null;
     }
 
     /**

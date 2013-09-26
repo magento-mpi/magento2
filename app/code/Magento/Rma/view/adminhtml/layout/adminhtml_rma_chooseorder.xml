@@ -8,12 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="left">
-        <action method="setIsCollapsed">
-            <argument name="value" xsi:type="string">true</argument>
-        </action>
-    </reference>
-    <reference name="root">
+    <referenceBlock name="root">
         <block class="Magento\Rma\Block\Adminhtml\Rma\Create" name="content">
             <block class="Magento\Rma\Block\Adminhtml\Rma\Create\Form" template="create/form.phtml" name="form">
                 <block class="Magento\Rma\Block\Adminhtml\Rma\Create\Order" template="create/order.phtml" name="rma_create_order">
@@ -21,5 +16,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

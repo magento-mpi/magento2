@@ -30,7 +30,7 @@
         <block class="Magento\Adminhtml\Block\Sales\Order\Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"/>
         <block class="Magento\Adminhtml\Block\Sales\Order\Invoice\Totals" name="invoice_totals" template="sales/order/totals.phtml">
             <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Tax" name="tax" template="sales/order/totals/tax.phtml"/>
-<!--<block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="footer" template="sales/order/totals/footer.phtml">
+            <!--<block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="footer" template="sales/order/totals/footer.phtml">
                 <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="grand" template="sales/order/totals/grand.phtml"/>
                 <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="paid" template="sales/order/totals/paid.phtml"/>
                 <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="refunded" template="sales/order/totals/refunded.phtml"/>

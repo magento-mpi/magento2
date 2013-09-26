@@ -94,7 +94,4 @@
             </locale>
         </general>
     </default>
-    <varien>
-        <class>Varien</class>
-    </varien>
 </config>

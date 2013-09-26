@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Logging\Model\Event\Changes">
+        <param name="skipFields">
+            <value>
+                <updateDate>updated_at</updateDate>
+                <formKey>form_key</formKey>
+            </value>
+        </param>
+    </type>
+</config>

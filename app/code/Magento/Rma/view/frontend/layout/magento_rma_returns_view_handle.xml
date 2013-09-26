@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="RMA Return View Image" type="page" parent="magento_rma_returns_create_handle">
-    <reference name="content">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="RMA Return View Image" type="page" parent="magento_rma_return_create_handle">
+    <referenceContainer name="content">
         <block class="Magento\CustomAttribute\Block\Form\Template" name="magento_rma_item_form_template">
             <action method="addRenderer">
                 <argument name="type" xsi:type="string">image</argument>
@@ -16,5 +16,5 @@
                 <argument name="template" xsi:type="string">form/view/image.phtml</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

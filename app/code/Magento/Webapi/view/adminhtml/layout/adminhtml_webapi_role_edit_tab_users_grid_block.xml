@@ -8,14 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="webapi.role.edit.tab.users.grid">
+    <referenceBlock name="webapi.role.edit.tab.users.grid">
         <arguments>
             <argument name="dataSource" xsi:type="object">
                 <updater>Magento\Webapi\Model\Acl\Role\UsersUpdater</updater>
             </argument>
         </arguments>
-    </reference>
-    <reference name="webapi.role.edit.tab.users.grid.container">
+    </referenceBlock>
+    <referenceBlock name="webapi.role.edit.tab.users.grid.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="webapi.role.edit.tab.users.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">roleUserGrid</argument>
@@ -44,7 +44,7 @@
                         <argument name="type" xsi:type="string">checkbox</argument>
                         <argument name="values" xsi:type="string">
                             <updater>Magento\Webapi\Model\Acl\Role\InRoleUserUpdater</updater>
-                            <value></value>
+                            <value/>
                         </argument>
                         <argument name="name" xsi:type="string">in_role_users</argument>
                         <argument name="align" xsi:type="string">center</argument>
@@ -79,5 +79,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

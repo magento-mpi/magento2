@@ -36,8 +36,6 @@ class Action extends \Magento\Core\Controller\Varien\ActionAbstract
     const PARAM_NAME_BASE64_URL         = 'r64';
     const PARAM_NAME_URL_ENCODED        = 'uenc';
 
-    const XML_PAGE_TYPE_RENDER_INHERITED = 'global/dev/page_type/render_inherited';
-
     /**
      * @var \Magento\ObjectManager
      */
@@ -114,6 +112,13 @@ class Action extends \Magento\Core\Controller\Varien\ActionAbstract
     protected $_eventManager;
 
     /**
+     * Should inherited page be rendered
+     *
+     * @var bool
+     */
+    protected $_isRenderInherited;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      */
     public function __construct(\Magento\Core\Controller\Varien\Action\Context $context)
@@ -124,6 +129,7 @@ class Action extends \Magento\Core\Controller\Varien\ActionAbstract
         $this->_frontController = $context->getFrontController();
         $this->_layout          = $context->getLayout();
         $this->_eventManager    = $context->getEventManager();
+        $this->_isRenderInherited = $context->isRenderInherited();
         $this->_frontController->setAction($this);
 
         $this->_construct();
@@ -202,12 +208,12 @@ class Action extends \Magento\Core\Controller\Varien\ActionAbstract
      * @param   bool $generateBlocks
      * @param   bool $generateXml
      * @return  $this
-     * @throws  \RuntimeException
+     * @throws  RuntimeException
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
         if ($this->_isLayoutLoaded) {
-            throw new \RuntimeException('Layout must be loaded only once.');
+            throw new RuntimeException('Layout must be loaded only once.');
         }
         // if handles were specified in arguments load them first
         if (false !== $handles && '' !== $handles) {
@@ -250,9 +256,7 @@ class Action extends \Magento\Core\Controller\Varien\ActionAbstract
      */
     public function addActionLayoutHandles()
     {
-        $renderInherited = (string)$this->_objectManager->get('Magento\Core\Model\Config')
-            ->getNode(self::XML_PAGE_TYPE_RENDER_INHERITED);
-        if (!$renderInherited || !$this->addPageLayoutHandles()) {
+        if (!$this->_isRenderInherited || !$this->addPageLayoutHandles()) {
             $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
         }
         return $this;

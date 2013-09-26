@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
- * \Directory Country Resource Collection
- *
- * @category    Magento
- * @package     Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Directory Country Resource Collection
  */
 namespace Magento\Directory\Model\Resource\Country;
 
@@ -42,6 +37,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Directory\Model\Resource\CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\String $stringHelper
@@ -49,6 +49,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Directory\Model\Resource\CountryFactory $countryFactory
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -59,12 +60,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Directory\Model\Resource\CountryFactory $countryFactory,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
-        $this->_coreStoreConfig = $coreStoreConfig;        
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_stringHelper = $stringHelper;
         $this->_locale = $locale;
+        $this->_countryFactory = $countryFactory;
     }
     /**
      * Foreground countries
@@ -110,7 +113,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 return $country;
             }
         }
-        return \Mage::getResourceModel('Magento\Directory\Model\Resource\Country');
+        return $this->_countryFactory->create();
     }
 
     /**
@@ -134,7 +137,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                     }
                     $this->_select->where('(' . implode(') OR (', $whereOr) . ')');
                 } else {
-                    $this->addFieldToFilter("{$iso}_code", array('in'=>$countryCode));
+                    $this->addFieldToFilter("{$iso}_code", array('in' => $countryCode));
                 }
             } else {
                 if (is_array($iso)) {
@@ -177,11 +180,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function toOptionArray($emptyLabel = ' ')
     {
-        $options = $this->_toOptionArray('country_id', 'name', array('title'=>'iso2_code'));
+        $options = $this->_toOptionArray('country_id', 'name', array('title' => 'iso2_code'));
 
         $sort = array();
         foreach ($options as $data) {
-            $name = $this->_locale->getCountryTranslation($data['value']);
+            $name = (string)$this->_locale->getCountryTranslation($data['value']);
             if (!empty($name)) {
                 $sort[$name] = $data['value'];
             }

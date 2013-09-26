@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Sales\Order\Invoice\Create" name="sales_invoice_create">
             <block class="Magento\Adminhtml\Block\Sales\Order\Invoice\Create\Form" name="form" template="sales/order/invoice/create/form.phtml">
                 <block class="Magento\Adminhtml\Block\Sales\Order\View\Info" name="order_info" template="sales/order/view/info.phtml"/>
@@ -35,7 +35,7 @@
                     <block class="Magento\Adminhtml\Block\Sales\Order\Totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"/>
                     <block class="Magento\Adminhtml\Block\Sales\Order\Invoice\Totals" name="invoice_totals" template="sales/order/totals.phtml">
                         <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Tax" name="tax" template="sales/order/totals/tax.phtml"/>
-<!--<block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="footer" template="sales/order/totals/footer.phtml">
+                        <!--<block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="footer" template="sales/order/totals/footer.phtml">
                             <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="grand" template="sales/order/totals/grand.phtml"/>
                             <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="paid" template="sales/order/totals/paid.phtml"/>
                             <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="refunded" template="sales/order/totals/refunded.phtml"/>
@@ -81,5 +81,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -17,7 +17,8 @@
  */
 namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled;
 
-class Operation extends \Magento\Backend\Block\Widget\Grid\Container
+class Operation
+    extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize block

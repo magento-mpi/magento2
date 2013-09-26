@@ -48,6 +48,6 @@ class ListView extends \Magento\Review\Block\Product\View
 
     public function getReviewUrl($id)
     {
-        return \Mage::getUrl('*/*/view', array('id' => $id));
+        return $this->getUrl('*/*/view', array('id' => $id));
     }
 }

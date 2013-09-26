@@ -16,23 +16,30 @@ class Collection
     protected $_registryManager;
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogSearch\Model\Resource\Helper\Mysql4 $resourceHelper
      * @param \Magento\Core\Model\Registry $registry
-     * @param null $resource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogSearch\Model\Resource\Helper\Mysql4 $resourceHelper,
         \Magento\Core\Model\Registry $registry,
         $resource = null
     ) {
         $this->_registryManager = $registry;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $storeManager, $resourceHelper,
+            $resource);
     }
 
     /**

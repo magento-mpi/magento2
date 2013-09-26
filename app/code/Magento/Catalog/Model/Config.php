@@ -2,19 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Catalog\Model;
 
 class Config extends \Magento\Eav\Model\Config
 {
     const XML_PATH_LIST_DEFAULT_SORT_BY     = 'catalog/frontend/default_sort_by';
-    const XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES = 'global/catalog/product/type/grouped/allow_product_types';
 
     protected $_attributeSetsById;
     protected $_attributeSetsByName;
@@ -47,8 +42,6 @@ class Config extends \Magento\Eav\Model\Config
 
     protected $_storeId = null;
 
-    const XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES = 'frontend/product/collection/attributes';
-
     /**
      * Core store config
      *
@@ -57,22 +50,14 @@ class Config extends \Magento\Eav\Model\Config
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
      * Constructor
      *
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -268,19 +253,6 @@ class Config extends \Magento\Eav\Model\Config
             $this->_productAttributes = array_keys($this->getAttributesUsedInProductListing());
         }
         return $this->_productAttributes;
-    }
-
-    /**
-     * Retrieve Product Collection Attributes from XML config file
-     * Used only for install/upgrade
-     *
-     * @return array
-     */
-    public function getProductCollectionAttributes() {
-        $attributes = $this->_coreConfig
-            ->getNode(self::XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES)
-            ->asArray();
-        return array_keys($attributes);;
     }
 
     /**

@@ -10,10 +10,6 @@
 
 /**
  * RMA Item model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Model;
 
@@ -46,6 +42,41 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     protected $_website;
 
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Set active website instance
      *
      * @param \Magento\Core\Model\Website|int $website
@@ -53,7 +84,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      */
     public function setWebsite($website)
     {
-        $this->_website = \Mage::app()->getWebsite($website);
+        $this->_website = $this->_storeManager->getWebsite($website);
         return $this;
     }
 
@@ -65,7 +96,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     public function getWebsite()
     {
         if (is_null($this->_website)) {
-            $this->_website = \Mage::app()->getWebsite();
+            $this->_website = $this->_storeManager->getWebsite();
         }
 
         return $this->_website;
@@ -86,7 +117,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      */
     protected function _afterSave()
     {
-        \Mage::getSingleton('Magento\Eav\Model\Config')->clear();
+        $this->_eavConfig->clear();
         return parent::_afterSave();
     }
 

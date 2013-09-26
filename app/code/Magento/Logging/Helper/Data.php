@@ -20,6 +20,23 @@ namespace Magento\Logging\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
+     * @var \Magento\Logging\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @param \Magento\Logging\Model\Config $config
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Logging\Model\Config $config,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_config = $config;
+        parent::__construct($context);
+    }
+
+    /**
      * Join array into string except empty values
      *
      * @param array $array Array to join
@@ -52,6 +69,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getLoggingActionTranslatedLabel($action)
     {
-        return \Mage::getSingleton('Magento\Logging\Model\Config')->getActionLabel($action);
+        return $this->_config->getActionLabel($action);
     }
 }

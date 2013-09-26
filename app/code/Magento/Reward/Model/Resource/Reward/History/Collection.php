@@ -28,6 +28,40 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_expiryConfig     = array();
 
     /**
+     * @var \Magento\Core\Model\Locale
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_locale = $locale;
+        $this->_customerFactory = $customerFactory;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+
+    /**
      * Internal constructor
      *
      */
@@ -137,7 +171,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
         $this->_joinReward();
 
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
+        $customer = $this->_customerFactory->create();
         /* @var $customer \Magento\Customer\Model\Customer */
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');
@@ -243,7 +277,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $this->addWebsiteFilter($websiteId);
 
         $field = $expiryConfig->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
-        $locale = \Mage::app()->getLocale()->getLocale();
+        $locale = $this->_locale->getLocale();
         $expireAtLimit = new \Zend_Date($locale);
         $expireAtLimit->addDay($inDays);
         $expireAtLimit = $this->formatDate($expireAtLimit);

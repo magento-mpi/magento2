@@ -65,22 +65,34 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Helper\String $coreString
+     * Query factory
+     *
+     * @var \Magento\CatalogSearch\Model\QueryFactory
+     */
+    protected $_queryFactory;
+
+    /**
+     * Construct
+     * 
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_queryFactory = $queryFactory;
         parent::__construct($context);
     }
 
@@ -102,8 +114,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getQuery()
     {
         if (!$this->_query) {
-            $this->_query = \Mage::getModel('Magento\CatalogSearch\Model\Query')
-                ->loadByQuery($this->getQueryText());
+            $this->_query = $this->_queryFactory->create()->loadByQuery($this->getQueryText());
             if (!$this->_query->getId()) {
                 $this->_query->setQueryText($this->getQueryText());
             }
@@ -181,7 +192,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         return $this->_getUrl('catalogsearch/result', array(
             '_query' => array(self::QUERY_VAR_NAME => $query),
-            '_secure' => \Mage::app()->getFrontController()->getRequest()->isSecure()
+            '_secure' => $this->_request->isSecure()
         ));
     }
 
@@ -193,7 +204,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getSuggestUrl()
     {
         return $this->_getUrl('catalogsearch/ajax/suggest', array(
-            '_secure' => \Mage::app()->getFrontController()->getRequest()->isSecure()
+            '_secure' => $this->_request->isSecure()
         ));
     }
 
@@ -335,34 +346,5 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             }
         }
         return join($separator, $_index);
-    }
-
-    /**
-     * Get current search engine resource model
-     *
-     * @return object
-     */
-    public function getEngine()
-    {
-        if (!$this->_engine) {
-            $engine = $this->_coreStoreConfig->getConfig('catalog/search/engine');
-
-            /**
-             * This needed if there already was saved in configuration some none-default engine
-             * and module of that engine was disabled after that.
-             * Problem is in this engine in database configuration still set.
-             */
-            if ($engine) {
-                $model = \Mage::getResourceSingleton($engine);
-                if ($model && $model->test()) {
-                    $this->_engine = $model;
-                }
-            }
-            if (!$this->_engine) {
-                $this->_engine = \Mage::getResourceSingleton('Magento\CatalogSearch\Model\Resource\Fulltext\Engine');
-            }
-        }
-
-        return $this->_engine;
     }
 }

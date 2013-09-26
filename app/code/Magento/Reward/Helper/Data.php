@@ -38,21 +38,59 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_ratesArray = null;
 
     /**
-     * Core store config
-     *
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @var \Magento\Core\Model\Store\Config
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
+
+    /**
+     * @var \Magento\Core\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @var \Magento\Core\Model\Locale
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\UrlFactory
+     */
+    protected $_urlFactory;
+
+    /**
+     * @var \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory
+     */
+    protected $_ratesFactory;
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_storeConfig = $storeConfig;
+        $this->_config = $config;
+        $this->_locale = $locale;
+        $this->_urlFactory = $urlFactory;
+        $this->_ratesFactory = $ratesFactory;
         parent::__construct($context);
     }
 
@@ -85,7 +123,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_ENABLED);
     }
 
     /**
@@ -97,7 +135,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isEnabledOnFront($websiteId = null)
     {
         if ($websiteId === null) {
-            $websiteId = \Mage::app()->getStore()->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
         return ($this->isEnabled() && $this->getGeneralConfig('is_enabled_on_front', (int)$websiteId));
     }
@@ -111,7 +149,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isOrderAllowed($websiteId = null)
     {
         if ($websiteId === null) {
-            $websiteId = \Mage::app()->getStore()->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
         return $allowed = (bool)(int)$this->getPointsConfig('order', $websiteId);
     }
@@ -126,8 +164,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getConfigValue($section, $field, $websiteId = null)
     {
-        $code = \Mage::app()->getWebsite($websiteId)->getCode();
-        return (string)\Mage::app()->getConfig()->getValue($section . $field, 'website', $code);
+        $code = $this->_storeManager->getWebsite($websiteId)->getCode();
+        return (string)$this->_config->getValue($section . $field, 'website', $code);
     }
 
     /**
@@ -175,7 +213,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if ($this->_expiryConfig === null) {
             $result = array();
-            foreach (\Mage::app()->getWebsites() as $website) {
+            foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId = $website->getId();
                 $result[$websiteId] = new \Magento\Object(array(
                     'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
@@ -213,8 +251,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getLandingPageUrl()
     {
-        $pageIdentifier = $this->_coreStoreConfig->getConfig(self::XML_PATH_LANDING_PAGE);
-        return \Mage::getUrl('', array('_direct' => $pageIdentifier));
+        $pageIdentifier = $this->_storeConfig->getConfig(self::XML_PATH_LANDING_PAGE);
+        return $this->_urlFactory->create()->getUrl('', array('_direct' => $pageIdentifier));
     }
 
     /**
@@ -250,7 +288,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             return  null;
         }
         return $asCurrency ?
-            \Mage::app()->getStore($storeId)->convertPrice($amount, true, false) :
+            $this->_storeManager->getStore($storeId)->convertPrice($amount, true, false) :
             sprintf('%.2F', $amount);
     }
 
@@ -295,7 +333,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if (!$currencyCode) {
             $amountFormatted = sprintf('%.2F', $amount);
         } else {
-            $amountFormatted = \Mage::app()->getLocale()->currency($currencyCode)->toCurrency((float)$amount);
+            $amountFormatted = $this->_locale->currency($currencyCode)->toCurrency((float)$amount);
         }
         return sprintf($format, $points, $amountFormatted);
     }
@@ -309,7 +347,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected function _loadRatesArray()
     {
         $ratesArray = array();
-        $collection = \Mage::getModel('Magento\Reward\Model\Reward\Rate')->getCollection()
+        $collection = $this->_ratesFactory->create()
             ->addFieldToFilter('direction', \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY);
         foreach ($collection as $rate) {
             $ratesArray[$rate->getCustomerGroupId()][$rate->getWebsiteId()] = $rate;
@@ -356,6 +394,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isAutoRefundEnabled()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_AUTO_REFUND);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_AUTO_REFUND);
     }
 }

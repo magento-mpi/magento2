@@ -32,6 +32,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $mediaConfig = $this->getMock('Magento\Catalog\Model\Product\Media\Config', array(), array(), '', false);
         $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         $this->_model = new \Magento\Catalog\Model\Product\Attribute\Backend\Media(
             $eventManager,
             $fileStorageDb,
@@ -39,6 +40,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             $mediaConfig,
             $dirs,
             $filesystem,
+            $logger,
             array('resourceModel' => $resource)
         );
     }

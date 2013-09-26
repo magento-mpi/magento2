@@ -72,7 +72,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         $this->_cmd->expects($this->any())->method('_executeCommand')->with($this->stringContains('cscript'))
             ->will($this->returnValue(array('output', 0)));
         $this->_cmd->expects($this->any())->method('_getJsHintPath')->will($this->returnValue('jshint-path'));
-        $this->_cmd->expects($this->any())->method('_fileExists')->will($this->returnCallback(function() {
+        $this->_cmd->expects($this->any())->method('_fileExists')->will($this->returnCallback(function () {
             $arg = func_get_arg(0);
             if ($arg == 'jshint-path') {
                 return true;

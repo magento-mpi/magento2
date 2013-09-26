@@ -10,8 +10,6 @@
 
 /**
  * Currency filter
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Directory\Model\Currency;
 
@@ -32,12 +30,30 @@ class Filter implements \Zend_Filter_Interface
     protected $_currency;
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param string $code
      * @param int $rate
      */
-    public function __construct($code, $rate = 1)
-    {
-        $this->_currency = \Mage::app()->getLocale()->currency($code);
+    public function __construct(
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        $code,
+        $rate = 1
+    ) {
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+        $this->_currency = $this->_locale->currency($code);
         $this->_rate = $rate;
     }
 
@@ -59,9 +75,8 @@ class Filter implements \Zend_Filter_Interface
      */
     public function filter($value)
     {
-        $value = \Mage::app()->getLocale()->getNumber($value);
-        $value = \Mage::app()->getStore()->roundPrice($this->_rate*$value);
-        //$value = round($value, 2);
+        $value = $this->_locale->getNumber($value);
+        $value = $this->_storeManager->getStore()->roundPrice($this->_rate*$value);
         $value = sprintf("%f", $value);
         return $this->_currency->toCurrency($value);
     }

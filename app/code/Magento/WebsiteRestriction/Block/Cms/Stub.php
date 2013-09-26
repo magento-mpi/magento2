@@ -21,20 +21,30 @@ class Stub extends \Magento\Cms\Block\Page
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Cms\Model\Page $page
+     * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Block\Context $context,
+        \Magento\Cms\Model\Page $page,
+        \Magento\Cms\Model\Template\FilterProvider $filterProvider,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        parent::__construct($context, $page, $filterProvider, $storeManager, $pageFactory, $data);
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $data);
     }
 
     /**
@@ -48,8 +58,7 @@ class Stub extends \Magento\Cms\Block\Page
         if (!$this->hasData('page')) {
             $page = $this->_coreRegistry->registry('restriction_landing_page');
             if (!$page) {
-                $page = \Mage::getModel('Magento\Cms\Model\Page')
-                    ->load($this->getPageIdentifier(), 'identifier');
+                $page = $this->_pageFactory->create()->load($this->getPageIdentifier(), 'identifier');
             }
             $this->setData('page', $page);
         }

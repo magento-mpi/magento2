@@ -19,62 +19,6 @@
                 </setup>
             </bundle_setup>
         </resources>
-        <catalog>
-            <product>
-                <type>
-                    <bundle translate="label">
-                        <label>Bundle Product</label>
-                        <model>Magento\Bundle\Model\Product\Type</model>
-                        <composite>1</composite>
-                        <allowed_selection_types>
-                            <simple />
-                            <virtual />
-                        </allowed_selection_types>
-                        <price_model>Magento\Bundle\Model\Product\Price</price_model>
-                        <index_priority>40</index_priority>
-                        <price_indexer>Magento\Bundle\Model\Resource\Indexer\Price</price_indexer>
-                        <stock_indexer>Magento\Bundle\Model\Resource\Indexer\Stock</stock_indexer>
-                    </bundle>
-                </type>
-                <options>
-                    <bundle>
-                        <types>
-                            <select translate="label">
-                                <label>Drop-down</label>
-                            </select>
-                            <radio translate="label">
-                                <label>Radio Buttons</label>
-                            </radio>
-                            <checkbox translate="label">
-                                <label>Checkbox</label>
-                            </checkbox>
-                            <multi translate="label">
-                                <label>Multiple Select</label>
-                            </multi>
-                        </types>
-                    </bundle>
-                </options>
-                <attributes>
-                    <unassignable>
-                        <price_type />
-                        <price_view />
-                    </unassignable>
-                </attributes>
-            </product>
-        </catalog>
-        <sales>
-            <quote>
-                <item>
-                    <product_attributes>
-                        <price_view />
-                        <price_type />
-                        <shipment_type />
-                        <weight_type />
-                        <sku_type />
-                    </product_attributes>
-                </item>
-            </quote>
-        </sales>
         <pdf>
             <invoice>
                 <bundle>Magento\Bundle\Model\Sales\Order\Pdf\Items\Invoice</bundle>
@@ -87,16 +31,6 @@
             </creditmemo>
         </pdf>
     </global>
-    <frontend>
-        <product>
-            <collection>
-                <attributes>
-                    <price_view />
-                    <price_type />
-                </attributes>
-            </collection>
-        </product>
-    </frontend>
     <adminhtml>
         <sales>
             <order>

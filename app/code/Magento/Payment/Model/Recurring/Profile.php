@@ -10,7 +10,7 @@
 
 /**
  * Recurring payment profile
- * Extends from Magento_Core_Abstract for a reason: to make descendants have its own resource
+ * Extends from \Magento\Core\Abstract for a reason: to make descendants have its own resource
  */
 namespace Magento\Payment\Model\Recurring;
 
@@ -178,6 +178,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
      * @param bool $isGrouped
      * @param bool $asMessage
      * @return array
+     * @throws \Magento\Core\Exception
      */
     public function getValidationErrors($isGrouped = true, $asMessage = false)
     {
@@ -187,9 +188,8 @@ class Profile extends \Magento\Core\Model\AbstractModel
                 $result[] = implode(' ', $row);
             }
             if ($asMessage) {
-                return \Mage::throwException(
-                    __("The payment profile is invalid:\n%1.", implode("\n", $result))
-                );
+                throw new \Magento\Core\Exception(__("The payment profile is invalid:\n%1.",
+                    implode("\n", $result)));
             }
             return $result;
         }
@@ -229,7 +229,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
             $dateFormat = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             $localeCode = $this->_locale->getLocaleCode();
             if (!\Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
-                \Mage::throwException(__('The recurring profile start date has invalid format.'));
+                throw new \Magento\Core\Exception(__('The recurring profile start date has invalid format.'));
             }
             $utcTime = $this->_locale->utcDate($this->_store, $startDate, true, $dateFormat)
                 ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
@@ -620,12 +620,10 @@ class Profile extends \Magento\Core\Model\AbstractModel
     protected function _validateBeforeSave()
     {
         if (!$this->isValid()) {
-            \Mage::throwException($this->getValidationErrors(true, true));
+            throw new \Magento\Core\Exception($this->getValidationErrors(true, true));
         }
         if (!$this->getInternalReferenceId()) {
-            \Mage::throwException(
-                __('An internal reference ID is required to save the payment profile.')
-            );
+            throw new \Magento\Core\Exception(__('An internal reference ID is required to save the payment profile.'));
         }
     }
 

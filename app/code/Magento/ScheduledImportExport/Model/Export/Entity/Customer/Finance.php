@@ -50,7 +50,7 @@ class Finance
      *
      * @var array
      */
-    protected $_frontendWebsiteIdToCode = array();
+    protected $_websiteIdToCode = array();
 
     /**
      * Array of attributes for export
@@ -88,23 +88,34 @@ class Finance
     protected $_importExportData;
 
     /**
+     * @var \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory
+     */
+    protected $_customerCollFactory;
+
+    /**
+     * @var \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory
+     */
+    protected $_eavCustomerFactory;
+
+    /**
+     * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory
+     * @param \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory,
+        \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         parent::__construct($coreStoreConfig, $data);
 
-        $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : \Mage::getResourceModel('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
-        $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
-            : \Mage::getModel('Magento\ImportExport\Model\Export\Entity\Eav\Customer');
-        $this->_importExportData = isset($data['module_helper']) ? $data['module_helper']
-            : $importExportData;
+        $this->_customerCollFactory = $customerCollFactory;
+        $this->_eavCustomerFactory = $eavCustomerFactory;
+        $this->_importExportData = $importExportData;
 
         $this->_initFrontendWebsites()
             ->_initWebsites(true);
@@ -120,7 +131,7 @@ class Finance
     {
         /** @var $website \Magento\Core\Model\Website */
         foreach ($this->_websiteManager->getWebsites() as $website) {
-            $this->_frontendWebsiteIdToCode[$website->getId()] = $website->getCode();
+            $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
         return $this;
     }
@@ -132,6 +143,9 @@ class Finance
      */
     protected function _getEntityCollection()
     {
+        if (empty($this->_customerCollection)) {
+            $this->_customerCollection = $this->_customerCollFactory->create();
+        }
         return $this->_customerCollection;
     }
 
@@ -179,7 +193,7 @@ class Finance
     {
         $validAttributeCodes = $this->_getEntityAttributes();
 
-        foreach ($this->_frontendWebsiteIdToCode as $websiteCode) {
+        foreach ($this->_websiteIdToCode as $websiteCode) {
             $row = array();
             foreach ($validAttributeCodes as $code) {
                 $attributeCode = $websiteCode . '_' . $code;
@@ -207,6 +221,9 @@ class Finance
      */
     public function setParameters(array $parameters)
     {
+        if (empty($this->_customerEntity)) {
+            $this->_customerEntity = $this->_eavCustomerFactory->create();
+        }
         //  push filters from post into export customer model
         $this->_customerEntity->setParameters($parameters);
         $this->_customerEntity->filterEntityCollection($this->_getEntityCollection());

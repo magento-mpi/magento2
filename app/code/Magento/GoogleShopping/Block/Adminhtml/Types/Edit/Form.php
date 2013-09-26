@@ -14,7 +14,7 @@
 
 namespace Magento\GoogleShopping\Block\Adminhtml\Types\Edit;
 
-class Form extends \Magento\Backend\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * @var \Magento\GoogleShopping\Helper\Category|null
@@ -39,28 +39,28 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\GoogleShopping\Helper\Category $googleShoppingCategory
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\GoogleShopping\Helper\Category $googleShoppingCategory,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_googleShoppingCategory = $googleShoppingCategory;
         $this->_elementFactory = $elementFactory;
         $this->_formFactory = $formFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**

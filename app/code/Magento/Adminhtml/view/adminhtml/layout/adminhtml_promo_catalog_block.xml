@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.promo.catalog.grid.container">
+    <referenceBlock name="adminhtml.promo.catalog.grid.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="promo.catalog.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">promo_catalog_grid</argument>
@@ -82,52 +82,6 @@
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column\Multistore" as="rule_website">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Rule</argument>
-                            <argument name="align" xsi:type="string">left</argument>
-                            <argument name="index" xsi:type="string">name</argument>
-                            <argument name="type" xsi:type="string">text</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="from_date">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Start on</argument>
-                            <argument name="align" xsi:type="string">left</argument>
-                            <argument name="width" xsi:type="string">120</argument>
-                            <argument name="type" xsi:type="string">date</argument>
-                            <argument name="index" xsi:type="string">from_date</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="to_date">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">End on</argument>
-                            <argument name="align" xsi:type="string">left</argument>
-                            <argument name="width" xsi:type="string">120</argument>
-                            <argument name="type" xsi:type="string">date</argument>
-                            <argument name="default" xsi:type="string">--</argument>
-                            <argument name="index" xsi:type="string">to_date</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="is_active">
-                        <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Status</argument>
-                            <argument name="align" xsi:type="string">left</argument>
-                            <argument name="width" xsi:type="string">80</argument>
-                            <argument name="index" xsi:type="string">is_active</argument>
-                            <argument name="type" xsi:type="string">options</argument>
-                            <argument name="options" xsi:type="array">
-                                <item name="active" xsi:type="array">
-                                    <item name="value" xsi:type="string">1</item>
-                                    <item name="label" xsi:type="string" translate="true">Active</item>
-                                </item>
-                                <item name="inactive" xsi:type="array">
-                                    <item name="value" xsi:type="string">0</item>
-                                    <item name="label" xsi:type="string" translate="true">Inactive</item>
-                                </item>
-                            </argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento\Backend\Block\Widget\Grid\Column\Multistore" as="rule_website">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Web Site</argument>
                         <argument name="align" xsi:type="string">left</argument>
@@ -140,5 +94,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

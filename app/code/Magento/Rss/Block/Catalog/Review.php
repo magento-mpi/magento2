@@ -10,10 +10,6 @@
 
 /**
  * Review form block
- *
- * @category   Magento
- * @package    Magento_Rss
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rss\Block\Catalog;
 
@@ -34,19 +30,51 @@ class Review extends \Magento\Core\Block\AbstractBlock
     protected $_adminhtmlData = null;
 
     /**
+     * @var \Magento\Rss\Model\RssFactory
+     */
+    protected $_rssFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Iterator
+     */
+    protected $_resourceIterator;
+
+    /**
+     * @var \Magento\Review\Model\ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Rss\Helper\Data $rssData
      * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Rss\Helper\Data $rssData,
         \Magento\Core\Block\Context $context,
+        \Magento\Rss\Model\RssFactory $rssFactory,
+        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
         $this->_rssData = $rssData;
+        $this->_rssFactory = $rssFactory;
+        $this->_resourceIterator = $resourceIterator;
+        $this->_reviewFactory = $reviewFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($context, $data);
     }
 
@@ -57,21 +85,21 @@ class Review extends \Magento\Core\Block\AbstractBlock
      */
     protected function _toHtml()
     {
-        $newUrl = \Mage::getUrl('rss/catalog/review');
+        $newUrl = $this->_urlBuilder->getUrl('rss/catalog/review');
         $title = __('Pending product review(s)');
         $this->_rssData->disableFlat();
 
-        $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
-        $data = array(
+        /** @var $rssObj \Magento\Rss\Model\Rss */
+        $rssObj = $this->_rssFactory->create();
+        $rssObj->_addHeader(array(
             'title' => $title,
             'description' => $title,
             'link'        => $newUrl,
             'charset'     => 'UTF-8',
-        );
-        $rssObj->_addHeader($data);
+        ));
 
-        $reviewModel = \Mage::getModel('Magento\Review\Model\Review');
-
+        /** @var $reviewModel \Magento\Review\Model\Review */
+        $reviewModel = $this->_reviewFactory->create();
         $collection = $reviewModel->getProductCollection()
             ->addStatusFilter($reviewModel->getPendingStatus())
             ->addAttributeToSelect('name', 'inner')
@@ -79,10 +107,11 @@ class Review extends \Magento\Core\Block\AbstractBlock
 
         $this->_eventManager->dispatch('rss_catalog_review_collection_select', array('collection' => $collection));
 
-        \Mage::getSingleton('Magento\Core\Model\Resource\Iterator')->walk(
+        $this->_resourceIterator->walk(
             $collection->getSelect(),
             array(array($this, 'addReviewItemXmlCallback')),
-            array('rssObj'=> $rssObj, 'reviewModel'=> $reviewModel));
+            array('rssObj' => $rssObj, 'reviewModel' => $reviewModel)
+        );
         return $rssObj->createRssXml();
     }
 
@@ -94,29 +123,28 @@ class Review extends \Magento\Core\Block\AbstractBlock
      */
     public function addReviewItemXmlCallback($args)
     {
+        /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $args['rssObj'];
         $row = $args['row'];
 
-        $store = \Mage::app()->getStore($row['store_id']);
-        $urlModel = \Mage::getModel('Magento\Core\Model\Url')->setStore($store);
-        $productUrl = $urlModel->getUrl('catalog/product/view', array('id' => $row['entity_id']));
+        $store = $this->_storeManager->getStore($row['store_id']);
+        $productUrl = $store->getUrl('catalog/product/view', array('id' => $row['entity_id']));
         $reviewUrl = $this->_adminhtmlData->getUrl(
             'adminhtml/catalog_product_review/edit/',
-            array('id' => $row['review_id'], '_secure' => true, '_nosecret' => true));
-        $storeName = $store->getName();
-
-        $description = '<p>'
-                     . __('Product: <a href="%1">%2</a> <br/>', $productUrl, $row['name'])
-                     . __('Summary of review: %1 <br/>', $row['title'])
-                     . __('Review: %1 <br/>', $row['detail'])
-                     . __('Store: %1 <br/>', $storeName )
-                     . __('Click <a href="%1">here</a> to view the review.', $reviewUrl)
-                     . '</p>';
-        $data = array(
-            'title'         => __('Product: "%1" review By: %2', $row['name'], $row['nickname']),
-            'link'          => 'test',
-            'description'   => $description,
+            array('id' => $row['review_id'], '_secure' => true, '_nosecret' => true)
         );
-        $rssObj->_addEntry($data);
+        $storeName = $store->getName();
+        $description = '<p>'
+             . __('Product: <a href="%1">%2</a> <br/>', $productUrl, $row['name'])
+             . __('Summary of review: %1 <br/>', $row['title'])
+             . __('Review: %1 <br/>', $row['detail'])
+             . __('Store: %1 <br/>', $storeName )
+             . __('Click <a href="%1">here</a> to view the review.', $reviewUrl)
+             . '</p>';
+        $rssObj->_addEntry(array(
+            'title'       => __('Product: "%1" review By: %2', $row['name'], $row['nickname']),
+            'link'        => 'test',
+            'description' => $description,
+        ));
     }
 }

@@ -31,21 +31,24 @@ class Collection extends \Magento\Rating\Model\Resource\Rating\Collection
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Resource\Db\Abstract $resource
-     * @param array $data
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
-        $data = array()
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource, $data);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $storeManager, $ratingCollectionF,
+            $resource);
     }
 
     /**

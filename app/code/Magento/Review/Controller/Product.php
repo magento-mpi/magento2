@@ -34,14 +34,102 @@ class Product extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_urlModel;
+
+    /**
+     * @var \Magento\Review\Model\Session
+     */
+    protected $_reviewSession;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @var \Magento\Core\Model\Logger
+     */
+    protected $_logger;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Review\Model\ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @var \Magento\Rating\Model\RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * @var \Magento\Catalog\Model\Design
+     */
+    protected $_catalogDesign;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\UrlInterface $urlModel
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Catalog\Model\Design $catalogDesign
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\UrlInterface $urlModel,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Core\Model\Session $session,
+        \Magento\Catalog\Model\Design $catalogDesign
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_customerSession = $customerSession;
+        $this->_urlModel = $urlModel;
+        /** @todo Should be fixed in scope of MAGETWO-14639 */
+        $this->_reviewSession = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Review\Model\Session');
+        $this->_storeManager = $storeManager;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_logger = $logger;
+        $this->_productFactory = $productFactory;
+        $this->_reviewFactory = $reviewFactory;
+        $this->_ratingFactory = $ratingFactory;
+        $this->_session = $session;
+        $this->_catalogDesign = $catalogDesign;
+
         parent::__construct($context);
     }
 
@@ -56,11 +144,10 @@ class Product extends \Magento\Core\Controller\Front\Action
 
         $action = $this->getRequest()->getActionName();
         if (!$allowGuest && $action == 'post' && $this->getRequest()->isPost()) {
-            if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            if (!$this->_customerSession->isLoggedIn()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-                \Mage::getSingleton('Magento\Customer\Model\Session')
-                    ->setBeforeAuthUrl(\Mage::getUrl('*/*/*', array('_current' => true)));
-                \Mage::getSingleton('Magento\Review\Model\Session')
+                $this->_customerSession->setBeforeAuthUrl($this->_urlModel->getUrl('*/*/*', array('_current' => true)));
+                $this->_reviewSession
                     ->setFormData($this->getRequest()->getPost())
                     ->setRedirectUrl($this->_getRefererUrl());
                 $this->_redirectUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl());
@@ -86,7 +173,7 @@ class Product extends \Magento\Core\Controller\Front\Action
         }
 
         if ($categoryId) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
+            $category = $this->_categoryFactory->create()->load($categoryId);
             $this->_coreRegistry->register('current_category', $category);
         }
 
@@ -97,7 +184,7 @@ class Product extends \Magento\Core\Controller\Front\Action
                 'controller_action' => $this
             ));
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_logger->logException($e);
             return false;
         }
 
@@ -117,8 +204,8 @@ class Product extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $product = \Mage::getModel('Magento\Catalog\Model\Product')
-            ->setStoreId(\Mage::app()->getStore()->getId())
+        $product = $this->_productFactory->create()
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($productId);
         /* @var $product \Magento\Catalog\Model\Product */
         if (!$product->getId() || !$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
@@ -144,9 +231,9 @@ class Product extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $review = \Mage::getModel('Magento\Review\Model\Review')->load($reviewId);
+        $review = $this->_reviewFactory->create()->load($reviewId);
         /* @var $review \Magento\Review\Model\Review */
-        if (!$review->getId() || !$review->isApproved() || !$review->isAvailableOnStore(\Mage::app()->getStore())) {
+        if (!$review->getId() || !$review->isApproved() || !$review->isAvailableOnStore($this->_storeManager->getStore())) {
             return false;
         }
 
@@ -160,7 +247,7 @@ class Product extends \Magento\Core\Controller\Front\Action
      */
     public function postAction()
     {
-        $data = \Mage::getSingleton('Magento\Review\Model\Session')->getFormData(true);
+        $data = $this->_reviewSession->getFormData(true);
         if ($data) {
             $rating = array();
             if (isset($data['ratings']) && is_array($data['ratings'])) {
@@ -172,9 +259,9 @@ class Product extends \Magento\Core\Controller\Front\Action
         }
 
         if (($product = $this->_initProduct()) && !empty($data)) {
-            $session    = \Mage::getSingleton('Magento\Core\Model\Session');
+            $session    = $this->_session;
             /* @var $session \Magento\Core\Model\Session */
-            $review     = \Mage::getModel('Magento\Review\Model\Review')->setData($data);
+            $review     = $this->_reviewFactory->create()->setData($data);
             /* @var $review \Magento\Review\Model\Review */
 
             $validate = $review->validate();
@@ -183,16 +270,16 @@ class Product extends \Magento\Core\Controller\Front\Action
                     $review->setEntityId($review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE))
                         ->setEntityPkValue($product->getId())
                         ->setStatusId(\Magento\Review\Model\Review::STATUS_PENDING)
-                        ->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
-                        ->setStoreId(\Mage::app()->getStore()->getId())
-                        ->setStores(array(\Mage::app()->getStore()->getId()))
+                        ->setCustomerId($this->_customerSession->getCustomerId())
+                        ->setStoreId($this->_storeManager->getStore()->getId())
+                        ->setStores(array($this->_storeManager->getStore()->getId()))
                         ->save();
 
                     foreach ($rating as $ratingId => $optionId) {
-                        \Mage::getModel('Magento\Rating\Model\Rating')
+                        $this->_ratingFactory->create()
                         ->setRatingId($ratingId)
                         ->setReviewId($review->getId())
-                        ->setCustomerId(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
+                        ->setCustomerId($this->_customerSession->getCustomerId())
                         ->addOptionVote($optionId, $product->getId());
                     }
 
@@ -214,7 +301,7 @@ class Product extends \Magento\Core\Controller\Front\Action
             }
         }
 
-        $redirectUrl = \Mage::getSingleton('Magento\Review\Model\Session')->getRedirectUrl(true);
+        $redirectUrl = $this->_reviewSession->getRedirectUrl(true);
         if ($redirectUrl) {
             $this->_redirectUrl($redirectUrl);
             return;
@@ -232,7 +319,7 @@ class Product extends \Magento\Core\Controller\Front\Action
         if ($product) {
             $this->_coreRegistry->register('productId', $product->getId());
 
-            $design = \Mage::getSingleton('Magento\Catalog\Model\Design');
+            $design = $this->_catalogDesign;
             $settings = $design->getDesignSettings($product);
             if ($settings->getCustomDesign()) {
                 $design->applyCustomDesign($settings->getCustomDesign());

@@ -1,54 +1,43 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Bundle
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Bundle Option Type Source Model
  *
- * @category   Magento
- * @package    Magento_Bundle
- * @author     Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 namespace Magento\Bundle\Model\Source\Option;
 
 class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
-    const BUNDLE_OPTIONS_TYPES_PATH = 'global/catalog/product/options/bundle/types';
+    /**
+     * @var array
+     */
+    protected $_options = array();
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @param array $options
      */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
-     * @param \Magento\Core\Model\Config $coreConfig
-     */
-    public function __construct(
-        \Magento\Core\Model\Config $coreConfig
-    ) {
-        $this->_coreConfig = $coreConfig;
+    public function __construct(array $options)
+    {
+        $this->_options = $options;
     }
 
+    /**
+     * Get Bundle Option Type
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         $types = array();
-
-        foreach ($this->_coreConfig->getNode(self::BUNDLE_OPTIONS_TYPES_PATH)->children() as $type) {
-            $labelPath = self::BUNDLE_OPTIONS_TYPES_PATH . '/' . $type->getName() . '/label';
+        foreach ($this->_options as $value => $label) {
             $types[] = array(
-                'label' => (string) $this->_coreConfig->getNode($labelPath),
-                'value' => $type->getName()
+                'label' => $label,
+                'value' => $value
             );
         }
-
         return $types;
     }
 }

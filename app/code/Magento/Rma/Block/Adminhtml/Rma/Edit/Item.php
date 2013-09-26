@@ -10,10 +10,6 @@
 
 /**
  * User-attributes block for RMA Item  in Admin RMA edit
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
 
@@ -24,14 +20,26 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @var \Magento\Rma\Helper\Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
 
     /**
+     * @var \Magento\Rma\Model\Item\FormFactory
+     */
+    protected $_itemFormFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
+     * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
@@ -40,9 +48,13 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
+        \Magento\Sales\Model\Order\ItemFactory $itemFactory,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
+        $this->_itemFormFactory = $itemFormFactory;
+        $this->_itemFactory = $itemFactory;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -65,8 +77,8 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
             $this->_populateItemWithProductData($item);
         }
 
-        /* @var $customerForm \Magento\Customer\Model\Form */
-        $customerForm = \Mage::getModel('Magento\Rma\Model\Item\Form');
+        /* @var $customerForm \Magento\Rma\Model\Item\Form */
+        $customerForm = $this->_itemFormFactory->create();
         $customerForm->setEntity($item)
             ->setFormCode('default')
             ->initDefaultValues();
@@ -156,7 +168,8 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _populateItemWithProductData($item)
     {
         if ($this->getProductId()) {
-            $orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item')->load($this->getProductId());
+            /** @var $orderItem \Magento\Sales\Model\Order\Item */
+            $orderItem = $this->_itemFactory->create()->load($this->getProductId());
             if ($orderItem && $orderItem->getId()) {
                 $item->setProductAdminName($this->_rmaData->getAdminProductName($orderItem));
             }

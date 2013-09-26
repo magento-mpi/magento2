@@ -10,10 +10,6 @@
 
 /**
  * Address Total Collector model
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Quote\Address\Total;
 
@@ -65,28 +61,38 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     protected $_coreConfig;
 
     /**
+     * @var \Magento\Sales\Model\Quote\Address\TotalFactory
+     */
+    protected $_totalFactory;
+
+    /**
      * Init corresponding total models
      *
-     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\Quote\Address\TotalFactory $totalFactory
      * @param \Magento\Core\Model\Store|null $store
+     * @param \Magento\Simplexml\Element|null $sourceData
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
-        $store = null
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\Quote\Address\TotalFactory $totalFactory,
+        $store = null,
+        $sourceData = null
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
-        parent::__construct($logger, $configCacheType);
-        $this->_store = $store ?: \Mage::app()->getStore();
-        $this->_initModels()
-            ->_initCollectors()
-            ->_initRetrievers();
+        $this->_totalFactory = $totalFactory;
+        parent::__construct($configCacheType, $logger, $sourceData);
+        $this->_store = $store ?: $storeManager->getStore();
+        $this->_initModels()->_initCollectors()->_initRetrievers();
     }
 
     /**
@@ -116,13 +122,14 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
      * @param string $totalCode
      * @param array $totalConfig
      * @return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+     * @throws \Magento\Core\Exception
      */
     protected function _initModelInstance($class, $totalCode, $totalConfig)
     {
-        $model = \Mage::getModel($class);
+        $model = $this->_totalFactory->create($class);
         if (!$model instanceof \Magento\Sales\Model\Quote\Address\Total\AbstractTotal) {
-            \Mage::throwException(
-                __('The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\AbstractTotal.')
+            throw new \Magento\Core\Exception(
+                __('The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\Abstract.')
             );
         }
 

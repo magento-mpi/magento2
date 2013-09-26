@@ -76,9 +76,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
-        $helper = $this->_coreData;
         $urlPart = "{$key}:{$model->$method()}:{$model->getProtectCode()}";
-        $param = array('hash' => $helper->urlEncode($urlPart));
+        $param = array('hash' => $this->_coreData->urlEncode($urlPart));
 
         $storeModel = \Mage::app()->getStore($model->getStoreId());
         return $storeModel->getUrl('shipping/tracking/popup', $param);
@@ -112,6 +111,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         return $this->_getUrl('shipping/tracking/ajax');
     }
 
+    /**
+     * @param $method
+     * @param null $storeId
+     * @return bool
+     */
     public function isFreeMethod($method, $storeId = null)
     {
         $arr = explode('_', $method, 2);

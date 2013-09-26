@@ -46,16 +46,6 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
 
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 
-        $config = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
-        $config->expects($this->any())
-            ->method('getNode')
-            ->with(\Magento\Core\Model\Design\FileResolution\StrategyPool::XML_PATH_ALLOW_MAP_UPDATE)
-            ->will($this->returnValue('1'));
-        $this->_objectManager->expects($this->any())
-            ->method('get')
-            ->with('Magento\Core\Model\Config')
-            ->will($this->returnValue($config));
-
         $this->_model = new \Magento\Core\Model\Design\FileResolution\StrategyPool($this->_objectManager,
             $this->_appState, $this->_dirs, $this->_filesystem);
     }
@@ -82,8 +72,7 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
                 'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
                 array(
                     'mapDir' => $mapDir,
-                    'baseDir' => 'base_dir',
-                    'canSaveMap' => true
+                    'baseDir' => 'base_dir'
                 ),
                 $strategy
             ),

@@ -286,10 +286,6 @@
  * @method \Magento\Sales\Model\Order setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Order setBaseShippingInclTax(float $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model;
 
@@ -383,7 +379,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     protected $_canSendNewEmailFlag = true;
 
-    /*
+    /**
      * Identifier for history item
      *
      * @var string
@@ -426,6 +422,81 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Sales\Model\ResourceFactory
+     */
+    protected $_resourceFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Config
+     */
+    protected $_orderConfig;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Core\Model\Email\Template\MailerFactory
+     */
+    protected $_templateMailerFactory;
+
+    /**
+     * @var \Magento\Core\Model\Email\InfoFactory
+     */
+    protected $_emailInfoFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
+     */
+    protected $_orderItemCollFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var \Magento\Tax\Model\Calculation
+     */
+    protected $_taxCalculation;
+
+    /**
+     * @var \Magento\Sales\Model\Service\OrderFactory
+     */
+    protected $_serviceOrderFactory;
+
+    /**
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Status\HistoryFactory
+     */
+    protected $_orderHistoryFactory;
+
+    /**
+     * @var \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory
+     */
+    protected $_orderTaxCollFactory;
+
+    /**
+     * @var \Magento\Sales\Model\CarrierFactory
+     */
+    protected $_carrierFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Helper\Data $paymentData
@@ -433,9 +504,27 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory
+     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Sales\Model\Order\Status\HistoryFactory $orderHistoryFactory
+     * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollFactory
+     * @param \Magento\Sales\Model\CarrierFactory $carrierFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -445,6 +534,22 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\ResourceFactory $resourceFactory,
+        \Magento\Sales\Model\Order\Config $orderConfig,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory,
+        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollFactory,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Sales\Model\Order\Status\HistoryFactory $orderHistoryFactory,
+        \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollFactory,
+        \Magento\Sales\Model\CarrierFactory $carrierFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -454,7 +559,22 @@ class Order extends \Magento\Sales\Model\AbstractModel
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
+        $this->_resourceFactory = $resourceFactory;
+        $this->_orderConfig = $orderConfig;
+        $this->_productFactory = $productFactory;
+        $this->_templateMailerFactory = $templateMailerFactory;
+        $this->_emailInfoFactory = $emailInfoFactory;
+        $this->_orderItemCollFactory = $orderItemCollFactory;
+        $this->_productVisibility = $productVisibility;
+        $this->_taxCalculation = $taxCalculation;
+        $this->_serviceOrderFactory = $serviceOrderFactory;
+        $this->_currencyFactory = $currencyFactory;
+        $this->_eavConfig = $eavConfig;
+        $this->_orderHistoryFactory = $orderHistoryFactory;
+        $this->_orderTaxCollFactory = $orderTaxCollFactory;
+        $this->_carrierFactory = $carrierFactory;
+        parent::__construct($context, $registry, $coreLocale, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -471,7 +591,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param string $key data key
      * @return \Magento\Sales\Model\Order
      */
-    public function unsetData($key=null)
+    public function unsetData($key = null)
     {
         parent::unsetData($key);
         if (is_null($key)) {
@@ -562,9 +682,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
     {
         $storeId = $this->getStoreId();
         if ($storeId) {
-            return \Mage::app()->getStore($storeId);
+            return $this->_storeManager->getStore($storeId);
         }
-        return \Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**
@@ -838,7 +958,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
              *
              */
             /*
-            $productsCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+            $productsCollection = $this->_productFactory->create()->getCollection()
                 ->setStoreId($this->getStoreId())
                 ->addIdFilter($products)
                 ->addAttributeToSelect('status')
@@ -852,7 +972,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
             */
 
             foreach ($products as $productId) {
-                $product = \Mage::getModel('Magento\Catalog\Model\Product')
+                $product = $this->_productFactory->create()
                     ->setStoreId($this->getStoreId())
                     ->load($productId);
                 if (!$product->getId() || (!$ignoreSalable && !$product->isSalable())) {
@@ -908,7 +1028,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     public function getConfig()
     {
-        return \Mage::getSingleton('Magento\Sales\Model\Order\Config');
+        return $this->_orderConfig;
     }
 
     /**
@@ -1024,16 +1144,17 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param string|bool $status
      * @param string $comment
      * @param bool $isCustomerNotified
-     * @param $shouldProtectState
+     * @param bool $shouldProtectState
      * @return \Magento\Sales\Model\Order
+     * @throws \Magento\Core\Exception
      */
     protected function _setState($state, $status = false, $comment = '',
-        $isCustomerNotified = null, $shouldProtectState = false)
-    {
+        $isCustomerNotified = null, $shouldProtectState = false
+    ) {
         // attempt to set the specified state
         if ($shouldProtectState) {
             if ($this->isStateProtected($state)) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('The Order State "%1" must not be set manually.', $state)
                 );
             }
@@ -1085,17 +1206,16 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     public function addStatusToHistory($status, $comment = '', $isCustomerNotified = false)
     {
-        $history = $this->addStatusHistoryComment($comment, $status)
-            ->setIsCustomerNotified($isCustomerNotified);
+        $this->addStatusHistoryComment($comment, $status)->setIsCustomerNotified($isCustomerNotified);
         return $this;
     }
 
-    /*
+    /**
      * Add a comment to order
      * Different or default status may be specified
      *
      * @param string $comment
-     * @param string $status
+     * @param bool|string $status
      * @return \Magento\Sales\Model\Order\Status\History
      */
     public function addStatusHistoryComment($comment, $status = false)
@@ -1107,7 +1227,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         } else {
             $this->setStatus($status);
         }
-        $history = \Mage::getModel('Magento\Sales\Model\Order\Status\History')
+        $history = $this->_orderHistoryFactory->create()
             ->setStatus($status)
             ->setComment($comment)
             ->setEntityName($this->_historyEntityName);
@@ -1118,10 +1238,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Overrides entity id, which will be saved to comments history status
      *
-     * @param string $status
+     * @param string $entityName
      * @return \Magento\Sales\Model\Order
      */
-    public function setHistoryEntityName( $entityName )
+    public function setHistoryEntityName($entityName)
     {
         $this->_historyEntityName = $entityName;
         return $this;
@@ -1140,10 +1260,14 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @return $this
+     * @throws \Magento\Core\Exception
+     */
     public function hold()
     {
         if (!$this->canHold()) {
-            \Mage::throwException(__('A hold action is not available.'));
+            throw new \Magento\Core\Exception(__('A hold action is not available.'));
         }
         $this->setHoldBeforeState($this->getState());
         $this->setHoldBeforeStatus($this->getStatus());
@@ -1160,7 +1284,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function unhold()
     {
         if (!$this->canUnhold()) {
-            \Mage::throwException(__('You cannot remove the hold.'));
+            throw new \Magento\Core\Exception(__('You cannot remove the hold.'));
         }
         $this->setState($this->getHoldBeforeState(), $this->getHoldBeforeStatus());
         $this->setHoldBeforeState(null);
@@ -1224,7 +1348,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
             $this->_setState($cancelState, true, $comment);
         } elseif (!$graceful) {
-            \Mage::throwException(__('We cannot cancel this order.'));
+            throw new \Magento\Core\Exception(__('We cannot cancel this order.'));
         }
         return $this;
     }
@@ -1257,10 +1381,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
              */
             $method = $this->getShippingMethod(true);
             if ($method instanceof \Magento\Object) {
-                $className = $this->_coreStoreConfig->getConfig('carriers/' . $method->getCarrierCode() . '/model');
-                if ($className) {
-                    $carrierModel = \Mage::getModel($className);
-                }
+                $carrierModel = $this->_carrierFactory->create($method->getCarrierCode());
             }
             $this->setData('shipping_carrier', $carrierModel);
         }
@@ -1314,8 +1435,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
             $customerName = $this->getCustomerName();
         }
 
-        $mailer = \Mage::getModel('Magento\Core\Model\Email\Template\Mailer');
-        $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
+        $mailer = $this->_templateMailerFactory->create();
+        $emailInfo = $this->_emailInfoFactory->create();
         $emailInfo->addTo($this->getCustomerEmail(), $customerName);
         if ($copyTo && $copyMethod == 'bcc') {
             // Add bcc to customer email
@@ -1328,7 +1449,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
+                $emailInfo = $this->_emailInfoFactory->create();
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -1383,9 +1504,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
             $customerName = $this->getCustomerName();
         }
 
-        $mailer = \Mage::getModel('Magento\Core\Model\Email\Template\Mailer');
+        $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
-            $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
+            $emailInfo = $this->_emailInfoFactory->create();
             $emailInfo->addTo($this->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -1400,7 +1521,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         // 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
+                $emailInfo = $this->_emailInfoFactory->create();
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -1421,6 +1542,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @param string $configPath
+     * @return array|bool
+     */
     protected function _getEmails($configPath)
     {
         $data = $this->_coreStoreConfig->getConfig($configPath, $this->getStoreId());
@@ -1430,7 +1555,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return false;
     }
 
-/*********************** ADDRESSES ***************************/
+    /*********************** ADDRESSES ***************************/
 
     /**
      * @return \Magento\Sales\Model\Resource\Order\Address\Collection
@@ -1438,7 +1563,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getAddressesCollection()
     {
         if (is_null($this->_addresses)) {
-            $this->_addresses = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Address\Collection')
+            $this->_addresses = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Address\Collection')
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
@@ -1461,6 +1586,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return false;
     }
 
+    /**
+     * @param \Magento\Sales\Model\Order\Address $address
+     * @return $this
+     */
     public function addAddress(\Magento\Sales\Model\Order\Address $address)
     {
         $address->setOrder($this)->setParentId($this->getId());
@@ -1479,7 +1608,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getItemsCollection($filterByTypes = array(), $nonChildrenOnly = false)
     {
         if (is_null($this->_items)) {
-            $this->_items = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Item\Collection')
+            $this->_items = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Item\Collection')
                 ->setOrderFilter($this);
 
             if ($filterByTypes) {
@@ -1529,7 +1658,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     protected function _getItemsRandomCollection($limit, $nonChildrenOnly = false)
     {
-        $collection = \Mage::getModel('Magento\Sales\Model\Order\Item')->getCollection()
+        $collection = $this->_orderItemCollFactory->create()
             ->setOrderFilter($this)
             ->setRandomOrder();
 
@@ -1541,10 +1670,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
             $products[] = $item->getProductId();
         }
 
-        $productsCollection = \Mage::getModel('Magento\Catalog\Model\Product')
+        $productsCollection = $this->_productFactory->create()
             ->getCollection()
             ->addIdFilter($products)
-            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds())
+            ->setVisibility($this->_productVisibility->getVisibleInSiteIds())
             /* Price data is added to consider item stock status using price index */
             ->addPriceData()
             ->setPageSize($limit)
@@ -1560,6 +1689,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $collection;
     }
 
+    /**
+     * @return array
+     */
     public function getAllItems()
     {
         $items = array();
@@ -1571,6 +1703,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $items;
     }
 
+    /**
+     * @return array
+     */
     public function getAllVisibleItems()
     {
         $items = array();
@@ -1590,13 +1725,17 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getItemByQuoteItemId($quoteItemId)
     {
         foreach ($this->getItemsCollection() as $item) {
-            if ($item->getQuoteItemId()==$quoteItemId) {
+            if ($item->getQuoteItemId() == $quoteItemId) {
                 return $item;
             }
         }
         return null;
     }
 
+    /**
+     * @param \Magento\Sales\Model\Order\Item $item
+     * @return $this
+     */
     public function addItem(\Magento\Sales\Model\Order\Item $item)
     {
         $item->setOrder($this);
@@ -1621,7 +1760,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return true;
     }
 
-/*********************** PAYMENTS ***************************/
+    /*********************** PAYMENTS ***************************/
 
     /**
      * @return \Magento\Sales\Model\Resource\Order\Payment\Collection
@@ -1629,7 +1768,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
-            $this->_payments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Payment\Collection')
+            $this->_payments = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Payment\Collection')
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
@@ -1641,6 +1780,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this->_payments;
     }
 
+    /**
+     * @return array
+     */
     public function getAllPayments()
     {
         $payments = array();
@@ -1656,7 +1798,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getPaymentById($paymentId)
     {
         foreach ($this->getPaymentsCollection() as $payment) {
-            if ($payment->getId()==$paymentId) {
+            if ($payment->getId() == $paymentId) {
                 return $payment;
             }
         }
@@ -1683,17 +1825,17 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $payment;
     }
 
-/*********************** STATUSES ***************************/
-
+    /*********************** STATUSES ***************************/
     /**
      * Return collection of order status history items.
      *
+     * @param bool $reload
      * @return \Magento\Sales\Model\Resource\Order\Status\History\Collection
      */
     public function getStatusHistoryCollection($reload = false)
     {
         if (is_null($this->_statusHistory) || $reload) {
-            $this->_statusHistory = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\History\Collection')
+            $this->_statusHistory = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Status\History\Collection')
                 ->setOrderFilter($this)
                 ->setOrder('created_at', 'desc')
                 ->setOrder('entity_id', 'desc');
@@ -1742,7 +1884,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getStatusHistoryById($statusId)
     {
         foreach ($this->getStatusHistoryCollection() as $status) {
-            if ($status->getId()==$statusId) {
+            if ($status->getId() == $statusId) {
                 return $status;
             }
         }
@@ -1755,7 +1897,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * See the entity_id attribute backend model.
      * Or the history record can be saved standalone after this.
      *
-     * @param \Magento\Sales\Model\Order\Status\History $status
+     * @param \Magento\Sales\Model\Order\Status\History $history
      * @return \Magento\Sales\Model\Order
      */
     public function addStatusHistory(\Magento\Sales\Model\Order\Status\History $history)
@@ -1769,10 +1911,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this;
     }
 
-
     /**
-     * Enter description here...
-     *
      * @return string
      */
     public function getRealOrderId()
@@ -1792,14 +1931,14 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getOrderCurrency()
     {
         if (is_null($this->_orderCurrency)) {
-            $this->_orderCurrency = \Mage::getModel('Magento\Directory\Model\Currency');
+            $this->_orderCurrency = $this->_currencyFactory->create();
             $this->_orderCurrency->load($this->getOrderCurrencyCode());
         }
         return $this->_orderCurrency;
     }
 
     /**
-     * Get formated price value including order currency rate to order website currency
+     * Get formatted price value including order currency rate to order website currency
      *
      * @param   float $price
      * @param   bool  $addBrackets
@@ -1810,13 +1949,19 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this->formatPricePrecision($price, 2, $addBrackets);
     }
 
+    /**
+     * @param float $price
+     * @param int $precision
+     * @param bool $addBrackets
+     * @return string
+     */
     public function formatPricePrecision($price, $precision, $addBrackets = false)
     {
         return $this->getOrderCurrency()->formatPrecision($price, $precision, array(), true, $addBrackets);
     }
 
     /**
-     * Retrieve text formated price value includeing order rate
+     * Retrieve text formatted price value including order rate
      *
      * @param   float $price
      * @return  string
@@ -1834,21 +1979,33 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getBaseCurrency()
     {
         if (is_null($this->_baseCurrency)) {
-            $this->_baseCurrency = \Mage::getModel('Magento\Directory\Model\Currency')->load($this->getBaseCurrencyCode());
+            $this->_baseCurrency = $this->_currencyFactory->create()->load($this->getBaseCurrencyCode());
         }
         return $this->_baseCurrency;
     }
 
+    /**
+     * @param float $price
+     * @return string
+     */
     public function formatBasePrice($price)
     {
         return $this->formatBasePricePrecision($price, 2);
     }
 
+    /**
+     * @param float $price
+     * @param int $precision
+     * @return string
+     */
     public function formatBasePricePrecision($price, $precision)
     {
         return $this->getBaseCurrency()->formatPrecision($price, $precision);
     }
 
+    /**
+     * @return bool
+     */
     public function isCurrencyDifferent()
     {
         return $this->getOrderCurrencyCode() != $this->getBaseCurrencyCode();
@@ -1862,7 +2019,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getTotalDue()
     {
         $total = $this->getGrandTotal()-$this->getTotalPaid();
-        $total = \Mage::app()->getStore($this->getStoreId())->roundPrice($total);
+        $total = $this->_storeManager->getStore($this->getStoreId())->roundPrice($total);
         return max($total, 0);
     }
 
@@ -1873,12 +2030,17 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     public function getBaseTotalDue()
     {
-        $total = $this->getBaseGrandTotal()-$this->getBaseTotalPaid();
-        $total = \Mage::app()->getStore($this->getStoreId())->roundPrice($total);
+        $total = $this->getBaseGrandTotal() - $this->getBaseTotalPaid();
+        $total = $this->_storeManager->getStore($this->getStoreId())->roundPrice($total);
         return max($total, 0);
     }
 
-    public function getData($key='', $index=null)
+    /**
+     * @param string $key
+     * @param null|string|int $index
+     * @return float
+     */
+    public function getData($key = '', $index = null)
     {
         if ($key == 'total_due') {
             return $this->getTotalDue();
@@ -1897,7 +2059,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getInvoiceCollection()
     {
         if (is_null($this->_invoices)) {
-            $this->_invoices = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Invoice\Collection')
+            $this->_invoices = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Invoice\Collection')
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
@@ -1918,7 +2080,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
     {
         if (empty($this->_shipments)) {
             if ($this->getId()) {
-                $this->_shipments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Shipment\Collection')
+                $this->_shipments = $this->_resourceFactory
+                    ->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
                     ->setOrderFilter($this)
                     ->load();
             } else {
@@ -1937,7 +2100,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     {
         if (empty($this->_creditmemos)) {
             if ($this->getId()) {
-                $this->_creditmemos = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
+                $this->_creditmemos = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
                     ->setOrderFilter($this)
                     ->load();
             } else {
@@ -1955,7 +2118,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getTracksCollection()
     {
         if (empty($this->_tracks)) {
-            $this->_tracks = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Shipment\Track\Collection')
+            $this->_tracks = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Shipment\Track\Collection')
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
@@ -1995,7 +2158,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this->getCreditmemosCollection()->count();
     }
 
-
     /**
      * Retrieve array of related objects
      *
@@ -2008,13 +2170,15 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this->_relatedObjects;
     }
 
+    /**
+     * @return string
+     */
     public function getCustomerName()
     {
         if ($this->getCustomerFirstname()) {
             $customerName = $this->getCustomerFirstname() . ' ' . $this->getCustomerLastname();
-        }
-        else {
-            $customerName = __('Guest');
+        } else {
+            $customerName = (string)__('Guest');
         }
         return $customerName;
     }
@@ -2042,6 +2206,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this->_coreData->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
+    /**
+     * @return string
+     */
     public function getEmailCustomerNote()
     {
         if ($this->getCustomerNoteNotify()) {
@@ -2066,7 +2233,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         }
 
         if (!$this->getIncrementId()) {
-            $incrementId = \Mage::getSingleton('Magento\Eav\Model\Config')
+            $incrementId = $this->_eavConfig
                 ->getEntityType('order')
                 ->fetchNewIncrementId($this->getStoreId());
             $this->setIncrementId($incrementId);
@@ -2118,7 +2285,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
         if (!$this->isCanceled()
             && !$this->canUnhold()
             && !$this->canInvoice()
-            && !$this->canShip()) {
+            && !$this->canShip()
+        ) {
             if (0 == $this->getBaseGrandTotal() || $this->canCreditmemo()) {
                 if ($this->getState() !== self::STATE_COMPLETE) {
                     $this->_setState(self::STATE_COMPLETE, true, '', $userNotification);
@@ -2185,6 +2353,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return parent::_afterSave();
     }
 
+    /**
+     * @return string
+     */
     public function getStoreGroupName()
     {
         $storeId = $this->getStoreId();
@@ -2219,6 +2390,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsNotVirtual()
     {
         return !$this->getIsVirtual();
@@ -2226,29 +2400,31 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     public function getFullTaxInfo()
     {
-        $rates = \Mage::getModel('Magento\Tax\Model\Sales\Order\Tax')->getCollection()->loadByOrder($this)->toArray();
-        return \Mage::getSingleton('Magento\Tax\Model\Calculation')->reproduceProcess($rates['items']);
+        $rates = $this->_orderTaxCollFactory->create()->loadByOrder($this)->toArray();
+        return $this->_taxCalculation->reproduceProcess($rates['items']);
     }
 
     /**
      * Create new invoice with maximum qty for invoice for each item
      *
+     * @param array $qtys
      * @return \Magento\Sales\Model\Order\Invoice
      */
     public function prepareInvoice($qtys = array())
     {
-        $invoice = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $this))->prepareInvoice($qtys);
+        $invoice = $this->_serviceOrderFactory->create(array('order' => $this))->prepareInvoice($qtys);
         return $invoice;
     }
 
     /**
      * Create new shipment with maximum qty for shipping for each item
      *
+     * @param array $qtys
      * @return \Magento\Sales\Model\Order\Shipment
      */
     public function prepareShipment($qtys = array())
     {
-        $shipment = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $this))->prepareShipment($qtys);
+        $shipment = $this->_serviceOrderFactory->create(array('order' => $this))->prepareShipment($qtys);
         return $shipment;
     }
 

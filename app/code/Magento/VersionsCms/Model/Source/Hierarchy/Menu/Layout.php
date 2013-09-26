@@ -20,6 +20,19 @@ namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 class Layout implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
+     * @var \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
+     */
+    protected $_hierarchyConfig;
+
+    /**
+     * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
+     */
+    public function __construct(\Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig)
+    {
+        $this->_hierarchyConfig = $hierarchyConfig;
+    }
+
+    /**
      * Return options for displaying Hierarchy Menu
      *
      * @param bool $withDefault Include or not default value
@@ -32,10 +45,10 @@ class Layout implements \Magento\Core\Model\Option\ArrayInterface
            $options[] = array('label' => __('Use default'), 'value' => '');
         }
 
-        foreach (\Mage::getSingleton('Magento\VersionsCms\Model\Hierarchy\Config')->getContextMenuLayouts() as $code => $info) {
+        foreach ($this->_hierarchyConfig->getAllMenuLayouts() as $name => $info) {
             $options[] = array(
-                'label' => $info->getLabel(),
-                'value' => $code
+                'label' => $info['label'],
+                'value' => $name
             );
         }
 

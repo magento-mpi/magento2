@@ -37,21 +37,6 @@
                 </system_magento_scheduled_import_export_log_error_email_template>
             </email>
         </template>
-        <importexport>
-            <export_entities>
-                <customer_finance translate="label">
-                    <model_token>Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance</model_token>
-                    <label>Customer Finances</label>
-                </customer_finance>
-            </export_entities>
-            <import_entities>
-                <customer_finance translate="label">
-                    <model_token>Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance</model_token>
-                    <label>Customer Finances</label>
-                    <behavior_token>Magento\ImportExport\Model\Source\Import\Behavior\Custom</behavior_token>
-                </customer_finance>
-            </import_entities>
-        </importexport>
     </global>
     <default>
         <system>

@@ -25,21 +25,22 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_entityTypeFrontendClasses = array();
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Eav\Model\Entity\Attribute\Config
      */
-    protected $_coreStoreConfig;
+    protected $_attributeConfig;
 
     /**
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
+        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_attributeConfig = $attributeConfig;
         parent::__construct($context);
     }
 
@@ -91,26 +92,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getFrontendClasses($entityTypeCode)
     {
         $_defaultClasses = $this->_getDefaultFrontendClasses();
+
         if (isset($this->_entityTypeFrontendClasses[$entityTypeCode])) {
             return array_merge(
                 $_defaultClasses,
                 $this->_entityTypeFrontendClasses[$entityTypeCode]
             );
         }
-        $_entityTypeClasses = \Mage::app()->getConfig()
-            ->getNode('global/eav_frontendclasses/' . $entityTypeCode);
-        if ($_entityTypeClasses) {
-            foreach ($_entityTypeClasses->children() as $item) {
-                $this->_entityTypeFrontendClasses[$entityTypeCode][] = array(
-                    'value' => (string)$item->value,
-                    'label' => (string)$item->label
-                );
-            }
-            return array_merge(
-                $_defaultClasses,
-                $this->_entityTypeFrontendClasses[$entityTypeCode]
-            );
-        }
+
         return $_defaultClasses;
     }
 
@@ -128,12 +117,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if (isset($this->_attributesLockedFields[$entityTypeCode])) {
             return $this->_attributesLockedFields[$entityTypeCode];
         }
-        $_data = \Mage::app()->getConfig()->getNode('global/eav_attributes/' . $entityTypeCode);
-        if ($_data) {
-            foreach ($_data->children() as $attribute) {
-                $this->_attributesLockedFields[$entityTypeCode][(string)$attribute->code] =
-                    array_keys($attribute->locked_fields->asArray());
-            }
+        $attributesLockedFields = $this->_attributeConfig->getEntityAttributesLockedFields($entityTypeCode);
+        if (count($attributesLockedFields)) {
+            $this->_attributesLockedFields[$entityTypeCode] = $attributesLockedFields;
             return $this->_attributesLockedFields[$entityTypeCode];
         }
         return array();

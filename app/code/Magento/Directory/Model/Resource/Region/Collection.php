@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Country collection
- *
- * @category    Magento
- * @package     Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Directory\Model\Resource\Region;
 
@@ -35,8 +30,34 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_countryTable;
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_locale = $locale;
+        parent::__construct(
+            $eventManager, $logger, $fetchStrategy, $entityFactory, $resource
+        );
+    }
+
+    /**
      * Define main, country, locale region name tables
-     *
      */
     protected function _construct()
     {
@@ -57,7 +78,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _initSelect()
     {
         parent::_initSelect();
-        $locale = \Mage::app()->getLocale()->getLocaleCode();
+        $locale = $this->_locale->getLocaleCode();
 
         $this->addBindParam(':region_locale', $locale);
         $this->getSelect()->joinLeft(
@@ -98,7 +119,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             ->joinLeft(
                 array('country' => $this->_countryTable),
                 'main_table.country_id = country.country_id'
-                )
+            )
             ->where('country.iso3_code = ?', $countryCode);
 
         return $this;

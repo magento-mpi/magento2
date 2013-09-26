@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Rma\Helper;
 
 class EavTest extends \PHPUnit_Framework_TestCase
@@ -19,11 +20,15 @@ class EavTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-
-        $this->_model = new \Magento\Rma\Helper\Eav(
-            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
-            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false)
-        );
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $collectionFactory = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory',
+            array('create'), array(), '', false);
+        $attributeConfig = $this->getMock('Magento\Eav\Model\Entity\Attribute\Config',
+            array(), array(), '', false);
+        $this->_model = $helper->getObject('Magento\Rma\Helper\Eav', array(
+            'collectionFactory' => $collectionFactory,
+            'attributeConfig' => $attributeConfig
+        ));
     }
 
     /**

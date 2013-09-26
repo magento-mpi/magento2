@@ -19,8 +19,9 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $this->_model = new \Magento\Catalog\Model\Category\Attribute\Backend\Sortby($coreStoreConfig);
+        $this->_model = new \Magento\Catalog\Model\Category\Attribute\Backend\Sortby($logger, $coreStoreConfig);
         $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array(), '', false, true, true, array('getName')
         );

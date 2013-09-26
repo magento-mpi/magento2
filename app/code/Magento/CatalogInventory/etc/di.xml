@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\CatalogInventory\Model\Observer">
+        <param name="indexerPrice">
+            <instance type="Magento\Catalog\Model\Resource\Product\Indexer\Price\Proxy" />
+        </param>
+        <param name="resourceIndexerStock">
+            <instance type="Magento\CatalogInventory\Model\Resource\Indexer\Stock\Proxy" />
+        </param>
+        <param name="resourceStock">
+            <instance type="Magento\CatalogInventory\Model\Resource\Stock\Proxy" />
+        </param>
+        <param name="indexer">
+            <instance type="Magento\Index\Model\Indexer\Proxy" />
+        </param>
+        <param name="stock">
+            <instance type="Magento\CatalogInventory\Model\Stock\Proxy" />
+        </param>
+        <param name="stockStatus">
+            <instance type="Magento\CatalogInventory\Model\Stock\Status\Proxy" />
+        </param>
+        <param name="catalogInventoryData">
+            <instance type="Magento\CatalogInventory\Helper\Data\Proxy" />
+        </param>
+    </type>
+</config>

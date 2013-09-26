@@ -13,6 +13,18 @@
             <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
         </param>
     </type>
+    <type name="Magento\GiftCardAccount\Model\Pool">
+        <param name="giftCardCodeParams">
+            <value>
+                <separator>-</separator>
+                <charset>
+                    <alphanum>ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</alphanum>
+                    <alpha>ABCDEFGHIJKLMNOPQRSTUVWXYZ</alpha>
+                    <num>0123456789</num>
+                </charset>
+            </value>
+        </param>
+    </type>
     <type name="Magento\GiftCardAccount\Model\Observer">
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />

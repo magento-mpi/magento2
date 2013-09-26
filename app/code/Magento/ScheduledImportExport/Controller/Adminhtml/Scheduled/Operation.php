@@ -50,7 +50,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                 ->loadLayout()
                 ->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/scheduled_operation/index');
         }
 
@@ -126,12 +126,13 @@ class Operation extends \Magento\Adminhtml\Controller\Action
         $request = $this->getRequest();
         if ($request->isPost()) {
             $data = $request->getPost();
-            if (isset($data['id']) && !is_numeric($data['id'])
-                || !isset($data['id']) && (!isset($data['operation_type']) || empty($data['operation_type']))
+            /** @var \Magento\Backend\Model\Session $backendSession */
+            $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
+            if (isset($data['id']) && !is_numeric($data['id']) || !isset($data['id'])
+                && (!isset($data['operation_type']) || empty($data['operation_type']))
                 || !is_array($data['start_time'])
             ) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
-                    ->addError(__("We couldn't save the scheduled operation."));
+                $backendSession->addError(__("We couldn't save the scheduled operation."));
                 $this->_redirect('*/*/*', array('_current' => true));
 
                 return;
@@ -145,17 +146,21 @@ class Operation extends \Magento\Adminhtml\Controller\Action
             }
 
             try {
-                $operation = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation')->setData($data);
+                /** @var \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation */
+                $operation = $this->_objectManager->create(
+                    'Magento\ScheduledImportExport\Model\Scheduled\Operation'
+                );
+                $operation->setData($data);
                 $operation->save();
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+                $backendSession->addSuccess(
                     $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
                         ->getSuccessSaveMessage($operation->getOperationType())
                 );
             } catch (\Magento\Core\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $backendSession->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
+                $backendSession->addError(
                     __("We couldn't save the scheduled operation.")
                 );
             }
@@ -173,20 +178,22 @@ class Operation extends \Magento\Adminhtml\Controller\Action
         $request = $this->getRequest();
         $id = (int)$request->getParam('id');
         if ($id) {
+            /** @var \Magento\Backend\Model\Session $backendSession */
+            $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
             try {
-                \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation')->setId($id)->delete();
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->create('Magento\ScheduledImportExport\Model\Scheduled\Operation')
+                    ->setId($id)
+                    ->delete();
+                $backendSession->addSuccess(
                     $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')->getSuccessDeleteMessage(
                         $request->getParam('type')
                     )
                 );
             } catch (\Magento\Core\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $backendSession->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
-                    __('Something sent wrong deleting the scheduled operation.')
-                );
+                $backendSession->addError(__('Something sent wrong deleting the scheduled operation.'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -214,22 +221,22 @@ class Operation extends \Magento\Adminhtml\Controller\Action
         $ids = $request->getParam('operation');
         if (is_array($ids)) {
             $ids = array_filter($ids, 'intval');
+            /** @var \Magento\Backend\Model\Session $backendSession */
+            $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
             try {
-                $operations = \Mage::getResourceModel(
+                $operations = $this->_objectManager->create(
                     'Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection'
                 );
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
                 foreach ($operations as $operation) {
                     $operation->delete();
                 }
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
-                    __('We deleted a total of %1 record(s).', count($operations))
-                );
+                $backendSession->addSuccess(__('We deleted a total of %1 record(s).', count($operations)));
             } catch (\Magento\Core\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $backendSession->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We cannot delete all items.'));
+                $backendSession->addError(__('We cannot delete all items.'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -248,9 +255,10 @@ class Operation extends \Magento\Adminhtml\Controller\Action
 
         if (is_array($ids)) {
             $ids = array_filter($ids, 'intval');
-
+            /** @var \Magento\Backend\Model\Session $backendSession */
+            $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
             try {
-                $operations = \Mage::getResourceModel(
+                $operations = $this->_objectManager->create(
                     'Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection'
                 );
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
@@ -259,15 +267,12 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                     $operation->setStatus($status)
                         ->save();
                 }
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
-                    __('A total of %1 record(s) have been updated.', count($operations))
-                );
+                $backendSession->addSuccess(__('A total of %1 record(s) have been updated.', count($operations)));
             } catch (\Magento\Core\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $backendSession->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
-                    ->addError(__('We cannot change status for all items.'));
+                $backendSession->addError(__('We cannot change status for all items.'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -286,7 +291,7 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                 $this->loadLayout();
 
                 /** @var $export \Magento\ScheduledImportExport\Model\Export */
-                $export = \Mage::getModel('Magento\ScheduledImportExport\Model\Export')->setData($data);
+                $export = $this->_objectManager->create('Magento\ScheduledImportExport\Model\Export')->setData($data);
 
                 /** @var $attrFilterBlock \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter */
                 $attrFilterBlock = $this->getLayout()->getBlock('export.filter')
@@ -338,9 +343,8 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                 $design->getConfigurationDesignTheme(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             );
 
-            /** @var $observer \Magento\ScheduledImportExport\Model\Observer */
-            $observer = \Mage::getModel('Magento\ScheduledImportExport\Model\Observer');
-            $result = $observer->processScheduledOperation($schedule, true);
+            $result = $this->_objectManager->get('Magento\ScheduledImportExport\Model\Observer')
+                ->processScheduledOperation($schedule, true);
 
             // restore current design area and theme
             $design->setDesignTheme($theme, $area);
@@ -349,15 +353,9 @@ class Operation extends \Magento\Adminhtml\Controller\Action
         }
 
         if ($result) {
-            $this->_getSession()
-                ->addSuccess(
-                    __('The operation ran.')
-                );
+            $this->_getSession()->addSuccess(__('The operation ran.'));
         } else {
-            $this->_getSession()
-                ->addError(
-                    __('Unable to run operation')
-                );
+            $this->_getSession()->addError(__('Unable to run operation'));
         }
 
         $this->_redirect('*/*/index');
@@ -371,7 +369,8 @@ class Operation extends \Magento\Adminhtml\Controller\Action
     public function logCleanAction()
     {
         $schedule = new \Magento\Object();
-        $result = \Mage::getModel('Magento\ScheduledImportExport\Model\Observer')->scheduledLogClean($schedule, true);
+        $result = $this->_objectManager->get('Magento\ScheduledImportExport\Model\Observer')
+            ->scheduledLogClean($schedule, true);
         if ($result) {
             $this->_getSession()
                 ->addSuccess(

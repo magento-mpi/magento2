@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/** @var \Magento\Cms\Model\Resource\Setup $this */
 
 $cmsBlocks = array(
     array(
@@ -72,12 +73,12 @@ $cmsPages = array(
  * Insert default blocks
  */
 foreach ($cmsBlocks as $data) {
-    \Mage::getModel('Magento\Cms\Model\Block')->setData($data)->save();
+    $this->createBlock()->setData($data)->save();
 }
 
 /**
  * Insert default and system pages
  */
 foreach ($cmsPages as $data) {
-    \Mage::getModel('Magento\Cms\Model\Page')->setData($data)->save();
+    $this->createPage()->setData($data)->save();
 }

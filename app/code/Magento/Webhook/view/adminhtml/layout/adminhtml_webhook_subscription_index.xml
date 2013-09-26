@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Css" name="magento-webhook-css-modal-css">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Webhook::css/modal.css</argument>
@@ -19,9 +19,9 @@
                 <argument name="file" xsi:type="string">Magento_Webhook::js/webhook.js</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
     <update handle="adminhtml_webhook_subscription_grid"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Webhook\Block\Adminhtml\Subscription" name="webhook.subscriptions.list"/>
-    </reference>
+    </referenceContainer>
 </layout>

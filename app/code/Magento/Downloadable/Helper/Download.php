@@ -95,23 +95,39 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\Core\Model\App
+     */
+    protected $_app;
+
+    /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dirModel;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\Dir $dirModel
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\Dir $dirModel
     ) {
         $this->_coreData = $coreData;
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_app = $app;
+        $this->_dirModel = $dirModel;
         parent::__construct($context);
     }
 
@@ -123,7 +139,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     protected function _getHandle()
     {
         if (!$this->_resourceFile) {
-            \Mage::throwException(__('Please set resource file and link type.'));
+            throw new \Magento\Core\Exception(__('Please set resource file and link type.'));
         }
 
         if (is_null($this->_handle)) {
@@ -135,10 +151,10 @@ class Download extends \Magento\Core\Helper\AbstractHelper
                  */
                 $urlProp = parse_url($this->_resourceFile);
                 if (!isset($urlProp['scheme']) || strtolower($urlProp['scheme'] != 'http')) {
-                    \Mage::throwException(__('Please correct the download URL scheme.'));
+                    throw new \Magento\Core\Exception(__('Please correct the download URL scheme.'));
                 }
                 if (!isset($urlProp['host'])) {
-                    \Mage::throwException(__('Please correct the download URL host.'));
+                    throw new \Magento\Core\Exception(__('Please correct the download URL host.'));
                 }
                 $hostname = $urlProp['host'];
 
@@ -163,12 +179,15 @@ class Download extends \Magento\Core\Helper\AbstractHelper
                 }
 
                 if ($this->_handle === false) {
-                    \Mage::throwException(__('Something went wrong connecting to the host. Error: %1.', $errstr));
+                    throw new \Magento\Core\Exception(
+                        __('Something went wrong connecting to the host. Error: %1.', $errstr)
+                    );
+
                 }
 
                 $headers = 'GET ' . $path . $query . ' HTTP/1.0' . "\r\n"
                     . 'Host: ' . $hostname . "\r\n"
-                    . 'User-Agent: Magento ver/' . \Mage::getVersion() . "\r\n"
+                    . 'User-Agent: Magento ver/' . \Mage::VERSION . "\r\n"
                     . 'Connection: close' . "\r\n"
                     . "\r\n";
                 fwrite($this->_handle, $headers);
@@ -195,7 +214,8 @@ class Download extends \Magento\Core\Helper\AbstractHelper
                 }
 
                 if (!isset($this->_urlHeaders['code']) || $this->_urlHeaders['code'] != 200) {
-                    \Mage::throwException(__('Something went wrong while getting the requested content.'));
+                    throw new \Magento\Core\Exception(__('Something went wrong while getting the requested content.'));
+
                 }
             }
             elseif ($this->_linkType == self::LINK_TYPE_FILE) {
@@ -203,14 +223,14 @@ class Download extends \Magento\Core\Helper\AbstractHelper
                 if (!is_file($this->_resourceFile)) {
                     $this->_coreFileStorageDb->saveFileToFilesystem($this->_resourceFile);
                 }
-                $this->_handle->open(array('path'=>\Mage::getBaseDir('var')));
+                $this->_handle->open(array('path' => $this->_dirModel->getDir(\Magento\Core\Model\Dir::VAR_DIR)));
                 if (!$this->_handle->fileExists($this->_resourceFile, true)) {
-                    \Mage::throwException(__("We can't find this file."));
+                    throw new \Magento\Core\Exception(__("We can't find this file."));
                 }
                 $this->_handle->streamOpen($this->_resourceFile, 'r');
             }
             else {
-                \Mage::throwException(__('Invalid download link type.'));
+                throw new \Magento\Core\Exception(__('Invalid download link type.'));
             }
         }
         return $this->_handle;
@@ -301,7 +321,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
      */
     public function getHttpRequest()
     {
-        return \Mage::app()->getFrontController()->getRequest();
+        return $this->_app->getFrontController()->getRequest();
     }
 
     /**
@@ -311,7 +331,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
      */
     public function getHttpResponse()
     {
-        return \Mage::app()->getFrontController()->getResponse();
+        return $this->_app->getFrontController()->getResponse();
     }
 
     public function output()

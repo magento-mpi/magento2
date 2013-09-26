@@ -29,8 +29,20 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $sampleResFactory = $this->getMock(
+            'Magento\Downloadable\Model\Resource\SampleFactory', array(), array(), '', false);
+        $linkResource = $this->getMock('Magento\Downloadable\Model\Resource\Link', array(), array(), '', false);
+        $linksFactory = $this->getMock('Magento\Downloadable\Model\Resource\Link\Collection\Factory',
+            array(), array(), '', false
+        );
+        $samplesFactory = $this->getMock('Magento\Downloadable\Model\Resource\Sample\CollectionFactory',
+            array(), array(), '', false
+        );
+        $sampleFactory = $this->getMock('Magento\Downloadable\Model\SampleFactory', array(), array(), '', false);
+        $linkFactory = $this->getMock('Magento\Downloadable\Model\LinkFactory', array(), array(), '', false);
         $this->_model = new \Magento\Downloadable\Model\Product\Type(
-            $eventManager, $downloadableFile, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger
+            $eventManager, $downloadableFile, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger,
+            $sampleResFactory, $linkResource, $linksFactory, $samplesFactory, $sampleFactory, $linkFactory
         );
     }
 

@@ -34,6 +34,47 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     protected $_store = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_systemStore = $systemStore;
+        $this->_dir = $dir;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Intialize model
      *
      * @return void
@@ -50,9 +91,9 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        if (\Mage::app()->hasSingleStore()) {
+        if ($this->_storeManager->hasSingleStore()) {
             $this->setData('website_ids', array_keys(
-                \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash()));
+                $this->_systemStore->getWebsiteOptionHash()));
         }
         if ($this->hasTmpImage()) {
             $baseImageName = $this->getTmpImage();
@@ -94,11 +135,12 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     /**
      * Set store id
      *
-     * @return \Magento\GiftWrapping\Model\Wrapping
+     * @param int $storeId
+     * @return $this
      */
     public function setStoreId($storeId = null)
     {
-        $this->_store = \Mage::app()->getStore($storeId);
+        $this->_store = $this->_storeManager->getStore($storeId);
         return $this;
     }
 
@@ -214,17 +256,18 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      * Retrieve wrapping image url
      * Function returns url of a temporary wrapping image if it exists
      *
-     * @see \Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper\Image::__getUrl()
+     * @see \Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper\Image::_getUrl()
      *
      * @return string|boolean
      */
     public function getImageUrl()
     {
         if ($this->getTmpImage()) {
-            return \Mage::getBaseUrl('media') . self::TMP_IMAGE_PATH . '/' . $this->getTmpImage();
+            return $this->_storeManager->getStore()
+                ->getBaseUrl('media') . self::TMP_IMAGE_PATH . '/' . $this->getTmpImage();
         }
         if ($this->getImage()) {
-            return \Mage::getBaseUrl('media') . self::IMAGE_PATH . '/' . $this->getImage();
+            return $this->_storeManager->getStore()->getBaseUrl('media') . self::IMAGE_PATH . '/' . $this->getImage();
         }
 
         return false;
@@ -237,7 +280,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      */
     protected function _getImageFolderAbsolutePath()
     {
-        $path = \Mage::getBaseDir('media') . DS . strtr(self::IMAGE_PATH, '/', DS);
+        $path = $this->_dir->getDir('media') . DS . strtr(self::IMAGE_PATH, '/', DS);
         if (!is_dir($path)) {
             $ioAdapter = new \Magento\Io\File();
             $ioAdapter->checkAndCreateFolder($path);
@@ -252,6 +295,6 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      */
     protected function _getTmpImageFolderAbsolutePath()
     {
-        return \Mage::getBaseDir('media') . DS . strtr(self::TMP_IMAGE_PATH, '/', DS);
+        return $this->_dir->getDir('media') . DS . strtr(self::TMP_IMAGE_PATH, '/', DS);
     }
 }

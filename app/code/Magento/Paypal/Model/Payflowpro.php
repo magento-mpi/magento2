@@ -10,12 +10,7 @@
 
 /**
  * Payflow Pro payment gateway model
- *
- * @category    Magento
- * @package     Magento_Paypal
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Paypal\Model;
 
 class Payflowpro extends  \Magento\Payment\Model\Method\Cc
@@ -108,25 +103,34 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     protected $_coreData = null;
 
     /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+            $locale, $centinelService, $data);
     }
 
     /**
@@ -148,7 +152,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
     /**
      * Payment action getter compatible with payment model
      *
-     * @see Magento_Sales_Model_Payment::place()
+     * @see \Magento\Sales\Model\Payment::place()
      * @return string
      */
     public function getConfigPaymentAction()

@@ -41,9 +41,6 @@ class Instance extends \Magento\Core\Model\AbstractModel
     const NOTANCHOR_CATEGORY_LAYOUT_HANDLE = 'catalog_category_view_type_default';
     const SINGLE_CATEGORY_LAYOUT_HANDLE    = 'catalog_category_view_{{ID}}';
 
-    const XML_NODE_RELATED_CACHE = 'global/widget/related_cache_types';
-
-    /** @var array  */
     protected $_layoutHandles = array();
 
     /** @var array */
@@ -73,33 +70,14 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $_coreConfig;
 
     /**
-     * @var \Magento\Widget\Model\Config\Reader
-     */
-    protected $_reader;
-
-    /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
-     * Widget data
-     *
-     * @var \Magento\Widget\Helper\Data
-     */
-    protected $_widgetData = null;
-
-    /**
      * @var \Magento\Core\Model\Cache\TypeListInterface
      */
-    protected $_typeList;
+    protected $_cacheTypeList;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Type
+     * @var array
      */
-    protected $_productType;
+    protected $_relatedCacheTypes;
 
     /**
      * @param \Magento\Widget\Helper\Data $widgetData
@@ -107,13 +85,14 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\Widget\Model\Config\Reader $reader,
-     * @param \Magento\Widget\Model\Widget $widgetModel,
-     * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
+     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param \Magento\Widget\Model\Config\Reader $reader
+     * @param \Magento\Widget\Model\Widget $widgetModel
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $relatedCacheTypes
      * @param array $data
      */
     public function __construct(
@@ -122,23 +101,25 @@ class Instance extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Widget\Model\Config\Reader $reader,
         \Magento\Widget\Model\Widget $widgetModel,
         \Magento\Core\Model\Config $coreConfig,
-        \Magento\Core\Model\Cache\TypeListInterface $typeList,
-        \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        array $relatedCacheTypes = array(),
         array $data = array()
     ) {
         $this->_widgetData = $widgetData;
         $this->_coreData = $coreData;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_relatedCacheTypes = $relatedCacheTypes;
+        $this->_productType = $productType;
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->_coreConfig = $coreConfig;
-        $this->_typeList = $typeList;
-        $this->_productType = $productType;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -472,7 +453,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
             return '';
         }
         $parameters = $this->getWidgetParameters();
-        $xml = '<reference name="' . $container . '">';
+        $xml = '<referenceContainer name="' . $container . '">';
         $template = '';
         if (isset($parameters['template'])) {
             unset($parameters['template']);
@@ -495,7 +476,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
                     . '</action>';
             }
         }
-        $xml .= '</block></reference>';
+        $xml .= '</block></referenceContainer>';
 
         return $xml;
     }
@@ -507,10 +488,8 @@ class Instance extends \Magento\Core\Model\AbstractModel
      */
     protected function _invalidateCache()
     {
-        $types = $this->_coreConfig->getNode(self::XML_NODE_RELATED_CACHE);
-        if ($types) {
-            $types = $types->asArray();
-            $this->_typeList->invalidate($types);
+        if (count($this->_relatedCacheTypes)) {
+            $this->_cacheTypeList->invalidate($this->_relatedCacheTypes);
         }
         return $this;
     }

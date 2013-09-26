@@ -8,13 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="popup_window">
+    <referenceBlock name="popup_window">
         <block class="Magento\GiftWrapping\Block\Adminhtml\Order\Create\Items" name="wrapping_order_create_items" template="order/create/items.phtml"/>
-    </reference>
-    <reference name="order_item_extra_info">
+    </referenceBlock>
+    <referenceBlock name="order_item_extra_info">
         <block class="Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create\Items" name="giftwrapping_extra_info" template="sales/order/create/renderer.phtml" before="-"/>
-    </reference>
-    <reference name="gift_options_link">
+    </referenceBlock>
+    <referenceBlock name="gift_options_link">
         <block class="Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create\Link" name="giftwrapping_item_info" template="sales/order/link.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -219,20 +219,20 @@ abstract class AbstractType
     }
 
     /**
-     * Compare attribues sorting
+     * Compare attributes sorting
      *
-     * @param \Magento\Catalog\Model\Entity\Attribute $attribute1
-     * @param \Magento\Catalog\Model\Entity\Attribute $attribute2
+     * @param \Magento\Catalog\Model\Entity\Attribute $attributeOne
+     * @param \Magento\Catalog\Model\Entity\Attribute $attributeTwo
      * @return int
      */
-    public function attributesCompare($attribute1, $attribute2)
+    public function attributesCompare($attributeOne, $attributeTwo)
     {
-        $sort1 =  ($attribute1->getGroupSortPath() * 1000) + ($attribute1->getSortPath() * 0.0001);
-        $sort2 =  ($attribute2->getGroupSortPath() * 1000) + ($attribute2->getSortPath() * 0.0001);
+        $sortOne =  ($attributeOne->getGroupSortPath() * 1000) + ($attributeOne->getSortPath() * 0.0001);
+        $sortTwo =  ($attributeTwo->getGroupSortPath() * 1000) + ($attributeTwo->getSortPath() * 0.0001);
 
-        if ($sort1 > $sort2) {
+        if ($sortOne > $sortTwo) {
             return 1;
-        } elseif ($sort1 < $sort2) {
+        } elseif ($sortOne < $sortTwo) {
             return -1;
         }
 
@@ -446,7 +446,7 @@ abstract class AbstractType
 
                         try {
                             $this->_filesystem->createDirectory($path, 0777);
-                        } catch (\Magento\Filesystem\FilesystemException $e) {
+                        } catch (\Magento\Filesystem\Exception $e) {
                             \Mage::throwException(
                                 __("We can't create writeable directory \"%1\".", $path)
                             );
@@ -824,7 +824,7 @@ abstract class AbstractType
     /**
      * Retrieve store filter for associated products
      *
-     * @param object $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return int|\Magento\Core\Model\Store
      */
     public function getStoreFilter($product)

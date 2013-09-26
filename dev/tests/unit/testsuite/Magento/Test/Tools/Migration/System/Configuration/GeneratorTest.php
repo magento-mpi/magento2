@@ -8,8 +8,6 @@
  * @license    {license_link}
  */
 
-namespace Magento\Test\Tools\Migration\System\Configuration;
-
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Generator.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
@@ -18,6 +16,9 @@ require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/LoggerAbstract.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Formatter.php';
+
+
+namespace Magento\Test\Tools\Migration\System\Configuration;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -78,7 +79,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_formatterMock->expects($this->once())->method('parseString')
             ->will(
                 $this->returnCallback(
-                    function($xml) {
+                    function ($xml) {
                         $dom = new \DOMDocument();
                         $dom->loadXML($xml);
                         $dom->preserveWhiteSpace = false;

@@ -55,25 +55,112 @@ class Observer
     protected $_persistentSession = null;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Persistent\Model\Observer
+     */
+    protected $_observer;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Compare\Item
+     */
+    protected $_compareItem;
+
+    /**
+     * @var \Magento\Persistent\Model\Persistent\ConfigFactory
+     */
+    protected $_configFactory;
+
+    /**
+     * @var \Magento\Core\Model\UrlFactory
+     */
+    protected $_urlFactory;
+
+    /**
+     * @var \Magento\Core\Model\Config\ValueFactory
+     */
+    protected $_valueFactory;
+
+    /**
+     * @var \Magento\Reports\Model\Product\Index\ComparedFactory
+     */
+    protected $_comparedFactory;
+
+    /**
+     * @var \Magento\Reports\Model\Product\Index\ViewedFactory
+     */
+    protected $_viewedFactory;
+
+    /**
+     * @var \Magento\Wishlist\Model\WishlistFactory
+     */
+    protected $_wishListFactory;
+
+    /**
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\PersistentHistory\Helper\Data $ePersistentData
      * @param \Magento\Persistent\Helper\Data $mPersistentData
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Persistent\Model\Observer $observer
+     * @param \Magento\Catalog\Model\Product\Compare\Item $compareItem
+     * @param \Magento\Persistent\Model\Persistent\ConfigFactory $configFactory
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\Core\Model\Config\ValueFactory $valueFactory
+     * @param \Magento\Reports\Model\Product\Index\ComparedFactory $comparedFactory
+     * @param \Magento\Reports\Model\Product\Index\ViewedFactory $viewedFactory
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishListFactory
      */
     public function __construct(
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\PersistentHistory\Helper\Data $ePersistentData,
         \Magento\Persistent\Helper\Data $mPersistentData,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Persistent\Model\Observer $observer,
+        \Magento\Catalog\Model\Product\Compare\Item $compareItem,
+        \Magento\Persistent\Model\Persistent\ConfigFactory $configFactory,
+        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\Core\Model\Config\ValueFactory $valueFactory,
+        \Magento\Reports\Model\Product\Index\ComparedFactory $comparedFactory,
+        \Magento\Reports\Model\Product\Index\ViewedFactory $viewedFactory,
+        \Magento\Wishlist\Model\WishlistFactory $wishListFactory
     ) {
         $this->_persistentSession = $persistentSession;
         $this->_wishlistData = $wishlistData;
         $this->_mPersistentData = $mPersistentData;
         $this->_ePersistentData = $ePersistentData;
         $this->_coreRegistry = $coreRegistry;
-
+        $this->_customerFactory = $customerFactory;
+        $this->_layout = $layout;
+        $this->_customerSession = $customerSession;
+        $this->_observer = $observer;
+        $this->_configFactory = $configFactory;
+        $this->_urlFactory = $urlFactory;
+        $this->_valueFactory = $valueFactory;
+        $this->_compareItem = $compareItem;
+        $this->_comparedFactory = $comparedFactory;
+        $this->_viewedFactory = $viewedFactory;
+        $this->_wishListFactory = $wishListFactory;
     }
 
     /**
@@ -92,11 +179,10 @@ class Observer
 
         if ($this->_isLoggedOut()) {
             /** @var $customer \Magento\Customer\Model\Customer */
-            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(
+            $customer = $this->_customerFactory->create()->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
-            \Mage::getSingleton('Magento\Customer\Model\Session')
-                ->setCustomerId($customer->getId())
+            $this->_customerSession->setCustomerId($customer->getId())
                 ->setCustomerGroupId($customer->getGroupId());
 
             // apply persistent data to segments
@@ -131,11 +217,11 @@ class Observer
     public function applyPersistentData($observer)
     {
         if (!$this->_mPersistentData->canProcess($observer)
-            || !$this->_isPersistent() || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
+            || !$this->_isPersistent() || $this->_customerSession->isLoggedIn()
         ) {
             return;
         }
-        \Mage::getModel('Magento\Persistent\Model\Persistent\Config')
+        $this->_configFactory->create()
             ->setConfigFilePath($this->_ePersistentData->getPersistentConfigFilePath())
             ->fire();
     }
@@ -145,7 +231,7 @@ class Observer
         $observer->getEvent()->setConfigFilePath(
             $this->_ePersistentData->getPersistentConfigFilePath()
         );
-        return \Mage::getSingleton('Magento\Persistent\Model\Observer')->applyBlockPersistentData($observer);
+        return $this->_observer->applyBlockPersistentData($observer);
     }
 
     /**
@@ -314,7 +400,7 @@ class Observer
         }
 
         /** @var $customerSession \Magento\Customer\Model\Session */
-        $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
+        $customerSession = $this->_customerSession;
 
         $helper = $this->_ePersistentData;
         if ($helper->isCustomerAndSegmentsPersist() && $this->_setQuotePersistent) {
@@ -352,7 +438,7 @@ class Observer
         $eventDataObject = $observer->getEvent()->getDataObject();
 
         if ($eventDataObject->getValue()) {
-            $optionCustomerSegm = \Mage::getModel('Magento\Core\Model\Config\Value')
+            $optionCustomerSegm = $this->_valueFactory->create()
                 ->setScope($eventDataObject->getScope())
                 ->setScopeId($eventDataObject->getScopeId())
                 ->setPath(\Magento\PersistentHistory\Helper\Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)
@@ -382,7 +468,7 @@ class Observer
         if (!$this->_isCompareProductsPersist()) {
             return;
         }
-        \Mage::getSingleton('Magento\Catalog\Model\Product\Compare\Item')->bindCustomerLogout();
+        $this->_compareItem->bindCustomerLogout();
     }
 
     /**
@@ -394,7 +480,7 @@ class Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        \Mage::getModel('Magento\Reports\Model\Product\Index\Compared')
+        $this->_comparedFactory->create()
             ->purgeVisitorByCustomer()
             ->calculate();
     }
@@ -408,7 +494,7 @@ class Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        \Mage::getModel('Magento\Reports\Model\Product\Index\Viewed')
+        $this->_viewedFactory->create()
             ->purgeVisitorByCustomer()
             ->calculate();
     }
@@ -440,7 +526,7 @@ class Observer
      */
     protected function _initWishlist()
     {
-        return \Mage::getModel('Magento\Wishlist\Model\Wishlist')->loadByCustomer($this->_getCustomerId() ,true);
+        return $this->_wishListFactory->create()->loadByCustomer($this->_getCustomerId() ,true);
     }
 
     /**
@@ -490,7 +576,7 @@ class Observer
      */
     protected function _isLoggedOut()
     {
-        return $this->_isPersistent() && !\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
+        return $this->_isPersistent() && !$this->_customerSession->isLoggedIn();
     }
 
     /**

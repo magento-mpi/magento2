@@ -47,7 +47,7 @@ abstract class AbstractCollection
      *
      * @deprecated after 1.6.1.0
      *
-     * @var Magento_Rule_Model_Environment
+     * @var \Magento\Rule\Model\Environment
      */
     protected $_env;
 
@@ -150,6 +150,7 @@ abstract class AbstractCollection
      *
      * @param string $entityType
      *
+     * @throws \Magento\Core\Exception
      * @return array
      */
     protected function _getAssociatedEntityInfo($entityType)
@@ -158,13 +159,9 @@ abstract class AbstractCollection
             return $this->_associatedEntitiesMap[$entityType];
         }
 
-        $e = \Mage::exception(
-            'Magento_Core',
-            __(
-                'There is no information about associated entity type "%1".', $entityType
-            )
+        throw new \Magento\Core\Exception(
+            __('There is no information about associated entity type "%1".', $entityType), 0
         );
-        throw $e;
     }
 
 
@@ -176,7 +173,7 @@ abstract class AbstractCollection
      *
      * @deprecated after 1.6.2.0
      *
-     * @param Magento_Rule_Model_Environment $env
+     * @param \Magento\Rule\Model\Environment $env
      * @return \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
      */
     public function setEnv( $env = null)

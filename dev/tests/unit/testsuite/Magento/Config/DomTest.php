@@ -83,20 +83,15 @@ class DomTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $xml
-     * @param bool $isExpectedValid
+     * @param array $expectedErrors
      * @dataProvider validateDataProvider
      */
-    public function testValidate($xml, $isExpectedValid)
+    public function testValidate($xml, array $expectedErrors)
     {
-        $config = new \Magento\Config\Dom($xml);
-        $schema = __DIR__ . '/_files/sample.xsd';
-        if ($isExpectedValid) {
-            $this->assertTrue($config->validate($schema));
-        } else {
-            $errors = array();
-            $this->assertFalse($config->validate($schema, $errors));
-            $this->assertNotEmpty($errors);
-        }
+        $dom = new \Magento\Config\Dom($xml);
+        $actualResult = $dom->validate(__DIR__ . '/_files/sample.xsd', $actualErrors);
+        $this->assertEquals(empty($expectedErrors), $actualResult);
+        $this->assertEquals($expectedErrors, $actualErrors);
     }
 
     /**
@@ -104,23 +99,38 @@ class DomTest extends \PHPUnit_Framework_TestCase
      */
     public function validateDataProvider()
     {
-        $validXml = <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
-    <node id="id1"/>
-    <node id="id2"/>
-</root>
-XML;
-        $invalidXml = <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
-    <node id="id1"/>
-    <unknown_node/>
-</root>
-XML;
         return array(
-            array($validXml, true),
-            array($invalidXml, false),
+            'valid' => array(
+                '<root><node id="id1"/><node id="id2"/></root>',
+                array()
+            ),
+            'invalid' => array(
+                '<root><node id="id1"/><unknown_node/></root>',
+                array("Element 'unknown_node': This element is not expected. Expected is ( node ).\nLine: 1\n")
+            ),
         );
+    }
+
+    public function testValidateCustomErrorFormat()
+    {
+        $xml = '<root><unknown_node/></root>';
+        $errorFormat = 'Error: `%message%`';
+        $expectedErrors = array("Error: `Element 'unknown_node': This element is not expected. Expected is ( node ).`");
+        $dom = new \Magento\Config\Dom($xml, array(), null, $errorFormat);
+        $actualResult = $dom->validate(__DIR__ . '/_files/sample.xsd', $actualErrors);
+        $this->assertFalse($actualResult);
+        $this->assertEquals($expectedErrors, $actualErrors);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Error format '%message%,%unknown%' contains unsupported placeholders
+     */
+    public function testValidateCustomErrorFormatInvalid()
+    {
+        $xml = '<root><unknown_node/></root>';
+        $errorFormat = '%message%,%unknown%';
+        $dom = new \Magento\Config\Dom($xml, array(), null, $errorFormat);
+        $dom->validate(__DIR__ . '/_files/sample.xsd');
     }
 }

@@ -52,14 +52,22 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
         return $this->_coreRegistry->registry('current_order');
     }
 
+    /**
+     * @param object $invoice
+     * @return string
+     */
     public function getPrintInvoiceUrl($invoice)
     {
-        return \Mage::getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
+        return $this->getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
     }
 
+    /**
+     * @param object $order
+     * @return string
+     */
     public function getPrintAllInvoicesUrl($order)
     {
-        return \Mage::getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
     }
 
     /**

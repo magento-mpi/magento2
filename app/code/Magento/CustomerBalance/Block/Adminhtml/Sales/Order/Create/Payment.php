@@ -23,13 +23,58 @@ extends \Magento\Core\Block\Template
     protected $_balanceInstance;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Adminhtml\Model\Sales\Order\Create
+     */
+    protected $_orderCreate;
+
+    /**
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @var \Magento\CustomerBalance\Model\BalanceFactory
+     */
+    protected $_balanceFactory;
+
+    /**
+     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_balanceFactory = $balanceFactory;
+        $this->_sessionQuote = $sessionQuote;
+        $this->_orderCreate = $orderCreate;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve order create model
      *
      * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected function _getOrderCreateModel()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
+        return $this->_orderCreate;
     }
 
     /**
@@ -39,18 +84,18 @@ extends \Magento\Core\Block\Template
      */
     protected function _getStoreManagerModel()
     {
-        return \Mage::getSingleton('Magento\Core\Model\StoreManager');
+        return $this->_storeManager;
     }
 
     /**
      * Format value as price
      *
-     * @param numeric $value
+     * @param double $value
      * @return string
      */
     public function formatPrice($value)
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getStore()->formatPrice($value);
+        return $this->_sessionQuote->getStore()->formatPrice($value);
     }
 
     /**
@@ -61,7 +106,10 @@ extends \Magento\Core\Block\Template
      */
     public function getBalance($convertPrice = false)
     {
-        if (!$this->_helperFactory->get('Magento\CustomerBalance\Helper\Data')->isEnabled() || !$this->_getBalanceInstance()) {
+        if (
+            !$this->_helperFactory->get('Magento\CustomerBalance\Helper\Data')->isEnabled()
+            || !$this->_getBalanceInstance()
+        ) {
             return 0.0;
         }
         if ($convertPrice) {
@@ -78,7 +126,7 @@ extends \Magento\Core\Block\Template
      */
     public function getUseCustomerBalance()
     {
-        return $this->_getOrderCreateModel()->getQuote()->getUseCustomerBalance();
+        return $this->_orderCreate->getQuote()->getUseCustomerBalance();
     }
 
     /**
@@ -91,7 +139,7 @@ extends \Magento\Core\Block\Template
         if (!$this->_getBalanceInstance()) {
             return false;
         }
-        return $this->_getBalanceInstance()->isFullAmountCovered($this->_getOrderCreateModel()->getQuote());
+        return $this->_getBalanceInstance()->isFullAmountCovered($this->_orderCreate->getQuote());
     }
 
     /**
@@ -112,13 +160,13 @@ extends \Magento\Core\Block\Template
     protected function _getBalanceInstance()
     {
         if (!$this->_balanceInstance) {
-            $quote = $this->_getOrderCreateModel()->getQuote();
+            $quote = $this->_orderCreate->getQuote();
             if (!$quote || !$quote->getCustomerId() || !$quote->getStoreId()) {
                 return false;
             }
 
-            $store = \Mage::app()->getStore($quote->getStoreId());
-            $this->_balanceInstance = \Mage::getModel('Magento\CustomerBalance\Model\Balance')
+            $store = $this->_storeManager->getStore($quote->getStoreId());
+            $this->_balanceInstance = $this->_balanceFactory->create()
                 ->setCustomerId($quote->getCustomerId())
                 ->setWebsiteId($store->getWebsiteId())
                 ->loadByCustomer();
@@ -133,7 +181,7 @@ extends \Magento\Core\Block\Template
      */
     public function canUseCustomerBalance()
     {
-        $quote = $this->_getOrderCreateModel()->getQuote();
+        $quote = $this->_orderCreate->getQuote();
         return $this->getBalance() && ($quote->getBaseGrandTotal() + $quote->getBaseCustomerBalanceAmountUsed() > 0);
     }
 }

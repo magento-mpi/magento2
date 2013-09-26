@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Sales Invoice Print View" type="page" parent="sales_order_printorder">
-    <reference name="content">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Sales Invoice Print View" type="page" parent="sales_order_print">
+    <referenceContainer name="content">
         <block class="Magento\Sales\Block\Order\PrintOrder\Invoice" name="sales.order.print.invoice" template="order/print/invoice.phtml">
             <block class="Magento\Catalog\Block\Product\Price" as="default" template="Magento_Sales::order/invoice/items/renderer/default.phtml"/>
             <block class="Magento\Sales\Block\Order\Item\Renderer\Grouped" as="grouped" template="order/invoice/items/renderer/default.phtml"/>
@@ -22,6 +22,6 @@
                 <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml"/>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
     <container name="additional.product.info" label="Additional Product Info"/>
 </layout>

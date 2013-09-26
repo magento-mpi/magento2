@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Flat sales order address resource
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Resource\Order;
 
@@ -28,8 +23,28 @@ class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     protected $_eventPrefix    = 'sales_order_address_resource';
 
     /**
+     * @var \Magento\Sales\Model\Resource\Factory
+     */
+    protected $_salesResourceFactory;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
+     * @param \Magento\Sales\Model\Resource\Factory $salesResourceFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory,
+        \Magento\Sales\Model\Resource\Factory $salesResourceFactory
+    ) {
+        parent::__construct($eventManager, $resource, $eavEntityTypeFactory);
+        $this->_salesResourceFactory = $salesResourceFactory;
+    }
+
+    /**
      * Resource initialization
-     *
      */
     protected function _construct()
     {
@@ -62,7 +77,7 @@ class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Update related grid table after object save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
@@ -78,7 +93,7 @@ class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 
             // update grid table after grid update
             foreach ($gridList as $gridResource => $field) {
-                \Mage::getResourceModel($gridResource)->updateOnRelatedRecordChanged(
+                $this->_salesResourceFactory->create($gridResource)->updateOnRelatedRecordChanged(
                     $field,
                     $object->getParentId()
                 );

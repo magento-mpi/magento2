@@ -26,7 +26,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         'PRODUCT_TYPE_virtual', 'PRODUCT_TYPE_downloadable', 'PRODUCT_TYPE_giftcard',
         'catalog_category_default', 'catalog_category_layered', 'catalog_category_layered_nochildren',
         'customer_logged_in', 'customer_logged_out', 'customer_logged_in_psc_handle', 'customer_logged_out_psc_handle',
-        'cms_page', 'sku_failed_products_handle', 'catalog_product_send'
+        'cms_page', 'sku_failed_products_handle', 'catalog_product_send', 'reference'
     );
 
     /**
@@ -91,17 +91,17 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
         $this->_testObsoleteReferences($layoutXml);
 
-        $selectorHeadBlock = '(name()="block" or name()="reference") and '
+        $selectorHeadBlock = '(name()="block" or name()="referenceBlock") and '
             . '(@name="head" or @name="convert_root_head" or @name="vde_head")';
         $this->assertSame(array(),
             $layoutXml->xpath(
                 '//block[@class="Magento\Page\Block\Html\Head\Css" '
-                    . 'or @class="Magento\Page\Block\Html\Head\Link" '
-                    . 'or @class="Magento\Page\Block\Html\Head\Script"]'
-                    . '/parent::*[not(' . $selectorHeadBlock . ')]'
+                . 'or @class="Magento\Page\Block\Html\Head\Link" '
+                . 'or @class="Magento\Page\Block\Html\Head\Script"]'
+                . '/parent::*[not(' . $selectorHeadBlock . ')]'
             ),
-            'Blocks \Magento\Page\Block\Html\Head_{Css,Link,Script} are allowed within the "head" block only. '
-                . 'Verify integrity of the nodes nesting.'
+            'Blocks \Magento\Page\Block\Html\Head\{Css,Link,Script} are allowed within the "head" block only. '
+            . 'Verify integrity of the nodes nesting.'
         );
         $this->assertSame(array(),
             $layoutXml->xpath('/layout//*[@output="toHtml"]'), 'output="toHtml" is obsolete. Use output="1"'
@@ -115,18 +115,20 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         }
 
         if (false !== strpos($layoutFile, 'app/code/Magento/Adminhtml/view/adminhtml/layout/adminhtml_sales_order')) {
-            $this->markTestIncomplete("The file {$layoutFile} has to use \Magento\Core\Block\Text\ListText, \n"
+            $this->markTestIncomplete("The file {$layoutFile} has to use \Magento\Core\Block\Text\List, \n"
                 . 'there is no solution to get rid of it right now.'
             );
         }
         $this->assertSame(array(),
-            $layoutXml->xpath('/layout//block[@class="Magento\Core\Block\Text\List"]'),
-            'The class Magento_Core_Block_Text_List is not supposed to be used in layout anymore.'
+            $layoutXml->xpath('/layout//block[@class="Magento\Core\Block\Text\ListText"]'),
+            'The namespace Magento\Core\Block\Text;
+
+class ListText is not supposed to be used in layout anymore.'
         );
     }
 
     /**
-     * @param \SimpleXMLElement $layoutXml
+     * @param SimpleXMLElement $layoutXml
      */
     protected function _testObsoleteReferences($layoutXml)
     {

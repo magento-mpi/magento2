@@ -8,10 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Customer\Edit" name="customer_edit"/>
-    </reference>
-    <reference name="head">
+    </referenceContainer>
+    <referenceBlock name="head">
         <block class="Magento\Adminhtml\Block\Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-catalog-product-composite-configure-js">
             <arguments>
@@ -28,8 +28,8 @@
                 <argument name="file" xsi:type="string">Magento_Adminhtml::customer/edit/tab/js/addresses.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="left">
+    </referenceBlock>
+    <referenceContainer name="left">
         <block class="Magento\Adminhtml\Block\Customer\Edit\Tabs" name="customer_edit_tabs">
             <block class="Magento\Adminhtml\Block\Customer\Edit\Tab\View" name="customer_edit_tab_view" template="customer/tab/view.phtml">
                 <block class="Magento\Adminhtml\Block\Customer\Edit\Tab\View\Sales" name="sales" template="customer/tab/view/sales.phtml" before="-"/>
@@ -40,11 +40,11 @@
                 <argument name="block" xsi:type="string">customer_edit_tab_view</argument>
             </action>
         </block>
-    </reference>
-    <reference name="js">
+    </referenceContainer>
+    <referenceContainer name="js">
         <block class="Magento\Adminhtml\Block\Template" template="customer/edit/js.phtml" name="customer.edit.js" as="customer_edit_js"/>
-    </reference>
-    <reference name="customer_edit_tabs">
+    </referenceContainer>
+    <referenceBlock name="customer_edit_tabs">
         <action method="addTab">
             <argument name="name" xsi:type="string">customer_edit_tab_agreements</argument>
             <argument name="block" xsi:type="string">Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Agreement</argument>
@@ -53,5 +53,5 @@
             <argument name="name" xsi:type="string">customer_edit_tab_recurring_profile</argument>
             <argument name="block" xsi:type="string">Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring\Profile</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

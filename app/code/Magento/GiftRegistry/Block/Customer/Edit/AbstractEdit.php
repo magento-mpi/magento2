@@ -58,6 +58,9 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param array $data
      */
     public function __construct(
@@ -65,10 +68,21 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($configCacheType, $coreData, $context, $data);
+        parent::__construct(
+            $configCacheType,
+            $coreData,
+            $context,
+            $storeManager,
+            $regionCollFactory,
+            $countryCollFactory,
+            $data
+        );
     }
 
     /**

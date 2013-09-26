@@ -8,8 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Wishlist Search Form" type="page" parent="default">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\MultipleWishlist\Block\Search\Form" name="wishlist.search.form" template="search/form.phtml">
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

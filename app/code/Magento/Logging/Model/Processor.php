@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -88,59 +86,91 @@ class Processor
      */
     protected $_additionalData = array();
 
-    /** @var  \Magento\Backend\Model\Auth\Session */
+    /**
+     * Backend auth session
+     *
+     * @var \Magento\Backend\Model\Auth\Session
+     */
     protected $_authSession;
 
-    /** @var  \Magento\Backend\Model\Session */
+    /**
+     * Backend session
+     *
+     * @var \Magento\Backend\Model\Session
+     */
     protected $_backendSession;
 
-    /** @var  \Magento\ObjectManager */
+    /**
+     * Object manager
+     *
+     * @var \Magento\ObjectManager
+     */
     protected $_objectManager;
 
-    /** @var  \Magento\Core\Model\App */
-    protected $_coreApp;
-
-    /** @var  \Magento\Core\Helper\Http */
-    protected $_httpHelper;
-
     /**
+     * Logger model
+     *
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
+
+    /**
+     * Event model factory
+     *
+     * @var \Magento\Logging\Model\EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * Request
+     *
+     * @var \Magento\Core\Controller\Request\Http
+     */
+    protected $_request;
+
+    /**
+     * Core http
+     *
+     * @var \Magento\Core\Helper\Http
+     */
+    protected $_httpHelper;
 
     /**
      * Constructor: initialize configuration model, controller and model handler
      *
      * @param \Magento\Logging\Model\Config $config
      * @param \Magento\Logging\Model\Handler\Models $modelsHandler
-     * @param \Magento\Logging\Model\Handler\Controllers $controllersHandler
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\App $coreApp
-     * @param \Magento\Core\Helper\Http $httpHelper
      * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory
+     * @param \Magento\Logging\Model\EventFactory $eventFactory
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Helper\Http $httpHelper
      */
     public function __construct(
         \Magento\Logging\Model\Config $config,
         \Magento\Logging\Model\Handler\Models $modelsHandler,
-        \Magento\Logging\Model\Handler\Controllers $controllersHandler,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\App $coreApp,
-        \Magento\Core\Helper\Http $httpHelper,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
+        \Magento\Logging\Model\EventFactory $eventFactory,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Helper\Http $httpHelper
     ) {
         $this->_config = $config;
         $this->_modelsHandler = $modelsHandler;
-        $this->_controllersHandler = $controllersHandler;
+        $this->_controllersHandler = $handlerControllersFactory->create();
         $this->_authSession = $authSession;
         $this->_backendSession = $backendSession;
         $this->_objectManager = $objectManager;
-        $this->_coreApp = $coreApp;
-        $this->_httpHelper = $httpHelper;
         $this->_logger = $logger;
+        $this->_eventFactory = $eventFactory;
+        $this->_request = $request;
+        $this->_httpHelper = $httpHelper;
     }
 
     /**
@@ -354,10 +384,9 @@ class Processor
         }
         $errors = $this->_backendSession->getMessages()->getErrors();
         /** @var \Magento\Logging\Model\Event $loggingEvent */
-        $loggingEvent = $this->_objectManager->create('Magento\Logging\Model\Event');
-        $loggingEvent->setData(array(
+        $loggingEvent = $this->_eventFactory->create()->setData(array(
             'ip'            => $this->_httpHelper->getRemoteAddr(),
-            'x_forwarded_ip'=> $this->_coreApp->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
+            'x_forwarded_ip'=> $this->_request->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,
             'is_success'    => empty($errors),
@@ -475,7 +504,7 @@ class Processor
      * @example
      * Array
      *     (
-     *          [\Magento\Sales\Model\Order] => Array
+     *          [Magento_Sales_Model_Order] => Array
      *             (
      *                 [68] => Array
      *                     (
@@ -515,41 +544,6 @@ class Processor
     public function getCollectedAdditionalData()
     {
         return $this->_additionalData;
-    }
-
-    /**
-     * Get callback function for logAction and modelActionAfter functions
-     *
-     * @param string $srtCallback
-     * @param object $defaultHandler
-     * @param string $defaultFunction
-     * @return array Contains two values 'handler' and 'callback' that indicate what callback function should be applied
-     */
-    protected function _getCallbackFunction($srtCallback, $defaultHandler, $defaultFunction)
-    {
-        $return = array('handler' => $defaultHandler, 'callback' => $defaultFunction);
-        if (empty($srtCallback)) {
-            return $return;
-        }
-
-        try {
-            $classPath = explode('::', $srtCallback);
-            if (count($classPath) == 2) {
-                $return['handler'] = \Mage::getSingleton(str_replace('__', '/', $classPath[0]));
-                $return['callback'] = $classPath[1];
-            } else {
-                $return['callback'] = $classPath[0];
-            }
-            if (!$return['handler'] || !$return['callback'] || !method_exists($return['handler'],
-                $return['callback'])) {
-                \Mage::throwException("Unknown callback function: {$srtCallback}");
-            }
-        } catch (Exception $e) {
-            $return['handler'] = false;
-            $this->_logger->logException($e);
-        }
-
-        return $return;
     }
 
     /**

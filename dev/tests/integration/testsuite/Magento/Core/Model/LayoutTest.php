@@ -239,16 +239,48 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @dataProvider addContainerDataProvider()
      */
-    public function testAddContainer()
+    public function testAddContainer($htmlTag)
     {
         $this->assertFalse($this->_layout->hasElement('container'));
-        $this->_layout->addContainer('container', 'Container');
+        $this->_layout->addContainer('container', 'Container', array('htmlTag' => $htmlTag));
         $this->assertTrue($this->_layout->hasElement('container'));
         $this->assertTrue($this->_layout->isContainer('container'));
+        $this->assertEquals($htmlTag, $this->_layout->getElementProperty('container', 'htmlTag'));
 
         $this->_layout->addContainer('container1', 'Container 1', array(), 'container', 'c1');
         $this->assertEquals('container1', $this->_layout->getChildName('container', 'c1'));
+    }
+
+    public function addContainerDataProvider()
+    {
+        return array(
+            array('dd'),
+            array('div'),
+            array('dl'),
+            array('fieldset'),
+            array('header'),
+            array('hgroup'),
+            array('ol'),
+            array('p'),
+            array('section'),
+            array('table'),
+            array('tfoot'),
+            array('ul')
+        );
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testAddContainerInvalidHtmlTag()
+    {
+        $msg = 'Html tag "span" is forbidden for usage in containers. ' .
+               'Consider to use one of the allowed: dd, div, dl, fieldset, header, hgroup, ol, p, section, table, ' .
+               'tfoot, ul.';
+        $this->setExpectedException('Magento_Exception', $msg);
+        $this->_layout->addContainer('container', 'Container', array('htmlTag' => 'span'));
     }
 
     /**
@@ -436,5 +468,16 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $block = $this->_layout->getBlockSingleton('Magento\Core\Block\Text');
         $this->assertInstanceOf('Magento\Core\Block\Text', $block);
         $this->assertSame($block, $this->_layout->getBlockSingleton('Magento\Core\Block\Text'));
+    }
+
+    public function testUpdateContainerAttributes()
+    {
+        $this->_layout->setXml(simplexml_load_file(__DIR__ . '/_files/layout/container_attributes.xml',
+            'Magento_Core_Model_Layout_Element'));
+        $this->_layout->generateElements();
+        $result = $this->_layout->renderElement('container1', false);
+        $this->assertEquals('<div id="container1-2" class="class12">Test11Test12</div>', $result);
+        $result = $this->_layout->renderElement('container2', false);
+        $this->assertEquals('<div id="container2-2" class="class22">Test21Test22</div>', $result);
     }
 }

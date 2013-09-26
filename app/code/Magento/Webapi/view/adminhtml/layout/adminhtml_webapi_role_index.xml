@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_webapi_role_grid_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Webapi\Block\Adminhtml\Role" name="webapi_role.grid.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

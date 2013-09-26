@@ -21,6 +21,14 @@ namespace Magento\SalesArchive\Model\Resource\Helper;
 class Mysql4 extends \Magento\Core\Model\Resource\Helper\Mysql4
 {
     /**
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'SalesArchive')
+    {
+        parent::__construct($modulePrefix);
+    }
+
+    /**
      * Change columns position
      *
      * @param string $table
@@ -43,7 +51,7 @@ class Mysql4 extends \Magento\Core\Model\Resource\Helper\Mysql4
         }
 
         if (!$this->_getWriteAdapter()->isTableExists($table)) {
-            \Mage::throwException(__("We can't find the table."));
+            throw new \Magento\Core\Exception(__("We can't find the table."));
         }
 
         $columns = array();
@@ -54,9 +62,9 @@ class Mysql4 extends \Magento\Core\Model\Resource\Helper\Mysql4
         }
 
         if (!isset($columns[$column])) {
-            \Mage::throwException(__('Column not found'));
+            throw new \Magento\Core\Exception(__('Column not found'));
         } elseif ($after && !isset($columns[$after])) {
-            \Mage::throwException(__('Positioning column not found'));
+            throw new \Magento\Core\Exception(__('Positioning column not found'));
         }
 
         if ($after) {

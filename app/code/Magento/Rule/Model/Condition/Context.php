@@ -20,19 +20,43 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_viewUrl;
 
     /**
-     * Logger instance
-     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
+     * @var \Magento\Rule\Model\ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
+     * @param \Magento\Core\Model\Logger $logger
      */
-    public function __construct(\Magento\Core\Model\Logger $logger, \Magento\Core\Model\View\Url $viewUrl)
-    {
+    public function __construct(
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Rule\Model\ConditionFactory $conditionFactory,
+        \Magento\Core\Model\Logger $logger
+    ) {
         $this->_viewUrl = $viewUrl;
+        $this->_locale = $locale;
+        $this->_layout = $layout;
+        $this->_conditionFactory = $conditionFactory;
         $this->_logger = $logger;
     }
 
@@ -45,8 +69,30 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * Get logger instance
-     *
+     * @return \Magento\Core\Model\LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Layout
+     */
+    public function getLayout()
+    {
+        return $this->_layout;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Layout
+     */
+    public function getConditionFactory()
+    {
+        return $this->_conditionFactory;
+    }
+
+    /**
      * @return \Magento\Core\Model\Logger
      */
     public function getLogger()

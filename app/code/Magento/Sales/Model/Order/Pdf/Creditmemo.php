@@ -8,18 +8,72 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Order Creditmemo PDF model
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Order\Pdf;
 
 class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Sales\Model\Order\Pdf\TotalFactory $pdfTotalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Sales\Model\Order\Pdf\TotalFactory $pdfTotalFactory,
+        \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $paymentData,
+            $coreData,
+            $coreString,
+            $coreStoreConfig,
+            $coreConfig,
+            $coreDir,
+            $shippingConfig,
+            $translate,
+            $pdfTotalFactory,
+            $pdfItemsFactory,
+            $data
+        );
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+    }
+
     /**
      * Draw table header for product items
      *
@@ -43,41 +97,41 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('SKU'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('SKU'), 12, true, true),
             'feed'  => 255,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('Total (ex)'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('Total (ex)'), 12, true, true),
             'feed'  => 330,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('Discount'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('Discount'), 12, true, true),
             'feed'  => 380,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('Qty'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('Qty'), 12, true, true),
             'feed'  => 445,
             'align' => 'right',
             //'width' => 30,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('Tax'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('Tax'), 12, true, true),
             'feed'  => 495,
             'align' => 'right',
             //'width' => 45,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('Total (inc)'), 12, true, true),
+            'text'  => $this->_coreString->str_split(__('Total (inc)'), 12, true, true),
             'feed'  => 565,
             'align' => 'right'
         );
@@ -110,8 +164,8 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         foreach ($creditmemos as $creditmemo) {
             if ($creditmemo->getStoreId()) {
-                \Mage::app()->getLocale()->emulate($creditmemo->getStoreId());
-                \Mage::app()->setCurrentStore($creditmemo->getStoreId());
+                $this->_locale->emulate($creditmemo->getStoreId());
+                $this->_storeManager->setCurrentStore($creditmemo->getStoreId());
             }
             $page  = $this->newPage();
             $order = $creditmemo->getOrder();
@@ -148,7 +202,7 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         }
         $this->_afterGetPdf();
         if ($creditmemo->getStoreId()) {
-            \Mage::app()->getLocale()->revert();
+            $this->_locale->revert();
         }
         return $pdf;
     }

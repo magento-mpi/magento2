@@ -39,6 +39,31 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
     );
 
     /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        parent::__construct($eventManager, $logger,$fetchStrategy, $entityFactory, $resource);
+        $this->_date = $date;
+    }
+
+    /**
      * Set resource model and determine field mapping
      */
     protected function _construct()
@@ -111,7 +136,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
     {
         if (!$this->getFlag('website_group_date_filter')) {
             if (is_null($now)) {
-                $now = \Mage::getModel('Magento\Core\Model\Date')->date('Y-m-d');
+                $now = $this->_date->date('Y-m-d');
             }
 
             $this->addWebsiteFilter($websiteId);

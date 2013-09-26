@@ -17,16 +17,9 @@
  */
 namespace Magento\Catalog\Model\Entity\Product\Attribute\Design\Options;
 
-class Container extends \Magento\Eav\Model\Entity\Attribute\Source\Config
+class Container
+    extends \Magento\Eav\Model\Entity\Attribute\Source\Config
 {
-    protected $_configNodePath;
-
-    public function __construct(\Magento\Core\Model\Config $coreConfig)
-    {
-        parent::__construct($coreConfig);
-        $this->_configNodePath = 'global/catalog/product/design/options_container';
-    }
-
     /**
      * Get a text for option value
      *

@@ -2,12 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-
 namespace Magento\DesignEditor\Controller\Varien\Router;
 
 class Standard extends \Magento\Core\Controller\Varien\Router\Base
@@ -31,12 +30,12 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Config\Scope $configScope
      * @param \Magento\Core\Model\Route\Config $routeConfig
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $config
-     * @param string $areaCode
-     * @param string $baseController
-     * @param string $routerId
-     *
+     * @param $areaCode
+     * @param $baseController
+     * @param $routerId
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -46,6 +45,7 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Config\Scope $configScope,
         \Magento\Core\Model\Route\Config $routeConfig,
+        \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $config,
         $areaCode,
@@ -59,6 +59,7 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
             $configScope,
             $coreStoreConfig,
             $routeConfig,
+            $securityInfo,
             $config,
             $areaCode,
             $baseController,
@@ -155,8 +156,7 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
         $vdeNode = $this->_objectManager->get('Magento\Core\Model\Config')
             ->getNode(\Magento\DesignEditor\Model\Area::AREA_VDE);
         if ($vdeNode) {
-            $this->_objectManager->get('Magento\Core\Model\Config')->
-                getNode(\Magento\Core\Model\App\Area::AREA_FRONTEND)
+            $this->_objectManager->get('Magento\Core\Model\Config')->getNode(\Magento\Core\Model\App\Area::AREA_FRONTEND)
                 ->extend($vdeNode, true);
         }
     }

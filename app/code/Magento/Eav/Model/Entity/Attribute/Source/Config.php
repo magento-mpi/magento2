@@ -23,26 +23,16 @@ namespace Magento\Eav\Model\Entity\Attribute\Source;
 class Config extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
-     * Config Node Path
-     *
-     * @var \Magento\Core\Model\Config\Element
+     * @var array
      */
-    protected $_configNodePath;
+    protected $_optionsData;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @param array $options
      */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
-     * @param \Magento\Core\Model\Config $coreConfig
-     */
-    public function __construct(
-        \Magento\Core\Model\Config $coreConfig
-    ) {
-        $this->_coreConfig = $coreConfig;
+    public function __construct(array $options)
+    {
+        $this->_optionsData = $options;
     }
 
     /**
@@ -55,21 +45,14 @@ class Config extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     {
         if ($this->_options === null) {
             $this->_options = array();
-            $rootNode = null;
-            if ($this->_configNodePath) {
-                $rootNode = $this->_coreConfig->getNode($this->_configNodePath);
+
+            if (empty($this->_optionsData)) {
+                throw \Mage::exception('Magento_Eav', __('No options found'));
             }
-            if (!$rootNode) {
-                throw \Mage::exception('Magento_Eav', __('Failed to load node %1 from config', $this->_configNodePath));
-            }
-            $options = $rootNode->children();
-            if (empty($options)) {
-                throw \Mage::exception('Magento_Eav', __('No options found in config node %1', $this->_configNodePath));
-            }
-            foreach ($options as $option) {
+            foreach ($this->_optionsData as $option) {
                 $this->_options[] = array(
-                    'value' => (string)$option->value,
-                    'label' => __((string)$option->label)
+                    'value' => $option['value'],
+                    'label' => __($option['label'])
                 );
             }
         }

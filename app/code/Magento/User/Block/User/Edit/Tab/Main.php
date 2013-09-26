@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Cms page edit form main tab
- *
- * @category   Magento
- * @package    Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
@@ -28,24 +22,37 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_authSession;
 
     /**
+     * Locale model
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_authSession = $authSession;
+        $this->_locale = $locale;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
+    
     /**
      * Prepare form fields
      *
@@ -122,7 +129,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
             'name'   => 'interface_locale',
             'label'  => __('Interface Locale'),
             'title'  => __('Interface Locale'),
-            'values' => \Mage::app()->getLocale()->getTranslatedOptionLocales(),
+            'values' => $this->_locale->getTranslatedOptionLocales(),
             'class'  => 'select',
         ));
 

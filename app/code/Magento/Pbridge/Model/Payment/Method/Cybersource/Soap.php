@@ -10,10 +10,6 @@
 
 /**
  * Cybersource.Com dummy payment method model
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Pbridge\Model\Payment\Method\Cybersource;
 
@@ -69,12 +65,17 @@ class Soap extends \Magento\Payment\Model\Method\Cc
     protected $_pbridgeData = null;
 
     /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Centinel\Model\Service $centinelService
      * @param array $data
      */
     public function __construct(
@@ -84,12 +85,15 @@ class Soap extends \Magento\Payment\Model\Method\Cc
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Centinel\Model\Service $centinelService,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+            $locale, $centinelService, $data);
     }
-
 
     /**
      * Check method for processing with base currency
@@ -104,7 +108,6 @@ class Soap extends \Magento\Payment\Model\Method\Cc
         }
         return false;
     }
-
 
     /**
      * Return that current payment method is dummy
@@ -205,7 +208,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
     /**
      * Validate payment method information object
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
      */
     public function validate()
     {
@@ -218,7 +221,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -235,7 +238,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -252,7 +255,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -265,7 +268,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return Magento_Pbridge_Model_Payment_Method_Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
      */
     public function void(\Magento\Object $payment)
     {
@@ -278,7 +281,7 @@ class Soap extends \Magento\Payment\Model\Method\Cc
      * Cancel method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return Magento_Pbridge_Model_Payment_Method_Cybersource
+     * @return \Magento\Pbridge\Model\Payment\Method\Cybersource
      */
     public function cancel(\Magento\Object $payment)
     {

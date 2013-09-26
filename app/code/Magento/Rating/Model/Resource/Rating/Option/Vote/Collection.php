@@ -20,34 +20,37 @@ namespace Magento\Rating\Model\Resource\Rating\Option\Vote;
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * Application instance
+     * Store list manager
      *
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_app;
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory
+     */
+    protected $_ratingCollectionF;
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
-     * @param array $data
-     * @throws \InvalidArgumentException
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
-        $data = array()
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        $this->_app = isset($data['app']) ? $data['app'] : \Mage::app();
-
-        if (!($this->_app instanceof \Magento\Core\Model\App)) {
-            throw new \InvalidArgumentException('Required app object is invalid');
-        }
+        $this->_storeManager = $storeManager;
+        $this->_ratingCollectionF = $ratingCollectionF;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
@@ -94,7 +97,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function setStoreFilter($storeId)
     {
-        if ($this->_app->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return $this;
         }
         $this->getSelect()
@@ -124,11 +127,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             ->joinLeft(
                 array('title' => $this->getTable('rating_title')),
                 $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?',
-                    (int)\Mage::app()->getStore()->getId()),
+                    (int)$this->_storeManager->getStore()->getId()),
                 array('rating_code' => $ratingCodeCond));
-        if (!$this->_app->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             if ($storeId == null) {
-                $storeId = \Mage::app()->getStore()->getId();
+                $storeId = $this->_storeManager->getStore()->getId();
             }
 
             if (is_array($storeId)) {
@@ -172,15 +175,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             return $this;
         }
         foreach ($this->getItems() as $item) {
-            $options = \Mage::getModel('Magento\Rating\Model\Rating\Option')
-                    ->getResourceCollection()
-                    ->addRatingFilter($item->getRatingId())
-                    ->load();
+            /** @var \Magento\Rating\Model\Resource\Rating\Option\Collection $options */
+            $options = $this->_ratingCollectionF->create();
+            $options->addRatingFilter($item->getRatingId())->load();
 
             if ($item->getRatingId()) {
                 $item->setRatingOptions($options);
             } else {
-                return;
+                return $this;
             }
         }
         return $this;

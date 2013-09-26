@@ -6,6 +6,8 @@
  *
  * @copyright {copyright}
  * @license   {license_link}
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 namespace Magento\Config\Reader;
 
@@ -21,7 +23,7 @@ class Filesystem implements \Magento\Config\ReaderInterface
     /**
      * Config converter
      *
-     * @var \Magento\Config\Converter\Dom
+     * @var \Magento\Config\ConverterInterface
      */
     protected $_converter;
 
@@ -72,9 +74,10 @@ class Filesystem implements \Magento\Config\ReaderInterface
      * @param \Magento\Config\ConverterInterface $converter
      * @param \Magento\Config\SchemaLocatorInterface $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
-     * @param $fileName
-     * @param $idAttributes
+     * @param string $fileName
+     * @param array $idAttributes
      * @param string $domDocumentClass
+     * @param string $defaultScope
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
@@ -83,7 +86,8 @@ class Filesystem implements \Magento\Config\ReaderInterface
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName,
         $idAttributes = array(),
-        $domDocumentClass = 'Magento\Config\Dom'
+        $domDocumentClass = 'Magento\Config\Dom',
+        $defaultScope = 'global'
     ) {
         $this->_fileResolver = $fileResolver;
         $this->_converter = $converter;
@@ -95,17 +99,21 @@ class Filesystem implements \Magento\Config\ReaderInterface
             ? $schemaLocator->getPerFileSchema()
             : null;
         $this->_domDocumentClass = $domDocumentClass;
+        $this->_defaultScope = $defaultScope;
     }
 
     /**
      * Load configuration scope
      *
-     * @param string $scope
+     * @param string|null $scope
      * @return array
      * @throws \Magento\Exception
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function read($scope)
+    public function read($scope = null)
     {
+        $scope = $scope ?: $this->_defaultScope;
         $fileList = $this->_fileResolver->get($this->_fileName, $scope);
         if (!count($fileList)) {
             return array();

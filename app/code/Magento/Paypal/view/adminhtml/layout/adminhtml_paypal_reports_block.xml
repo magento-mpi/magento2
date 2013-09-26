@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.paypal.report.grid.container">
+    <referenceBlock name="adminhtml.paypal.report.grid.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="paypal.report.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">settlementGrid</argument>
@@ -119,5 +119,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

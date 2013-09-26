@@ -29,20 +29,58 @@ class Collection
     protected $_usedFiltersNotNull = array();
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Reward\Model\Resource\Reward
+     */
+    protected $_resourceReward;
+
+    /**
+     * @var \Magento\CustomerBalance\Model\Resource\Balance
+     */
+    protected $resourceBalance;
+
+    /**
+     * @param \Magento\Reward\Model\Resource\Reward $resourceReward
+     * @param \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     */
+    public function __construct(
+        \Magento\Reward\Model\Resource\Reward $resourceReward,
+        \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+    ) {
+        $this->_resourceReward = $resourceReward;
+        $this->_resourceBalance = $resourceBalance;
+        $this->_storeManager = $storeManager;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $fieldsetConfig);
+    }
+
+    /**
      * Join with reward points table
      *
      * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
      */
     public function joinWithRewardPoints()
     {
-        /** @var $rewardResourceModel \Magento\Reward\Model\Resource\Reward */
-        $rewardResourceModel = \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward');
-
         $joinFlag = 'join_reward_points';
         if (!$this->getFlag($joinFlag)) {
             /** @var $website \Magento\Core\Model\Website */
-            foreach (\Mage::app()->getWebsites() as $website) {
-                $tableName  = $rewardResourceModel->getMainTable();
+            foreach ($this->_storeManager->getWebsites() as $website) {
+                $tableName  = $this->_resourceReward->getMainTable();
                 $tableAlias = $tableName . $website->getId();
                 $fieldName  = $tableAlias . '.points_balance';
                 $fieldAlias = $website->getCode() . '_'
@@ -72,14 +110,11 @@ class Collection
      */
     public function joinWithCustomerBalance()
     {
-        /** @var $customerBalanceResourceModel \Magento\CustomerBalance\Model\Resource\Balance */
-        $customerBalanceResourceModel = \Mage::getResourceModel('Magento\CustomerBalance\Model\Resource\Balance');
-
         $joinFlag = 'join_customer_balance';
         if (!$this->getFlag($joinFlag)) {
             /** @var $website \Magento\Core\Model\Website */
-            foreach (\Mage::app()->getWebsites() as $website) {
-                $tableName  = $customerBalanceResourceModel->getMainTable();
+            foreach ($this->_storeManager->getWebsites() as $website) {
+                $tableName  = $this->_resourceBalance->getMainTable();
                 $tableAlias = $tableName . $website->getId();
                 $fieldName  = $tableAlias . '.amount';
                 $fieldAlias = $website->getCode() . '_'

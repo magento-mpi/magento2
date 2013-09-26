@@ -19,13 +19,6 @@
                 </setup>
             </targetrule_setup>
         </resources>
-        <index>
-            <indexer>
-                <targetrule>
-                    <model>Magento\TargetRule\Model\Index</model>
-                </targetrule>
-            </indexer>
-        </index>
     </global>
     <default>
         <catalog>

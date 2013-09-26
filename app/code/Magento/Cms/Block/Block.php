@@ -21,24 +21,44 @@ namespace Magento\Cms\Block;
 class Block extends \Magento\Core\Block\AbstractBlock
 {
     /**
-     * Cms data
-     *
-     * @var \Magento\Cms\Helper\Data
+     * @var \Magento\Cms\Model\Template\FilterProvider
      */
-    protected $_cmsData = null;
+    protected $_filterProvider;
 
     /**
-     * @param \Magento\Cms\Helper\Data $cmsData
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Block factory
+     *
+     * @var \Magento\Cms\Model\BlockFactory
+     */
+    protected $_blockFactory;
+
+    /**
+     * Construct
+     * 
      * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Cms\Helper\Data $cmsData,
         \Magento\Core\Block\Context $context,
+        \Magento\Cms\Model\Template\FilterProvider $filterProvider,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Cms\Model\BlockFactory $blockFactory,
         array $data = array()
     ) {
-        $this->_cmsData = $cmsData;
         parent::__construct($context, $data);
+        $this->_filterProvider = $filterProvider;
+        $this->_storeManager = $storeManager;
+        $this->_blockFactory = $blockFactory;
     }
 
     /**
@@ -51,16 +71,13 @@ class Block extends \Magento\Core\Block\AbstractBlock
         $blockId = $this->getBlockId();
         $html = '';
         if ($blockId) {
-            $storeId = \Mage::app()->getStore()->getId();
-            $block = \Mage::getModel('Magento\Cms\Model\Block')
-                ->setStoreId($storeId)
+            $storeId = $this->_storeManager->getStore()->getId();
+            /** @var \Magento\Cms\Model\Block $block */
+            $block = $this->_blockFactory->create();
+            $block->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
-                /* @var $helper \Magento\Cms\Helper\Data */
-                $helper = $this->_cmsData;
-                $processor = $helper->getBlockTemplateProcessor();
-                $html = $processor->setStoreId($storeId)
-                    ->filter($block->getContent());
+                $html = $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent());
             }
         }
         return $html;

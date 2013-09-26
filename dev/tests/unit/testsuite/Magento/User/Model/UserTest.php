@@ -66,19 +66,32 @@ class UserTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array())
             ->getMock();
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        
-        $this->_model = new \Magento\User\Model\User(
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
-            $this->_userData,
-            $this->_coreData,
-            $this->_senderMock,
-            $this->_contextMock,
-            $coreRegistry,
-            $coreStoreConfig,
-            $this->_resourceMock,
-            $this->_collectionMock
-        );
+
+        $eventManagerMock = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $objectFactoryMock = $this->getMock('Magento\Validator\Composite\VarienObjectFactory', array('create'),
+            array(), '', false);
+        $roleFactoryMock = $this->getMock('Magento\User\Model\RoleFactory', array('create'),
+            array(), '', false);
+        $emailFactoryMock = $this->getMock('Magento\Core\Model\Email\InfoFactory', array('create'),
+            array(), '', false);
+        $mailerFactoryMock = $this->getMock('Magento\Core\Model\Email\Template\MailerFactory', array('create'),
+            array(), '', false);
+
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $helper->getObject('Magento\User\Model\User', array(
+            'eventManager' => $eventManagerMock,
+            'userData' => $this->_userData,
+            'coreData' => $this->_coreData,
+            'sender' => $this->_senderMock,
+            'context' => $this->_contextMock,
+            'registry' => $coreRegistry,
+            'resource' => $this->_resourceMock,
+            'resourceCollection' => $this->_collectionMock,
+            'validatorCompositeFactory' => $objectFactoryMock,
+            'roleFactory' => $roleFactoryMock,
+            'emailInfoFactory' => $emailFactoryMock,
+            'mailerFactory' => $mailerFactoryMock,
+        ));
     }
 
     public function testSendPasswordResetNotificationEmail()

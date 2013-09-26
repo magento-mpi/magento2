@@ -20,48 +20,110 @@ namespace Magento\Newsletter\Controller;
 class Subscriber extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Session
+     *
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Customer factory
+     *
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Subscriber factory
+     *
+     * @var \Magento\Newsletter\Model\SubscriberFactory
+     */
+    protected $_subscriberFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Session $session
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Session $session
+    ) {
+        parent::__construct($context);
+        $this->_subscriberFactory = $subscriberFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
+        $this->_session = $session;
+    }
+
+    /**
      * New subscription action
+     *
+     * @throws \Magento\Core\Exception
      */
     public function newAction()
     {
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
-            $session            = \Mage::getSingleton('Magento\Core\Model\Session');
-            $customerSession    = \Mage::getSingleton('Magento\Customer\Model\Session');
-            $email              = (string) $this->getRequest()->getPost('email');
+            $email = (string) $this->getRequest()->getPost('email');
 
             try {
                 if (!\Zend_Validate::is($email, 'EmailAddress')) {
-                    \Mage::throwException(__('Please enter a valid email address.'));
+                    throw new \Magento\Core\Exception(__('Please enter a valid email address.'));
                 }
 
                 if ($this->_objectManager->get('Magento\Core\Model\Store\Config')
                         ->getConfig(\Magento\Newsletter\Model\Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1
-                    && !$customerSession->isLoggedIn()) {
-                    \Mage::throwException(__('Sorry, but the administrator denied subscription for guests. '
+                    && !$this->_customerSession->isLoggedIn()) {
+                    throw new \Magento\Core\Exception(__('Sorry, but the administrator denied subscription for guests. '
                         . 'Please <a href="%1">register</a>.',
                         $this->_objectManager->get('Magento\Customer\Helper\Data')->getRegisterUrl()));
                 }
 
-                $ownerId = \Mage::getModel('Magento\Customer\Model\Customer')
-                        ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
+                $ownerId = $this->_customerFactory->create()
+                        ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
                         ->loadByEmail($email)
                         ->getId();
-                if ($ownerId !== null && $ownerId != $customerSession->getId()) {
-                    \Mage::throwException(__('This email address is already assigned to another user.'));
+                if ($ownerId !== null && $ownerId != $this->_customerSession->getId()) {
+                    throw new \Magento\Core\Exception(__('This email address is already assigned to another user.'));
                 }
 
-                $status = \Mage::getModel('Magento\Newsletter\Model\Subscriber')->subscribe($email);
+                $status = $this->_subscriberFactory->create()->subscribe($email);
                 if ($status == \Magento\Newsletter\Model\Subscriber::STATUS_NOT_ACTIVE) {
-                    $session->addSuccess(__('The confirmation request has been sent.'));
+                    $this->_session->addSuccess(__('The confirmation request has been sent.'));
                 } else {
-                    $session->addSuccess(__('Thank you for your subscription.'));
+                    $this->_session->addSuccess(__('Thank you for your subscription.'));
                 }
             }
             catch (\Magento\Core\Exception $e) {
-                $session->addException($e, __('There was a problem with the subscription: %1', $e->getMessage()));
+                $this->_session->addException($e, __('There was a problem with the subscription: %1',
+                    $e->getMessage()));
             }
             catch (\Exception $e) {
-                $session->addException($e, __('Something went wrong with the subscription.'));
+                $this->_session->addException($e, __('Something went wrong with the subscription.'));
             }
         }
         $this->_redirectReferer();
@@ -76,21 +138,21 @@ class Subscriber extends \Magento\Core\Controller\Front\Action
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')->load($id);
-            $session = \Mage::getSingleton('Magento\Core\Model\Session');
+            /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+            $subscriber = $this->_subscriberFactory->create()->load($id);
 
             if ($subscriber->getId() && $subscriber->getCode()) {
                 if ($subscriber->confirm($code)) {
-                    $session->addSuccess(__('Your subscription has been confirmed.'));
+                    $this->_session->addSuccess(__('Your subscription has been confirmed.'));
                 } else {
-                    $session->addError(__('This is an invalid subscription confirmation code.'));
+                    $this->_session->addError(__('This is an invalid subscription confirmation code.'));
                 }
             } else {
-                $session->addError(__('This is an invalid subscription ID.'));
+                $this->_session->addError(__('This is an invalid subscription ID.'));
             }
         }
 
-        $this->_redirectUrl(\Mage::getBaseUrl());
+        $this->_redirectUrl($this->_storeManager->getStore()->getBaseUrl());
     }
 
     /**
@@ -102,18 +164,17 @@ class Subscriber extends \Magento\Core\Controller\Front\Action
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $session = \Mage::getSingleton('Magento\Core\Model\Session');
             try {
-                \Mage::getModel('Magento\Newsletter\Model\Subscriber')->load($id)
+                $this->_subscriberFactory->create()->load($id)
                     ->setCheckCode($code)
                     ->unsubscribe();
-                $session->addSuccess(__('You have been unsubscribed.'));
+                $this->_session->addSuccess(__('You have been unsubscribed.'));
             }
             catch (\Magento\Core\Exception $e) {
-                $session->addException($e, $e->getMessage());
+                $this->_session->addException($e, $e->getMessage());
             }
             catch (\Exception $e) {
-                $session->addException($e, __('Something went wrong with the un-subscription.'));
+                $this->_session->addException($e, __('Something went wrong with the un-subscription.'));
             }
         }
         $this->_redirectReferer();

@@ -21,6 +21,13 @@ namespace Magento\Reports\Model\Resource\Helper;
 class Mysql4 extends \Magento\Core\Model\Resource\Helper\Mysql4
     implements \Magento\Reports\Model\Resource\Helper\HelperInterface
 {
+    /**
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'reports')
+    {
+        parent::__construct($modulePrefix);
+    }
 
     /**
      * Merge Index data

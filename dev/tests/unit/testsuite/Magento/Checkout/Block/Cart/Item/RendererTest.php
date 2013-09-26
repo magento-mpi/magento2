@@ -50,6 +50,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             'statusListFactory' => $this->getMock(
                 'Magento\Sales\Model\Status\ListFactory', array(), array(), '', false
             ),
+            'productFactory' => $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false),
+            'itemOptionFactory' => $this->getMock(
+                'Magento_Sales_Model_Quote_Item_OptionFactory', array(), array(), '', false
+            ),
         );
         $childItem = $objectManagerHelper->getObject('Magento\Sales\Model\Quote\Item', $arguments);
         $childItem->setData('product', $childProduct);

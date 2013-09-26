@@ -40,19 +40,32 @@ class Rcompared
      */
     protected $_productFactory;
 
+    /**
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory
+     * @param array $data
+     */
     public function __construct(
         \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
+        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
         array $data = array()
     ) {
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_productFactory = $productFactory;
         $this->_compareListFactory = $compareListFactory;
     }

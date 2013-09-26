@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,10 +28,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
         $layoutUtility = new \Magento\Core\Utility\Layout($this);
         $args = array(
+            'context' => \Mage::getSingleton('Magento\Core\Block\Template\Context'),
             'layoutMergeFactory' => $this->getMock('Magento\Core\Model\Layout\MergeFactory',
                 array(), array(), '', false),
-            'themeCollFactory' => \Mage::getSingleton('Magento\Core\Model\Resource\Theme\CollectionFactory'),
-            'context' => \Mage::getSingleton('Magento\Core\Block\Template\Context'),
+            'themesFactory' => \Mage::getSingleton('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             'data' => array(
                 'name'  => 'page_type',
                 'id'    => 'page_types_select',

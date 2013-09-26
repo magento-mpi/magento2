@@ -11,9 +11,7 @@
 /**
  * Multiple wishlist helper
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\MultipleWishlist\Helper;
 
@@ -27,6 +25,65 @@ class Data extends \Magento\Wishlist\Helper\Data
     protected $_defaultWishlistsByCustomer = array();
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Item collection factory
+     *
+     * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
+     */
+    protected $_itemCollectionFactory;
+
+    /**
+     * Wishlist factory
+     *
+     * @var \Magento\Wishlist\Model\WishlistFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
+     * Wishlist collection factory
+     *
+     * @var \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory
+     */
+    protected $_wishlistCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
+    ) {
+        $this->_wishlistFactory = $wishlistFactory;
+        $this->_itemCollectionFactory = $itemCollectionFactory;
+        $this->_storeManager = $storeManager;
+        $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
+        parent::__construct($eventManager, $coreData, $context, $coreRegistry, $coreStoreConfig);
+    }
+
+    /**
      * Create wishlist item collection
      *
      * @return \Magento\Wishlist\Model\Resource\Item\Collection
@@ -34,9 +91,9 @@ class Data extends \Magento\Wishlist\Helper\Data
     protected function _createWishlistItemCollection()
     {
         if ($this->isMultipleEnabled()) {
-            return \Mage::getModel('Magento\Wishlist\Model\Item')->getCollection()
+            return $this->_itemCollectionFactory->create()
                 ->addCustomerIdFilter($this->getCustomer()->getId())
-                ->addStoreFilter(\Mage::app()->getStore()->getWebsite()->getStoreIds())
+                ->addStoreFilter($this->_storeManager->getWebsite()->getStoreIds())
                 ->setVisibilityFilter();
         } else {
             return parent::_createWishlistItemCollection();
@@ -78,7 +135,7 @@ class Data extends \Magento\Wishlist\Helper\Data
             $customerId = $this->getCustomer()->getId();
         }
         if (!isset($this->_defaultWishlistsByCustomer[$customerId])) {
-            $this->_defaultWishlistsByCustomer[$customerId] = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
+            $this->_defaultWishlistsByCustomer[$customerId] = $this->_wishlistFactory->create();
             $this->_defaultWishlistsByCustomer[$customerId]->loadByCustomer($customerId, false);
         }
         return $this->_defaultWishlistsByCustomer[$customerId];
@@ -118,7 +175,8 @@ class Data extends \Magento\Wishlist\Helper\Data
         }
         $wishlistsByCustomer = $this->_coreRegistry->registry('wishlists_by_customer');
         if (!isset($wishlistsByCustomer[$customerId])) {
-            $collection = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection();
+            /** @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $collection */
+            $collection = $this->_wishlistCollectionFactory->create();
             $collection->filterByCustomerId($customerId);
             $wishlistsByCustomer[$customerId] = $collection;
             $this->_coreRegistry->register('wishlists_by_customer', $wishlistsByCustomer);

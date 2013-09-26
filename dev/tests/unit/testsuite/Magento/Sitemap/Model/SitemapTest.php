@@ -383,8 +383,8 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
                 ->method('mv')
                 ->will($this->returnCallback(
                     function ($from, $to) {
-                        \PHPUnit_Framework_Assert::assertEquals('sitemap-1-1.xml', $from);
-                        \PHPUnit_Framework_Assert::assertEquals('sitemap.xml', $to);
+                        PHPUnit_Framework_Assert::assertEquals('sitemap-1-1.xml', $from);
+                        PHPUnit_Framework_Assert::assertEquals('sitemap.xml', $to);
                     }
                 ));
         }
@@ -454,7 +454,7 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
      * @param bool $mockBeforeSave
      * @return \Magento\Sitemap\Model\Sitemap|PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getModelMock($fileIoMock, $mockBeforeSave = false)
+    protected function _getModelMock($fileIoMock = null, $mockBeforeSave = false)
     {
         $methods = array('_construct', '_getResource', '_getBaseDir', '_getFileObject', '_afterSave',
             '_getStoreBaseUrl', '_getCurrentDateTime', '_getCategoryItemsCollection', '_getProductItemsCollection',
@@ -505,20 +505,10 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
             ->method('getCollection')
             ->will($this->returnValue(array()));
 
-        /** @var $model Magento\Sitemap\Model\Sitemap */
+        /** @var $model \Magento\Sitemap\Model\Sitemap */
         $model = $this->getMockBuilder('Magento\Sitemap\Model\Sitemap')
             ->setMethods($methods)
-            ->setConstructorArgs(array(
-                $this->_sitemapCategoryMock,
-                $this->_sitemapProductMock,
-                $this->_sitemapCmsPageMock,
-                $this->getMock('Magento\Core\Model\Date', array(), array(), '', false),
-                $this->_helperMockCore,
-                $this->_helperMockSitemap,
-                $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
-                $this->getMock('Magento\Filesystem', array(), array(), '', false),
-                $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
-            ))
+            ->setConstructorArgs($this->_getModelConstructorArgs())
             ->getMock();
 
         $model->expects($this->any())
@@ -530,9 +520,11 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
         $model->expects($this->any())
             ->method('_getStoreBaseUrl')
             ->will($this->returnValue('http://store.com/'));
-        $model->expects($this->any())
-            ->method('_getFileObject')
-            ->will($this->returnValue($fileIoMock));
+        if ($fileIoMock) {
+            $model->expects($this->any())
+                ->method('_getFileObject')
+                ->will($this->returnValue($fileIoMock));
+        }
         $model->expects($this->any())
             ->method('_getCurrentDateTime')
             ->will($this->returnValue('2012-12-21T00:00:00-08:00'));
@@ -546,6 +538,53 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
         $model->setSitemapPath('/');
 
         return $model;
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getModelConstructorArgs()
+    {
+        $categoryFactory = $this->getMockBuilder('Magento\Sitemap\Model\Resource\Catalog\CategoryFactory')
+            ->setMethods(array('create'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $categoryFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_sitemapCategoryMock));
+
+        $productFactory = $this->getMockBuilder('Magento\Sitemap\Model\Resource\Catalog\ProductFactory')
+            ->setMethods(array('create'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $productFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_sitemapProductMock));
+
+        $cmsFactory = $this->getMockBuilder('Magento\Sitemap\Model\Resource\Cms\PageFactory')
+            ->setMethods(array('create'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $cmsFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_sitemapCmsPageMock));
+
+        $adapterMock = $this->getMockBuilder('Magento\Filesystem\AdapterInterface')
+            ->getMock();
+        $filesystem = new \Magento\Filesystem($adapterMock);
+
+
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $constructArguments = $objectManager->getConstructArguments('Magento\Sitemap\Model\Sitemap', array(
+            'categoryFactory' => $categoryFactory,
+            'productFactory' => $productFactory,
+            'cmsFactory' => $cmsFactory,
+            'coreData' => $this->_helperMockCore,
+            'sitemapData' => $this->_helperMockSitemap,
+            'filesystem' => $filesystem
+        ));
+        $constructArguments['resource'] = null;
+        return $constructArguments;
     }
 
 
@@ -562,24 +601,10 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSitemapUrl($storeBaseUrl, $documentRoot, $baseDir, $sitemapPath, $sitemapFileName, $result)
     {
-        $adapterMock = $this->getMockBuilder('Magento\Filesystem\AdapterInterface')
-            ->getMock();
-        $filesystem = new \Magento\Filesystem($adapterMock);
-
         /** @var $model \Magento\Sitemap\Model\Sitemap */
         $model = $this->getMockBuilder('Magento\Sitemap\Model\Sitemap')
             ->setMethods(array('_getStoreBaseUrl', '_getDocumentRoot', '_getBaseDir', '_construct'))
-            ->setConstructorArgs(array(
-                $this->_sitemapCategoryMock,
-                $this->_sitemapProductMock,
-                $this->_sitemapCmsPageMock,
-                $this->getMock('Magento\Core\Model\Date', array(), array(), '', false),
-                $this->_helperMockCore,
-                $this->_helperMockSitemap,
-                $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
-                $filesystem,
-                $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
-            ))
+            ->setConstructorArgs($this->_getModelConstructorArgs())
             ->getMock();
 
         $model->expects($this->any())

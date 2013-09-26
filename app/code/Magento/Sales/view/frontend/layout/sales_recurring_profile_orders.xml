@@ -10,12 +10,12 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Recurring Profile Orders List" type="page" parent="sales_recurring_profile_view__tabs">
     <update handle="customer_account"/>
     <update handle="sales_recurring_profile_view__tabs"/>
-    <reference name="sales.recurring.profile.view.tab.orders">
+    <referenceBlock name="sales.recurring.profile.view.tab.orders">
         <action method="setIsViewCurrent">
             <argument name="v" xsi:type="string">1</argument>
         </action>
-    </reference>
-    <reference name="sales.recurring.profile.view">
+    </referenceBlock>
+    <referenceBlock name="sales.recurring.profile.view">
         <block class="Magento\Sales\Block\Recurring\Profile\Related\Orders\Grid" name="sales.recurring.profile.view.orders" as="table" template="recurring/grid.phtml">
             <action method="setViewLabel">
                 <argument translate="true" name="value" xsi:type="string">Orders Based on This Profile</argument>
@@ -30,5 +30,5 @@
                 <argument name="value" xsi:type="string">border:0</argument>
             </action>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

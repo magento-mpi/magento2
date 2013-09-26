@@ -66,7 +66,7 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
         $issues = array();
         $xml = simplexml_load_file($layoutFile);
         $containers = $xml->xpath('/layout//container') ?: array();
-        /** @var \SimpleXMLElement $node */
+        /** @var SimpleXMLElement $node */
         foreach ($containers as $node) {
             if (!isset($node['htmlTag']) && (isset($node['htmlId']) || isset($node['htmlClass']))) {
                 $issues[] = $node->asXML();
@@ -86,7 +86,7 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
      */
     public function testLayoutFormat($layoutFile)
     {
-        $schemaFile = BP . '/app/code/Magento/Core/etc/layouts.xsd';
+        $schemaFile = BP . '/app/code/Magento/Core/etc/layout_single.xsd';
         $domLayout = new \Magento\Config\Dom(file_get_contents($layoutFile));
         $result = $domLayout->validate($schemaFile, $errors);
         $this->assertTrue($result, print_r($errors, true));

@@ -31,6 +31,7 @@ class Products
     protected $_productFactory;
 
     /**
+     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -41,6 +42,7 @@ class Products
      * @param array $data
      */
     public function __construct(
+        \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -51,6 +53,7 @@ class Products
         array $data = array()
     ) {
         parent::__construct(
+            $collectionFactory,
             $coreData,
             $context,
             $storeManager,

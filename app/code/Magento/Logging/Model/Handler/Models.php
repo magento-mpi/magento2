@@ -2,31 +2,46 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Custom handlers for models logging
- *
  */
 namespace Magento\Logging\Model\Handler;
 
 class Models
 {
     /**
+     * Factory for event changes model
+     *
+     * @var \Magento\Logging\Model\Event\ChangesFactory
+     */
+    protected $_eventChangesFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
+     */
+    public function __construct(\Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory)
+    {
+        $this->_eventChangesFactory = $eventChangesFactory;
+    }
+
+    /**
      * SaveAfter handler
      *
      * @param object \Magento\Core\Model\AbstractModel $model
-     * @return object Magento_Logging_Event_Changes or false if model wasn't modified
+     * @return object \Magento\Logging\Event\Changes or false if model wasn't modified
      */
     public function modelSaveAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = \Mage::getModel('Magento\Logging\Model\Event\Changes')
-            ->setOriginalData($model->getOrigData())
+        /** @var \Magento\Logging\Model\Event\Changes $changes */
+        $changes = $this->_eventChangesFactory->create();
+        $changes->setOriginalData($model->getOrigData())
             ->setResultData($model->getData());
         return $changes;
     }
@@ -35,13 +50,14 @@ class Models
      * Delete after handler
      *
      * @param object \Magento\Core\Model\AbstractModel $model
-     * @return object Magento_Logging_Event_Changes
+     * @return object \Magento\Logging\Event\Changes
      */
     public function modelDeleteAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = \Mage::getModel('Magento\Logging\Model\Event\Changes')
-            ->setOriginalData($model->getOrigData())
+        /** @var \Magento\Logging\Model\Event\Changes $changes */
+        $changes = $this->_eventChangesFactory->create();
+        $changes->setOriginalData($model->getOrigData())
             ->setResultData(null);
         return $changes;
     }
@@ -50,7 +66,7 @@ class Models
      * MassUpdate after handler
      *
      * @param object \Magento\Core\Model\AbstractModel $model
-     * @return object Magento_Logging_Event_Changes
+     * @return object \Magento\Logging\Event\Changes
      */
     public function modelMassUpdateAfter($model, $processor)
     {
@@ -61,7 +77,7 @@ class Models
      * MassDelete after handler
      *
      * @param object \Magento\Core\Model\AbstractModel $model
-     * @return object Magento_Logging_Event_Changes
+     * @return object \Magento\Logging\Event\Changes
      */
     public function modelMassDeleteAfter($model, $processor)
     {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,15 +21,38 @@ class Logging extends \Magento\Adminhtml\Controller\Action
     protected $_coreRegistry = null;
 
     /**
+     * Event model factory
+     *
+     * @var \Magento\Logging\Model\EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * Archive model factory
+     *
+     * @var \Magento\Logging\Model\ArchiveFactory
+     */
+    protected $_archiveFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Logging\Model\EventFactory $eventFactory
+     * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Logging\Model\EventFactory $eventFactory,
+        \Magento\Logging\Model\ArchiveFactory $archiveFactory
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+
+        $this->_coreRegistry = $coreRegistry;
+        $this->_eventFactory = $eventFactory;
+        $this->_archiveFactory = $archiveFactory;
     }
 
     /**
@@ -61,7 +82,8 @@ class Logging extends \Magento\Adminhtml\Controller\Action
     public function detailsAction()
     {
         $eventId = $this->getRequest()->getParam('event_id');
-        $model   = \Mage::getModel('Magento\Logging\Model\Event')
+        /** @var \Magento\Logging\Model\Event $model */
+        $model = $this->_eventFactory->create()
             ->load($eventId);
         if (!$model->getId()) {
             $this->_redirect('*/*/');
@@ -126,7 +148,7 @@ class Logging extends \Magento\Adminhtml\Controller\Action
      */
     public function downloadAction()
     {
-        $archive = \Mage::getModel('Magento\Logging\Model\Archive')->loadByBaseName(
+        $archive = $this->_archiveFactory->create()->loadByBaseName(
             $this->getRequest()->getParam('basename')
         );
         if ($archive->getFilename()) {
@@ -153,6 +175,5 @@ class Logging extends \Magento\Adminhtml\Controller\Action
                 return $this->_authorization->isAllowed('Magento_Logging::magento_logging_events');
                 break;
         }
-
     }
 }

@@ -8,6 +8,8 @@
  */
 -->
 <config>
+    <preference for="Magento\Catalog\Model\ProductTypes\ConfigInterface" type="Magento\Catalog\Model\ProductTypes\Config" />
+    <preference for="Magento\Catalog\Model\ProductOptions\ConfigInterface" type="Magento\Catalog\Model\ProductOptions\Config" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
@@ -20,10 +22,19 @@
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
+        <param name="messageModels">
+            <value>
+                <catalog>Magento\Catalog\Model\Session</catalog>
+                <checkout>Magento\Checkout\Model\Session</checkout>
+            </value>
+        </param>
     </type>
     <type name="Magento\Catalog\Helper\Product">
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+        <param name="typeSwitcherLabel">
+            <value>Virtual</value>
         </param>
     </type>
     <type name="Magento\Catalog\Model\Category">
@@ -46,7 +57,7 @@
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento\Catalog\Model\Product\Type\Abstract\Type">
+    <type name="Magento\Catalog\Model\Product\Type\AbstractType">
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
@@ -85,15 +96,73 @@
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
+        <param name="maxIndexCount">
+            <value type="int">64</value>
+        </param>
+        <param name="flatAttributeGroups">
+            <value>
+                <catalog_product>catalog_product</catalog_product>
+            </value>
+        </param>
     </type>
     <type name="Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav">
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
-    <type name="Magento\Catalog\Model\Resource\Product\Indexer\Price\Default">
+    <type name="Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice">
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Entity\Product\Attribute\Design\Options\Container">
+        <param name="options">
+            <value>
+                <option1>
+                    <value>container1</value>
+                    <label>Product Info Column</label>
+                </option1>
+                <option2>
+                    <value>container2</value>
+                    <label>Block after Info Column</label>
+                </option2>
+            </value>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Attribute\Config\Data">
+        <param name="cacheId">
+            <value>catalog_attributes</value>
+        </param>
+        <param name="scope">
+            <value type="const">Magento\Core\Model\App\Area::AREA_GLOBAL</value>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Helper\Product\Flat">
+        <param name="addFilterableAttrs">
+            <value type="int">0</value>
+        </param>
+        <param name="addChildData">
+            <value type="int">0</value>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Helper\Data">
+        <param name="templateFilterModel">
+            <value>Magento\Catalog\Model\Template\Filter</value>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Config\Source\GridPerPage">
+        <param name="perPageValues">
+            <value>9,15,30</value>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Config\Source\ListPerPage">
+        <param name="options">
+            <value>5,10,15,20,25</value>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Block\Layer\View">
+        <param name="layer">
+            <instance type="Magento\Catalog\Model\Layer\Proxy" />
         </param>
     </type>
 </config>

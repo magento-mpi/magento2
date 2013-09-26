@@ -35,6 +35,35 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_isStoreFilter        = false;
 
     /**
+     * Date
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_date = $date;
+    }
+
+    /**
      * Initializes collection
      *
      */
@@ -185,7 +214,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $this->getSelect()
             ->where('main_table.queue_status in (?)', array(\Magento\Newsletter\Model\Queue::STATUS_SENDING,
                                                             \Magento\Newsletter\Model\Queue::STATUS_NEVER))
-            ->where('main_table.queue_start_at < ?', \Mage::getSingleton('Magento\Core\Model\Date')->gmtdate())
+            ->where('main_table.queue_start_at < ?', $this->_date->gmtdate())
             ->where('main_table.queue_start_at IS NOT NULL');
 
         return $this;

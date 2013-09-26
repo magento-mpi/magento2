@@ -11,7 +11,6 @@
 /**
  * Customers defined options
  */
-
 namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options;
 
 class Option extends \Magento\Adminhtml\Block\Widget
@@ -34,21 +33,26 @@ class Option extends \Magento\Adminhtml\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Catalog\Model\ProductOptions\ConfigInterface
+     */
+    protected $_productOptionConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig,
         array $data = array()
     ) {
+        $this->_productOptionConfig = $productOptionConfig;
         $this->_coreRegistry = $registry;
-        $this->_coreConfig = $coreConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -131,13 +135,8 @@ class Option extends \Magento\Adminhtml\Block\Widget
 
     protected function _prepareLayout()
     {
-        $path = 'global/catalog/product/options/custom/groups';
-
-        foreach ($this->_coreConfig->getNode($path)->children() as $group) {
-            $this->addChild(
-                $group->getName() . '_option_type',
-                (string)$this->_coreConfig->getNode($path . '/' . $group->getName() . '/render')
-            );
+        foreach ($this->_productOptionConfig->getAll() as $option) {
+            $this->addChild($option['name'] . '_option_type', $option['renderer']);
         }
 
         return parent::_prepareLayout();

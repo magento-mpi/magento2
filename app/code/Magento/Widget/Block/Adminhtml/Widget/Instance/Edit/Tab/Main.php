@@ -22,14 +22,16 @@ class Main
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\Core\Model\System\Store
-     */
-    protected $_systemStore;
-
-    /**
-     * @var \Magento\Core\Model\StoreManager
+     * Store list manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_store;
 
     /**
      * @var \Magento\Core\Model\Theme\LabelFactory
@@ -37,27 +39,27 @@ class Main
     protected $_themeLabelFactory;
 
     /**
-     * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\System\Store $store,
+        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
-        $this->_systemStore = $systemStore;
         $this->_storeManager = $storeManager;
+        $this->_store = $store;
         $this->_themeLabelFactory = $themeLabelFactory;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -187,7 +189,7 @@ class Main
                 'label'     => __('Assign to Store Views'),
                 'title'     => __('Assign to Store Views'),
                 'required'  => true,
-                'values'    => $this->_systemStore->getStoreValuesForForm(false, true),
+                'values'    => $this->_store->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
@@ -203,7 +205,7 @@ class Main
             'note' => __('Sort Order of widget instances in the same container')
         ));
 
-        /* @var $layoutBlock \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout */
+        /* @var $layoutBlock \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main_Layout */
         $layoutBlock = $this->getLayout()
             ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout')
             ->setWidgetInstance($widgetInstance);

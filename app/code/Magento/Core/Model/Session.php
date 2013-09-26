@@ -30,6 +30,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_coreData = null;
 
     /**
+     * @param \Magento\Core\Model\Session\Validator $validator
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
@@ -37,9 +38,10 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
-     * @param string $sessionName
+     * @param null $sessionName
      */
     public function __construct(
+        \Magento\Core\Model\Session\Validator $validator,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
@@ -50,7 +52,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $sessionName = null
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('core', $sessionName);
     }
 

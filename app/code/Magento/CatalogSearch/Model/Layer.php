@@ -22,15 +22,57 @@ class Layer extends \Magento\Catalog\Model\Layer
     protected $_catalogSearchData = null;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog config
+     *
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Fulltext collection factory
+     *
+     * @var \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory
+     */
+    protected $_fulltextCollectionFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $fulltextCollectionFactory,
+        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         array $data = array()
     ) {
+        $this->_fulltextCollectionFactory = $fulltextCollectionFactory;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_storeManager = $storeManager;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct($coreRegistry, $data);
     }
@@ -38,14 +80,14 @@ class Layer extends \Magento\Catalog\Model\Layer
     /**
      * Get current layer product collection
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Eav\Resource\Product\Collection
      */
     public function getProductCollection()
     {
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
-            $collection = \Mage::getResourceModel('Magento\CatalogSearch\Model\Resource\Fulltext\Collection');
+            $collection = $this->_fulltextCollectionFactory->create();
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
@@ -55,21 +97,21 @@ class Layer extends \Magento\Catalog\Model\Layer
     /**
      * Prepare product collection
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Resource_Product_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Resource\Product\Collection $collection
      * @return \Magento\Catalog\Model\Layer
      */
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
+            ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
             ->addSearchFilter($this->_catalogSearchData->getQuery()->getQueryText())
-            ->setStore(\Mage::app()->getStore())
+            ->setStore($this->_storeManager->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
             ->addUrlRewrite()
-            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSearchIds());
+            ->setVisibility($this->_catalogProductVisibility->getVisibleInSearchIds());
 
         return $this;
     }

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="creditmemo_items">
+    <referenceBlock name="creditmemo_items">
         <block class="Magento\Bundle\Block\Adminhtml\Sales\Order\Items\Renderer" as="bundle" template="sales/creditmemo/view/items/renderer.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

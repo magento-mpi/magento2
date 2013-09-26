@@ -28,22 +28,24 @@ class Layout extends \Magento\Simplexml\Config
     /**#@+
      * Supported layout directives
      */
-    const TYPE_BLOCK        = 'block';
-    const TYPE_CONTAINER    = 'container';
-    const TYPE_ACTION       = 'action';
-    const TYPE_ARGUMENTS    = 'arguments';
-    const TYPE_REFERENCE    = 'reference';
-    const TYPE_REMOVE       = 'remove';
-    const TYPE_MOVE         = 'move';
+    const TYPE_BLOCK = 'block';
+    const TYPE_CONTAINER = 'container';
+    const TYPE_ACTION = 'action';
+    const TYPE_ARGUMENTS = 'arguments';
+    const TYPE_ARGUMENT = 'argument';
+    const TYPE_REFERENCE_BLOCK = 'referenceBlock';
+    const TYPE_REFERENCE_CONTAINER = 'referenceContainer';
+    const TYPE_REMOVE = 'remove';
+    const TYPE_MOVE = 'move';
     /**#@-*/
 
     /**#@+
      * Names of container options in layout
      */
-    const CONTAINER_OPT_HTML_TAG   = 'htmlTag';
+    const CONTAINER_OPT_HTML_TAG = 'htmlTag';
     const CONTAINER_OPT_HTML_CLASS = 'htmlClass';
-    const CONTAINER_OPT_HTML_ID    = 'htmlId';
-    const CONTAINER_OPT_LABEL      = 'label';
+    const CONTAINER_OPT_HTML_ID = 'htmlId';
+    const CONTAINER_OPT_LABEL = 'label';
     /**#@-*/
 
     /**
@@ -368,6 +370,7 @@ class Layout extends \Magento\Simplexml\Config
 
     /**
      * Create structure of elements from the loaded XML configuration
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function generateElements()
     {
@@ -399,7 +402,7 @@ class Layout extends \Magento\Simplexml\Config
         \Magento\Profiler::start('generate_elements');
 
         while (false === $this->_scheduledStructure->isElementsEmpty()) {
-            list($type, $node) = current($this->_scheduledStructure->getElements());
+            list($type, $node, $actions, $args, $attributes) = current($this->_scheduledStructure->getElements());
             $elementName = key($this->_scheduledStructure->getElements());
 
             if (isset($node['output'])) {
@@ -408,11 +411,7 @@ class Layout extends \Magento\Simplexml\Config
             if ($type == self::TYPE_BLOCK) {
                 $this->_generateBlock($elementName);
             } else {
-                $this->_generateContainer($elementName, (string)$node[self::CONTAINER_OPT_LABEL], array(
-                    self::CONTAINER_OPT_HTML_TAG => (string)$node[self::CONTAINER_OPT_HTML_TAG],
-                    self::CONTAINER_OPT_HTML_ID => (string)$node[self::CONTAINER_OPT_HTML_ID],
-                    self::CONTAINER_OPT_HTML_CLASS => (string)$node[self::CONTAINER_OPT_HTML_CLASS]
-                ));
+                $this->_generateContainer($elementName, (string)$node[self::CONTAINER_OPT_LABEL], $attributes);
                 $this->_scheduledStructure->unsetElement($elementName);
             }
         }
@@ -464,6 +463,7 @@ class Layout extends \Magento\Simplexml\Config
      * Traverse through all elements of specified XML-node and schedule structural elements of it
      *
      * @param \Magento\Core\Model\Layout\Element $parent
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _readStructure($parent)
     {
@@ -471,13 +471,23 @@ class Layout extends \Magento\Simplexml\Config
             /** @var $node \Magento\Core\Model\Layout\Element */
             switch ($node->getName()) {
                 case self::TYPE_CONTAINER:
+                    $this->_scheduleStructure($node, $parent);
+                    $this->_mergeContainerAttributes($node);
+                    $this->_readStructure($node);
+                    break;
+
                 case self::TYPE_BLOCK:
                     $this->_initServiceCalls($node);
                     $this->_scheduleStructure($node, $parent);
                     $this->_readStructure($node);
                     break;
 
-                case self::TYPE_REFERENCE:
+                case self::TYPE_REFERENCE_CONTAINER:
+                    $this->_mergeContainerAttributes($node);
+                    $this->_readStructure($node);
+                    break;
+
+                case self::TYPE_REFERENCE_BLOCK:
                     $this->_readStructure($node);
                     break;
 
@@ -535,6 +545,34 @@ class Layout extends \Magento\Simplexml\Config
             }
         }
         return $this;
+    }
+
+    /**
+     * Merge Container attributes
+     *
+     * @param \Magento\Core\Model\Layout\Element $node
+     */
+    protected function _mergeContainerAttributes(\Magento\Core\Model\Layout\Element $node)
+    {
+        $containerName = $node->getAttribute('name');
+        $element = $this->_scheduledStructure->getStructureElement($containerName, array());
+
+        if (isset($element['attributes'])) {
+            $keys = array_keys($element['attributes']);
+            foreach ($keys as $key) {
+                if (isset($node[$key])) {
+                    $element['attributes'][$key] = (string)$node[$key];
+                }
+            }
+        } else {
+            $element['attributes'] = array(
+                self::CONTAINER_OPT_HTML_TAG => (string)$node[self::CONTAINER_OPT_HTML_TAG],
+                self::CONTAINER_OPT_HTML_ID => (string)$node[self::CONTAINER_OPT_HTML_ID],
+                self::CONTAINER_OPT_HTML_CLASS => (string)$node[self::CONTAINER_OPT_HTML_CLASS],
+                self::CONTAINER_OPT_LABEL => (string)$node[self::CONTAINER_OPT_LABEL],
+            );
+        }
+        $this->_scheduledStructure->setStructureElement($containerName, $element);
     }
 
     /**
@@ -712,6 +750,7 @@ class Layout extends \Magento\Simplexml\Config
      * while referenced element itself is not declared yet.
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @param string $key in _scheduledStructure represent element name
      */
     protected function _scheduleElement($key)
@@ -745,7 +784,8 @@ class Layout extends \Magento\Simplexml\Config
             $type,
             $node,
             isset($row['actions']) ? $row['actions'] : array(),
-            isset($row['arguments']) ? $row['arguments'] : array()
+            isset($row['arguments']) ? $row['arguments'] : array(),
+            isset($row['attributes']) ? $row['attributes'] : array()
         );
         $this->_scheduledStructure->setElement($name, $data);
 
@@ -788,8 +828,8 @@ class Layout extends \Magento\Simplexml\Config
      */
     protected function _generateAnonymousName($class)
     {
-        $position = strpos($class, '\\Block\\');
-        $key = $position !== false ? substr($class, $position + 7) : $class;
+        $position = strpos($class, 'Block');
+        $key = $position !== false ? substr($class, $position + 6) : $class;
         $key = strtolower(trim($key, '_'));
 
         if (!isset($this->_nameIncrement[$key])) {
@@ -874,6 +914,16 @@ class Layout extends \Magento\Simplexml\Config
         $this->_structure->setAttribute($name, self::CONTAINER_OPT_LABEL, $label);
         unset($options[self::CONTAINER_OPT_LABEL]);
         unset($options['type']);
+        $allowedTags = array(
+            'dd', 'div', 'dl', 'fieldset', 'header', 'hgroup', 'ol', 'p', 'section','table', 'tfoot', 'ul'
+        );
+        if (!empty($options[self::CONTAINER_OPT_HTML_TAG])
+            && !in_array($options[self::CONTAINER_OPT_HTML_TAG], $allowedTags)
+        ) {
+            throw new \Magento\Exception(
+                __('Html tag "%1" is forbidden for usage in containers. Consider to use one of the allowed: %2.',
+                $options[self::CONTAINER_OPT_HTML_TAG], implode(', ', $allowedTags)));
+        }
         if (empty($options[self::CONTAINER_OPT_HTML_TAG])
             && (!empty($options[self::CONTAINER_OPT_HTML_ID]) || !empty($options[self::CONTAINER_OPT_HTML_CLASS]))
         ) {

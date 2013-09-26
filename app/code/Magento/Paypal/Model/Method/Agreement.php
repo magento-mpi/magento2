@@ -10,8 +10,6 @@
 
 /**
  * Paypal Billing Agreement method
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Model\Method;
 
@@ -27,7 +25,6 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
 
     /**
      * Method instance settings
-     *
      */
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
@@ -51,15 +48,20 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $agreementFactory,
+            $data);
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof \Magento\Paypal\Model\Pro)) {
             $this->_pro = $proInstance;
@@ -74,6 +76,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
      * Also updates store ID in config object
      *
      * @param \Magento\Core\Model\Store|int $store
+     * @return $this
      */
     public function setStore($store)
     {
@@ -146,6 +149,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
      *
      * @param \Magento\Payment\Model\Billing\AgreementAbstract $agreement
      * @return \Magento\Paypal\Model\Method\Agreement
+     * @throws \Exception|\Magento\Core\Exception
      */
     public function updateBillingAgreementStatus(\Magento\Payment\Model\Billing\AgreementAbstract $agreement)
     {
@@ -180,7 +184,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
     /**
      * Void payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @return \Magento\Paypal\Model\Method\Agreement
      */
     public function void(\Magento\Object $payment)
@@ -192,7 +196,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
     /**
      * Capture payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
      * @return \Magento\Paypal\Model\Method\Agreement
      */
@@ -207,7 +211,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
     /**
      * Refund capture
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @param float $amount
      * @return \Magento\Paypal\Model\Method\Agreement
      */
@@ -220,7 +224,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
     /**
      * Cancel payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Object|\Magento\Sales\Model\Order\Payment $payment
      * @return \Magento\Paypal\Model\Method\Agreement
      */
     public function cancel(\Magento\Object $payment)
@@ -232,7 +236,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
     /**
      * Whether payment can be reviewed
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
      * @return bool
      */
     public function canReviewPayment(\Magento\Payment\Model\Info $payment)
@@ -243,7 +247,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
     /**
      * Attempt to accept a pending payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
      * @return bool
      */
     public function acceptPayment(\Magento\Payment\Model\Info $payment)
@@ -255,7 +259,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
     /**
      * Attempt to deny a pending payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param \Magento\Payment\Model\Info|\Magento\Sales\Model\Order\Payment $payment
      * @return bool
      */
     public function denyPayment(\Magento\Payment\Model\Info $payment)
@@ -300,8 +304,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
             ->setNotifyUrl(\Mage::getUrl('paypal/ipn/'))
             ->setPaypalCart(\Mage::getModel('Magento\Paypal\Model\Cart', $parameters))
             ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
-            ->setInvNum($order->getIncrementId())
-        ;
+            ->setInvNum($order->getIncrementId());
 
         // call api and import transaction and other payment information
         $api->callDoReferenceTransaction();
@@ -321,7 +324,10 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
         return $this;
     }
 
-
+    /**
+     * @param object $quote
+     * @return bool
+     */
     protected function _isAvailable($quote)
     {
         return $this->_pro->getConfig()->isMethodAvailable($this->_code);
@@ -330,7 +336,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
     /**
      * Payment action getter compatible with payment model
      *
-     * @see Magento_Sales_Model_Payment::place()
+     * @see \Magento\Sales\Model\Payment::place()
      * @return string
      */
     public function getConfigPaymentAction()

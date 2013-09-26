@@ -8,18 +8,30 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product alert for back in stock resource model
- *
- * @category    Magento
- * @package     Magento_ProductAlert
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\ProductAlert\Model\Resource;
 
 class Stock extends \Magento\ProductAlert\Model\Resource\AbstractResource
 {
+    /**
+     * @var \Magento\Core\Model\DateFactory
+     */
+    protected $_dateFactory;
+
+    /**
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\DateFactory $dateFactory
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\DateFactory $dateFactory
+    ) {
+        $this->_dateFactory = $dateFactory;
+        parent::__construct($resource);
+    }
+
     /**
      * Initialize connection
      *
@@ -45,7 +57,7 @@ class Stock extends \Magento\ProductAlert\Model\Resource\AbstractResource
             }
         }
         if (is_null($object->getAddDate())) {
-            $object->setAddDate(\Mage::getModel('Magento\Core\Model\Date')->gmtDate());
+            $object->setAddDate($this->_dateFactory->create()->gmtDate());
             $object->setStatus(0);
         }
         return parent::_beforeSave($object);

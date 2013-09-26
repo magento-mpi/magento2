@@ -8,10 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="CMS Pages (All)" type="page" parent="default">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Core\Block\Template" name="page_content_heading" template="Magento_Cms::content_heading.phtml"/>
         <container name="cms.wrapper" label="CMS Content Wrapper" htmlTag="div" htmlClass="std">
             <block class="Magento\Cms\Block\Page" name="cms_page"/>
         </container>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -19,11 +19,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     const TEST_FRONT_NAME = 'test_front_name';
 
     /**
-     * Test disabled cache types
-     */
-    const TEST_DISABLED_CACHE_TYPES = '<type1 /><type2 />';
-
-    /**
      * @var array
      */
     protected $_disabledCacheTypes = array('type1', 'type2');
@@ -59,22 +54,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFrontName()
     {
-        $this->_model = new \Magento\DesignEditor\Helper\Data($this->_context, $this->_getConfigFrontNameMock());
+        $this->_model = new \Magento\DesignEditor\Helper\Data($this->_context, self::TEST_FRONT_NAME);
         $this->assertEquals(self::TEST_FRONT_NAME, $this->_model->getFrontName());
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getConfigFrontNameMock()
-    {
-        $frontNameNode = new \Magento\Core\Model\Config\Element('<test>' . self::TEST_FRONT_NAME . '</test>');
-        $configurationMock = $this->getMock('Magento\Core\Model\Config', array('getNode'), array(), '', false);
-        $configurationMock->expects($this->any())
-            ->method('getNode')
-            ->with(\Magento\DesignEditor\Helper\Data::XML_PATH_FRONT_NAME)
-            ->will($this->returnValue($frontNameNode));
-        return $configurationMock;
     }
 
     /**
@@ -84,8 +65,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsVdeRequest($path, $expected)
     {
-        $this->_model = new \Magento\DesignEditor\Helper\Data($this->_context, $this->_getConfigFrontNameMock());
-
+        $this->_model = new \Magento\DesignEditor\Helper\Data($this->_context, self::TEST_FRONT_NAME);
         $requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array('getOriginalPathInfo'),
             array(), '', false);
         $requestMock->expects($this->once())
@@ -109,23 +89,17 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDisabledCacheTypes()
     {
-        $cacheTypesNode = new \Magento\Core\Model\Config\Element(
-            '<test>' . self::TEST_DISABLED_CACHE_TYPES . '</test>');
-
-        $configurationMock = $this->getMock('Magento\Core\Model\Config', array('getNode'), array(), '', false);
-        $configurationMock->expects($this->once())
-            ->method('getNode')
-            ->with(\Magento\DesignEditor\Helper\Data::XML_PATH_DISABLED_CACHE_TYPES)
-            ->will($this->returnValue($cacheTypesNode));
-
-        $this->_model = new \Magento\DesignEditor\Helper\Data($this->_context, $configurationMock);
+        $this->_model = new \Magento\DesignEditor\Helper\Data(
+            $this->_context,
+            self::TEST_FRONT_NAME,
+            array('type1','type2')
+        );
         $this->assertEquals($this->_disabledCacheTypes, $this->_model->getDisabledCacheTypes());
     }
 
     public function testGetAvailableModes()
     {
-        $configurationMock = $this->getMock('Magento\Core\Model\Config', array('getNode'), array(), '', false);
-        $this->_model = new \Magento\DesignEditor\Helper\Data($this->_context, $configurationMock);
+        $this->_model = new \Magento\DesignEditor\Helper\Data($this->_context, self::TEST_FRONT_NAME);
         $this->assertEquals(array(\Magento\DesignEditor\Model\State::MODE_NAVIGATION),
             $this->_model->getAvailableModes());
     }

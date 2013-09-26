@@ -20,6 +20,47 @@ namespace Magento\CatalogSearch\Controller;
 class Advanced extends \Magento\Core\Controller\Front\Action
 {
 
+    /**
+     * Url factory
+     *
+     * @var \Magento\Core\Model\UrlFactory
+     */
+    protected $_urlFactory;
+
+    /**
+     * Catalog search advanced
+     *
+     * @var \Magento\CatalogSearch\Model\Advanced
+     */
+    protected $_catalogSearchAdvanced;
+
+    /**
+     * Catalog search session
+     *
+     * @var \Magento\CatalogSearch\Model\Session
+     */
+    protected $_catalogSearchSession;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\CatalogSearch\Model\Session $catalogSearchSession
+     * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
+     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\CatalogSearch\Model\Session $catalogSearchSession,
+        \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
+        \Magento\Core\Model\UrlFactory $urlFactory
+    ) {
+        $this->_catalogSearchSession = $catalogSearchSession;
+        $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
+        $this->_urlFactory = $urlFactory;
+        parent::__construct($context);
+    }
+
     public function indexAction()
     {
         $this->loadLayout();
@@ -31,11 +72,11 @@ class Advanced extends \Magento\Core\Controller\Front\Action
     {
         $this->loadLayout();
         try {
-            \Mage::getSingleton('Magento\CatalogSearch\Model\Advanced')->addFilters($this->getRequest()->getQuery());
+            $this->_catalogSearchAdvanced->addFilters($this->getRequest()->getQuery());
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento\CatalogSearch\Model\Session')->addError($e->getMessage());
+            $this->_catalogSearchSession->addError($e->getMessage());
             $this->_redirectError(
-                \Mage::getModel('Magento\Core\Model\Url')
+                $this->_urlFactory->create()
                     ->setQueryParams($this->getRequest()->getQuery())
                     ->getUrl('*/*/')
             );

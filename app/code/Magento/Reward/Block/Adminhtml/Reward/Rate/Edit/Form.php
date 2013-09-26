@@ -21,6 +21,47 @@ namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Reward\Model\Source\WebsiteFactory
+     */
+    protected $_websitesFactory;
+
+    /**
+     * @var \Magento\Reward\Model\Source\Customer\GroupsFactory
+     */
+    protected $_groupsFactory;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory
+     * @param \Magento\Reward\Model\Source\Customer\GroupsFactory $groupsFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory,
+        \Magento\Reward\Model\Source\Customer\GroupsFactory $groupsFactory,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_websitesFactory = $websitesFactory;
+        $this->_groupsFactory = $groupsFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Getter
      *
      * @return \Magento\Reward\Model\Reward\Rate
@@ -50,12 +91,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'legend' => __('Reward Exchange Rate Information')
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('website_id', 'select', array(
                 'name'   => 'website_id',
                 'title'  => __('Website'),
                 'label'  => __('Website'),
-                'values' => \Mage::getModel('Magento\Reward\Model\Source\Website')->toOptionArray(),
+                'values' => $this->_websitesFactory->create()->toOptionArray(),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
@@ -66,7 +107,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'name'   => 'customer_group_id',
             'title'  => __('Customer Group'),
             'label'  => __('Customer Group'),
-            'values' => \Mage::getModel('Magento\Reward\Model\Source\Customer\Groups')->toOptionArray()
+            'values' => $this->_groupsFactory->create()->toOptionArray()
         ));
 
         $fieldset->addField('direction', 'select', array(

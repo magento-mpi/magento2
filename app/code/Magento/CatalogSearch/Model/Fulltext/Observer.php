@@ -20,13 +20,71 @@ namespace Magento\CatalogSearch\Model\Fulltext;
 class Observer
 {
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog search fulltext
+     *
+     * @var \Magento\CatalogSearch\Model\Fulltext
+     */
+    protected $_catalogSearchFulltext;
+
+    /**
+     * Eav config
+     *
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Backend url
+     *
+     * @var \Magento\Backend\Model\Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * Backend session
+     *
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_backendSession;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_backendSession = $backendSession;
+        $this->_backendUrl = $backendUrl;
+        $this->_eavConfig = $eavConfig;
+        $this->_catalogSearchFulltext = $catalogSearchFulltext;
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Retrieve fulltext (indexer) model
      *
      * @return \Magento\CatalogSearch\Model\Fulltext
      */
     protected function _getFulltextModel()
     {
-        return \Mage::getSingleton('Magento\CatalogSearch\Model\Fulltext');
+        return $this->_catalogSearchFulltext;
     }
 
     /**
@@ -75,7 +133,7 @@ class Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
-        $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType(\Magento\Catalog\Model\Product::ENTITY);
+        $entityType = $this->_eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY);
         /* @var $entityType \Magento\Eav\Model\Entity\Type */
 
         if ($attribute->getEntityTypeId() != $entityType->getId()) {
@@ -98,8 +156,8 @@ class Observer
         }
 
         if ($showNotice) {
-            $url = \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('adminhtml/system_cache');
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addNotice(
+            $url = $this->_backendUrl->getUrl('adminhtml/system_cache');
+            $this->_backendSession->addNotice(
                 __('Attribute setting change related with Search Index. Please run <a href="%1">Rebuild Search Index</a> process.', $url)
             );
         }
@@ -146,7 +204,7 @@ class Observer
         $actionType = $observer->getEvent()->getAction();
 
         foreach ($websiteIds as $websiteId) {
-            foreach (\Mage::app()->getWebsite($websiteId)->getStoreIds() as $storeId) {
+            foreach ($this->_storeManager->getWebsite($websiteId)->getStoreIds() as $storeId) {
                 if ($actionType == 'remove') {
                     $this->_getFulltextModel()
                         ->cleanIndex($storeId, $productIds)

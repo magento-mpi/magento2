@@ -154,7 +154,7 @@ class Notification extends \Magento\Backend\Controller\ActionAbstract
             } catch (\Magento\Core\Exception $e) {
                 $this->_session->addError($e->getMessage());
             } catch (\Exception $e) {
-                $session->addException($e,
+                $this->_session->addException($e,
                     __("We couldn't remove the messages because of an error."));
             }
         }

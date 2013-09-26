@@ -71,26 +71,4 @@ class Config
 
         return explode(',', $statuses);
     }
-
-    /**
-     * Check order archiveablility for single archiving
-     *
-     * @param \Magento\Sales\Model\Order $order
-     * @param boolean $checkAge check order age for archive
-     * @return boolean
-     */
-    public function isOrderArchiveable($order, $checkAge = false)
-    {
-        if (in_array($order->getStatus(), $this->getArchiveOrderStatuses())) {
-            if ($checkAge) {
-                $now = \Mage::app()->getLocale()->storeDate();
-                $updated = \Mage::app()->getLocale()->storeDate($order->getUpdatedAt());
-
-            }
-
-            return true;
-        }
-
-        return false;
-    }
 }

@@ -10,12 +10,7 @@
 
 /**
  * Sales orders controller
- *
- * @category   Magento
- * @package    MAbout This Orderage_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Sales\Controller;
 
 class Guest extends \Magento\Sales\Controller\AbstractController
@@ -62,7 +57,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
      */
     public function formAction()
     {
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
             $this->_redirect('customer/account/');
             return;
         }
@@ -80,7 +75,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
 
         $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
+            $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
             $order = $this->_coreRegistry->registry('current_order');
@@ -105,7 +100,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
 
         $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
         if ($shipmentId) {
-            $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
+            $shipment = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
             $order = $this->_coreRegistry->registry('current_order');
@@ -129,7 +124,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
 
         $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
         if ($creditmemoId) {
-            $creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
+            $creditmemo = $this->_objectManager->create('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();
         } else {
             $order = $this->_coreRegistry->registry('current_order');

@@ -21,6 +21,23 @@ namespace Magento\Reward\Helper;
 class Customer extends \Magento\Core\Helper\AbstractHelper
 {
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context);
+    }
+
+    /**
      * Return Unsubscribe notification URL
      *
      * @param string|boolean $notification Notification type
@@ -37,6 +54,6 @@ class Customer extends \Magento\Core\Helper\AbstractHelper
         if (!is_null($storeId)) {
             $params['store_id'] = $storeId;
         }
-        return \Mage::app()->getStore($storeId)->getUrl('magento_reward/customer/unsubscribe/', $params);
+        return $this->_storeManager->getStore($storeId)->getUrl('magento_reward/customer/unsubscribe/', $params);
     }
 }

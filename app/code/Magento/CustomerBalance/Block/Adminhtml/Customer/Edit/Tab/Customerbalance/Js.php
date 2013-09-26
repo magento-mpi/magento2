@@ -20,17 +20,25 @@ class Js extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -43,7 +51,7 @@ class Js extends \Magento\Adminhtml\Block\Template
     public function getWebsitesJson()
     {
         $result = array();
-        foreach (\Mage::app()->getWebsites() as $websiteId => $website) {
+        foreach ($this->_storeManager->getWebsites() as $websiteId => $website) {
             $result[$websiteId] = array(
                 'name'          => $website->getName(),
                 'website_id'    => $websiteId,

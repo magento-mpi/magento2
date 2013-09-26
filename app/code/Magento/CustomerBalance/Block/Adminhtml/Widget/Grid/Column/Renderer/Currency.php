@@ -20,7 +20,32 @@ extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Currency
     /**
      * @var array
      */
-    protected static $_websiteBaseCurrencyCodes = array();
+    protected $_websiteBaseCurrencyCodes = array();
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $app, $locale, $currencyLocator, $data);
+    }
 
     /**
      * Get currency code by row data
@@ -35,10 +60,11 @@ extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Currency
         if ($orphanCurrency !== null) {
             return $orphanCurrency;
         }
-        if (!isset(self::$_websiteBaseCurrencyCodes[$websiteId])) {
-            self::$_websiteBaseCurrencyCodes[$websiteId] = \Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+        if (!isset($this->_websiteBaseCurrencyCodes[$websiteId])) {
+            $this->_websiteBaseCurrencyCodes[$websiteId] = $this->_storeManager->getWebsite($websiteId)
+                ->getBaseCurrencyCode();
         }
-        return self::$_websiteBaseCurrencyCodes[$websiteId];
+        return $this->_websiteBaseCurrencyCodes[$websiteId];
     }
 
     /**

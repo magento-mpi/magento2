@@ -10,16 +10,45 @@
 
 /**
  * Wishlist item management column (copy, move, etc.)
- *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column;
 
 class Management
     extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
+    /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
     /**
      * Render block
      *
@@ -68,7 +97,7 @@ class Management
      */
     public function canCreateWishlists(\Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists)
     {
-        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+        $customerId = $this->_customerSession->getCustomerId();
         return !$this->_wishlistData->isWishlistLimitReached($wishlists) && $customerId;
     }
 

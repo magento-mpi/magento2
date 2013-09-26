@@ -9,7 +9,7 @@
  */
 
 /**
- * \Directory contents block for Wysiwyg Images
+ * Directory contents block for Wysiwyg Images
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -27,25 +27,31 @@ class Files extends \Magento\Adminhtml\Block\Template
     protected $_filesCollection;
 
     /**
-     * Cms wysiwyg images
-     *
-     * @var \Magento\Cms\Helper\Wysiwyg\Images
+     * @var \Magento\Cms\Model\Wysiwyg\Images\Storage
      */
-    protected $_cmsWysiwygImages = null;
+    protected $_imageStorage;
 
     /**
-     * @param \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages
+     * @var \Magento\Cms\Helper\Wysiwyg\Images
+     */
+    protected $_imageHelper;
+
+    /**
+     * @param \Magento\Cms\Model\Wysiwyg\Images\Storage $imageStorage
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Cms\Helper\Wysiwyg\Images $imageHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages,
+        \Magento\Cms\Model\Wysiwyg\Images\Storage $imageStorage,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Cms\Helper\Wysiwyg\Images $imageHelper,
         array $data = array()
     ) {
-        $this->_cmsWysiwygImages = $cmsWysiwygImages;
+        $this->_imageHelper = $imageHelper;
+        $this->_imageStorage = $imageStorage;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -57,9 +63,8 @@ class Files extends \Magento\Adminhtml\Block\Template
     public function getFiles()
     {
         if (! $this->_filesCollection) {
-            $this->_filesCollection = \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Images\Storage')
-                ->getFilesCollection(
-                    $this->_cmsWysiwygImages->getCurrentPath(), $this->_getMediaType()
+            $this->_filesCollection = $this->_imageStorage->getFilesCollection(
+                    $this->_imageHelper->getCurrentPath(), $this->_getMediaType()
                 );
         }
 
@@ -142,14 +147,24 @@ class Files extends \Magento\Adminhtml\Block\Template
         return $file->getShortName();
     }
 
+    /**
+     * Get image width
+     *
+     * @return int
+     */
     public function getImagesWidth()
     {
-        return \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Images\Storage')->getConfigData('resize_width');
+        return $this->_imageStorage->getResizeWidth();
     }
 
+    /**
+     * Get image height
+     *
+     * @return int
+     */
     public function getImagesHeight()
     {
-        return \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Images\Storage')->getConfigData('resize_height');
+        return $this->_imageStorage->getResizeHeight();
     }
 
     /**

@@ -36,6 +36,55 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     protected $_facets = array();
 
     /**
+     * @var \Magento\Search\Model\Resource\Engine
+     */
+    protected $_resourceEngine;
+
+    /**
+     * @var \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
+     */
+    protected $_priceAlgorithm;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Cache
+     *
+     * @var \Magento\Core\Model\CacheInterface
+     */
+    protected $_cache;
+
+    /**
+     * Construct
+     * 
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm
+     * @param \Magento\Search\Model\Resource\Engine $resourceEngine
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm,
+        \Magento\Search\Model\Resource\Engine $resourceEngine,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\CacheInterface $cache,
+        array $data = array()
+    ) {
+        $this->_priceAlgorithm = $priceAlgorithm;
+        $this->_resourceEngine = $resourceEngine;
+        $this->_storeManager = $storeManager;
+        $this->_cache = $cache;
+        parent::__construct($coreRegistry, $data);
+    }
+
+    /**
      * Return cache tag for layered price filter
      *
      * @return string
@@ -52,8 +101,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      */
     protected function _getFilterField()
     {
-        $engine = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Engine');
-        $priceField = $engine->getSearchEngineFieldName('price');
+        $priceField = $this->_resourceEngine->getSearchEngineFieldName('price');
 
         return $priceField;
     }
@@ -69,7 +117,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             return array();
         }
 
-        $isAuto = (\Mage::app()->getStore()
+        $isAuto = ($this->_storeManager->getStore()
             ->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED);
         if (!$isAuto && $this->getInterval()) {
             return array();
@@ -180,7 +228,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         $uniquePart = strtoupper(md5(serialize($searchParams . '_' . $this->getCurrencyRate())));
         $cacheKey = 'MAXPRICE_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
-        $cachedData = \Mage::app()->loadCache($cacheKey);
+        $cachedData = $this->_cache->load($cacheKey);
         if (!$cachedData) {
             $stats = $this->getLayer()->getProductCollection()->getStats($this->_getFilterField());
 
@@ -194,7 +242,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $cachedData = $max;
             $tags = $this->getLayer()->getStateTags();
             $tags[] = self::CACHE_TAG;
-            \Mage::app()->saveCache($cachedData, $cacheKey, $tags);
+            $this->_cache->save($cachedData, $cacheKey, $tags);
         }
 
         return $cachedData;
@@ -214,10 +262,8 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             . $this->getCurrencyRate() . '_' . $intervalParams)));
         $cacheKey = 'PRICE_SEPARATORS_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
-        $cachedData = \Mage::app()->loadCache($cacheKey);
+        $cachedData = $this->_cache->load($cacheKey);
         if (!$cachedData) {
-            /** @var $algorithmModel \Magento\Catalog\Model\Layer\Filter\Price\Algorithm */
-            $algorithmModel = \Mage::getSingleton('Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
             $statistics = $this->getLayer()->getProductCollection()->getStats($this->_getFilterField());
             $statistics = $statistics[$this->_getFilterField()];
 
@@ -228,13 +274,13 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                 || $appliedInterval[0] == $appliedInterval[1]
                 || $appliedInterval[1] === '0')
             ) {
-                $algorithmModel->setPricesModel($this)->setStatistics(0, 0, 0, 0);
+                $this->_priceAlgorithm->setPricesModel($this)->setStatistics(0, 0, 0, 0);
                 $this->_divisible = false;
             } else {
                 if ($appliedInterval) {
-                    $algorithmModel->setLimits($appliedInterval[0], $appliedInterval[1]);
+                    $this->_priceAlgorithm->setLimits($appliedInterval[0], $appliedInterval[1]);
                 }
-                $algorithmModel->setPricesModel($this)->setStatistics(
+                $this->_priceAlgorithm->setPricesModel($this)->setStatistics(
                     round($statistics['min'] * $this->getCurrencyRate(), 2),
                     round($statistics['max'] * $this->getCurrencyRate(), 2),
                     $statistics['stddev'] * $this->getCurrencyRate(),
@@ -243,14 +289,14 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             }
 
             $cachedData = array();
-            foreach ($algorithmModel->calculateSeparators() as $separator) {
+            foreach ($this->_priceAlgorithm->calculateSeparators() as $separator) {
                 $cachedData[] = $separator['from'] . '-' . $separator['to'];
             }
             $cachedData = implode(',', $cachedData);
 
             $tags = $this->getLayer()->getStateTags();
             $tags[] = self::CACHE_TAG;
-            \Mage::app()->saveCache($cachedData, $cacheKey, $tags);
+            $this->_cache->save($cachedData, $cacheKey, $tags);
         }
 
         if (!$cachedData) {
@@ -345,7 +391,8 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      */
     public function addFacetCondition()
     {
-        if (\Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED) {
+        $range = $this->_storeManager->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION);
+        if (self::RANGE_CALCULATION_IMPROVED == $range) {
             return $this->_addCalculatedFacetCondition();
         }
 

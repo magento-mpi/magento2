@@ -21,6 +21,37 @@ namespace Magento\Newsletter\Controller;
 class Manage extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Customer session
+     *
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Session $customerSession
+    ) {
+        parent::__construct($context);
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
+    }
+
+    /**
      * Action predispatch
      *
      * Check customer authentication for some actions
@@ -28,7 +59,7 @@ class Manage extends \Magento\Core\Controller\Front\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
+        if (!$this->_customerSession->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -52,18 +83,18 @@ class Manage extends \Magento\Core\Controller\Front\Action
             return $this->_redirect('customer/account/');
         }
         try {
-            \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()
-            ->setStoreId(\Mage::app()->getStore()->getId())
-            ->setIsSubscribed((boolean)$this->getRequest()->getParam('is_subscribed', false))
-            ->save();
+            $this->_customerSession->getCustomer()
+                ->setStoreId($this->_storeManager->getStore()->getId())
+                ->setIsSubscribed((boolean)$this->getRequest()->getParam('is_subscribed', false))
+                ->save();
             if ((boolean)$this->getRequest()->getParam('is_subscribed', false)) {
-                \Mage::getSingleton('Magento\Customer\Model\Session')->addSuccess(__('We saved the subscription.'));
+                $this->_customerSession->addSuccess(__('We saved the subscription.'));
             } else {
-                \Mage::getSingleton('Magento\Customer\Model\Session')->addSuccess(__('We removed the subscription.'));
+                $this->_customerSession->addSuccess(__('We removed the subscription.'));
             }
         }
         catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Customer\Model\Session')->addError(__('Something went wrong while saving your subscription.'));
+            $this->_customerSession->addError(__('Something went wrong while saving your subscription.'));
         }
         $this->_redirect('customer/account/');
     }

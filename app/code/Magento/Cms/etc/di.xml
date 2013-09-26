@@ -19,6 +19,55 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Cms\Model\Wysiwyg\Config">
+        <param name="eventManager">
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+        <param name="windowSize">
+            <value>
+                <height type="int">600</height>
+                <width type="int">1000</width>
+            </value>
+        </param>
+    </type>
+    <type name="Magento\Cms\Model\Wysiwyg\Images\Storage">
+        <param name="resizeParameters">
+            <value>
+                <height type="int">75</height>
+                <width type="int">100</width>
+            </value>
+        </param>
+        <param name="extensions">
+            <value>
+                <allowed>
+                    <jpg type="int">1</jpg>
+                    <jpeg type="int">1</jpeg>
+                    <png type="int">1</png>
+                    <gif type="int">1</gif>
+                </allowed>
+                <image_allowed>
+                    <jpg type="int">1</jpg>
+                    <jpeg type="int">1</jpeg>
+                    <png type="int">1</png>
+                    <gif type="int">1</gif>
+                </image_allowed>
+                <media_allowed>
+                    <flv type="int">1</flv>
+                    <swf type="int">1</swf>
+                    <avi type="int">1</avi>
+                    <mov type="int">1</mov>
+                    <rm type="int">1</rm>
+                    <wmv type="int">1</wmv>
+                </media_allowed>
+            </value>
+        </param>
+        <param name="dirs">
+            <value>
+                <exclude />
+                <include />
+            </value>
+        </param>
+    </type>
     <type name="Magento\Cms\Helper\Page">
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
@@ -32,12 +81,7 @@
     <type name="Magento\Cms\Model\Page">
         <param name="eventManager">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
-    </type>
-    <type name="Magento\Cms\Model\Wysiwyg\Config">
-        <param name="eventManager">
-            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
-        </param>
+        </param>       
     </type>
     <type name="Magento\Core\Helper\Data">
         <param name="eventManager">

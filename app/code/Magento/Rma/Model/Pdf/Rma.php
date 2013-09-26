@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Rma PDF model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Model\Pdf;
 
@@ -32,14 +27,24 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      *
      * @var \Magento\Rma\Helper\Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
 
     /**
      * Rma eav
      *
      * @var \Magento\Rma\Helper\Eav
      */
-    protected $_rmaEav = null;
+    protected $_rmaEav;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * Constructor
@@ -52,17 +57,27 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\ConfigInterface $coreConfig
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\String $coreString
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\ConfigInterface $coreConfig,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;
-        parent::__construct($paymentData, $coreData, $coreString);
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $coreConfig);
     }
 
     /**
@@ -82,14 +97,14 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_setFontBold($style, 10);
 
         if (!(is_array($rmaArray) && (count($rmaArray) == 1))){
-            \Mage::throwException(__('Only one RMA is available for printing'));
+            throw new \Magento\Core\Exception(__('Only one RMA is available for printing'));
         }
         $rma = $rmaArray[0];
 
         $storeId = $rma->getOrder()->getStore()->getId();
         if ($storeId) {
-            \Mage::app()->getLocale()->emulate($storeId);
-            \Mage::app()->setCurrentStore($storeId);
+            $this->_locale->emulate($storeId);
+            $this->_storeManager->setCurrentStore($storeId);
         }
 
         $page = $this->newPage();
@@ -218,7 +233,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         }
 
         if ($storeId) {
-            \Mage::app()->getLocale()->revert();
+            $this->_locale->revert();
         }
 
         $this->_afterGetPdf();
@@ -311,22 +326,22 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      */
     protected function _drawRmaItem($item, $page)
     {
-        $productName = $this->_coreString->strSplit($item->getProductName(), 60, true, true);
+        $productName = $this->_coreString->str_split($item->getProductName(), 60, true, true);
         $productName = isset($productName[0]) ? $productName[0] : '';
 
         $page->drawText($productName, $this->getProductNameX(), $this->y, 'UTF-8');
 
-        $productSku = $this->_coreString->strSplit($item->getProductSku(), 25);
+        $productSku = $this->_coreString->str_split($item->getProductSku(), 25);
         $productSku = isset($productSku[0]) ? $productSku[0] : '';
         $page->drawText($productSku, $this->getProductSkuX(),$this->y, 'UTF-8');
 
-        $condition = $this->_coreString->strSplit(
+        $condition = $this->_coreString->str_split(
             $this->_getOptionAttributeStringValue($item->getCondition()),
             25
         );
         $page->drawText($condition[0], $this->getConditionX(),$this->y, 'UTF-8');
 
-        $resolution = $this->_coreString->strSplit(
+        $resolution = $this->_coreString->str_split(
             $this->_getOptionAttributeStringValue($item->getResolution()),
             25
         );
@@ -345,7 +360,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             'UTF-8'
         );
 
-        $status = $this->_coreString->strSplit($item->getStatusLabel(), 25);
+        $status = $this->_coreString->str_split($item->getStatusLabel(), 25);
         $page->drawText($status[0], $this->getStatusX(),$this->y, 'UTF-8');
 
         $productOptions = $item->getOptions();
@@ -369,7 +384,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $this->y -= 8;
             $optionRowString = $value['label'] . ': ' .
                 (isset($value['print_value']) ? $value['print_value'] : $value['value']);
-            $productOptions = $this->_coreString->strSplit($optionRowString, 60, true, true);
+            $productOptions = $this->_coreString->str_split($optionRowString, 60, true, true);
             $productOptions = isset($productOptions[0]) ? $productOptions[0] : '';
             $page->drawText($productOptions, $this->getProductNameX(), $this->y, 'UTF-8');
         }

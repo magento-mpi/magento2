@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Rss\Block\Catalog;
 
 class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
@@ -54,16 +55,20 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $storeManager, $customerSession, $data);
     }
 
     /**

@@ -17,6 +17,23 @@ namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
 class Archive extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * @var \Magento\SalesArchive\Model\Archive
+     */
+    protected $_archiveModel;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\SalesArchive\Model\Archive $archiveModel
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\SalesArchive\Model\Archive $archiveModel
+    ) {
+        $this->_archiveModel = $archiveModel;
+        parent::__construct($context);
+    }
+
+    /**
      * Render archive grid
      *
      * @return \Magento\SalesArchive\Controller\Adminhtml\Sales\Archive
@@ -141,8 +158,7 @@ class Archive extends \Magento\Adminhtml\Controller\Action
     public function massRemoveAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $removedFromArchive = \Mage::getSingleton('Magento\SalesArchive\Model\Archive')
-            ->removeOrdersFromArchiveById($orderIds);
+        $removedFromArchive = $this->_archiveModel->removeOrdersFromArchiveById($orderIds);
 
         $removedFromArchiveCount = count($removedFromArchive);
         if ($removedFromArchiveCount>0) {
@@ -161,8 +177,7 @@ class Archive extends \Magento\Adminhtml\Controller\Action
     public function massAddAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $archivedIds = \Mage::getSingleton('Magento\SalesArchive\Model\Archive')
-            ->archiveOrdersById($orderIds);
+        $archivedIds = $this->_archiveModel->archiveOrdersById($orderIds);
 
         $archivedCount = count($archivedIds);
         if ($archivedCount>0) {
@@ -180,8 +195,7 @@ class Archive extends \Magento\Adminhtml\Controller\Action
     {
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $archivedIds = \Mage::getSingleton('Magento\SalesArchive\Model\Archive')
-                ->archiveOrdersById($orderId);
+            $this->_archiveModel->archiveOrdersById($orderId);
             $this->_getSession()->addSuccess(__('We have archived the order.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
         } else {
@@ -197,8 +211,7 @@ class Archive extends \Magento\Adminhtml\Controller\Action
     {
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $orderIds = \Mage::getSingleton('Magento\SalesArchive\Model\Archive')
-                ->removeOrdersFromArchiveById($orderId);
+            $this->_archiveModel->removeOrdersFromArchiveById($orderId);
             $this->_getSession()->addSuccess(__('We have removed the order from the archive.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
         } else {

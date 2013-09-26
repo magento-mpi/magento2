@@ -10,7 +10,7 @@
 namespace Magento\FullPageCache\Model\Placeholder;
 
 class Config
-    extends \Magento\Config\Data
+    extends \Magento\Config\Data\Scoped
     implements \Magento\FullPageCache\Model\Placeholder\ConfigInterface
 {
     /**

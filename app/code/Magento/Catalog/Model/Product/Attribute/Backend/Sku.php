@@ -36,11 +36,14 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 
     /**
      * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_coreString = $coreString;
+        parent::__construct($logger);
     }
 
     /**

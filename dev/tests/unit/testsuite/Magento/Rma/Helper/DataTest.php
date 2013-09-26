@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Rma\Helper;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -27,15 +28,18 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValueMap($storeConfigData));
 
-        $model = new \Magento\Rma\Helper\Data(
-            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false),
-            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
-            $this->_getAppMock($mockConfig),
-            $storeConfigMock,
-            $this->_getCountryFactoryMock($mockConfig),
-            $this->_getRegionFactoryMock($mockConfig)
-
-        );
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $itemFactory = $this->getMock('Magento\Rma\Model\Resource\ItemFactory', array('create'), array(), '', false);
+        $addressFactory = $this->getMock('Magento\Sales\Model\Quote\AddressFactory',
+            array('create'), array(), '', false);
+        $model = $helper->getObject('Magento\Rma\Helper\Data', array(
+            'app'            => $this->_getAppMock($mockConfig),
+            'storeConfig'    => $storeConfigMock,
+            'countryFactory' => $this->_getCountryFactoryMock($mockConfig),
+            'regionFactory'  => $this->_getRegionFactoryMock($mockConfig),
+            'itemFactory'    => $itemFactory,
+            'addressFactory' => $addressFactory
+        ));
         $this->assertEquals($model->getReturnAddressData(), $expectedResult);
     }
 

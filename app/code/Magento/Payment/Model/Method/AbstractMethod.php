@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Payment method abstract model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Payment\Model\Method;
 
@@ -101,21 +97,33 @@ abstract class AbstractMethod extends \Magento\Object
     protected $_eventManager = null;
 
     /**
+     * Log adapter factory
+     *
+     * @var \Magento\Core\Model\Log\AdapterFactory
+     */
+    protected $_logAdapterFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
+        parent::__construct($data);
         $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($data);
+        $this->_logAdapterFactory = $logAdapterFactory;
     }
 
     /**
@@ -334,16 +342,16 @@ abstract class AbstractMethod extends \Magento\Object
                && ($this instanceof \Magento\Payment\Model\Recurring\Profile\MethodInterface);
     }
 
-
     /**
      * Retrieve payment method code
      *
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function getCode()
     {
         if (empty($this->_code)) {
-            \Mage::throwException(__('We cannot retrieve the payment method code.'));
+            throw new \Magento\Core\Exception(__('We cannot retrieve the payment method code.'));
         }
         return $this->_code;
     }
@@ -372,12 +380,13 @@ abstract class AbstractMethod extends \Magento\Object
      * Retrieve payment iformation model object
      *
      * @return \Magento\Payment\Model\Info
+     * @throws \Magento\Core\Exception
      */
     public function getInfoInstance()
     {
         $instance = $this->getData('info_instance');
         if (!($instance instanceof \Magento\Payment\Model\Info)) {
-            \Mage::throwException(__('We cannot retrieve the payment information object instance.'));
+            throw new \Magento\Core\Exception(__('We cannot retrieve the payment information object instance.'));
         }
         return $instance;
     }
@@ -385,7 +394,8 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Validate payment method information object
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     public function validate()
     {
@@ -399,7 +409,9 @@ abstract class AbstractMethod extends \Magento\Object
              $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
          }
          if (!$this->canUseForCountry($billingCountry)) {
-             \Mage::throwException(__('You can\'t use the payment type you selected to make payments to the billing country.'));
+             throw new \Magento\Core\Exception(
+                 __('You can\'t use the payment type you selected to make payments to the billing country.')
+             );
          }
          return $this;
     }
@@ -410,12 +422,13 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     public function order(\Magento\Object $payment, $amount)
     {
         if (!$this->canOrder()) {
-            \Mage::throwException(__('The order action is not available.'));
+            throw new \Magento\Core\Exception(__('The order action is not available.'));
         }
         return $this;
     }
@@ -426,12 +439,13 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
         if (!$this->canAuthorize()) {
-            \Mage::throwException(__('The authorize action is not available.'));
+            throw new \Magento\Core\Exception(__('The authorize action is not available.'));
         }
         return $this;
     }
@@ -442,12 +456,13 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     public function capture(\Magento\Object $payment, $amount)
     {
         if (!$this->canCapture()) {
-            \Mage::throwException(__('Th capture action is not available.'));
+            throw new \Magento\Core\Exception(__('Th capture action is not available.'));
         }
 
         return $this;
@@ -489,12 +504,13 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
     {
         if (!$this->canRefund()) {
-            \Mage::throwException(__('The refund action is not available.'));
+            throw new \Magento\Core\Exception(__('The refund action is not available.'));
         }
         return $this;
     }
@@ -516,7 +532,7 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Object $payment
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -528,12 +544,13 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Object $payment
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
+     * @throws \Magento\Core\Exception
      */
     public function void(\Magento\Object $payment)
     {
         if (!$this->canVoid($payment)) {
-            \Mage::throwException(__('Void action is not available.'));
+            throw new \Magento\Core\Exception(__('Void action is not available.'));
         }
         return $this;
     }
@@ -560,7 +577,7 @@ abstract class AbstractMethod extends \Magento\Object
     public function acceptPayment(\Magento\Payment\Model\Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            \Mage::throwException(__('The payment review action is unavailable.'));
+            throw new \Magento\Core\Exception(__('The payment review action is unavailable.'));
         }
         return false;
     }
@@ -575,7 +592,7 @@ abstract class AbstractMethod extends \Magento\Object
     public function denyPayment(\Magento\Payment\Model\Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            \Mage::throwException(__('The payment review action is unavailable.'));
+            throw new \Magento\Core\Exception(__('The payment review action is unavailable.'));
         }
         return false;
     }
@@ -627,7 +644,7 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Prepare info instance for save
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
      */
     public function prepareSave()
     {
@@ -726,7 +743,7 @@ abstract class AbstractMethod extends \Magento\Object
      * @param string $paymentAction
      * @param object $stateObject
      *
-     * @return Magento_Payment_Model_Abstract
+     * @return \Magento\Payment\Model\AbstractModel
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -752,7 +769,8 @@ abstract class AbstractMethod extends \Magento\Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_' . $this->getCode() . '.log'))
+            $this->_logAdapterFactory
+                ->create(array('fileName' => 'payment_' . $this->getCode() . '.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

@@ -10,12 +10,12 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <remove name="footer"/>
     <remove name="head"/>
-    <reference name="left">
+    <referenceContainer name="left">
         <block class="Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree" name="wysiwyg_files.tree" template="Magento_Adminhtml::cms/browser/tree.phtml"/>
-    </reference>
-    <reference name="content">
+    </referenceContainer>
+    <referenceContainer name="content">
         <block class="Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content" name="wysiwyg_files.content" template="browser/content.phtml">
             <block class="Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Uploader" name="wysiwyg_files.uploader" template="browser/content/uploader.phtml"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

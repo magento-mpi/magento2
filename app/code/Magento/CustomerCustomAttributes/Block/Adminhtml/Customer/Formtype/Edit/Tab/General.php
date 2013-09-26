@@ -18,8 +18,40 @@ class General
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
+     * @var \Magento\Core\Model\Theme\LabelFactory
+     */
+    protected $_themeLabelFactory;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
+        \Magento\Core\Model\System\Store $systemStore,
+        array $data = array()
+    ) {
+        $this->_themeLabelFactory = $themeLabelFactory;
+        $this->_systemStore = $systemStore;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Initialize Edit Form
-     *
      */
     protected function _construct()
     {
@@ -76,7 +108,7 @@ class General
         ));
 
         /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
+        $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection();
         array_unshift($options, array(
             'label' => __('All Themes'),
@@ -95,7 +127,7 @@ class General
             'name'      => 'store_id',
             'label'     => __('Store View'),
             'title'     => __('Store View'),
-            'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true),
+            'values'    => $this->_systemStore->getStoreValuesForForm(false, true),
             'value'     => $model->getStoreId(),
             'disabled'  => true
         ));

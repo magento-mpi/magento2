@@ -33,10 +33,7 @@
  * @method \Magento\Newsletter\Model\Queue setQueueStartAt(string $value)
  * @method string getQueueFinishAt()
  * @method \Magento\Newsletter\Model\Queue setQueueFinishAt(string $value)
- *
- * @category    Magento
- * @package     Magento_Newsletter
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Newsletter\Model;
 
@@ -56,9 +53,10 @@ class Queue extends \Magento\Core\Model\Template
 
     /**
      * Subscribers collection
-     * @var \Magento\Data\Collection\Db
+     *
+     * @var \Magento\Newsletter\Model\Resource\Subscriber\Collection
      */
-    protected $_subscribersCollection = null;
+    protected $_subscribersCollection;
 
     /**
      * Save stores flag.
@@ -81,28 +79,83 @@ class Queue extends \Magento\Core\Model\Template
     const STATUS_PAUSE = 4;
 
     /**
-     * Newsletter data
+     * Filter for newsletter text
      *
-     * @var \Magento\Newsletter\Helper\Data
+     * @var \Magento\Newsletter\Model\Template\Filter
      */
-    protected $_newsletterData = null;
+    protected $_templateFilter;
 
     /**
+     * Date
+     *
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * Locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Email template factory
+     *
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_emailTemplateFactory;
+
+    /**
+     * Problem factory
+     *
+     * @var \Magento\Newsletter\Model\ProblemFactory
+     */
+    protected $_problemFactory;
+
+    /**
+     * Template factory
+     *
+     * @var \Magento\Newsletter\Model\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param \Magento\Newsletter\Helper\Data $newsletterData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Newsletter\Model\Template\Filter $templateFilter
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
+     * @param \Magento\Newsletter\Model\ProblemFactory $problemFactory
+     * @param \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory
+     * @param \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $design,
-        \Magento\Newsletter\Helper\Data $newsletterData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Newsletter\Model\Template\Filter $templateFilter,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Date $date,
+        \Magento\Newsletter\Model\TemplateFactory $templateFactory,
+        \Magento\Newsletter\Model\ProblemFactory $problemFactory,
+        \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory,
+        \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory,
         array $data = array()
     ) {
-        $this->_newsletterData = $newsletterData;
         parent::__construct($design, $context, $registry, $data);
+        $this->_templateFilter = $templateFilter;
+        $this->_date = $date;
+        $this->_locale = $locale;
+        $this->_templateFactory = $templateFactory;
+        $this->_problemFactory = $problemFactory;
+        $this->_emailTemplateFactory = $emailTemplateFactory;
+        $this->_subscribersCollection = $subscriberCollectionFactory->create();
     }
 
     /**
@@ -133,23 +186,6 @@ class Queue extends \Magento\Core\Model\Template
     }
 
     /**
-     * Returns subscribers collection for this queue
-     *
-     * @return \Magento\Data\Collection\Db
-     */
-    public function getSubscribersCollection()
-    {
-        if (is_null($this->_subscribersCollection)) {
-            $this->_subscribersCollection = \Mage::getResourceModel(
-                    'Magento\Newsletter\Model\Resource\Subscriber\Collection'
-                )
-                ->useQueue($this);
-        }
-
-        return $this->_subscribersCollection;
-    }
-
-    /**
      * Set $_data['queue_start'] based on string from backend, which based on locale.
      *
      * @param string|null $startAt start date of the mailing queue
@@ -160,10 +196,9 @@ class Queue extends \Magento\Core\Model\Template
         if (is_null($startAt) || $startAt == '') {
             $this->setQueueStartAt(null);
         } else {
-            $locale = \Mage::app()->getLocale();
-            $format = $locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
-            $time = $locale->date($startAt, $format)->getTimestamp();
-            $this->setQueueStartAt(\Mage::getModel('Magento\Core\Model\Date')->gmtDate(null, $time));
+            $format = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $time = $this->_locale->date($startAt, $format)->getTimestamp();
+            $this->setQueueStartAt($this->_date->gmtDate(null, $time));
         }
         return $this;
     }
@@ -183,12 +218,16 @@ class Queue extends \Magento\Core\Model\Template
             return $this;
         }
 
-        if ($this->getSubscribersCollection()->getSize() == 0) {
+        if (!$this->_subscribersCollection->getQueueJoinedFlag()) {
+            $this->_subscribersCollection->useQueue($this);
+        }
+
+        if ($this->_subscribersCollection->getSize() == 0) {
             $this->_finishQueue();
             return $this;
         }
 
-        $collection = $this->getSubscribersCollection()
+        $collection = $this->_subscribersCollection
             ->useOnlyUnsent()
             ->showCustomerInfo()
             ->setPageSize($count)
@@ -196,14 +235,14 @@ class Queue extends \Magento\Core\Model\Template
             ->load();
 
         /** @var \Magento\Core\Model\Email\Template $sender */
-        $sender = $this->_emailTemplate ?: \Mage::getModel('Magento\Core\Model\Email\Template');
+        $sender = $this->_emailTemplate ?: $this->_emailTemplateFactory->create();
         $sender->setSenderName($this->getNewsletterSenderName())
             ->setSenderEmail($this->getNewsletterSenderEmail())
             ->setTemplateType(self::TYPE_HTML)
             ->setTemplateSubject($this->getNewsletterSubject())
             ->setTemplateText($this->getNewsletterText())
             ->setTemplateStyles($this->getNewsletterStyles())
-            ->setTemplateFilter($this->_newsletterData->getTemplateProcessor());
+            ->setTemplateFilter($this->_templateFilter);
 
         /** @var \Magento\Newsletter\Model\Subscriber $item */
         foreach ($collection->getItems() as $item) {
@@ -218,7 +257,7 @@ class Queue extends \Magento\Core\Model\Template
                 $item->received($this);
             } else {
                 /** @var \Magento\Newsletter\Model\Problem $problem */
-                $problem = \Mage::getModel('Magento\Newsletter\Model\Problem');
+                $problem = $this->_problemFactory->create();
                 $problem->addSubscriberData($item);
                 $problem->addQueueData($this);
                 $e = $sender->getSendingException();
@@ -243,7 +282,7 @@ class Queue extends \Magento\Core\Model\Template
      */
     protected function _finishQueue()
     {
-        $this->setQueueFinishAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+        $this->setQueueFinishAt($this->_date->gmtDate());
         $this->setQueueStatus(self::STATUS_SENT);
         $this->save();
 
@@ -335,7 +374,7 @@ class Queue extends \Magento\Core\Model\Template
     public function getTemplate()
     {
         if (is_null($this->_template)) {
-            $this->_template = \Mage::getModel('Magento\Newsletter\Model\Template')
+            $this->_template = $this->_templateFactory->create()
                 ->load($this->getTemplateId());
         }
         return $this->_template;

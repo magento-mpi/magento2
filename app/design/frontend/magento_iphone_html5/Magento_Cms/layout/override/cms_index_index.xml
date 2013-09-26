@@ -8,11 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="CMS Home Page" type="page" parent="cms_page_view">
-    <reference name="root">
+    <referenceBlock name="root">
         <container name="homepage.banner" label="Home Page Banner(Mobile)" htmlTag="div" htmlClass="front-banner"/>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\Catalog\Block\Navigation" name="hp_nav" template="navigation/top.phtml"/>
-    </reference>
+    </referenceContainer>
     <remove name="cms.wrapper"/>
 </layout>

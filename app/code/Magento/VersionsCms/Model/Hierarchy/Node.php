@@ -83,6 +83,11 @@ class Node extends \Magento\Core\Model\AbstractModel
     protected $_scopeId = self::NODE_SCOPE_DEFAULT_ID;
 
     /**
+     * @var \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
+     */
+    protected $_hierarchyConfig;
+
+    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -108,6 +113,7 @@ class Node extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource
@@ -117,6 +123,7 @@ class Node extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Core\Model\Context $context,
+        \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource,
@@ -124,6 +131,7 @@ class Node extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
+        $this->_hierarchyConfig = $hierarchyConfig;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
@@ -249,21 +257,12 @@ class Node extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retrieve Resource instance wrapper
-     *
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
-     */
-    protected function _getResource()
-    {
-        return parent::_getResource();
-    }
-
-    /**
      * Collect and save tree
      *
      * @param array $data       modified nodes data array
      * @param array $remove     the removed node ids
      * @return \Magento\VersionsCms\Model\Hierarchy\Node
+     * @throws \Exception
      */
     public function collectTree($data, $remove)
     {
@@ -744,15 +743,15 @@ class Node extends \Magento\Core\Model\AbstractModel
         if (!array_key_exists('menu_layout', $rootParams)) {
             return null;
         }
-        $layoutCode = $rootParams['menu_layout'];
-        if (!$layoutCode) {
-            $layoutCode = $this->_coreStoreConfig->getConfig('cms/hierarchy/menu_layout');
+        $layoutName = $rootParams['menu_layout'];
+        if (!$layoutName) {
+            $layoutName = $this->_coreStoreConfig->getConfig('cms/hierarchy/menu_layout');
         }
-        if (!$layoutCode) {
+        if (!$layoutName) {
             return null;
         }
-        $layout = \Mage::getSingleton('Magento\VersionsCms\Model\Hierarchy\Config')->getContextMenuLayout($layoutCode);
-        return is_object($layout) ? $layout : null;
+        $layout = $this->_hierarchyConfig->getContextMenuLayout($layoutName);
+        return ($layout) ? $layout : null;
     }
 
     /**

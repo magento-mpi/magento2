@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Sales Shipment Print View" type="page" parent="sales_guest_print">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Sales\Block\Order\PrintOrder\Shipment" name="sales.order.print.shipment" template="order/print/shipment.phtml">
             <block class="Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer" as="default" template="order/shipment/items/renderer/default.phtml"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Factory of REST renderers.
+ * Factory of REST renders
  *
  * {license_notice}
  *
@@ -12,36 +12,31 @@ namespace Magento\Webapi\Controller\Rest\Response\Renderer;
 class Factory
 {
     /**
-     * Response render adapters.
-     */
-    const XML_PATH_WEBAPI_RESPONSE_RENDERS = 'global/webapi/rest/response/renders';
-
-    /**
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;
-
-    /** @var \Magento\Core\Model\Config */
-    protected $_applicationConfig;
 
     /** @var \Magento\Webapi\Controller\Rest\Request */
     protected $_request;
 
     /**
-     * Initialize dependencies.
-     *
+     * @var array
+     */
+    protected $_renders;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Config $applicationConfig
      * @param \Magento\Webapi\Controller\Rest\Request $request
+     * @param array $renders
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Config $applicationConfig,
-        \Magento\Webapi\Controller\Rest\Request $request
+        \Magento\Webapi\Controller\Rest\Request $request,
+        array $renders = array()
     ) {
         $this->_objectManager = $objectManager;
-        $this->_applicationConfig = $applicationConfig;
         $this->_request = $request;
+        $this->_renders = $renders;
     }
 
     /**
@@ -70,18 +65,17 @@ class Factory
     protected function _getRendererClass()
     {
         $acceptTypes = $this->_request->getAcceptTypes();
-        $availableRenderers = (array)$this->_applicationConfig->getNode(self::XML_PATH_WEBAPI_RESPONSE_RENDERS);
         if (!is_array($acceptTypes)) {
             $acceptTypes = array($acceptTypes);
         }
         foreach ($acceptTypes as $acceptType) {
-            foreach ($availableRenderers as $rendererConfig) {
-                $rendererType = (string)$rendererConfig->type;
+            foreach ($this->_renders as $rendererConfig) {
+                $rendererType = $rendererConfig['type'];
                 if ($acceptType == $rendererType
                     || ($acceptType == current(explode('/', $rendererType)) . '/*')
                     || $acceptType == '*/*'
                 ) {
-                    return (string)$rendererConfig->model;
+                    return $rendererConfig['model'];
                 }
             }
         }

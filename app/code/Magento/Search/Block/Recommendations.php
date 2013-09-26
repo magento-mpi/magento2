@@ -24,22 +24,34 @@ class Recommendations extends \Magento\Core\Block\Template
      *
      * @var \Magento\Search\Helper\Data
      */
-    protected $_searchData = null;
+    protected $_searchData;
 
     /**
-     * @param \Magento\Search\Helper\Data $searchData
+     * Recommendations factory
+     *
+     * @var \Magento\Search\Model\RecommendationsFactory
+     */
+    protected $_recommendationsFactory;
+
+    /**
+     * Construct
+     *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\Search\Model\RecommendationsFactory $recommendationsFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Search\Helper\Data $searchData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\Search\Model\RecommendationsFactory $recommendationsFactory,
         array $data = array()
     ) {
-        $this->_searchData = $searchData;
         parent::__construct($coreData, $context, $data);
+        $this->_searchData = $searchData;
+        $this->_recommendationsFactory = $recommendationsFactory;
     }
 
     /**
@@ -56,7 +68,8 @@ class Recommendations extends \Magento\Core\Block\Template
             return array();
         }
 
-        $recommendationsModel = \Mage::getModel('Magento\Search\Model\Recommendations');
+        /** @var \Magento\Search\Model\Recommendations $recommendationsModel */
+        $recommendationsModel = $this->_recommendationsFactory->create();
         $recommendations = $recommendationsModel->getSearchRecommendations();
 
         if (!count($recommendations)) {

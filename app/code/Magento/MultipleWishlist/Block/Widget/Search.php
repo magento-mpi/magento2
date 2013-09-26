@@ -10,14 +10,11 @@
 
 /**
  * Wishlist Search Widget Block
- *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\MultipleWishlist\Block\Widget;
 
-class Search extends \Magento\Core\Block\Template implements \Magento\Widget\Block\BlockInterface
+class Search extends \Magento\Core\Block\Template 
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Search form select options
@@ -25,6 +22,31 @@ class Search extends \Magento\Core\Block\Template implements \Magento\Widget\Blo
      * @var array
      */
     protected $_selectOptions;
+
+    /**
+     * Config source search model
+     *
+     * @var \Magento\MultipleWishlist\Model\Config\Source\Search
+     */
+    protected $_configSourceSearch;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch,
+        array $data = array()
+    ) {
+        $this->_configSourceSearch = $configSourceSearch;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Retrieve form types list
@@ -135,7 +157,7 @@ class Search extends \Magento\Core\Block\Template implements \Magento\Widget\Blo
     public function getSearchFormOptions()
     {
         if (is_null($this->_selectOptions)) {
-            $allForms = \Mage::getSingleton('Magento\MultipleWishlist\Model\Config\Source\Search')->getTypes();
+            $allForms = $this->_configSourceSearch->getTypes();
             $useForms = $this->_getEnabledFormTypes();
             $codeAll = \Magento\MultipleWishlist\Model\Config\Source\Search::WISHLIST_SEARCH_DISPLAY_ALL_FORMS;
 

@@ -15,7 +15,7 @@
             <salesrule_setup>
                 <setup>
                     <module>Magento_SalesRule</module>
-                    <class>Magento\Sales\Model\Resource\Setup</class>
+                    <class>Magento\SalesRule\Model\Resource\Setup</class>
                 </setup>
             </salesrule_setup>
         </resources>
@@ -41,16 +41,6 @@
                 </nominal_totals>
             </quote>
         </sales>
-        <salesrule>
-            <coupon>
-                <separator>-</separator>
-                <charset>
-                    <alphanum>ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</alphanum>
-                    <alpha>ABCDEFGHIJKLMNOPQRSTUVWXYZ</alpha>
-                    <num>0123456789</num>
-                </charset>
-            </coupon>
-        </salesrule>
     </global>
     <default>
         <promo>

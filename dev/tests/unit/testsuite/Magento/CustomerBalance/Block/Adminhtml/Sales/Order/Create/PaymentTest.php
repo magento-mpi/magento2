@@ -24,6 +24,52 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     protected $_className = 'Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment';
 
     /**
+     * @var \Magento\CustomerBalance\Model\BalanceFactory
+     */
+    protected $_balanceFactoryMock;
+
+    /**
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_sessionQuoteMock;
+
+    /**
+     * @var \Magento\Adminhtml\Model\Sales\Order\Create
+     */
+    protected $_orderCreateMock;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManagerMock;
+
+    /**
+     * initialize arguments for construct
+     */
+    public function setUp()
+    {
+        $this->_balanceFactoryMock = $this->getMock(
+            'Magento\CustomerBalance\Model\BalanceFactory', array('create'), array(), '', false
+        );
+        $this->_balanceFactoryMock->expects($this->any())
+            ->method('create')
+            ->will(
+                $this->returnValue(
+                    $this->getMock('Magento\CustomerBalance\Model\Balance', array(), array(), '', false)
+                )
+            );
+        $this->_sessionQuoteMock = $this->getMock(
+            'Magento\Adminhtml\Model\Session\Quote', array(), array(), '', false
+        );
+        $this->_orderCreateMock = $this->getMock(
+            'Magento\Adminhtml\Model\Sales\Order\Create', array(), array(), '', false
+        );
+        $this->_storeManagerMock = $this->getMock(
+            'Magento\Core\Model\StoreManagerInterface', array(), array(), '', false
+        );
+    }
+
+    /**
      * Test \Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment::getBalance()
      * Check case when customer balance is disabled
      */
@@ -50,7 +96,14 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             ->method('getHelperFactory')
             ->will($this->returnValue($helperFactoryMock));
 
-        $arguments = array($coreDataMock, $contextMock);
+        $arguments = array(
+            $this->_balanceFactoryMock,
+            $this->_sessionQuoteMock,
+            $this->_orderCreateMock,
+            $this->_storeManagerMock,
+            $coreDataMock,
+            $contextMock
+        );
         $objectMock = $this->getMockBuilder($this->_className)
             ->setConstructorArgs($arguments, array())
             ->setMethods(array('_getStoreManagerModel', '_getOrderCreateModel', '_getBalanceInstance'))
@@ -106,7 +159,14 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
         $coreDataMock = $this->_getCoreDataMock();
 
-        $arguments = array($coreDataMock, $contextMock);
+        $arguments = array(
+            $this->_balanceFactoryMock,
+            $this->_sessionQuoteMock,
+            $this->_orderCreateMock,
+            $this->_storeManagerMock,
+            $coreDataMock,
+            $contextMock
+        );
         $objectMock = $this->getMockBuilder($this->_className)
             ->setConstructorArgs($arguments, array())
             ->setMethods(array('_getStoreManagerModel', '_getOrderCreateModel', '_getBalanceInstance'))
@@ -157,7 +217,14 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
         $coreDataMock = $this->_getCoreDataMock();
 
-        $arguments = array($coreDataMock, $contextMock);
+        $arguments = array(
+            $this->_balanceFactoryMock,
+            $this->_sessionQuoteMock,
+            $this->_orderCreateMock,
+            $this->_storeManagerMock,
+            $coreDataMock,
+            $contextMock
+        );
         $objectMock = $this->getMockBuilder($this->_className)
             ->setConstructorArgs($arguments, array())
             ->setMethods(array('_getStoreManagerModel', '_getOrderCreateModel', '_getBalanceInstance'))

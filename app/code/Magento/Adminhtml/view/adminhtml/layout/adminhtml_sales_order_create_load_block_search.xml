@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Sales\Order\Create\Search" template="sales/order/create/abstract.phtml" name="search">
             <block class="Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid" name="search.grid" as="grid"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

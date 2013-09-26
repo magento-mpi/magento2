@@ -46,17 +46,41 @@ class View extends \Magento\Core\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
+     */
+    protected $_orderCollectionFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Config
+     */
+    protected $_orderConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
     ) {
+        $this->_orderCollectionFactory = $orderCollectionFactory;
+        $this->_customerSession = $customerSession;
+        $this->_orderConfig = $orderConfig;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -69,12 +93,12 @@ class View extends \Magento\Core\Block\Template
     public function getRelatedOrders()
     {
         if (is_null($this->_relatedOrders)) {
-            $this->_relatedOrders = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
+            $this->_relatedOrders = $this->_orderCollectionFactory->create()
                 ->addFieldToSelect('*')
-                ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
+                ->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId())
                 ->addFieldToFilter(
                     'state',
-                    array('in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates())
+                    array('in' => $this->_orderConfig->getVisibleOnFrontStates())
                 )
                 ->addBillingAgreementsFilter($this->_billingAgreementInstance->getAgreementId())
                 ->setOrder('created_at', 'desc');
@@ -115,6 +139,7 @@ class View extends \Magento\Core\Block\Template
                 break;
             default:
                 $value = ($order->getData($key)) ? $order->getData($key) : __('N/A');
+                break;
         }
         return ($escape) ? $this->escapeHtml($value) : $value;
     }
@@ -179,7 +204,9 @@ class View extends \Magento\Core\Block\Template
             $createdAt = $this->_billingAgreementInstance->getCreatedAt();
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
-                ($createdAt) ? $this->helper('Magento\Core\Helper\Data')->formatDate($createdAt, 'short', true) : __('N/A')
+                ($createdAt)
+                    ? $this->helper('Magento\Core\Helper\Data')->formatDate($createdAt, 'short', true)
+                    : __('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(

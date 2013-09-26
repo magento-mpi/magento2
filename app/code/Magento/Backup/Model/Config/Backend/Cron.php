@@ -91,7 +91,7 @@ class Cron extends \Magento\Core\Model\Config\Value
 
             $this->_configValueFactory->create()
                 ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue((string) $this->_coreConfig->getNode(self::CRON_MODEL_PATH))
+                ->setValue((string) $this->_config->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         } catch (\Exception $e) {

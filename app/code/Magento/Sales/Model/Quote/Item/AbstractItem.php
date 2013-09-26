@@ -39,6 +39,37 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     protected $_optionsByCode;
 
     /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_productFactory = $productFactory;
+    }
+
+    /**
      * Retrieve Quote instance
      *
      * @return \Magento\Sales\Model\Quote
@@ -61,7 +92,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     {
         $product = $this->_getData('product');
         if (($product === null) && $this->getProductId()) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')
+            $product = $this->_productFactory->create()
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->load($this->getProductId());
             $this->setProduct($product);
@@ -79,7 +110,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
 
     /**
      * Returns special download params (if needed) for custom option with type = 'file'
-     * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface.
+     * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\Interface.
      * Return null, as quote item needs no additional configuration.
      *
      * @return null|\Magento\Object
@@ -586,8 +617,9 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
             $shipmentType = $this->getProduct()->getShipmentType();
         }
 
-        if ((null !== $shipmentType) &&
-            (int)$shipmentType === \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY) {
+        if (null !== $shipmentType
+            && (int)$shipmentType === \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
+        ) {
             return true;
         }
         return false;

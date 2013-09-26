@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="database">
+    <referenceBlock name="database">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">db/main.phtml</argument>
         </action>
@@ -17,5 +17,5 @@
             <argument name="block" xsi:type="string">Magento\Install\Block\Db\Type\Mysql4</argument>
             <argument name="template" xsi:type="string">db/mysql4.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

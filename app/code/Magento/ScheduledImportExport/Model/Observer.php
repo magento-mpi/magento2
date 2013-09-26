@@ -52,17 +52,57 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @var \Magento\Core\Model\Email\Template\Mailer
+     */
+    protected $_templateMailer;
+
+    /**
+     * @var \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory
+     */
+    protected $_operationFactory;
+
+    /**
+     * @var \Magento\Core\Model\Email\InfoFactory
+     */
+    protected $_emailInfoFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_coreDir;
+
+    /**
+     * @param \Magento\Core\Model\Dir $coreDir
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
+     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Core\Model\Email\Template\Mailer $templateMailer
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Dir $coreDir,
+        \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
+        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Core\Model\Email\Template\Mailer $templateMailer,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
+        $this->_operationFactory = $operationFactory;
+        $this->_emailInfoFactory = $emailInfoFactory;
+        $this->_templateMailer = $templateMailer;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_coreDir = $coreDir;
     }
 
     /**
@@ -82,20 +122,20 @@ class Observer
         }
 
         try {
-            $logPath = \Mage::getBaseDir(\Magento\Core\Model\Dir::LOG)
+            $logPath = $this->_coreDir->getDir(\Magento\Core\Model\Dir::LOG)
                 . DS . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY;
 
             if (!file_exists($logPath) || !is_dir($logPath)) {
                 if (!mkdir($logPath, 0777, true)) {
-                    \Mage::throwException(__("We couldn't create directory " . '"%1"', $logPath));
+                    throw new \Magento\Core\Exception(__("We couldn't create directory " . '"%1"', $logPath));
                 }
             }
 
             if (!is_dir($logPath) || !is_writable($logPath)) {
-                \Mage::throwException(__('The directory "%1" is not writable.', $logPath));
+                throw new \Magento\Core\Exception(__('The directory "%1" is not writable.', $logPath));
             }
             $saveTime = (int) $this->_coreStoreConfig->getConfig(self::SAVE_LOG_TIME_PATH) + 1;
-            $dateCompass = new \DateTime('-' . $saveTime . ' days');
+            $dateCompass = new DateTime('-' . $saveTime . ' days');
 
             foreach ($this->_getDirectoryList($logPath) as $directory) {
                 $separator = str_replace('\\', '\\\\', DS);
@@ -103,12 +143,12 @@ class Observer
                     continue;
                 }
 
-                $direcotryDate = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3]);
+                $direcotryDate = new DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3]);
                 if ($forceRun || $direcotryDate < $dateCompass) {
                     $fs = new \Magento\Io\File();
                     if (!$fs->rmdirRecursive($directory, true)) {
-                        $directory = str_replace(\Mage::getBaseDir() . DS, '', $directory);
-                        \Mage::throwException(
+                        $directory = str_replace($this->_coreDir->getDir() . DS, '', $directory);
+                        throw new \Magento\Core\Exception(
                             __('We couldn\'t delete "%1" because the directory is not writable.', $directory)
                         );
                     }
@@ -160,7 +200,7 @@ class Observer
      */
     public function processScheduledOperation($schedule, $forceRun = false)
     {
-        $operation = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation')
+        $operation = $this->_operationFactory->create()
             ->loadByJobCode($schedule->getJobCode());
 
         $result = false;
@@ -179,24 +219,26 @@ class Observer
      */
     protected function _sendEmailNotification($vars)
     {
-        $storeId = \Mage::app()->getStore()->getId();
+        $storeId = $this->_storeManager->getStore()->getId();
         $receiverEmail = $this->_coreStoreConfig->getConfig(self::XML_RECEIVER_EMAIL_PATH, $storeId);
         if (!$receiverEmail) {
             return $this;
         }
 
-        $mailer = \Mage::getSingleton('Magento\Core\Model\Email\Template\Mailer');
-        $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
+        /** @var \Magento\Core\Model\Email\Info $emailInfo */
+        $emailInfo = $this->_emailInfoFactory->create();
         $emailInfo->addTo($receiverEmail);
 
-        $mailer->addEmailInfo($emailInfo);
+        $this->_templateMailer->addEmailInfo($emailInfo);
 
         // Set all required params and send emails
-        $mailer->setSender($this->_coreStoreConfig->getConfig(self::XML_SENDER_EMAIL_PATH, $storeId));
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($this->_coreStoreConfig->getConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId));
-        $mailer->setTemplateParams($vars);
-        $mailer->send();
+        $this->_templateMailer->setSender($this->_coreStoreConfig->getConfig(self::XML_SENDER_EMAIL_PATH, $storeId));
+        $this->_templateMailer->setStoreId($storeId);
+        $this->_templateMailer->setTemplateId(
+            $this->_coreStoreConfig->getConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId)
+        );
+        $this->_templateMailer->setTemplateParams($vars);
+        $this->_templateMailer->send();
         return $this;
     }
 }

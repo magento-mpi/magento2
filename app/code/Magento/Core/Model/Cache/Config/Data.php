@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Cache\Config;
 
-class Data extends \Magento\Config\Data
+class Data extends \Magento\Config\Data\Scoped
 {
     /**
      * Scope priority loading scheme

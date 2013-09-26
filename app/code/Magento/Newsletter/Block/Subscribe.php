@@ -20,16 +20,39 @@ namespace Magento\Newsletter\Block;
 
 class Subscribe extends \Magento\Core\Block\Template
 {
+    /**
+     * Newsletter session
+     *
+     * @var \Magento\Newsletter\Model\Session
+     */
+    protected $_newsletterSession;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Newsletter\Model\Session $newsletterSession
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Newsletter\Model\Session $newsletterSession,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_newsletterSession = $newsletterSession;
+    }
+
     public function getSuccessMessage()
     {
-        $message = \Mage::getSingleton('Magento\Newsletter\Model\Session')->getSuccess();
-        return $message;
+        return $this->_newsletterSession->getSuccess();
     }
 
     public function getErrorMessage()
     {
-        $message = \Mage::getSingleton('Magento\Newsletter\Model\Session')->getError();
-        return $message;
+        return $this->_newsletterSession->getError();
     }
 
     /**

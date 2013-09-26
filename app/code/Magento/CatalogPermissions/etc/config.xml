@@ -19,13 +19,6 @@
                 </setup>
             </catalogpermissions_setup>
         </resources>
-        <index>
-            <indexer>
-                <catalogpermissions>
-                    <model>Magento\CatalogPermissions\Model\Permission\Index</model>
-                </catalogpermissions>
-            </indexer>
-        </index>
     </global>
     <default>
         <catalog>

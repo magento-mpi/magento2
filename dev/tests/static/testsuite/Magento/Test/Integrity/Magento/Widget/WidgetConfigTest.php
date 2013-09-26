@@ -30,7 +30,11 @@ class WidgetConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function xmlDataProvider()
     {
-        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('widget.xml');
+        $utilityFiles = \Magento\TestFramework\Utility\Files::init();
+        return array_merge(
+            $utilityFiles->getConfigFiles('widget.xml'),
+            $utilityFiles->getLayoutConfigFiles('widget.xml')
+        );
     }
 
     public function testSchemaUsingValidXml()

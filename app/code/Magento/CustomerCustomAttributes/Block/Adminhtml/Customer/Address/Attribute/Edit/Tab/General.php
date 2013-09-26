@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Address Attribute General Tab Block
- *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
 
@@ -27,7 +22,12 @@ class General
      *
      * @var \Magento\CustomerCustomAttributes\Helper\Data
      */
-    protected $_customerData = null;
+    protected $_customerData;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $_sourceFactory;
 
     /**
      * @param \Magento\Data\Form\Factory $formFactory
@@ -36,6 +36,8 @@ class General
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
+     * @param \Magento\Backend\Model\Config\Source\YesnoFactory $sourceFactory
      * @param array $data
      */
     public function __construct(
@@ -45,10 +47,13 @@ class General
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
+        \Magento\Backend\Model\Config\Source\YesnoFactory $sourceFactory,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $data);
+        $this->_sourceFactory = $sourceFactory;
+        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $attributeConfig, $data);
     }
 
     /**
@@ -69,7 +74,7 @@ class General
     /**
      * Adding customer address attribute form elements for edit form
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab_General
      */
     protected function _prepareForm()
     {
@@ -170,7 +175,9 @@ class General
             'date_format' => $this->_customerData->getDateFormat()
         ), 'date_range_min');
 
-        $yesnoSource = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
+        /** @var $source \Magento\Backend\Model\Config\Source\Yesno */
+        $source = $this->_sourceFactory->create();
+        $yesnoSource = $source->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => __('Frontend Properties')

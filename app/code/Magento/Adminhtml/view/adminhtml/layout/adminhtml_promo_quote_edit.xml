@@ -8,15 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <action method="setCanLoadExtJs">
             <argument name="flag" xsi:type="string">1</argument>
         </action>
         <action method="setCanLoadRulesJs">
             <argument name="flag" xsi:type="string">1</argument>
         </action>
-    </reference>
-    <reference name="left">
+    </referenceBlock>
+    <referenceContainer name="left">
         <block class="Magento\Adminhtml\Block\Promo\Quote\Edit\Tabs" name="promo_quote_edit_tabs">
             <block class="Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main" name="promo_quote_edit_tab_main"/>
             <block class="Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Conditions" name="promo_quote_edit_tab_conditions"/>
@@ -48,8 +48,8 @@
             </action>
         </block>
         <block class="Magento\Adminhtml\Block\Template" template="promo/salesrulejs.phtml" name="promo_quote_edit_jsinit"/>
-    </reference>
-    <reference name="content">
+    </referenceContainer>
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Promo\Quote\Edit" name="promo_quote_edit"/>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -10,10 +10,6 @@
 
 /**
  * Customer reviews controller
- *
- * @category   Magento
- * @package    Magento_Rss
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rss\Controller;
 
@@ -25,6 +21,11 @@ class Catalog extends \Magento\Core\Controller\Front\Action
     protected $_configScope;
 
     /**
+     * @var \Magento\Core\Model\Store\Config
+     */
+    protected $_storeConfig;
+
+    /**
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
@@ -32,12 +33,15 @@ class Catalog extends \Magento\Core\Controller\Front\Action
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Config\Scope $configScope
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Core\Model\Store\Config $storeConfig
     ) {
         $this->_configScope = $configScope;
+        $this->_storeConfig = $storeConfig;
         $this->_logger = $context->getLogger();
         parent::__construct($context);
     }
@@ -116,7 +120,7 @@ class Catalog extends \Magento\Core\Controller\Front\Action
      */
     protected function _isEnabled($code)
     {
-        return $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag("rss/catalog/{$code}");
+        return $this->_storeConfig->getConfigFlag("rss/catalog/{$code}");
     }
 
     /**

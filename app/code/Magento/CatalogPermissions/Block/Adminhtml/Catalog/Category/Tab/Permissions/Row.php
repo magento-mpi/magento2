@@ -22,6 +22,45 @@ class Row
 
     protected $_template = 'catalog/category/tab/permissions/row.phtml';
 
+    /**
+     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     */
+    protected $_groupCollFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Website\CollectionFactory
+     */
+    protected $_websiteCollFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_websiteCollFactory = $websiteCollFactory;
+        $this->_groupCollFactory = $groupCollFactory;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
@@ -42,7 +81,7 @@ class Row
      */
     public function canEditWebsites()
     {
-        return !\Mage::app()->hasSingleStore();
+        return !$this->_storeManager->hasSingleStore();
     }
 
     /**
@@ -57,7 +96,7 @@ class Row
 
     public function getDefaultWebsiteId()
     {
-        return \Mage::app()->getStore(true)->getWebsiteId();
+        return $this->_storeManager->getStore(true)->getWebsiteId();
     }
 
     /**
@@ -93,7 +132,7 @@ class Row
     public function getWebsiteCollection()
     {
         if (!$this->hasData('website_collection')) {
-            $collection = \Mage::getModel('Magento\Core\Model\Website')->getCollection();
+            $collection = $this->_websiteCollFactory->create();
             $this->setData('website_collection', $collection);
         }
 
@@ -108,7 +147,7 @@ class Row
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_group_collection')) {
-            $collection = \Mage::getModel('Magento\Customer\Model\Group')->getCollection();
+            $collection = $this->_groupCollFactory->create();
             $this->setData('customer_group_collection', $collection);
         }
 

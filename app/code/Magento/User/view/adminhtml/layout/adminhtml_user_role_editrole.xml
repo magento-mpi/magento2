@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="left">
+    <referenceContainer name="left">
         <block class="Magento\User\Block\Role\Edit" name="adminhtml.user.editroles">
             <block class="Magento\User\Block\Role\Tab\Edit" name="adminhtml.user.tab.rolesedit"/>
             <action method="addTabAfter">
@@ -17,9 +17,9 @@
                 <argument name="after" xsi:type="string">info</argument>
             </action>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceContainer>
+    <referenceContainer name="content">
         <block class="Magento\Backend\Block\Template" name="adminhtml.user.roles.users.grid.js" template="Magento_User::role/users_grid_js.phtml"/>
         <block class="Magento\User\Block\Buttons" name="adminhtml.user.role.buttons" template="role/info.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

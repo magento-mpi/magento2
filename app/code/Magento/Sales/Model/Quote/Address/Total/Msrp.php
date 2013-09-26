@@ -46,8 +46,6 @@ class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
-        $quote = $address->getQuote();
-        $store = \Mage::app()->getStore($quote->getStoreId());
 
         $items = $this->_getAddressItems($address);
         if (!count($items)) {

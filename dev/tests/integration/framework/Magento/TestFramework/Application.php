@@ -203,6 +203,11 @@ class Application
             $objectManager->configure(
                 $objectManager->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load('global')
             );
+            $objectManager->configure(array(
+                'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy' => array(
+                    'parameters' => array('canSaveMap' => false)
+                ),
+            ));
         }
         \Magento\TestFramework\Helper\Bootstrap::setObjectManager($objectManager);
         $objectManager->get('Magento\Core\Model\Resource')

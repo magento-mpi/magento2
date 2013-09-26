@@ -12,9 +12,7 @@
 /**
  * Banner Setup Resource Model
  *
- * @category    Magento
- * @package     Magento_Banner
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Banner\Model\Resource;
 
@@ -31,9 +29,9 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_widgetFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource\Theme\Collection
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
-    protected $_themeCollection;
+    protected $_themeCollFactory;
 
     /**
      * @param \Magento\Core\Model\Logger $logger
@@ -45,10 +43,11 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
+     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeCollFactory
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
-     * @param $resourceName
+     * @param string $resourceName
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -62,26 +61,40 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         \Magento\Core\Model\CacheInterface $cache,
-        \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
+        \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeCollFactory,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
         $resourceName
     ) {
-        parent::__construct(
-            $logger,
-            $coreData,
-            $eventManager,
-            $resourcesConfig,
-            $config,
-            $moduleList,
-            $resource,
-            $modulesReader,
-            $cache,
-            $resourceName
-        );
-        $this->_themeCollection = $themeCollection;
+        $this->_themeCollFactory = $themeCollFactory;
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;
+        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $config, $moduleList,
+            $resource, $modulesReader, $cache, $migrationFactory, $resourceName);
     }
 
+    /**
+     * @return \Magento_Banner_Model_BannerFactory
+     */
+    public function getBannerInstance()
+    {
+        return $this->_bannerFactory->create();
+    }
+
+    /**
+     * @return \Magento_Core_Model_Resource_Theme_Collection
+     */
+    public function getThemeCollection()
+    {
+        return $this->_themeCollFactory->create();
+    }
+
+    /**
+     * @return \Magento_Widget_Model_Widget_Instance
+     */
+    public function getWidgetInstance()
+    {
+        return $this->_widgetFactory->create();
+    }
 }

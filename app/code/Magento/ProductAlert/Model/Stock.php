@@ -37,6 +37,31 @@ namespace Magento\ProductAlert\Model;
 
 class Stock extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @var \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory
+     */
+    protected $_customerColFactory;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory $customerColFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory $customerColFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_customerColFactory = $customerColFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento\ProductAlert\Model\Resource\Stock');
@@ -44,7 +69,7 @@ class Stock extends \Magento\Core\Model\AbstractModel
 
     public function getCustomerCollection()
     {
-        return \Mage::getResourceModel('Magento\ProductAlert\Model\Resource\Stock\Customer\Collection');
+        return $this->_customerColFactory->create();
     }
 
     public function loadByParam()

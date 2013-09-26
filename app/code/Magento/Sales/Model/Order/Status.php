@@ -12,6 +12,37 @@ namespace Magento\Sales\Model\Order;
 
 class Status extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_storeManager = $storeManager;
+    }
+
     protected function _construct()
     {
         $this->_init('Magento\Sales\Model\Resource\Order\Status');
@@ -83,7 +114,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      */
     public function getStoreLabel($store = null)
     {
-        $store = \Mage::app()->getStore($store);
+        $store = $this->_storeManager->getStore($store);
         if (!$store->isAdmin()) {
             $labels = $this->getStoreLabels();
             if (isset($labels[$store->getId()])) {

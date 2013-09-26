@@ -38,8 +38,10 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
      */
-    public function __construct(\Magento\Core\Model\Logger $logger, \Magento\Core\Model\Resource $resource)
-    {
+    public function __construct(
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource $resource
+    ) {
         $this->_logger = $logger;
         parent::__construct($resource);
     }

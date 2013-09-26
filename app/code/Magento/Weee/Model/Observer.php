@@ -25,6 +25,18 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_weeeData = null;
 
     /**
+     * @var \Magento\Weee\Model\Tax
+     */
+    protected $_weeeTax;
+
+    /**
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Weee\Model\Tax $weeeTax
      * @param \Magento\Weee\Helper\Data $weeeData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -34,6 +46,8 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Weee\Model\Tax $weeeTax,
         \Magento\Weee\Helper\Data $weeeData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -42,6 +56,8 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_layout = $layout;
+        $this->_weeeTax = $weeeTax;
         $this->_productType = $productType;
         $this->_weeeData = $weeeData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -59,11 +75,11 @@ class Observer extends \Magento\Core\Model\AbstractModel
 
         $form = $observer->getEvent()->getForm();
 
-        $attributes = \Mage::getSingleton('Magento\Weee\Model\Tax')->getWeeeAttributeCodes(true);
+        $attributes = $this->_weeeTax->getWeeeAttributeCodes(true);
         foreach ($attributes as $code) {
             if ($weeeTax = $form->getElement($code)) {
                 $weeeTax->setRenderer(
-                    \Mage::app()->getLayout()->createBlock('Magento\Weee\Block\Renderer\Weee\Tax')
+                    $this->_layout->createBlock('Magento\Weee\Block\Renderer\Weee\Tax')
                 );
             }
         }
@@ -83,7 +99,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
 
         $block      = $observer->getEvent()->getObject();
         $list       = $block->getFormExcludedFieldList();
-        $attributes = \Mage::getSingleton('Magento\Weee\Model\Tax')->getWeeeAttributeCodes(true);
+        $attributes = $this->_weeeTax->getWeeeAttributeCodes(true);
         $list       = array_merge($list, array_values($attributes));
 
         $block->setFormExcludedFieldList($list);
@@ -98,7 +114,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      */
     protected function _getSelect()
     {
-        return \Mage::getSingleton('Magento\Weee\Model\Tax')->getResource()->getReadConnection()->select();
+        return $this->_weeeTax->getResource()->getReadConnection()->select();
     }
 
     /**
@@ -196,7 +212,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         } else {
             $eventProduct = $observer->getEvent()->getProduct();
         }
-        \Mage::getModel('Magento\Weee\Model\Tax')->updateProductsDiscountPercent($eventProduct);
+        $this->_weeeTax->updateProductsDiscountPercent($eventProduct);
 
         return $this;
     }
@@ -258,7 +274,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
 
         $_product = $this->_coreRegistry->registry('current_product');
 
-        $typeDynamic = \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend::DYNAMIC;
+        $typeDynamic = \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes_Extend::DYNAMIC;
         if (!$_product || $_product->getPriceType() != $typeDynamic) {
             return $this;
         }

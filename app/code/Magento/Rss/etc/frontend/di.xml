@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Core\Model\Url\SecurityInfo">
+        <param name="secureUrlList">
+            <value>
+                <rss_catalog_review>/rss/catalog/review</rss_catalog_review>
+                <rss_order_new>/rss/order/new</rss_order_new>
+                <rss_catalog_notifystock>/rss/catalog/notifystock</rss_catalog_notifystock>
+            </value>
+        </param>
+    </type>
+</config>

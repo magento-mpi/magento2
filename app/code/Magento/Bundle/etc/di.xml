@@ -13,4 +13,14 @@
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
+    <type name="Magento_Bundle_Model_Source_Option_Type">
+        <param name="options">
+            <value>
+                <select>Drop-down</select>
+                <radio>Radio Buttons</radio>
+                <checkbox>Checkbox</checkbox>
+                <multi>Multiple Select</multi>
+            </value>
+        </param>
+    </type>
 </config>

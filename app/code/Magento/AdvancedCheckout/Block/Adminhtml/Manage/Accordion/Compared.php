@@ -27,8 +27,6 @@ class Compared
 
     /**
      * @var \Magento\Adminhtml\Helper\Sales
-     *
-     * @var \Magento\Adminhtml\Helper\Sales
      */
     protected $_adminhtmlSales;
 
@@ -37,17 +35,27 @@ class Compared
      */
     protected $_compareListFactory;
 
+    /**
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
     public function __construct(
         \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
+        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_adminhtmlSales = $adminhtmlSales;
         $this->_compareListFactory = $compareListFactory;
     }

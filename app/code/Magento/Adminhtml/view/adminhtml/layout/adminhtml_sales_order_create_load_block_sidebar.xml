@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento\Adminhtml\Block\Sales\Order\Create\Sidebar" template="sales/order/create/sidebar.phtml" name="sidebar">
             <block class="Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Cart" template="sales/order/create/sidebar/items.phtml" name="cart"/>
             <block class="Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
@@ -18,5 +18,5 @@
             <block class="Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Pcompared" template="sales/order/create/sidebar/items.phtml" name="pcompared"/>
             <block class="Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Pviewed" template="sales/order/create/sidebar/items.phtml" name="pviewed"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

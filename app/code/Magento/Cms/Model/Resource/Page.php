@@ -28,6 +28,35 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_store  = null;
 
     /**
+     * @var \Magento\Core\Model\Date
+     */
+    protected $_date;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        parent::__construct($resource);
+        $this->_date = $date;
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -58,6 +87,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @return \Magento\Cms\Model\Resource\Page
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -73,23 +103,23 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         if (!$this->getIsUniquePageToStores($object)) {
-            \Mage::throwException(__('A page URL key for specified store already exists.'));
+            throw new \Magento\Core\Exception(__('A page URL key for specified store already exists.'));
         }
 
         if (!$this->isValidPageIdentifier($object)) {
-            \Mage::throwException(__('The page URL key contains capital letters or disallowed symbols.'));
+            throw new \Magento\Core\Exception(__('The page URL key contains capital letters or disallowed symbols.'));
         }
 
         if ($this->isNumericPageIdentifier($object)) {
-            \Mage::throwException(__('The page URL key cannot be made of only numbers.'));
+            throw new \Magento\Core\Exception(__('The page URL key cannot be made of only numbers.'));
         }
 
         // modify create / update dates
         if ($object->isObjectNew() && !$object->hasCreationTime()) {
-            $object->setCreationTime(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+            $object->setCreationTime($this->_date->gmtDate());
         }
 
-        $object->setUpdateTime(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+        $object->setUpdateTime($this->_date->gmtDate());
 
         return parent::_beforeSave($object);
     }
@@ -232,7 +262,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getIsUniquePageToStores(\Magento\Core\Model\AbstractModel $object)
     {
-        if (\Mage::app()->hasSingleStore() || !$object->hasStores()) {
+        if ($this->_storeManager->hasSingleStore() || !$object->hasStores()) {
             $stores = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         } else {
             $stores = (array)$object->getData('stores');
@@ -397,6 +427,6 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getStore()
     {
-        return \Mage::app()->getStore($this->_store);
+        return $this->_storeManager->getStore($this->_store);
     }
 }

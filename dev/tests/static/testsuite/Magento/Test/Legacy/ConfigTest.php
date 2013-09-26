@@ -42,6 +42,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('config.xml');
+        return \Magento\TestFramework\Utility\Files::init()->getMainConfigFiles();
     }
 }

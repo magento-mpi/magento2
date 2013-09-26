@@ -9,7 +9,7 @@
 -->
 <config>
     <preference for="Magento\Acl\CacheInterface" type="Magento\Core\Model\Acl\Cache" />
-    <preference for="Magento\AuthorizationInterface" type="Magento\Authorization" />
+    <preference for="Magento_AuthorizationInterface" type="Magento_Authorization" />
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Authorization\RoleLocator\DefaultRoleLocator" />
     <preference for="Magento\Core\Model\Session\AbstractSession" type="Magento\Core\Model\Session" />
@@ -25,6 +25,7 @@
     <preference for="Magento\PubSub\Message\DispatcherAsyncInterface" type="Magento\PubSub\Message\DispatcherAsync" />
     <preference for="Magento\Config\ConverterInterface" type="Magento\Config\Converter\Dom"/>
     <preference for="Magento\Phrase\RendererInterface" type="Magento\Phrase\Renderer\Composite" />
+    <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
     <type name="Magento\Data\Structure" shared="false" />
     <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
@@ -228,7 +229,7 @@
                     <sortOrder>20</sortOrder>
                 </standard>
                 <default>
-                    <instance>Magento\Core\Controller\Varien\Router\DefaultRouter</instance>
+                    <instance>Magento\Core\Controller\Varien\Router\Default</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>100</sortOrder>
                 </default>
@@ -261,6 +262,19 @@
             <instance type="Magento\Backend\Helper\Data\Proxy" />
         </param>
     </type>
+    <type name="Magento\Core\Model\Session\Validator">
+        <param name="skippedUserAgentList">
+            <value>
+                <flash>Shockwave Flash</flash>
+                <flash_mac><![CDATA[Adobe Flash Player\s{1,}\w{1,10}]]></flash_mac>
+            </value>
+        </param>
+    </type>
+    <type name="Magento\Core\Controller\Varien\Action\Context">
+        <param name="isRenderInherited">
+            <value type="bool">false</value>
+        </param>
+    </type>
     <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>
@@ -289,6 +303,11 @@
         </param>
         <param name="cacheId">
             <value>fieldset_config</value>
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Locale\Hierarchy\Config">
+        <param name="reader">
+            <instance type="Magento\Core\Model\Locale\Hierarchy\Config\Reader" />
         </param>
     </type>
 </config>

@@ -204,6 +204,10 @@ abstract class ControllerAbstract extends \PHPUnit_Framework_TestCase
         foreach ($session->getMessages()->getItems($messageType) as $message) {
             $actualMessages[] = $message->getText();
         }
-        $this->assertThat($actualMessages, $constraint, 'Session messages do not meet expectations');
+        $this->assertThat(
+            $actualMessages,
+            $constraint,
+            'Session messages do not meet expectations' . var_export($actualMessages, true)
+        );
     }
 }

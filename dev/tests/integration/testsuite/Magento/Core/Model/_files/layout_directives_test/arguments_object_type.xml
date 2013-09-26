@@ -16,10 +16,10 @@
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="four" xsi:type="object">Magento\Data\Collection\Db</argument>
         </arguments>
     </block>
-    <reference name="block_with_object_args">
+    <referenceBlock name="block_with_object_args">
         <arguments>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="object">Magento\Data\Collection\Db</argument>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="three" xsi:type="string">3</argument>
         </arguments>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -1,26 +1,18 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_AdminGws
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * Permissions observer
  *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 namespace Magento\AdminGws\Model;
 
 class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
-    const XML_PATH_ACL_DENY_RULES = 'adminhtml/magento/admingws/acl_deny';
-    const XML_PATH_VALIDATE_CALLBACK = 'adminhtml/magento/admingws/';
-
-    const ACL_WEBSITE_LEVEL = 'website_level';
-    const ACL_STORE_LEVEL = 'store_level';
+    const ACL_WEBSITE_LEVEL = 'website';
+    const ACL_STORE_LEVEL = 'store';
 
     /**
      * @var \Magento\Core\Model\Resource\Store\Group\Collection
@@ -30,9 +22,9 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_controllersMap = null;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\AdminGws\Model\ConfigInterface
      */
-    protected $_coreConfig;
+    protected $_config;
 
     /**
      * @var \Magento\Core\Model\StoreManager
@@ -46,18 +38,18 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
     /**
      * @param \Magento\AdminGws\Model\Role $role
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\AdminGws\Model\ConfigInterface $config
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\AdminGws\Model\ConfigInterface $config,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Controller\Request\Http $request
     ) {
         parent::__construct($role);
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $config;
         $this->_storeManager = $storeManager;
         $this->_request = $request;
     }
@@ -86,8 +78,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 $storeGroupIds[] = $storeGroup->getId();
             }
             $object->setGwsStoreGroups($storeGroupIds);
-        }
-        else {
+        } else {
             // set selected website ids
             $websiteIds = ($object->getData('gws_websites') != '' ?
                     explode(',', $object->getData('gws_websites')) :
@@ -97,8 +88,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             // set either the set store group ids or all of allowed websites
             if ($object->getData('gws_store_groups') != '') {
                 $storeGroupIds = explode(',', $object->getData('gws_store_groups'));
-            }
-            else {
+            } else {
                 if ($websiteIds) {
                     foreach ($this->_getAllStoreGroups() as $storeGroup) {
                         if (in_array($storeGroup->getWebsiteId(), $websiteIds)) {
@@ -174,8 +164,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
         if (empty($websiteIds)) {
             $websiteIds = array();
-        }
-        else {
+        } else {
             if (!is_array($websiteIds)) {
                 $websiteIds = explode(',', $websiteIds);
             }
@@ -196,8 +185,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
         if (empty($storeGroupIds)) {
             $storeGroupIds = array();
-        }
-        else {
+        } else {
             if (!is_array($storeGroupIds)) {
                 $storeGroupIds = explode(',', $storeGroupIds);
             }
@@ -342,10 +330,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
          /* @var $session \Magento\Backend\Model\Auth\Session */
         $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
 
-        /* @var $session \Magento\Acl\Builder */
+        /* @var $builder \Magento\Acl\Builder */
         $builder = \Mage::getSingleton('Magento\Acl\Builder');
 
-        foreach ($this->_coreConfig->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
+        foreach ($this->_config->getDeniedAclResources($level) as $rule) {
             $builder->getAcl()->deny($session->getUser()->getAclRole(), $rule);
         }
         return $this;
@@ -436,17 +424,14 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // initialize controllers map
         if (null === $this->_controllersMap) {
             $this->_controllersMap = array('full' => array(), 'partial' => array());
-            $children = $this->_coreConfig->getNode(self::XML_PATH_VALIDATE_CALLBACK . 'controller_predispatch')
-                ->children();
-            foreach ($children as $actionName => $method) {
+            foreach ($this->_config->getCallbacks('controller_predispatch') as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
                 if ($action) {
                     $this->_controllersMap['full'][$module][$controller][$action] =
-                        $this->_recognizeCallbackString((string)$method);
-                }
-                else {
+                        $this->_recognizeCallbackString($method);
+                } else {
                     $this->_controllersMap['partial'][$module][$controller] =
-                        $this->_recognizeCallbackString((string)$method);
+                        $this->_recognizeCallbackString($method);
                 }
             }
         }
@@ -460,8 +445,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             && isset($this->_controllersMap['full'][$routeName][$controllerName])
             && isset($this->_controllersMap['full'][$routeName][$controllerName][$actionName])) {
             $callback = $this->_controllersMap['full'][$routeName][$controllerName][$actionName];
-        }
-        elseif (isset($this->_controllersMap['partial'][$routeName])
+        } elseif (isset($this->_controllersMap['partial'][$routeName])
             && isset($this->_controllersMap['partial'][$routeName][$controllerName])) {
             $callback = $this->_controllersMap['partial'][$routeName][$controllerName];
         }
@@ -511,8 +495,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // gather callbacks from mapper configuration
         if (!isset($this->_callbacks[$callbackGroup])) {
             $this->_callbacks[$callbackGroup] = array();
-            $callbacks = (array)$this->_coreConfig->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
-            foreach ($callbacks as $className => $callback) {
+            foreach ($this->_config->getCallbacks($callbackGroup) as $className => $callback) {
                 $className = uc_words($className);
 
                 /*
@@ -521,14 +504,13 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
                  *
                  * Note: Commented bc in case of Models this will result in not working
                  * observers for those models. In first call of this function observers for models will be not
-                 * added into _callbacks bc their class are not loaded (included) yeat.
+                 * added into _callbacks bc their class are not loaded (included) yet.
                  *
                  * So in result there will be garbage (non existing classes) in _callbacks
                  * but it will be initialized faster without __autoload calls.
                  */
                 //if (class_exists($className, false)) {
                 if ($className) {
-                    $className = str_replace('_', '\\', $className);
                     $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
                 }
                 //}
@@ -542,8 +524,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $result = false;
         if (isset($this->_callbacks[$callbackGroup][$instanceClass])) {
             $result = $this->_callbacks[$callbackGroup][$instanceClass];
-        }
-        else {
+        } else {
             foreach ($this->_callbacks[$callbackGroup] as $className => $callback) {
                 if ($instance instanceof $className) {
                     $result = $callback;
@@ -574,15 +555,15 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      *
      * @param string|array $callback
      * @param string $defaultFactoryClassName
-     * @param object $passthroughObject
+     * @param object $passThroughObject
      */
-    protected function _invokeCallback($callback, $defaultFactoryClassName, $passthroughObject)
+    protected function _invokeCallback($callback, $defaultFactoryClassName, $passThroughObject)
     {
         $class  = $defaultFactoryClassName;
         $method = $callback;
         if (is_array($callback)) {
             list($class, $method) = $callback;
         }
-        \Mage::getSingleton($class)->$method($passthroughObject);
+        \Mage::getSingleton($class)->$method($passThroughObject);
     }
 }

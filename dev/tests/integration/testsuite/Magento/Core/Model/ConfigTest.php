@@ -8,8 +8,6 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model;
-
 /**
  * First part of \Magento\Core\Model\Config testing:
  * - general behaviour is tested
@@ -18,6 +16,8 @@ namespace Magento\Core\Model;
  *
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
+namespace Magento\Core\Model;
+
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
@@ -79,32 +79,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('Default Store View', $baseUrl);
         $this->assertArrayHasKey('Admin', $baseUrl);
     }
-
-    /**
-     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = Yes
-     *
-     * @magentoConfigFixture current_store web/secure/use_in_frontend 1
-     */
-    public function testShouldUrlBeSecureWhenSecureUsedInFrontend()
-    {
-        $model = $this->_createModel();
-        $this->assertFalse($model->shouldUrlBeSecure('/'));
-        $this->assertTrue($model->shouldUrlBeSecure('/checkout/onepage'));
-    }
-
-    /**
-     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = No
-     *
-     * @magentoConfigFixture current_store web/secure/use_in_frontend 0
-     */
-    public function testShouldUrlBeSecureWhenSecureNotUsedInFrontend()
-    {
-        $model = $this->_createModel();
-        $this->assertFalse($model->shouldUrlBeSecure('/'));
-        $this->assertFalse($model->shouldUrlBeSecure('/checkout/onepage'));
-    }
-
-
 
     /**
      * Instantiate \Magento\Core\Model\Config and initialize (load configuration) if needed

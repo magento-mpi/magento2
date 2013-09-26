@@ -23,7 +23,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValue('default/image.gif'));
 
-        $urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getBaseUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento\Core\Model\UrlInterface');
         $urlBuilder->expects($this->once())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));

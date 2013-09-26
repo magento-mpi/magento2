@@ -19,19 +19,21 @@
  * @method \Magento\Sales\Model\Quote\Item\Option setProductId(int $value)
  * @method string getCode()
  * @method \Magento\Sales\Model\Quote\Item\Option setCode(string $value)
- * @method string getValue()
  * @method \Magento\Sales\Model\Quote\Item\Option setValue(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Model\Quote\Item;
 
 class Option extends \Magento\Core\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
+    /**
+     * @var \Magento\Sales\Model\Quote\Item
+     */
     protected $_item;
+
+    /**
+     * @var \Magento\Catalog\Model\Product
+     */
     protected $_product;
 
     /**
@@ -133,7 +135,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     public function __clone()
     {
         $this->setId(null);
-        $this->_item    = null;
+        $this->_item = null;
         return $this;
     }
 }

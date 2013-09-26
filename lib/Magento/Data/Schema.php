@@ -8,7 +8,7 @@
  */
 namespace Magento\Data;
 
-class Schema extends Varien_Object
+class Schema extends \Magento\Object
 {
     public function load($schema)
     {
@@ -25,6 +25,6 @@ class Schema extends Varien_Object
     public function extract($rawData)
     {
         $elements = $rawData;
-        return new \Magento\Data\DataArray($elements);
+        return new \Magento\Data\Array($elements);
     }
 }

@@ -25,17 +25,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      *
      * @var \Magento\Catalog\Helper\Product\Flat
      */
-    protected $_catalogProductFlat = null;
+    protected $_catalogProductFlat;
+
+    /**
+     * @var \Magento\Core\Model\App\EmulationFactory
+     */
+    protected $_emulationFactory;
 
     /**
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\App\EmulationFactory $emulationFactory
      */
     public function __construct(
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
-        \Magento\Core\Helper\Context $context
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\App\EmulationFactory $emulationFactory
     ) {
         $this->_catalogProductFlat = $catalogProductFlat;
+        $this->_emulationFactory = $emulationFactory;
         parent::__construct($context);
     }
 
@@ -48,8 +56,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function disableFlat()
     {
         if ($this->_catalogProductFlat->isAvailable()) {
-            /* @var $emulationModel Magento\Core\Model\App\Emulation */
-            $emulationModel = \Mage::getModel('Magento\Core\Model\App\Emulation');
+            /* @var $emulationModel \Magento\Core\Model\App\Emulation */
+            $emulationModel = $this->_emulationFactory->create();
             // Emulate admin environment to disable using flat model - otherwise we won't get global stats
             // for all stores
             $emulationModel->startEnvironmentEmulation(0, \Magento\Core\Model\App\Area::AREA_ADMIN);

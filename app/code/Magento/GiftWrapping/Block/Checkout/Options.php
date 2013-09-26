@@ -19,8 +19,14 @@ namespace Magento\GiftWrapping\Block\Checkout;
 
 class Options extends \Magento\Core\Block\Template
 {
+    /**
+     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     */
     protected $_designCollection;
 
+    /**
+     * @var bool
+     */
     protected $_giftWrappingAvailable = false;
 
     /**
@@ -31,18 +37,53 @@ class Options extends \Magento\Core\Block\Template
     protected $_giftWrappingData = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Checkout\Model\CartFactory
+     */
+    protected $_checkoutCartFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory
+     */
+    protected $_wrappingCollFactory;
+
+    /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Checkout\Model\CartFactory $checkoutCartFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Checkout\Model\CartFactory $checkoutCartFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
+        $this->_storeManager = $storeManager;
+        $this->_wrappingCollFactory = $wrappingCollFactory;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_checkoutCartFactory = $checkoutCartFactory;
+        $this->_productFactory = $productFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -54,8 +95,8 @@ class Options extends \Magento\Core\Block\Template
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $store = \Mage::app()->getStore();
-            $this->_designCollection = \Mage::getModel('Magento\GiftWrapping\Model\Wrapping')->getCollection()
+            $store = $this->_storeManager->getStore();
+            $this->_designCollection = $this->_wrappingCollFactory->create()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());
@@ -88,7 +129,7 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
@@ -342,8 +383,8 @@ class Options extends \Magento\Core\Block\Template
      */
     public function canDisplayGiftWrapping()
     {
-        $cartItems      = \Mage::getModel('Magento\Checkout\Model\Cart')->getItems();
-        $productModel   = \Mage::getModel('Magento\Catalog\Model\Product');
+        $cartItems = $this->_checkoutCartFactory->create()->getItems();
+        $productModel = $this->_productFactory->create();
         foreach ($cartItems as $item) {
             $product = $productModel->load($item->getProductId());
             if ($product->getGiftWrappingAvailable()) {

@@ -8,14 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-cms-cms-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_VersionsCms::cms.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="cms_page_edit_tabs">
+    </referenceBlock>
+    <referenceBlock name="cms_page_edit_tabs">
         <action method="removeTab">
             <argument name="name" xsi:type="string">content_section</argument>
         </action>
@@ -30,5 +30,5 @@
             <argument name="name" xsi:type="string">versions</argument>
             <argument name="block" xsi:type="string">cms_page_edit_tab_versions</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>
