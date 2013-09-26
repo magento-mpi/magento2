@@ -101,7 +101,9 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
 
             if (isset($entityTypes[$this->getEntity()])) {
                 try {
-                    $this->_entityAdapter = $this->_entityFactory->create($entityTypes[$this->getEntity()]['model']);
+                    $this->_entityAdapter = $this->_exportAdapterFac->create(
+                        array('fileName' => $entityTypes[$this->getEntity()]['model'])
+                    );
                 } catch (Exception $e) {
                     $this->_logger->logException($e);
                     throw new Magento_Core_Exception(
