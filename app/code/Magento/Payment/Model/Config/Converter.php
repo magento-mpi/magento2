@@ -18,7 +18,7 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
         $xpath = new DOMXPath($source);
 
         $creditCards = array();
-        /** @var DOMNode $tyep */
+        /** @var DOMNode type */
         foreach ($xpath->query('/payment/credit_cards/type') as $type) {
             $typeArray = array();
 
@@ -66,12 +66,14 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
     /**
      * Compare sort order of CC Types
      *
-     * @param array $a
-     * @param array $b
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod) Used in callback.
+     *
+     * @param array $left
+     * @param array $right
      * @return int
      */
-    private function _compareCcTypes($a, $b)
+    private function _compareCcTypes($left, $right)
     {
-        return $a['order'] - $b['order'];
+        return $left['order'] - $right['order'];
     }
 }

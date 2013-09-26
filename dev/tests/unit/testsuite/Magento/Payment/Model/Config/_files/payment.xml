@@ -11,10 +11,10 @@
          xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Payment/etc/payment.xsd">
     <credit_cards>
         <type code="SM" order="90">
-            <label translate="true">Switch/Maestro</label>
+            <label>Switch/Maestro</label>
         </type>
         <type code="SO" order="61">
-            <label translate="true">Solo</label>
+            <label>Solo</label>
         </type>
     </credit_cards>
     <groups>

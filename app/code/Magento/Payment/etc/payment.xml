@@ -13,28 +13,28 @@
          xsi:noNamespaceSchemaLocation="../../../Magento/Payment/etc/payment.xsd">
     <credit_cards>
         <type code="AE" order="0">
-            <label translate="true">American Express</label>
+            <label>American Express</label>
         </type>
         <type code="VI" order="10">
-            <label translate="true">Visa</label>
+            <label>Visa</label>
         </type>
         <type code="MC" order="20">
-            <label translate="true">MasterCard</label>
+            <label>MasterCard</label>
         </type>
         <type code="DI" order="30">
-            <label translate="true">Discover</label>
+            <label>Discover</label>
         </type>
         <type code="SM" order="40">
-            <label translate="true">Maestro/Switch</label>
+            <label>Maestro/Switch</label>
         </type>
         <type code="SO" order="45">
-            <label translate="true">Solo</label>
+            <label>Solo</label>
         </type>
         <type code="JCB" order="50">
-            <label translate="true">JCB</label>
+            <label>JCB</label>
         </type>
         <type code="OT" order="1000">
-            <label translate="true">Other</label>
+            <label>Other</label>
         </type>
     </credit_cards>
     <groups>
