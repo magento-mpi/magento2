@@ -1,3 +1,4 @@
+* Vde segment was moved from config.xml to di.xml
 * Configuration improvements:
   * Introduced scoped configuration model - Magento_Config_Data_Scoped and non-scoped one - Magento_Config_Data;
   * Import/Export configuration was moved from config.xml to import.xml and export.xml files with new format;
@@ -89,6 +90,16 @@
     * sales_convert_quote_payment_to_order_payment
     * sales_convert_quote_item_to_order_item
     * sales_quote_config_get_product_attributes
+  * Static method `getObjectManager` of Mage class was eliminated
+  * Static method `register` of Mage class was eliminated
+  * Static method `unregister` of Mage class was eliminated
+  * Static method `registry` of Mage class was eliminated
+  * Static method `resetRegistry` of Mage class was eliminated
+  * Static method `getConfig` of Mage class was eliminated
+  * Static method `getStoreConfig` of Mage class was eliminated
+  * Static method `getStoreConfigFlag` of Mage class was eliminated
+  * Static method `log` of Mage class was eliminated
+  * Static method `logException` of Mage class was eliminated
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
