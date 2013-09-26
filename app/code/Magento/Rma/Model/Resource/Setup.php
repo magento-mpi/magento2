@@ -257,10 +257,11 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     }
 
     /**
-     * @return Magento_Catalog_Model_Resource_SetupFactory
+     * @param array $data
+     * @return Magento_Catalog_Model_Resource_Setup
      */
-    public function getCatalogSetupFactory()
+    public function getCatalogSetup(array $data = array())
     {
-        return $this->_catalogSetupFactory;
+        return $this->_catalogSetupFactory->create($data);
     }
 }

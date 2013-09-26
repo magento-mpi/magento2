@@ -12,7 +12,7 @@
 //Product's Attribute is_returnable shouldn't be applied to grouped product
 //Because it has no sense
 /** @var Magento_Catalog_Model_Resource_Setup $installer */
-$installer = $this->getCatalogSetupFactory()->create(array('resourceName' => 'catalog_setup'));
+$installer = $this->getCatalogSetup(array('resourceName' => 'catalog_setup'));
 
 $applyTo = Magento_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
     Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .

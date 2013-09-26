@@ -32,6 +32,7 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     protected $_themeCollFactory;
 
     /**
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -41,15 +42,15 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory
      * @param Magento_Widget_Model_Widget_InstanceFactory $widgetFactory
      * @param Magento_Banner_Model_BannerFactory $bannerFactory
-     * @param string $resourceName
+     * @param $resourceName
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -59,7 +60,6 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory,
         Magento_Widget_Model_Widget_InstanceFactory $widgetFactory,
         Magento_Banner_Model_BannerFactory $bannerFactory,
@@ -68,8 +68,10 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         $this->_themeCollFactory = $themeCollFactory;
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;
-        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $config, $moduleList,
-            $resource, $modulesReader, $cache, $migrationFactory, $resourceName);
+        parent::__construct(
+            $migrationFactory, $logger, $coreData, $eventManager, $resourcesConfig, $config, $moduleList,
+            $resource, $modulesReader, $cache, $resourceName
+        );
     }
 
     /**

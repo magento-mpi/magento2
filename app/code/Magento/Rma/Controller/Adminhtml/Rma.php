@@ -18,30 +18,14 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Core_Model_Session
-     */
-    protected $_coreSession;
-
-    /**
-     * @var Magento_Rma_Model_Resource_ShippingFactory
-     */
-    protected $_rmaShippingFactory;
-
-    /**
-     * @param Magento_Rma_Model_Resource_ShippingFactory $rmaShippingFactory
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Session $session
      */
     public function __construct(
-        Magento_Rma_Model_Resource_ShippingFactory $rmaShippingFactory,
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Session $session
+        Magento_Core_Model_Registry $coreRegistry
     ) {
-        $this->_rmaShippingFactory = $rmaShippingFactory;
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreSession = $session;
         parent::__construct($context);
     }
 

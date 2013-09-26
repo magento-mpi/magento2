@@ -44,7 +44,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Store config model
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_storeConfig;
 
@@ -107,8 +107,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
      * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Directory_Model_RegionFactory $regionFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -122,8 +121,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_Store_ConfigInterface $storeConfig,
         Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Directory_Model_RegionFactory $regionFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -135,7 +133,6 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Rma_Model_CarrierFactory $carrierFactory
     ) {
         $this->_coreData = $coreData;
-        $this->_app = $app;
         $this->_storeConfig = $storeConfig;
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;
@@ -305,7 +302,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     public function getReturnAddressData($store = null)
     {
         if (!$store) {
-            $store = $this->_app->getStore();
+            $store = $this->_storeManager->getStore();
         }
 
         if ($this->_storeConfig->getConfigFlag(Magento_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $store)) {

@@ -27,6 +27,16 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
     protected $_storeManager;
 
     /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $collectionFactory
      * @param Magento_Core_Model_Resource $resource
@@ -47,16 +57,6 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
         $this->_resource = $resource;
         parent::__construct($context, $attributeConfig, $coreStoreConfig);
     }
-
-/**
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory
-     */
-    protected $_collectionFactory;
-
-/**
-     * @var Magento_Core_Model_Resource
-     */
-    protected $_resource;
 
     /**
      * Default attribute entity type code
@@ -207,8 +207,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
             $optionCollection = $this->_collectionFactory->create()->setStoreFilter($storeId, $useDefaultValue);
-            $optionCollection
-                ->getSelect()
+            $optionCollection->getSelect()
                 ->join(
                     array('ea' => $this->_resource->getTableName('eav_attribute')),
                     'main_table.attribute_id = ea.attribute_id',
@@ -219,7 +218,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
                     array(''))
                 ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());
             $value = array();
-            foreach($optionCollection as $option){
+            foreach ($optionCollection as $option) {
                 $value[$option->getAttributeCode()][$option->getOptionId()] = $option->getData();
             }
             $this->_attributeOptionValues[$storeId] = $value;

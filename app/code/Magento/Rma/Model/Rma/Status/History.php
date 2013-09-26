@@ -47,7 +47,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Rma_Model_RmaFactory $rmaFactory
      * @param Magento_Rma_Model_Config $rmaConfig
-     * @param Magento_Core_Model_Translate_Proxy $translate
+     * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
      * @param Magento_Core_Model_Date $date
      * @param Magento_Core_Model_Context $context
@@ -60,7 +60,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Rma_Model_RmaFactory $rmaFactory,
         Magento_Rma_Model_Config $rmaConfig,
-        Magento_Core_Model_Translate_Proxy $translate,
+        Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Email_TemplateFactory $templateFactory,
         Magento_Core_Model_Date $date,
         Magento_Core_Model_Context $context,

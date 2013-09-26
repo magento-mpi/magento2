@@ -11,7 +11,7 @@
 /** @var $this Magento_Rma_Model_Resource_Setup */
 //Add Product's Attribute
 /** @var Magento_Catalog_Model_Resource_Setup $installer */
-$installer = $this->getCatalogSetupFactory()->create(array('resourceName' => 'catalog_setup'));
+$installer = $this->getCatalogSetup(array('resourceName' => 'catalog_setup'));
 
 $installer->removeAttribute(Magento_Catalog_Model_Product::ENTITY, 'is_returnable');
 $installer->removeAttribute(Magento_Catalog_Model_Product::ENTITY, 'use_config_is_returnable');
