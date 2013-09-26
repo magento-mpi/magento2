@@ -20,7 +20,6 @@
         <depends>
             <module name="Magento_Catalog"/>
             <module name="Magento_Customer"/>
-            <module name="Magento_Catalog"/>
             <module name="Magento_Adminhtml"/>
             <module name="Magento_SalesRule"/>
             <module name="Magento_Rule"/>
