@@ -29,6 +29,7 @@ class Magento_MultipleWishlist_Block_Customer_Sharing extends Magento_Wishlist_B
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Wishlist_Model_Config $wishlistConfig
+     * @param Magento_Core_Model_Session_Generic $wishlistlSession
      * @param array $data
      */
     public function __construct(
@@ -36,10 +37,11 @@ class Magento_MultipleWishlist_Block_Customer_Sharing extends Magento_Wishlist_B
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Wishlist_Model_Config $wishlistConfig,
+        Magento_Core_Model_Session_Generic $wishlistlSession,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
-        parent::__construct($coreData, $context, $wishlistConfig, $data);
+        parent::__construct($coreData, $context, $wishlistConfig, $wishlistlSession, $data);
     }
 
     /**

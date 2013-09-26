@@ -33,7 +33,7 @@ class Magento_Wishlist_Block_Customer_Sharing extends Magento_Core_Block_Templat
     protected $_wishlistConfig;
 
     /**
-     * @var Magento_Wishlist_Model_Session
+     * @var Magento_Core_Model_Session_Generic
      */
     protected $_wishlistSession;
 
@@ -41,18 +41,18 @@ class Magento_Wishlist_Block_Customer_Sharing extends Magento_Core_Block_Templat
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Wishlist_Model_Config $wishlistConfig
+     * @param Magento_Core_Model_Session_Generic $wishlistlSession
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Wishlist_Model_Config $wishlistConfig,
+        Magento_Core_Model_Session_Generic $wishlistlSession,
         array $data = array()
     ) {
         $this->_wishlistConfig = $wishlistConfig;
-        /** @todo Should be fixed in scope of MAGETWO-14639 */
-        $this->_wishlistSession = Magento_Core_Model_ObjectManager::getInstance()
-            ->get('Magento_Wishlist_Model_Session');
+        $this->_wishlistSession = $wishlistlSession;
         parent::__construct($coreData, $context, $data);
     }
 
