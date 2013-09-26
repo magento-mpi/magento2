@@ -42,6 +42,7 @@ class Magento_Config_Converter_Dom_Flat implements Magento_Config_ConverterInter
      * @param DOMNode $source
      * @param string $path
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function convert($source, $path = '')
     {

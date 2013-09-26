@@ -21,7 +21,7 @@ class Magento_Backend_Model_Config_Source_Storage_Media_Database implements Mage
     /**
      * @param Magento_Core_Model_Config_Local $localConfig
      */
-    function __construct(Magento_Core_Model_Config_Local $localConfig)
+    public function __construct(Magento_Core_Model_Config_Local $localConfig)
     {
         $this->_localConfig = $localConfig;
     }
