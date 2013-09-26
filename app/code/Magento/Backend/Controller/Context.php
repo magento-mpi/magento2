@@ -92,7 +92,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     }
 
     /**
-     * @return \Magento_AuthorizationInterface
+     * @return \Magento\AuthorizationInterface
      */
     public function getAuthorization()
     {
