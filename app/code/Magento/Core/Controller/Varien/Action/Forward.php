@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Controller\Varien\Action;
 
-class Forward extends \Magento\Core\Controller\Varien\ActionAbstract
+class Forward extends \Magento\Core\Controller\Varien\AbstractAction
 {
     /**
      * Dispatch controller action

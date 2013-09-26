@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\System\Store\Edit;
+
 /**
  * Adminhtml store edit form
  *
@@ -17,9 +19,7 @@
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\Adminhtml\Block\System\Store\Edit;
-
-abstract class FormAbstract extends \Magento\Backend\Block\Widget\Form\Generic
+abstract class AbstractForm extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Class constructor

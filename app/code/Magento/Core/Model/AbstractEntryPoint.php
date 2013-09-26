@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model;
 
-abstract class EntryPointAbstract
+abstract class AbstractEntryPoint
 {
     /**
      * Application configuration

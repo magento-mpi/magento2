@@ -356,7 +356,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
     /**
      * Common mock 'expect' pattern.
      * Calls that need to be mocked out when
-     * \Magento\Backend\Controller\ActionAbstract loadLayout() and renderLayout() are called.
+     * \Magento\Backend\Controller\AbstractAction loadLayout() and renderLayout() are called.
      */
     protected function _verifyLoadAndRenderLayout()
     {

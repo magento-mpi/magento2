@@ -14,7 +14,7 @@
 namespace Magento\Theme\Model\Theme\Customization\File;
 
 class CustomCss
-    extends \Magento\Core\Model\Theme\Customization\FileAbstract
+    extends \Magento\Core\Model\Theme\Customization\AbstractFile
 {
     /**#@+
      * Custom CSS file type customization

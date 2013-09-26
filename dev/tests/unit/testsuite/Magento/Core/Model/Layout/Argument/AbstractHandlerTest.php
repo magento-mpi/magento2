@@ -10,19 +10,19 @@
  */
 
 /**
- * Test class for \Magento\Core\Model\Layout\Argument\HandlerAbstract
+ * Test class for \Magento\Core\Model\Layout\Argument\AbstractHandler
  */
 namespace Magento\Core\Model\Layout\Argument;
 
-class HandlerAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractHandlerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout\Argument\HandlerAbstract */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout\Argument\AbstractHandler */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Layout\Argument\HandlerAbstract',
+            'Magento\Core\Model\Layout\Argument\AbstractHandler',
             array(), '', true
         );
     }

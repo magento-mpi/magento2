@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Theme\Customization;
 
-abstract class FileAbstract
+abstract class AbstractFile
     implements \Magento\Core\Model\Theme\Customization\FileInterface,
                \Magento\Core\Model\Theme\Customization\FileAssetInterface
 {

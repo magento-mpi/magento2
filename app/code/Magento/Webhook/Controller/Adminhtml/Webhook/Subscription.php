@@ -12,7 +12,7 @@ namespace Magento\Webhook\Controller\Adminhtml\Webhook;
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Subscription extends \Magento\Backend\Controller\ActionAbstract
+class Subscription extends \Magento\Backend\Controller\AbstractAction
 {
     /** Param Key for extracting subscription id from Request */
     const PARAM_SUBSCRIPTION_ID = 'id';

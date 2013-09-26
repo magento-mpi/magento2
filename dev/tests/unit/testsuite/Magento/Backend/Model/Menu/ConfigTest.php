@@ -64,7 +64,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_cacheInstanceMock = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(),
             '', false);
 
-        $this->_directorMock = $this->getMock('Magento\Backend\Model\Menu\DirectorAbstract', array(), array(),
+        $this->_directorMock = $this->getMock('Magento\Backend\Model\Menu\AbstractDirector', array(), array(),
             '', false);
 
         $this->_menuFactoryMock = $this->getMock('Magento\Backend\Model\MenuFactory', array('create'), array(),

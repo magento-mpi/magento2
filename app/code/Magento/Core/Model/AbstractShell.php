@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Model;
 
-abstract class ShellAbstract
+abstract class AbstractShell
 {
     /**
      * Raw arguments, that should be parsed
@@ -69,7 +69,7 @@ abstract class ShellAbstract
      * Sets raw arguments to be parsed
      *
      * @param array $args
-     * @return \Magento\Core\Model\ShellAbstract
+     * @return \Magento\Core\Model\AbstractShell
      */
     public function setRawArgs($args)
     {
@@ -92,7 +92,7 @@ abstract class ShellAbstract
     /**
      * Parses .htaccess file and apply php settings to shell script
      *
-     * @return \Magento\Core\Model\ShellAbstract
+     * @return \Magento\Core\Model\AbstractShell
      */
     protected function _applyPhpVariables()
     {
@@ -120,7 +120,7 @@ abstract class ShellAbstract
     /**
      * Parses input arguments
      *
-     * @return \Magento\Core\Model\ShellAbstract
+     * @return \Magento\Core\Model\AbstractShell
      */
     protected function _parseArgs()
     {
@@ -151,7 +151,7 @@ abstract class ShellAbstract
     /**
      * Runs script
      *
-     * @return \Magento\Core\Model\ShellAbstract
+     * @return \Magento\Core\Model\AbstractShell
      */
     abstract public function run();
 

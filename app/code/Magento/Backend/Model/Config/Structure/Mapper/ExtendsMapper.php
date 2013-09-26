@@ -14,7 +14,7 @@
 namespace Magento\Backend\Model\Config\Structure\Mapper;
 
 class ExtendsMapper
-    extends \Magento\Backend\Model\Config\Structure\MapperAbstract
+    extends \Magento\Backend\Model\Config\Structure\AbstractMapper
 {
     /**
      * System configuration array

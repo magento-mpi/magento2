@@ -14,7 +14,7 @@
  */
 namespace Magento\ImportExport\Model\Export;
 
-abstract class StubEntityAbstract
+abstract class AbstractStubEntity
     extends \Magento\ImportExport\Model\Export\EntityAbstract
 {
     public function __construct()

@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Theme\Customization\File;
 
-class Css extends \Magento\Core\Model\Theme\Customization\FileAbstract
+class Css extends \Magento\Core\Model\Theme\Customization\AbstractFile
 {
     /**#@+
      * CSS file customization types

@@ -11,17 +11,17 @@
 
 namespace Magento\Backend\Model\Menu\Builder;
 
-class CommandAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Backend\Model\Menu\Builder\CommandAbstract
+     * @var \Magento\Backend\Model\Menu\Builder\AbstractCommand
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Backend\Model\Menu\Builder\CommandAbstract',
+            'Magento\Backend\Model\Menu\Builder\AbstractCommand',
             array(array('id' => 'item'))
         );
     }
@@ -31,7 +31,7 @@ class CommandAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorRequiresObligatoryParams()
     {
-        $this->getMockForAbstractClass('Magento\Backend\Model\Menu\Builder\CommandAbstract');
+        $this->getMockForAbstractClass('Magento\Backend\Model\Menu\Builder\AbstractCommand');
     }
 
     public function testChainAddsNewCommandAsNextInChain()

@@ -10,7 +10,7 @@
 
 namespace Magento\Backend\Model\Config\Structure;
 
-abstract class ElementAbstract
+abstract class AbstractElement
     implements \Magento\Backend\Model\Config\Structure\ElementInterface
 {
     /**

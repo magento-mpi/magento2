@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Structure;
 
-abstract class MapperAbstract
+abstract class AbstractMapper
     implements \Magento\Backend\Model\Config\Structure\MapperInterface
 {
     /**

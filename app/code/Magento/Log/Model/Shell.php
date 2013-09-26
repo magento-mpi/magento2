@@ -17,7 +17,7 @@
  */
 namespace Magento\Log\Model;
 
-class Shell extends \Magento\Core\Model\ShellAbstract
+class Shell extends \Magento\Core\Model\AbstractShell
 {
     /**
      * @var \Magento\Log\Model\Shell\Command\Factory

@@ -11,10 +11,10 @@
 
 namespace Magento\Backend\Model\Config\Structure\Element;
 
-class CompositeAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractCompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Backend\Model\Config\Structure\Element\CompositeAbstract
+     * @var \Magento\Backend\Model\Config\Structure\Element\AbstractComposite
      */
     protected $_model;
 
@@ -50,7 +50,7 @@ class CompositeAbstractTest extends \PHPUnit_Framework_TestCase
         $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Backend\Model\Config\Structure\Element\CompositeAbstract',
+            'Magento\Backend\Model\Config\Structure\Element\AbstractComposite',
             array($this->_applicationMock, $this->_iteratorMock)
         );
     }

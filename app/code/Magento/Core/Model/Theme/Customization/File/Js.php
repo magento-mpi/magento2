@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Theme\Customization\File;
 
-class Js extends \Magento\Core\Model\Theme\Customization\FileAbstract
+class Js extends \Magento\Core\Model\Theme\Customization\AbstractFile
 {
     /**#@+
      * File type customization

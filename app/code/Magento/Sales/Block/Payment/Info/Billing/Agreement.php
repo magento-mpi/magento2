@@ -29,7 +29,7 @@ class Agreement extends \Magento\Payment\Block\Info
         }
         $info = $this->getInfo();
         $referenceID = $info->getAdditionalInformation(
-            \Magento\Sales\Model\Payment\Method\Billing\AgreementAbstract::PAYMENT_INFO_REFERENCE_ID
+            \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement::PAYMENT_INFO_REFERENCE_ID
         );
         $transport = new \Magento\Object(array((string)__('Reference ID') => $referenceID,));
         $transport = parent::_prepareSpecificInformation($transport);

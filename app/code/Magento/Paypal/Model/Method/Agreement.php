@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Model\Method;
 
-class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbstract
+class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement
     implements \Magento\Payment\Model\Billing\Agreement\MethodInterface
 {
     /**
@@ -292,7 +292,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AgreementAbs
         $order = $payment->getOrder();
         $billingAgreement = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->load(
             $payment->getAdditionalInformation(
-                \Magento\Sales\Model\Payment\Method\Billing\AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID
+                \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID
             )
         );
 

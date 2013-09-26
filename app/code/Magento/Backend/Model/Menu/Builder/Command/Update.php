@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Menu\Builder\Command;
 
-class Update extends \Magento\Backend\Model\Menu\Builder\CommandAbstract
+class Update extends \Magento\Backend\Model\Menu\Builder\AbstractCommand
 {
     /**
      * Update item data

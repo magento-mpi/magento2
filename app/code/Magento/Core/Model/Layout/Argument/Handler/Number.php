@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Model\Layout\Argument\Handler;
 
-class Number extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
+class Number extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
     /**
      * Process argument value

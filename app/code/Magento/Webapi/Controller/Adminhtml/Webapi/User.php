@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Controller\Adminhtml\Webapi;
 
-class User extends \Magento\Backend\Controller\ActionAbstract
+class User extends \Magento\Backend\Controller\AbstractAction
 {
     /**
      * @var \Magento\Core\Model\Validator\Factory

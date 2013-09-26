@@ -10,44 +10,20 @@
 
 /**
  * Sales Billing Agreement form block
+ *
+ * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Block\Payment\Form\Billing;
 
 class Agreement extends \Magento\Payment\Block\Form
 {
-    /**
-     * @var string
-     */
     protected $_template = 'Magento_Sales::payment/form/billing/agreement.phtml';
-
-    /**
-     * @var \Magento\Sales\Model\Billing\AgreementFactory
-     */
-    protected $_agreementFactory;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
-        array $data = array()
-    ) {
-        $this->_agreementFactory = $agreementFactory;
-        parent::__construct($coreData, $context, $data);
-    }
 
     protected function _construct()
     {
         parent::_construct();
 
-        $this->setTransportName(
-            \Magento\Sales\Model\Payment\Method\Billing\AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID
-        );
+        $this->setTransportName(\Magento\Sales\Model\Payment\Method\Billing\AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID);
     }
 
     /**
@@ -62,7 +38,7 @@ class Agreement extends \Magento\Payment\Block\Form
         if (!$quote || !$quote->getCustomer()) {
             return $data;
         }
-        $collection = $this->_agreementFactory->create()->getAvailableCustomerBillingAgreements(
+        $collection = \Mage::getModel('Magento\Sales\Model\Billing\Agreement')->getAvailableCustomerBillingAgreements(
             $quote->getCustomer()->getId()
         );
 

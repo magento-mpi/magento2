@@ -11,7 +11,7 @@
 namespace Magento\Backend\Model\Config\Structure\Element;
 
 class Section
-    extends \Magento\Backend\Model\Config\Structure\Element\CompositeAbstract
+    extends \Magento\Backend\Model\Config\Structure\Element\AbstractComposite
 {
     /**
      * Authorization service

@@ -14,7 +14,7 @@
 namespace Magento\DesignEditor\Model\Theme\Customization\File;
 
 class QuickStyleCss
-    extends \Magento\Core\Model\Theme\Customization\FileAbstract
+    extends \Magento\Core\Model\Theme\Customization\AbstractFile
 {
     /**#@+
      * QuickStyles CSS file type customization

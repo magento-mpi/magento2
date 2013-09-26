@@ -17,7 +17,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
-class System extends \Magento\Backend\Controller\ActionAbstract
+class System extends \Magento\Backend\Controller\AbstractAction
 {
     public function indexAction()
     {
