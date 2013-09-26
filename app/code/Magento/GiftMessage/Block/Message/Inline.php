@@ -34,24 +34,24 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     /**
      * @var Magento_Customer_Model_Session
      */
-    protected $_session;
+    protected $_customerSession;
 
     /**
-     * @param Magento_Customer_Model_Session $session
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $session,
+        Magento_Customer_Model_Session $customerSession,
         Magento_GiftMessage_Helper_Message $giftMessageMessage,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_giftMessageMessage = $giftMessageMessage;
-        $this->_session = $session;
+        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -129,8 +129,8 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
      */
     public function getDefaultFrom()
     {
-        if ($this->_session->isLoggedIn()) {
-            return $this->_session->getCustomer()->getName();
+        if ($this->_customerSession->isLoggedIn()) {
+            return $this->_customerSession->getCustomer()->getName();
         } else {
             return $this->getEntity()->getBillingAddress()->getName();
         }
