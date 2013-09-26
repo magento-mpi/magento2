@@ -78,6 +78,7 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
         $this->_checkoutSession = $resourceSession;
         $this->_countryCollFactory = $countryCollFactory;
         $this->_regionCollFactory = $regionCollFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
