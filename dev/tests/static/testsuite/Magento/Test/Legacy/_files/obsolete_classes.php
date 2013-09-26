@@ -969,5 +969,4 @@ return array(
     array('Magento_Eav_Model_Resource_Helper_Mysql4', 'Magento_Eav_Model_Resource_Helper'),
     array('Magento_Sales_Model_Resource_Helper_Interface', 'Magento_Sales_Model_Resource_HelperInterface'),
     array('Magento_Reports_Model_Resource_Helper_Interface', 'Magento_Reports_Model_Resource_HelperInterface'),
-    array('Magento_Core_Model_Config_Resource'),
 );
