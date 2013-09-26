@@ -52,12 +52,16 @@ class Magento_Shipping_Model_Carrier_Tablerate
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Shipping_Model_Rate_ResultFactory $rateResultFactory
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Shipping_Model_Rate_Result_MethodFactory $resultMethodFactory
      * @param Magento_Shipping_Model_Resource_Carrier_TablerateFactory $tablerateFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Shipping_Model_Rate_ResultFactory $rateResultFactory,
         Magento_Shipping_Model_Rate_Result_MethodFactory $resultMethodFactory,
         Magento_Shipping_Model_Resource_Carrier_TablerateFactory $tablerateFactory,
@@ -66,7 +70,7 @@ class Magento_Shipping_Model_Carrier_Tablerate
         $this->_rateResultFactory = $rateResultFactory;
         $this->_resultMethodFactory = $resultMethodFactory;
         $this->_tablerateFactory = $tablerateFactory;
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($coreStoreConfig, $rateErrorFactory, $logAdapterFactory, $data);
         foreach ($this->getCode('condition_name') as $k => $v) {
             $this->_conditionNames[] = $k;
         }
