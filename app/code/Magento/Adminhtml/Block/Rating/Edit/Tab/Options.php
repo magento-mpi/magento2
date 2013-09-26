@@ -10,6 +10,34 @@
 
 class Magento_Adminhtml_Block_Rating_Edit_Tab_Options extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * Rating option factory
+     *
+     * @var Magento_Rating_Model_Rating_OptionFactory
+     */
+    protected $_optionFactory;
+
+    /**
+     * @param Magento_Rating_Model_Rating_OptionFactory $optionFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rating_Model_Rating_OptionFactory $optionFactory,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_optionFactory = $optionFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+
     protected function _prepareForm()
     {
         /** @var Magento_Data_Form $form */
@@ -18,7 +46,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Options extends Magento_Backend_Bl
         $fieldset = $form->addFieldset('options_form', array('legend'=>__('Assigned Options')));
 
         if ($this->_coreRegistry->registry('rating_data')) {
-            $collection = Mage::getModel('Magento_Rating_Model_Rating_Option')
+            $collection = $this->_optionFactory->create()
                 ->getResourceCollection()
                 ->addRatingFilter($this->_coreRegistry->registry('rating_data')->getId())
                 ->load();
