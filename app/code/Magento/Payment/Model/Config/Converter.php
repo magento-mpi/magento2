@@ -18,7 +18,7 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
         $xpath = new DOMXPath($source);
 
         $creditCards = array();
-        /** @var DOMNode type */
+        /** @var DOMNode $type */
         foreach ($xpath->query('/payment/credit_cards/type') as $type) {
             $typeArray = array();
 
