@@ -103,6 +103,7 @@ app/code/Magento/DesignEditor
 app/code/Magento/Eav/Model/Cache/Type.php
 app/code/Magento/GiftMessage/Model/Plugin
 app/code/Magento/GoogleShopping/Block/SiteVerification.php
+app/code/Magento/GoogleShopping/Model/AttributeFactory.php
 app/code/Magento/Eav/Model/Entity/Attribute/Config
 app/code/Magento/Eav/Model/Entity/Attribute/Config.php
 app/code/Magento/ImportExport/Model/Import/Entity/CustomerComposite.php
