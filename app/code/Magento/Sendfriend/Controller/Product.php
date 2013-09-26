@@ -206,7 +206,6 @@ class Product extends \Magento\Core\Controller\Front\Action
                 }
             }
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $catalogSession->addError($e->getMessage());
         } catch (\Exception $e) {
             $catalogSession->addException($e, __('Some emails were not sent.'));
