@@ -31,11 +31,6 @@ class Magento_Review_Block_Customer_List extends Magento_Customer_Block_Account_
     protected $_collectionFactory;
 
     /**
-     * @var Magento_Customer_Model_Session
-     */
-    protected $_customerSession;
-
-    /**
      * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
@@ -43,23 +38,24 @@ class Magento_Review_Block_Customer_List extends Magento_Customer_Block_Account_
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $collectionFactory
      * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
+     * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $collectionFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Review_Model_Resource_Review_Product_CollectionFactory $collectionFactory,
         Magento_Customer_Model_Session $customerSession,
+        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
+        Magento_Review_Model_Resource_Review_Product_CollectionFactory $collectionFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
-        $this->_customerSession = $customerSession;
         $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $customerSession, $subscriberFactory, $data);
     }
 
     protected function _initCollection()
