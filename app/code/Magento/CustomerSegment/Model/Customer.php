@@ -32,19 +32,9 @@
 class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
 {
     /**
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_registry;
-
-    /**
      * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
-
-    /**
-     * @var int
-     */
-    protected $_currentWebsiteId;
 
     /**
      * Array of Segments collections per event name
@@ -65,9 +55,40 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
+     * @var Magento_Log_Model_Visitor
+     */
+    protected $_visitor;
+
+    /**
+     * @var Magento_Customer_Model_Config_Share
+     */
+    protected $_configShare;
+
+    /**
+     * @var Magento_Customer_Model_Resource_Customer
+     */
+    protected $_resourceCustomer;
+
+    /**
+     * @var Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * Store list manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory
+     * @param Magento_Customer_Model_Resource_Customer $resourceCustomer
+     * @param Magento_Customer_Model_Config_Share $configShare
+     * @param Magento_Log_Model_Visitor $visitor
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -76,8 +97,14 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory,
+        Magento_Customer_Model_Resource_Customer $resourceCustomer,
+        Magento_Customer_Model_Config_Share $configShare,
+        Magento_Log_Model_Visitor $visitor,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -87,11 +114,14 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_collectionFactory = $collectionFactory;
+        $this->_resourceCustomer = $resourceCustomer;
+        $this->_configShare = $configShare;
+        $this->_visitor = $visitor;
         $this->_eventManager = $eventManager;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_registry = $registry;
         $this->_customerSession = $customerSession;
-        $this->_currentWebsiteId = $storeManager->getWebsite()->getId();
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -113,7 +143,7 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
     public function getActiveSegmentsForEvent($eventName, $websiteId)
     {
         if (!isset($this->_segmentMap[$eventName][$websiteId])) {
-            $relatedSegments = Mage::getResourceModel('Magento_CustomerSegment_Model_Resource_Segment_Collection')
+            $relatedSegments = $this->_collectionFactory->create()
                 ->addEventFilter($eventName)
                 ->addWebsiteFilter($websiteId)
                 ->addIsActiveFilter(1);
@@ -133,7 +163,8 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
     public function processEvent($eventName, $customer, $website)
     {
         Magento_Profiler::start('__SEGMENTS_MATCHING__');
-        $website = Mage::app()->getWebsite($website);
+
+        $website = $this->_storeManager->getWebsite($website);
         $segments = $this->getActiveSegmentsForEvent($eventName, $website->getId());
 
         $this->_processSegmentsValidation($customer, $website, $segments);
@@ -151,8 +182,8 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function processCustomer(Magento_Customer_Model_Customer $customer, $website)
     {
-        $website = Mage::app()->getWebsite($website);
-        $segments = Mage::getResourceModel('Magento_CustomerSegment_Model_Resource_Segment_Collection')
+        $website = $this->_storeManager->getWebsite($website);
+        $segments = $this->_collectionFactory->create()
             ->addWebsiteFilter($website)
             ->addIsActiveFilter(1);
 
@@ -187,7 +218,7 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
                 if ($segment->getApplyTo() == Magento_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED) {
                     continue;
                 }
-                $segment->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
+                $segment->setVisitorId($this->_visitor->getId());
             } else {
                 // Skip segment if it cannot be applied to customer
                 if ($segment->getApplyTo() == Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
@@ -208,9 +239,9 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
             $this->removeCustomerFromWebsiteSegments($customerId, $websiteId, $notMatchedIds);
             $segmentIds = $this->_customerWebsiteSegments[$websiteId][$customerId];
         } else {
-            $this->addVisitorToWebsiteSegments(Mage::getSingleton('Magento_Customer_Model_Session'), $websiteId, $matchedIds);
-            $this->removeVisitorFromWebsiteSegments(Mage::getSingleton('Magento_Customer_Model_Session'), $websiteId, $notMatchedIds);
-            $allSegments= Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerSegmentIds();
+            $this->addVisitorToWebsiteSegments($this->_customerSession, $websiteId, $matchedIds);
+            $this->removeVisitorFromWebsiteSegments($this->_customerSession, $websiteId, $notMatchedIds);
+            $allSegments= $this->_customerSession->getCustomerSegmentIds();
             $segmentIds = $allSegments[$websiteId];
         }
 
@@ -228,17 +259,15 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function processCustomerEvent($eventName, $customerId)
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Config_Share')->isWebsiteScope()) {
-            $websiteIds = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')
-                ->getWebsiteId($customerId);
-
+        if ($this->_configShare->isWebsiteScope()) {
+            $websiteIds = $this->_resourceCustomer->getWebsiteId($customerId);
             if ($websiteIds) {
                 $websiteIds = array($websiteIds);
             } else {
                 $websiteIds = array();
             }
         } else {
-            $websiteIds = Mage::app()->getWebsites();
+            $websiteIds = $this->_storeManager->getWebsites();
             $websiteIds = array_keys($websiteIds);
         }
         foreach ($websiteIds as $websiteId) {
@@ -358,18 +387,19 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
         $customerSession = $this->_customerSession;
         $result = array();
         /** @var Magento_Customer_Model_Customer $customer */
-        $customer = $this->_registry->registry('segment_customer');
+        $customer = $this->_coreRegistry->registry('segment_customer');
         if (!$customer) {
             $customer = $customerSession->getCustomer();
         }
-        $websiteId = $this->_currentWebsiteId;
+        $websiteId = $this->_storeManager->getWebsite()->getId();
         if (!$customer->getId()) {
             $allSegmentIds = $customerSession->getCustomerSegmentIds();
             if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
                 $result = $allSegmentIds[$websiteId];
             }
         } else {
-            $result = $this->getCustomerSegmentIdsForWebsite($customer->getId(), $this->_currentWebsiteId);
+            $result = $this->getCustomerSegmentIdsForWebsite($customer->getId(),
+                $this->_storeManager->getWebsite()->getId());
         }
         return $result;
     }

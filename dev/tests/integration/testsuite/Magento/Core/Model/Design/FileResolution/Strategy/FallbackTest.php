@@ -57,7 +57,8 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
     protected function _getThemeModel($area, $themePath)
     {
         /** @var $collection Magento_Core_Model_Theme_Collection */
-        $collection = Mage::getModel('Magento_Core_Model_Theme_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme_Collection');
         $themeModel = $collection->setBaseDir($this->_viewDir)
             ->addDefaultPattern()
             ->addFilter('theme_path', $themePath)

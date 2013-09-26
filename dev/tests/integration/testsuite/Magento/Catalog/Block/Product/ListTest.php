@@ -23,7 +23,8 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_List');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Catalog_Block_Product_List');
     }
 
     public function testGetLayer()
@@ -98,7 +99,8 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
     public function testPrepareSortableFieldsByCategory()
     {
         /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $category->setDefaultSortBy('name');
         $this->_block->prepareSortableFieldsByCategory($category);
         $this->assertEquals('name', $this->_block->getSortBy());
@@ -106,6 +108,6 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     protected function _getLayout()
     {
-        return Mage::app()->getLayout();
+        return Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
     }
 }

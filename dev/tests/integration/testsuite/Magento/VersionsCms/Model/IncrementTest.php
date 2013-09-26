@@ -18,7 +18,8 @@ class Magento_VersionsCms_Model_IncrementTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_VersionsCms_Model_Increment');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_VersionsCms_Model_Increment');
     }
 
     /**

@@ -15,18 +15,20 @@ class Magento_Paypal_Controller_PayflowTest extends Magento_TestFramework_TestCa
     {
         parent::setUp();
 
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->load('100000001', 'increment_id');
         $order->getPayment()->setMethod(Magento_Paypal_Model_Config::METHOD_PAYFLOWLINK);
 
-        $quote = Mage::getModel('Magento_Sales_Model_Quote')
+        $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Quote')
             ->setStoreId($order->getStoreId())
             ->save();
 
         $order->setQuoteId($quote->getId());
         $order->save();
 
-        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
+        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Checkout_Model_Session');
         $session->setLastRealOrderId($order->getRealOrderId())
             ->setLastQuoteId($order->getQuoteId());
     }

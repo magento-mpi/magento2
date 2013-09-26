@@ -27,7 +27,7 @@ class Magento_AdvancedCheckout_Controller_Cart
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->_objectManager->get('Magento_Checkout_Model_Session');
     }
 
     /**
@@ -37,7 +37,7 @@ class Magento_AdvancedCheckout_Controller_Cart
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return $this->_objectManager->get('Magento_Customer_Model_Session');
     }
 
     /**
@@ -57,7 +57,7 @@ class Magento_AdvancedCheckout_Controller_Cart
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Cart');
+        return $this->_objectManager->get('Magento_Checkout_Model_Cart');
     }
 
     /**
@@ -67,7 +67,7 @@ class Magento_AdvancedCheckout_Controller_Cart
      */
     protected function _getFailedItemsCart()
     {
-        return Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart')
+        return $this->_objectManager->get('Magento_AdvancedCheckout_Model_Cart')
             ->setContext(Magento_AdvancedCheckout_Model_Cart::CONTEXT_FRONTEND);
     }
 

@@ -45,10 +45,12 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
      */
     protected function _getConfigurableAttribute()
     {
-        return Mage::getModel('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
-            Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('catalog_product')->getId(),
-            'test_configurable'
-        );
+        return Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+                    ->getEntityType('catalog_product')->getId(),
+                'test_configurable'
+            );
     }
 
     public function testSaveActionWithDangerRequest()

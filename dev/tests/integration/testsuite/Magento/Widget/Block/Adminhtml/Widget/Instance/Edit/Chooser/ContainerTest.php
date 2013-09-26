@@ -23,9 +23,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest 
     {
         parent::setUp();
 
-        $this->_block = Mage::app()->getLayout()->createBlock(
-            'Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container'
-        );
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container');
     }
 
     public function testSetGetAllowedContainers()

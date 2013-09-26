@@ -35,6 +35,9 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
     protected $_itemFormFactory;
 
     /**
+     * @param Magento_Rma_Model_ItemFactory $itemFactory
+     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
+     * @param Magento_Core_Model_Session $coreSession
      * @param Magento_Core_Model_Factory $modelFactory
      * @param Magento_Eav_Model_Form_Factory $formFactory
      * @param Magento_Rma_Helper_Data $rmaData
@@ -42,11 +45,12 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Rma_Model_ItemFactory $itemFactory
-     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_ItemFactory $itemFactory,
+        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
+        Magento_Core_Model_Session $coreSession,
         Magento_Core_Model_Factory $modelFactory,
         Magento_Eav_Model_Form_Factory $formFactory,
         Magento_Rma_Helper_Data $rmaData,
@@ -54,10 +58,9 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Rma_Model_ItemFactory $itemFactory,
-        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
         array $data = array()
     ) {
+        $this->_coreSession = $coreSession;
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
         $this->_itemFactory = $itemFactory;
@@ -76,13 +79,13 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
         $items = $this->_rmaData->getOrderItems($order);
         $this->setItems($items);
 
-        $formData = $this->_session->getRmaFormData(true);
+        $formData = $this->_coreSession->getRmaFormData(true);
         if (!empty($formData)) {
             $data = new Magento_Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
-        $errorKeys = $this->_session->getRmaErrorKeys(true);
+        $errorKeys = $this->_coreSession->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
             $data = new Magento_Object();
             $data->addData($errorKeys);

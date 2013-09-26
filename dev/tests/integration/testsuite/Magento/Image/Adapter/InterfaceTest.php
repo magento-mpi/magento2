@@ -577,7 +577,11 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     public function testCreatePngFromString($pixel1, $expectedColor1, $pixel2, $expectedColor2, $adapterType)
     {
         $adapter = $this->_getAdapter($adapterType);
-        $adapter->createPngFromString('T', Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
+        $adapter->createPngFromString(
+            'T',
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir()
+                . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf'
+        );
         $adapter->refreshImageDimensions();
 
         $color1 = $adapter->getColorAt($pixel1['x'], $pixel1['y']);

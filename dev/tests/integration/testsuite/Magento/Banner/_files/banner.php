@@ -11,7 +11,8 @@
  */
 
 /** @var $banner Magento_Banner_Model_Banner */
-$banner = Mage::getModel('Magento_Banner_Model_Banner');
+$banner = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Banner_Model_Banner');
 
 $banner->setIsEnabled(Magento_Banner_Model_Banner::STATUS_ENABLED)
     ->setName('Test Banner')

@@ -93,7 +93,7 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
             if ($injectionClass) {
-                $arguments[] = Mage::getModel($injectionClass);
+                $arguments[] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($injectionClass);
             } else {
                 $arguments[] = null;
             }
