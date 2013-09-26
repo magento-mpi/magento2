@@ -30,9 +30,10 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
     {
         parent::setUp();
 
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+            ->turnOffSecretKey();
 
-        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        $this->_auth = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth');
         $this->_session = $this->_auth->getAuthStorage();
         $this->_auth->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
@@ -43,7 +44,7 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
         $this->_auth->logout();
         $this->_auth = null;
         $this->_session = null;
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')->turnOnSecretKey();
         parent::tearDown();
     }
 

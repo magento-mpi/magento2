@@ -29,8 +29,10 @@ class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
         parent::setUp();
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_auth  = Mage::getModel('Magento_Backend_Model_Auth');
-        $this->_model = Mage::getModel('Magento_Backend_Model_Auth_Session');
+        $this->_auth  = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Auth');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Auth_Session');
         $this->_auth->setAuthStorage($this->_model);
     }
 

@@ -15,7 +15,8 @@ class Magento_Sales_Model_Resource_Report_Bestsellers_CollectionTest extends PHP
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Bestsellers_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Resource_Report_Bestsellers_Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

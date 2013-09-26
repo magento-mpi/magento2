@@ -20,13 +20,14 @@ class Magento_Adminhtml_Block_Widget_TabsTest extends PHPUnit_Framework_TestCase
     public function testAddTab()
     {
         /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
-        $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+        $widgetInstance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget_Instance');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_widget_instance', $widgetInstance);
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_Widget_Tabs */
         $block = $layout->createBlock('Magento_Adminhtml_Block_Widget_Tabs', 'block');
         $layout->addBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main', 'child_tab', 'block');

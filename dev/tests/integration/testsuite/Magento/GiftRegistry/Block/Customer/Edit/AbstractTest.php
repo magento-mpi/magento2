@@ -25,14 +25,16 @@ class Magento_GiftRegistry_Block_Customer_Edit_AbstractTest
         $this->getMockForAbstractClass(
             'Magento_GiftRegistry_Block_Customer_Edit_Abstract', array(), self::STUB_CLASS, false
         );
-        $block = Mage::app()->getLayout()->createBlock(self::STUB_CLASS);
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock(self::STUB_CLASS);
 
         $value = null;
         $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat($formatType);
+        $dateFormat = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_LocaleInterface')->getDateFormat($formatType);
         $value = $block->formatDate($value, $formatType);
 
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);

@@ -40,30 +40,37 @@ class Magento_AdvancedCheckout_Model_Observer
 
     /**
      * @param Magento_Data_CollectionFactory $collectionFactory
+     * @var Magento_AdvancedCheckout_Model_Cart
+     */
+    protected $_cart;
+
+    /**
+     * @var Magento_Sales_Model_Quote
+     */
+    protected $_quote;
+
+    /**
+     * @param Magento_Sales_Model_Quote $quote
+     * @param Magento_AdvancedCheckout_Model_Cart $cart
+     * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
      * @param Magento_Sales_Model_QuoteFactory $quoteFactory
      * @param Magento_Sales_Model_Quote_AddressFactory $addressFactory
      */
     public function __construct(
+        Magento_Sales_Model_Quote $quote,
+        Magento_AdvancedCheckout_Model_Cart $cart,
         Magento_Data_CollectionFactory $collectionFactory,
         Magento_AdvancedCheckout_Helper_Data $checkoutData,
         Magento_Sales_Model_QuoteFactory $quoteFactory,
         Magento_Sales_Model_Quote_AddressFactory $addressFactory
     ) {
         $this->_collectionFactory = $collectionFactory;
+        $this->_quote = $quote;
+        $this->_cart = $cart;
         $this->_checkoutData = $checkoutData;
         $this->_quoteFactory = $quoteFactory;
         $this->_addressFactory = $addressFactory;
-    }
-
-    /**
-     * Get cart model instance
-     *
-     * @return Magento_AdvancedCheckout_Model_Cart
-     */
-    protected function _getCart()
-    {
-        return Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart');
     }
 
     /**
@@ -78,7 +85,7 @@ class Magento_AdvancedCheckout_Model_Observer
         if (is_null($storeId)) {
             $storeId = $observer->getRequestModel()->getParam('store_id');
         }
-        return $this->_getCart()
+        return $this->_cart
             ->setSession($observer->getSession())
             ->setContext(Magento_AdvancedCheckout_Model_Cart::CONTEXT_ADMIN_ORDER)
             ->setCurrentStore((int)$storeId);
@@ -189,9 +196,7 @@ class Magento_AdvancedCheckout_Model_Observer
             return;
         }
 
-        /** @var $realQuote Magento_Sales_Model_Quote */
-        $realQuote = Mage::getSingleton('Magento_Sales_Model_Quote');
-        $affectedItems = $this->_getCart()->getFailedItems();
+        $affectedItems = $this->_cart->getFailedItems();
         if (empty($affectedItems)) {
             return;
         }
@@ -212,8 +217,8 @@ class Magento_AdvancedCheckout_Model_Observer
 
         $quote->preventSaving()->setItemsCollection($collection);
 
-        $quote->setShippingAddress($this->_copyAddress($quote, $realQuote->getShippingAddress()));
-        $quote->setBillingAddress($this->_copyAddress($quote, $realQuote->getBillingAddress()));
+        $quote->setShippingAddress($this->_copyAddress($quote, $this->_quote->getShippingAddress()));
+        $quote->setBillingAddress($this->_copyAddress($quote, $this->_quote->getBillingAddress()));
         $quote->setTotalsCollectedFlag(false)->collectTotals();
 
         foreach ($quote->getAllItems() as $item) {
@@ -237,7 +242,7 @@ class Magento_AdvancedCheckout_Model_Observer
             return;
         }
 
-        $failedItemsCount = count(Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart')->getFailedItems());
+        $failedItemsCount = count($this->_cart->getFailedItems());
         if ($failedItemsCount > 0) {
             $block->setAllowCartLink(true);
             $block->setCartEmptyMessage(__('%1 item(s) need your attention.', $failedItemsCount));

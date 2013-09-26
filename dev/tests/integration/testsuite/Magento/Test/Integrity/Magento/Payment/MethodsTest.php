@@ -25,7 +25,8 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
         /** @var $blockFactory Magento_Core_Model_BlockFactory */
         $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_BlockFactory');
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
         /** @var $model Magento_Payment_Model_Method_Abstract */
         if (empty($methodClass)) {
             /**
@@ -43,12 +44,21 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
             $this->assertFileExists($block->getTemplateFile(), $message);
             if ($model->canUseInternal()) {
                 try {
-                    Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+                    Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->get('Magento_Core_Model_StoreManagerInterface')
+                        ->getStore()
+                        ->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
                     $block->setArea('adminhtml');
                     $this->assertFileExists($block->getTemplateFile(), $message);
-                    Mage::app()->getStore()->setId($storeId);
+                    Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->get('Magento_Core_Model_StoreManagerInterface')
+                        ->getStore()
+                        ->setId($storeId);
                 } catch (Exception $e) {
-                    Mage::app()->getStore()->setId($storeId);
+                    Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->get('Magento_Core_Model_StoreManagerInterface')
+                        ->getStore()
+                        ->setId($storeId);
                     throw $e;
                 }
             }

@@ -23,11 +23,17 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     protected $_registry;
 
     /**
+     * @var Magento_Tax_Model_Config
+     */
+    protected $_taxConfig;
+
+    /**
      * @var Magento_Wishlist_Model_WishlistFactory
      */
     protected $_wishlistFactory;
 
     /**
+     * @param Magento_Tax_Model_Config $taxConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -35,12 +41,14 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
      * @param array $data
      */
     public function __construct(
+        Magento_Tax_Model_Config $taxConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
         array $data = array()
     ) {
+        $this->_taxConfig = $taxConfig;
         $this->_registry = $registry;
         parent::__construct($coreData, $context, $data);
         $this->_wishlistFactory = $wishlistFactory;
@@ -83,8 +91,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
      */
     public function displayTotalsIncludeTax()
     {
-        $res = Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalInclTax($this->getStore())
-            || Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth($this->getStore());
+        $res = $this->_taxConfig->displayCartSubtotalInclTax($this->getStore())
+            || $this->_taxConfig->displayCartSubtotalBoth($this->getStore());
 
         return $res;
     }

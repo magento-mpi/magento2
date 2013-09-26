@@ -18,7 +18,8 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_TargetRule_Model_Rule');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_TargetRule_Model_Rule');
     }
 
     public function testValidateDataOnEmpty()

@@ -21,17 +21,17 @@ class Magento_Rma_Block_Return_History extends Magento_Core_Block_Template
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
      * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
         Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
         Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;

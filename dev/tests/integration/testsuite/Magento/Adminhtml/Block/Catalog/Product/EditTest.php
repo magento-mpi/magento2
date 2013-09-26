@@ -31,7 +31,8 @@ class Magento_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit');
     }
 
     public function testGetTypeSwitcherData()

@@ -44,7 +44,8 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = $this->_objectManager->get('Magento_Eav_Model_Config')->getEntityType('rma_item');
+            $this->_entityType = $this->_objectManager->get('Magento_Eav_Model_Config')
+                ->getEntityType('rma_item');
         }
         return $this->_entityType;
     }

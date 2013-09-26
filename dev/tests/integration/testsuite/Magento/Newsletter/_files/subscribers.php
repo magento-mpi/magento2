@@ -11,16 +11,20 @@
 
 require __DIR__ . '/../../../Magento/Core/_files/store.php';
 
-$currentStore = Mage::app()->getStore()->getId();
-$otherStore = Mage::app()->getStore('fixturestore')->getId();
+$currentStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
+$otherStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->get('Magento_Core_Model_StoreManagerInterface')->getStore('fixturestore')->getId();
 
-$subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber');
+$subscriber = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Newsletter_Model_Subscriber');
 $subscriber->setStoreId($currentStore)
     ->setSubscriberEmail('test1@example.com')
     ->setSubscriberStatus(Magento_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED)
     ->save()
 ;
-$subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber');
+$subscriber = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Newsletter_Model_Subscriber');
 $subscriber->setStoreId($otherStore)
     ->setSubscriberEmail('test2@example.com')
     ->setSubscriberStatus(Magento_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED)

@@ -33,12 +33,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Backend_Block_Widget_
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
+        Magento_Rma_Model_RmaFactory $rmaFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
-        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
-        Magento_Rma_Model_RmaFactory $rmaFactory,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;

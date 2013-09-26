@@ -20,7 +20,8 @@ class Magento_Rma_Controller_ReturnTest extends Magento_TestFramework_TestCase_C
     {
         parent::setUp();
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_customerSession = Mage::getModel('Magento_Customer_Model_Session', array($logger));
+        $this->_customerSession = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Session', array($logger));
         $this->_customerSession->login('customer@example.com', 'password');
     }
 
@@ -40,7 +41,8 @@ class Magento_Rma_Controller_ReturnTest extends Magento_TestFramework_TestCase_C
     public function testIsResponseContain($uri, $content)
     {
         /** @var $rma Magento_Rma_Model_Rma */
-        $rma = Mage::getModel('Magento_Rma_Model_Rma');
+        $rma = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Rma_Model_Rma');
         $rma->load(1, 'increment_id');
         $rma->setCustomerId($this->_customerSession->getCustomerId());
         $rma->save();

@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     protected function _getFormInstance($args = array())
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_Urlrewrite_Edit_Form */
         $block = $layout->createBlock('Magento_Adminhtml_Block_Urlrewrite_Edit_Form', 'block', array('data' => $args));
         $block->setTemplate(null);
@@ -77,7 +77,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
             'options'      => 'options',
             'description'  => 'description'
         );
-        Mage::getModel('Magento_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
         $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object()));
 
@@ -101,7 +102,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
         $this->assertInstanceOf('Magento_Data_Form_Element_Hidden', $storeElement);
 
         // Check that store value set correctly
-        $defaultStore = Mage::app()->getStore(true)->getId();
+        $defaultStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore(true)->getId();
         $this->assertEquals($defaultStore, $storeElement->getValue());
     }
 
@@ -125,7 +127,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
             $storeElement->getRenderer());
 
         // Check store elements has expected values
-        $storesList = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm();
+        $storesList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_System_Store')
+            ->getStoreValuesForForm();
         $this->assertInternalType('array', $storeElement->getValues());
         $this->assertNotEmpty($storeElement->getValues());
         $this->assertEquals($storesList, $storeElement->getValues());

@@ -22,7 +22,8 @@ class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Magento_Backend_Model_Locale');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Locale');
     }
 
     /**
@@ -39,9 +40,11 @@ class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
     public function testSetLocaleWithBaseInterfaceLocale()
     {
         $user = new Magento_Object();
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Backend_Model_Auth_Session');
         $session->setUser($user);
-        Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->setInterfaceLocale('fr_FR');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth_Session')
+            ->getUser()->setInterfaceLocale('fr_FR');
         $this->_checkSetLocale('fr_FR');
     }
 
@@ -50,7 +53,8 @@ class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
      */
     public function testSetLocaleWithSessionLocale()
     {
-        Mage::getSingleton('Magento_Backend_Model_Session')->setSessionLocale('es_ES');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Session')
+            ->setSessionLocale('es_ES');
         $this->_checkSetLocale('es_ES');
     }
 
@@ -59,7 +63,8 @@ class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
      */
     public function testSetLocaleWithRequestLocale()
     {
-        $request = Mage::app()->getRequest();
+        $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Controller_Request_Http');
         $request->setPost(array('locale' => 'de_DE'));
         $this->_checkSetLocale('de_DE');
     }

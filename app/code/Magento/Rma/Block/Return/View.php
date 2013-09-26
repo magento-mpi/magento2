@@ -68,6 +68,12 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     protected $_eavConfig;
 
     /**
+     * @param Magento_Rma_Model_Resource_Item_CollectionFactory $itemsFactory
+     * @param Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $historiesFactory
+     * @param Magento_Rma_Model_ItemFactory $itemFactory
+     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Factory $modelFactory
      * @param Magento_Eav_Model_Form_Factory $formFactory
      * @param Magento_Customer_Helper_Data $customerData
@@ -75,15 +81,15 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Rma_Model_Resource_Item_CollectionFactory $itemsFactory
-     * @param Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $historiesFactory
-     * @param Magento_Rma_Model_ItemFactory $itemFactory
-     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Eav_Model_Config $eavConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Item_CollectionFactory $itemsFactory,
+        Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $historiesFactory,
+        Magento_Rma_Model_ItemFactory $itemFactory,
+        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Factory $modelFactory,
         Magento_Eav_Model_Form_Factory $formFactory,
         Magento_Customer_Helper_Data $customerData,
@@ -91,12 +97,6 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Rma_Model_Resource_Item_CollectionFactory $itemsFactory,
-        Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $historiesFactory,
-        Magento_Rma_Model_ItemFactory $itemFactory,
-        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Eav_Model_Config $eavConfig,
         array $data = array()
     ) {
         $this->_customerData = $customerData;

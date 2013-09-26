@@ -21,7 +21,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_GridTest extends PHPUni
     public function testPrepareGrid()
     {
         /** @var $gridBlock Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid */
-        $gridBlock = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid');
+        $gridBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid');
         $gridBlock->toHtml();
 
         foreach (array('entity_id', 'name', 'sku', 'status') as $key) {

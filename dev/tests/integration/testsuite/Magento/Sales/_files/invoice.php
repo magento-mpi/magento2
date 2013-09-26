@@ -16,5 +16,6 @@ $orderService = Magento_TestFramework_ObjectManager::getInstance()->create('Mage
 $invoice = $orderService->prepareInvoice();
 $invoice->register();
 $order->setIsInProcess(true);
-$transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction');
+$transactionSave = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Core_Model_Resource_Transaction');
 $transactionSave->addObject($invoice)->addObject($order)->save();

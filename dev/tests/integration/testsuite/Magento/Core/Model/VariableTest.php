@@ -18,7 +18,8 @@ class Magento_Core_Model_VariableTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Variable');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Variable');
     }
 
     public function testGetSetStoreId()
@@ -35,7 +36,8 @@ class Magento_Core_Model_VariableTest extends PHPUnit_Framework_TestCase
         ));
         $this->_model->save();
 
-        $variable = Mage::getModel('Magento_Core_Model_Variable');
+        $variable = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Variable');
         $variable->loadByCode('test_code');
         $this->assertEquals($this->_model->getName(), $variable->getName());
         $this->_model->delete();

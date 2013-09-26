@@ -16,6 +16,9 @@ class Magento_Adminhtml_Model_SessionTest extends PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        $this->assertInstanceOf('Magento_Backend_Model_Session', Mage::getModel('Magento_Adminhtml_Model_Session'));
+        $this->assertInstanceOf(
+            'Magento_Backend_Model_Session',
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Adminhtml_Model_Session')
+        );
     }
 }

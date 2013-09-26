@@ -18,7 +18,6 @@
  */
 class Magento_AdvancedCheckout_Controller_Sku extends Magento_Core_Controller_Front_Action
 {
-
     /**
      * Check functionality is enabled and applicable to the Customer
      *
@@ -30,7 +29,7 @@ class Magento_AdvancedCheckout_Controller_Sku extends Magento_Core_Controller_Fr
 
         // guest redirected to "Login or Create an Account" page
         /** @var $customerSession Magento_Customer_Model_Session */
-        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+        $customerSession = $this->_objectManager->get('Magento_Customer_Model_Session');
         if (!$customerSession->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
             return $this;
@@ -93,6 +92,6 @@ class Magento_AdvancedCheckout_Controller_Sku extends Magento_Core_Controller_Fr
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->_objectManager->get('Magento_Checkout_Model_Session');
     }
 }

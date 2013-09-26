@@ -19,7 +19,8 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
     {
         $settings = array('backend' => $cacheBackendName);
         $this->_model = new Magento_Core_Model_Cache_Frontend_Pool(
-            Mage::getModel('Magento_Core_Model_Cache_Frontend_Factory'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Cache_Frontend_Factory'),
             $settings
         );
 

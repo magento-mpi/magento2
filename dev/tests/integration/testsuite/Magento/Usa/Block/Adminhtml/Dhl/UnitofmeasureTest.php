@@ -22,7 +22,7 @@ class Magento_Usa_Block_Adminhtml_Dhl_UnitofmeasureTest extends PHPUnit_Framewor
             )
         ));
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure */
         $block = $layout->createBlock('Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure');
         $this->assertNotEmpty($block->toHtml());

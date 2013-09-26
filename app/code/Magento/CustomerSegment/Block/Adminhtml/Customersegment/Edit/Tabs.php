@@ -15,20 +15,28 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * @var Magento_CustomerSegment_Model_SegmentFactory
+     */
+    protected $_segmentFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_SegmentFactory $segmentFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_CustomerSegment_Model_SegmentFactory $segmentFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_segmentFactory = $segmentFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -78,7 +86,8 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
             ));
 
             if ($segment->getApplyTo() != Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
-                $customersQty = Mage::getModel('Magento_CustomerSegment_Model_Segment')->getResource()
+                $customersQty = $this->_segmentFactory->create()
+                    ->getResource()
                     ->getSegmentCustomersQty($segment->getId());
                 $this->addTab('customers_tab', array(
                     'label' => __('Matched Customers (%1)', $customersQty),

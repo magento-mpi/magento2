@@ -42,10 +42,12 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             array($this->_columnMock)
         ));
 
-        $context = Mage::getModel('Magento_Core_Block_Template_Context', array('layout' => $this->_layoutMock));
-        $this->_block = Mage::app()->getLayout()->createBlock(
-            'Magento_Backend_Block_Widget_Grid_ColumnSet', '', array('context' => $context)
-        );
+        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Block_Template_Context', array('layout' => $this->_layoutMock));
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock(
+                'Magento_Backend_Block_Widget_Grid_ColumnSet', '', array('context' => $context)
+            );
         $this->_block->setTemplate(null);
     }
 
