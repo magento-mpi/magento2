@@ -10,12 +10,7 @@
 
 /**
  * Cms page edit form revisions tab
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit
     extends Magento_Adminhtml_Block_Template
 {
@@ -24,21 +19,29 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_VersionsCms_Model_Config
+     */
+    protected $_cmsConfig;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_VersionsCms_Model_Config $cmsConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_VersionsCms_Model_Config $cmsConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_cmsConfig = $cmsConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -91,7 +94,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit
                     // If user non-publisher he can save page only if it has disabled status
                     if ($page->getUnderVersionControl()) {
                         if ($page->getId() && $page->getIsActive() == Magento_Cms_Model_Page::STATUS_ENABLED) {
-                            if (!Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserPublishRevision()) {
+                            if (!$this->_cmsConfig->canCurrentUserPublishRevision()) {
                                 $editBlock->removeButton('delete');
                                 $editBlock->removeButton('save');
                                 $editBlock->removeButton('saveandcontinue');

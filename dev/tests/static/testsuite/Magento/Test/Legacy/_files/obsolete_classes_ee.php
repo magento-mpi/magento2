@@ -10,7 +10,6 @@
 return array(
     array('Magento_CatalogEvent_Block_Adminhtml_Event_Grid'),
     array('Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Grid'),
-    array('Magento_VersionsCms_Model_Resource_Setup'),
     array('Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid'),
     array('Magento_GiftCard_Block_Email_Generated'),
     array('Magento_GiftRegistry_Block_Adminhtml_Customer_View'),

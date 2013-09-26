@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Pages Hierarchy Widget Radio Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Magento_Adminhtml_Block_Template
 {
@@ -50,21 +46,45 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_VersionsCms_Model_Hierarchy_Node
+     */
+    protected $_hierarchyNode;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_VersionsCms_Model_Hierarchy_Node $hierarchyNode
+     * @param Magento_Core_Model_System_Store $systemStore
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_VersionsCms_Model_Hierarchy_Node $hierarchyNode,
+        Magento_Core_Model_System_Store $systemStore,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_storeManager = $storeManager;
+        $this->_hierarchyNode = $hierarchyNode;
+        $this->_systemStore = $systemStore;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -76,7 +96,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
     public function getAllStoreViews()
     {
         if (empty($this->_allStoreViews)) {
-            $storeValues = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true);
+            $storeValues = $this->_systemStore->getStoreValuesForForm(false, true);
             foreach ($storeValues as $view) {
                 if (is_array($view['value']) && empty($view['value'])) {
                     continue;
@@ -105,7 +125,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
         $storeViews[] = current($allStoreViews);
         unset($allStoreViews);
 
-        $storeValues = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreCollection();
+        $storeValues = $this->_systemStore->getStoreCollection();
 
         foreach ($storeValues as $store) {
             $storeViews[] = array(
@@ -184,7 +204,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
     public function getLabelByNodeId($nodeId)
     {
         if ($nodeId) {
-            $node = Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Node')->load($nodeId);
+            $node = $this->_hierarchyNode->load($nodeId);
             if ($node->getId()) {
                 return $node->getLabel();
             }
@@ -199,6 +219,6 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
      */
     protected function _toHtml()
     {
-        return Mage::app()->isSingleStoreMode() == false ? parent::_toHtml() : '';
+        return $this->_storeManager->isSingleStoreMode() == false ? parent::_toHtml() : '';
     }
 }

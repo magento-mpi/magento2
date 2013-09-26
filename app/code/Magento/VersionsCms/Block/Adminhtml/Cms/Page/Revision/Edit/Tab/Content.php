@@ -8,15 +8,9 @@
  * @license     {license_link}
  */
 
-
 /**
- * Mian tab with cms page attributes and some modifications to CE version
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Main tab with cms page attributes and some modifications to CE version
  */
-
 class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
     extends Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 {
@@ -25,7 +19,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
      *
      * @var Magento_VersionsCms_Helper_Data
      */
-    protected $_cmsData = null;
+    protected $_cmsData;
+
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendAuthSession;
 
     /**
      * @param Magento_VersionsCms_Helper_Data $cmsData
@@ -34,6 +33,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
      * @param array $data
      */
     public function __construct(
@@ -43,12 +43,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Backend_Model_Auth_Session $backendAuthSession,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct(
-            $context, $formFactory, $coreData, $eventManager, $coreRegistry, $data
-        );
+        $this->_backendAuthSession = $backendAuthSession;
+        parent::__construct($context, $formFactory, $coreData, $eventManager, $coreRegistry, $data);
     }
 
     /**
@@ -95,7 +95,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
         // setting current user id for new version functionality.
         // in posted data there will be current user
-        $this->getForm()->getElement('user_id')->setValue(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId());
+        $this->getForm()->getElement('user_id')->setValue($this->_backendAuthSession->getUser()->getId());
 
         return $this;
     }

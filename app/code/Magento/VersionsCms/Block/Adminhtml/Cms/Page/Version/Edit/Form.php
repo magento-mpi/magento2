@@ -8,18 +8,15 @@
  * @license     {license_link}
  */
 
-
 /**
  * Form for version edit page
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
     extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * @var string
+     */
     protected $_template = 'page/version/form.phtml';
 
     /**
@@ -27,7 +24,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
      *
      * @var Magento_VersionsCms_Helper_Data
      */
-    protected $_cmsData = null;
+    protected $_cmsData;
+
+    /**
+     * @var Magento_VersionsCms_Model_Config
+     */
+    protected $_cmsConfig;
 
     /**
      * @param Magento_Data_Form_Factory $formFactory
@@ -35,6 +37,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_VersionsCms_Model_Config $cmsConfig
      * @param array $data
      */
     public function __construct(
@@ -43,9 +46,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_VersionsCms_Model_Config $cmsConfig,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
+        $this->_cmsConfig = $cmsConfig;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -70,11 +75,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
         /* @var $model Magento_Cms_Model_Page */
         $version = $this->_coreRegistry->registry('cms_page_version');
 
-        $config = Mage::getSingleton('Magento_VersionsCms_Model_Config');
-        /* @var $config Magento_VersionsCms_Model_Config */
-
-        $isOwner = $config->isCurrentUserOwner($version->getUserId());
-        $isPublisher = $config->canCurrentUserPublishRevision();
+        $isOwner = $this->_cmsConfig->isCurrentUserOwner($version->getUserId());
+        $isPublisher = $this->_cmsConfig->canCurrentUserPublishRevision();
 
         $fieldset = $form->addFieldset('version_fieldset',
             array('legend' => __('Version Information'),

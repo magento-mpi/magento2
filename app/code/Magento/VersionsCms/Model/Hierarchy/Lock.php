@@ -23,12 +23,6 @@
  * @method int getStartedAt()
  * @method Magento_VersionsCms_Model_Hierarchy_Lock setStartedAt(int $value)
  *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
-/**
  * @deprecated since 1.12.0.0
  */
 class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstract
@@ -41,29 +35,9 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-    }
-
-    /**
      * Session model instance
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var Magento_Core_Model_Session_Abstract
      */
     protected $_session;
 
@@ -73,6 +47,34 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
      * @var bool
      */
     protected $_dataLoaded = false;
+
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Backend_Model_Auth_Session $backendAuthSession,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_backendAuthSession = $backendAuthSession;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Resource model initializing
@@ -102,7 +104,7 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     protected function _getSession()
     {
         if ($this->_session === null) {
-            return Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+            return $this->_backendAuthSession;
         }
         return $this->_session;
     }

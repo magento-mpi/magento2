@@ -8,18 +8,14 @@
  * @license     {license_link}
  */
 
-
 /**
- * Enterprise cms page observer
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Versions cms page observer
  */
 class Magento_VersionsCms_Model_Observer
 {
     /**
      * Configuration model
+     *
      * @var Magento_VersionsCms_Model_Config
      */
     protected $_config;
@@ -34,21 +30,96 @@ class Magento_VersionsCms_Model_Observer
      *
      * @var Magento_VersionsCms_Helper_Hierarchy
      */
-    protected $_cmsHierarchy = null;
+    protected $_cmsHierarchy;
 
     /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_sourceYesno;
+
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var Magento_Core_Model_Url
+     */
+    protected $_coreUrl;
+
+    /**
+     * @var Magento_VersionsCms_Model_Page_RevisionFactory
+     */
+    protected $_revisionFactory;
+
+    /**
+     * @var Magento_VersionsCms_Model_Hierarchy_NodeFactory
+     */
+    protected $_hierarchyNodeFactory;
+
+    /**
+     * @var Magento_VersionsCms_Model_Hierarchy_Node
+     */
+    protected $_hierarchyNode;
+
+    /**
+     * @var Magento_VersionsCms_Model_Page_VersionFactory
+     */
+    protected $_pageVersionFactory;
+
+    /**
+     * @var Magento_VersionsCms_Model_Resource_Page_Version_CollectionFactory
+     */
+    protected $_versionCollFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource_Iterator
+     */
+    protected $_resourceIterator;
+
+    /**
+     * @var Magento_Widget_Model_Resource_Widget_Instance_CollectionFactory
+     */
+    protected $_widgetCollFactory;
+
+    /**
+     * @var Magento_VersionsCms_Model_Resource_Hierarchy_Node
+     */
+    protected $_hierarchyNodeResource;
+
+    /**
+     * @var Magento_VersionsCms_Model_Resource_Increment
+     */
+    protected $_cmsIncrement;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_httpRequest;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
@@ -56,19 +127,66 @@ class Magento_VersionsCms_Model_Observer
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_VersionsCms_Model_Config $config
      * @param Magento_AuthorizationInterface $authorization
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
+     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param Magento_Backend_Model_Url $backendUrl
+     * @param Magento_Core_Model_Url $coreUrl
+     * @param Magento_VersionsCms_Model_Page_RevisionFactory $revisionFactory
+     * @param Magento_VersionsCms_Model_Hierarchy_NodeFactory $hierarchyNodeFactory
+     * @param Magento_VersionsCms_Model_Hierarchy_Node $hierarchyNode
+     * @param Magento_VersionsCms_Model_Page_VersionFactory $pageVersionFactory
+     * @param Magento_VersionsCms_Model_Resource_Page_Version_CollectionFactory $versionCollFactory
+     * @param Magento_Core_Model_Resource_Iterator $resourceIterator
+     * @param Magento_Widget_Model_Resource_Widget_Instance_CollectionFactory $widgetCollFactory
+     * @param Magento_VersionsCms_Model_Resource_Hierarchy_Node $hierarchyNodeResource
+     * @param Magento_VersionsCms_Model_Resource_Increment $cmsIncrement
+     * @param Magento_Core_Controller_Request_Http $httpRequest
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_VersionsCms_Model_Config $config,
-        Magento_AuthorizationInterface $authorization
+        Magento_AuthorizationInterface $authorization,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
+        Magento_Backend_Model_Auth_Session $backendAuthSession,
+        Magento_Backend_Model_Url $backendUrl,
+        Magento_Core_Model_Url $coreUrl,
+        Magento_VersionsCms_Model_Page_RevisionFactory $revisionFactory,
+        Magento_VersionsCms_Model_Hierarchy_NodeFactory $hierarchyNodeFactory,
+        Magento_VersionsCms_Model_Hierarchy_Node $hierarchyNode,
+        Magento_VersionsCms_Model_Page_VersionFactory $pageVersionFactory,
+        Magento_VersionsCms_Model_Resource_Page_Version_CollectionFactory $versionCollFactory,
+        Magento_Core_Model_Resource_Iterator $resourceIterator,
+        Magento_Widget_Model_Resource_Widget_Instance_CollectionFactory $widgetCollFactory,
+        Magento_VersionsCms_Model_Resource_Hierarchy_Node $hierarchyNodeResource,
+        Magento_VersionsCms_Model_Resource_Increment $cmsIncrement,
+        Magento_Core_Controller_Request_Http $httpRequest
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
         $this->_cmsHierarchy = $cmsHierarchy;
         $this->_config = $config;
         $this->_authorization = $authorization;
+        $this->_storeManager = $storeManager;
+        $this->_sourceYesno = $sourceYesno;
+        $this->_backendAuthSession = $backendAuthSession;
+        $this->_backendUrl = $backendUrl;
+        $this->_coreUrl = $coreUrl;
+        $this->_revisionFactory = $revisionFactory;
+        $this->_hierarchyNodeFactory = $hierarchyNodeFactory;
+        $this->_hierarchyNode = $hierarchyNode;
+        $this->_pageVersionFactory = $pageVersionFactory;
+        $this->_versionCollFactory = $versionCollFactory;
+        $this->_resourceIterator = $resourceIterator;
+        $this->_widgetCollFactory = $widgetCollFactory;
+        $this->_hierarchyNodeResource = $hierarchyNodeResource;
+        $this->_cmsIncrement = $cmsIncrement;
+        $this->_httpRequest = $httpRequest;
     }
 
     /**
@@ -104,32 +222,30 @@ class Magento_VersionsCms_Model_Observer
                 'label'     => __('Under Version Control'),
                 'title'     => __('Under Version Control'),
                 'name'      => 'under_version_control',
-                'values'    => Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray()
+                'values'    => $this->_sourceYesno->toOptionArray()
             ));
 
             if ($page->getPublishedRevisionId() && $page->getUnderVersionControl()) {
-                $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
-                $accessLevel = Mage::getSingleton('Magento_VersionsCms_Model_Config')->getAllowedAccessLevel();
+                $userId = $this->_backendAuthSession->getUser()->getId();
+                $accessLevel = $this->_config->getAllowedAccessLevel();
 
-                $revision = Mage::getModel('Magento_VersionsCms_Model_Page_Revision')
+                /** @var Magento_VersionsCms_Model_Page_Revision $revision */
+                $revision = $this->_revisionFactory->create()
                     ->loadWithRestrictions($accessLevel, $userId, $page->getPublishedRevisionId());
 
                 if ($revision->getId()) {
                     $revisionNumber = $revision->getRevisionNumber();
-                    $versionNumber = $revision->getVersionNumber();
                     $versionLabel = $revision->getLabel();
 
-                    $page->setPublishedRevisionLink(
-                        __('%1; rev #%2', $versionLabel, $revisionNumber));
+                    $page->setPublishedRevisionLink(__('%1; rev #%2', $versionLabel, $revisionNumber));
 
                     $baseFieldset->addField('published_revision_link', 'link', array(
-                            'label' => __('Currently Published Revision'),
-                            'href' => Mage::getSingleton('Magento_Backend_Model_Url')
-                                ->getUrl('*/cms_page_revision/edit', array(
-                                    'page_id' => $page->getId(),
-                                    'revision_id' => $page->getPublishedRevisionId()
-                                )),
-                        ));
+                        'label' => __('Currently Published Revision'),
+                        'href' => $this->_backendUrl->getUrl('*/cms_page_revision/edit', array(
+                            'page_id' => $page->getId(),
+                            'revision_id' => $page->getPublishedRevisionId()
+                        )),
+                    ));
 
                     $revisionAvailable = true;
                 }
@@ -142,7 +258,7 @@ class Magento_VersionsCms_Model_Observer
             }
         }
 
-        /*
+        /**
          * User does not have access to revision or revision is no longer available
          */
         if (!$revisionAvailable && $page->getId() && $page->getUnderVersionControl()) {
@@ -171,20 +287,21 @@ class Magento_VersionsCms_Model_Observer
          * Validate Request and modify router match condition
          */
         /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
-        $node = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node', array('data' => array(
-            'scope' => Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
-            'scope_id' => Mage::app()->getStore()->getId(),
+        $node = $this->_hierarchyNodeFactory->create(array(
+            'data' => array(
+                'scope' => Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
+                'scope_id' => $this->_storeManager->getStore()->getId(),
         )))->getHeritage();
         $requestUrl = $condition->getIdentifier();
         $node->loadByRequestUrl($requestUrl);
 
-        if ($node->checkIdentifier($requestUrl, Mage::app()->getStore())) {
+        if ($node->checkIdentifier($requestUrl, $this->_storeManager->getStore())) {
             $condition->setContinue(false);
             if (!$node->getId()) {
                 $collection = $node->getNodesCollection();
                 foreach ($collection as $item) {
                     if ($item->getPageIdentifier() == $requestUrl) {
-                        $url = Mage::getUrl('', array('_direct' => $item->getRequestUrl()));
+                        $url = $this->_coreUrl->getUrl('', array('_direct' => $item->getRequestUrl()));
                         $condition->setRedirectUrl($url);
                         break;
                     }
@@ -198,15 +315,16 @@ class Magento_VersionsCms_Model_Observer
 
         if (!$node->getPageId()) {
             /* @var $child Magento_VersionsCms_Model_Hierarchy_Node */
-            $child = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node', array('data' => array(
-                'scope' => $node->getScope(),
-                'scope_id' => $node->getScopeId(),
+            $child = $this->_hierarchyNodeFactory->create(array(
+                'data' => array(
+                    'scope' => $node->getScope(),
+                    'scope_id' => $node->getScopeId(),
             )));
             $child->loadFirstChildByParent($node->getId());
             if (!$child->getId()) {
                 return $this;
             }
-            $url   = Mage::getUrl('', array('_direct' => $child->getRequestUrl()));
+            $url   = $this->_coreUrl->getUrl('', array('_direct' => $child->getRequestUrl()));
             $condition->setRedirectUrl($url);
         } else {
             if (!$node->getPageIsActive()) {
@@ -239,7 +357,8 @@ class Magento_VersionsCms_Model_Observer
         if ($page->getIsNewPage() || ($page->getUnderVersionControl()
             && $page->dataHasChangedFor('under_version_control'))
         ) {
-            $version = Mage::getModel('Magento_VersionsCms_Model_Page_Version');
+            /** @var Magento_VersionsCms_Model_Page_Version $version */
+            $version = $this->_pageVersionFactory->create();
 
             $revisionInitialData = $page->getData();
             $revisionInitialData['copied_from_original'] = true;
@@ -247,7 +366,7 @@ class Magento_VersionsCms_Model_Observer
             $version->setLabel($page->getTitle())
                 ->setAccessLevel(Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
                 ->setPageId($page->getId())
-                ->setUserId(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId())
+                ->setUserId($this->_backendAuthSession->getUser()->getId())
                 ->setInitialRevisionData($revisionInitialData)
                 ->save();
 
@@ -266,22 +385,21 @@ class Magento_VersionsCms_Model_Observer
 
         // rebuild URL rewrites if page has changed for identifier
         if ($page->dataHasChangedFor('identifier')) {
-            Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Node')->updateRewriteUrls($page);
+            $this->_hierarchyNode->updateRewriteUrls($page);
         }
 
-        /*
+        /**
          * Appending page to selected nodes it will remove pages from other nodes
          * which are not specified in array. So should be called even array is empty!
          * Returns array of new ids for page nodes array( oldId => newId ).
          */
-        Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Node')->appendPageToNodes($page, $page->getAppendToNodes());
+        $this->_hierarchyNode->appendPageToNodes($page, $page->getAppendToNodes());
 
-        /*
+        /**
          * Updating sort order for nodes in parent nodes which have current page as child
          */
-        $resource = Mage::getResourceSingleton('Magento_VersionsCms_Model_Resource_Hierarchy_Node');
         foreach ($page->getNodesSortOrder() as $nodeId => $value) {
-            $resource->updateSortOrder($nodeId, $value);
+            $this->_hierarchyNodeResource->updateSortOrder($nodeId, $value);
         }
 
         return $this;
@@ -295,7 +413,7 @@ class Magento_VersionsCms_Model_Observer
      */
     public function cmsPageSaveBefore(Magento_Event_Observer $observer)
     {
-        /* @var $page Magento_Cms_Model_Page */
+        /* @var Magento_Cms_Model_Page $page */
         $page = $observer->getEvent()->getObject();
         /*
          * All new pages created by user without permission to publish
@@ -308,7 +426,7 @@ class Magento_VersionsCms_Model_Observer
             }
             // newly created page should be auto assigned to website root
             $page->setWebsiteRoot(true);
-        } else if (!$page->getUnderVersionControl()) {
+        } elseif (!$page->getUnderVersionControl()) {
             $page->setPublishedRevisionId(null);
         }
 
@@ -319,7 +437,7 @@ class Magento_VersionsCms_Model_Observer
         $appendToNodes = array();
         $sortOrder = array();
         if ($nodesData) {
-            try{
+            try {
                 $nodesData = $this->_coreData->jsonDecode($page->getNodesData());
             } catch (Zend_Json_Exception $e) {
                 $nodesData=null;
@@ -331,7 +449,7 @@ class Magento_VersionsCms_Model_Observer
                     }
 
                     if (isset($appendToNodes[$row['parent_node_id']])) {
-                        if (strpos($row['node_id'], '_') !== FALSE) {
+                        if (strpos($row['node_id'], '_') !== false) {
                             $appendToNodes[$row['parent_node_id']] = $row['sort_order'];
                         } else {
                             $sortOrder[$row['node_id']] = $row['sort_order'];
@@ -349,18 +467,20 @@ class Magento_VersionsCms_Model_Observer
     /**
      * Clean up private versions after user deleted.
      *
-     * @param Magento_Event_Observer $observer
      * @return Magento_VersionsCms_Model_Observer
      */
-    public function adminUserDeleteAfter(Magento_Event_Observer $observer)
+    public function adminUserDeleteAfter()
     {
-        $version = Mage::getModel('Magento_VersionsCms_Model_Page_Version');
-        $collection = $version->getCollection()
+        /** @var Magento_VersionsCms_Model_Resource_Page_Version_Collection $collection */
+        $collection = $this->_versionCollFactory->create()
             ->addAccessLevelFilter(Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PRIVATE)
             ->addUserIdFilter();
 
-         Mage::getSingleton('Magento_Core_Model_Resource_Iterator')
-            ->walk($collection->getSelect(), array(array($this, 'removeVersionCallback')), array('version'=> $version));
+        $this->_resourceIterator->walk(
+            $collection->getSelect(),
+            array(array($this, 'removeVersionCallback')),
+            array('version' => $this->_pageVersionFactory->create())
+        );
 
          return $this;
     }
@@ -375,8 +495,9 @@ class Magento_VersionsCms_Model_Observer
     {
         /* @var $store Magento_Core_Model_Website */
         $website = $observer->getEvent()->getWebsite();
-        $nodeModel = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node');
-        $nodeModel->deleteByScope(Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE, $website->getId());
+
+        $this->_hierarchyNodeFactory->create()
+            ->deleteByScope(Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE, $website->getId());
 
         foreach ($website->getStoreIds() as $storeId) {
             $this->_cleanStoreFootprints($storeId);
@@ -406,12 +527,10 @@ class Magento_VersionsCms_Model_Observer
     private function _cleanStoreFootprints($storeId)
     {
         $storeScope = Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE;
-        $nodeModel = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node');
-        $nodeModel->deleteByScope($storeScope, $storeId);
+        $this->_hierarchyNodeFactory->create()->deleteByScope($storeScope, $storeId);
 
-        /* @var $widgetModel Magento_Widget_Model_Widget_Instance */
-        $widgetModel = Mage::getModel('Magento_Widget_Model_Widget_Instance');
-        $widgets = $widgetModel->getResourceCollection()
+        /** @var Magento_Widget_Model_Resource_Widget_Instance_Collection $widgets */
+        $widgets = $this->_widgetCollFactory->create()
                 ->addStoreFilter(array($storeId, false))
                 ->addFieldToFilter('instance_type', 'Magento_VersionsCms_Block_Widget_Node');
 
@@ -469,10 +588,11 @@ class Magento_VersionsCms_Model_Observer
         /* @var $page Magento_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
 
-        Mage::getResourceSingleton('Magento_VersionsCms_Model_Resource_Increment')
-            ->cleanIncrementRecord(Magento_VersionsCms_Model_Increment::TYPE_PAGE,
-                $page->getId(),
-                Magento_VersionsCms_Model_Increment::LEVEL_VERSION);
+        $this->_cmsIncrement->cleanIncrementRecord(
+            Magento_VersionsCms_Model_Increment::TYPE_PAGE,
+            $page->getId(),
+            Magento_VersionsCms_Model_Increment::LEVEL_VERSION
+        );
 
         return $this;
     }
@@ -498,7 +618,7 @@ class Magento_VersionsCms_Model_Observer
      */
     public function postDispatchCmsRevisionPreview($config, $eventModel)
     {
-        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('revision_id'));
+        return $eventModel->setInfo($this->_httpRequest->getParam('revision_id'));
     }
 
     /**
@@ -510,7 +630,7 @@ class Magento_VersionsCms_Model_Observer
      */
     public function postDispatchCmsRevisionPublish($config, $eventModel)
     {
-        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('revision_id'));
+        return $eventModel->setInfo($this->_httpRequest->getParam('revision_id'));
     }
 
     /**
@@ -567,9 +687,10 @@ class Magento_VersionsCms_Model_Observer
          */
         $topMenuRootNode = $observer->getMenu();
 
-        $hierarchyModel = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node', array('data' => array(
-            'scope' => Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
-            'scope_id' => Mage::app()->getStore()->getId(),
+        $hierarchyModel = $this->_hierarchyNodeFactory->create(array(
+            'data' => array(
+                'scope' => Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE,
+                'scope_id' => $this->_storeManager->getStore()->getId(),
         )))->getHeritage();
 
         $nodes = $hierarchyModel->getNodesData();
@@ -579,7 +700,7 @@ class Magento_VersionsCms_Model_Observer
             $topMenuRootNode->getId() => $topMenuRootNode
         );
 
-        $nodeModel = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node');
+        $nodeModel = $this->_hierarchyNodeFactory->create();
 
         foreach ($nodes as $node) {
 

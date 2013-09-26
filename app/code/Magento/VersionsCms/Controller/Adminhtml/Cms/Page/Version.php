@@ -8,17 +8,55 @@
  * @license     {license_link}
  */
 
-
 /**
  * Manage version controller
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_VersionsCms_Controller_Adminhtml_Cms_Page
+class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version
+    extends Magento_VersionsCms_Controller_Adminhtml_Cms_Page
 {
+    /**
+     * @var Magento_VersionsCms_Model_Page_VersionFactory
+     */
+    protected $_pageVersionFactory;
+
+    /**
+     * @var Magento_Adminhtml_Model_Session
+     */
+    protected $_adminhtmlSession;
+
+    /**
+     * @var Magento_VersionsCms_Model_Page_Revision
+     */
+    protected $_pageRevision;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_VersionsCms_Model_Config $cmsConfig
+     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param Magento_VersionsCms_Model_Page_Version $pageVersion
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param Magento_VersionsCms_Model_Page_VersionFactory $pageVersionFactory
+     * @param Magento_Adminhtml_Model_Session $adminhtmlSession
+     * @param Magento_VersionsCms_Model_Page_Revision $pageRevision
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_VersionsCms_Model_Config $cmsConfig,
+        Magento_Backend_Model_Auth_Session $backendAuthSession,
+        Magento_VersionsCms_Model_Page_Version $pageVersion,
+        Magento_Cms_Model_PageFactory $pageFactory,
+        Magento_VersionsCms_Model_Page_VersionFactory $pageVersionFactory,
+        Magento_Adminhtml_Model_Session $adminhtmlSession,
+        Magento_VersionsCms_Model_Page_Revision $pageRevision
+    ) {
+        $this->_pageVersionFactory = $pageVersionFactory;
+        $this->_adminhtmlSession = $adminhtmlSession;
+        $this->_pageRevision = $pageRevision;
+        parent::__construct($context, $coreRegistry, $cmsConfig, $backendAuthSession, $pageVersion, $pageFactory);
+    }
+
     /**
      * Init actions
      *
@@ -30,8 +68,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
         $this->loadLayout()
             ->_setActiveMenu('Magento_Cms::cms_page')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'))
-        ;
+            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
         return $this;
     }
 
@@ -45,15 +82,15 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
     protected function _initVersion($versionId = null)
     {
         if (is_null($versionId)) {
-            $versionId = (int) $this->getRequest()->getParam('version_id');
+            $versionId = (int)$this->getRequest()->getParam('version_id');
         }
 
-        $version = Mage::getModel('Magento_VersionsCms_Model_Page_Version');
+        $version = $this->_pageVersionFactory->create();
         /* @var $version Magento_VersionsCms_Model_Page_Version */
 
         if ($versionId) {
-            $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
-            $accessLevel = Mage::getSingleton('Magento_VersionsCms_Model_Config')->getAllowedAccessLevel();
+            $userId = $this->_backendAuthSession->getUser()->getId();
+            $accessLevel = $this->_cmsConfig->getAllowedAccessLevel();
             $version->loadWithRestrictions($accessLevel, $userId, $versionId);
         }
 
@@ -71,17 +108,14 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
         $version = $this->_initVersion();
 
         if (!$version->getId()) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
-                __('We could not load the specified revision.'));
-
-            $this->_redirect('*/cms_page/edit',
-                array('page_id' => $this->getRequest()->getParam('page_id')));
+            $this->_adminhtmlSession->addError(__('We could not load the specified revision.'));
+            $this->_redirect('*/cms_page/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
             return;
         }
 
-        $page = $this->_initPage();
+        $this->_initPage();
 
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
+        $data = $this->_adminhtmlSession->getFormData(true);
         if (!empty($data)) {
             $_data = $version->getData();
             $_data = array_merge($_data, $data);
@@ -105,12 +139,13 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
     public function saveAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             // init model and set data
             $version = $this->_initVersion();
 
             // if current user not publisher he can't change owner
-            if (!Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserPublishRevision()) {
+            if (!$this->_cmsConfig->canCurrentUserPublishRevision()) {
                 unset($data['user_id']);
             }
             $version->addData($data);
@@ -121,9 +156,9 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
                 $version->save();
 
                 // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You have saved the version.'));
+                $this->_adminhtmlSession->addSuccess(__('You have saved the version.'));
                 // clear previously saved data from session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
+                $this->_adminhtmlSession->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/' . $this->getRequest()->getParam('back'),
@@ -139,15 +174,14 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
 
             } catch (Exception $e) {
                 // display error message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_adminhtmlSession->addError($e->getMessage());
                 // save data in session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
+                $this->_adminhtmlSession->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('*/*/edit',
-                    array(
-                        'page_id' => $this->getRequest()->getParam('page_id'),
-                        'version_id' => $this->getRequest()->getParam('version_id'),
-                        ));
+                $this->_redirect('*/*/edit', array(
+                    'page_id' => $this->getRequest()->getParam('page_id'),
+                    'version_id' => $this->getRequest()->getParam('version_id'),
+                ));
                 return;
             }
         }
@@ -180,15 +214,13 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
         $ids = $this->getRequest()->getParam('revision');
         if (!is_array($ids)) {
             $this->_getSession()->addError(__('Please select revision(s).'));
-        }
-        else {
+        } else {
             try {
-                $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
-                $accessLevel = Mage::getSingleton('Magento_VersionsCms_Model_Config')->getAllowedAccessLevel();
+                $userId = $this->_backendAuthSession->getUser()->getId();
+                $accessLevel = $this->_cmsConfig->getAllowedAccessLevel();
 
                 foreach ($ids as $id) {
-                    $revision = Mage::getSingleton('Magento_VersionsCms_Model_Page_Revision')
-                        ->loadWithRestrictions($accessLevel, $userId, $id);
+                    $revision = $this->_pageRevision->loadWithRestrictions($accessLevel, $userId, $id);
 
                     if ($revision->getId()) {
                         $revision->delete();
@@ -217,23 +249,24 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
     public function deleteAction()
     {
         // check if we know what should be deleted
-        if ($id = $this->getRequest()->getParam('version_id')) {
+        $id = $this->getRequest()->getParam('version_id');
+        if ($id) {
              // init model
             $version = $this->_initVersion();
             $error = false;
             try {
                 $version->delete();
                 // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You have deleted the version.'));
+                $this->_adminhtmlSession->addSuccess(__('You have deleted the version.'));
                 $this->_redirect('*/cms_page/edit', array('page_id' => $version->getPageId()));
                 return;
             } catch (Magento_Core_Exception $e) {
                 // display error message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_adminhtmlSession->addError($e->getMessage());
                 $error = true;
             } catch (Exception $e) {
                 $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong while deleting this version.'));
+                $this->_adminhtmlSession->addError(__('Something went wrong while deleting this version.'));
                 $error = true;
             }
 
@@ -244,7 +277,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
             }
         }
         // display error message
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We can't find a version to delete."));
+        $this->_adminhtmlSession->addError(__("We can't find a version to delete."));
         // go to grid
         $this->_redirect('*/cms_page/edit', array('_current' => true));
         return $this;
@@ -258,16 +291,16 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
     public function newAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             // init model and set data
             $version = $this->_initVersion();
 
-            $version->addData($data)
-                ->unsetData($version->getIdFieldName());
+            $version->addData($data)->unsetData($version->getIdFieldName());
 
             // only if user not specified we set current user as owner
             if (!$version->getUserId()) {
-                $version->setUserId(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId());
+                $version->setUserId($this->_backendAuthSession->getUser()->getId());
             }
 
             if (isset($data['revision_id'])) {
@@ -279,9 +312,9 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
             try {
                 $version->save();
                 // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You have created the new version.'));
+                $this->_adminhtmlSession->addSuccess(__('You have created the new version.'));
                 // clear previously saved data from session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
+                $this->_adminhtmlSession->setFormData(false);
                 if (isset($data['revision_id'])) {
                     $this->_redirect('*/cms_page_revision/edit', array(
                         'page_id' => $version->getPageId(),
@@ -296,10 +329,10 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
                 return;
             } catch (Exception $e) {
                 // display error message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_adminhtmlSession->addError($e->getMessage());
                 if ($this->_getRefererUrl()) {
                     // save data in session
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
+                    $this->_adminhtmlSession->setFormData($data);
                 }
                 // redirect to edit form
                 $this->_redirectReferer($this->getUrl('*/cms_page/edit',
@@ -321,17 +354,13 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
         switch ($this->getRequest()->getActionName()) {
             case 'new':
             case 'save':
-                return Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserSaveVersion();
-                break;
+                return $this->_cmsConfig->canCurrentUserSaveVersion();
             case 'delete':
-                return Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserDeleteVersion();
-                break;
+                return $this->_cmsConfig->canCurrentUserDeleteVersion();
             case 'massDeleteRevisions':
-                return Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserDeleteRevision();
-                break;
+                return $this->_cmsConfig->canCurrentUserDeleteRevision();
             default:
                 return $this->_authorization->isAllowed('Magento_Cms::page');
-                break;
         }
     }
 }

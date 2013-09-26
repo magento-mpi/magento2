@@ -8,16 +8,32 @@
  * @license     {license_link}
  */
 
-
 /**
  * Tool block with buttons
- *
- * @category   Magento
- * @package    Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Magento_Adminhtml_Block_Widget_Container
 {
+    /**
+     * @var Magento_VersionsCms_Model_Config
+     */
+    protected $_cmsConfig;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_VersionsCms_Model_Config $cmsConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_VersionsCms_Model_Config $cmsConfig,
+        array $data = array()
+    ) {
+        $this->_cmsConfig = $cmsConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Adding two main buttons
      *
@@ -34,7 +50,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Magen
                 'onclick' => 'preview()'
             ));
 
-        if (Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserPublishRevision()) {
+        if ($this->_cmsConfig->canCurrentUserPublishRevision()) {
             $this->_addButton('publish', array(
                 'id' => 'preview-buttons-publish',
                 'label' => 'Publish',

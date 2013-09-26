@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Page Tree Edit Form Container Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
@@ -22,21 +18,29 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit extends Magento_Bac
      *
      * @var Magento_VersionsCms_Helper_Data
      */
-    protected $_cmsData = null;
+    protected $_cmsData;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * @param Magento_VersionsCms_Helper_Data $cmsData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_VersionsCms_Helper_Data $cmsData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -60,7 +64,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit extends Magento_Bac
             'onclick'   => 'deleteCurrentHierarchy()',
         ), -1, 1);
 
-        if (!Mage::app()->hasSingleStore()) {
+        if (!$this->_storeManager->hasSingleStore()) {
             $this->_addButton('delete_multiple', array(
                 'label'     => $this->_cmsData->getDeleteMultipleHierarchiesText(),
                 'class'     => 'delete',

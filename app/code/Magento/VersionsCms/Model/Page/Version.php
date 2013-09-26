@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms page version model
  *
@@ -28,14 +27,16 @@
  * @method Magento_VersionsCms_Model_Page_Version setVersionNumber(int $value)
  * @method string getCreatedAt()
  * @method Magento_VersionsCms_Model_Page_Version setCreatedAt(string $value)
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_VersionsCms_Model_Page_Version extends Magento_Core_Model_Abstract
 {
+    /**
+     * Access level constants
+     */
+    const ACCESS_LEVEL_PRIVATE = 'private';
+    const ACCESS_LEVEL_PROTECTED = 'protected';
+    const ACCESS_LEVEL_PUBLIC = 'public';
+
     /**
      * Prefix of model events names.
      *
@@ -52,11 +53,63 @@ class Magento_VersionsCms_Model_Page_Version extends Magento_Core_Model_Abstract
     protected $_eventObject = 'version';
 
     /**
-     * Access level constants
+     * @var Magento_VersionsCms_Model_IncrementFactory
      */
-    const ACCESS_LEVEL_PRIVATE = 'private';
-    const ACCESS_LEVEL_PROTECTED = 'protected';
-    const ACCESS_LEVEL_PUBLIC = 'public';
+    protected $_cmsIncrementFactory;
+
+    /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @var Magento_VersionsCms_Model_Resource_Increment
+     */
+    protected $_cmsResourceIncrement;
+
+    /**
+     * @var Magento_VersionsCms_Model_Config
+     */
+    protected $_cmsConfig;
+
+    /**
+     * @var Magento_VersionsCms_Model_Page_RevisionFactory
+     */
+    protected $_pageRevisionFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_VersionsCms_Model_IncrementFactory $cmsIncrementFactory
+     * @param Magento_Core_Model_Date $coreDate
+     * @param Magento_VersionsCms_Model_Resource_Increment $cmsResourceIncrement
+     * @param Magento_VersionsCms_Model_Config $cmsConfig
+     * @param Magento_VersionsCms_Model_Page_RevisionFactory $pageRevisionFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_VersionsCms_Model_IncrementFactory $cmsIncrementFactory,
+        Magento_Core_Model_Date $coreDate,
+        Magento_VersionsCms_Model_Resource_Increment $cmsResourceIncrement,
+        Magento_VersionsCms_Model_Config $cmsConfig,
+        Magento_VersionsCms_Model_Page_RevisionFactory $pageRevisionFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_cmsIncrementFactory = $cmsIncrementFactory;
+        $this->_coreDate = $coreDate;
+        $this->_cmsResourceIncrement = $cmsResourceIncrement;
+        $this->_cmsConfig = $cmsConfig;
+        $this->_pageRevisionFactory = $pageRevisionFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Constructor
@@ -71,20 +124,23 @@ class Magento_VersionsCms_Model_Page_Version extends Magento_Core_Model_Abstract
      * Preparing data before save
      *
      * @return Magento_VersionsCms_Model_Page_Version
+     * @throws Magento_Core_Exception
      */
     protected function _beforeSave()
     {
         if (!$this->getId()) {
-            $incrementNumber = Mage::getModel('Magento_VersionsCms_Model_Increment')
-                ->getNewIncrementId(Magento_VersionsCms_Model_Increment::TYPE_PAGE,
-                        $this->getPageId(), Magento_VersionsCms_Model_Increment::LEVEL_VERSION);
+            $incrementNumber = $this->_cmsIncrementFactory->create()->getNewIncrementId(
+                Magento_VersionsCms_Model_Increment::TYPE_PAGE,
+                $this->getPageId(),
+                Magento_VersionsCms_Model_Increment::LEVEL_VERSION
+            );
 
             $this->setVersionNumber($incrementNumber);
-            $this->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+            $this->setCreatedAt($this->_coreDate->gmtDate());
         }
 
         if (!$this->getLabel()) {
-            Mage::throwException(__('Please enter a version label.'));
+            throw new Magento_Core_Exception(__('Please enter a version label.'));
         }
 
         // We cannot allow changing access level for some versions
@@ -94,7 +150,7 @@ class Magento_VersionsCms_Model_Page_Version extends Magento_Core_Model_Abstract
                 /* @var $resource Magento_VersionsCms_Model_Resource_Page_Version */
 
                 if ($resource->isVersionLastPublic($this)) {
-                    Mage::throwException(
+                    throw new Magento_Core_Exception(
                         __('Cannot change version access level because it is the last public version for its page.')
                     );
                 }
@@ -114,11 +170,11 @@ class Magento_VersionsCms_Model_Page_Version extends Magento_Core_Model_Abstract
         // If this was a new version we should create initial revision for it
         // from specified revision or from latest for parent version
         if ($this->getOrigData($this->getIdFieldName()) != $this->getId()) {
-            $revision = Mage::getModel('Magento_VersionsCms_Model_Page_Revision');
+            $revision = $this->_pageRevisionFactory->create();
 
             // setting data for load
             $userId = $this->getUserId();
-            $accessLevel = Mage::getSingleton('Magento_VersionsCms_Model_Config')->getAllowedAccessLevel();
+            $accessLevel = $this->_cmsConfig->getAllowedAccessLevel();
 
             if ($this->getInitialRevisionData()) {
                 $revision->setData($this->getInitialRevisionData());
@@ -139,6 +195,7 @@ class Magento_VersionsCms_Model_Page_Version extends Magento_Core_Model_Abstract
      * Checking some moments before we can actually delete version
      *
      * @return Magento_VersionsCms_Model_Page_Version
+     * @throws Magento_Core_Exception
      */
     protected function _beforeDelete()
     {
@@ -146,14 +203,14 @@ class Magento_VersionsCms_Model_Page_Version extends Magento_Core_Model_Abstract
         /* @var $resource Magento_VersionsCms_Model_Resource_Page_Version */
         if ($this->isPublic()) {
             if ($resource->isVersionLastPublic($this)) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Version "%1" cannot be removed because it is the last public page version.', $this->getLabel())
                 );
             }
         }
 
         if ($resource->isVersionHasPublishedRevision($this)) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Version "%1" cannot be removed because its revision is published.', $this->getLabel())
             );
         }
@@ -164,15 +221,15 @@ class Magento_VersionsCms_Model_Page_Version extends Magento_Core_Model_Abstract
     /**
      * Removing unneeded data from increment table after version was removed.
      *
-     * @param $observer
      * @return Magento_VersionsCms_Model_Observer
      */
     protected function _afterDelete()
     {
-        Mage::getResourceSingleton('Magento_VersionsCms_Model_Resource_Increment')
-            ->cleanIncrementRecord(Magento_VersionsCms_Model_Increment::TYPE_PAGE,
-                $this->getId(),
-                Magento_VersionsCms_Model_Increment::LEVEL_REVISION);
+        $this->_cmsResourceIncrement->cleanIncrementRecord(
+            Magento_VersionsCms_Model_Increment::TYPE_PAGE,
+            $this->getId(),
+            Magento_VersionsCms_Model_Increment::LEVEL_REVISION
+        );
 
         return parent::_afterDelete();
     }

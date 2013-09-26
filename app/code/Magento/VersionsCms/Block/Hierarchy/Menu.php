@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Hierarchy Context Menu
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Template
 {
@@ -50,11 +46,6 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
     protected $_totalMenuNodes = 0;
 
     /**
-     * Initialize allowed Tags attributes
-     *
-     */
-
-    /**
      * Current Hierarchy Node Page Instance
      *
      * @var Magento_VersionsCms_Model_Hierarchy_Node
@@ -66,20 +57,29 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * @var Magento_VersionsCms_Model_Hierarchy_NodeFactory
+     */
+    protected $_nodeFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_nodeFactory = $nodeFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -88,8 +88,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
         parent::_construct();
 
         if ($this->getNodeId()) {
-            $this->_node = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node')
-                ->load($this->getNodeId());
+            $this->_node = $this->_nodeFactory->create()->load($this->getNodeId());
         } else {
             $this->_node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
         }
@@ -128,10 +127,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
 
         if ($this->_node instanceof Magento_Core_Model_Abstract) {
             $params = $this->_node->getMetadataContextMenuParams();
-            if ($params !== null
-                && isset($params['menu_visibility'])
-                && $params['menu_visibility'] == 1)
-            {
+            if ($params !== null && isset($params['menu_visibility']) && $params['menu_visibility'] == 1) {
                 $this->addData(array(
                     'down'      => isset($params['menu_levels_down']) ? $params['menu_levels_down'] : 0,
                     'ordered'   => isset($params['menu_ordered']) ? $params['menu_ordered'] : '0',
@@ -181,7 +177,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
                 if (in_array($type, array('1','A','a','I','i'))) {
                     return $type;
                 }
-            } else if ($this->getListContainer() == self::TAG_UL) {
+            } elseif ($this->getListContainer() == self::TAG_UL) {
                 if (in_array($type, array('disc', 'circle', 'square'))) {
                     return $type;
                 }
@@ -226,16 +222,16 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
                 $type = $this->getListType();
                 if ($type) {
                     //$template .= ' type="'.$type.'"';
-                    $class .= ' type-'.$type;
+                    $class .= ' type-' . $type;
                 }
 
-                $template .= ' class="'.$class.'"';
+                $template .= ' class="' . $class . '"';
             }
 
             foreach ($this->_allowedListAttributes as $attribute) {
                 $value = $this->getData('list_' . $attribute);
                 if (!empty($value)) {
-                    $template .= ' '.$attribute.'="'.$this->escapeHtml($value).'"';
+                    $template .= ' ' . $attribute . '="' . $this->escapeHtml($value) . '"';
                 }
             }
             if ($this->getData('list_props')) {
@@ -278,7 +274,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
             foreach ($this->_allowedListAttributes as $attribute) {
                 $value = $this->getData('item_' . $attribute);
                 if (!empty($value)) {
-                    $template .= ' '.$attribute.'="'.$this->escapeHtml($value).'"';
+                    $template .= ' ' . $attribute . '="' . $this->escapeHtml($value) . '"';
                 }
             }
             if ($this->getData('item_props')) {
@@ -330,7 +326,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
             foreach ($this->_allowedLinkAttributes as $attribute) {
                 $value = $this->getData('link_' . $attribute);
                 if (!empty($value)) {
-                    $template .= ' '.$attribute.'="'.$this->escapeHtml($value).'"';
+                    $template .= ' ' . $attribute . '="' . $this->escapeHtml($value) . '"';
                 }
             }
             $template .= '><span>__LABEL__</span></a>';
@@ -354,7 +350,7 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
             foreach ($this->_allowedSpanAttributes as $attribute) {
                 $value = $this->getData('span_' . $attribute);
                 if (!empty($value)) {
-                    $template .= ' '.$attribute.'="'.$this->escapeHtml($value).'"';
+                    $template .= ' ' . $attribute . '="' . $this->escapeHtml($value) . '"';
                 }
             }
             $template .= '>__LABEL__</strong>';
@@ -435,6 +431,9 @@ class Magento_VersionsCms_Block_Hierarchy_Menu extends Magento_Core_Block_Templa
         return $html;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         if (!$this->_node || !$this->getMenuEnabled()) {
