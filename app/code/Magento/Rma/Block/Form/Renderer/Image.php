@@ -11,13 +11,31 @@
 
 /**
  * Rma Item Form Renderer Block for select
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Form_Renderer_Image extends Magento_CustomAttribute_Block_Form_Renderer_Image
 {
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($locale, $coreData, $context, $data);
+    }
 
     /**
      * Gets image url path
@@ -26,18 +44,9 @@ class Magento_Rma_Block_Form_Renderer_Image extends Magento_CustomAttribute_Bloc
      */
     public function getImageUrl()
     {
-        $url = Mage::getBaseUrl('media')
-            .Magento_Rma_Model_Item::ITEM_IMAGE_URL;
-
-
+        $url = $this->_storeManager->getStore()->getBaseUrl('media') . Magento_Rma_Model_Item::ITEM_IMAGE_URL;
         $file = $this->getValue();
-        if(substr($file, 0, 1) == '/') {
-            $file = $file;
-        }
-        $url = $url.$file;
-
+        $url = $url . $file;
         return $url;
     }
-
-
 }

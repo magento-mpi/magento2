@@ -14,7 +14,7 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected $_countryCollection;
 
     /**
-     * @var Magento_Directory_Model_Resource_Region_Collection_Factory|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Directory_Model_Resource_Region_CollectionFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_regionCollection;
 
@@ -46,7 +46,7 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $this->_regionCollection = $this->getMock('Magento_Directory_Model_Resource_Region_Collection', array(),
             array(), '', false);
-        $regCollFactory = $this->getMock('Magento_Directory_Model_Resource_Region_Collection_Factory', array(),
+        $regCollFactory = $this->getMock('Magento_Directory_Model_Resource_Region_CollectionFactory', array('create'),
             array(), '', false);
         $regCollFactory->expects($this->any())
             ->method('create')
@@ -60,8 +60,19 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($this->_store));
 
-        $this->_object = new Magento_Directory_Helper_Data($context, $configCacheType, $this->_countryCollection,
-            $regCollFactory, $this->_coreHelper, $storeManager);
+        $currencyFactory = $this->getMock('Magento_Directory_Model_CurrencyFactory', array(), array(), '', false);
+
+        $arguments = array(
+            'context' => $context,
+            'configCacheType' => $configCacheType,
+            'countryCollection' => $this->_countryCollection,
+            'regCollFactory' => $regCollFactory,
+            'coreHelper' => $this->_coreHelper,
+            'storeManager' => $storeManager,
+            'currencyFactory' => $currencyFactory,
+            'config' => $this->getMock('Magento_Core_Model_Config', array(), array(), '', false),
+        );
+        $this->_object = $objectManager->getObject('Magento_Directory_Helper_Data', $arguments);
     }
 
     public function testGetRegionJson()

@@ -55,14 +55,30 @@ class Magento_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Tax_Model_Calculation
+     */
+    protected $_taxCalculation;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Tax_Model_Calculation $taxCalculation
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Tax_Model_Calculation $taxCalculation
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_taxCalculation = $taxCalculation;
         parent::__construct($context);
     }
 
@@ -420,13 +436,13 @@ class Magento_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get gift wrapping items price with tax processing
      *
-     * @param  Magento_Object $item
-     * @param  float $price
-     * @param  bool $includingTax
-     * @param  null|Magento_Customer_Model_Address $shippingAddress
-     * @param  null|Magento_Customer_Model_Address $billingAddress
-     * @param  null|int $ctc
-     * @param  mixed $store
+     * @param Magento_Object $item
+     * @param float $price
+     * @param bool $includeTax
+     * @param null|Magento_Customer_Model_Address $shippingAddress
+     * @param null|Magento_Customer_Model_Address $billingAddress
+     * @param null|int $ctc
+     * @param mixed $store
      * @return float
      */
     public function getPrice($item, $price, $includeTax = false, $shippingAddress = null, $billingAddress = null,
@@ -435,16 +451,16 @@ class Magento_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
         if (!$price) {
             return $price;
         }
-        $store = Mage::app()->getStore($store);
+        $store = $this->_storeManager->getStore($store);
         $taxClassId = $item->getTaxClassId();
         if ($taxClassId && $includeTax) {
-            $request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(
+            $request = $this->_taxCalculation->getRateRequest(
                 $shippingAddress,
                 $billingAddress,
                 $ctc,
                 $store
             );
-            $percent = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($request->setProductClassId($taxClassId));
+            $percent = $this->_taxCalculation->getRate($request->setProductClassId($taxClassId));
             if ($percent) {
                 $price = $price * (1 + ($percent / 100));
             }

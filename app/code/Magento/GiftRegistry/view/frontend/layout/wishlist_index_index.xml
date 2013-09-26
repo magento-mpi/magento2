@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer.wishlist.item.info">
+    <referenceBlock name="customer.wishlist.item.info">
         <block class="Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry" name="customer.wishlist.item.giftregistry" template="wishlist/item/column/registry.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -9,13 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_catalog_product_superconfig_config"/>
-    <reference name="product_tabs">
+    <referenceBlock name="product_tabs">
         <action method="addTab">
             <argument name="name" xsi:type="string">downloadable_items</argument>
             <argument name="block" xsi:type="string">Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</argument>
         </action>
-    </reference>
-    <reference name="product-type-tabs">
+    </referenceBlock>
+    <referenceContainer name="product-type-tabs">
         <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
             <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
                 <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" template="Magento_Adminhtml::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
@@ -23,5 +23,5 @@
                 <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix" template="Magento_Adminhtml::catalog/product/edit/super/matrix.phtml" as="matrix"/>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

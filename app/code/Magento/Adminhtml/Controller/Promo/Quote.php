@@ -376,7 +376,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
                 }
 
                 /** @var $generator Magento_SalesRule_Model_Coupon_Massgenerator */
-                $generator = $rule->getCouponMassGenerator();
+                $generator = $this->_objectManager->get('Magento_SalesRule_Model_Coupon_Massgenerator');
                 if (!$generator->validateData($data)) {
                     $result['error'] = __('Invalid data provided');
                 } else {

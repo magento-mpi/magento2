@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="product.tooltip">
+    <referenceBlock name="product.tooltip">
         <container name="product.info.addtocart.paypaluk.wrapper" label="PayPal Express Checkout (Payflow Edition) Shortcut Wrapper" htmlTag="div">
             <block class="Magento_PaypalUk_Block_Express_Shortcut" name="product.info.addtocart.paypaluk" template="Magento_Paypal::express/shortcut.phtml">
                 <action method="setIsInCatalogProduct">
@@ -19,5 +19,5 @@
                 </action>
             </block>
         </container>
-    </reference>
+    </referenceBlock>
 </layout>

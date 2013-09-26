@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Directory Region Resource Model
- *
- * @category    Magento
- * @package     Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resource_Db_Abstract
 {
@@ -26,8 +21,24 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
     protected $_regionNameTable;
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_LocaleInterface $locale
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_LocaleInterface $locale
+    ) {
+        parent::__construct($resource);
+        $this->_locale = $locale;
+    }
+
+    /**
      * Define main and locale region name tables
-     *
      */
     protected function _construct()
     {
@@ -41,7 +52,6 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
      * @param string $field
      * @param mixed $value
      * @param Magento_Core_Model_Abstract $object
-     * 
      * @return Magento_DB_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -49,8 +59,8 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
         $select  = parent::_getLoadSelect($field, $value, $object);
         $adapter = $this->_getReadAdapter();
 
-        $locale       = Mage::app()->getLocale()->getLocaleCode();
-        $systemLocale = Mage::app()->getDistroLocaleCode();
+        $locale       = $this->_locale->getLocaleCode();
+        $systemLocale = Magento_Core_Model_App::DISTRO_LOCALE_CODE;
 
         $regionField = $adapter->quoteIdentifier($this->getMainTable() . '.' . $this->getIdFieldName());
 
@@ -81,13 +91,12 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
      * @param int $countryId
      * @param string $value
      * @param string $field
-     * 
      * @return Magento_Directory_Model_Resource_Region
      */
     protected function _loadByCountry($object, $countryId, $value, $field)
     {
         $adapter        = $this->_getReadAdapter();
-        $locale         = Mage::app()->getLocale()->getLocaleCode();
+        $locale         = $this->_locale->getLocaleCode();
         $joinCondition  = $adapter->quoteInto('rname.region_id = region.region_id AND rname.locale = ?', $locale);
         $select         = $adapter->select()
             ->from(array('region' => $this->getMainTable()))
@@ -128,7 +137,6 @@ class Magento_Directory_Model_Resource_Region extends Magento_Core_Model_Resourc
      * @param Magento_Directory_Model_Region $region
      * @param string $regionName
      * @param string $countryId
-     * 
      * @return Magento_Directory_Model_Resource_Region
      */
     public function loadByName(Magento_Directory_Model_Region $region, $regionName, $countryId)

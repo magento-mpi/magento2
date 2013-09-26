@@ -76,4 +76,5 @@ return array(
     array('static', 'Magento_Core_Model_Email_Template_Filter'),
     array('_useAnalyticFunction'),
     array('_registry', 'Mage'),
+    array('_defaultIndexer', 'Magento_CatalogInventory_Model_Resource_Indexer_Stock'),
 );

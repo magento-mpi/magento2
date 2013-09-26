@@ -17,6 +17,39 @@
  */
 class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstract
 {
+    /**
+     * @var Magento_Catalog_Model_Layer
+     */
+    protected $_layer;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @param Magento_Catalog_Model_Layer $layer
+     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Layer $layer,
+        Magento_Catalog_Model_Product_Visibility $productVisibility,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_layer = $layer;
+        $this->_productVisibility = $productVisibility;
+        parent::__construct($catalogData, $customerSession, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         /*
@@ -38,7 +71,7 @@ class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstr
         if ($categoryId) {
             $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             if ($category && $category->getId()) {
-                $layer = Mage::getSingleton('Magento_Catalog_Model_Layer')->setStore($storeId);
+                $layer = $this->_layer->setStore($storeId);
                 //want to load all products no matter anchor or not
                 $category->setIsAnchor(true);
                 $newurl = $category->getUrl();
@@ -72,7 +105,7 @@ class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstr
                 $_productCollection = $currentCategory
                     ->getProductCollection()
                     ->addAttributeToSort('updated_at','desc')
-                    ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds())
+                    ->setVisibility($this->_productVisibility->getVisibleInCatalogIds())
                     ->setCurPage(1)
                     ->setPageSize(50)
                 ;

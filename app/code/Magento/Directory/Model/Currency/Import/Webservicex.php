@@ -13,6 +13,9 @@
  */
 class Magento_Directory_Model_Currency_Import_Webservicex extends Magento_Directory_Model_Currency_Import_Abstract
 {
+    /**
+     * @var string
+     */
     protected $_url = 'http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency={{CURRENCY_FROM}}&ToCurrency={{CURRENCY_TO}}';
 
      /**
@@ -30,15 +33,24 @@ class Magento_Directory_Model_Currency_Import_Webservicex extends Magento_Direct
     protected $_coreStoreConfig;
 
     /**
-     *
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        parent::__construct($currencyFactory);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_httpClient = new Magento_HTTP_ZendClient();
     }
 
+    /**
+     * @param string $currencyFrom
+     * @param string $currencyTo
+     * @param int $retry
+     * @return float|null
+     */
     protected function _convert($currencyFrom, $currencyTo, $retry=0)
     {
         $url = str_replace('{{CURRENCY_FROM}}', $currencyFrom, $this->_url);

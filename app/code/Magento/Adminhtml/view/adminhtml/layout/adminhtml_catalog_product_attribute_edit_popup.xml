@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <remove name="left"/>
-    <reference name="attribute_edit_content">
+    <referenceBlock name="attribute_edit_content">
         <arguments>
             <argument name="template" xsi:type="string">Magento_Adminhtml::catalog/product/attribute/form.phtml</argument>
         </arguments>
@@ -20,5 +20,5 @@
             <block class="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels"/>
             <block class="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front-options"/>
         </container>
-    </reference>
+    </referenceBlock>
 </layout>

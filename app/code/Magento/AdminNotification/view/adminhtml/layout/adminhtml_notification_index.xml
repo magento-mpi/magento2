@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_notification_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_AdminNotification_Block_Inbox" name="adminhtml.notification.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

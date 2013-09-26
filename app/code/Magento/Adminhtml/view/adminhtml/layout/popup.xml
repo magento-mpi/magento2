@@ -11,9 +11,9 @@
     <update handle="default"/>
     <remove name="header"/>
     <remove name="menu"/>
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">admin/popup.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>
