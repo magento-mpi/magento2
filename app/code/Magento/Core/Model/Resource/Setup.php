@@ -326,11 +326,14 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         $dbFiles    = array();
         $typeFiles  = array();
         $regExpDb   = sprintf('#^%s-(.*)\.(php|sql)$#i', $actionType);
+        $regExpType = sprintf('#^%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
         $handlerDir = dir($filesDir);
         while (false !== ($file = $handlerDir->read())) {
             $matches = array();
             if (preg_match($regExpDb, $file, $matches)) {
                 $dbFiles[$matches[1]] = $filesDir . DS . $file;
+            } else if (preg_match($regExpType, $file, $matches)) {
+                $typeFiles[$matches[1]] = $filesDir . DS . $file;
             }
         }
         $handlerDir->close();
