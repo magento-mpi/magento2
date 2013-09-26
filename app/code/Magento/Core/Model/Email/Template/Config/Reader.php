@@ -19,21 +19,21 @@ class Magento_Core_Model_Email_Template_Config_Reader extends Magento_Config_Rea
      * @param Magento_Core_Model_Email_Template_Config_Converter $converter
      * @param Magento_Core_Model_Email_Template_Config_SchemaLocator $schemaLocator
      * @param Magento_Config_ValidationStateInterface $validationState
-     * @param Magento_Core_Model_Module_Dir_ReverseResolver $moduleNameResolver
+     * @param Magento_Core_Model_Module_Dir_ReverseResolver $moduleDirResolver
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
         Magento_Core_Model_Email_Template_Config_Converter $converter,
         Magento_Core_Model_Email_Template_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
-        Magento_Core_Model_Module_Dir_ReverseResolver $moduleNameResolver
+        Magento_Core_Model_Module_Dir_ReverseResolver $moduleDirResolver
     ) {
         $fileName = 'email_templates.xml';
         $idAttributes = array(
             '/config/template' => 'id',
         );
         parent::__construct($fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes);
-        $this->_moduleDirResolver = $moduleNameResolver;
+        $this->_moduleDirResolver = $moduleDirResolver;
     }
 
     /**
