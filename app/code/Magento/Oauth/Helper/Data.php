@@ -153,7 +153,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
         $protocolParamsNotSet = !$protocolParams;
 
         $queryString = Zend_Uri_Http::fromString($requestUrl)->getQuery();
-        $this->_extractQueryStringParams($requestUrl, $protocolParams, $queryString);
+        $this->_extractQueryStringParams($protocolParams, $queryString);
 
         if ($protocolParamsNotSet) {
             $this->_fetchProtocolParamsFromQuery($protocolParams, $queryString);
