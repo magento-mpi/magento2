@@ -211,7 +211,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
         $this->assertEquals($oauthVerifier, $responseData['oauth_verifier']);
     }
 
-    protected function _getRequestTokenParams(array $amendments = [])
+    protected function _getRequestTokenParams($amendments = array())
     {
         $requiredParams = [
             'oauth_version' => '1.0',
@@ -649,7 +649,11 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     {
         $this->_setupConsumer();
         $this->_setupNonce();
-        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_ACCESS, self::CONSUMER_ID, $this->_oauthVerifier, true);
+        $this->_setupToken(true,
+                           Magento_Oauth_Model_Token::TYPE_ACCESS,
+                           self::CONSUMER_ID,
+                           $this->_oauthVerifier,
+                           true);
 
         $this->_service->validateAccessTokenRequest($this->_getAccessTokenRequiredParams());
     }
@@ -685,7 +689,11 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     public function testValidateAccessTokenRevoked()
     {
         $this->_setupConsumer();
-        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_ACCESS, self::CONSUMER_ID, $this->_oauthVerifier, true);
+        $this->_setupToken(true,
+                           Magento_Oauth_Model_Token::TYPE_ACCESS,
+                           self::CONSUMER_ID,
+                           $this->_oauthVerifier,
+                           true);
 
         $this->_service->validateAccessToken(['token' => $this->_oauthToken]);
     }
@@ -698,7 +706,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_service->validateAccessToken(array('token' => $this->_oauthToken))['isValid']);
     }
 
-    protected function _getAccessTokenRequiredParams(array $amendments = [])
+    protected function _getAccessTokenRequiredParams($amendments = array())
     {
         $requiredParams = [
             'oauth_consumer_key' => $this->_generateRandomString(Magento_Oauth_Model_Consumer::KEY_LENGTH),
