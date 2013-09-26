@@ -25,12 +25,22 @@ class Magento_Reminder_Model_Observer
     protected $_reminderData = null;
 
     /**
+     * Remainder Rule Factory
+     *
+     * @var Magento_Reminder_Model_RuleFactory
+     */
+    protected $_ruleFactory;
+
+    /**
      * @param Magento_Reminder_Helper_Data $reminderData
+     * @param Magento_Reminder_Model_RuleFactory $ruleFactory
      */
     public function __construct(
-        Magento_Reminder_Helper_Data $reminderData
+        Magento_Reminder_Helper_Data $reminderData,
+        Magento_Reminder_Model_RuleFactory $ruleFactory
     ) {
         $this->_reminderData = $reminderData;
+        $this->_ruleFactory = $ruleFactory;
     }
 
     /**
@@ -106,7 +116,7 @@ class Magento_Reminder_Model_Observer
     public function scheduledNotification()
     {
         if ($this->_reminderData->isEnabled()) {
-            Mage::getModel('Magento_Reminder_Model_Rule')->sendReminderEmails();
+            $this->_ruleFactory->create()->sendReminderEmails();
             return $this;
         }
     }
@@ -124,7 +134,7 @@ class Magento_Reminder_Model_Observer
         $autoGeneration = $rule->getUseAutoGeneration();
 
         if ($couponType == Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
-            $model = Mage::getModel('Magento_Reminder_Model_Rule');
+            $model = $this->_ruleFactory->create();
             $ruleId = $rule->getId();
             $model->detachSalesRule($ruleId);
         }

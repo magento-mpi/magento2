@@ -15,6 +15,43 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * Store Manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Email Template Factory
+     *
+     * @var Magento_Backend_Model_Config_Source_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_storeManager = $storeManager;
+        $this->_templateFactory = $templateFactory;
+    }
+
+    /**
      * Prepare general properties form
      *
      * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
@@ -31,7 +68,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
             'comment' => __('Only customers who registered on a store view will receive emails related to that store view.'),
         ));
 
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $fieldset->addField("website_template_{$website->getId()}", 'note', array(
                 'label'    => $website->getName(),
                 'fieldset_html_class' => 'website',
@@ -81,7 +118,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
             'class'  => 'tree-store-scope'
         ));
 
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $fieldset->addField("website_label_{$website->getId()}", 'note', array(
                 'label'    => $website->getName(),
                 'fieldset_html_class' => 'website',
@@ -125,7 +162,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
      */
     public function getTemplatesOptionsArray()
     {
-        $template = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template');
+        $template = $this->_templateFactory->create();
         $template->setPath(Magento_Reminder_Model_Rule::XML_PATH_EMAIL_TEMPLATE);
 
         $options = $template->toOptionArray();

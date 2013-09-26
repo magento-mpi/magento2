@@ -36,14 +36,14 @@ class Magento_Backup_Model_Resource_Db
     /**
      * Initialize Backup DB resource model
      *
-     * @param Magento_Backup_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Backup_Model_Resource_HelperFactory $resHelperFactory
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
-        Magento_Backup_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Backup_Model_Resource_HelperFactory $resHelperFactory,
         Magento_Core_Model_Resource $resource
     ) {
-        $this->_resourceHelper = $resourceHelper;
+        $this->_resourceHelper = $resHelperFactory->create();
         $this->_write = $resource->getConnection('backup_write');
     }
 

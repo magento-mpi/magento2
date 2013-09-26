@@ -15,15 +15,37 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subcombine
     extends Magento_Reminder_Model_Condition_Combine_Abstract
 {
     /**
-     * Initialize model
+     * Wishlist Storeview Factory
      *
+     * @var Magento_Reminder_Model_Rule_Condition_Wishlist_StoreviewFactory
+     */
+    protected $_storeviewFactory;
+
+    /**
+     * Wishlist Attributes Factory
+     *
+     * @var Magento_Reminder_Model_Rule_Condition_Wishlist_AttributesFactory
+     */
+    protected $_attrFactory;
+
+    /**
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
+     * @param Magento_Reminder_Model_Rule_Condition_Wishlist_StoreviewFactory $storeviewFactory
+     * @param Magento_Reminder_Model_Rule_Condition_Wishlist_AttributesFactory $attrFactory
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        Magento_Reminder_Model_Rule_Condition_Wishlist_StoreviewFactory $storeviewFactory,
+        Magento_Reminder_Model_Rule_Condition_Wishlist_AttributesFactory $attrFactory,
+        array $data = array()
+    ) {
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Subcombine');
+        $this->_storeviewFactory = $storeviewFactory;
+        $this->_attrFactory = $attrFactory;
     }
 
     /**
@@ -36,10 +58,8 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subcombine
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview")
-                    ->getNewChildSelectOptions(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes")
-                    ->getNewChildSelectOptions()
+                $this->_storeviewFactory->create()->getNewChildSelectOptions(),
+                $this->_attrFactory->create()->getNewChildSelectOptions()
             )
         );
     }

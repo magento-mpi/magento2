@@ -13,12 +13,26 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
     extends Magento_Reminder_Model_Condition_Abstract
 {
     /**
+     * Store
+     *
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_store;
+
+    /**
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
+     * @param Magento_Core_Model_System_Store $store
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        Magento_Core_Model_System_Store $store,
+        array $data = array()
+    ) {
+        $this->_store = $store;
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview');
         $this->setValue(null);
     }
@@ -53,7 +67,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm());
+        $this->setValueOption($this->_store->getStoreValuesForForm());
         return $this;
     }
 
