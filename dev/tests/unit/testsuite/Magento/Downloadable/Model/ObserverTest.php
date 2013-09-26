@@ -132,7 +132,7 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_setObserverExpectedMethods($currentProduct, $newProduct);
 
-        $callbackJsonEncode = function($arg) {
+        $callbackJsonEncode = function ($arg) {
             return json_encode($arg);
         };
         $this->_helperJsonEncode->expects($this->atLeastOnce())
