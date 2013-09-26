@@ -11,7 +11,7 @@
  */
 namespace Magento\GiftCardAccount\Model;
 
-class CollectorPositionsTest extends \Magento\Sales\Model\CollectorPositionsTestAbstract
+class CollectorPositionsTest extends \Magento\Sales\Model\AbstractCollectorPositionsTest
 {
     /**
      * @return array

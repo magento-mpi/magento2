@@ -100,7 +100,7 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
         $routers = $this->_getMatchedRouters();
         /** @var $router \Magento\Core\Controller\Varien\Router\AbstractRouter */
         foreach ($routers as $router) {
-            /** @var $controller \Magento\Core\Controller\Varien\ActionAbstract */
+            /** @var $controller \Magento\Core\Controller\Varien\AbstractAction */
             $controller = $router->match($request);
             if ($controller) {
                 $this->_objectManager->get('Magento\DesignEditor\Model\State')

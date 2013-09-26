@@ -26,7 +26,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        /** @var \Magento\TestFramework\ObjectManager  $objectManager */
+        /** @var Magento_TestFramework_ObjectManager  $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
@@ -75,8 +75,8 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilterAttributeCollection()
     {
-        /** @var $model \Magento\ImportExport\Model\Export\StubEntityAbstract */
-        $model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\StubEntityAbstract');
+        /** @var $model \Magento\ImportExport\Model\Export\AbstractStubEntity */
+        $model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\AbstractStubEntity');
         $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $collection = $model->filterAttributeCollection($collection);
         /**

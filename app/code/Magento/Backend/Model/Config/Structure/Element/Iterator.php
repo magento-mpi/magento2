@@ -22,7 +22,7 @@ class Iterator implements \Iterator
     /**
      * Config structure element flyweight
      *
-     * @var \Magento\Backend\Model\Config\Structure\ElementAbstract
+     * @var \Magento\Backend\Model\Config\Structure\AbstractElement
      */
     protected $_flyweight;
 
@@ -41,9 +41,9 @@ class Iterator implements \Iterator
     protected $_lastId;
 
     /**
-     * @param \Magento\Backend\Model\Config\Structure\ElementAbstract $element
+     * @param \Magento\Backend\Model\Config\Structure\AbstractElement $element
      */
-    public function __construct(\Magento\Backend\Model\Config\Structure\ElementAbstract $element)
+    public function __construct(\Magento\Backend\Model\Config\Structure\AbstractElement $element)
     {
         $this->_flyweight = $element;
     }

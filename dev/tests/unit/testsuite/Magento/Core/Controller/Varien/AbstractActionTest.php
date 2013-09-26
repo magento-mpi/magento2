@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class Magento_Core_Controller_Varien_ActionAbstract
+ * Test class Magento_Core_Controller_Varien_AbstractAction
  */
 namespace Magento\Core\Controller\Varien;
 
-class ActionAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Controller\Varien\ActionAbstract
+     * @var \Magento\Core\Controller\Varien\AbstractAction
      */
     protected $_actionAbstract;
 
@@ -57,7 +57,7 @@ class ActionAbstractTest extends \PHPUnit_Framework_TestCase
      * Test for getRequest method
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getRequest
+     * @covers \Magento\Core\Controller\Varien\AbstractAction::getRequest
      */
     public function testGetRequest()
     {
@@ -68,7 +68,7 @@ class ActionAbstractTest extends \PHPUnit_Framework_TestCase
      * Test for getResponse method
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getResponse
+     * @covers \Magento\Core\Controller\Varien\AbstractAction::getResponse
      */
     public function testGetResponse()
     {
@@ -79,7 +79,7 @@ class ActionAbstractTest extends \PHPUnit_Framework_TestCase
      * Test for getResponse med. Checks that response headers are set correctly
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getResponse
+     * @covers \Magento\Core\Controller\Varien\AbstractAction::getResponse
      */
     public function testResponseHeaders()
     {
@@ -108,7 +108,7 @@ class ActionAbstractTest extends \PHPUnit_Framework_TestCase
      * Test for getFullActionName method
      *
      * @test
-     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getFullActionName
+     * @covers \Magento\Core\Controller\Varien\AbstractAction::getFullActionName
      */
     public function testGetFullActionName()
     {

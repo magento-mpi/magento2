@@ -31,7 +31,7 @@ class BillingAgreement
     {
         $event = $observer->getEvent();
         $methodInstance = $event->getMethodInstance();
-        if ($methodInstance instanceof \Magento\Sales\Model\Payment\Method\Billing\AgreementAbstract
+        if ($methodInstance instanceof \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement
             && false == $this->_authorization->isAllowed('Magento_Sales::use')
         ) {
             $event->getResult()->isAvailable = false;

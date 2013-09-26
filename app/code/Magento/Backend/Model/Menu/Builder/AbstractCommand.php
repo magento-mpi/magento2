@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Menu\Builder;
 
-abstract class CommandAbstract
+abstract class AbstractCommand
 {
     /**
      * List of required params
@@ -32,7 +32,7 @@ abstract class CommandAbstract
     /**
      * Next command in the chain
      *
-     * @var \Magento\Backend\Model\Menu\Builder\CommandAbstract
+     * @var \Magento\Backend\Model\Menu\Builder\AbstractCommand
      */
     protected $_next = null;
 
@@ -63,11 +63,11 @@ abstract class CommandAbstract
     /**
      * Add command as last in the list of callbacks
      *
-     * @param \Magento\Backend\Model\Menu\Builder\CommandAbstract $command
-     * @return \Magento\Backend\Model\Menu\Builder\CommandAbstract
+     * @param \Magento\Backend\Model\Menu\Builder\AbstractCommand $command
+     * @return \Magento\Backend\Model\Menu\Builder\AbstractCommand
      * @throws \InvalidArgumentException if invalid chaining command is supplied
      */
-    public function chain(\Magento\Backend\Model\Menu\Builder\CommandAbstract $command)
+    public function chain(\Magento\Backend\Model\Menu\Builder\AbstractCommand $command)
     {
         if (is_null($this->_next)) {
             $this->_next = $command;

@@ -17,7 +17,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\System;
 
-class Config extends \Magento\Backend\Controller\System\ConfigAbstract
+class Config extends \Magento\Backend\Controller\System\AbstractConfig
 {
     /**
      * Index action

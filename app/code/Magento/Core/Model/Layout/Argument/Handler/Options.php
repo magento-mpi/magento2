@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Model\Layout\Argument\Handler;
 
-class Options extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
+class Options extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
     /**
      * @var \Magento\ObjectManager

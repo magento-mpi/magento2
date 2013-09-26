@@ -14,7 +14,7 @@
 namespace Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring;
 
 class Initial
-    extends \Magento\Sales\Model\Quote\Address\Total\Nominal\RecurringAbstract
+    extends \Magento\Sales\Model\Quote\Address\Total\Nominal\AbstractRecurring
 {
     /**
      * Custom row total/profile keys

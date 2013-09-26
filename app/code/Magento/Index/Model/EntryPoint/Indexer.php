@@ -7,7 +7,7 @@
  */
 namespace Magento\Index\Model\EntryPoint;
 
-class Indexer extends \Magento\Core\Model\EntryPointAbstract
+class Indexer extends \Magento\Core\Model\AbstractEntryPoint
 {
     /**
      * Report directory

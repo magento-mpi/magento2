@@ -12,7 +12,7 @@
 namespace Magento\Backend\Model\Config\Structure\Element;
 
 class Field
-    extends \Magento\Backend\Model\Config\Structure\ElementAbstract
+    extends \Magento\Backend\Model\Config\Structure\AbstractElement
 {
 
     /**

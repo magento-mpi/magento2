@@ -22,7 +22,7 @@
             <value>adminhtml</value>
         </param>
         <param name="baseController">
-            <value>Magento\Backend\Controller\ActionAbstract</value>
+            <value>Magento\Backend\Controller\AbstractAction</value>
         </param>
         <param name="routerId">
             <value>admin</value>

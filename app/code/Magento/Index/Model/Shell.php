@@ -17,7 +17,7 @@
  */
 namespace Magento\Index\Model;
 
-class Shell extends \Magento\Core\Model\ShellAbstract
+class Shell extends \Magento\Core\Model\AbstractShell
 {
     /**
      * Error status - whether errors have happened

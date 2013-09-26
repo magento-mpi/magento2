@@ -11,7 +11,7 @@
  */
 namespace Magento\User\Controller\Adminhtml;
 
-class Auth extends \Magento\Backend\Controller\ActionAbstract
+class Auth extends \Magento\Backend\Controller\AbstractAction
 {
     /**
      * User model factory

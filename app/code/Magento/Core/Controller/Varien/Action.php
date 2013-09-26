@@ -20,7 +20,7 @@
  */
 namespace Magento\Core\Controller\Varien;
 
-class Action extends \Magento\Core\Controller\Varien\ActionAbstract
+class Action extends \Magento\Core\Controller\Varien\AbstractAction
 {
     const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
@@ -496,7 +496,7 @@ class Action extends \Magento\Core\Controller\Varien\ActionAbstract
                     $session->setSkipSessionIdFlag(true);
                 } elseif ($checkCookie) {
                     if (isset($_GET[$session->getSessionIdQueryParam()]) && \Mage::app()->getUseSessionInUrl()
-                        && $this->_sessionNamespace != \Magento\Backend\Controller\ActionAbstract::SESSION_NAMESPACE
+                        && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
                     ) {
                         $session->setCookieShouldBeReceived(true);
                     } else {
@@ -758,7 +758,7 @@ class Action extends \Magento\Core\Controller\Varien\ActionAbstract
         /** @var $session \Magento\Core\Model\Session */
         $session = $this->_objectManager->get('Magento\Core\Model\Session');
         if ($session->getCookieShouldBeReceived() && \Mage::app()->getUseSessionInUrl()
-            && $this->_sessionNamespace != \Magento\Backend\Controller\ActionAbstract::SESSION_NAMESPACE
+            && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
         ) {
             $arguments += array('_query' => array(
                 $session->getSessionIdQueryParam() => $session->getSessionId()

@@ -17,7 +17,7 @@
  */
 namespace Magento\Backend\Controller\System;
 
-abstract class ConfigAbstract extends \Magento\Backend\Controller\ActionAbstract
+abstract class AbstractConfig extends \Magento\Backend\Controller\AbstractAction
 {
     /**
      * @var \Magento\Backend\Model\Config\Structure
@@ -50,7 +50,7 @@ abstract class ConfigAbstract extends \Magento\Backend\Controller\ActionAbstract
      * Controller pre-dispatch method
      * Check if current section is found and is allowed
      *
-     * @return \Magento\Backend\Controller\ActionAbstract
+     * @return \Magento\Backend\Controller\AbstractAction
      */
     public function preDispatch()
     {

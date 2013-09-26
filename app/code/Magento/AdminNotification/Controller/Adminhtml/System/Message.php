@@ -8,7 +8,7 @@
 
 namespace Magento\AdminNotification\Controller\Adminhtml\System;
 
-class Message extends \Magento\Backend\Controller\ActionAbstract
+class Message extends \Magento\Backend\Controller\AbstractAction
 {
     public function listAction()
     {

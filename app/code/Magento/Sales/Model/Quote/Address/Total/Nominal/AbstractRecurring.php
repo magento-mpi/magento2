@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
 
-abstract class RecurringAbstract
+abstract class AbstractRecurring
     extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -41,7 +41,7 @@ abstract class RecurringAbstract
      * Collect recurring item parameters and copy to the address items
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote\Address\Total\Nominal\RecurringAbstract
+     * @return \Magento\Sales\Model\Quote\Address\Total\Nominal\AbstractRecurring
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {

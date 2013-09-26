@@ -9,7 +9,7 @@
  */
 namespace Magento\Install\Model\EntryPoint;
 
-class Console extends \Magento\Core\Model\EntryPointAbstract
+class Console extends \Magento\Core\Model\AbstractEntryPoint
 {
     /**
      * Application params

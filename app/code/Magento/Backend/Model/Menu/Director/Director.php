@@ -7,7 +7,7 @@
  */
 namespace Magento\Backend\Model\Menu\Director;
 
-class Director extends \Magento\Backend\Model\Menu\DirectorAbstract
+class Director extends \Magento\Backend\Model\Menu\AbstractDirector
 {
     /**
      * Log message patterns
@@ -24,7 +24,7 @@ class Director extends \Magento\Backend\Model\Menu\DirectorAbstract
      *
      * @param array $data command params
      * @param \Magento\Core\Model\Logger $logger
-     * @return \Magento\Backend\Model\Menu\Builder\CommandAbstract
+     * @return \Magento\Backend\Model\Menu\Builder\AbstractCommand
      */
     protected function _getCommand($data, $logger)
     {

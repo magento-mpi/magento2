@@ -9,7 +9,7 @@
  */
 
 /**
- * Menu builder object. Retrieves commands (\Magento\Backend\Model\Menu\Builder\CommandAbstract)
+ * Menu builder object. Retrieves commands (\Magento\Backend\Model\Menu\Builder\AbstractCommand)
  * to build menu (\Magento\Backend\Model\Menu)
  */
 namespace Magento\Backend\Model\Menu;
@@ -17,7 +17,7 @@ namespace Magento\Backend\Model\Menu;
 class Builder
 {
     /**
-     * @var \Magento\Backend\Model\Menu\Builder\CommandAbstract[]
+     * @var \Magento\Backend\Model\Menu\Builder\AbstractCommand[]
      */
     protected $_commands = array();
 
@@ -38,10 +38,10 @@ class Builder
     /**
      * Process provided command object
      *
-     * @param \Magento\Backend\Model\Menu\Builder\CommandAbstract $command
+     * @param \Magento\Backend\Model\Menu\Builder\AbstractCommand $command
      * @return \Magento\Backend\Model\Menu\Builder
      */
-    public function processCommand(\Magento\Backend\Model\Menu\Builder\CommandAbstract $command)
+    public function processCommand(\Magento\Backend\Model\Menu\Builder\AbstractCommand $command)
     {
         if (!isset($this->_commands[$command->getId()])) {
             $this->_commands[$command->getId()] = $command;

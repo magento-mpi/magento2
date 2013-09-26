@@ -10,16 +10,16 @@
  */
 namespace Magento\Core\Model;
 
-class ShellAbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\ShellAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\AbstractShell|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = $this->getMockBuilder('Magento\Core\Model\ShellAbstract')
+        $this->_model = $this->getMockBuilder('Magento\Core\Model\AbstractShell')
             ->disableOriginalConstructor()
             ->setMethods(array('_applyPhpVariables'))
             ->getMockForAbstractClass();

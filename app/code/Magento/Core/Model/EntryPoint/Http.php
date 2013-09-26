@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\EntryPoint;
 
-class Http extends \Magento\Core\Model\EntryPointAbstract
+class Http extends \Magento\Core\Model\AbstractEntryPoint
 {
     /**
      * Process http request, output html page or proper information about an exception (if any)

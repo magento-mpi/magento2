@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Model\Layout\Argument;
 
-abstract class HandlerAbstract
+abstract class AbstractHandler
     implements \Magento\Core\Model\Layout\Argument\HandlerInterface
 {
     /**

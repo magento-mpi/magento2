@@ -14,7 +14,7 @@
 namespace Magento\Backend\Model\Config\Structure\Mapper;
 
 class Sorting
-    extends \Magento\Backend\Model\Config\Structure\MapperAbstract
+    extends \Magento\Backend\Model\Config\Structure\AbstractMapper
 {
     /**
      * Apply map

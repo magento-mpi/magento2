@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Config;
 
-abstract class StorageAbstract implements \Magento\Core\Model\Config\StorageInterface
+abstract class AbstractStorage implements \Magento\Core\Model\Config\StorageInterface
 {
     /**
      * Cache storage object

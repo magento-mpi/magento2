@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Controller\Varien\Action;
 
-class Redirect extends \Magento\Core\Controller\Varien\ActionAbstract
+class Redirect extends \Magento\Core\Controller\Varien\AbstractAction
 {
      /**
      * Dispatch controller action

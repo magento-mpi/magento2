@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Model\Layout\Argument\Handler;
 
-class Helper extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
+class Helper extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
     /**
      * @var \Magento\ObjectManager

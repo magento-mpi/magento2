@@ -51,13 +51,13 @@ class Config
     protected $_storeManager;
 
     /**
-     * @var \Magento\Backend\Model\Menu\DirectorAbstract
+     * @var \Magento\Backend\Model\Menu\AbstractDirector
      */
     protected $_director;
 
     /**
      * @param \Magento\Backend\Model\Menu\Builder $menuBuilder
-     * @param \Magento\Backend\Model\Menu\DirectorAbstract $menuDirector
+     * @param \Magento\Backend\Model\Menu\AbstractDirector $menuDirector
      * @param \Magento\Backend\Model\MenuFactory $menuFactory
      * @param \Magento\Backend\Model\Menu\Config\Reader $configReader
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
@@ -67,7 +67,7 @@ class Config
      */
     public function __construct(
         \Magento\Backend\Model\Menu\Builder $menuBuilder,
-        \Magento\Backend\Model\Menu\DirectorAbstract $menuDirector,
+        \Magento\Backend\Model\Menu\AbstractDirector $menuDirector,
         \Magento\Backend\Model\MenuFactory $menuFactory,
         \Magento\Backend\Model\Menu\Config\Reader $configReader,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,

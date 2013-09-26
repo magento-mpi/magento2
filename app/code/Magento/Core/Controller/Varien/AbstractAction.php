@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Controller\Varien;
 
-abstract class ActionAbstract
+abstract class AbstractAction
     implements \Magento\Core\Controller\Varien\DispatchableInterface
 {
     /**

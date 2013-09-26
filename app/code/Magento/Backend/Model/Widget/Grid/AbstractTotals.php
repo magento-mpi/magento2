@@ -10,7 +10,7 @@
 
 namespace Magento\Backend\Model\Widget\Grid;
 
-abstract class TotalsAbstract
+abstract class AbstractTotals
     implements \Magento\Backend\Model\Widget\Grid\TotalsInterface
 {
     /**
@@ -203,7 +203,7 @@ abstract class TotalsAbstract
      *
      * @param string $index
      * @param string $totalExpr
-     * @return \Magento\Backend\Model\Widget\Grid\TotalsAbstract
+     * @return \Magento\Backend\Model\Widget\Grid\AbstractTotals
      */
     public function setColumn($index, $totalExpr)
     {

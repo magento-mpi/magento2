@@ -7,7 +7,7 @@
  */
 namespace Magento\Index\Model\EntryPoint;
 
-class Shell extends \Magento\Core\Model\EntryPointAbstract
+class Shell extends \Magento\Core\Model\AbstractEntryPoint
 {
     /**
      * Filename of the entry point script

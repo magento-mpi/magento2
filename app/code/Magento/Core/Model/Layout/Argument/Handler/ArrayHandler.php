@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Model\Layout\Argument\Handler;
 
-class ArrayHandler extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
+class ArrayHandler extends \Magento\Core\Model\Layout\Argument\AbstractHandler
 {
     /**
      * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
