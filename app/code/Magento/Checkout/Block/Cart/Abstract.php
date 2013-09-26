@@ -23,7 +23,6 @@ class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_Template
     const DEFAULT_TYPE = 'default';
 
     protected $_customer = null;
-    protected $_checkout = null;
     protected $_quote    = null;
     protected $_totals;
     protected $_itemRenders = array();
@@ -36,17 +35,33 @@ class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_Template
     protected $_catalogData = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $checkoutSession,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $checkoutSession;
         $this->_catalogData = $catalogData;
         parent::__construct($coreData, $context, $data);
     }
@@ -92,22 +107,9 @@ class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_Template
     public function getCustomer()
     {
         if (null === $this->_customer) {
-            $this->_customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $this->_customer = $this->_customerSession->getCustomer();
         }
         return $this->_customer;
-    }
-
-    /**
-     * Get checkout session
-     *
-     * @return Magento_Checkout_Model_Session
-     */
-    public function getCheckout()
-    {
-        if (null === $this->_checkout) {
-            $this->_checkout = Mage::getSingleton('Magento_Checkout_Model_Session');
-        }
-        return $this->_checkout;
     }
 
     /**
@@ -118,7 +120,7 @@ class Magento_Checkout_Block_Cart_Abstract extends Magento_Core_Block_Template
     public function getQuote()
     {
         if (null === $this->_quote) {
-            $this->_quote = $this->getCheckout()->getQuote();
+            $this->_quote = $this->_checkoutSession->getQuote();
         }
         return $this->_quote;
     }

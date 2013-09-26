@@ -25,6 +25,65 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
     protected $_maxItemCount = 4;
 
     /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Stock
+     */
+    protected $_stock;
+
+    /**
+     * @var Magento_Catalog_Model_Product_LinkFactory
+     */
+    protected $_productLinkFactory;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
+     * @param Magento_CatalogInventory_Model_Stock $stock
+     * @param Magento_Catalog_Model_Product_LinkFactory $productLinkFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product_Visibility $productVisibility,
+        Magento_CatalogInventory_Model_Stock $stock,
+        Magento_Catalog_Model_Product_LinkFactory $productLinkFactory,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        $this->_storeManager = $storeManager;
+        $this->_productVisibility = $productVisibility;
+        $this->_stock = $stock;
+        $this->_productLinkFactory = $productLinkFactory;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Get crosssell items
      *
      * @return array
@@ -93,7 +152,8 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
         if (is_null($ids)) {
             $ids = array();
             foreach ($this->getQuote()->getAllItems() as $item) {
-                if ($product = $item->getProduct()) {
+                $product = $item->getProduct();
+                if ($product) {
                     $ids[] = $product->getId();
                 }
             }
@@ -131,7 +191,7 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
      */
     protected function _getLastAddedProductId()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getLastAddedProductId(true);
+        return $this->_checkoutSession->getLastAddedProductId(true);
     }
 
     /**
@@ -141,7 +201,7 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
@@ -151,15 +211,16 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
      */
     protected function _getCollection()
     {
-        $collection = Mage::getModel('Magento_Catalog_Model_Product_Link')->useCrossSellLinks()
+        /** @var Magento_Catalog_Model_Resource_Product_Link_Product_Collection $collection */
+        $collection = $this->_productLinkFactory->create()->useCrossSellLinks()
             ->getProductCollection()
-            ->setStoreId(Mage::app()->getStore()->getId())
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->addStoreFilter()
             ->setPageSize($this->_maxItemCount)
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+            ->setVisibility($this->_productVisibility->getVisibleInCatalogIds());
         $this->_addProductAttributesAndPrices($collection);
 
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock')->addInStockFilterToCollection($collection);
+        $this->_stock->addInStockFilterToCollection($collection);
 
         return $collection;
     }

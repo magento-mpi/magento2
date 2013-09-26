@@ -18,15 +18,39 @@
  */
 class Magento_Checkout_Block_Onepage_Payment_Methods extends Magento_Payment_Block_Form_Container
 {
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
+     * @return Magento_Sales_Model_Quote|Magento_Sales_Model_Quote
+     */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
      * Check payment method model
      *
-     * @param Magento_Payment_Model_Method_Abstract|null
+     * @param Magento_Payment_Model_Method_Abstract $method
      * @return bool
      */
     protected function _canUseMethod($method)
@@ -41,7 +65,8 @@ class Magento_Checkout_Block_Onepage_Payment_Methods extends Magento_Payment_Blo
      */
     public function getSelectedMethodCode()
     {
-        if ($method = $this->getQuote()->getPayment()->getMethod()) {
+        $method = $this->getQuote()->getPayment()->getMethod();
+        if ($method) {
             return $method;
         }
         return false;
@@ -50,6 +75,7 @@ class Magento_Checkout_Block_Onepage_Payment_Methods extends Magento_Payment_Blo
     /**
      * Payment method form html getter
      * @param Magento_Payment_Model_Method_Abstract $method
+     * @return string
      */
     public function getPaymentMethodFormHtml(Magento_Payment_Model_Method_Abstract $method)
     {
@@ -60,6 +86,7 @@ class Magento_Checkout_Block_Onepage_Payment_Methods extends Magento_Payment_Blo
      * Return method title for payment selection page
      *
      * @param Magento_Payment_Model_Method_Abstract $method
+     * @return string
      */
     public function getMethodTitle(Magento_Payment_Model_Method_Abstract $method)
     {
@@ -76,7 +103,8 @@ class Magento_Checkout_Block_Onepage_Payment_Methods extends Magento_Payment_Blo
      */
     public function getMethodLabelAfterHtml(Magento_Payment_Model_Method_Abstract $method)
     {
-        if ($form = $this->getChildBlock('payment.method.' . $method->getCode())) {
+        $form = $this->getChildBlock('payment.method.' . $method->getCode());
+        if ($form) {
             return $form->getMethodLabelAfterHtml();
         }
     }

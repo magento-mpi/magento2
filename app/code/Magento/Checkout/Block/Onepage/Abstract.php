@@ -21,25 +21,64 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
     protected $_configCacheType;
 
     protected $_customer;
-    protected $_checkout;
     protected $_quote;
     protected $_countryCollection;
     protected $_regionCollection;
     protected $_addressesCollection;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Directory_Model_Resource_Region_CollectionFactory
+     */
+    protected $_regionCollFactory;
+
+    /**
+     * @var Magento_Directory_Model_Resource_Country_CollectionFactory
+     */
+    protected $_countryCollFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $resourceSession
+     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $resourceSession,
+        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $resourceSession;
+        $this->_countryCollFactory = $countryCollFactory;
+        $this->_regionCollFactory = $regionCollFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -62,7 +101,7 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $this->_customer = $this->_customerSession->getCustomer();
         }
         return $this->_customer;
     }
@@ -74,10 +113,7 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
      */
     public function getCheckout()
     {
-        if (empty($this->_checkout)) {
-            $this->_checkout = Mage::getSingleton('Magento_Checkout_Model_Session');
-        }
-        return $this->_checkout;
+        return $this->_checkoutSession;
     }
 
     /**
@@ -95,14 +131,13 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
 
     public function isCustomerLoggedIn()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
+        return $this->_customerSession->isLoggedIn();
     }
 
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getSingleton('Magento_Directory_Model_Country')->getResourceCollection()
-                ->loadByStore();
+            $this->_countryCollection = $this->_countryCollFactory->create()->loadByStore();
         }
         return $this->_countryCollection;
     }
@@ -110,7 +145,7 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('Magento_Directory_Model_Region')->getResourceCollection()
+            $this->_regionCollection = $this->_regionCollFactory->create()
                 ->addCountryFilter($this->getAddress()->getCountryId())
                 ->load();
         }
@@ -194,7 +229,7 @@ abstract class Magento_Checkout_Block_Onepage_Abstract extends Magento_Core_Bloc
     public function getCountryOptions()
     {
         $options = false;
-        $cacheId = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
+        $cacheId = 'DIRECTORY_COUNTRY_SELECT_STORE_' . $this->_storeManager->getStore()->getCode();
         if ($optionsCache = $this->_configCacheType->load($cacheId)) {
             $options = unserialize($optionsCache);
         }

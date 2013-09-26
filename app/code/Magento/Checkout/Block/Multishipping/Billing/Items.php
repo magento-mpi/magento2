@@ -18,13 +18,42 @@
 class Magento_Checkout_Block_Multishipping_Billing_Items extends Magento_Sales_Block_Items_Abstract
 {
     /**
+     * @var Magento_Checkout_Model_Type_Multishipping
+     */
+    protected $_multishipping;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Type_Multishipping $multishipping
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Type_Multishipping $multishipping,
+        Magento_Checkout_Model_Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_multishipping = $multishipping;
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context);
+    }
+
+    /**
      * Get multishipping checkout model
      *
      * @return Magento_Checkout_Model_Type_Multishipping
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        return $this->_multishipping;
     }
 
     /**
@@ -34,7 +63,7 @@ class Magento_Checkout_Block_Multishipping_Billing_Items extends Magento_Sales_B
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**

@@ -28,17 +28,16 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
     protected $_coreUrl;
 
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Resource_Url $catalogUrlBuilder
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param array $data
      */
     public function __construct(
@@ -47,13 +46,17 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Resource_Url $catalogUrlBuilder,
+        Magento_Core_Model_UrlInterface $urlBuilder,
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
-        parent::__construct($catalogData, $coreData, $context, $data);
-        $this->_storeManager = $storeManager;
+        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $storeManager,
+            $catalogUrlBuilder, $urlBuilder, $data);
     }
 
     /**

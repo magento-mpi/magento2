@@ -18,13 +18,36 @@
 class Magento_Checkout_Block_Onepage_Payment_Info extends Magento_Payment_Block_Info_ContainerAbstract
 {
     /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Checkout_Model_Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($paymentData, $coreData, $context,$data);
+    }
+
+    /**
      * Retrieve payment info model
      *
      * @return Magento_Payment_Model_Info
      */
     public function getPaymentInfo()
     {
-        $info = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment();
+        $info = $this->_checkoutSession->getQuote()->getPayment();
         if ($info->getMethod()) {
             return $info;
         }

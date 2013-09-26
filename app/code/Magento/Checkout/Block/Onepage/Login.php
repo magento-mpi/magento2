@@ -26,21 +26,33 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
     protected $_checkoutData = null;
 
     /**
-     * @param Magento_Checkout_Helper_Data $checkoutData
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $resourceSession
+     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Checkout_Helper_Data $checkoutData
      * @param array $data
      */
     public function __construct(
-        Magento_Checkout_Helper_Data $checkoutData,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Checkout_Model_Session $resourceSession,
+        Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Checkout_Helper_Data $checkoutData,
         array $data = array()
     ) {
+
         $this->_checkoutData = $checkoutData;
-        parent::__construct($configCacheType, $coreData, $context, $data);
+        parent::__construct($configCacheType, $coreData, $context, $customerSession, $resourceSession,
+            $countryCollFactory, $regionCollFactory, $storeManager, $data);
     }
 
     protected function _construct()
@@ -53,12 +65,12 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
 
     public function getMessages()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getMessages(true);
+        return $this->_customerSession->getMessages(true);
     }
 
     public function getPostAction()
     {
-        return Mage::getUrl('customer/account/loginPost', array('_secure'=>true));
+        return $this->getUrl('customer/account/loginPost', array('_secure'=>true));
     }
 
     public function getMethod()
@@ -88,7 +100,7 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
      */
     public function getUsername()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getUsername(true);
+        return $this->_customerSession->getUsername(true);
     }
 
     /**
