@@ -87,6 +87,25 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
     }
 
     /**
+     * Get store manager
+     *
+     * @return Magento_Core_Model_StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
+    }
+
+    /**
+     * Get locale
+     * @return Magento_Core_Model_LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
+    }
+
+    /**
      * Retrieve Authorization
      *
      * @return \Magento_AuthorizationInterface
