@@ -21,9 +21,10 @@ class Magento_Pci_Controller_Adminhtml_Crypt_Key extends Magento_Adminhtml_Contr
      */
     protected function _checkIsLocalXmlWriteable()
     {
-        $filename = Mage::getBaseDir('etc') . DS . 'local.xml';
+        $filename = $this->_objectManager->get('Magento_Core_Model_Dir')->getDir(Magento_Core_Model_Dir::CONFIG)
+            . DS . 'local.xml';
         if (!is_writeable($filename)) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(
                 __('To enable a key change this file must be writable: %1.', realpath($filename))
             );
             return false;
@@ -44,7 +45,7 @@ class Magento_Pci_Controller_Adminhtml_Crypt_Key extends Magento_Adminhtml_Contr
         $this->_setActiveMenu('Magento_Pci::system_crypt_key');
 
         if (($formBlock = $this->getLayout()->getBlock('pci.crypt.key.form'))
-            && $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true)) {
+            && $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getFormData(true)) {
             /* @var Magento_Pci_Block_Adminhtml_Crypt_Key_Form $formBlock */
             $formBlock->setFormData($data);
         }
@@ -71,23 +72,25 @@ class Magento_Pci_Controller_Adminhtml_Crypt_Key extends Magento_Adminhtml_Contr
                 $this->_objectManager->get('Magento_Core_Helper_Data')->validateKey($key);
             }
 
-            $newKey = Mage::getResourceSingleton('Magento_Pci_Model_Resource_Key_Change')
+            $newKey = $this->_objectManager->get('Magento_Pci_Model_Resource_Key_Change')
                 ->changeEncryptionKey($key);
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                     ->addSuccess(
                 __('The encryption key has been changed.')
             );
 
             if (!$key) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(__('This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!', $newKey));
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addNotice(
+                    __('This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!', $newKey)
+                );
             }
-            Mage::app()->cleanCache();
+            $this->_objectManager->get('Magento_Core_Model_App')->cleanCache();
         }
         catch (Exception $e) {
             if ($message = $e->getMessage()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             }
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(array('crypt_key' => $key));
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setFormData(array('crypt_key' => $key));
         }
         $this->_redirect('*/*/');
     }

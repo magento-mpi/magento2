@@ -19,17 +19,19 @@
  * @method Magento_Sales_Model_Quote_Item_Option setProductId(int $value)
  * @method string getCode()
  * @method Magento_Sales_Model_Quote_Item_Option setCode(string $value)
- * @method string getValue()
  * @method Magento_Sales_Model_Quote_Item_Option setValue(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Quote_Item_Option extends Magento_Core_Model_Abstract
     implements Magento_Catalog_Model_Product_Configuration_Item_Option_Interface
 {
+    /**
+     * @var Magento_Sales_Model_Quote_Item
+     */
     protected $_item;
+
+    /**
+     * @var Magento_Catalog_Model_Product
+     */
     protected $_product;
 
     /**
@@ -131,7 +133,7 @@ class Magento_Sales_Model_Quote_Item_Option extends Magento_Core_Model_Abstract
     public function __clone()
     {
         $this->setId(null);
-        $this->_item    = null;
+        $this->_item = null;
         return $this;
     }
 }

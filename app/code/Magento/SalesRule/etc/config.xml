@@ -15,7 +15,7 @@
             <salesrule_setup>
                 <setup>
                     <module>Magento_SalesRule</module>
-                    <class>Magento_Sales_Model_Resource_Setup</class>
+                    <class>Magento_SalesRule_Model_Resource_Setup</class>
                 </setup>
             </salesrule_setup>
         </resources>

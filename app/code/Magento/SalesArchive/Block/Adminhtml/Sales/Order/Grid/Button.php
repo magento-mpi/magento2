@@ -20,17 +20,17 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button extends Magen
     protected $_orderCollection;
 
     /**
-     * @param Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection
      * @param array $data
      */
     public function __construct(
-        Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection,
         array $data = array()
     ) {
         $this->_orderCollection = $orderCollection;

@@ -33,6 +33,31 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
     const XML_PATH_SAMPLES_TITLE = 'catalog/downloadable/samples_title';
 
     /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dirModel;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Dir $dirModel
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Dir $dirModel,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_dirModel = $dirModel;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      *
      */
@@ -47,9 +72,9 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
      *
      * @return string
      */
-    public static function getSampleDir()
+    public function getSampleDir()
     {
-        return Mage::getBaseDir();
+        return $this->_dirModel->getDir();
     }
 
     /**
@@ -83,9 +108,10 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
      *
      * @return string
      */
-    public static function getBaseTmpPath()
+    public function getBaseTmpPath()
     {
-        return Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'tmp' . DS . 'samples';
+        return $this->_dirModel->getDir(Magento_Core_Model_Dir::MEDIA)
+            . DS . 'downloadable' . DS . 'tmp' . DS . 'samples';
     }
 
     /**
@@ -93,9 +119,10 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
      *
      * @return string
      */
-    public static function getBasePath()
+    public function getBasePath()
     {
-        return Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'files' . DS . 'samples';
+        return $this->_dirModel->getDir(Magento_Core_Model_Dir::MEDIA)
+            . DS . 'downloadable' . DS . 'files' . DS . 'samples';
     }
 
     /**

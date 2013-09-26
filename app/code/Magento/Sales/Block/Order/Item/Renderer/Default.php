@@ -25,18 +25,26 @@ class Magento_Sales_Block_Order_Item_Renderer_Default extends Magento_Core_Block
     protected $_coreString = null;
 
     /**
+     * @var Magento_Catalog_Model_Product_OptionFactory
+     */
+    protected $_productOptionFactory;
+
+    /**
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Catalog_Model_Product_OptionFactory $productOptionFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Catalog_Model_Product_OptionFactory $productOptionFactory,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
+        $this->_productOptionFactory = $productOptionFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -74,7 +82,8 @@ class Magento_Sales_Block_Order_Item_Renderer_Default extends Magento_Core_Block
     public function getItemOptions()
     {
         $result = array();
-        if ($options = $this->getOrderItem()->getProductOptions()) {
+        $options = $this->getOrderItem()->getProductOptions();
+        if ($options) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);
             }
@@ -129,7 +138,7 @@ class Magento_Sales_Block_Order_Item_Renderer_Default extends Magento_Core_Block
             $_default = array('value' => $optionValue);
             if (isset($optionInfo['option_type'])) {
                 try {
-                    $group = Mage::getModel('Magento_Catalog_Model_Product_Option')->groupFactory($optionInfo['option_type']);
+                    $group = $this->_productOptionFactory->create()->groupFactory($optionInfo['option_type']);
                     return array('value' => $group->getCustomizedView($optionInfo));
                 } catch (Exception $e) {
                     return $_default;
@@ -167,9 +176,6 @@ class Magento_Sales_Block_Order_Item_Renderer_Default extends Magento_Core_Block
      */
     public function getSku()
     {
-        /*if ($this->getOrderItem()->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
-            return $this->getOrderItem()->getProductOptionByCode('simple_sku');
-        }*/
         return $this->getItem()->getSku();
     }
 
