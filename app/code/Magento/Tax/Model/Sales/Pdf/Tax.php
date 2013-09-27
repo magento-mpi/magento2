@@ -16,7 +16,6 @@ class Magento_Tax_Model_Sales_Pdf_Tax extends Magento_Sales_Model_Order_Pdf_Tota
     protected $_taxConfig;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Tax_Helper_Data $taxHelper
      * @param Magento_Tax_Model_Calculation $taxCalculation
      * @param Magento_Tax_Model_Config $taxConfig
@@ -24,7 +23,6 @@ class Magento_Tax_Model_Sales_Pdf_Tax extends Magento_Sales_Model_Order_Pdf_Tota
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
         Magento_Tax_Helper_Data $taxHelper,
         Magento_Tax_Model_Calculation $taxCalculation,
         Magento_Tax_Model_Config $taxConfig,
@@ -32,7 +30,7 @@ class Magento_Tax_Model_Sales_Pdf_Tax extends Magento_Sales_Model_Order_Pdf_Tota
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;
-        parent::__construct($context, $taxHelper, $taxCalculation, $ordersFactory, $data);
+        parent::__construct($taxHelper, $taxCalculation, $ordersFactory, $data);
     }
 
     /**
