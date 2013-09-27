@@ -21,6 +21,31 @@
 class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml_Block_Urlrewrite_Edit
 {
     /**
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
+     * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Cms_Model_PageFactory $pageFactory,
+        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
+        Magento_Backend_Helper_Data $adminhtmlData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_pageFactory = $pageFactory;
+        parent::__construct($rewriteFactory, $adminhtmlData, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare layout for URL rewrite creating for CMS page
      */
     protected function _prepareLayoutFeatures()
@@ -49,7 +74,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Magento_Adminhtml
     private function _getCmsPage()
     {
         if (!$this->hasData('cms_page')) {
-            $this->setCmsPage(Mage::getModel('Magento_Cms_Model_Page'));
+            $this->setCmsPage($this->_pageFactory->create());
         }
         return $this->getCmsPage();
     }
