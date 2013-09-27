@@ -18,6 +18,13 @@
 class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Session name
+     *
+     * @var string
+     */
+    protected $_sessionName = 'Magento_Backend_Model_Auth_Session';
+
+    /**
      * Array of actions which can be processed without secret key validation
      *
      * @var array
@@ -41,7 +48,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
 
         // call after parent::preDispatch(); to get session started
         if ($loginError) {
-            $this->_getSession()
+            Mage::getSingleton('Magento_Adminhtml_Model_Session')
                 ->addError(__('Please correct the user name or password.'));
             $params = array('_query' => array('oauth_token' => $this->getRequest()->getParam('oauth_token', null)));
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
@@ -60,7 +67,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
     {
         $this->_initForm();
 
-        $this->_initLayoutMessages('Magento_Backend_Model_Auth_Session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 
@@ -72,7 +79,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
     public function simpleAction()
     {
         $this->_initForm(true);
-        $this->_initLayoutMessages('Magento_Backend_Model_Auth_Session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 
@@ -85,9 +92,9 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
     protected function _initForm($simple = false)
     {
         /** @var $server Magento_Oauth_Model_Server */
-        $server = $this->_objectManager->create('Magento_Oauth_Model_Server');
+        $server = Mage::getModel('Magento_Oauth_Model_Server');
         /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = $this->_objectManager->get('Magento_Backend_Model_Auth_Session');
+        $session = Mage::getSingleton($this->_sessionName);
 
         $isException = false;
         try {
@@ -135,7 +142,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
         $oauthData = $this->_objectManager->get('Magento_Oauth_Helper_Data');
 
         /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = $this->_objectManager->get('Magento_Backend_Model_Auth_Session');
+        $session = Mage::getSingleton($this->_sessionName);
 
         /** @var $user Magento_User_Model_User */
         $user = $session->getData('user');
@@ -154,7 +161,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
 
         try {
             /** @var $server Magento_Oauth_Model_Server */
-            $server = $this->_objectManager->create('Magento_Oauth_Model_Server');
+            $server = Mage::getModel('Magento_Oauth_Model_Server');
 
             $token = $server->authorizeToken($user->getId(), Magento_Oauth_Model_Token::USER_TYPE_ADMIN);
 
@@ -173,7 +180,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
             $session->addException($e, __('An error occurred on confirm authorize.'));
         }
 
-        $this->_initLayoutMessages('Magento_Backend_Model_Auth_Session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
 
         return $this;
@@ -188,10 +195,10 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
     protected function _initRejectPage($simple = false)
     {
         /** @var $server Magento_Oauth_Model_Server */
-        $server = $this->_objectManager->create('Magento_Oauth_Model_Server');
+        $server = Mage::getModel('Magento_Oauth_Model_Server');
 
         /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = $this->_objectManager->get('Magento_Backend_Model_Auth_Session');
+        $session = Mage::getSingleton($this->_sessionName);
 
         $this->loadLayout();
 
@@ -216,7 +223,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
         }
 
         //display exception
-        $this->_initLayoutMessages('Magento_Backend_Model_Auth_Session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
 
         return $this;

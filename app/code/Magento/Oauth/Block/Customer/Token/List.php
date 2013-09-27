@@ -26,42 +26,15 @@ class Magento_Oauth_Block_Customer_Token_List extends Magento_Customer_Block_Acc
     protected $_collection;
 
     /**
-     * Token Collection factory
-     *
-     * @var Magento_Oauth_Model_Resource_Token_CollectionFactory
-     */
-    protected $_tokenColFactory = null;
-
-    /**
-     * Token Collection factory
-     *
-     * @var Magento_Customer_Model_Session
-     */
-    protected $_customerSession = null;
-
-    public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Oauth_Model_Resource_Token_CollectionFactory $tokenColFactory,
-        array $data = array()
-    ) {
-        $this->_customerSession = $customerSession;
-        $this->_tokenColFactory = $tokenColFactory;
-        parent::__construct($coreData, $context, $data);
-    }
-
-
-    /**
      * Prepare collection
      */
     protected function _construct()
     {
         /** @var $session Magento_Customer_Model_Session */
-        $session = $this->_customerSession;
+        $session = Mage::getSingleton('Magento_Customer_Model_Session');
 
         /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-        $collection = $this->_tokenColFactory->create();
+        $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
         $collection->joinConsumerAsApplication()
                 ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
                 ->addFilterByCustomerId($session->getCustomerId());
@@ -121,7 +94,7 @@ class Magento_Oauth_Block_Customer_Token_List extends Magento_Customer_Block_Acc
      */
     public function getUpdateRevokeLink(Magento_Oauth_Model_Token $model)
     {
-        return $this->_urlBuilder->getUrl('oauth/customer_token/revoke/',
+        return Mage::getUrl('oauth/customer_token/revoke/',
             array('id' => $model->getId(), 'status' => (int) !$model->getRevoked()));
     }
 
@@ -133,7 +106,7 @@ class Magento_Oauth_Block_Customer_Token_List extends Magento_Customer_Block_Acc
      */
     public function getDeleteLink(Magento_Oauth_Model_Token $model)
     {
-        return $this->_urlBuilder->getUrl('oauth/customer_token/delete/', array('id' => $model->getId()));
+        return Mage::getUrl('oauth/customer_token/delete/', array('id' => $model->getId()));
     }
 
     /**

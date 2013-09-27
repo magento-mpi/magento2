@@ -100,7 +100,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
     public function newAction()
     {
         /** @var $model Magento_Oauth_Model_Consumer */
-        $model = $this->_objectManager->create('Magento_Oauth_Model_Consumer');
+        $model = Mage::getModel('Magento_Oauth_Model_Consumer');
 
         $formData = $this->_getFormData();
         if ($formData) {
@@ -134,7 +134,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
         }
 
         /** @var $model Magento_Oauth_Model_Consumer */
-        $model = $this->_objectManager->create('Magento_Oauth_Model_Consumer');
+        $model = Mage::getModel('Magento_Oauth_Model_Consumer');
         $model->load($id);
 
         if (!$model->getId()) {
@@ -168,7 +168,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
         $data = $this->_filter($this->getRequest()->getParams());
 
         /** @var $model Magento_Oauth_Model_Consumer */
-        $model = $this->_objectManager->create('Magento_Oauth_Model_Consumer');
+        $model = Mage::getModel('Magento_Oauth_Model_Consumer');
 
         if ($id) {
             if (!(int) $id) {
@@ -288,9 +288,9 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
         if ($consumerId) {
             try {
                 /** @var $consumer Magento_Oauth_Model_Consumer */
-                $consumer = $this->_objectManager->create('Magento_Oauth_Model_Consumer')->load($consumerId);
+                $consumer = Mage::getModel('Magento_Oauth_Model_Consumer')->load($consumerId);
                 if (!$consumer->getId()) {
-                    throw new Magento_Core_Exception(__('Unable to find a consumer.'));
+                    Mage::throwException(__('Unable to find a consumer.'));
                 }
 
                 $consumer->delete();

@@ -72,7 +72,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
 
         try {
             /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = $this->_objectManager->create('Magento_Oauth_Model_Resource_Token_Collection');
+            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
                     ->addFilterById($ids)
@@ -116,7 +116,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
 
         try {
             /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = $this->_objectManager->create('Magento_Oauth_Model_Resource_Token_Collection');
+            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
                     ->addFilterById($ids);
@@ -157,7 +157,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
     {
         if (($adminId = $token->getAdminId())) {
             /** @var $session Magento_Backend_Model_Auth_Session */
-            $session = $this->_objectManager->get('Magento_Backend_Model_Auth_Session');
+            $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
 
             /** @var $admin Magento_User_Model_User */
             $admin = $session->getUser();
@@ -169,7 +169,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
             $name  = $admin->getName(' ');
         } else {
             /** @var $customer Magento_Customer_Model_Customer */
-            $customer = $this->_objectManager->create('Magento_Customer_Model_Customer');
+            $customer = Mage::getModel('Magento_Customer_Model_Customer');
 
             $customer->load($token->getCustomerId());
 

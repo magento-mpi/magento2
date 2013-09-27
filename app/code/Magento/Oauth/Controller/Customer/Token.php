@@ -27,6 +27,13 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
     protected $_session;
 
     /**
+     * Customer session model
+     *
+     * @var string
+     */
+    protected $_sessionName = 'Magento_Customer_Model_Session';
+
+    /**
      * Check authentication
      *
      * Check customer authentication for some actions
@@ -34,7 +41,7 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->_session = $this->_objectManager->get('Magento_Customer_Model_Session');
+        $this->_session = Mage::getSingleton($this->_sessionName);
         if (!$this->_session->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -47,7 +54,7 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 
@@ -59,8 +66,8 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
     protected function _redirectBack()
     {
         $url = $this->_getRefererUrl();
-        if ($this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getBaseUrl() == $url) {
-            $url = $this->_objectManager->get('Magento_Core_Model_Url')->getUrl('*/*/index');
+        if (Mage::app()->getStore()->getBaseUrl() == $url) {
+            $url = Mage::getUrl('*/*/index');
         }
         $this->_redirectUrl($url);
         return $this;
@@ -90,7 +97,7 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
 
         try {
             /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = $this->_objectManager->create('Magento_Oauth_Model_Resource_Token_Collection');
+            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterById($id)
@@ -138,7 +145,7 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
 
         try {
             /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = $this->_objectManager->create('Magento_Oauth_Model_Resource_Token_Collection');
+            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)

@@ -44,35 +44,6 @@ abstract class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract 
     const SECRET_LENGTH = 32;
 
     /**
-     * Url Validator
-     *
-     * @var Magento_Core_Model_Url_Validator
-     */
-    protected $_urlValidator = null;
-
-    /**
-     * KeyLength factory
-     *
-     * @var Magento_Oauth_Model_Consumer_Validator_KeyLengthFactory
-     */
-    protected $_keyLengthFactory = null;
-
-    public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Url_Validator $urlValidator,
-        Magento_Oauth_Model_Consumer_Validator_KeyLengthFactory $keyLengthFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_urlValidator = $urlValidator;
-        $this->_keyLengthFactory = $keyLengthFactory;
-    }
-
-
-    /**
      * Initialize resource model
      *
      * @return void
@@ -101,7 +72,7 @@ abstract class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract 
      * Validate data
      *
      * @return array|bool
-     * @throws Magento_Core_Exception
+     * @throw Magento_Core_Exception|Exception   Throw exception on fail validation
      */
     public function validate()
     {
@@ -110,18 +81,18 @@ abstract class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract 
             $this->setRejectedCallbackUrl(trim($this->getRejectedCallbackUrl()));
 
             /** @var $validatorUrl Magento_Core_Model_Url_Validator */
-            $validatorUrl = $this->_urlValidator;
+            $validatorUrl = Mage::getSingleton('Magento_Core_Model_Url_Validator');
 
             if ($this->getCallbackUrl() && !$validatorUrl->isValid($this->getCallbackUrl())) {
-                throw new Magento_Core_Exception(__('Invalid Callback URL'));
+                Mage::throwException(__('Invalid Callback URL'));
             }
             if ($this->getRejectedCallbackUrl() && !$validatorUrl->isValid($this->getRejectedCallbackUrl())) {
-                throw new Magento_Core_Exception(__('Invalid Rejected Callback URL'));
+                Mage::throwException(__('Invalid Rejected Callback URL'));
             }
         }
 
         /** @var $validatorLength Magento_Oauth_Model_Consumer_Validator_KeyLength */
-        $validatorLength = $this->_keyLengthFactory->create(
+        $validatorLength = Mage::getModel('Magento_Oauth_Model_Consumer_Validator_KeyLength',
             array('options' => array(
                 'length' => self::KEY_LENGTH
             )));
@@ -129,14 +100,14 @@ abstract class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract 
         $validatorLength->setName('Consumer Key');
         if (!$validatorLength->isValid($this->getKey())) {
             $messages = $validatorLength->getMessages();
-            throw new Magento_Core_Exception(array_shift($messages));
+            Mage::throwException(array_shift($messages));
         }
 
         $validatorLength->setLength(self::SECRET_LENGTH);
         $validatorLength->setName('Consumer Secret');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();
-            throw new Magento_Core_Exception(array_shift($messages));
+            Mage::throwException(array_shift($messages));
         }
         return true;
     }

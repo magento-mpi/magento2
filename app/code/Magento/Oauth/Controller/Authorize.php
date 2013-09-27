@@ -18,6 +18,13 @@
 class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Session name
+     *
+     * @var string
+     */
+    protected $_sessionName = 'customer/session';
+
+    /**
      * Init authorize page
      *
      * @param bool $simple      Is simple page?
@@ -26,9 +33,9 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
     protected function _initForm($simple = false)
     {
         /** @var $server Magento_Oauth_Model_Server */
-        $server = $this->_objectManager->create('Magento_Oauth_Model_Server');
+        $server = Mage::getModel('Magento_Oauth_Model_Server');
         /** @var $session Magento_Customer_Model_Session */
-        $session = $this->_objectManager->get('Magento_Customer_Model_Session');
+        $session = Mage::getSingleton($this->_sessionName);
 
         $isException = false;
         try {
@@ -60,11 +67,8 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
 
         /** @var $coreUrl Magento_Core_Helper_Url */
         $coreUrl = $this->_objectManager->get('Magento_Core_Helper_Url');
-        $session->setAfterAuthUrl(
-            $this->_objectManager->get('Magento_Core_Model_Url')
-                ->getUrl('customer/account/login', array('_nosid' => true))
-            )
-            ->setBeforeAuthUrl($coreUrl->getCurrentUrl());
+        $session->setAfterAuthUrl(Mage::getUrl('customer/account/login', array('_nosid' => true)))
+                ->setBeforeAuthUrl($coreUrl->getCurrentUrl());
 
         $block->setIsSimple($simple)
             ->setToken($this->getRequest()->getQuery('oauth_token'))
@@ -84,7 +88,7 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
         $oauthData = $this->_objectManager->get('Magento_Oauth_Helper_Data');
 
         /** @var $session Magento_Customer_Model_Session */
-        $session = $this->_objectManager->get('Magento_Customer_Model_Session');
+        $session = Mage::getSingleton($this->_sessionName);
         if (!$session->getCustomerId()) {
             $session->addError(__('Please login to proceed authorization.'));
             $url = $oauthData->getAuthorizeUrl(Magento_Oauth_Model_Token::USER_TYPE_CUSTOMER);
@@ -100,7 +104,7 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
 
         try {
             /** @var $server Magento_Oauth_Model_Server */
-            $server = $this->_objectManager->create('Magento_Oauth_Model_Server');
+            $server = Mage::getModel('Magento_Oauth_Model_Server');
 
             /** @var $token Magento_Oauth_Model_Token */
             $token = $server->authorizeToken($session->getCustomerId(), Magento_Oauth_Model_Token::USER_TYPE_CUSTOMER);
@@ -120,7 +124,7 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
             $session->addException($e, __('An error occurred on confirm authorize.'));
         }
 
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
 
         return $this;
@@ -137,10 +141,10 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
         $this->loadLayout();
 
         /** @var $session Magento_Customer_Model_Session */
-        $session = $this->_objectManager->get('Magento_Customer_Model_Session');
+        $session = Mage::getSingleton($this->_sessionName);
         try {
             /** @var $server Magento_Oauth_Model_Server */
-            $server = $this->_objectManager->create('Magento_Oauth_Model_Server');
+            $server = Mage::getModel('Magento_Oauth_Model_Server');
 
             /** @var $block Magento_Oauth_Block_Authorize */
             $block = $this->getLayout()->getBlock('oauth.authorize.reject');
@@ -163,7 +167,7 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
             $session->addException($e, __('An error occurred on reject authorize.'));
         }
 
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
 
         return $this;
@@ -177,7 +181,7 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
     public function indexAction()
     {
         $this->_initForm();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 
@@ -189,7 +193,7 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
     public function simpleAction()
     {
         $this->_initForm(true);
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages($this->_sessionName);
         $this->renderLayout();
     }
 
