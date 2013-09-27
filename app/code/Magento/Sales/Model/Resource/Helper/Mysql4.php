@@ -21,13 +21,15 @@ class Magento_Sales_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Reso
 
     /**
      * @param Magento_Reports_Model_Resource_Helper_Mysql4 $reportsResourceHelper
+     * @param Magento_Core_Model_Resource $resource
      * @param string $modulePrefix
      */
     public function __construct(
         Magento_Reports_Model_Resource_Helper_Mysql4 $reportsResourceHelper,
+        Magento_Core_Model_Resource $resource,
         $modulePrefix = 'sales'
     ) {
-        parent::__construct($modulePrefix);
+        parent::__construct($resource, $modulePrefix);
         $this->_reportsResourceHelper = $reportsResourceHelper;
     }
 

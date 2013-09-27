@@ -40,9 +40,9 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
             'Magento_Checkout_Model_Session',
             array('init'),
             array(
+                $orderFactory,
                 $validatorMock,
                 $logger,
-                $orderFactory,
                 $eventManager,
                 $coreHttp,
                 $coreStoreConfig,

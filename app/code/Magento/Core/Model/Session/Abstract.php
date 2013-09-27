@@ -145,6 +145,8 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Url_Proxy $url
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Session_Validator $validator,
