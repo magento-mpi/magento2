@@ -311,11 +311,6 @@
             <instance type="Magento_Core_Model_Locale_Hierarchy_Config_Reader" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Resource">
-        <param name="tablePrefix">
-            <value type="argument">Magento_Core_Model_Resource::PARAM_TABLE_PREFIX</value>
-        </param>
-    </type>
     <type name="Magento_Core_Model_Encryption">
         <param name="cryptKey">
             <value type="argument">Magento_Core_Model_Encryption::PARAM_CRYPT_KEY</value>

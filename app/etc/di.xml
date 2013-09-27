@@ -221,5 +221,8 @@
         <param name="resourceConfig">
             <instance type="Magento_Core_Model_Config_Resource_Primary" />
         </param>
+        <param name="tablePrefix">
+            <value type="argument">Magento_Core_Model_Resource::PARAM_TABLE_PREFIX</value>
+        </param>
     </type>
 </config>
