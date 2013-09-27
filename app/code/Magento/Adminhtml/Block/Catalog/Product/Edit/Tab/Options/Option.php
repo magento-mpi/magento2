@@ -38,8 +38,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
      */
     protected $_product;
 
+    /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
     protected $_configYesNo;
 
+    /**
+     * @var Magento_Catalog_Model_Config_Source_Product_Options_Type
+     */
     protected $_optionType;
 
     /**

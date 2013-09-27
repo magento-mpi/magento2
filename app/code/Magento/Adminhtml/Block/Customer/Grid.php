@@ -58,7 +58,6 @@ class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widg
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
-
     protected function _construct()
     {
         parent::_construct();

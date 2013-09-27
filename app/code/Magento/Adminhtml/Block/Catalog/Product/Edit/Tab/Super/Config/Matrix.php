@@ -90,16 +90,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     }
 
     /**
-     * Get configurable product type
-     *
-     * @return Magento_Catalog_Model_Product_Type_Configurable
-     */
-    protected function _getProductType()
-    {
-        return $this->_configurableType;
-    }
-
-    /**
      * Retrieve currently edited product object
      *
      * @return Magento_Catalog_Model_Product

@@ -41,7 +41,6 @@ abstract class Magento_Adminhtml_Block_Dashboard_Abstract extends Magento_Adminh
         parent::__construct($coreData, $context, $data);
     }
 
-
     public function getCollection()
     {
            return $this->getDataHelper()->getCollection();

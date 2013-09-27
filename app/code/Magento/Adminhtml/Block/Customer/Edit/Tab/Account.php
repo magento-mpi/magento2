@@ -57,7 +57,6 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
-
     /**
      * Initialize form
      *

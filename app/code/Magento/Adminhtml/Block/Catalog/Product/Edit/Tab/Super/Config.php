@@ -123,16 +123,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     }
 
     /**
-     * Get configurable product type
-     *
-     * @return Magento_Catalog_Model_Product_Type_Configurable
-     */
-    protected function _getProductType()
-    {
-        return $this->_configurableType;
-    }
-
-    /**
      * Check whether prices of configurable products can be editable
      *
      * @return boolean
@@ -256,7 +246,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     public function getAttributes()
     {
         if (!$this->hasData('attributes')) {
-            $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->getProduct());
+            $attributes = (array)$this->_configurableType->getConfigurableAttributesAsArray($this->getProduct());
             $productData = (array)$this->getRequest()->getParam('product');
             if (isset($productData['configurable_attributes_data'])) {
                 $configurableData = $productData['configurable_attributes_data'];
@@ -296,7 +286,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getLinksJson()
     {
-        $products = $this->_getProductType()
+        $products = $this->_configurableType
             ->getUsedProducts($this->getProduct());
         if(!$products) {
             return '{}';
@@ -316,7 +306,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getConfigurableSettings($product) {
         $data = array();
-        $attributes = $this->_getProductType()
+        $attributes = $this->_configurableType
             ->getUsedProductAttributes($this->getProduct());
         foreach ($attributes as $attribute) {
             $data[] = array(
@@ -462,7 +452,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     public function getSelectedAttributes()
     {
         return $this->getProduct()->isConfigurable()
-            ? array_filter($this->_getProductType()->getUsedProductAttributes($this->getProduct()))
+            ? array_filter($this->_configurableType->getUsedProductAttributes($this->getProduct()))
             : array();
     }
 

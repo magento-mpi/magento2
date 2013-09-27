@@ -609,21 +609,6 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                 }
             }
             $product->validate();
-
-            /**
-             * @todo implement full validation process with errors returning which are ignoring now
-             */
-//            if (is_array($errors = $product->validate())) {
-//                foreach ($errors as $code => $error) {
-//                    if ($error === true) {
-//                        throw new Magento_Core_Exception(__('Attribute "%1" is invalid.',
-//                           $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
-//                    }
-//                    else {
-//                        throw new Magento_Core_Exception($error);
-//                    }
-//                }
-//            }
         } catch (Magento_Eav_Model_Entity_Attribute_Exception $e) {
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());

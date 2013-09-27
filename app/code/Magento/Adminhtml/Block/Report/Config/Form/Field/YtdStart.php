@@ -42,13 +42,11 @@ class Magento_Adminhtml_Block_Report_Config_Form_Field_YtdStart extends Magento_
         parent::__construct($coreData, $context, $application, $data);
     }
 
-
     protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $_months = array();
         for ($i = 1; $i <= 12; $i++) {
-            $_months[$i] = $this->_locale
-                ->date(mktime(null,null,null,$i))
+            $_months[$i] = $this->_locale->date(mktime(null, null, null, $i))
                 ->get(Zend_Date::MONTH_NAME);
         }
 

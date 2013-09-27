@@ -37,6 +37,16 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
      */
     protected $_helperPool;
 
+    /**
+     * @param Magento_Core_Model_Resource_HelperPool $helperPool
+     * @param Magento_Backend_Model_Auth_Session $backendSession
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Catalog_Model_Resource_Category_Tree $categoryTree
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
     public function __construct(
         Magento_Core_Model_Resource_HelperPool $helperPool,
         Magento_Backend_Model_Auth_Session $backendSession,

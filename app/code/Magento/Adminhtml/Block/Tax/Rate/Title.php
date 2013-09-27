@@ -45,9 +45,9 @@ class Magento_Adminhtml_Block_Tax_Rate_Title extends Magento_Core_Block_Template
         array $data = array()
     ) {
         $this->_rate = $rate;
+        $this->_storeFactory = $storeFactory;
         parent::__construct($coreData, $context, $data);
     }
-
 
     public function getTitles()
     {

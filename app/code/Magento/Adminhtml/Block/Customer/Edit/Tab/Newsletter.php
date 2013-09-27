@@ -44,7 +44,6 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Backe
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
-
     public function initForm()
     {
         /** @var Magento_Data_Form $form */

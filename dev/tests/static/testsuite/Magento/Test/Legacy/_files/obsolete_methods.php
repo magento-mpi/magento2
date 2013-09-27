@@ -842,4 +842,6 @@ return array(
     array('_getOrderCreateModel', 'Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment'),
     array('objects', 'Mage'),
     array('reset', 'Mage'),
+    array('_getProductType', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix'),
+    array('_getProductType', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config'),
 );

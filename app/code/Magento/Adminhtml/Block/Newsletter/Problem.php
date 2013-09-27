@@ -41,7 +41,6 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
         parent::__construct($coreData, $context, $data);
     }
 
-
     protected function _construct()
     {
         parent::_construct();
@@ -88,5 +87,4 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
     {
         return  $this->_problemCollection->getSize() > 0;
     }
-
 }// Class Magento_Adminhtml_Block_Newsletter_Problem END

@@ -90,34 +90,36 @@ class Magento_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
 
     public function printAction()
     {
-        if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
-            if ($invoice = $this->_objectManager->create('Magento_Sales_Model_Order_Invoice')->load($invoiceId)) {
+        $invoiceId = $this->getRequest()->getParam('invoice_id');
+        if ($invoiceId) {
+            $invoice = $this->_objectManager->create('Magento_Sales_Model_Order_Invoice')->load($invoiceId);
+            if ($invoice) {
                 $pdf = $this->_objectManager->create('Magento_Sales_Model_Order_Pdf_Invoice')->getPdf(array($invoice));
-                $this->_prepareDownloadResponse('invoice'.$this->_objectManager->get('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').
-                    '.pdf', $pdf->render(), 'application/pdf');
+                $date = $this->_objectManager->get('Magento_Core_Model_Date')->date('Y-m-d_H-i-s');
+                $this->_prepareDownloadResponse('invoice' . $date . '.pdf', $pdf->render(), 'application/pdf');
             }
-        }
-        else {
+        } else {
             $this->_forward('noRoute');
         }
     }
 
-    public function pdfinvoicesAction(){
+    public function pdfinvoicesAction()
+    {
         $invoicesIds = $this->getRequest()->getPost('invoice_ids');
         if (!empty($invoicesIds)) {
             $invoices = $this->_objectManager->create('Magento_Sales_Model_Resource_Order_Invoice_Collection')
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('entity_id', array('in' => $invoicesIds))
                 ->load();
-            if (!isset($pdf)){
+            if (!isset($pdf)) {
                 $pdf = $this->_objectManager->create('Magento_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
             } else {
                 $pages = $this->_objectManager->create('Magento_Sales_Model_Order_Pdf_Invoice')->getPdf($invoices);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
+            $date = $this->_objectManager->get('Magento_Core_Model_Date')->date('Y-m-d_H-i-s');
 
-            return $this->_prepareDownloadResponse('invoice'.$this->_objectManager->get('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').
-                '.pdf', $pdf->render(), 'application/pdf');
+            return $this->_prepareDownloadResponse('invoice' . $date . '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }
@@ -126,5 +128,4 @@ class Magento_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
     {
         return $this->_authorization->isAllowed('Magento_Sales::sales_invoice');
     }
-
 }

@@ -37,8 +37,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
     /**
      * @var Magento_Catalog_Model_Product_Type
      */
-
     protected $_type;
+
     /**
      * @var Magento_Catalog_Model_Product_Status
      */
@@ -49,6 +49,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
      */
     protected $_visibility;
 
+    /**
+     * @var Magento_Core_Model_WebsiteFactory
+     */
     protected $_websiteFactory;
 
     /**

@@ -50,7 +50,6 @@ class Magento_Adminhtml_Block_Report_Wishlist extends Magento_Backend_Block_Temp
         parent::__construct($coreData, $context, $data);
     }
 
-
     public function _beforeToHtml()
     {
         $this->setChild(

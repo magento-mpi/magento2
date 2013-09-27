@@ -17,7 +17,6 @@
  */
 class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Backend_Block_Widget_Grid_Extended
 {
-
     /**
      * Core registry
      *
@@ -25,6 +24,9 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Backe
      */
     protected $_coreRegistry = null;
 
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
     protected $_productFactory;
 
     /**

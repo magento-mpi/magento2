@@ -21,16 +21,6 @@ class Magento_Adminhtml_Block_Page extends Magento_Backend_Block_Template
     protected $_template = 'admin/page.phtml';
 
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
-     * @var Magento_Core_Model_Locale
-     */
-    protected $_locale;
-
-    /**
      * @var Magento_Core_Model_App
      */
     protected $_application;
@@ -39,18 +29,14 @@ class Magento_Adminhtml_Block_Page extends Magento_Backend_Block_Template
      * @param Magento_Core_Model_App $application
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_App $application,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
-        $this->_locale = $context->getLocale();
         $this->_application = $application;
         parent::__construct($coreData, $context, $data);
     }

@@ -93,8 +93,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = $this->_rendererFieldset
-            ->setTemplate('promo/fieldset.phtml')
+        $renderer = $this->_rendererFieldset->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_catalog/newConditionHtml/form/rule_conditions_fieldset'));
 
         $fieldset = $form->addFieldset('conditions_fieldset', array(

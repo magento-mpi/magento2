@@ -42,7 +42,6 @@ class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Backend_Block_
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
-
     protected function _construct()
     {
         parent::_construct();

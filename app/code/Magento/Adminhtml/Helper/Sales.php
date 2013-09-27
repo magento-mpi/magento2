@@ -15,6 +15,9 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
      */
     protected $_coreConfig;
 
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
     protected $_storeManager;
 
     /**

@@ -39,6 +39,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
      */
     protected $_categoryFactory;
 
+    /**
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $collectionFactory
+     * @param Magento_Catalog_Model_Resource_Category $resourceCategory
+     * @param Magento_Catalog_Model_Resource_Product $resourceProduct
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
     public function __construct(
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
         Magento_Catalog_Model_Resource_Product_CollectionFactory $collectionFactory,
