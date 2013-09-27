@@ -19,4 +19,6 @@
     <multipleNode id="two" name="name2">
         <value>2</value>
     </multipleNode>
+    <someOtherVal></someOtherVal>
+    <someDataVal><![CDATA[]]></someDataVal>
 </root>

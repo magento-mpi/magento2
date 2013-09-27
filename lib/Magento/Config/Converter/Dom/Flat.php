@@ -64,7 +64,7 @@ class Magento_Config_Converter_Dom_Flat implements Magento_Config_ConverterInter
                 if (is_array($childrenData)) {
                     $nodeData = array_merge($nodeData, $childrenData);
                     if (!count($nodeData)) {
-                        $nodeListData[$node->nodeName] = $nodeData;
+                        $nodeListData[$node->nodeName] = '';
                     } else if (isset($this->_idAttributes[$fullPath])) {
                         $nodeListData[$node->nodeName][$nodeData[$this->_idAttributes[$fullPath]]] = $nodeData;
                     } else {

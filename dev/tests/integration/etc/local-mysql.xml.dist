@@ -21,7 +21,6 @@
     <db>
         <table_prefix><![CDATA[]]></table_prefix>
     </db>
-    <resource name="default_setup" connection="default"/>
     <connection name="default">
         <host><![CDATA[localhost]]></host>
         <username><![CDATA[root]]></username>
@@ -32,7 +31,7 @@
         <adapter>Magento_TestFramework_Db_ConnectionAdapter</adapter>
         <active>1</active>
     </connection>
-
+    <resource name="default_setup" connection="default"/>
     <session_save><![CDATA[files]]></session_save>
     <backend>
         <frontName><![CDATA[backend]]></frontName>

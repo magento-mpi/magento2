@@ -30,6 +30,8 @@ return array(
                 'name' => 'name2',
                 'value' => '2'
             ),
-        )
+        ),
+        'someOtherVal' => '',
+        'someDataVal' => ''
     ),
 );
