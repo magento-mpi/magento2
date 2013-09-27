@@ -29,6 +29,8 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Customer_Model_Resource_Customer $customerResource
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
@@ -38,11 +40,16 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
         Magento_Review_Helper_Data $reviewData,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Customer_Model_Resource_Customer $customerResource,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_customerResource = $customerResource;
-        parent::__construct($eventManager, $logger, $reviewData, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct(
+            $eventManager, $logger, $reviewData, $fetchStrategy,
+            $entityFactory, $voteFactory, $storeManager, $resource
+        );
     }
 
     /**

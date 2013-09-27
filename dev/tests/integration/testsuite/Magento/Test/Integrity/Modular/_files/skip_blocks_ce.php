@@ -27,4 +27,6 @@ return array(
     'Magento_Sales_Block_Adminhtml_Billing_Agreement_View',
     'Magento_User_Block_Role_Tab_Edit',
     'Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',
+    // Fails because of dependence on registry
+    'Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers',
 );

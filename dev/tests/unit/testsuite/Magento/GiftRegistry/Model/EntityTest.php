@@ -105,7 +105,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
         $addressFactory = $this->getMock('Magento_Customer_Model_AddressFactory', array(), array(), '', false);
         $productFactory = $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false);
         $dateFactory = $this->getMock('Magento_Core_Model_DateFactory', array(), array(), '', false);
-        $loggingEventChangesFactory = $this->getMock(
+        $loggingEventFactory = $this->getMock(
             'Magento_Logging_Model_Event_ChangesFactory', array(), array(), '', false);
         $request = $this->getMock(
             'Magento_Core_Controller_Request_Http', array(), array(), '', false);
@@ -121,7 +121,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
             $coreData, $giftRegistryData, $context, $coreRegistry, $app, $this->_storeManagerMock, $translate, $factory,
             $type, $attributeConfig, $item, $inventoryStockItem, $session,
             $quoteFactory, $customerFactory, $personFactory, $itemFactory, $addressFactory, $productFactory,
-            $dateFactory, $loggingEventChangesFactory, $request, $storeManager, $resource, null, array()
+            $dateFactory, $loggingEventFactory, $request, $storeManager, $resource, null, array()
         );
     }
 

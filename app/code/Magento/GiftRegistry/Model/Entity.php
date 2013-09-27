@@ -175,7 +175,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
     /**
      * @var Magento_Logging_Model_Event_ChangesFactory
      */
-    protected $loggingEventChangesFactory;
+    protected $changesFactory;
 
     /**
      * @var Magento_Core_Model_StoreManagerInterface
@@ -210,7 +210,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * @param Magento_Customer_Model_AddressFactory $addressFactory
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Model_DateFactory $dateFactory
-     * @param Magento_Logging_Model_Event_ChangesFactory $loggingEventChangesFactory
+     * @param Magento_Logging_Model_Event_ChangesFactory $changesFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Controller_Request_Http $request
      * @param array $data
@@ -236,7 +236,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         Magento_Customer_Model_AddressFactory $addressFactory,
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Model_DateFactory $dateFactory,
-        Magento_Logging_Model_Event_ChangesFactory $loggingEventChangesFactory,
+        Magento_Logging_Model_Event_ChangesFactory $changesFactory,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_GiftRegistry_Model_Resource_Entity $resource = null,
@@ -261,7 +261,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
         $this->addressFactory = $addressFactory;
         $this->productFactory = $productFactory;
         $this->dateFactory = $dateFactory;
-        $this->loggingEventChangesFactory = $loggingEventChangesFactory;
+        $this->changesFactory = $changesFactory;
         $this->request = $request;
         $this->storeManager = $storeManager;
 
@@ -1006,7 +1006,7 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      */
     public function postDispatchShare($config, $eventModel, $processor)
     {
-        $change = $this->loggingEventChangesFactory->create();
+        $change = $this->changesFactory->create();
 
         $emails = $this->request->getParam('emails', '');
         if ($emails) {

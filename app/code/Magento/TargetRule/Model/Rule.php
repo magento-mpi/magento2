@@ -124,13 +124,6 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_locale;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
-     */
-    protected $_productCollectionFactory;
-
-    /**
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Resource_Iterator $iterator
      * @param Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory
      * @param Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory
@@ -138,6 +131,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -145,8 +139,6 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productFactory,
-        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Resource_Iterator $iterator,
         Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory,
         Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory,
@@ -159,7 +151,6 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_productCollectionFactory = $productFactory;
         $this->_locale = $locale;
         $this->_iterator = $iterator;
         $this->_productFactory = $productFactory;
@@ -246,7 +237,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function prepareMatchingProducts($onlyId = false)
     {
-        $productCollection = $this->_productCollectionFactory->create();
+        $productCollection = $this->_productFactory->create()->getCollection();
 
         if (!$onlyId && !is_null($this->_productIds)) {
             $productCollection->addIdFilter($this->_productIds);

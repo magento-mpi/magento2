@@ -39,8 +39,8 @@ class Magento_Install_Model_Installer_Db_Factory
      */
     public function get($type)
     {
-        if (!empty($type) && isset($this->_types[$type])) {
-            return $this->_objectManager->get($this->_types[$type]);
+        if (!empty($type) && isset($this->_types[(string)$type])) {
+            return $this->_objectManager->get($this->_types[(string)$type]);
         }
         return false;
     }

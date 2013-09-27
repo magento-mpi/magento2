@@ -21,17 +21,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
     protected $systemStore;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_System_Store $systemStore
      * @param array $data
      */
     public function __construct(
@@ -40,26 +35,21 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_GiftRegistry_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_System_Store $systemStore,
         array $data = array()
     ) {
         $this->entityFactory = $entityFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
 
-        $this->storeManager = $storeManager;
+        $this->systemStore = $systemStore;
     }
 
     /**
      * Set default sort
-     *
-     * @param Magento_Core_Model_System_Store $systemStore
      */
-    protected function _construct(Magento_Core_Model_System_Store $systemStore)
+    protected function _construct()
     {
         parent::_construct();
-
-        $this->systemStore = $systemStore;
-
         $this->setId('customerGrid');
         $this->setUseAjax(true);
         $this->setDefaultSort('registry_id');
@@ -134,7 +124,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
             )
         ));
 
-        if (!$this->storeManager->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header' => __('Website'),
                 'index'  => 'website_id',

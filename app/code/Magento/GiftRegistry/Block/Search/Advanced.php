@@ -52,8 +52,8 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
         array $data = array()
     ) {
         parent::__construct(
-            $coreData, $context, $configCacheType, $country, $region, $storeManager,
-            $locale, $coreRegistry, $customerSession, $attributeConfig, $data
+            $coreData, $context, $configCacheType, $country,
+            $region, $storeManager, $locale, $data
         );
         $this->_coreRegistry = $coreRegistry;
         $this->customerSession = $customerSession;

@@ -75,7 +75,7 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $customerFormData = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerFormData(true);
+            $customerFormData = $this->_session->getCustomerFormData(true);
             $data = new Magento_Object($customerFormData);
             if (empty($customerFormData)) {
                 $invitation = $this->getCustomerInvitation();

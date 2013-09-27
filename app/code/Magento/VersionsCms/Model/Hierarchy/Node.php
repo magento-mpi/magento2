@@ -81,6 +81,13 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     protected $_scopeId = self::NODE_SCOPE_DEFAULT_ID;
 
     /**
+     * Tree metadata
+     *
+     * @var array
+     */
+    protected $_treeMetaData;
+
+    /**
      * @var Magento_VersionsCms_Model_Hierarchy_ConfigInterface
      */
     protected $_hierarchyConfig;
