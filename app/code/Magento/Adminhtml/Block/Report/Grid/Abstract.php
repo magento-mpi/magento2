@@ -186,7 +186,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Backend_Block
             }
         }
 
-        $resourceCollection = $this->_resourceFactory->createCollection($this->getResourceCollectionName())
+        $resourceCollection = $this->_resourceFactory->create($this->getResourceCollectionName())
             ->setPeriod($filterData->getData('period_type'))
             ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
             ->addStoreFilter($storeIds)
@@ -214,7 +214,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Backend_Block
         }
 
         if ($this->getCountTotals()) {
-            $totalsCollection = $this->_resourceFactory->createCollection($this->getResourceCollectionName())
+            $totalsCollection = $this->_resourceFactory->create($this->getResourceCollectionName())
                 ->setPeriod($filterData->getData('period_type'))
                 ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
                 ->addStoreFilter($storeIds)
@@ -240,7 +240,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Backend_Block
     {
         if (!$this->getTotals()) {
             $filterData = $this->getFilterData();
-            $totalsCollection = $this->_resourceFactory->createCollection($this->getResourceCollectionName())
+            $totalsCollection = $this->_resourceFactory->create($this->getResourceCollectionName())
                 ->setPeriod($filterData->getData('period_type'))
                 ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
                 ->addStoreFilter($this->_getStoreIds())
@@ -264,7 +264,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Backend_Block
     public function getSubTotals()
     {
         $filterData = $this->getFilterData();
-        $subTotalsCollection = $this->_resourceFactory->createCollection($this->getResourceCollectionName())
+        $subTotalsCollection = $this->_resourceFactory->create($this->getResourceCollectionName())
             ->setPeriod($filterData->getData('period_type'))
             ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
             ->addStoreFilter($this->_getStoreIds())
