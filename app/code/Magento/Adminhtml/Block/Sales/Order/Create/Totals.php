@@ -29,9 +29,9 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
     protected $_salesData = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Sales_Model_Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @param Magento_Sales_Helper_Data $salesData
@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
      * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param array $data
      */
     public function __construct(
@@ -48,11 +48,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
         Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
-        $this->_coreConfig = $coreConfig;
+        $this->_salesConfig = $salesConfig;
         parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
     }
 
@@ -82,10 +82,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
         $blockName = $code.'_total_renderer';
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
-            $block = $this->_defaultRenderer;
-            $config = $this->_coreConfig->getNode("global/sales/quote/totals/{$code}/admin_renderer");
-            if ($config) {
-                $block = (string) $config;
+            $configRenderer = $this->_salesConfig->getTotalsRenderer('quote', 'totals', $code, 'adminhtml');
+            if (empty($configRenderer)) {
+                $block = $this->_defaultRenderer;
+            } else {
+                $block = $configRenderer;
             }
 
             $block = $this->getLayout()->createBlock($block, $blockName);

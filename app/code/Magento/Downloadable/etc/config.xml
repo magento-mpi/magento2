@@ -20,17 +20,6 @@
             </downloadable_setup>
         </resources>
     </global>
-    <adminhtml>
-        <sales>
-            <order>
-                <create>
-                    <available_product_types>
-                        <downloadable />
-                    </available_product_types>
-                </create>
-            </order>
-        </sales>
-    </adminhtml>
     <default>
         <catalog>
             <downloadable>

@@ -222,8 +222,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             $this->_getConditionSql('main_table.period', $this->getDateRange($range, $customStart, $customEnd))
         );
 
-        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
-            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
+        $statuses = Mage::getSingleton('Magento_Sales_Model_Order_Config')
+            ->getStateStatuses(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -486,8 +486,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             'quantity' => 'SUM(orders_count)',
         ));
 
-        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
-            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
+        $statuses = Mage::getSingleton('Magento_Sales_Model_Order_Config')
+            ->getStateStatuses(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -506,8 +506,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      */
     public function calculateSales($isFilter = 0)
     {
-        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
-            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
+        $statuses = Mage::getSingleton('Magento_Sales_Model_Order_Config')
+            ->getStateStatuses(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);

@@ -19,28 +19,6 @@
                 </setup>
             </salesrule_setup>
         </resources>
-        <sales>
-            <quote>
-                <totals>
-                    <freeshipping>
-                        <class>Magento_SalesRule_Model_Quote_Freeshipping</class>
-                        <after>subtotal</after>
-                        <before>tax_subtotal,shipping</before>
-                    </freeshipping>
-                    <discount>
-                        <class>Magento_SalesRule_Model_Quote_Discount</class>
-                        <after>subtotal,shipping</after>
-                        <before>grand_total</before>
-                    </discount>
-                </totals>
-                <nominal_totals>
-                    <nominal_discount>
-                        <class>Magento_SalesRule_Model_Quote_Nominal_Discount</class>
-                        <sort_order>550</sort_order>
-                    </nominal_discount>
-                </nominal_totals>
-            </quote>
-        </sales>
     </global>
     <default>
         <promo>

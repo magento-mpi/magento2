@@ -11,9 +11,9 @@
 class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
 {
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Sales_Model_Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @var Magento_Core_Model_StoreManager
@@ -23,15 +23,15 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
     /**
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
      */
     public function __construct(
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Sales_Model_Config $salesConfig
     ) {
         $this->_storeManager = $storeManager;
-        $this->_coreConfig = $coreConfig;
+        $this->_salesConfig = $salesConfig;
         parent::__construct($context);
     }
 
@@ -101,8 +101,7 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
      */
     public function applySalableProductTypesFilter($collection)
     {
-        $productTypes = $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray();
-        $productTypes = array_keys($productTypes);
+        $productTypes = $this->_salesConfig->getAvailableProductTypes();
         foreach($collection->getItems() as $key => $item) {
             if ($item instanceof Magento_Catalog_Model_Product) {
                 $type = $item->getTypeId();

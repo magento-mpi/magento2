@@ -30,26 +30,26 @@ class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Backend_Block_Wid
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Sales_Model_Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_coreConfig = $coreConfig;
+        $this->_salesConfig = $salesConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -82,10 +82,7 @@ class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Backend_Block_Wid
             // see if order has non-editable products as items
             $nonEditableTypes = array_keys($this->getOrder()->getResource()->aggregateProductsByTypes(
                 $order->getId(),
-                array_keys($this->_coreConfig
-                    ->getNode('adminhtml/sales/order/create/available_product_types')
-                    ->asArray()
-                ),
+                $this->_salesConfig->getAvailableProductTypes(),
                 false
             ));
             if ($nonEditableTypes) {

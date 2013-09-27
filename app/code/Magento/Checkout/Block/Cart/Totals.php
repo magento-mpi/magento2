@@ -15,24 +15,23 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
     protected $_totals = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Sales_Model_Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * Constructor
-     *
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
         array $data = array()
     ) {
         parent::__construct(
@@ -41,7 +40,7 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
             $context,
             $data
         );
-        $this->_coreConfig = $coreConfig;
+        $this->_salesConfig = $salesConfig;
     }
 
     public function getTotals()
@@ -63,10 +62,11 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
         $blockName = $code . '_total_renderer';
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
-            $block = $this->_defaultRenderer;
-            $config = $this->_coreConfig->getNode("global/sales/quote/totals/{$code}/renderer");
-            if ($config) {
-                $block = (string) $config;
+            $renderer = $this->_salesConfig->getTotalsRenderer('quote', 'totals', $code, 'frontend');
+            if (!empty($renderer)) {
+                $block = $renderer;
+            } else {
+                $block = $this->_defaultRenderer;
             }
 
             $block = $this->getLayout()->createBlock($block, $blockName);

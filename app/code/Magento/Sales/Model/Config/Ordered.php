@@ -25,11 +25,18 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
     protected $_collectorsCacheKey = null;
 
     /**
-     * Configuration path where to collect registered totals
+     * Configuration group where to collect registered totals
      *
-     * @var string|null
+     * @var string
      */
-    protected $_totalsConfigNode = null;
+    protected $_configGroup;
+
+    /**
+     * Configuration section where to collect registered totals
+     *
+     * @var string
+     */
+    protected $_configSection;
 
     /**
      * Prepared models
@@ -63,18 +70,26 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
     protected $_logger;
 
     /**
+     * @var Magento_Sales_Model_Config
+     */
+    protected $_salesConfig;
+
+    /**
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Simplexml_Element|null $sourceData
+     * @param Magento_Sales_Model_Config $salesConfig
+     * @param Magento_Simplexml_Element $sourceData
      */
     public function __construct(
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Logger $logger,
+        Magento_Sales_Model_Config $salesConfig,
         $sourceData = null
     ) {
         parent::__construct($sourceData);
         $this->_configCacheType = $configCacheType;
         $this->_logger = $logger;
+        $this->_salesConfig = $salesConfig;
     }
 
     /**
@@ -84,10 +99,9 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
      */
     protected function _initModels()
     {
-        $totalsConfig = $this->getNode($this->_totalsConfigNode);
-
-        foreach ($totalsConfig->children() as $totalCode => $totalConfig) {
-            $class = $totalConfig->getClassName();
+        $totals = $this->_salesConfig->getGroupTotals($this->_configSection, $this->_configGroup);
+        foreach ($totals as $totalCode => $totalConfig) {
+            $class = $totalConfig['instance'];
             if (!empty($class)) {
                 $this->_models[$totalCode] = $this->_initModelInstance($class, $totalCode, $totalConfig);
             }
@@ -116,16 +130,6 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
     protected function _prepareConfigArray($code, $totalConfig)
     {
         $totalConfig = (array)$totalConfig;
-        if (isset($totalConfig['before'])) {
-            $totalConfig['before'] = explode(',', $totalConfig['before']);
-        } else {
-            $totalConfig['before'] = array();
-        }
-        if (isset($totalConfig['after'])) {
-            $totalConfig['after'] = explode(',', $totalConfig['after']);
-        } else {
-            $totalConfig['after'] = array();
-        }
         $totalConfig['_code'] = $code;
         return $totalConfig;
     }
@@ -143,45 +147,8 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
         $element = current($config);
         if (isset($element['sort_order'])) {
             uasort($config, array($this, '_compareSortOrder'));
-            $result = array_keys($config);
-        } else {
-            $result = array_keys($config);
-            // Move all totals with before specification in front of related total
-            foreach ($config as $code => &$data) {
-                foreach ($data['before'] as $positionCode) {
-                    if (!isset($config[$positionCode])) {
-                        continue;
-                    }
-                    if (!in_array($code, $config[$positionCode]['after'], true)) {
-                        // Also add additional after condition for related total,
-                        // to keep it always after total with before value specified
-                        $config[$positionCode]['after'][] = $code;
-                    }
-                    $currentPosition = array_search($code, $result, true);
-                    $desiredPosition = array_search($positionCode, $result, true);
-                    if ($currentPosition > $desiredPosition) {
-                        // Only if current position is not corresponding to before condition
-                        array_splice($result, $currentPosition, 1); // Removes existent
-                        array_splice($result, $desiredPosition, 0, $code); // Add at new position
-                    }
-                }
-            }
-            // Sort out totals with after position specified
-            foreach ($config as $code => &$data) {
-                $maxAfter = null;
-                $currentPosition = array_search($code, $result, true);
-
-                foreach ($data['after'] as $positionCode) {
-                    $maxAfter = max($maxAfter, array_search($positionCode, $result, true));
-                }
-
-                if ($maxAfter !== null && $maxAfter > $currentPosition) {
-                    // Moves only if it is in front of after total
-                    array_splice($result, $maxAfter + 1, 0, $code); // Add at new position
-                    array_splice($result, $currentPosition, 1); // Removes existent
-                }
-            }
         }
+        $result = array_keys($config);
         return $result;
     }
 
@@ -199,11 +166,6 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
             $sortedCodes = unserialize($cachedData);
         }
         if (!$sortedCodes) {
-            try {
-                self::validateCollectorDeclarations($this->_modelsConfig);
-            } catch (Exception $e) {
-                $this->_logger->logException($e);
-            }
             $sortedCodes = $this->_getSortedCollectorCodes($this->_modelsConfig);
             $this->_configCacheType->save(serialize($sortedCodes), $this->_collectorsCacheKey);
         }
@@ -234,51 +196,5 @@ abstract class Magento_Sales_Model_Config_Ordered extends Magento_Core_Model_Con
             $res = 0;
         }
         return $res;
-    }
-
-    /**
-     * Validate specified configuration array as sales totals declaration
-     *
-     * If there are contradictions, the totals cannot be sorted correctly. Possible contradictions:
-     * - A relation between totals leads to cycles
-     * - Two relations combined lead to cycles
-     *
-     * @param array $config
-     * @throws Magento_Exception
-     */
-    public static function validateCollectorDeclarations($config)
-    {
-        $before = self::_instantiateGraph($config, 'before');
-        $after  = self::_instantiateGraph($config, 'after');
-        foreach ($after->getRelations(Magento_Data_Graph::INVERSE) as $from => $relations) {
-            foreach ($relations as $to) {
-                $before->addRelation($from, $to);
-            }
-        }
-        $cycle = $before->findCycle();
-        if ($cycle) {
-            throw new Magento_Exception(sprintf(
-                'Found cycle in sales total declarations: %s', implode(' -> ', $cycle)
-            ));
-        }
-    }
-
-    /**
-     * Parse "config" array by specified key and instantiate a graph based on that
-     *
-     * @param array $config
-     * @param string $key
-     * @return Magento_Data_Graph
-     */
-    private static function _instantiateGraph($config, $key)
-    {
-        $nodes = array_keys($config);
-        $graph = array();
-        foreach ($config as $from => $row) {
-            foreach ($row[$key] as $to) {
-                $graph[] = array($from, $to);
-            }
-        }
-        return new Magento_Data_Graph($nodes, $graph);
     }
 }
