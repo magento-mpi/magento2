@@ -58,12 +58,17 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_exportFileExtension));
 
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-
+        $dir = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $adapterFactory = $this->getMock('Magento_Core_Model_Log_AdapterFactory', array(), array(), '', false);
+        $entityFactory = $this->getMock(
+            'Magento_ImportExport_Model_Export_Entity_Factory', array(), array(), '', false);;
+        $exportAdapterFac = $this->getMock(
+            'Magento_ImportExport_Model_Export_Adapter_Factory', array(), array(), '', false);
         /** @var $mockModelExport Magento_ImportExport_Model_Export */
         $mockModelExport = $this->getMock(
             'Magento_ImportExport_Model_Export',
             array('getEntityAdapter', '_getEntityAdapter', '_getWriter'),
-            array($logger, $this->_exportConfigMock, array())
+            array($logger, $dir, $adapterFactory, $this->_exportConfigMock, $entityFactory, $exportAdapterFac)
         );
         $mockModelExport->expects($this->any())
             ->method('getEntityAdapter')

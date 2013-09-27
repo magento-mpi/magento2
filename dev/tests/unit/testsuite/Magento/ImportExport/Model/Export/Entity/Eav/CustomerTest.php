@@ -71,6 +71,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     {
         $this->_model = new Magento_ImportExport_Model_Export_Entity_Eav_Customer(
             $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Export_Factory', array(), array(), '', false),
+            $this->getMock(
+                'Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory', array(), array(), '', false
+            ),
+            $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false),
+            $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_Resource_Customer_CollectionFactory', array(), array(), '', false),
             $this->_getModelDependencies()
         );
     }
