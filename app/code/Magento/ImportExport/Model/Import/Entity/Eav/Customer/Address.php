@@ -200,35 +200,24 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
      */
     protected $_addressFactory;
 
-    /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
-     * @param Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory $collectionFactory
-     * @param Magento_Customer_Model_CustomerFactory $_customerFactory
-     * @param Magento_Customer_Model_Resource_Address_CollectionFactory $addressColFactory
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionColFactory
-     * @param Magento_Eav_Model_Config $_eavConfig
-     * @param array $data
-     */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_ImportExport_Model_ImportFactory $importFactory,
         Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
-        Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory $collectionFactory,
-        Magento_Customer_Model_CustomerFactory $_customerFactory,
-        Magento_Customer_Model_Resource_Address_CollectionFactory $addressColFactory,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_App $app,
+        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_ImportExport_Model_Resource_Customer_StorageFactory $storageFactory,
         Magento_Customer_Model_AddressFactory $addressFactory,
         Magento_Directory_Model_Resource_Region_CollectionFactory $regionColFactory,
-        Magento_Eav_Model_Config $_eavConfig,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Customer_Model_Resource_Address_CollectionFactory $addressColFactory,
         array $data = array()
     ) {
-        $this->_resourceHelper = $resourceHelper;
-        $this->_customerFactory = $_customerFactory;
-        $this->_eavConfig = $_eavConfig;
+        $this->_customerFactory = $customerFactory;
         $this->_addressFactory = $addressFactory;
 
         if (!isset($data['attribute_collection'])) {
@@ -238,8 +227,10 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
                 ->addExcludeHiddenFrontendFilter();
             $data['attribute_collection'] = $attributeCollection;
         }
-
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
+        parent::__construct(
+            $coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $app,
+            $collectionFactory, $eavConfig, $storageFactory, $data
+        );
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
             : $addressColFactory->create();
