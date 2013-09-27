@@ -56,7 +56,7 @@ class Layout
      *
      * @param string|array $layoutUpdatesFile
      * @param array $args
-     * @return \Magento\Core\Model\Layout|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     public function getLayoutFromFixture($layoutUpdatesFile, array $args = array())
     {

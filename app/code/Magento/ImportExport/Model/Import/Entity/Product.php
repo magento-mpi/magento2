@@ -1057,12 +1057,12 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $previousType = $productType;
                 }
                 if (!is_null($rowData[self::COL_ATTR_SET])) {
-                    $prevAttributeSet = $rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_ATTR_SET];
+                    $prevAttributeSet = $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_ATTR_SET];
                 }
                 if (self::SCOPE_NULL == $rowScope) {
                     // for multiselect attributes only
                     if (!is_null($prevAttributeSet)) {
-                        $rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_ATTR_SET] = $prevAttributeSet;
+                        $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_ATTR_SET] = $prevAttributeSet;
                     }
                     if (is_null($productType) && !is_null($previousType)) {
                         $productType = $previousType;
