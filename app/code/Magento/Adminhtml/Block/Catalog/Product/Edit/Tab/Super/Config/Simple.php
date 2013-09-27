@@ -25,6 +25,33 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
      */
     protected $_product = null;
 
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        parent::__construct($formFactory, $catalogData, $coreData, $context, $registry, $data);
+    }
+
     protected function _prepareForm()
     {
         /** @var Magento_Data_Form $form */
@@ -44,7 +71,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
 
         $availableTypes = array('text', 'select', 'multiselect', 'textarea', 'price', 'weight');
 
-        $attributes = Mage::getModel('Magento_Catalog_Model_Product')
+        $attributes = $this->_productFactory->create()
             ->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
             ->setAttributeSetId($this->getProduct()->getAttributeSetId())
             ->getAttributes();

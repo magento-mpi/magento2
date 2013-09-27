@@ -23,7 +23,6 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
      * Block construction
      * Defines tree template and init tree params
      */
-
     protected $_template = 'catalog/category/widget/tree.phtml';
 
     protected function _construct()
@@ -80,7 +79,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
                 $categoryId = $value[1];
             }
             if ($categoryId) {
-                $label = Mage::getSingleton('Magento_Catalog_Model_Category')->load($categoryId)->getName();
+                $label = $this->_categoryFactory->create()->load($categoryId)->getName();
                 $chooser->setLabel($label);
             }
         }

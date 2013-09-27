@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Image extends Magento_
     {
         $url = false;
         if ($this->getValue()) {
-            $url = Mage::getBaseUrl('media').'catalog/product/'. $this->getValue();
+            $url = $this->_urlBuilder->getBaseUrl('media') . 'catalog/product/'. $this->getValue();
         }
         return $url;
     }

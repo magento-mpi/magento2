@@ -125,7 +125,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_
      */
     public function getStoreName($storeId)
     {
-        return Mage::app()->getStore($storeId)->getName();
+        return $this->_storeManager->getStore($storeId)->getName();
     }
 
     /**

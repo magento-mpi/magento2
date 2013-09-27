@@ -25,6 +25,27 @@ class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_
      */
     protected $_template = 'catalog/product/created.phtml';
 
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->addChild('close_button', 'Magento_Adminhtml_Block_Widget_Button', array(
@@ -112,8 +133,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_
     public function getConfigurableProduct()
     {
         if ($this->_configurableProduct === null) {
-            $this->_configurableProduct = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStore(0)
+            $this->_configurableProduct = $this->_productFactory->create()->setStore(0)
                 ->load($this->getRequest()->getParam('product'));
         }
         return $this->_configurableProduct;
@@ -127,8 +147,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_
     public function getProduct()
     {
         if ($this->_product === null) {
-            $this->_product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStore(0)
+            $this->_product = $this->_productFactory->create()->setStore(0)
                 ->load($this->getRequest()->getParam('id'));
         }
         return $this->_product;
