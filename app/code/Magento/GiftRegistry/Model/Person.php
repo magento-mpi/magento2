@@ -48,8 +48,8 @@ class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_GiftRegistry_Model_Resource_Person $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
      * @param Magento_GiftRegistry_Model_Entity $entity
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -57,8 +57,8 @@ class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_GiftRegistry_Model_Resource_Person $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
         Magento_GiftRegistry_Model_Entity $entity,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;

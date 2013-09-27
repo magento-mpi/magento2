@@ -131,7 +131,7 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
      */
     public function getTypeList()
     {
-        $storeId = $this->storeManager->getId();
+        $storeId = $this->storeManager->getStore()->getId();
         $collection = $this->typeFactory->create()
             ->getCollection()
             ->addStoreData($storeId)
