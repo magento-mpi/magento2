@@ -145,8 +145,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
         Magento_ImportExport_Model_Import_Entity_Eav_CustomerFactory $customerFactory,
         Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressFactory $addressFactory,
         array $data = array()
-    )
-    {
+    ) {
         parent::__construct(
             $coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $data
         );

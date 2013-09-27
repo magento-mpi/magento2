@@ -76,12 +76,9 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testFilterAttributeCollection()
     {
-        /** @var $model Stub_Magento_ImportExport_Model_Export_EntityAbstract */
-//        $model = $this->getMockForAbstractClass('Stub_Magento_ImportExport_Model_Export_EntityAbstract');
-        $model = $this->_model;
         $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Customer_Model_Resource_Attribute_Collection');
-        $collection = $model->filterAttributeCollection($collection);
+        $collection = $this->_model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
@@ -90,7 +87,7 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
         }
-        $disabledAttributes = $model->getDisabledAttributes();
+        $disabledAttributes = $this->_model->getDisabledAttributes();
         foreach ($disabledAttributes as $attributeCode) {
             $this->assertNotContains(
                 $attributeCode,
