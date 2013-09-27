@@ -28,7 +28,7 @@
                 <connection>
                     <host><![CDATA[localhost]]></host>
                     <username><![CDATA[root]]></username>
-                    <password><![CDATA[]]></password>
+                    <password><![CDATA[mysql]]></password>
                     <!--Web API tests require database with minimal set of fixtures, not empty one-->
                     <dbname><![CDATA[magento2]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>

@@ -2,17 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Oauth
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 /**
  * Application model
- *
- * @category    Magento
- * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method Magento_Oauth_Model_Resource_Consumer _getResource()
  * @method Magento_Oauth_Model_Resource_Consumer getResource()
@@ -20,7 +15,6 @@
  * @method Magento_Oauth_Model_Resource_Consumer_Collection getResourceCollection()
  * @method string getName()
  * @method Magento_Oauth_Model_Consumer setName() setName(string $name)
- * @method string getKey()
  * @method Magento_Oauth_Model_Consumer setKey() setKey(string $key)
  * @method Magento_Oauth_Model_Consumer setSecret() setSecret(string $secret)
  * @method Magento_Oauth_Model_Consumer setCallbackUrl() setCallbackUrl(string $url)
@@ -30,8 +24,10 @@
  * @method Magento_Oauth_Model_Consumer setUpdatedAt() setUpdatedAt(string $date)
  * @method string getRejectedCallbackUrl()
  * @method Magento_Oauth_Model_Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
+ * @method string getHttpPostUrl()
+ * @method Magento_Oauth_Model_Consumer setHttpPostUrl() setHttpPostUrl(string $httpPostUrl)
  */
-abstract class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract implements Magento_Oauth_Model_ConsumerInterface
+class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract
 {
     /**
      * Key hash length
@@ -50,6 +46,7 @@ abstract class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract 
      */
     protected function _construct()
     {
+        parent::_construct();
         $this->_init('Magento_Oauth_Model_Resource_Consumer');
     }
 
@@ -125,6 +122,16 @@ abstract class Magento_Oauth_Model_Consumer extends Magento_Core_Model_Abstract 
 
     /**
      * Get consumer key.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->getData('key');
+    }
+
+    /**
+     * Get consumer secret.
      *
      * @return string
      */
