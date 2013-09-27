@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\PageCache\Helper\Data">
+        <param name="cacheControls">
+            <value>
+                <zendPageCache>
+                    <class>
+                       \Magento\PageCache\Model\Control\Zend
+                    </class>
+                    <label>
+                        Zend Full Page Cache
+                    </label>
+                </zendPageCache>
+            </value>
+        </param>
+    </type>
+</config>

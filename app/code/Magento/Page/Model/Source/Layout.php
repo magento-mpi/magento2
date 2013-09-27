@@ -19,6 +19,19 @@ namespace Magento\Page\Model\Source;
 
 class Layout implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @var \Magento\Page\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @param \Magento\Page\Model\Config $config
+     */
+    public function __construct(
+        \Magento\Page\Model\Config $config
+    ) {
+        $this->_config = $config;
+    }
 
     /**
      * Page layout options
@@ -42,7 +55,7 @@ class Layout implements \Magento\Core\Model\Option\ArrayInterface
     {
         if ($this->_options === null) {
             $this->_options = array();
-            foreach (\Mage::getSingleton('Magento\Page\Model\Config')->getPageLayouts() as $layout) {
+            foreach ($this->_config->getPageLayouts() as $layout) {
                 $this->_options[$layout->getCode()] = $layout->getLabel();
                 if ($layout->getIsDefault()) {
                     $this->_defaultValue = $layout->getCode();

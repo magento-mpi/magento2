@@ -16,6 +16,29 @@ namespace Magento\Install\Controller;
 class Wizard extends \Magento\Install\Controller\Action
 {
     /**
+     * @var string
+     */
+    protected $_installDate;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Core\Model\View\DesignInterface $viewDesign
+     * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
+     * @param string $installDate
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Core\Model\View\DesignInterface $viewDesign,
+        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
+        $installDate = ''
+    ) {
+        $this->_installDate = $installDate;
+        parent::__construct($context, $configScope, $viewDesign, $collectionFactory);
+    }
+
+    /**
      * Perform necessary checks for all actions
      *
      * Redirect out if system is already installed
@@ -58,7 +81,7 @@ class Wizard extends \Magento\Install\Controller\Action
     /**
      * Prepare layout
      *
-     * @return Magento_Install_WizardController
+     * @return \Magento\Install\WizardController
      */
     protected function _prepareLayout()
     {
@@ -416,13 +439,16 @@ class Wizard extends \Magento\Install\Controller\Action
     {
         $this->_checkIfInstalled();
 
-        $date = (string)$this->_objectManager->get('Magento\Core\Model\Config')->getNode('global/install/date');
-        if ($date !== \Magento\Install\Model\Installer\Config::TMP_INSTALL_DATE_VALUE) {
+        if ($this->_installDate !== \Magento\Install\Model\Installer\Config::TMP_INSTALL_DATE_VALUE) {
             $this->_redirect('*/*');
             return;
         }
 
         $this->_getInstaller()->finish();
+
+        /** @var \Magento\Core\Model\App\State $appState */
+        $appState = $this->_objectManager->get('Magento\Core\Model\App\State');
+        $appState->setInstallDate($this->_installDate);
 
         $this->_objectManager->get('Magento\AdminNotification\Model\Survey')->saveSurveyViewed(true);
 

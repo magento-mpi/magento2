@@ -27,7 +27,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -37,17 +37,60 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_request;
 
     /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var \Magento\Acl\Builder
+     */
+    protected $_aclBuilder;
+
+    /**
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var \Magento\User\Model\Resource\Role\Collection
+     */
+    protected $_userRoles;
+
+    /**
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\User\Model\Resource\Role\Collection $userRoles
+     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Acl\Builder $aclBuilder,
+        \Magento\ObjectManager $objectManager,
+        \Magento\User\Model\Resource\Role\Collection $userRoles,
+        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups,
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Model\ConfigInterface $config,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Controller\Request\Http $request
     ) {
+        $this->_backendAuthSession = $backendAuthSession;
+        $this->_systemStore = $systemStore;
+        $this->_aclBuilder = $aclBuilder;
+        $this->_objectManager = $objectManager;
+        $this->_userRoles = $userRoles;
+        $this->_storeGroupCollection = $storeGroups;
         parent::__construct($role);
         $this->_config = $config;
         $this->_storeManager = $storeManager;
@@ -128,11 +171,6 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _getAllStoreGroups()
     {
-        if (null === $this->_storeGroupCollection) {
-            $this->_storeGroupCollection = \Mage::getResourceSingleton(
-                    'Magento\Core\Model\Resource\Store\Group\Collection'
-                );
-        }
         return $this->_storeGroupCollection;
     }
 
@@ -243,8 +281,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $oldWebsiteId = (string)$observer->getEvent()->getOldWebsiteId();
         $newWebsiteId = (string)$observer->getEvent()->getNewWebsiteId();
-        $roles = \Mage::getResourceSingleton('Magento\User\Model\Resource\Role\Collection');
-        foreach ($roles as $role) {
+        foreach ($this->_userRoles as $role) {
             $shouldRoleBeUpdated = false;
             $roleWebsites = explode(',', $role->getGwsWebsites());
             if ((!$role->getGwsIsAll()) && $role->getGwsWebsites()) {
@@ -267,12 +304,9 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function adminControllerPredispatch($observer)
     {
-        /* @var $session \Magento\Backend\Model\Auth\Session */
-        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
-
-        if ($session->isLoggedIn()) {
+        if ($this->_backendAuthSession->isLoggedIn()) {
             // load role with true websites and store groups
-            $this->_role->setAdminRole($session->getUser()->getRole());
+            $this->_role->setAdminRole($this->_backendAuthSession->getUser()->getRole());
 
             if (!$this->_role->getIsAll()) {
                 // disable single store mode
@@ -287,7 +321,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
                     $this->_denyAclLevelRules(self::ACL_STORE_LEVEL);
                 }
                 // cleanup dropdowns for forms/grids that are supposed to be built in future
-                \Mage::getSingleton('Magento\Core\Model\System\Store')->setIsAdminScopeAllowed(false)->reload();
+                $this->_systemStore->setIsAdminScopeAllowed(false)->reload();
             }
 
             // inject into request predispatch to block disallowed actions
@@ -327,14 +361,8 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _denyAclLevelRules($level)
     {
-         /* @var $session \Magento\Backend\Model\Auth\Session */
-        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
-
-        /* @var $builder \Magento\Acl\Builder */
-        $builder = \Mage::getSingleton('Magento\Acl\Builder');
-
         foreach ($this->_config->getDeniedAclResources($level) as $rule) {
-            $builder->getAcl()->deny($session->getUser()->getAclRole(), $rule);
+            $this->_aclBuilder->getAcl()->deny($this->_backendAuthSession->getUser()->getAclRole(), $rule);
         }
         return $this;
     }
@@ -511,7 +539,6 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
                  */
                 //if (class_exists($className, false)) {
                 if ($className) {
-                    $className = str_replace('_', '\\', $className);
                     $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
                 }
                 //}
@@ -565,6 +592,6 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (is_array($callback)) {
             list($class, $method) = $callback;
         }
-        \Mage::getSingleton($class)->$method($passThroughObject);
+        $this->_objectManager->get($class)->$method($passThroughObject);
     }
 }

@@ -20,6 +20,31 @@ namespace Magento\Adminhtml\Block\Dashboard\Tab\Products;
 
 class Ordered extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
+    /**
+     * @var \Magento\Sales\Model\Resource\Report\Bestsellers\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Resource\Report\Bestsellers\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Sales\Model\Resource\Report\Bestsellers\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -32,16 +57,16 @@ class Ordered extends \Magento\Adminhtml\Block\Dashboard\Grid
             return $this;
         }
         if ($this->getParam('website')) {
-            $storeIds = \Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+            $storeIds = $this->_storeManager->getWebsite($this->getParam('website'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else if ($this->getParam('group')) {
-            $storeIds = \Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+            $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else {
             $storeId = (int)$this->getParam('store');
         }
 
-        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Bestsellers\Collection')
+        $collection = $this->_collectionFactory->create()
             ->setModel('Magento\Catalog\Model\Product')
             ->addStoreFilter($storeId)
         ;
@@ -64,7 +89,8 @@ class Ordered extends \Magento\Adminhtml\Block\Dashboard\Grid
             'header'    => __('Price'),
             'width'     => '120px',
             'type'      => 'currency',
-            'currency_code' => (string) \Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'currency_code' => (string) $this->_storeManager->getStore((int)$this->getParam('store'))
+                ->getBaseCurrencyCode(),
             'sortable'  => false,
             'index'     => 'product_price'
         ));

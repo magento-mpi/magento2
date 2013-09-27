@@ -43,7 +43,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMockForAbstractClass(
             'Magento\Core\Model\StoreManagerInterface', array('getWebsite'), '', false
         );
-        $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($website));
+        $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
 
         $this->_customerSession = $this->getMock(
             'Magento\Customer\Model\Session', array('getCustomer'), array(), '', false
@@ -56,6 +56,11 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = new \Magento\CustomerSegment\Model\Customer(
+            $this->getMock('Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory',
+                array('create'), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Customer', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false),
+            $this->getMock('Magento\Log\Model\Visitor', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
             $this->_registry,

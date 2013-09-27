@@ -19,7 +19,7 @@ class ImportExportTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Mage::app()->getLayout()
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Adminhtml\Block\Tax\Rate\ImportExport')
             ->setArea('adminhtml');
     }

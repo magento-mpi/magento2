@@ -25,7 +25,6 @@ class Chooser extends \Magento\Adminhtml\Block\Catalog\Category\Tree
      * Block construction
      * Defines tree template and init tree params
      */
-
     protected $_template = 'catalog/category/widget/tree.phtml';
 
     protected function _construct()
@@ -82,7 +81,7 @@ class Chooser extends \Magento\Adminhtml\Block\Catalog\Category\Tree
                 $categoryId = $value[1];
             }
             if ($categoryId) {
-                $label = \Mage::getSingleton('Magento\Catalog\Model\Category')->load($categoryId)->getName();
+                $label = $this->_categoryFactory->create()->load($categoryId)->getName();
                 $chooser->setLabel($label);
             }
         }

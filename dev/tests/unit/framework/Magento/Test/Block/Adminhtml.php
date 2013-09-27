@@ -9,15 +9,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- */
-namespace Magento\Test\Block;
-
-/**
  * Number of fields is necessary because of the number of fields used by multiple layers
  * of parent classes.
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
+namespace Magento\Test\Block;
+
 class Adminhtml extends \PHPUnit_Framework_TestCase
 {
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
@@ -62,6 +60,18 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_cacheMock;
 
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    protected $_storeConfigMock;
+
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    protected $_helperFactoryMock;
+
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\StoreManager */
+    protected $_storeManagerMock;
+
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\LocaleInterface */
+    protected $_localeMock;
+
     protected function setUp()
     {
         // These mocks are accessed via context
@@ -78,13 +88,15 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_loggerMock          = $this->_makeMock('Magento\Core\Model\Logger');
         $this->_filesystemMock      = $this->_makeMock('Magento\Filesystem');
         $this->_cacheMock           = $this->_makeMock('Magento\Core\Model\CacheInterface');
-        $storeConfigMock            = $this->_makeMock('Magento\Core\Model\Store\Config');
-        $helperFactoryMock          = $this->_makeMock('Magento\Core\Model\Factory\Helper');
+        $this->_storeConfigMock     = $this->_makeMock('Magento\Core\Model\Store\Config');
+        $this->_storeManagerMock    = $this->_makeMock('Magento\Core\Model\StoreManager');
+        $this->_helperFactoryMock   = $this->_makeMock('Magento\Core\Model\Factory\Helper');
+        $this->_localeMock          = $this->_makeMock('Magento\Core\Model\LocaleInterface');
         $viewUrlMock                = $this->_makeMock('Magento\Core\Model\View\Url');
         $viewConfigMock             = $this->_makeMock('Magento\Core\Model\View\Config');
         $viewFileSystemMock         = $this->_makeMock('Magento\Core\Model\View\FileSystem');
         $templateFactoryMock        = $this->_makeMock('Magento\Core\Model\TemplateEngine\Factory');
-        $authorizationMock          = $this->_makeMock('Magento\AuthorizationInterface');
+        $authorizationMock          = $this->_makeMock('Magento_AuthorizationInterface');
         $cacheStateMock             = $this->_makeMock('Magento\Core\Model\Cache\StateInterface');
 
         $this->_translatorMock
@@ -93,6 +105,8 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(array($this, 'translateCallback')));
 
         $this->_context = new \Magento\Backend\Block\Template\Context(
+            $this->_storeManagerMock,
+            $this->_localeMock,
             $this->_requestMock,
             $this->_layoutMock,
             $this->_eventManagerMock,
@@ -101,9 +115,9 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $this->_cacheMock,
             $this->_designMock,
             $this->_sessionMock,
-            $storeConfigMock,
+            $this->_storeConfigMock,
             $this->_controllerMock,
-            $helperFactoryMock,
+            $this->_helperFactoryMock,
             $viewUrlMock,
             $viewConfigMock,
             $cacheStateMock,
@@ -135,9 +149,9 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
      * @param \PHPUnit_Framework_MockObject_MockObject                       $object
      * @param string                                                        $stubName
      * @param mixed                                                         $return
-     * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount|null        $expects
+     * @param PHPUnit_Framework_MockObject_Matcher_InvokedCount|null        $expects
      *
-     * @return \PHPUnit_Framework_MockObject_Builder_InvocationMocker
+     * @return PHPUnit_Framework_MockObject_Builder_InvocationMocker
      */
     protected function _setStub(
         \PHPUnit_Framework_MockObject_MockObject $object,

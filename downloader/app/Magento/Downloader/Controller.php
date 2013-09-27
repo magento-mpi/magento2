@@ -495,7 +495,10 @@ final class Controller
                         return false;
                     }
                     include_once self::$_instance->getBootstrapPath();
-                    Mage::setIsDownloader();
+
+                    \Magento\Core\Model\ObjectManager::getInstance()
+                        ->get('Magento\Core\Model\App\State')
+                        ->setIsDownloader();
                 }
                 \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App');
                 if (self::isInstalled()) {
@@ -1054,12 +1057,12 @@ final class Controller
             '.git',
             '.svn',
             'maintenance.flag',
-            Mage::getBaseDir('var') . DS . 'session',
-            Mage::getBaseDir('var') . DS . 'cache',
-            Mage::getBaseDir('var') . DS . 'full_page_cache',
-            Mage::getBaseDir('var') . DS . 'locks',
-            Mage::getBaseDir('var') . DS . 'log',
-            Mage::getBaseDir('var') . DS . 'report'
+            \Mage::getBaseDir('var') . DS . 'session',
+            \Mage::getBaseDir('var') . DS . 'cache',
+            \Mage::getBaseDir('var') . DS . 'full_page_cache',
+            \Mage::getBaseDir('var') . DS . 'locks',
+            \Mage::getBaseDir('var') . DS . 'log',
+            \Mage::getBaseDir('var') . DS . 'report'
         );
     }
 

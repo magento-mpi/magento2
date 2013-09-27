@@ -43,12 +43,14 @@ class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
      */
     public function testWishlistAction()
     {
-        $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
+        $wishlist = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Wishlist\Model\Wishlist');
         $wishlist->load('fixture_unique_code', 'sharing_code');
         $this->getRequest()->setParam('wishlist_id', $wishlist->getId())
             ->setParam('data', base64_encode('1'))
         ;
-        \Mage::getSingleton('Magento\Customer\Model\Session')->login('customer@example.com', 'password');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session')
+            ->login('customer@example.com', 'password');
         $this->dispatch('rss/index/wishlist');
         $this->assertContains('<![CDATA[Simple Product]]>', $this->getResponse()->getBody());
     }

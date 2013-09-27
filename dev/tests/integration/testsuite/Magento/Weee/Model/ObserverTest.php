@@ -20,7 +20,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Weee\Model\Observer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Weee\Model\Observer');
     }
 
     /**
@@ -36,11 +37,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_model->updateConfigurableProductOptions($eventObserver);
         $this->assertEquals(array(), $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions());
 
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product->load(1));
 
         foreach (array(\Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR) as $mode) {
-            \Mage::app()->getStore()->setConfig('tax/weee/display', $mode);
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()->setConfig('tax/weee/display', $mode);
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
             $this->_model->updateConfigurableProductOptions($eventObserver);
             $this->assertEquals(
@@ -51,7 +54,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         foreach (array(
                 \Magento\Weee\Model\Tax::DISPLAY_EXCL, \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL) as $mode) {
-            \Mage::app()->getStore()->setConfig('tax/weee/display', $mode);
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()->setConfig('tax/weee/display', $mode);
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
             $this->_model->updateConfigurableProductOptions($eventObserver);
             $this->assertEquals(

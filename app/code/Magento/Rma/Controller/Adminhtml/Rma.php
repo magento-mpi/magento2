@@ -20,22 +20,14 @@ class Rma extends \Magento\Adminhtml\Controller\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_coreSession;
-
-    /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Session $session
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Session $session
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreSession = $session;
         parent::__construct($context);
     }
 
@@ -131,16 +123,18 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $customerId = $this->getRequest()->getParam('customer_id');
             $this->_redirect('*/*/chooseorder', array('customer_id' => $customerId));
         } else {
+            /** @var \Magento\Backend\Model\Session $backendSession */
+            $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
             try {
                 $this->_initCreateModel();
                 $this->_initModel();
                 if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->canCreateRma($orderId, true)) {
-                    $this->_session->addError(
+                    $backendSession->addError(
                         __('There are no applicable items for return in this order.')
                     );
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_session->addError($e->getMessage());
+                $backendSession->addError($e->getMessage());
                 $this->_redirect('*/*/');
                 return;
             }
@@ -176,7 +170,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                 throw new \Magento\Core\Exception(__('The wrong RMA was requested.'));
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_session->addError($e->getMessage());
+            $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
         }
@@ -196,6 +190,8 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/');
             return;
         }
+        /** @var \Magento\Backend\Model\Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
         try {
             /** @var $model \Magento\Rma\Model\Rma */
             $model = $this->_initModel();
@@ -205,10 +201,11 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                 throw new \Magento\Core\Exception(__('We failed to save this RMA.'));
             }
             $this->_processNewRmaAdditionalInfo($saveRequest, $model);
-            $this->_session->addSuccess(__('You submitted the RMA request.'));
+            $backendSession->addSuccess(__('You submitted the RMA request.'));
         } catch (\Magento\Core\Exception $e) {
-            $this->_session->addError($e->getMessage());
-            $errorKeys = $this->_coreSession->getRmaErrorKeys();
+            $backendSession->addError($e->getMessage());
+            $errorKeys = $this->_objectManager->get('Magento\Core\Model\Session')
+                ->getRmaErrorKeys();
             $controllerParams = array('order_id' => $this->_coreRegistry->registry('current_order')->getId());
             if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
                 $controllerParams['active_tab'] = 'items_section';
@@ -216,7 +213,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/new', $controllerParams);
             return;
         } catch (\Exception $e) {
-            $this->_session->addError(__('We failed to save this RMA.'));
+            $backendSession->addError(__('We failed to save this RMA.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         $this->_redirect('*/*/');
@@ -292,6 +289,8 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $this->saveNewAction();
             return;
         }
+        /** @var \Magento\Backend\Model\Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
         try {
             $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
             $itemStatuses = $this->_combineItemStatuses($saveRequest['items'], $rmaId);
@@ -304,15 +303,16 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                 throw new \Magento\Core\Exception(__('We failed to save this RMA.'));
             }
             $model->sendAuthorizeEmail();
-            $this->_session->addSuccess(__('You saved the RMA request.'));
+            $backendSession->addSuccess(__('You saved the RMA request.'));
             $redirectBack = $this->getRequest()->getParam('back', false);
             if ($redirectBack) {
                 $this->_redirect('*/*/edit', array('id' => $rmaId, 'store' => $model->getStoreId()));
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_session->addError($e->getMessage());
-            $errorKeys = $this->_coreSession->getRmaErrorKeys();
+            $backendSession->addError($e->getMessage());
+            $errorKeys = $this->_objectManager->get('Magento\Core\Model\Session')
+                ->getRmaErrorKeys();
             $controllerParams = array('id' => $rmaId);
             if (isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
                 $controllerParams['active_tab'] = 'items_section';
@@ -320,7 +320,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/edit', $controllerParams);
             return;
         } catch (\Exception $e) {
-            $this->_session->addError(__('We failed to save this RMA.'));
+            $backendSession->addError(__('We failed to save this RMA.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
@@ -807,10 +807,12 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
+                ->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
+                ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
@@ -1064,7 +1066,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                         ->addSuccess(__('You created a shipping label.'));
                     $responseAjax->setOk(true);
                 }
-                $this->_session->getCommentText(true);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
             } else {
                 $this->_forward('noRoute');
                 return;
@@ -1124,7 +1126,8 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             /** @var $shipment \Magento\Rma\Model\Shipping */
             $shipment = $shippingModel->getShippingLabelByRma($model);
 
-            $carrier = $this->_objectManager->get('Magento\Rma\Helper\Data')->getCarrier($data['code'], $model->getStoreId());
+            $carrier = $this->_objectManager->get('Magento\Rma\Helper\Data')
+                ->getCarrier($data['code'], $model->getStoreId());
             if (!$carrier->isShippingLabelsAvailable()) {
                 return false;
             }
@@ -1167,7 +1170,8 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                 $shipment->save();
 
                 $carrierCode = $carrier->getCarrierCode();
-                $carrierTitle = $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
+                $carrierTitle = $this->_objectManager->get('Magento\Core\Model\Store\Config')
+                    ->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
                 if ($trackingNumbers) {
                     /** @var $shippingResource \Magento\Rma\Model\Resource\Shipping */
                     $shippingResource = $this->_objectManager->create('Magento\Rma\Model\Resource\Shipping');

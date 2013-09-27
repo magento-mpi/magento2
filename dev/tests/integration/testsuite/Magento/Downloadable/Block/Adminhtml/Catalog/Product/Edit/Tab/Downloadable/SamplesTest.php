@@ -16,10 +16,9 @@ class SamplesTest
 {
     public function testGetUploadButtonsHtml()
     {
-        $block = \Mage::app()->getLayout()->createBlock(
-            'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples'
-        );
-        \Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinksTest
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
+        \Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable_LinksTest
             ::performUploadButtonTest($block);
     }
 
@@ -32,7 +31,7 @@ class SamplesTest
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')
             ->register('current_product', new \Magento\Object(array('type_id' => 'simple')));
-        $block = \Mage::app()->getLayout()
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
         $this->assertEmpty($block->getSampleData());
     }
@@ -57,7 +56,7 @@ class SamplesTest
             'id' => '1',
             'samples_title' => $samplesTitle
         )));
-        $block = \Mage::app()->getLayout()
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
         $this->assertEquals($expectedResult, $block->getSamplesTitle());
     }

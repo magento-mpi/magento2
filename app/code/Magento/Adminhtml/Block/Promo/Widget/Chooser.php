@@ -16,6 +16,31 @@ namespace Magento\Adminhtml\Block\Promo\Widget;
 class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
+     * @var \Magento\SalesRule\Model\RuleFactory
+     */
+    protected $_salesRule;
+
+    /**
+     * @param \Magento\SalesRule\Model\RuleFactory $salesRule
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\SalesRule\Model\RuleFactory $salesRule,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_salesRule = $salesRule;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block constructor, prepare grid params
      */
     protected function _construct()
@@ -45,7 +70,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
             ->setUniqId($uniqId);
 
         if ($element->getValue()) {
-            $rule = \Mage::getModel('Magento\SalesRule\Model\Rule')->load((int)$element->getValue());
+            $rule = $this->_salesRule->create()->load((int)$element->getValue());
             if ($rule->getId()) {
                 $chooser->setLabel($rule->getName());
             }
@@ -83,7 +108,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\SalesRule\Model\Rule')->getResourceCollection();
+        $collection = $this->_salesRule->create()->getResourceCollection();
         $this->setCollection($collection);
 
         $this->_eventManager->dispatch('adminhtml_block_promo_widget_chooser_prepare_collection', array(

@@ -111,21 +111,21 @@ class Store extends \Magento\Adminhtml\Controller\Action
         switch ($this->_coreRegistry->registry('store_type')) {
             case 'website':
                 $itemId     = $this->getRequest()->getParam('website_id', null);
-                $model      = \Mage::getModel('Magento\Core\Model\Website');
+                $model      = $this->_objectManager->create('Magento\Core\Model\Website');
                 $title      = __("Web Site");
                 $notExists  = __("The website does not exist.");
                 $codeBase   = __('Before modifying the website code please make sure that it is not used in index.php.');
                 break;
             case 'group':
                 $itemId     = $this->getRequest()->getParam('group_id', null);
-                $model      = \Mage::getModel('Magento\Core\Model\Store\Group');
+                $model      = $this->_objectManager->create('Magento\Core\Model\Store\Group');
                 $title      = __("Store");
                 $notExists  = __("The store does not exist");
                 $codeBase   = false;
                 break;
             case 'store':
                 $itemId     = $this->getRequest()->getParam('store_id', null);
-                $model      = \Mage::getModel('Magento\Core\Model\Store');
+                $model      = $this->_objectManager->create('Magento\Core\Model\Store');
                 $title      = __("Store View");
                 $notExists  = __("Store view doesn't exist");
                 $codeBase   = __('Before modifying the store view code please make sure that it is not used in index.php.');
@@ -172,7 +172,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
                 switch ($postData['store_type']) {
                     case 'website':
                         $postData['website']['name'] = $this->_getHelper()->removeTags($postData['website']['name']);
-                        $websiteModel = \Mage::getModel('Magento\Core\Model\Website');
+                        $websiteModel = $this->_objectManager->create('Magento\Core\Model\Website');
                         if ($postData['website']['website_id']) {
                             $websiteModel->load($postData['website']['website_id']);
                         }
@@ -187,7 +187,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
 
                     case 'group':
                         $postData['group']['name'] = $this->_getHelper()->removeTags($postData['group']['name']);
-                        $groupModel = \Mage::getModel('Magento\Core\Model\Store\Group');
+                        $groupModel = $this->_objectManager->create('Magento\Core\Model\Store\Group');
                         if ($postData['group']['group_id']) {
                             $groupModel->load($postData['group']['group_id']);
                         }
@@ -205,7 +205,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
 
                     case 'store':
                         $eventName = 'store_edit';
-                        $storeModel = \Mage::getModel('Magento\Core\Model\Store');
+                        $storeModel = $this->_objectManager->create('Magento\Core\Model\Store');
                         $postData['store']['name'] = $this->_getHelper()->removeTags($postData['store']['name']);
                         if ($postData['store']['store_id']) {
                             $storeModel->load($postData['store']['store_id']);
@@ -215,11 +215,12 @@ class Store extends \Magento\Adminhtml\Controller\Action
                             $storeModel->setId(null);
                             $eventName = 'store_add';
                         }
-                        $groupModel = \Mage::getModel('Magento\Core\Model\Store\Group')->load($storeModel->getGroupId());
+                        $groupModel = $this->_objectManager->create('Magento\Core\Model\Store\Group')
+                            ->load($storeModel->getGroupId());
                         $storeModel->setWebsiteId($groupModel->getWebsiteId());
                         $storeModel->save();
 
-                        \Mage::app()->reinitStores();
+                        $this->_objectManager->get('Magento\Core\Model\StoreManager')->reinitStores();
 
                         $this->_eventManager->dispatch($eventName, array('store'=>$storeModel));
 
@@ -250,7 +251,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
-        if (!$model = \Mage::getModel('Magento\Core\Model\Website')->load($itemId)) {
+        if (!$model = $this->_objectManager->create('Magento\Core\Model\Website')->load($itemId)) {
             $session->addError(__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
@@ -280,7 +281,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
-        if (!$model = \Mage::getModel('Magento\Core\Model\Store\Group')->load($itemId)) {
+        if (!$model = $this->_objectManager->create('Magento\Core\Model\Store\Group')->load($itemId)) {
             $session->addError(__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
@@ -310,7 +311,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
-        if (!$model = \Mage::getModel('Magento\Core\Model\Store')->load($itemId)) {
+        if (!$model = $this->_objectManager->create('Magento\Core\Model\Store')->load($itemId)) {
             $session->addError(__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
@@ -337,7 +338,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
     public function deleteWebsitePostAction()
     {
         $itemId = $this->getRequest()->getParam('item_id');
-        $model = \Mage::getModel('Magento\Core\Model\Website')->load($itemId);
+        $model = $this->_objectManager->create('Magento\Core\Model\Website')->load($itemId);
 
         if (!$model) {
             $this->_getSession()->addError(__('Unable to proceed. Please, try again'));
@@ -369,7 +370,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
     {
         $itemId = $this->getRequest()->getParam('item_id');
 
-        if (!$model = \Mage::getModel('Magento\Core\Model\Store\Group')->load($itemId)) {
+        if (!$model = $this->_objectManager->create('Magento\Core\Model\Store\Group')->load($itemId)) {
             $this->_getSession()->addError(__('Unable to proceed. Please, try again.'));
             $this->_redirect('*/*/');
             return ;
@@ -403,7 +404,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
     {
         $itemId = $this->getRequest()->getParam('item_id');
 
-        if (!$model = \Mage::getModel('Magento\Core\Model\Store')->load($itemId)) {
+        if (!$model = $this->_objectManager->create('Magento\Core\Model\Store')->load($itemId)) {
             $this->_getSession()->addError(__('Unable to proceed. Please, try again'));
             $this->_redirect('*/*/');
             return ;
@@ -426,7 +427,7 @@ class Store extends \Magento\Adminhtml\Controller\Action
             return ;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (E\xception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('Unable to delete store view. Please, try again later.'));
         }
         $this->_redirect('*/*/editStore', array('store_id' => $itemId));
@@ -450,11 +451,11 @@ class Store extends \Magento\Adminhtml\Controller\Action
             return $this;
         }
         try {
-            $backupDb = \Mage::getModel('Magento\Backup\Model\Db');
-            $backup   = \Mage::getModel('Magento\Backup\Model\Backup')
+            $backupDb = $this->_objectManager->create('Magento\Backup\Model\Db');
+            $backup   = $this->_objectManager->create('Magento\Backup\Model\Backup')
                 ->setTime(time())
                 ->setType('db')
-                ->setPath(\Mage::getBaseDir('var') . DS . 'backups');
+                ->setPath($this->_objectManager->get('Magento\Core\Model\Dir')->getDir('var') . DS . 'backups');
 
             $backupDb->createBackup($backup);
             $this->_getSession()->addSuccess(__('The database was backed up.'));

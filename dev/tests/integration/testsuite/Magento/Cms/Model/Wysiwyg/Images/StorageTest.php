@@ -1,7 +1,4 @@
 <?php
-
-namespace Magento\Cms\Model\Wysiwyg\Images;
-
 /**
  * {license_notice}
  *
@@ -10,6 +7,8 @@ namespace Magento\Cms\Model\Wysiwyg\Images;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
+namespace Magento\Cms\Model\Wysiwyg\Images;
+
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -21,7 +20,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     {
         self::$_baseDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Cms\Helper\Wysiwyg\Images')
-                ->getCurrentPath() . 'MagentoCmsModelWysiwygImagesStorageTest';
+                ->getCurrentPath() . __CLASS__;
         mkdir(self::$_baseDir, 0777);
         touch(self::$_baseDir . DIRECTORY_SEPARATOR . '1.swf');
     }
@@ -39,7 +38,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
         /** @var $model \Magento\Cms\Model\Wysiwyg\Images\Storage */
-        $model = \Mage::getModel('Magento\Cms\Model\Wysiwyg\Images\Storage');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cms\Model\Wysiwyg\Images\Storage');
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
         $this->assertInstanceOf('Magento\Cms\Model\Wysiwyg\Images\Storage\Collection', $collection);
         foreach ($collection as $item) {

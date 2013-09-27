@@ -16,7 +16,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_tmpDir = \Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'ConfigTest';
+        self::$_tmpDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+            ->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
         mkdir(self::$_tmpDir);
     }
 
@@ -48,7 +49,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFileNotExists($expectedFile);
         $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
-        $model = \Mage::getModel('Magento\Install\Model\Installer\Config', array(
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Install\Model\Installer\Config', array(
             'request' => $request, 'dirs' => $dirs, 'filesystem' => $filesystem
         ));
         $model->install();
@@ -59,7 +61,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetFormData()
     {
         /** @var $model \Magento\Install\Model\Installer\Config */
-        $model = \Mage::getModel('Magento\Install\Model\Installer\Config');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Install\Model\Installer\Config');
         /** @var $result \Magento\Object */
         $result = $model->getFormData();
         $this->assertInstanceOf('Magento\Object', $result);

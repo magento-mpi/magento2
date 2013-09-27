@@ -36,6 +36,30 @@ class Main extends \Magento\Backend\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Entity\Type
+     */
+    protected $_typeFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Entity\Attribute\GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @param \Magento\Eav\Model\Entity\Type $typeFactory
+     * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory $attributeFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -43,12 +67,20 @@ class Main extends \Magento\Backend\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Eav\Model\Entity\Type $typeFactory,
+        \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
+        \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory $attributeFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_typeFactory = $typeFactory;
+        $this->_groupFactory = $groupFactory;
+        $this->_attributeFactory = $attributeFactory;
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $registry;
         $this->_catalogProduct = $catalogProduct;
         parent::__construct($coreData, $context, $data);
@@ -171,14 +203,13 @@ class Main extends \Magento\Backend\Block\Template
         $setId = $this->_getSetId();
 
         /* @var $groups \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection */
-        $groups = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Group')
+        $groups = $this->_groupFactory->create()
             ->getResourceCollection()
             ->setAttributeSetFilter($setId)
             ->setSortOrder()
             ->load();
 
-        $configurable = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute')
-            ->getUsedAttributes($setId);
+        $configurable = $this->_attributeFactory->create()->getUsedAttributes($setId);
 
         $unassignableAttributes = $this->_catalogProduct->getUnassignableAttributes();
 
@@ -191,7 +222,7 @@ class Main extends \Magento\Backend\Block\Template
             $item['allowDrop']  = true;
             $item['allowDrag']  = true;
 
-            $nodeChildren = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+            $nodeChildren = $this->_collectionFactory->create()
                 ->setAttributeGroupFilter($node->getId())
                 ->addVisibleFilter()
                 ->load();
@@ -236,7 +267,7 @@ class Main extends \Magento\Backend\Block\Template
         $items = array();
         $setId = $this->_getSetId();
 
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+        $collection = $this->_collectionFactory->create()
             ->setAttributeSetFilter($setId)
             ->load();
 
@@ -246,7 +277,7 @@ class Main extends \Magento\Backend\Block\Template
             $attributesIds[] = $item->getAttributeId();
         }
 
-        $attributes = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+        $attributes = $this->_collectionFactory->create()
             ->setAttributesExcludeFilter($attributesIds)
             ->addVisibleFilter()
             ->load();
@@ -382,7 +413,7 @@ class Main extends \Magento\Backend\Block\Template
     {
         $isDefault = $this->getData('is_current_set_default');
         if (is_null($isDefault)) {
-            $defaultSetId = \Mage::getModel('Magento\Eav\Model\Entity\Type')
+            $defaultSetId = $this->_typeFactory->create()
                 ->load($this->_coreRegistry->registry('entityType'))
                 ->getDefaultAttributeSetId();
             $isDefault = $this->_getSetId() == $defaultSetId;

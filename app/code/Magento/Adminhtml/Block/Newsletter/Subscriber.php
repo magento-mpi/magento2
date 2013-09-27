@@ -30,6 +30,27 @@ class Subscriber extends \Magento\Adminhtml\Block\Template
     protected $_template = 'newsletter/subscriber/list.phtml';
 
     /**
+     * @var \Magento\Newsletter\Model\Resource\Queue\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepares block to render
      *
      * @return \Magento\Adminhtml\Block\Newsletter\Subscriber
@@ -48,7 +69,7 @@ class Subscriber extends \Magento\Adminhtml\Block\Template
     {
         if (is_null($this->_queueCollection)) {
             /** @var $this->_queueCollection \Magento\Newsletter\Model\Resource\Queue\Collection */
-            $this->_queueCollection = \Mage::getResourceSingleton('Magento\Newsletter\Model\Resource\Queue\Collection')
+            $this->_queueCollection = $this->_collectionFactory->create()
                 ->addTemplateInfo()
                 ->addOnlyUnsentFilter()
                 ->load();

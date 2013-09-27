@@ -21,13 +21,38 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected $_template = 'customer/tab/newsletter.phtml';
 
+    /**
+     * @var \Magento\Newsletter\Model\SubscriberFactory
+     */
+    protected $_subscriberFactory;
+
+    /**
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_subscriberFactory = $subscriberFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     public function initForm()
     {
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
         $customer = $this->_coreRegistry->registry('current_customer');
-        $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')->loadByCustomer($customer);
+        $subscriber = $this->_subscriberFactory->create()->loadByCustomer($customer);
         $this->_coreRegistry->register('subscriber', $subscriber);
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Newsletter Information')));

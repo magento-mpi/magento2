@@ -67,6 +67,11 @@ class Installer extends \Magento\Object
     protected $_setupFactory;
 
     /**
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
@@ -74,6 +79,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Resource\SetupFactory $setupFactory
+     * @param \Magento\ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
@@ -84,6 +90,7 @@ class Installer extends \Magento\Object
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Resource\SetupFactory $setupFactory,
+        \Magento\ObjectManager $objectManager,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -93,6 +100,7 @@ class Installer extends \Magento\Object
         $this->_cacheState = $cacheState;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_setupFactory = $setupFactory;
+        $this->_objectManager = $objectManager;
         parent::__construct($data);
     }
 
@@ -195,9 +203,7 @@ class Installer extends \Magento\Object
             ->setConfigData($data)
             ->install();
 
-        /** @var $primaryConfig  \Magento\Core\Model\Config\Primary*/
-        $primaryConfig = \Mage::getSingleton('Magento\Core\Model\Config\Primary');
-        $primaryConfig->reinit();
+        $this->_objectManager->get('Magento\Core\Model\Config\Local')->reload();
 
         /** @var $config \Magento\Core\Model\Config */
         $config = \Mage::getSingleton('Magento\Core\Model\Config');
@@ -221,7 +227,7 @@ class Installer extends \Magento\Object
          */
         /** @var $setupModel \Magento\Core\Model\Resource\Setup */
         $setupModel = $this->_setupFactory->create(
-            'Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup')
+            'Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup', 'moduleName' => 'Magento_Core')
         );
 
         if (!empty($data['use_rewrites'])) {
@@ -309,7 +315,7 @@ class Installer extends \Magento\Object
     public function createAdministrator($data)
     {
         // \Magento\User\Model\User belongs to adminhtml area
-       \Mage::app()
+        \Mage::app()
             ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
 
         /** @var $user \Magento\User\Model\User */

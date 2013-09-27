@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
+
 class SendTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send */
@@ -23,12 +23,13 @@ class SendTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $model = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftCardAccount\Model\Giftcardaccount');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_giftcardaccount', $model);
 
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
 
         $this->_block = $layout
             ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send');

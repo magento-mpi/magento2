@@ -1,5 +1,7 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Endpoint
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -7,18 +9,13 @@
  */
 namespace Magento\Webhook\Model;
 
-/**
- * \Magento\Webhook\Model\Endpoint
- */
 class EndpointTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @magentoDbIsolation enabled
-     */
     public function testGetMethods()
     {
         /** @var  \Magento\Webhook\Model\Endpoint $endpoint */
-        $endpoint = \Mage::getModel('Magento\Webhook\Model\Endpoint');
+        $endpoint = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Endpoint');
 
         $endpoint->setEndpointUrl('endpoint.url.com');
         $this->assertEquals('endpoint.url.com', $endpoint->getEndpointUrl());
@@ -44,13 +41,11 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     * @magentoDbIsolation enabled
-     */
     public function testBeforeSave()
     {
         /** @var  \Magento\Webhook\Model\Endpoint $endpoint */
-        $endpoint = \Mage::getModel('Magento\Webhook\Model\Endpoint');
+        $endpoint = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Endpoint');
         $endpoint->setUpdatedAt('-1')
             ->save();
 

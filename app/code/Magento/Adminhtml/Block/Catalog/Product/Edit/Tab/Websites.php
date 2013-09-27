@@ -127,7 +127,7 @@ class Websites extends \Magento\Backend\Block\Store\Switcher
      */
     public function getStoreName($storeId)
     {
-        return \Mage::app()->getStore($storeId)->getName();
+        return $this->_storeManager->getStore($storeId)->getName();
     }
 
     /**

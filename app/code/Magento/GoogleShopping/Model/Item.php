@@ -33,6 +33,64 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected $_serviceItem = null;
 
+    /**
+     * Config
+     *
+     * @var \Magento\GoogleShopping\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * Item factory
+     *
+     * @var \Magento\GoogleShopping\Model\Service\ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * Type factory
+     *
+     * @var \Magento\GoogleShopping\Model\TypeFactory
+     */
+    protected $_typeFactory;
+
+    /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\GoogleShopping\Model\Service\ItemFactory $itemFactory
+     * @param \Magento\GoogleShopping\Model\TypeFactory $typeFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\GoogleShopping\Model\Config $config
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GoogleShopping\Model\Service\ItemFactory $itemFactory,
+        \Magento\GoogleShopping\Model\TypeFactory $typeFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\GoogleShopping\Model\Config $config,
+        array $data = array()
+    ) {
+        $this->_itemFactory = $itemFactory;
+        $this->_typeFactory = $typeFactory;
+        $this->_productFactory = $productFactory;
+        $this->_config = $config;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+
     protected function _construct()
     {
         parent::_construct();
@@ -47,8 +105,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getServiceItem()
     {
         if (is_null($this->_serviceItem)) {
-            $this->_serviceItem = \Mage::getModel('Magento\GoogleShopping\Model\Service\Item')
-                ->setStoreId($this->getStoreId());
+            $this->_serviceItem = $this->_itemFactory->create()->setStoreId($this->getStoreId());
         }
         return $this->_serviceItem;
     }
@@ -72,7 +129,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function getTargetCountry()
     {
-        return \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getTargetCountry($this->getStoreId());
+        return $this->_config->getTargetCountry($this->getStoreId());
     }
 
     /**
@@ -144,8 +201,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             return $registry[$attributeSetId][$targetCountry];
         }
 
-        $type = \Mage::getModel('Magento\GoogleShopping\Model\Type')
-            ->loadByAttributeSetId($attributeSetId, $targetCountry);
+        $type = $this->_typeFactory->create()->loadByAttributeSetId($attributeSetId, $targetCountry);
 
         $registry[$attributeSetId][$targetCountry] = $type;
         $this->_coreRegistry->unregister(self::TYPES_REGISTRY_KEY);
@@ -162,9 +218,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getProduct()
     {
         if (is_null($this->getData('product')) && !is_null($this->getProductId())) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')
-                ->setStoreId($this->getStoreId())
-                ->load($this->getProductId());
+            $product = $this->_productFactory->create()->setStoreId($this->getStoreId())->load($this->getProductId());
             $this->setData('product', $product);
         }
 

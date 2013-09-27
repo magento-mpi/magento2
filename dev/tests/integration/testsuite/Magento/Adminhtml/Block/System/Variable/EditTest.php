@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\System\Variable;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\System\Variable;
+
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,15 +28,17 @@ class EditTest extends \PHPUnit_Framework_TestCase
             'html_value' => '<b>Test Variable 1 HTML Value</b>',
             'plain_value' => 'Test Variable 1 plain Value',
         );
-        $variable = \Mage::getModel('Magento\Core\Model\Variable')
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $variable = $objectManager->create('Magento\Core\Model\Variable')
             ->setData($data)
             ->save();
 
-        /** @var $objectManager \Magento\TestFramework\ObjectManager */
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_variable', $variable);
-        \Mage::app()->getRequest()->setParam('variable_id', $variable->getId());
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\System\Variable\Edit', 'variable');
+        $objectManager->get('Magento\Core\Controller\Request\Http')
+            ->setParam('variable_id', $variable->getId());
+        $block = $objectManager->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\System\Variable\Edit', 'variable');
         $this->assertArrayHasKey('variable-delete_button', $block->getLayout()->getAllBlocks());
     }
 }

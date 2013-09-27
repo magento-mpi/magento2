@@ -16,7 +16,8 @@ class ClassTest extends \PHPUnit_Framework_TestCase
     public function testCheckClassCanBeDeletedCustomerClassAssertException()
     {
         /** @var $model \Magento\Tax\Model\ClassModel */
-        $model = \Mage::getModel('Magento\Tax\Model\ClassModel')->getCollection()
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\ClassModel')->getCollection()
             ->setClassTypeFilter(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER)
             ->getFirstItem();
 
@@ -30,11 +31,13 @@ class ClassTest extends \PHPUnit_Framework_TestCase
     public function testCheckClassCanBeDeletedProductClassAssertException()
     {
         /** @var $model \Magento\Tax\Model\ClassModel */
-        $model = \Mage::getModel('Magento\Tax\Model\ClassModel')->getCollection()
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\ClassModel')->getCollection()
             ->setClassTypeFilter(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
             ->getFirstItem();
 
-        \Mage::getModel('Magento\Catalog\Model\Product')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')
             ->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
@@ -53,7 +56,8 @@ class ClassTest extends \PHPUnit_Framework_TestCase
     public function testCheckClassCanBeDeletedPositiveResult($classType)
     {
         /** @var $model \Magento\Tax\Model\ClassModel */
-        $model = \Mage::getModel('Magento\Tax\Model\ClassModel');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\ClassModel');
         $model->setClassName('TaxClass' . uniqid())
             ->setClassType($classType)
             ->isObjectNew(true);
@@ -79,11 +83,12 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         /** @var $registry \Magento\Core\Model\Registry */
         $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
         /** @var $taxRule \Magento\Tax\Model\Calculation\Rule */
-        $taxRule = $registry->registry('_fixture/Magento\Tax\Model\Calculation\Rule');
+        $taxRule = $registry->registry('_fixture/Magento_Tax_Model_Calculation_Rule');
         $customerClasses = $taxRule->getCustomerTaxClasses();
 
         /** @var $model \Magento\Tax\Model\ClassModel */
-        $model = \Mage::getModel('Magento\Tax\Model\ClassModel')
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\ClassModel')
             ->load($customerClasses[0]);
         $this->setExpectedException('Magento\Core\Exception', 'You cannot delete this tax class because it is used in' .
             ' Tax Rules. You have to delete the rules it is used in first.');
@@ -99,11 +104,12 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         /** @var $registry \Magento\Core\Model\Registry */
         $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
         /** @var $taxRule \Magento\Tax\Model\Calculation\Rule */
-        $taxRule = $registry->registry('_fixture/Magento\Tax\Model\Calculation\Rule');
+        $taxRule = $registry->registry('_fixture/Magento_Tax_Model_Calculation_Rule');
         $productClasses = $taxRule->getProductTaxClasses();
 
         /** @var $model \Magento\Tax\Model\ClassModel */
-        $model = \Mage::getModel('Magento\Tax\Model\ClassModel')
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\ClassModel')
             ->load($productClasses[0]);
         $this->setExpectedException('Magento\Core\Exception', 'You cannot delete this tax class because it is used in' .
             ' Tax Rules. You have to delete the rules it is used in first.');

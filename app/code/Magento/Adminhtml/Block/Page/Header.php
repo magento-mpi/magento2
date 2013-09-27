@@ -29,18 +29,26 @@ class Header extends \Magento\Adminhtml\Block\Template
     protected $_backendData = null;
 
     /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_authSession;
+
+    /**
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_backendData = $backendData;
+        $this->_authSession = $authSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -51,7 +59,7 @@ class Header extends \Magento\Adminhtml\Block\Template
 
     public function getUser()
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser();
+        return $this->_authSession->getUser();
     }
 
     public function getLogoutLink()

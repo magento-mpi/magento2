@@ -36,16 +36,16 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     protected $_configStructure;
 
     /**
+     * @var \Magento\Core\Model\Email\Template\Config
+     */
+    private $_emailConfig;
+
+    /**
      * Template file
      *
      * @var string
      */
     protected $_template = 'system/email/template/edit.phtml';
-
-    /**
-     * @var \Magento\Core\Model\Email\Template
-     */
-    protected $_templateModel;
     
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -53,7 +53,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
      * @param \Magento\Backend\Model\Config\Structure $configStructure
-     * @param \Magento\Core\Model\Email\Template $templateModel
+     * @param \Magento\Core\Model\Email\Template\Config $emailConfig
      * @param array $data
      */
     public function __construct(
@@ -62,13 +62,13 @@ class Edit extends \Magento\Adminhtml\Block\Widget
         \Magento\Core\Model\Registry $registry,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        \Magento\Core\Model\Email\Template $templateModel,
+        \Magento\Core\Model\Email\Template\Config $emailConfig,
         array $data = array()
     ) {
         $this->_registryManager = $registry;
         $this->_menuConfig = $menuConfig;
         $this->_configStructure = $configStructure;
-        $this->_templateModel = $templateModel;
+        $this->_emailConfig = $emailConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -185,13 +185,34 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     protected function _beforeToHtml()
     {
         $groupedOptions = array();
-        foreach ($this->_templateModel->getDefaultTemplatesAsOptionsArray() as $option) {
+        foreach ($this->_getDefaultTemplatesAsOptionsArray() as $option) {
             $groupedOptions[$option['group']][] = $option;
         }
         ksort($groupedOptions);
         $this->setData('template_options', $groupedOptions);
 
         return parent::_beforeToHtml();
+    }
+
+    /**
+     * Get default templates as options array
+     *
+     * @return array
+     */
+    protected function _getDefaultTemplatesAsOptionsArray()
+    {
+        $options = array(array('value' => '', 'label' => '', 'group' => ''));
+        foreach ($this->_emailConfig->getAvailableTemplates() as $templateId) {
+            $options[] = array(
+                'value' => $templateId,
+                'label' => $this->_emailConfig->getTemplateLabel($templateId),
+                'group' => $this->_emailConfig->getTemplateModule($templateId),
+            );
+        }
+        uasort($options, function (array $firstElement, array $secondElement) {
+            return strcmp($firstElement['label'], $secondElement['label']);
+        });
+        return $options;
     }
 
     public function getBackButtonHtml()
@@ -396,7 +417,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                 if (isset($pathData['scope']) && isset($pathData['scope_id'])) {
                     switch ($pathData['scope']) {
                         case 'stores':
-                            $store = \Mage::app()->getStore($pathData['scope_id']);
+                            $store = $this->_storeManager->getStore($pathData['scope_id']);
                             if ($store) {
                                 $urlParams['website'] = $store->getWebsite()->getCode();
                                 $urlParams['store'] = $store->getCode();
@@ -404,7 +425,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
                             }
                             break;
                         case 'websites':
-                            $website = \Mage::app()->getWebsite($pathData['scope_id']);
+                            $website = $this->_storeManager->getWebsite($pathData['scope_id']);
                             if ($website) {
                                 $urlParams['website'] = $website->getCode();
                                 $scopeLabel = $website->getName();

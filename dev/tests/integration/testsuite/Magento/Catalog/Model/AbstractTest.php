@@ -16,7 +16,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Stub class name for class under test
      */
-    const STUB_CLASS = 'Magento_Catalog_Model_AbstractModel_Stub';
+    const STUB_CLASS = 'Magento\Catalog\Model\AbstractModel\Stub';
 
     /**
      * @var \Magento\Catalog\Model\AbstractModel
@@ -37,7 +37,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             self::$_isStubClass = true;
         }
 
-        $this->_model = \Mage::getModel(self::STUB_CLASS);
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create(self::STUB_CLASS);
 
         $resourceProperty = new \ReflectionProperty(get_class($this->_model), '_resourceName');
         $resourceProperty->setAccessible(true);
@@ -138,13 +139,18 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetStore()
     {
         $store = $this->_model->getStore();
-        $this->assertSame($store, \Mage::app()->getStore());
+        $this->assertSame(
+            $store,
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()
+        );
     }
 
     public function testGetWebsiteStoreIds()
     {
         $ids = $this->_model->getWebsiteStoreIds();
-        $storeId = \Mage::app()->getStore()->getId();
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
         $this->assertEquals(array($storeId => $storeId), $ids);
     }
 

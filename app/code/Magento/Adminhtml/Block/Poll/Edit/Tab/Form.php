@@ -16,6 +16,45 @@ namespace Magento\Adminhtml\Block\Poll\Edit\Tab;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_adminhtmlSession;
+
+    /**
+     * @param \Magento\Backend\Model\Session $adminhtmlSession
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Model\Session $adminhtmlSession,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_storeManager = $context->getStoreManager();
+        $this->_systemStore = $systemStore;
+        $this->_adminhtmlSession = $adminhtmlSession;
+    }
+
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
@@ -45,12 +84,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ),
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('store_ids', 'multiselect', array(
                 'label'     => __('Visible In'),
                 'required'  => true,
                 'name'      => 'store_ids[]',
-                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
+                'values'    => $this->_systemStore->getStoreValuesForForm(),
                 'value'     => $this->_coreRegistry->registry('poll_data')->getStoreIds()
             ));
             $renderer = $this->getLayout()
@@ -59,15 +98,15 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         } else {
             $fieldset->addField('store_ids', 'hidden', array(
                 'name'      => 'store_ids[]',
-                'value'     => \Mage::app()->getStore(true)->getId()
+                'value'     => $this->_storeManager->getStore(true)->getId()
             ));
-            $this->_coreRegistry->registry('poll_data')->setStoreIds(\Mage::app()->getStore(true)->getId());
+            $this->_coreRegistry->registry('poll_data')->setStoreIds($this->_storeManager->getStore(true)->getId());
         }
 
 
-        if (\Mage::getSingleton('Magento\Adminhtml\Model\Session')->getPollData()) {
-            $form->setValues(\Mage::getSingleton('Magento\Adminhtml\Model\Session')->getPollData());
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setPollData(null);
+        if ($this->_adminhtmlSession->getPollData()) {
+            $form->setValues($this->_adminhtmlSession->getPollData());
+            $this->_adminhtmlSession->setPollData(null);
         } elseif($this->_coreRegistry->registry('poll_data')) {
             $form->setValues($this->_coreRegistry->registry('poll_data')->getData());
 

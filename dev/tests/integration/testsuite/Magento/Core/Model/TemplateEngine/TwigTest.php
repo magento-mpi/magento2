@@ -25,7 +25,7 @@ class TwigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        \Mage::app()->loadAreaPart(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
             \Magento\Core\Model\App\Area::AREA_GLOBAL,
             \Magento\Core\Model\App\Area::PART_CONFIG
         );
@@ -52,10 +52,8 @@ class TwigTest extends \PHPUnit_Framework_TestCase
      */
     public function testSimpleRender()
     {
-        \Mage::app()->loadAreaPart(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND,
-            \Magento\Core\Model\App\Area::PART_DESIGN
-        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_FRONTEND, \Magento\Core\Model\App\Area::PART_DESIGN);
         $simpleTitle = 'This is the Title';
         $renderedOutput = '<html><head><title>' . $simpleTitle . '</title></head><body></body></html>';
         $path = __DIR__ . '/_files';

@@ -17,10 +17,12 @@ class ExpressTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function testReviewAction()
     {
         $this->markTestSkipped('There is a dependency that needs to be identified for this test');
-        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
         echo "Quote ID: {$quote->getId}\n";
-        \Mage::getSingleton('Magento\Checkout\Model\Session')->setQuoteId($quote->getId());
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session')
+            ->setQuoteId($quote->getId());
 
         $this->dispatch('paypal/express/review');
 

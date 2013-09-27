@@ -9,8 +9,6 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model;
-
 /**
  * Test class for \Magento\Catalog\Model\Category.
  * - general behaviour is tested
@@ -18,6 +16,8 @@ namespace Magento\Catalog\Model;
  * @see \Magento\Catalog\Model\CategoryTreeTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
+namespace Magento\Catalog\Model;
+
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -64,7 +64,10 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $categoryResource = self::$_objectManager->create('Magento\Catalog\Model\Resource\Category\Flat');
         /** @var $setupModel \Magento\Core\Model\Resource\Setup */
         $setupModel = self::$_objectManager->create('Magento\Core\Model\Resource\Setup',
-            array('resourceName' => \Magento\Core\Model\Resource\Setup::DEFAULT_SETUP_CONNECTION)
+            array(
+                'resourceName' => \Magento\Core\Model\Resource\Setup::DEFAULT_SETUP_CONNECTION,
+                'moduleName' => 'Magento_Core',
+            )
         );
         $stores = $application->getStores();
         /** @var $store \Magento\Core\Model\Store */
@@ -97,7 +100,10 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         // remove flat tables
         /** @var $setupModel \Magento\Core\Model\Resource\Setup */
         $setupModel = self::$_objectManager->create('Magento\Core\Model\Resource\Setup',
-            array('resourceName' => \Magento\Core\Model\Resource\Setup::DEFAULT_SETUP_CONNECTION)
+            array(
+                'resourceName' => \Magento\Core\Model\Resource\Setup::DEFAULT_SETUP_CONNECTION,
+                'moduleName' => 'Magento_Core',
+            )
         );
         foreach (self::$_indexerTables as $tableName) {
             if ($setupModel->getConnection()->isTableExists($tableName)) {
@@ -197,12 +203,20 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     public function testGetStoreIds()
     {
         $this->_model->load(3); /* id from fixture */
-        $this->assertContains(\Mage::app()->getStore()->getId(), $this->_model->getStoreIds());
+        $this->assertContains(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()->getId(),
+            $this->_model->getStoreIds()
+        );
     }
 
     public function testSetGetStoreId()
     {
-        $this->assertEquals(\Mage::app()->getStore()->getId(), $this->_model->getStoreId());
+        $this->assertEquals(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()->getId(),
+            $this->_model->getStoreId()
+        );
         $this->_model->setStoreId(1000);
         $this->assertEquals(1000, $this->_model->getStoreId());
     }
@@ -214,7 +228,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     public function testSetStoreIdWithNonNumericValue()
     {
         /** @var $store \Magento\Core\Model\Store */
-        $store = \Mage::getModel('Magento\Core\Model\Store');
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store');
         $store->load('fixturestore');
 
         $this->assertNotEquals($this->_model->getStoreId(), $store->getId());

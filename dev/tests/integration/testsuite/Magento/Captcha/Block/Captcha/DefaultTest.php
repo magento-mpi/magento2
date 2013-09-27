@@ -19,7 +19,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-         $this->_block = \Mage::app()->getLayout()
+         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Captcha\Block\Captcha\DefaultCaptcha');
     }
 
@@ -38,8 +38,16 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRefreshUrlWhenIsAdminStore()
     {
-        \Mage::app()->getStore('admin')->setUrlModel(\Mage::getModel('Magento\Backend\Model\Url'));
-        \Mage::app()->setCurrentStore(\Mage::app()->getStore('admin'));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore('admin')->setUrlModel(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->create('Magento\Backend\Model\Url')
+            );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->setCurrentStore(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore('admin')
+            );
 
         $this->assertContains('backend/admin/refresh/refresh', $this->_block->getRefreshUrl());
     }

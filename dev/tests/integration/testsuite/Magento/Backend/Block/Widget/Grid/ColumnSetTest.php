@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
-
-namespace Magento\Backend\Block\Widget\Grid;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Block\Widget\Grid;
+
 class ColumnSetTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -45,10 +44,12 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
             array($this->_columnMock)
         ));
 
-        $context = \Mage::getModel('Magento\Core\Block\Template\Context', array('layout' => $this->_layoutMock));
-        $this->_block = \Mage::app()->getLayout()->createBlock(
-            'Magento\Backend\Block\Widget\Grid\ColumnSet', '', array('context' => $context)
-        );
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Block\Template\Context', array('layout' => $this->_layoutMock));
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock(
+                'Magento\Backend\Block\Widget\Grid\ColumnSet', '', array('context' => $context)
+            );
         $this->_block->setTemplate(null);
     }
 

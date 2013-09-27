@@ -28,6 +28,12 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\SalesRule\Model\Resource\Coupon\CollectionFactory
+     */
+    protected $_salesRuleCoupon;
+
+    /**
+     * @param \Magento\SalesRule\Model\Resource\Coupon\CollectionFactory $salesRuleCoupon
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -36,6 +42,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\SalesRule\Model\Resource\Coupon\CollectionFactory $salesRuleCoupon,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -44,6 +51,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_salesRuleCoupon = $salesRuleCoupon;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -69,7 +77,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         /**
          * @var \Magento\SalesRule\Model\Resource\Coupon\Collection $collection
          */
-        $collection = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon\Collection')
+        $collection = $this->_salesRuleCoupon->create()
             ->addRuleToFilter($priceRule)
             ->addGeneratedCouponsFilter();
 
@@ -107,9 +115,9 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
                 __('No'),
                 __('Yes')
             ),
-            'renderer' => 'Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid\Column\Renderer\Used',
+            'renderer' => 'Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid_Column_Renderer_Used',
             'filter_condition_callback' => array(
-                \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon\Collection'), 'addIsUsedFilterCallback'
+                $this->_salesRuleCoupon->create(), 'addIsUsedFilterCallback'
             )
         ));
 

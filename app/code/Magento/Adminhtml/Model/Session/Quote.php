@@ -50,27 +50,49 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     protected $_order   = null;
 
     /**
-     * @param \Magento\Core\Model\Session\Validator $validator
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Session\Validator $validator,
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Session\Context $context,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
         array $data = array()
     ) {
-        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        $this->_quoteFactory = $quoteFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_storeManager = $storeManager;
+        $this->_orderFactory = $orderFactory;
+        parent::__construct($context, $data);
         $this->init('adminhtml_quote');
-        if (\Mage::app()->hasSingleStore()) {
-            $this->setStoreId(\Mage::app()->getStore(true)->getId());
+        if ($this->_storeManager->hasSingleStore()) {
+            $this->setStoreId($this->_storeManager->getStore(true)->getId());
         }
     }
 
@@ -82,12 +104,11 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     public function getQuote()
     {
         if (is_null($this->_quote)) {
-            $this->_quote = \Mage::getModel('Magento\Sales\Model\Quote');
+            $this->_quote = $this->_quoteFactory->create();
             if ($this->getStoreId() && $this->getQuoteId()) {
                 $this->_quote->setStoreId($this->getStoreId())
                     ->load($this->getQuoteId());
-            }
-            elseif($this->getStoreId() && $this->hasCustomerId()) {
+            } elseif ($this->getStoreId() && $this->hasCustomerId()) {
                 $this->_quote->setStoreId($this->getStoreId())
                     ->setCustomerGroupId($this->_coreStoreConfig->getConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
                     ->assignCustomer($this->getCustomer())
@@ -113,7 +134,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
         return $this;
     }
 
-/**
+    /**
      * Retrieve customer model object
      * @param bool $forceReload
      * @param bool $useSetStore
@@ -122,7 +143,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     public function getCustomer($forceReload=false, $useSetStore=false)
     {
         if (is_null($this->_customer) || $forceReload) {
-            $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer');
+            $this->_customer = $this->_customerFactory->create();
             if ($useSetStore && $this->getStore()->getId()) {
                 $this->_customer->setStore($this->getStore());
             }
@@ -141,7 +162,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = \Mage::app()->getStore($this->getStoreId());
+            $this->_store = $this->_storeManager->getStore($this->getStoreId());
             if ($currencyId = $this->getCurrencyId()) {
                 $this->_store->setCurrentCurrencyCode($currencyId);
             }
@@ -157,7 +178,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     public function getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = \Mage::getModel('Magento\Sales\Model\Order');
+            $this->_order = $this->_orderFactory->create();
             if ($this->getOrderId()) {
                 $this->_order->load($this->getOrderId());
             }

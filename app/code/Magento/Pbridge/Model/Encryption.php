@@ -10,21 +10,22 @@
 
 namespace Magento\Pbridge\Model;
 
-class Encryption extends \Magento\Pci\Model\Encryption {
+class Encryption extends \Magento\Pci\Model\Encryption
+{
 
     /**
      * Constructor
      *
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param string $cryptKey
      * @param $key
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Config $coreConfig,
+        $cryptKey,
         $key
     ) {
-        parent::__construct($objectManager, $coreConfig);
+        parent::__construct($objectManager, $cryptKey);
         $this->_keys = array($key);
         $this->_keyVersion = 0;
     }

@@ -15,9 +15,6 @@ class Handler
 {
     const RESULT_NODE_NAME = 'result';
 
-    /** @var \Magento\Core\Model\App */
-    protected $_application;
-
     /** @var \Magento\Webapi\Controller\Soap\Request */
     protected $_request;
 
@@ -30,18 +27,15 @@ class Handler
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\Core\Model\App $application
      * @param \Magento\Webapi\Controller\Soap\Request $request
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Webapi\Model\Soap\Config $apiConfig
      */
     public function __construct(
-        \Magento\Core\Model\App $application,
         \Magento\Webapi\Controller\Soap\Request $request,
         \Magento\ObjectManager $objectManager,
         \Magento\Webapi\Model\Soap\Config $apiConfig
     ) {
-        $this->_application = $application;
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
@@ -52,26 +46,26 @@ class Handler
      *
      * @param string $operation
      * @param array $arguments
-     * @return stdClass|null
+     * @return \stdClass|null
      * @throws \Magento\Webapi\Exception|LogicException
      */
     public function __call($operation, $arguments)
     {
         $requestedServices = $this->_request->getRequestedServices();
         $serviceMethodInfo = $this->_apiConfig->getServiceMethodInfo($operation, $requestedServices);
-        $serviceId = $serviceMethodInfo[\Magento\Webapi\Model\Soap\Config::KEY_CLASS];
-        $serviceMethod = $serviceMethodInfo[\Magento\Webapi\Model\Soap\Config::KEY_METHOD];
+        $serviceClass = $serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_CLASS];
+        $serviceMethod = $serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_METHOD];
 
         // check if the operation is a secure operation & whether the request was made in HTTPS
-        if ($serviceMethodInfo[\Magento\Webapi\Model\Soap\Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
+        if ($serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
             throw new \Magento\Webapi\Exception(__("Operation allowed only in HTTPS"));
         }
 
-        $service = $this->_objectManager->get($serviceId);
+        $service = $this->_objectManager->get($serviceClass);
         $outputData = $service->$serviceMethod($this->_prepareParameters($arguments));
         if (!is_array($outputData)) {
             throw new \LogicException(
-                sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceId)
+                sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceClass)
             );
         }
         return $outputData;
@@ -80,7 +74,7 @@ class Handler
     /**
      * Extract service method parameters from SOAP operation arguments.
      *
-     * @param stdClass|array $arguments
+     * @param \stdClass|array $arguments
      * @return array
      */
     protected function _prepareParameters($arguments)
@@ -97,7 +91,7 @@ class Handler
      *
      * This function uses recursion and operates by reference.
      *
-     * @param stdClass|array $obj
+     * @param \stdClass|array $obj
      * @return bool
      */
     protected function _associativeObjectToArray(&$obj)

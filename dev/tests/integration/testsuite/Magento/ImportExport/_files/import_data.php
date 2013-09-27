@@ -113,7 +113,8 @@ $bunches = array(
     )
 );
 
-$importDataResource = \Mage::getResourceModel('Magento\ImportExport\Model\Resource\Import\Data');
+$importDataResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\ImportExport\Model\Resource\Import\Data');
 
 foreach ($bunches as $bunch) {
     $importDataResource->saveBunch($bunch['entity'], $bunch['behavior'], $bunch['data']);
@@ -121,5 +122,5 @@ foreach ($bunches as $bunch) {
 
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$objectManager->get('Magento\Core\Model\Registry')->unregister('_fixture/Magento\ImportExport\Import\Data');
-$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/Magento\ImportExport\Import\Data', $bunches);
+$objectManager->get('Magento\Core\Model\Registry')->unregister('_fixture/Magento_ImportExport_Import_Data');
+$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/Magento_ImportExport_Import_Data', $bunches);

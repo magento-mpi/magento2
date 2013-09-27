@@ -70,21 +70,11 @@ class Payment extends \Magento\Backend\Block\Template
     /**
      * Getter
      *
-     * @return \Magento\Adminhtml\Model\Sales\Order\Create
-     */
-    protected function _getOrderCreateModel()
-    {
-        return $this->_orderCreate;
-    }
-
-    /**
-     * Getter
-     *
      * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return $this->_getOrderCreateModel()->getQuote();
+        return $this->_orderCreate->getQuote();
     }
 
     /**
@@ -150,6 +140,6 @@ class Payment extends \Magento\Backend\Block\Template
      */
     public function useRewardPoints()
     {
-        return (bool)$this->_getOrderCreateModel()->getQuote()->getUseRewardPoints();
+        return (bool)$this->_orderCreate->getQuote()->getUseRewardPoints();
     }
 }

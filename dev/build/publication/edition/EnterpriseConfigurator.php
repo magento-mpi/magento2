@@ -50,10 +50,12 @@ class EnterpriseConfigurator implements ConfiguratorInterface
         );
 
         //set edition constant
-        $mageFile = $this->_basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Mage.php';
-        $content = $this->_filesystem->read($mageFile);
+        $appFile = $this->_basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'code'
+            . DIRECTORY_SEPARATOR . 'Magento' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR
+            . 'Model' . DIRECTORY_SEPARATOR . 'App.php';
+        $content = $this->_filesystem->read($appFile);
         $content = str_replace('self::EDITION_COMMUNITY', 'self::EDITION_ENTERPRISE', $content);
-        $this->_filesystem->write($mageFile, $content);
+        $this->_filesystem->write($appFile, $content);
 
         //set downloader chanel
         $configFile = $this->_basePath . DIRECTORY_SEPARATOR . 'downloader' . DIRECTORY_SEPARATOR . 'config.ini';

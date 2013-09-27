@@ -103,7 +103,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
         $timezone = \Mage::getSingleton('Magento\Install\Model\Session')->getTimezone()
             ? \Mage::getSingleton('Magento\Install\Model\Session')->getTimezone()
             : \Mage::app()->getLocale()->getTimezone();
-        if ($timezone == \Mage::DEFAULT_TIMEZONE) {
+        if ($timezone == \Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE) {
             $timezone = 'America/Los_Angeles';
         }
         return $timezone;

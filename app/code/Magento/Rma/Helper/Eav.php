@@ -39,20 +39,20 @@ class Eav extends \Magento\Eav\Helper\Data
     protected $_resource;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Resource $resource
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;
@@ -209,8 +209,7 @@ class Eav extends \Magento\Eav\Helper\Data
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
             $optionCollection = $this->_collectionFactory->create()->setStoreFilter($storeId, $useDefaultValue);
-            $optionCollection
-                ->getSelect()
+            $optionCollection->getSelect()
                 ->join(
                     array('ea' => $this->_resource->getTableName('eav_attribute')),
                     'main_table.attribute_id = ea.attribute_id',
@@ -221,7 +220,7 @@ class Eav extends \Magento\Eav\Helper\Data
                     array(''))
                 ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());
             $value = array();
-            foreach($optionCollection as $option){
+            foreach ($optionCollection as $option) {
                 $value[$option->getAttributeCode()][$option->getOptionId()] = $option->getData();
             }
             $this->_attributeOptionValues[$storeId] = $value;

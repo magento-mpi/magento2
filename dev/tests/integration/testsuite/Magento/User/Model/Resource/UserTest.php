@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Model\Resource;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\User\Model\Resource;
+
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\User\Model\Resource\User */
@@ -18,7 +18,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getResourceSingleton('Magento\User\Model\Resource\User');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\User\Model\Resource\User');
     }
 
     public function testCountAll()

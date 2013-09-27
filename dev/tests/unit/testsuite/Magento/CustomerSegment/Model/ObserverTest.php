@@ -26,7 +26,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
         );
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-        $this->_model = new \Magento\CustomerSegment\Model\Observer($this->_segmentHelper, $coreRegistry);
+        $this->_model = new \Magento\CustomerSegment\Model\Observer(
+            $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false),
+            $this->getMock('Magento\CustomerSegment\Model\Customer', array(), array(), '', false),
+            $this->getMock('Magento\Backend\Model\Config\Source\Yesno', array(), array(), '', false),
+            $this->_segmentHelper,
+            $coreRegistry
+        );
     }
 
     protected function tearDown()

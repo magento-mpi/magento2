@@ -31,6 +31,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
      */
     public function __construct(
         \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolFactory,
@@ -38,10 +39,11 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor
     ) {
         $this->_symbolFactory = $symbolFactory;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     /**

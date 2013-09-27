@@ -18,20 +18,23 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTotalsHtml()
     {
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_order', $order);
-        $payment = \Mage::getModel('Magento\Sales\Model\Order\Payment');
+        $payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Payment');
         $payment->setMethod('checkmo');
         $order->setPayment($payment);
 
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $block = $layout->createBlock('Magento\Sales\Block\Order\PrintOrder\Creditmemo', 'block');
         $childBlock = $layout->addBlock('Magento\Core\Block\Text', 'creditmemo_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
-        $creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo');
+        $creditmemo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Creditmemo');
         $this->assertEmpty($childBlock->getCreditmemo());
         $this->assertNotEquals($expectedHtml, $block->getTotalsHtml($creditmemo));
 

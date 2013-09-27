@@ -21,6 +21,31 @@ namespace Magento\Adminhtml\Block\Catalog\Search\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Init Form properties
      *
      */
@@ -75,22 +100,24 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'required'  => true,
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'name'      => 'store_id',
                 'label'     => __('Store'),
                 'title'     => __('Store'),
-                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(true, false),
+                'values'    => $this->_systemStore->getStoreValuesForForm(true, false),
                 'required'  => true,
             ));
-            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
+            );
             $field->setRenderer($renderer);
         }
         else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'store_id'
             ));
-            $model->setStoreId(\Mage::app()->getStore(true)->getId());
+            $model->setStoreId($this->_storeManager->getStore(true)->getId());
         }
 
         if ($model->getId()) {

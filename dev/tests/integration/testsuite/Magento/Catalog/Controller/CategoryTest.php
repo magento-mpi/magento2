@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Controller;
-
 /**
  * Test class for \Magento\Catalog\Controller\Category.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
+namespace Magento\Catalog\Controller;
+
 class CategoryTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     public function assert404NotFound()
@@ -78,11 +78,13 @@ class CategoryTest extends \Magento\TestFramework\TestCase\ControllerAbstract
         $this->assertInstanceOf('Magento\Catalog\Model\Category', $currentCategory);
         $this->assertEquals($categoryId, $currentCategory->getId(), 'Category in registry.');
 
-        $lastCategoryId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastVisitedCategoryId();
+        $lastCategoryId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Session')->getLastVisitedCategoryId();
         $this->assertEquals($categoryId, $lastCategoryId, 'Last visited category.');
 
         /* Layout updates */
-        $handles = \Mage::app()->getLayout()->getUpdate()->getHandles();
+        $handles = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->getUpdate()->getHandles();
         foreach ($expectedHandles as $expectedHandleName) {
             $this->assertContains($expectedHandleName, $handles);
         }

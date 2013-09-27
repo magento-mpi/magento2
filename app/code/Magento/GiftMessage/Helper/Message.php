@@ -71,6 +71,7 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
      */
     public function __construct(
         \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory,
@@ -81,13 +82,15 @@ class Message extends \Magento\Core\Helper\Data
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor
+
     ) {
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
         $this->_storeManager = $storeManager;
         $this->_giftMessageFactory = $giftMessageFactory;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     /**

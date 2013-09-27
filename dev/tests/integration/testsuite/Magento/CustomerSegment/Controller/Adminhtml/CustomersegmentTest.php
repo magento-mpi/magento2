@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Controller\Adminhtml;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\CustomerSegment\Controller\Adminhtml;
+
 class CustomersegmentTest extends \Magento\Backend\Utility\Controller
 {
     /**
@@ -36,7 +36,8 @@ class CustomersegmentTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveAction()
     {
-        $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
+        $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
         $this->dispatch('backend/admin/customersegment/save/id/' . $segment->getId());
         $content = $this->getResponse()->getBody();
@@ -50,11 +51,13 @@ class CustomersegmentTest extends \Magento\Backend\Utility\Controller
     public function testMatchActionLogging()
     {
         /** @var \Magento\Logging\Model\Event $loggingModel */
-        $loggingModel = \Mage::getModel('Magento\Logging\Model\Event');
+        $loggingModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Logging\Model\Event');
         $result = $loggingModel->load('magento_customersegment', 'event_code');
         $this->assertEmpty($result->getId());
 
-        $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
+        $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
         $this->dispatch('backend/admin/customersegment/match/id/' . $segment->getId());
 

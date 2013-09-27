@@ -11,7 +11,8 @@
 
 require __DIR__ . '/../../Checkout/_files/simple_product.php';
 /** @var $product \Magento\Catalog\Model\Product */
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->load(1);
 
 /** @var $product \Magento\Catalog\Model\Product */
@@ -37,7 +38,8 @@ $product->setCanSaveCustomOptions(true)
     ->save();
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->load(1);
 $optionId = key($product->getOptions());
 

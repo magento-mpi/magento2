@@ -11,7 +11,6 @@
 /**
  * Admin poll answer edit block
  */
-
 namespace Magento\Adminhtml\Block\Poll\Answer;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
@@ -24,18 +23,26 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Poll\Model\Poll\AnswerFactory
+     */
+    protected $_pollAnswerFactory;
+
+    /**
+     * @param \Magento\Poll\Model\Poll\AnswerFactory $pollAnswerFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Poll\Model\Poll\AnswerFactory $pollAnswerFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_pollAnswerFactory = $pollAnswerFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -45,9 +52,9 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         $this->_objectId = 'id';
         $this->_controller = 'poll_answer';
-        $answerData = \Mage::getModel('Magento\Poll\Model\Poll\Answer');
+        $answerData = $this->_pollAnswerFactory->create();
         if ($this->getRequest()->getParam($this->_objectId)) {
-            $answerData = \Mage::getModel('Magento\Poll\Model\Poll\Answer')
+            $answerData = $this->_pollAnswerFactory->create()
                 ->load($this->getRequest()->getParam($this->_objectId));
             $this->_coreRegistry->register('answer_data', $answerData);
         }

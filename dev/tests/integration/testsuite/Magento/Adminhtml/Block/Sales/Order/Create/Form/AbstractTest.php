@@ -28,15 +28,16 @@ class AbstractTest
             ->setDefaultDesignTheme();
         $arguments = array(
             $objectManager->get('Magento\Data\Form\Factory'),
+            $objectManager->get('Magento\Adminhtml\Model\Session\Quote'),
+            $objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create'),
             $objectManager->get('Magento\Core\Helper\Data'),
             $objectManager->get('Magento\Backend\Block\Template\Context'),
         );
         /** @var $block \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm */
-        $block = $this->getMockForAbstractClass(
-            'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', $arguments);
+        $block = $this->getMockForAbstractClass('Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', $arguments);
         $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
-        $method = new \ReflectionMethod(
+        $method = new ReflectionMethod(
             'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', '_addAttributesToForm');
         $method->setAccessible(true);
 

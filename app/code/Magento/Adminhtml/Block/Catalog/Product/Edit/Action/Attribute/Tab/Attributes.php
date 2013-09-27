@@ -22,6 +22,31 @@ class Attributes
     extends \Magento\Adminhtml\Block\Catalog\Form
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -54,7 +79,7 @@ class Attributes
          * Initialize product object as form property
          * for using it in elements generation
          */
-        $form->setDataObject(\Mage::getModel('Magento\Catalog\Model\Product'));
+        $form->setDataObject($this->_productFactory->create());
         $this->_setFieldset($attributes, $fieldset, $this->getFormExcludedFieldList());
         $form->setFieldNameSuffix('attributes');
         $this->setForm($form);

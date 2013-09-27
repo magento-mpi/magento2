@@ -20,7 +20,8 @@ class CommentsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Sales\Block\Order\Comments');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Sales\Block\Order\Comments');
     }
 
     /**
@@ -42,15 +43,18 @@ class CommentsTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                \Mage::getModel('Magento\Sales\Model\Order\Invoice'),
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Invoice'),
                 'Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection'
             ),
             array(
-                \Mage::getModel('Magento\Sales\Model\Order\Creditmemo'),
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Creditmemo'),
                 'Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection'
             ),
             array(
-                \Mage::getModel('Magento\Sales\Model\Order\Shipment'),
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Shipment'),
                 'Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection'
             )
         );
@@ -61,7 +65,8 @@ class CommentsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCommentsWrongEntityException()
     {
-        $entity = \Mage::getModel('Magento\Catalog\Model\Product');
+        $entity = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->_block->setEntity($entity);
         $this->_block->getComments();
     }

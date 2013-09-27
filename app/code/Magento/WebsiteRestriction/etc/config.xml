@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <websiterestriction_setup>
-                <setup>
-                    <module>Magento_WebsiteRestriction</module>
-                    <class>Magento\WebsiteRestriction\Model\Resource\Setup</class>
-                </setup>
-            </websiterestriction_setup>
-        </resources>
-    </global>
-
     <default>
         <general>
             <restriction>

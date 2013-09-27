@@ -18,7 +18,8 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
-class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
+class Datetime
+    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
 {
     /**
      * full day is 86400, we need 23 hours:59 minutes:59 seconds = 86399
@@ -45,7 +46,7 @@ class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
                 \Mage::app()->getStore()->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
             );
             $datetimeTo->addDay(1)->subSecond(1);
-            $datetimeTo->setTimezone(\Mage::DEFAULT_TIMEZONE);
+            $datetimeTo->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
         }
         return $value;
     }
@@ -76,7 +77,7 @@ class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
                 );
 
                 //convert store date to default date in UTC timezone without DST
-                $dateObj->setTimezone(\Mage::DEFAULT_TIMEZONE);
+                $dateObj->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
 
                 return $dateObj;
             } catch (\Exception $e) {

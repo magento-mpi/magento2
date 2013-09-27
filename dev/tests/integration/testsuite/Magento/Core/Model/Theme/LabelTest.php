@@ -20,7 +20,8 @@ class LabelTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Theme\Label');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Label');
     }
 
     /**
@@ -29,7 +30,8 @@ class LabelTest extends \PHPUnit_Framework_TestCase
     public function testGetLabelsCollection()
     {
         /** @var $expectedCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $expectedCollection = \Mage::getModel('Magento\Core\Model\Resource\Theme\Collection');
+        $expectedCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
         $expectedCollection->addAreaFilter(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->filterVisibleThemes();
 

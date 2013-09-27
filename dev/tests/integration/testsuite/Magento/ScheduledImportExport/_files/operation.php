@@ -10,7 +10,8 @@
  */
 
 /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
-$operation = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation');
+$operation = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
 
 $data = array(
     'operation_type'    => 'export',

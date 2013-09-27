@@ -9,18 +9,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Widget\Form;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Widget\Form;
+
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetFormHtml()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         // Create block with blocking _prepateLayout(), which is used by block to instantly add 'form' child
         /** @var $block \Magento\Adminhtml\Block\Widget\Form\Container */
         $block = $this->getMock('Magento\Adminhtml\Block\Widget\Form\Container', array('_prepareLayout'),

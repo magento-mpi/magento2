@@ -1,15 +1,11 @@
 <?php
 /**
+ * Resource Setup Model
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Resource Setup Model
  */
 namespace Magento\Core\Model\Resource;
 
@@ -22,23 +18,9 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     protected $_resourceName;
 
     /**
-     * Setup resource configuration object
-     *
-     * @var \Magento\Simplexml\Element
-     */
-    protected $_resourceConfig;
-
-    /**
-     * Connection configuration object
-     *
-     * @var \Magento\Simplexml\Element
-     */
-    protected $_connectionConfig;
-
-    /**
      * Setup module configuration object
      *
-     * @var \Magento\Simplexml\Element
+     * @var array
      */
     protected $_moduleConfig;
 
@@ -54,7 +36,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
      *
      * @var \Magento\DB\Adapter\Pdo\Mysql
      */
-    protected $_conn;
+    protected $_connection = null;
     /**
      * Tables cache array
      *
@@ -67,13 +49,6 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
      * @var array
      */
     protected $_setupCache = array();
-
-    /**
-     * Flag which shows, that setup has hooked queries from DB adapter
-     *
-     * @var bool
-     */
-    protected $_queriesHooked = false;
 
     /**
      * Modules configuration
@@ -90,11 +65,6 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_config;
-
-    /**
      * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
@@ -105,50 +75,31 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     protected $_logger;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param $resourceName
+     * Connection instance name
+     *
+     * @var string
+     */
+    protected $_connectionName = 'core_setup';
+
+    /**
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config\Resource $resourcesConfig,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        $resourceName
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        $resourceName,
+        $moduleName,
+        $connectionName = ''
     ) {
-        $this->_config = $config;
-        $resourcesConfig->setConfig($config);
-        $this->_eventManager = $eventManager;
-        $this->_resourceModel = $resource;
+        $this->_eventManager = $context->getEventManager();
+        $this->_resourceModel = $context->getResourceModel();
+        $this->_logger = $context->getLogger();
+        $this->_modulesReader = $context->getModulesReader();
         $this->_resourceName = $resourceName;
-        $this->_modulesReader = $modulesReader;
-        $this->_resourceConfig = $resourcesConfig->getResourceConfig($resourceName);
-        $connection = $resourcesConfig->getResourceConnectionConfig($resourceName);
-        if ($connection) {
-            $this->_connectionConfig = $connection;
-        } else {
-            $this->_connectionConfig = $resourcesConfig->getResourceConnectionConfig(self::DEFAULT_SETUP_CONNECTION);
-        }
-
-        $modName = (string)$this->_resourceConfig->setup->module;
-        $this->_moduleConfig = $moduleList->getModule($modName);
-        $connection = $this->_resourceModel->getConnection($this->_resourceName);
-        /**
-         * If module setup configuration wasn't loaded
-         */
-        if (!$connection) {
-            $connection = $this->_resourceModel->getConnection($this->_resourceName);
-        }
-        $this->_conn = $connection;
-        $this->_logger = $logger;
+        $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
+        $this->_connectionName = $connectionName ?: $this->_connectionName;
     }
 
     /**
@@ -158,7 +109,10 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
      */
     public function getConnection()
     {
-        return $this->_conn;
+        if (null === $this->_connection) {
+            $this->_connection = $this->_resourceModel->getConnection($this->_connectionName);
+        }
+        return $this->_connection;
     }
 
     /**
@@ -360,7 +314,6 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
      */
     protected function _getAvailableDbFiles($actionType, $fromVersion, $toVersion)
     {
-        $resModel   = (string)$this->_connectionConfig->model;
         $modName    = (string)$this->_moduleConfig['name'];
 
         $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . DS . $this->_resourceName;
@@ -371,7 +324,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
         $dbFiles    = array();
         $typeFiles  = array();
         $regExpDb   = sprintf('#^%s-(.*)\.(php|sql)$#i', $actionType);
-        $regExpType = sprintf('#^%s-%s-(.*)\.(php|sql)$#i', $resModel, $actionType);
+        $regExpType = sprintf('#^%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
         $handlerDir = dir($filesDir);
         while (false !== ($file = $handlerDir->read())) {
             $matches = array();
@@ -411,21 +364,6 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
         if (is_dir($filesDir) && is_readable($filesDir)) {
             $regExp     = sprintf('#^%s-(.*)\.php$#i', $actionType);
             $handlerDir = dir($filesDir);
-            while (false !== ($file = $handlerDir->read())) {
-                $matches = array();
-                if (preg_match($regExp, $file, $matches)) {
-                    $files[$matches[1]] = $filesDir . DS . $file;
-                }
-            }
-            $handlerDir->close();
-        }
-
-        // search data files in old location
-        $filesDir   = \Mage::getModuleDir('sql', $modName) . DS . $this->_resourceName;
-        if (is_dir($filesDir) && is_readable($filesDir)) {
-            $regExp     = sprintf('#^%s-%s-(.*)\.php$#i', $this->_connectionConfig->model, $actionType);
-            $handlerDir = dir($filesDir);
-
             while (false !== ($file = $handlerDir->read())) {
                 $matches = array();
                 if (preg_match($regExp, $file, $matches)) {

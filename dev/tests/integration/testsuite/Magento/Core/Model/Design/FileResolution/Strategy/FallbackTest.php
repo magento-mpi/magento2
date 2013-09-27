@@ -59,7 +59,8 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     protected function _getThemeModel($area, $themePath)
     {
         /** @var $collection \Magento\Core\Model\Theme\Collection */
-        $collection = \Mage::getModel('Magento\Core\Model\Theme\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Collection');
         $themeModel = $collection->setBaseDir($this->_viewDir)
             ->addDefaultPattern()
             ->addFilter('theme_path', $themePath)

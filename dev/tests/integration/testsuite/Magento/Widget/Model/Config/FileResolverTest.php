@@ -38,9 +38,9 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $moduleReader = $objectManager->create('Magento\Core\Model\Config\Modules\Reader', array(
-            'dirs' => $this->_applicationDirsMock,
             'moduleList' => $moduleListMock
         ));
+        $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
         $this->_object = $objectManager->create('Magento\Widget\Model\Config\FileResolver', array(
             'moduleReader' => $moduleReader,
             'applicationDirs' => $this->_applicationDirsMock

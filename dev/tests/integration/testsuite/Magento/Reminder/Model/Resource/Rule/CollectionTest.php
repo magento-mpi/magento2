@@ -18,8 +18,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddDateFilter()
     {
-        $dateModel = \Mage::getModel('Magento\Core\Model\Date');
-        $collection = \Mage::getResourceModel('Magento\Reminder\Model\Resource\Rule\Collection');
+        $dateModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Date');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Reminder\Model\Resource\Rule\Collection');
         $collection->addDateFilter($dateModel->date());
         $this->markTestIncomplete('MAGE-5166 is incomplete');
         $this->assertEquals(1, $collection->count());

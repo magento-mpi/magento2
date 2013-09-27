@@ -9,4 +9,11 @@
 -->
 <config>
     <type name="Magento\CatalogEvent\Model\Event" shared="false" />
+    <type name="Magento\Core\Model\Db\Updater">
+        <param name="resourceList">
+            <value>
+                <catalogevent_setup>Magento\CatalogEvent\Model\Resource\Setup</catalogevent_setup>
+            </value>
+        </param>
+    </type>
 </config>

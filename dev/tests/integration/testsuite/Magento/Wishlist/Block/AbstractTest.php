@@ -39,11 +39,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testImage()
     {
-        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
 
         $size = $this->_block->getImageSize();

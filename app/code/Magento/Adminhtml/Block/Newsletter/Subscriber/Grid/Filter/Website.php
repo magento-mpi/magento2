@@ -17,7 +17,8 @@
  */
 namespace Magento\Adminhtml\Block\Newsletter\Subscriber\Grid\Filter;
 
-class Website extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
+class Website
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
 {
 
     protected $_websiteCollection = null;
@@ -30,16 +31,32 @@ class Website extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Resource\Website\CollectionFactory
+     */
+    protected $_websitesFactory;
+
+    /**
+     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_storeManager = $storeManager;
+        $this->_websitesFactory = $websitesFactory;
         parent::__construct($context, $data);
     }
 
@@ -50,11 +67,13 @@ class Website extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
         return $result;
     }
 
+    /**
+     * @return \Magento\Core\Model\Resource\Website\Collection|null
+     */
     public function getCollection()
     {
-        if(is_null($this->_websiteCollection)) {
-            $this->_websiteCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Website\Collection')
-                ->load();
+        if (is_null($this->_websiteCollection)) {
+            $this->_websiteCollection = $this->_websitesFactory->create()->load();
         }
 
         $this->_coreRegistry->register('website_collection', $this->_websiteCollection);
@@ -69,7 +88,7 @@ class Website extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
             return null;
         }
 
-        $website = \Mage::app()->getWebsite($id);
+        $website = $this->_storeManager->getWebsite($id);
         return array('in' => $website->getStoresIds(true));
     }
 }

@@ -16,11 +16,11 @@ namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
 class Collector extends \Magento\Sales\Model\Quote\Address\Total\Collector
 {
     /**
-     * Conf. node for nominal totals declaration
+     * Config group for nominal totals declaration
      *
      * @var string
      */
-    protected $_totalsConfigNode = 'global/sales/quote/nominal_totals';
+    protected $_configGroup = 'nominal_totals';
 
     /**
      * Custom cache key to not confuse with regular totals

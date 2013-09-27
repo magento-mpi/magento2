@@ -35,6 +35,12 @@ class SoapTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\App */
     protected $_applicationMock;
 
+    /** @var \Magento\Oauth\Service\OauthV1 */
+    protected $_oauthServiceMock;
+
+    /** @var \Magento\Oauth\Helper\Service */
+    protected $_oauthHelperMock;
+
     /**
      * Set up Controller object.
      */
@@ -79,6 +85,14 @@ class SoapTest extends \PHPUnit_Framework_TestCase
         $this->_applicationMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         $this->_applicationMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
 
+        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Service\OauthV1')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_oauthHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Service')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->_responseMock->expects($this->any())->method('clearHeaders')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setWSDL')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setEncoding')->will($this->returnSelf());
@@ -91,7 +105,9 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             $this->_soapServerMock,
             $this->_errorProcessorMock,
             $this->_appStateMock,
-            $this->_applicationMock
+            $this->_applicationMock,
+            $this->_oauthServiceMock,
+            $this->_oauthHelperMock
         );
     }
 
@@ -179,8 +195,13 @@ EXPECTED_MESSAGE;
         $this->_soapServerMock->expects($this->any())
             ->method('handle')
             ->will($this->returnValue($soapResponse));
+        $_SERVER['HTTP_AUTHORIZATION'] = 'OAuth access_token';
+        $this->_oauthServiceMock->expects($this->once())
+            ->method('validateAccessToken')
+            ->will($this->returnValue(array('isValid' => true)));
 
         $this->_soapController->dispatch();
+        unset($_SERVER['HTTP_AUTHORIZATION']);
         $this->assertEquals($soapResponse, $this->_responseMock->getBody());
     }
 

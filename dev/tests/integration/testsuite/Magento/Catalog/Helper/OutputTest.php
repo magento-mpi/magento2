@@ -92,7 +92,8 @@ class OutputTest extends \PHPUnit_Framework_TestCase
     protected function _testAttribute($method, $entityCode, $expectedResult)
     {
         $attributeName = 'description';
-        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute($entityCode, $attributeName);
+        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
+            ->getAttribute($entityCode, $attributeName);
         $isHtml = $attribute->getIsHtmlAllowedOnFront();
         $isWysiwyg = $attribute->getIsWysiwygEnabled();
         $attribute->setIsHtmlAllowedOnFront(0)->setIsWysiwygEnabled(0);

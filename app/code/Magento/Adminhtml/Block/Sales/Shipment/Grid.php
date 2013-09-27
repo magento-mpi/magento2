@@ -17,6 +17,31 @@ namespace Magento\Adminhtml\Block\Sales\Shipment;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Collection\Factory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
 
     /**
      * Initialization
@@ -46,7 +71,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel($this->_getCollectionClass());
+        $collection = $this->_collectionFactory->create($this->_getCollectionClass());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

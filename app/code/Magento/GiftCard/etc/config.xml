@@ -10,36 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <giftcard_setup>
-                <setup>
-                    <module>Magento_GiftCard</module>
-                    <class>Magento\Catalog\Model\Resource\Setup</class>
-                </setup>
-            </giftcard_setup>
-        </resources>
-        <template>
-            <email>
-                <giftcard_email_template translate="label" module="Magento_GiftCard">
-                    <label>Gift Card(s) Purchase</label>
-                    <file>email/gift_information.html</file>
-                    <type>html</type>
-                </giftcard_email_template>
-            </email>
-        </template>
-    </global>
-    <adminhtml>
-        <sales>
-            <order>
-                <create>
-                    <available_product_types>
-                        <giftcard />
-                    </available_product_types>
-                </create>
-            </order>
-        </sales>
-    </adminhtml>
     <default>
         <giftcard>
             <email>

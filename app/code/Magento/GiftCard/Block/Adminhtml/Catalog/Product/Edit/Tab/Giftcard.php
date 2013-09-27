@@ -11,8 +11,8 @@
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
 class Giftcard
- extends \Magento\Adminhtml\Block\Widget
- implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+ extends \Magento\Backend\Block\Widget
+ implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\Core\Model\StoreManager
@@ -29,6 +29,14 @@ class Giftcard
     protected $_coreRegistry = null;
 
     /**
+     * Email config options factory
+     *
+     * @var \Magento\Backend\Model\Config\Source\Email\TemplateFactory
+     */
+    protected $_templateOptions;
+
+    /**
+     * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -36,12 +44,14 @@ class Giftcard
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_templateOptions = $templateOptions;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
@@ -147,7 +157,7 @@ class Giftcard
     public function getEmailTemplates()
     {
         $result = array();
-        $template = \Mage::getModel('Magento\Backend\Model\Config\Source\Email\Template');
+        $template = $this->_templateOptions->create();
         $template->setPath(\Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE);
         foreach ($template->toOptionArray() as $one) {
             $result[$one['value']] = $this->escapeHtml($one['label']);

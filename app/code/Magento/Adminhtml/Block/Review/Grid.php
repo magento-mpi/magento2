@@ -47,6 +47,18 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
+     */
+    protected $_productsFactory;
+
+    /**
+     * @var \Magento\Review\Model\ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
+     * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productsFactory
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Review\Helper\Action\Pager $reviewActionPager
      * @param \Magento\Core\Helper\Data $coreData
@@ -57,6 +69,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param array $data
      */
     public function __construct(
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
+        \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productsFactory,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Review\Helper\Action\Pager $reviewActionPager,
         \Magento\Core\Helper\Data $coreData,
@@ -66,9 +80,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_productsFactory = $productsFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_reviewData = $reviewData;
         $this->_reviewActionPager = $reviewActionPager;
+        $this->_reviewFactory = $reviewFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -105,9 +121,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareCollection()
     {
         /** @var $model \Magento\Review\Model\Review */
-        $model = \Mage::getModel('Magento\Review\Model\Review');
+        $model = $this->_reviewFactory->create();
         /** @var $collection \Magento\Review\Model\Resource\Review\Product\Collection */
-        $collection = $model->getProductCollection();
+        $collection = $this->_productsFactory->create();
 
         if ($this->getProductId() || $this->getRequest()->getParam('productId', false)) {
             $productId = $this->getProductId();
@@ -209,7 +225,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         /**
          * Check is single store mode
          */
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
                 'header'    => __('Visibility'),
                 'index'     => 'stores',

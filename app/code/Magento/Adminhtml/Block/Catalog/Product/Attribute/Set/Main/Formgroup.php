@@ -16,8 +16,34 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
 
-class Formgroup extends \Magento\Backend\Block\Widget\Form\Generic
+class Formgroup
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var \Magento\Eav\Model\Entity\TypeFactory
+     */
+    protected $_typeFactory;
+
+    /**
+     * @param \Magento\Eav\Model\Entity\TypeFactory $typeFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Eav\Model\Entity\TypeFactory $typeFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_typeFactory = $typeFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
@@ -63,7 +89,7 @@ class Formgroup extends \Magento\Backend\Block\Widget\Form\Generic
     {
         return ( intval($this->getRequest()->getParam('id')) > 0 )
                     ? intval($this->getRequest()->getParam('id'))
-                    : \Mage::getModel('Magento\Eav\Model\Entity\Type')
+                    : $this->_typeFactory->create()
                         ->load($this->_coreRegistry->registry('entityType'))
                         ->getDefaultAttributeSetId();
     }

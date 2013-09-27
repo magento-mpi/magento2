@@ -20,22 +20,14 @@ class Tracking extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Customer\Model\Session $customerSession
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
 
@@ -93,7 +85,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      */
     protected function _canViewRma($rma)
     {
-        if (!$this->_customerSession->isLoggedIn()) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
             $currentOrder = $this->_coreRegistry->registry('current_order');
             if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
                 return true;
@@ -112,7 +104,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!$this->_customerSession->isLoggedIn()
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()
             && !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()
         ) {
             return;

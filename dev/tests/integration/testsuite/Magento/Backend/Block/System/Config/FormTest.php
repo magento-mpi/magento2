@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
-
-namespace Magento\Backend\Block\System\Config;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Block\System\Config;
+
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -36,7 +35,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testDependenceHtml()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getModel('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         /** @var $block \Magento\Backend\Block\System\Config\Form */
@@ -71,7 +71,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
         /** @var $block \Magento\Backend\Block\System\Config\FormStub */
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Backend\Block\System\Config\FormStub');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Backend\Block\System\Config\FormStub');
         $block->setScope(\Magento\Backend\Block\System\Config\Form::SCOPE_WEBSITES);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
@@ -124,7 +125,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
         /** @var $block \Magento\Backend\Block\System\Config\FormStub */
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Backend\Block\System\Config\FormStub');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Backend\Block\System\Config\FormStub');
         $block->setScope(\Magento\Backend\Block\System\Config\Form::SCOPE_DEFAULT);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
@@ -144,12 +146,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function initFieldsInheritCheckboxDataProvider()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Mage::PARAM_BAN_CACHE => true,
+            \Magento\Core\Model\App::PARAM_BAN_CACHE => true,
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        \Mage::app()
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
 
         $configMock = $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false);
@@ -164,7 +166,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
             )
         ));
         /** @var \Magento\Backend\Model\Config\Structure $structure  */
-        $structure = \Mage::getSingleton('Magento\Backend\Model\Config\Structure');
+        $structure = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Config\Structure');
 
         /** @var \Magento\Backend\Model\Config\Structure\Element\Section $section  */
         $section = $structure->getElement('test_section');
@@ -192,13 +195,20 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function testInitFormAddsFieldsets()
     {
-        \Mage::getModel(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Controller\Front\Action',
-            array('request' => \Mage::app()->getRequest(), 'response' => \Mage::app()->getResponse())
+            array(
+                'request' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Controller\Request\Http'),
+                'response' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\App')->getResponse()
+            )
         );
-        \Mage::app()->getRequest()->setParam('section', 'general');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Controller\Request\Http')
+            ->setParam('section', 'general');
         /** @var $block \Magento\Backend\Block\System\Config\Form */
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Backend\Block\System\Config\Form');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Backend\Block\System\Config\Form');
         $block->initForm();
         $expectedIds = array(
             'general_country' => array(

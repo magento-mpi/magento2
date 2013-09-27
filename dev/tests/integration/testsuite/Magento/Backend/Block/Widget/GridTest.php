@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
-
-namespace Magento\Backend\Block\Widget;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Block\Widget;
+
 class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,12 +22,12 @@ class GridTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var \Magento\Core\Model\Layout|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var \Magento\Backend\Block\Widget\Grid\ColumnSet|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Block\Widget\Grid\ColumnSet|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_columnSetMock;
 
@@ -49,7 +48,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_columnSetMock));
         $this->_layoutMock->expects($this->any())->method('createBlock')
             ->with('Magento\Backend\Block\Widget\Button')
-            ->will($this->returnValue(\Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')));
+            ->will($this->returnValue(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Layout')->createBlock('Magento\Backend\Block\Widget\Button')));
         $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Magento\Core\Helper\Data')
             ->will($this->returnValue(
@@ -57,7 +57,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ));
 
 
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Backend\Block\Widget\Grid');
         $this->_block->setLayout($this->_layoutMock);
         $this->_block->setNameInLayout('grid');
     }
@@ -65,19 +66,23 @@ class GridTest extends \PHPUnit_Framework_TestCase
     /**
      * Retrieve the mocked column set block instance
      *
-     * @return \Magento\Backend\Block\Widget\Grid\ColumnSet|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Backend\Block\Widget\Grid\ColumnSet|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getColumnSetMock()
     {
         return $this->getMock('Magento\Backend\Block\Widget\Grid\ColumnSet', array(), array(
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
-            \Mage::getModel('Magento\Core\Block\Template\Context', array(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Block\Template\Context', array(
                 'dirs' => new \Magento\Core\Model\Dir(__DIR__),
                 'filesystem' => new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local),
             )),
-            \Mage::getModel('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory'),
-            \Mage::getModel('Magento\Backend\Model\Widget\Grid\SubTotals'),
-            \Mage::getModel('Magento\Backend\Model\Widget\Grid\Totals'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Backend\Model\Widget\Grid\SubTotals'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Backend\Model\Widget\Grid\Totals'),
         ));
     }
 

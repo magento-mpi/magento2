@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Block\Product;
-
 /**
- * Test class for \Magento\Catalog\Block\Product\NewProduct.
+ * Test class for \Magento\Catalog\Block\Product\New.
  *
  * @magentoDataFixture Magento/Catalog/_files/products_new.php
  */
+namespace Magento\Catalog\Block\Product;
+
 class NewTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,8 +25,10 @@ class NewTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\NewProduct');
-        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Catalog\Block\Product\NewProduct');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
     }
 
     public function testGetCacheKeyInfo()
@@ -40,7 +42,11 @@ class NewTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('CATALOG_PRODUCT_NEW', $info[0]);
 
         $this->assertSame(1, array_shift($keys));
-        $this->assertEquals(\Mage::app()->getStore()->getId(), $info[1]);
+        $this->assertEquals(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()->getId(),
+            $info[1]
+        );
 
         $this->assertSame(2, array_shift($keys));
 
@@ -51,7 +57,8 @@ class NewTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($themeModel->getId() ?: null, $info[2]);
 
         $this->assertSame(3, array_shift($keys));
-        $this->assertEquals(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId(), $info[3]);
+        $this->assertEquals(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Model\Session')->getCustomerGroupId(), $info[3]);
 
         $this->assertSame('template', array_shift($keys));
 
@@ -77,7 +84,8 @@ class NewTest extends \PHPUnit_Framework_TestCase
 
         $this->_block->setProductsCount(5);
         $this->_block->setTemplate('product/widget/new/content/new_list.phtml');
-        $this->_block->setLayout(\Mage::getSingleton('Magento\Core\Model\Layout'));
+        $this->_block->setLayout(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Layout'));
 
         $html = $this->_block->toHtml();
         $this->assertNotEmpty($html);

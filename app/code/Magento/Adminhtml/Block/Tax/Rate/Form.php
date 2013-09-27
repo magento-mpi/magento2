@@ -34,6 +34,36 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_taxData = null;
 
     /**
+     * @var \Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset
+     */
+    protected $_fieldset;
+
+    /**
+     * @var \Magento\Tax\Model\Calculation\RateFactory
+     */
+    protected $_rateFactory;
+
+    /**
+     * @var \Magento\Tax\Model\Calculation\Rate
+     */
+    protected $_rate;
+
+    /**
+     * @var \Magento\Directory\Model\Config\Source\Country
+     */
+    protected $_country;
+
+    /**
+     * @var \Magento\Directory\Model\RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\Config\Source\Country $country
+     * @param \Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset $fieldset
+     * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
+     * @param \Magento\Tax\Model\Calculation\Rate $rate
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
@@ -42,6 +72,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param array $data
      */
     public function __construct(
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\Config\Source\Country $country,
+        \Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset $fieldset,
+        \Magento\Tax\Model\Calculation\RateFactory $rateFactory,
+        \Magento\Tax\Model\Calculation\Rate $rate,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
@@ -49,6 +84,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_regionFactory = $regionFactory;
+        $this->_country = $country;
+        $this->_fieldset = $fieldset;
+        $this->_rateFactory = $rateFactory;
+        $this->_rate = $rate;
         $this->_taxData = $taxData;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -62,11 +102,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     protected function _prepareForm()
     {
-        $rateObject = new \Magento\Object(\Mage::getSingleton('Magento\Tax\Model\Calculation\Rate')->getData());
+        $rateObject = new \Magento\Object($this->_rate->getData());
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $countries = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')->toOptionArray(false, 'US');
+        $countries = $this->_country->toOptionArray(false, 'US');
         unset($countries[0]);
 
         if (!$rateObject->hasTaxCountryId()) {
@@ -81,8 +121,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ));
         }
 
-        $regionCollection = \Mage::getModel('Magento\Directory\Model\Region')
-            ->getCollection()
+        $regionCollection = $this->_regionFactory->create()->getCollection()
             ->addCountryFilter($rateObject->getTaxCountryId());
 
         $regions = $regionCollection->toOptionArray();
@@ -173,10 +212,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form->setId(self::FORM_ELEMENT_ID);
         $form->setMethod('post');
 
-        if (!\Mage::app()->hasSingleStore()) {
+        if (!$this->_storeManager->hasSingleStore()) {
             $form->addElement(
-                \Mage::getBlockSingleton('Magento\Adminhtml\Block\Tax\Rate\Title\Fieldset')
-                    ->setLegend(__('Tax Titles'))
+                $this->_fieldset->setLegend(__('Tax Titles'))
             );
         }
 
@@ -204,7 +242,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function getRateCollection()
     {
         if ($this->getData('rate_collection') == null) {
-            $rateCollection = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')->getCollection()
+            $rateCollection = $this->_rateFactory->create()->getCollection()
                 ->joinRegionTable();
             $rates = array();
 

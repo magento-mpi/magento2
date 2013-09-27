@@ -13,8 +13,13 @@
  */
 namespace Magento\Sales\Model\Order;
 
-class Config extends \Magento\Core\Model\Config\Base
+class Config
 {
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Status\Collection
+     */
+    protected $_collection;
+
     /**
      * Statuses per state array
      *
@@ -38,42 +43,41 @@ class Config extends \Magento\Core\Model\Config\Base
     protected $_orderStatusCollFactory;
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * @param \Magento\Sales\Model\Order\StatusFactory $orderStatusFactory
-     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollFactory
+     * Constructor
+     *
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
         \Magento\Sales\Model\Order\StatusFactory $orderStatusFactory,
-        \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollFactory,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $orderStatusCollFactory
     ) {
-        $this->_coreConfig = $coreConfig;
-        parent::__construct($this->_coreConfig->getNode('global/sales/order'));
         $this->_orderStatusFactory = $orderStatusFactory;
         $this->_orderStatusCollFactory = $orderStatusCollFactory;
     }
 
     /**
-     * @param string $status
-     * @return \Magento\Simplexml\Element
+     * @return \Magento\Sales\Model\Resource\Order\Status\Collection
      */
-    protected function _getStatus($status)
+    protected function _getCollection()
     {
-        return $this->getNode('statuses/' . $status);
+        if ($this->_collection == null) {
+            $this->_collection = $this->_orderStatusCollFactory->create()->joinStates();
+        }
+        return $this->_collection;
     }
 
     /**
      * @param string $state
-     * @return \Magento\Simplexml\Element
+     * @return \Magento\Sales\Model\Order\Status
      */
     protected function _getState($state)
     {
-        return $this->getNode('states/' . $state);
+        foreach ($this->_getCollection() as $item) {
+            if ($item->getData('state') == $state) {
+                return $item;
+            }
+        }
+        return null;
     }
 
     /**
@@ -113,10 +117,9 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     public function getStateLabel($state)
     {
-        $stateNode = $this->_getState($state);
-        if ($stateNode) {
-            $state = (string)$stateNode->label;
-            return __($state);
+        if ($stateItem = $this->_getState($state)) {
+            $label = $stateItem->getData('label');
+            return __($label);
         }
         return $state;
     }
@@ -141,9 +144,8 @@ class Config extends \Magento\Core\Model\Config\Base
     public function getStates()
     {
         $states = array();
-        foreach ($this->getNode('states')->children() as $state) {
-            $label = (string) $state->label;
-            $states[$state->getName()] = __($label);
+        foreach ($this->_getCollection() as $item) {
+            $states[$item->getState()] = __($item->getData('label'));
         }
         return $states;
     }
@@ -160,16 +162,13 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     public function getStateStatuses($state, $addLabels = true)
     {
-        if (is_array($state)) {
-            $key = implode("|", $state) . $addLabels;
-        } else {
-            $key = $state . $addLabels;
-        }
+        $key = md5(serialize(array($state, $addLabels)));
         if (isset($this->_stateStatuses[$key])) {
             return $this->_stateStatuses[$key];
         }
         $statuses = array();
-        if (empty($state) || !is_array($state)) {
+
+        if (!is_array($state)) {
             $state = array($state);
         }
         foreach ($state as $_state) {
@@ -178,12 +177,12 @@ class Config extends \Magento\Core\Model\Config\Base
                 $collection = $this->_orderStatusCollFactory->create()
                     ->addStateFilter($_state)
                     ->orderByLabel();
-                foreach ($collection as $status) {
-                    $code = $status->getStatus();
+                foreach ($collection as $item) {
+                    $status = $item->getData('status');
                     if ($addLabels) {
-                        $statuses[$code] = $status->getStoreLabel();
+                        $statuses[$status] = $item->getStoreLabel();
                     } else {
-                        $statuses[] = $code;
+                        $statuses[] = $status;
                     }
                 }
             }
@@ -199,8 +198,7 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     public function getVisibleOnFrontStates()
     {
-        $this->_getStates();
-        return $this->_states['visible'];
+        return $this->_getStates(true);
     }
 
     /**
@@ -210,32 +208,23 @@ class Config extends \Magento\Core\Model\Config\Base
      */
     public function getInvisibleOnFrontStates()
     {
-        $this->_getStates();
-        return $this->_states['invisible'];
+        return $this->_getStates(false);
     }
 
-    private function _getStates()
+    /**
+     * @param bool $visibility
+     *
+     * @return array
+     */
+    protected function _getStates($visibility)
     {
-        if (null === $this->_states) {
-            $this->_states = array(
-                'all'       => array(),
-                'visible'   => array(),
-                'invisible' => array(),
-                'statuses'  => array(),
-            );
-            foreach ($this->getNode('states')->children() as $state) {
-                $name = $state->getName();
-                $this->_states['all'][] = $name;
-                $isVisibleOnFront = (string)$state->visible_on_front;
-                if ((bool)$isVisibleOnFront || ($state->visible_on_front && $isVisibleOnFront == '')) {
-                    $this->_states['visible'][] = $name;
-                } else {
-                    $this->_states['invisible'][] = $name;
-                }
-                foreach ($state->statuses->children() as $status) {
-                    $this->_states['statuses'][$name][] = $status->getName();
-                }
+        $visibility = (bool)$visibility;
+        if ($this->_states == null) {
+            foreach($this->_getCollection() as $item) {
+                $visible = (bool)$item->getData('visible_on_front');
+                $this->_states[$visible][] = $item->getData('state');
             }
         }
+        return  $this->_states[$visibility];
     }
 }

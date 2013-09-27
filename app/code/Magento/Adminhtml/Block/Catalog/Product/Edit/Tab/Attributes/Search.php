@@ -27,17 +27,33 @@ class Search extends \Magento\Backend\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Core\Model\Resource\HelperPool
+     */
+    protected $_helperPool;
+
+    /**
+     * @param \Magento\Core\Model\Resource\HelperPool $helperPool
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Resource\HelperPool $helperPool,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_helperPool = $helperPool;
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -75,10 +91,10 @@ class Search extends \Magento\Backend\Block\Widget
      */
     public function getSuggestedAttributes($labelPart, $templateId = null)
     {
-        $escapedLabelPart = \Mage::getResourceHelper('Magento_Core')
+        $escapedLabelPart = $this->_helperPool->get('Magento_Core')
             ->addLikeEscape($labelPart, array('position' => 'any'));
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+        $collection = $this->_collectionFactory->create()
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart));
 
         $collection->setExcludeSetFilter($templateId ?: $this->getRequest()->getParam('template_id'))->setPageSize(20);

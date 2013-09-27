@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Page;
-
 /**
  * Test \Magento\Adminhtml\Block\Page\Header
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Page;
+
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,7 +25,8 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Page\Header');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Page\Header');
     }
 
     public function testGetHomeLink()

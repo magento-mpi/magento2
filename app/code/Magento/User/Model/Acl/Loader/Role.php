@@ -49,7 +49,7 @@ class Role implements \Magento\Acl\LoaderInterface
     public function populateAcl(\Magento\Acl $acl)
     {
         $roleTableName = $this->_resource->getTableName('admin_role');
-        $adapter = $this->_resource->getConnection('read');
+        $adapter = $this->_resource->getConnection('core_read');
 
         $select = $adapter->select()
             ->from($roleTableName)

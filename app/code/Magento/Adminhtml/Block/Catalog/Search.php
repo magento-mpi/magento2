@@ -27,6 +27,5 @@ class Search extends \Magento\Adminhtml\Block\Widget\Grid\Container
         $this->_headerText = __('Search');
         $this->_addButtonLabel = __('Add New Search Term');
         parent::_construct();
-
     }
 }

@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <eav_setup>
-                <setup>
-                    <module>Magento_Eav</module>
-                    <class>Magento\Eav\Model\Entity\Setup</class>
-                </setup>
-            </eav_setup>
-        </resources>
-    </global>
     <default>
         <general>
             <validator_data>

@@ -34,6 +34,7 @@ class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\Name
 
     /**
      * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
@@ -42,6 +43,7 @@ class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\Name
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
+        \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
@@ -50,7 +52,7 @@ class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\Name
     ) {
         $this->_purchasedFactory = $purchasedFactory;
         $this->_itemsFactory = $itemsFactory;
-        parent::__construct($coreString, $coreData, $context, $data);
+        parent::__construct($coreString, $optionFactory, $coreData, $context, $data);
     }
 
     public function getLinks()

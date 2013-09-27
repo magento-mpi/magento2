@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <section name="quote">
+        <group name="totals">
+            <item name="giftcardaccount" instance="Magento\GiftCardAccount\Model\Total\Quote\Giftcardaccount" sort_order="700">
+                <renderer name="frontend" instance="Magento\GiftCardAccount\Block\Checkout\Cart\Total"/>
+            </item>
+        </group>
+    </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="giftcardaccount" instance="Magento\GiftCardAccount\Model\Total\Invoice\Giftcardaccount" sort_order="500"/>
+        </group>
+    </section>
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="giftcardaccount" instance="Magento\GiftCardAccount\Model\Total\Creditmemo\Giftcardaccount" sort_order="500"/>
+        </group>
+    </section>
+</config>

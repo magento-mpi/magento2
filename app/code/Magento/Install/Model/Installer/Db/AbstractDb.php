@@ -20,11 +20,11 @@ namespace Magento\Install\Model\Installer\Db;
 abstract class AbstractDb
 {
     /**
-     * Resource model
+     * Resource connection adapter factory
      *
-     * @var \Magento\Core\Model\Resource
+     * @var \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory
      */
-    protected $_resource;
+    protected $_adapterFactory;
 
     /**
      * List of necessary extensions for DBs
@@ -56,12 +56,13 @@ abstract class AbstractDb
 
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory
      * @param array $dbExtensions
      */
-    public function __construct(\Magento\Core\Model\Resource $resource, array $dbExtensions = array())
-    {
-        $this->_resource = $resource;
+    public function __construct(
+        \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory, array $dbExtensions = array()
+    ) {
+        $this->_adapterFactory = $adapterFactory;
         $this->_dbExtensions = $dbExtensions;
     }
     
@@ -108,7 +109,7 @@ abstract class AbstractDb
                 'host'      => $this->_configData['db_host'],
                 'username'  => $this->_configData['db_user'],
                 'password'  => $this->_configData['db_pass'],
-                'dbname'    => $this->_configData['db_name'],
+                'dbName'    => $this->_configData['db_name'],
                 'pdoType'   => $this->getPdoType()
             );
             $this->_connectionData = $connectionData;
@@ -134,7 +135,7 @@ abstract class AbstractDb
     protected function _getConnection()
     {
         if (!isset($this->_connection)) {
-            $connection = $this->_resource->createConnection('install', $this->getType(), $this->getConnectionData());
+            $connection = $this->_adapterFactory->create($this->getConnectionData())->getConnection();
             $this->_connection = $connection;
         }
         return $this->_connection;
@@ -163,8 +164,7 @@ abstract class AbstractDb
     /**
      * Clean database
      *
-     * @param \SimpleXMLElement $config
      * @return \Magento\Install\Model\Installer\Db\AbstractDb
      */
-    abstract public function cleanUpDatabase(\SimpleXMLElement $config);
+    abstract public function cleanUpDatabase();
 }

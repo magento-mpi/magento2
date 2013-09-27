@@ -47,6 +47,71 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     const APPLY_TO_VISITORS_AND_REGISTERED = 0;
 
     /**
+     * @var \Magento\Rule\Model\Action\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Log\Model\Visitor
+     */
+    protected $_visitor;
+
+    /**
+     * @var \Magento\Log\Model\VisitorFactory
+     */
+    protected $_visitorFactory;
+
+    /**
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * Store list manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
+     * @param \Magento\Log\Model\Visitor $visitor
+     * @param \Magento\Log\Model\VisitorFactory $visitorFactory
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
+        \Magento\Log\Model\Visitor $visitor,
+        \Magento\Log\Model\VisitorFactory $visitorFactory,
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_collectionFactory = $collectionFactory;
+        $this->_visitor = $visitor;
+        $this->_visitorFactory = $visitorFactory;
+        $this->_conditionFactory = $conditionFactory;
+        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Set resource model
      *
      * @return void
@@ -96,7 +161,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
+        return $this->_conditionFactory->create('Combine_Root');
     }
 
     /**
@@ -106,7 +171,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function getActionsInstance()
     {
-        return \Mage::getModel('Magento\Rule\Model\Action\Collection');
+        return $this->_collectionFactory->create();
     }
 
     /**
@@ -184,10 +249,10 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function validate(\Magento\Object $object)
     {
-        $website = \Mage::app()->getWebsite();
+        $website = $this->_storeManager->getWebsite();
         if ($object instanceof \Magento\Customer\Model\Customer) {
             if (!$object->getId()) {
-                $this->setVisitorId(\Mage::getSingleton('Magento\Log\Model\Visitor')->getId());
+                $this->setVisitorId($this->_visitor->getId());
             }
             return $this->validateCustomer($object, $website);
         }
@@ -217,17 +282,16 @@ class Segment extends \Magento\Rule\Model\AbstractModel
             $customerId = $customer;
         }
 
-        $website = \Mage::app()->getWebsite($website);
         $params = array();
         if (strpos($sql, ':customer_id')) {
             $params['customer_id']  = $customerId;
         }
         if (strpos($sql, ':website_id')) {
-            $params['website_id']   = $website->getId();
+            $params['website_id'] = $this->_storeManager->getWebsite($website)->getId();
         }
         if (strpos($sql, ':quote_id')) {
             if (!$customerId) {
-                $params['quote_id'] = \Mage::getModel('Magento\Log\Model\Visitor')
+                $params['quote_id'] = $this->_visitorFactory->create()
                     ->load($this->getVisitorId())->getQuoteId();
             } else {
                 $params['quote_id'] = 0;

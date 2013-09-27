@@ -8,9 +8,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Helper\Product;
 
-require \Mage::getBaseDir() . '/app/code/Magento/Catalog/Controller/Product.php';
+require \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir()
+    . '/app/code/Magento/Catalog/Controller/Product.php';
+
+namespace Magento\Catalog\Helper\Product;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,7 +44,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         );
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
-        $this->_controller = \Mage::getModel(
+        $this->_controller = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Controller\Product',
             array(
                 'context'  => $context,
@@ -55,7 +57,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        \Mage::getSingleton('Magento\Catalog\Model\Session')->unsLastViewedProductId();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session')
+            ->unsLastViewedProductId();
         $this->_controller = null;
         $this->_helper = null;
     }
@@ -67,7 +70,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $uniqid = uniqid();
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE)->setId(99)->setUrlKey($uniqid);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -90,7 +94,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->_helper->prepareAndRender(10, $this->_controller);
         $this->assertNotEmpty($this->_controller->getResponse()->getBody());
-        $this->assertEquals(10, \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId());
+        $this->assertEquals(
+            10,
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session')
+                ->getLastViewedProductId()
+        );
     }
 
     /**
@@ -137,7 +145,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         // add messages
         foreach ($expectedMessages as $sessionModel => $messageText) {
             /** @var $session \Magento\Core\Model\Session\AbstractSession */
-            $session = \Mage::getSingleton($sessionModel);
+            $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get($sessionModel);
             $session->addNotice($messageText);
         }
 

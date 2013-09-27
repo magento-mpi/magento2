@@ -10,40 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <usa_setup>
-                <setup>
-                    <module>Magento_Usa</module>
-                </setup>
-            </usa_setup>
-        </resources>
-        <sales>
-            <shipping>
-                <carriers>
-                    <ups>
-                        <class>Magento\Usa\Model\Shipping\Carrier\Ups</class>
-                    </ups>
-                    <usps>
-                        <class>Magento\Usa\Model\Shipping\Carrier\Usps</class>
-                    </usps>
-                    <fedex>
-                        <class>Magento\Usa\Model\Shipping\Carrier\Fedex</class>
-                    </fedex>
-                    <dhl>
-                        <class>Magento\Usa\Model\Shipping\Carrier\Dhl</class>
-                    </dhl>
-                    <dhlint>
-                        <class>Magento\Usa\Model\Shipping\Carrier\Dhl\International</class>
-                    </dhlint>
-                </carriers>
-            </shipping>
-            <tax>
-                <methods>
-                </methods>
-            </tax>
-        </sales>
-    </global>
     <default>
         <system>
             <media_storage_configuration>

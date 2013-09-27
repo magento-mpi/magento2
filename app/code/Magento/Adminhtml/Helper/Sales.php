@@ -13,24 +13,28 @@ namespace Magento\Adminhtml\Helper;
 class Sales extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Sales\Model\Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
-     * Constructor
-     *
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Config $salesConfig
      */
     public function __construct(
+        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\Sales\Model\Config $salesConfig
     ) {
-        parent::__construct(
-            $context
-        );
-        $this->_coreConfig = $coreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_salesConfig = $salesConfig;
+        parent::__construct($context);
     }
 
     /**
@@ -83,7 +87,7 @@ class Sales extends \Magento\Core\Helper\AbstractHelper
                 $res = '<strong>'.$res.'</strong>';
             }
         } else {
-            $res = \Mage::app()->getStore()->formatPrice($price);
+            $res = $this->_storeManager->getStore()->formatPrice($price);
             if ($strong) {
                 $res = '<strong>'.$res.'</strong>';
             }
@@ -99,8 +103,7 @@ class Sales extends \Magento\Core\Helper\AbstractHelper
      */
     public function applySalableProductTypesFilter($collection)
     {
-        $productTypes = $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray();
-        $productTypes = array_keys($productTypes);
+        $productTypes = $this->_salesConfig->getAvailableProductTypes();
         foreach($collection->getItems() as $key => $item) {
             if ($item instanceof \Magento\Catalog\Model\Product) {
                 $type = $item->getTypeId();

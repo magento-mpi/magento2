@@ -26,11 +26,20 @@ class Observer
     protected $_feedFactory;
 
     /**
-     * @param \Magento\AdminNotification\Model\FeedFactory $feedFactory
+     * @var \Magento\Backend\Model\Auth\Session
      */
-    public function __construct(\Magento\AdminNotification\Model\FeedFactory $feedFactory)
-    {
+    protected $_backendAuthSession;
+
+    /**
+     * @param \Magento\AdminNotification\Model\FeedFactory $feedFactory
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     */
+    public function __construct(
+        \Magento\AdminNotification\Model\FeedFactory $feedFactory,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession
+    ) {
         $this->_feedFactory = $feedFactory;
+        $this->_backendAuthSession = $backendAuthSession;
     }
 
     /**
@@ -40,7 +49,7 @@ class Observer
      */
     public function preDispatch(\Magento\Event\Observer $observer)
     {
-        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->isLoggedIn()) {
+        if ($this->_backendAuthSession->isLoggedIn()) {
             $feedModel  = $this->_feedFactory->create();
             /* @var $feedModel \Magento\AdminNotification\Model\Feed */
             $feedModel->checkUpdate();

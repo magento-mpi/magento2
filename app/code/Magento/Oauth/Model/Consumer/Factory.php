@@ -27,11 +27,13 @@ class Factory
     /**
      * Create consumer model.
      *
-     * @param array $arguments
+     * @param array $data
      * @return \Magento\Oauth\Model\Consumer
      */
-    public function create(array $arguments = array())
+    public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento\Oauth\Model\Consumer', $arguments);
+        $consumer = $this->_objectManager->create('Magento\Oauth\Model\Consumer', array());
+        $consumer->setData($data);
+        return $consumer;
     }
 }

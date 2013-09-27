@@ -22,12 +22,16 @@ class Amount
     protected $_inputType = 'numeric';
 
     /**
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\Amount');
         $this->setValue(null);
     }
@@ -107,9 +111,9 @@ class Amount
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Shopping Cart %1 Amount %2 %3:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __('Shopping Cart %1 Amount %2 %3:',
+            $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -117,6 +121,7 @@ class Amount
      *
      * @param $customer
      * @param int | \Zend_Db_Expr $website
+     * @throws \Magento\Core\Exception
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
@@ -153,9 +158,7 @@ class Amount
                 $field = 'quote.base_gift_cards_amount_used';
                 break;
             default:
-                \Mage::throwException(
-                    __('Unknown quote total specified.')
-                );
+                throw new \Magento\Core\Exception(__('Unknown quote total specified.'));
         }
 
         if ($joinAddress) {

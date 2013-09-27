@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config;
+
 class MatrixTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,17 +25,21 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')
-            ->register('current_product', \Mage::getModel('Magento\Catalog\Model\Product')->load(1));
-        \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text', 'head');
+            ->register('current_product', \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')->load(1));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Text', 'head');
         /** @var $usedAttribute \Magento\Catalog\Model\Entity\Attribute */
-        $usedAttribute = \Mage::getSingleton('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
-            \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('catalog_product')->getId(),
-            'test_configurable'
-        );
+        $usedAttribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')->
+                    getEntityType('catalog_product')->getId(),
+                'test_configurable'
+            );
         $attributeOptions = $usedAttribute->getSource()->getAllOptions(false);
-        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix */
-        $block = \Mage::app()->getLayout()->createBlock(
-            'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix');
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config_Matrix */
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock(preg_replace('/Test$/', '', __CLASS__));
 
         $variations = $block->getVariations();
         foreach ($variations as &$variation) {

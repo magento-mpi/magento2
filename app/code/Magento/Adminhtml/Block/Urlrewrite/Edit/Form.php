@@ -52,14 +52,51 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_adminhtmlData = null;
 
     /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var \Magento\Core\Model\Url\RewriteFactory
+     */
+    protected $_rewriteFactory;
+
+    /**
+     * @var \Magento\Core\Model\Source\Urlrewrite\OptionsFactory
+     */
+    protected $_optionFactory;
+
+    /**
+     * @var \Magento\Core\Model\Source\Urlrewrite\TypesFactory
+     */
+    protected $_typesFactory;
+
+    /**
+     * @param \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory
+     * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
+        \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Backend\Model\Session $backendSession,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
@@ -67,6 +104,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_typesFactory = $typesFactory;
+        $this->_optionFactory = $optionFactory;
+        $this->_rewriteFactory = $rewriteFactory;
+        $this->_systemStore = $systemStore;
+        $this->_backendSession = $backendSession;
         $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -136,7 +178,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         ));
 
         /** @var $typesModel \Magento\Core\Model\Source\Urlrewrite\Types */
-        $typesModel = \Mage::getModel('Magento\Core\Model\Source\Urlrewrite\Types');
+        $typesModel = $this->_typesFactory->create();
         $fieldset->addField('is_system', 'select', array(
             'label'    => __('Type'),
             'title'    => __('Type'),
@@ -174,7 +216,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         ));
 
         /** @var $optionsModel \Magento\Core\Model\Source\Urlrewrite\Options */
-        $optionsModel = \Mage::getModel('Magento\Core\Model\Source\Urlrewrite\Options');
+        $optionsModel = $this->_optionFactory->create();
         $fieldset->addField('options', 'select', array(
             'label'   => __('Redirect'),
             'title'   => __('Redirect'),
@@ -209,10 +251,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareStoreElement($fieldset)
     {
         // get store switcher or a hidden field with it's id
-        if (\Mage::app()->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'  => 'store_id',
-                'value' => \Mage::app()->getStore(true)->getId()
+                'value' => $this->_storeManager->getStore(true)->getId()
             ), 'id_path');
         } else {
             /** @var $renderer \Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element */
@@ -254,7 +296,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _getSessionData()
     {
         if (is_null($this->_sessionData)) {
-            $this->_sessionData = \Mage::getModel('Magento\Adminhtml\Model\Session')->getData('urlrewrite_data', true);
+            $this->_sessionData = $this->_backendSession->getData('urlrewrite_data', true);
         }
         return $this->_sessionData;
     }
@@ -267,7 +309,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _getModel()
     {
         if (!$this->hasData('url_rewrite')) {
-            $this->setUrlRewrite(\Mage::getModel('Magento\Core\Model\Url\Rewrite'));
+            $this->setUrlRewrite($this->_rewriteFactory->create());
         }
         return $this->getUrlRewrite();
     }
@@ -280,7 +322,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _getAllStores()
     {
         if (is_null($this->_allStores)) {
-            $this->_allStores = \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm();
+            $this->_allStores = $this->_systemStore->getStoreValuesForForm();
         }
 
         return $this->_allStores;

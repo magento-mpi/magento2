@@ -42,7 +42,7 @@ class Group extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Customer Groups'));
 
-        $this->_coreRegistry->register('current_group', \Mage::getModel('Magento\Customer\Model\Group'));
+        $this->_coreRegistry->register('current_group', $this->_objectManager->create('Magento\Customer\Model\Group'));
         $groupId = $this->getRequest()->getParam('id');
         if (!is_null($groupId)) {
             $this->_coreRegistry->registry('current_group')->load($groupId);
@@ -104,7 +104,7 @@ class Group extends \Magento\Adminhtml\Controller\Action
      */
     public function saveAction()
     {
-        $customerGroup = \Mage::getModel('Magento\Customer\Model\Group');
+        $customerGroup = $this->_objectManager->create('Magento\Customer\Model\Group');
         $id = $this->getRequest()->getParam('id');
         if (!is_null($id)) {
             $customerGroup->load((int)$id);
@@ -121,12 +121,12 @@ class Group extends \Magento\Adminhtml\Controller\Action
                 }
 
                 $customerGroup->setTaxClassId($taxClass)->save();
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The customer group has been saved.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The customer group has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group'));
                 return;
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setCustomerGroupData($customerGroup->getData());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCustomerGroupData($customerGroup->getData());
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group/edit', array('id' => $id)));
                 return;
             }
@@ -142,19 +142,19 @@ class Group extends \Magento\Adminhtml\Controller\Action
     {
         $id = $this->getRequest()->getParam('id');
         if ($id) {
-            $customerGroup = \Mage::getModel('Magento\Customer\Model\Group')->load($id);
+            $customerGroup = $this->_objectManager->create('Magento\Customer\Model\Group')->load($id);
             if (!$customerGroup->getId()) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('The customer group no longer exists.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('The customer group no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
             try {
                 $customerGroup->delete();
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The customer group has been deleted.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The customer group has been deleted.'));
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group'));
                 return;
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->getUrl('*/customer_group/edit', array('id' => $id)));
                 return;
             }

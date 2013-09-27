@@ -27,14 +27,58 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_catalogData = null;
 
     /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory]
+     */
+    protected $_setsFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Type
+     */
+    protected $_type;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Status
+     */
+    protected $_status;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @var \Magento\Core\Model\WebsiteFactory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Type $type
+     * @param \Magento\Catalog\Model\Product\Status $status
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\WebsiteFactory $websiteFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Product\Type $type,
+        \Magento\Catalog\Model\Product\Status $status,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -42,6 +86,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
+        $this->_websiteFactory = $websiteFactory;
+        $this->_setsFactory = $setsFactory;
+        $this->_productFactory = $productFactory;
+        $this->_type = $type;
+        $this->_status = $status;
+        $this->_visibility = $visibility;
         $this->_catalogData = $catalogData;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -61,13 +111,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _getStore()
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
-        return \Mage::app()->getStore($storeId);
+        return $this->_storeManager->getStore($storeId);
     }
 
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
-        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+        $collection = $this->_productFactory->create()->getCollection()
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
@@ -191,13 +241,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getOptionArray(),
+                'options' => $this->_type->getOptionArray(),
                 'header_css_class'  => 'col-type',
                 'column_css_class'  => 'col-type'
         ));
 
-        $sets = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
-            ->setEntityTypeFilter(\Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId())
+        $sets = $this->_setsFactory->create()
+            ->setEntityTypeFilter($this->_productFactory->create()->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -250,7 +300,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'width' => '70px',
                 'index' => 'visibility',
                 'type'  => 'options',
-                'options' => \Mage::getModel('Magento\Catalog\Model\Product\Visibility')->getOptionArray(),
+                'options' => $this->_visibility->getOptionArray(),
                 'header_css_class'  => 'col-visibility',
                 'column_css_class'  => 'col-visibility'
         ));
@@ -261,12 +311,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'width' => '70px',
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getOptionArray(),
+                'options' => $this->_status->getOptionArray(),
                 'header_css_class'  => 'col-status',
                 'column_css_class'  => 'col-status'
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
                     'header'=> __('Websites'),
@@ -274,7 +324,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => \Mage::getModel('Magento\Core\Model\Website')->getCollection()->toOptionHash(),
+                    'options'   => $this->_websiteFactory->create()->getCollection()->toOptionHash(),
                     'header_css_class'  => 'col-websites',
                     'column_css_class'  => 'col-websites'
             ));
@@ -322,7 +372,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
              'confirm' => __('Are you sure?')
         ));
 
-        $statuses = \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getOptionArray();
+        $statuses = $this->_status->getOptionArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(

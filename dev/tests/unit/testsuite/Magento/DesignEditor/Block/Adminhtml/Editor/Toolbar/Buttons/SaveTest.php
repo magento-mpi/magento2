@@ -28,14 +28,14 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // 1. Get helper mock
-        /** @var $helper \Magento\Backend\Helper\Data|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $helper \Magento\Backend\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
         $helper = $this->getMock('Magento\Backend\Helper\Data', array('escapeHtml'), array(), '', false);
         $helper->expects($this->any())
             ->method('escapeHtml')
             ->will($this->returnArgument(0));
 
         // 2. Inject helper to helper factory
-        /** @var $helperFactory \Magento\Core\Model\Factory\Helper|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $helperFactory \Magento\Core\Model\Factory\Helper|\PHPUnit_Framework_MockObject_MockObject */
         $helperFactory = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
         $helperFactory->expects($this->any())
             ->method('get')
@@ -43,11 +43,11 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($helper));
 
         // 3. Get service mock
-        /** @var $service \Magento\Backend\Helper\Data|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $service \Magento\Backend\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
         $service = $this->getMock('Magento\Backend\Helper\Data', array('escapeHtml'), array(), '', false);
 
         // 4. Get URL model
-        /** @var $urlBuilder \Magento\Core\Model\Url|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $urlBuilder \Magento\Core\Model\Url|\PHPUnit_Framework_MockObject_MockObject */
         $urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getUrl'), array(), '', false);
         $urlBuilder->expects($this->any())
             ->method('getUrl')
@@ -65,7 +65,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject $theme
+     * @param \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject $theme
      * @param string $expected
      * @param array $expectedOptions
      * @dataProvider initDataProvider
@@ -205,7 +205,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     /**
      * @param int $type
      * @param null|bool $isAssigned
-     * @return \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getThemeMock($type, $isAssigned = null)
     {
@@ -214,7 +214,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         if ($type == \Magento\Core\Model\Theme::TYPE_VIRTUAL) {
             $theme = $this->_getVirtualThemeMock($type, $isAssigned);
         } else {
-            $theme = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false);
+            $theme = $this->getMock('Magento\Core\Model\Theme', array('__sleep', '__wakeup'), array(), '', false);
         }
 
         $theme->setType($type);
@@ -226,12 +226,12 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     /**
      * @param int $type
      * @param bool $isAssigned
-     * @return \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getVirtualThemeMock($type, $isAssigned)
     {
         // 1. Get domain model
-        /** @var $domainModel \Magento\Core\Model\Theme\Domain\Virtual|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $domainModel \Magento\Core\Model\Theme\Domain\Virtual|\PHPUnit_Framework_MockObject_MockObject */
         $domainModel = $this->getMock('Magento\Core\Model\Theme\Domain\Virtual',
             array('isAssigned'), array(), '', false);
         $domainModel->expects($this->any())
@@ -239,8 +239,14 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($isAssigned));
 
         // 2. Get Theme mock
-        /** @var $theme \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject */
-        $theme = $this->getMock('Magento\Core\Model\Theme', array('getDomainModel'), array(), '', false);
+        /** @var $theme \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject */
+        $theme = $this->getMock(
+            'Magento\Core\Model\Theme',
+            array('getDomainModel', '__sleep', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $theme->expects($this->any())
             ->method('getDomainModel')
             ->with($type)

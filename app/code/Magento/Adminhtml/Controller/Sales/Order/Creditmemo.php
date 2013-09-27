@@ -27,7 +27,7 @@ class Creditmemo
     {
         $data = $this->getRequest()->getParam('creditmemo');
         if (!$data) {
-            $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getFormData(true);
+            $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
         }
 
         if (isset($data['items'])) {
@@ -73,7 +73,7 @@ class Creditmemo
     {
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')
+            $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')
                 ->load($invoiceId)
                 ->setOrder($order);
             if ($invoice->getId()) {
@@ -166,7 +166,7 @@ class Creditmemo
      */
     protected function _saveCreditmemo($creditmemo)
     {
-        $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
+        $transactionSave = $this->_objectManager->create('Magento\Core\Model\Resource\Transaction')
             ->addObject($creditmemo)
             ->addObject($creditmemo->getOrder());
         if ($creditmemo->getInvoice()) {
@@ -223,7 +223,7 @@ class Creditmemo
                 $this->_title(__("New Memo"));
             }
 
-            if ($comment = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCommentText(true)) {
+            if ($comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true)) {
                 $creditmemo->setCommentText($comment);
             }
 
@@ -386,7 +386,7 @@ class Creditmemo
             );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                \Mage::throwException(__('The Comment Text field cannot be empty.'));
+                throw new \Magento\Core\Exception(__('The Comment Text field cannot be empty.'));
             }
             $creditmemo = $this->_initCreditmemo();
             $comment = $creditmemo->addComment(

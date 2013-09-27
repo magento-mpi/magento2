@@ -129,7 +129,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
             }
             $files = $this->getRequest()->getParam('files');
 
-            /** @var $helper Magento\Cms\Helper\Wysiwyg\Images */
+            /** @var $helper \Magento\Cms\Helper\Wysiwyg\Images */
             $helper = $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images');
             $path = $this->getStorage()->getSession()->getCurrentPath();
             foreach ($files as $file) {
@@ -176,7 +176,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
         $filename = $helper->idDecode($filename);
         $asIs = $this->getRequest()->getParam('as_is');
 
-        $this->_objectManager->get('Magento\Core\Helper\Data')->setStoreId($storeId);
+        $this->_objectManager->get('Magento\Catalog\Helper\Data')->setStoreId($storeId);
         $helper->setStoreId($storeId);
 
         $image = $helper->getImageHtmlDeclaration($filename, $asIs);
@@ -208,7 +208,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
     public function getStorage()
     {
         if (!$this->_coreRegistry->registry('storage')) {
-            $storage = \Mage::getModel('Magento\Cms\Model\Wysiwyg\Images\Storage');
+            $storage = $this->_objectManager->create('Magento\Cms\Model\Wysiwyg\Images\Storage');
             $this->_coreRegistry->register('storage', $storage);
         }
         return $this->_coreRegistry->registry('storage');

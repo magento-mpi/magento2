@@ -63,7 +63,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $subscriptionMock = $this->_makeMock('Magento\Webhook\Model\Subscription');
         $eventMgrMock = $this->_makeMock('Magento\Core\Model\Event\Manager');
-        $configResourceMock = $this->_makeMock('Magento\Core\Model\Config\Resource');
 
         // Arguments to collection constructor
         $this->_eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
@@ -81,7 +80,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
         $getReturnMap = array(
             array('Magento\Core\Model\Event\Manager', $eventMgrMock),
-            array('Magento\Core\Model\Config\Resource', $configResourceMock)
         );
         $mockObjectManager = $this->_setMageObjectManager();
         $mockObjectManager->expects($this->any())
@@ -90,12 +88,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $mockObjectManager->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap($getReturnMap));
-    }
-
-    protected function tearDown()
-    {
-        // Unsets object manager
-        \Mage::reset();
     }
 
     public function testInitialization()
@@ -299,7 +291,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setMageObjectManager()
     {
-        \Mage::reset();
         $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();

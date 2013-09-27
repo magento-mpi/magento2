@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Centinel\Model;
-
 /**
  * Factory class for Credit Card types
  */
+namespace Magento\Centinel\Model;
+
 class StateFactory
 {
     /**
@@ -23,31 +23,33 @@ class StateFactory
     protected $_objectManager;
 
     /**
-     * Config
+     * State class map
      *
-     * @var \Magento\Centinel\Model\Config
+     * @var array
      */
-    protected $_config;
+    protected $_stateClassMap;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Centinel\Model\Config $config
+     * @param array $stateClassMap - key stands for card type, value define the validator class
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Centinel\Model\Config $config)
+    public function __construct(\Magento\ObjectManager $objectManager, array $stateClassMap = array())
     {
         $this->_objectManager = $objectManager;
-        $this->_config = $config;
+        $this->_stateClassMap = $stateClassMap;
     }
 
     /**
      * Create state object
      *
      * @param string $cardType
-     * @return Magento_Centinel_Model_StateAbstract|bool
+     * @return \Magento\Centinel\Model\StateAbstract|false
      */
     public function createState($cardType)
     {
-        $stateClass = $this->_config->getStateModelClass($cardType);
-        return $stateClass ? $this->_objectManager->create($stateClass) : false;
+        if (!isset($this->_stateClassMap[$cardType])) {
+            return false;
+        }
+        return $this->_objectManager->create($this->_stateClassMap[$cardType]);
     }
 }

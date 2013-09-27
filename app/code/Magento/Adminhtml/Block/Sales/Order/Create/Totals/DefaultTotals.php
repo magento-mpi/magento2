@@ -27,7 +27,7 @@ class DefaultTotals extends \Magento\Adminhtml\Block\Sales\Order\Create\Totals
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
+        return $this->_sessionQuote;
     }
 
     /**

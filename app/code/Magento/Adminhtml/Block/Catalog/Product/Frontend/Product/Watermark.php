@@ -34,17 +34,33 @@ class Watermark
     protected $_coreConfig;
 
     /**
+     * @var \Magento\Backend\Block\System\Config\Form\Field
+     */
+    protected $_formField;
+
+    /**
+     * @var \Magento\Catalog\Model\Config\Source\Watermark\Position
+     */
+    protected $_watermarkPosition;
+
+    /**
+     * @param \Magento\Catalog\Model\Config\Source\Watermark\Position $watermarkPosition
+     * @param \Magento\Backend\Block\System\Config\Form\Field $formField
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Config\Source\Watermark\Position $watermarkPosition,
+        \Magento\Backend\Block\System\Config\Form\Field $formField,
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
+        $this->_watermarkPosition = $watermarkPosition;
+        $this->_formField = $formField;
         $this->_elementFactory = $elementFactory;
         $this->_coreConfig = $coreConfig;
         parent::__construct($context, $data);
@@ -53,8 +69,6 @@ class Watermark
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = $this->_getHeaderHtml($element);
-        $renderer = \Mage::getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
-
         $attributes = $this->_coreConfig->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
 
         foreach ($attributes as $key => $attribute) {
@@ -66,7 +80,7 @@ class Watermark
             $field->setName("groups[watermark][fields][{$key}_size][value]")
                 ->setForm($this->getForm())
                 ->setLabel(__('Size for %1', $attribute['title']))
-                ->setRenderer($renderer);
+                ->setRenderer($this->_formField);
             $html.= $field->toHtml();
 
             /**
@@ -77,7 +91,7 @@ class Watermark
             $field->setName("groups[watermark][fields][{$key}_image][value]")
                 ->setForm($this->getForm())
                 ->setLabel(__('Watermark File for %1', $attribute['title']))
-                ->setRenderer($renderer);
+                ->setRenderer($this->_formField);
             $html.= $field->toHtml();
 
             /**
@@ -88,8 +102,8 @@ class Watermark
             $field->setName("groups[watermark][fields][{$key}_position][value]")
                 ->setForm($this->getForm())
                 ->setLabel(__('Position of Watermark for %1', $attribute['title']))
-                ->setRenderer($renderer)
-                ->setValues(\Mage::getSingleton('Magento\Catalog\Model\Config\Source\Watermark\Position')->toOptionArray());
+                ->setRenderer($this->_formField)
+                ->setValues($this->_watermarkPosition->toOptionArray());
             $html.= $field->toHtml();
         }
 

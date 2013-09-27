@@ -26,7 +26,7 @@ class Edit extends \Magento\Adminhtml\Controller\Sales\Order\Create
     {
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+        $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
 
         try {
             if ($order->getId()) {
@@ -38,10 +38,10 @@ class Edit extends \Magento\Adminhtml\Controller\Sales\Order\Create
                 $this->_redirect('*/sales_order/');
             }
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addException($e, $e->getMessage());
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addException($e, $e->getMessage());
             $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
         }
     }

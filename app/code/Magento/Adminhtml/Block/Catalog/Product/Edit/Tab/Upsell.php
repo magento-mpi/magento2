@@ -27,14 +27,58 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Catalog\Model\Product\LinkFactory
+     */
+    protected $_linkFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory]
+     */
+    protected $_setsFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Type
+     */
+    protected $_type;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Status
+     */
+    protected $_status;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @param \Magento\Catalog\Model\Product\LinkFactory $linkFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Type $type
+     * @param \Magento\Catalog\Model\Product\Status $status
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Catalog\Model\Product\LinkFactory $linkFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Product\Type $type,
+        \Magento\Catalog\Model\Product\Status $status,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -42,6 +86,12 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_linkFactory = $linkFactory;
+        $this->_setsFactory = $setsFactory;
+        $this->_productFactory = $productFactory;
+        $this->_type = $type;
+        $this->_status = $status;
+        $this->_visibility = $visibility;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -118,7 +168,7 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Catalog\Model\Product\Link')->useUpSellLinks()
+        $collection = $this->_linkFactory->create()->useUpSellLinks()
             ->getProductCollection()
             ->setProduct($this->getProduct())
             ->addAttributeToSelect('*');
@@ -172,13 +222,13 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
             'header'    => __('Type'),
             'index'     => 'type_id',
             'type'      => 'options',
-            'options'   => \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getOptionArray(),
+            'options'   => $this->_type->getOptionArray(),
             'header_css_class'  => 'col-type',
             'column_css_class'  => 'col-type'
         ));
 
-        $sets = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
-            ->setEntityTypeFilter(\Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId())
+        $sets = $this->_setsFactory->create()
+            ->setEntityTypeFilter($this->_productFactory->create()->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -195,7 +245,7 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
             'header'    => __('Status'),
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getOptionArray(),
+            'options'   => $this->_status->getOptionArray(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
@@ -204,7 +254,7 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
             'header'    => __('Visibility'),
             'index'     => 'visibility',
             'type'      => 'options',
-            'options'   => \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getOptionArray(),
+            'options'   => $this->_visibility->getOptionArray(),
             'header_css_class'  => 'col-visibility',
             'column_css_class'  => 'col-visibility'
         ));

@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <designeditor_setup>
-                <setup>
-                    <module>Magento_DesignEditor</module>
-                    <class>Magento\Core\Model\Resource\Setup</class>
-                </setup>
-            </designeditor_setup>
-        </resources>
-    </global>
     <default>
         <theme>
             <customization>

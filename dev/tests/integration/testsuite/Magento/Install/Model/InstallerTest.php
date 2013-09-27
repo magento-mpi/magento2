@@ -30,7 +30,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_tmpDir = \Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR ."InstallerTest";
+        self::$_tmpDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+            ->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
         self::$_tmpConfigFile = self::$_tmpDir . DIRECTORY_SEPARATOR . 'local.xml';
         mkdir(self::$_tmpDir);
     }
@@ -42,7 +43,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Install\Model\Installer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Install\Model\Installer');
     }
 
     /**
@@ -57,7 +59,6 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $installerConfig = new \Magento\Install\Model\Installer\Config(
             $objectManager->get('Magento\Core\Controller\Request\Http'),
             new \Magento\Core\Model\Dir(__DIR__, array(), array(\Magento\Core\Model\Dir::CONFIG => $dir)),
-            $objectManager->get('Magento\Core\Model\Config\Resource'),
             new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local())
         );
         $objectManager->addSharedInstance($installerConfig, 'Magento\Install\Model\Installer\Config');
@@ -79,7 +80,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         );
 
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('Magento\User\Model\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User');
         $user->loadByUsername($userName);
         $this->assertEmpty($user->getId());
 
@@ -170,10 +172,12 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         $this->_model->finish();
 
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
-        $cacheState = \Mage::getModel('Magento\Core\Model\Cache\StateInterface');
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Cache\StateInterface');
 
         /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = \Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
+        $cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Cache\TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
         foreach ($types as $type) {
             $this->assertTrue(

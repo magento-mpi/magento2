@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/* @var $installer \Magento\CustomerBalance\Model\Resource\Setup */
+/* @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer->startSetup();
 
 /**

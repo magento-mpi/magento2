@@ -36,7 +36,7 @@ class Create extends \Magento\Adminhtml\Controller\Action
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
     }
 
     /**
@@ -56,7 +56,7 @@ class Create extends \Magento\Adminhtml\Controller\Action
      */
     protected function _getOrderCreateModel()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create');
     }
 
     /**
@@ -66,7 +66,7 @@ class Create extends \Magento\Adminhtml\Controller\Action
      */
     protected function _getGiftmessageSaveModel()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Giftmessage\Save');
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Giftmessage\Save');
     }
 
     /**
@@ -299,7 +299,7 @@ class Create extends \Magento\Adminhtml\Controller\Action
      */
     protected function _processFiles($items)
     {
-        /* @var $productHelper Magento\Catalog\Helper\Product */
+        /* @var $productHelper \Magento\Catalog\Helper\Product */
         $productHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product');
         foreach ($items as $id => $item) {
             $buyRequest = new \Magento\Object($item);
@@ -330,7 +330,7 @@ class Create extends \Magento\Adminhtml\Controller\Action
     {
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+        $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
         if (!$this->_objectManager->get('Magento\Sales\Helper\Reorder')->canReorder($order)) {
             return $this->_forward('noRoute');
         }
@@ -397,7 +397,7 @@ class Create extends \Magento\Adminhtml\Controller\Action
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         $result = $this->getLayout()->renderElement('content');
         if ($request->getParam('as_js_varname')) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
             $this->_redirect('*/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
@@ -429,7 +429,7 @@ class Create extends \Magento\Adminhtml\Controller\Action
         }
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setCompositeProductResult($updateResult);
+        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
     }
 
@@ -483,7 +483,7 @@ class Create extends \Magento\Adminhtml\Controller\Action
                 ->createOrder();
 
             $this->_getSession()->clear();
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
             } else {
@@ -548,7 +548,7 @@ class Create extends \Magento\Adminhtml\Controller\Action
         $configureResult = new \Magento\Object();
         $configureResult->setOk(true);
         $configureResult->setProductId($productId);
-        $sessionQuote = \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
+        $sessionQuote = $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
         $configureResult->setCurrentStoreId($sessionQuote->getStore()->getId());
         $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
@@ -571,23 +571,23 @@ class Create extends \Magento\Adminhtml\Controller\Action
         try {
             $quoteItemId = (int) $this->getRequest()->getParam('id');
             if (!$quoteItemId) {
-                \Mage::throwException(__('Quote item id is not received.'));
+                throw new \Magento\Core\Exception(__('Quote item id is not received.'));
             }
 
-            $quoteItem = \Mage::getModel('Magento\Sales\Model\Quote\Item')->load($quoteItemId);
+            $quoteItem = $this->_objectManager->create('Magento\Sales\Model\Quote\Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                \Mage::throwException(__('Quote item is not loaded.'));
+                throw new \Magento\Core\Exception(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
-            $optionCollection = \Mage::getModel('Magento\Sales\Model\Quote\Item\Option')->getCollection()
+            $optionCollection = $this->_objectManager->create('Magento\Sales\Model\Quote\Item\Option')->getCollection()
                     ->addItemFilter(array($quoteItemId));
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setProductId($quoteItem->getProductId());
-            $sessionQuote = \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
+            $sessionQuote = $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
         } catch (\Exception $e) {
@@ -610,7 +610,7 @@ class Create extends \Magento\Adminhtml\Controller\Action
      */
     public function showUpdateResultAction()
     {
-        $session = \Mage::getSingleton('Magento\Adminhtml\Model\Session');
+        $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
         if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())) {
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();

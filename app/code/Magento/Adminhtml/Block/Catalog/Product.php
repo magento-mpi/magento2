@@ -22,6 +22,36 @@ class Product extends \Magento\Adminhtml\Block\Widget\Container
     protected $_template = 'catalog/product.phtml';
 
     /**
+     * @var \Magento\Catalog\Model\Product\TypeFactory
+     */
+    protected $_typeFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\Product\TypeFactory $typeFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Product\TypeFactory $typeFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        $this->_typeFactory = $typeFactory;
+
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare button and grid
      *
      * @return \Magento\Adminhtml\Block\Catalog\Product
@@ -33,7 +63,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Container
             'label' => __('Add Product'),
             'class' => 'btn-add',
             'button_class' => 'btn-round',
-            'class_name' => 'Magento\Backend\Block\Widget\Button\SplitButton',
+            'class_name' => 'Magento\Backend\Block\Widget\Button\Split',
             'options' => $this->_getAddProductButtonOptions(),
         );
         $this->_addButton('add_new', $addButtonProps);
@@ -54,7 +84,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Container
     {
         $splitButtonOptions = array();
 
-        foreach (\Mage::getModel('Magento\Catalog\Model\Product\Type')->getOptionArray() as $key => $label) {
+        foreach ($this->_typeFactory->create()->getOptionArray() as $key => $label) {
             $splitButtonOptions[$key] = array(
                 'label'     => $label,
                 'onclick'   => "setLocation('" . $this->_getProductCreateUrl($key) . "')",
@@ -74,7 +104,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Container
     protected function _getProductCreateUrl($type)
     {
         return $this->getUrl('*/*/new', array(
-            'set'   => \Mage::getModel('Magento\Catalog\Model\Product')->getDefaultAttributeSetId(),
+            'set'   => $this->_productFactory->create()->getDefaultAttributeSetId(),
             'type'  => $type
         ));
     }
@@ -96,6 +126,6 @@ class Product extends \Magento\Adminhtml\Block\Widget\Container
      */
     public function isSingleStoreMode()
     {
-        return \Mage::app()->isSingleStoreMode();
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

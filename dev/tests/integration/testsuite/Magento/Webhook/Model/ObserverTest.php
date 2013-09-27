@@ -1,5 +1,7 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Observer
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -7,13 +9,11 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @magentoDbIsolation enabled
  */
 namespace Magento\Webhook\Model;
 
-/**
- * \Magento\Webhook\Model\Observer
- * @magentoDbIsolation enabled
- */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\Subscription */
@@ -57,7 +57,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         ));
         $rule->save();
 
-        $this->_user = \Mage::getModel('Magento\Webapi\Model\Acl\User')
+        $this->_user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\User')
             ->setData(array(
             'api_key' => 'webhook_test_username',
             'secret' => 'webhook_test_secret',

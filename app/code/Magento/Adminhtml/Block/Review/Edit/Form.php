@@ -11,7 +11,6 @@
 /**
  * Adminhtml Review Edit Form
  */
-
 namespace Magento\Adminhtml\Block\Review\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
@@ -24,6 +23,24 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_reviewData = null;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
@@ -32,6 +49,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
@@ -40,14 +60,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
+        $this->_customerFactory = $customerFactory;
+        $this->_productFactory = $productFactory;
+        $this->_systemStore = $systemStore;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     protected function _prepareForm()
     {
         $review = $this->_coreRegistry->registry('review_data');
-        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($review->getEntityPkValue());
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($review->getCustomerId());
+        $product = $this->_productFactory->create()->load($review->getEntityPkValue());
+        $customer = $this->_customerFactory->create()->load($review->getCustomerId());
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
@@ -114,12 +137,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /**
          * Check is single store mode
          */
-        if (!\Mage::app()->hasSingleStore()) {
+        if (!$this->_storeManager->hasSingleStore()) {
             $field = $fieldset->addField('select_stores', 'multiselect', array(
                 'label'     => __('Visible In'),
                 'required'  => true,
                 'name'      => 'stores[]',
-                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
+                'values'    => $this->_systemStore->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
@@ -128,9 +151,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         } else {
             $fieldset->addField('select_stores', 'hidden', array(
                 'name'      => 'stores[]',
-                'value'     => \Mage::app()->getStore(true)->getId()
+                'value'     => $this->_storeManager->getStore(true)->getId()
             ));
-            $review->setSelectStores(\Mage::app()->getStore(true)->getId());
+            $review->setSelectStores($this->_storeManager->getStore(true)->getId());
         }
 
         $fieldset->addField('nickname', 'text', array(

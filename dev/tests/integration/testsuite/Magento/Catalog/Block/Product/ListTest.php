@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Block\Product;
-
 /**
- * Test class for \Magento\Catalog\Block\Product\ListProduct.
+ * Test class for \Magento\Catalog\Block\Product\List.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
+namespace Magento\Catalog\Block\Product;
+
 class ListTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,7 +25,8 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\ListProduct');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Catalog\Block\Product\ListProduct');
     }
 
     public function testGetLayer()
@@ -58,7 +59,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
         /* Prepare toolbar block */
         $toolbar = $parent->getToolbarBlock();
-        $this->assertInstanceOf('Magento\Catalog\Block\Product\ProductList\Toolbar', $toolbar, 'Default Toolbar');
+        $this->assertInstanceOf('Magento\Catalog\Block\Product\ListProduct\Toolbar', $toolbar, 'Default Toolbar');
 
         $parent->setChild('toolbar', $toolbar);
         /* In order to initialize toolbar collection block toHtml should be called before toolbar toHtml */
@@ -100,7 +101,8 @@ class ListTest extends \PHPUnit_Framework_TestCase
     public function testPrepareSortableFieldsByCategory()
     {
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = \Mage::getModel('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $category->setDefaultSortBy('name');
         $this->_block->prepareSortableFieldsByCategory($category);
         $this->assertEquals('name', $this->_block->getSortBy());
@@ -108,6 +110,6 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
     protected function _getLayout()
     {
-        return \Mage::app()->getLayout();
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
     }
 }

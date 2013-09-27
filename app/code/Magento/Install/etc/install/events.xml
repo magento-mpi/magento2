@@ -8,9 +8,6 @@
  */
 -->
 <config>
-    <event name="controller_action_predispatch">
-        <observer name="checkConnection" instance="Magento\Core\Model\Resource" method="checkDbConnection" />
-    </event>
     <event name="core_locale_set_locale">
         <observer name="bind_locale" instance="Magento\Install\Model\Observer" method="bindLocale" />
     </event>

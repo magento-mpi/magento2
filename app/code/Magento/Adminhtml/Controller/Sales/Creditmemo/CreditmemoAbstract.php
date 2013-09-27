@@ -58,11 +58,14 @@ class CreditmemoAbstract extends \Magento\Adminhtml\Controller\Action
      */
     public function emailAction()
     {
-        if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
-            if ($creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId)) {
+        $creditmemoId = $this->getRequest()->getParam('creditmemo_id');
+        if ($creditmemoId) {
+            $creditmemo = $this->_objectManager->create('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
+            if ($creditmemo) {
                 $creditmemo->sendEmail();
-                $historyItem = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\History\Collection')
-                    ->getUnnotifiedForInstance($creditmemo, \Magento\Sales\Model\Order\Creditmemo::HISTORY_ENTITY_NAME);
+                $historyItem = $this->_objectManager->create(
+                    'Magento\Sales\Model\Resource\Order\Status\History\Collection'
+                )->getUnnotifiedForInstance($creditmemo, \Magento\Sales\Model\Order\Creditmemo::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
@@ -76,23 +79,23 @@ class CreditmemoAbstract extends \Magento\Adminhtml\Controller\Action
         }
     }
 
-    public function pdfcreditmemosAction(){
+    public function pdfcreditmemosAction()
+    {
         $creditmemosIds = $this->getRequest()->getPost('creditmemo_ids');
         if (!empty($creditmemosIds)) {
-            $invoices = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
+            $invoices = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('entity_id', array('in' => $creditmemosIds))
                 ->load();
-            if (!isset($pdf)){
-                $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($invoices);
+            if (!isset($pdf)) {
+                $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($invoices);
             } else {
-                $pages = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($invoices);
+                $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($invoices);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
+            $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
 
-            return $this->_prepareDownloadResponse('creditmemo'
-                    . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s')
-                    . '.pdf', $pdf->render(), 'application/pdf');
+            return $this->_prepareDownloadResponse('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }
@@ -100,15 +103,16 @@ class CreditmemoAbstract extends \Magento\Adminhtml\Controller\Action
     public function printAction()
     {
         /** @see \Magento\Adminhtml\Controller\Sales\Order\Invoice */
-        if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
-            if ($creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId)) {
-                $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf(array($creditmemo));
-                $this->_prepareDownloadResponse('creditmemo'
-                        . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s')
-                        . '.pdf', $pdf->render(), 'application/pdf');
+        $creditmemoId = $this->getRequest()->getParam('creditmemo_id');
+        if ($creditmemoId) {
+            $creditmemo = $this->_objectManager->create('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
+            if ($creditmemo) {
+                $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')
+                    ->getPdf(array($creditmemo));
+                $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
+                $this->_prepareDownloadResponse('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
             }
-        }
-        else {
+        } else {
             $this->_forward('noRoute');
         }
     }

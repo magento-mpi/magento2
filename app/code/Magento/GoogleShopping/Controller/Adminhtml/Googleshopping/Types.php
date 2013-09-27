@@ -55,7 +55,8 @@ class Types extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Google Content Attributes'));
 
-        $this->_coreRegistry->register('current_item_type', \Mage::getModel('Magento\GoogleShopping\Model\Type'));
+        $this->_coreRegistry
+            ->register('current_item_type', $this->_objectManager->create('Magento\GoogleShopping\Model\Type'));
         $typeId = $this->getRequest()->getParam('id');
         if (!is_null($typeId)) {
             $this->_coreRegistry->registry('current_item_type')->load($typeId);
@@ -130,7 +131,8 @@ class Types extends \Magento\Adminhtml\Controller\Action
         try {
             $result = array();
             if ($typeId) {
-                $collection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Attribute\Collection')
+                $collection = $this->_objectManager
+                    ->create('Magento\GoogleShopping\Model\Resource\Attribute\Collection')
                     ->addTypeFilter($typeId)
                     ->load();
                 foreach ($collection as $attribute) {
@@ -159,7 +161,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
     public function saveAction()
     {
         /** @var $typeModel \Magento\GoogleShopping\Model\Type */
-        $typeModel = \Mage::getModel('Magento\GoogleShopping\Model\Type');
+        $typeModel = $this->_objectManager->create('Magento\GoogleShopping\Model\Type');
         $id = $this->getRequest()->getParam('type_id');
         if (!is_null($id)) {
             $typeModel->load($id);
@@ -168,7 +170,8 @@ class Types extends \Magento\Adminhtml\Controller\Action
         try {
             $typeModel->setCategory($this->getRequest()->getParam('category'));
             if ($typeModel->getId()) {
-                $collection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Attribute\Collection')
+                $collection = $this->_objectManager
+                    ->create('Magento\GoogleShopping\Model\Resource\Attribute\Collection')
                     ->addTypeFilter($typeModel->getId())
                     ->load();
                 foreach ($collection as $attribute) {
@@ -181,14 +184,15 @@ class Types extends \Magento\Adminhtml\Controller\Action
             $typeModel->save();
 
             $attributes = $this->getRequest()->getParam('attributes');
-            $requiredAttributes = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getRequiredAttributes();
+            $requiredAttributes = $this->_objectManager->get('Magento\GoogleShopping\Model\Config')
+                ->getRequiredAttributes();
             if (is_array($attributes)) {
                 $typeId = $typeModel->getId();
                 foreach ($attributes as $attrInfo) {
                     if (isset($attrInfo['delete']) && $attrInfo['delete'] == 1) {
                         continue;
                     }
-                    \Mage::getModel('Magento\GoogleShopping\Model\Attribute')
+                    $this->_objectManager->create('Magento\GoogleShopping\Model\Attribute')
                         ->setAttributeId($attrInfo['attribute_id'])
                         ->setGcontentAttribute($attrInfo['gcontent_attribute'])
                         ->setTypeId($typeId)
@@ -197,14 +201,16 @@ class Types extends \Magento\Adminhtml\Controller\Action
                 }
             }
 
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The attribute mapping has been saved.'));
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+                ->addSuccess(__('The attribute mapping has been saved.'));
             if (!empty($requiredAttributes)) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
-                    ->addSuccess($this->_objectManager->get('Magento_\GoogleShopping\Helper\Category')->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+                    ->addSuccess($this->_objectManager->get('Magento\GoogleShopping\Helper\Category')->getMessage());
             }
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__("We can't save Attribute Set Mapping."));
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+                ->addError(__("We can't save Attribute Set Mapping."));
         }
         $this->_redirect('*/*/index', array('store' => $this->_getStore()->getId()));
     }
@@ -216,7 +222,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
     {
         try {
             $id = $this->getRequest()->getParam('id');
-            $model = \Mage::getModel('Magento\GoogleShopping\Model\Type');
+            $model = $this->_objectManager->create('Magento\GoogleShopping\Model\Type');
             $model->load($id);
             if ($model->getTypeId()) {
                 $model->delete();
@@ -276,9 +282,9 @@ class Types extends \Magento\Adminhtml\Controller\Action
     {
         $storeId = (int)$this->getRequest()->getParam('store', 0);
         if ($storeId == 0) {
-            return \Mage::app()->getDefaultStoreView();
+            return $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getDefaultStoreView();
         }
-        return \Mage::app()->getStore($storeId);
+        return $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore($storeId);
     }
 
     /**

@@ -1,16 +1,15 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Event
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ * @magentoDbIsolation enabled
  */
 namespace Magento\Webhook\Model;
 
-/**
- * \Magento\Webhook\Model\Event
- * @magentoDbIsolation enabled
- */
 class EventTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Webhook\Model\Event */
@@ -18,12 +17,10 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_event = \Mage::getModel('Magento\Webhook\Model\Event');
+        $this->_event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event');
     }
 
-    /**
-     * @magentoDbIsolation enabled
-     */
     public function testSetGet()
     {
         $this->assertEmpty($this->_event->getBodyData());
@@ -37,9 +34,6 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $this->_event->getHeaders());
     }
 
-    /**
-     * @magentoDbIsolation enabled
-     */
     public function testSetGetArrays()
     {
         $this->_event->setStatus(42);
@@ -49,18 +43,12 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('customer/topic', $this->_event->getTopic());
     }
 
-    /**
-     * @magentoDbIsolation enabled
-     */
     public function testMarkAsProcessed()
     {
         $this->_event->complete();
         $this->assertEquals(\Magento\PubSub\EventInterface::STATUS_PROCESSED, $this->_event->getStatus());
     }
 
-    /**
-     * @magentoDbIsolation enabled
-     */
     public function testSaveAndLoad()
     {
         $bodyData = array('array', 'of', 'body', 'data');

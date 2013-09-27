@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Block\Adminhtml\Edit;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Rma\Block\Adminhtml\Edit;
+
 class ItemsTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -21,7 +21,8 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        $rma = \Mage::getModel('Magento\Rma\Model\Rma');
+        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Rma\Model\Rma');
         $rma->load(1, 'increment_id');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();

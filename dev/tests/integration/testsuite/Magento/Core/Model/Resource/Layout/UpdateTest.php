@@ -20,7 +20,8 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_resourceModel = \Mage::getModel('Magento\Core\Model\Resource\Layout\Update');
+        $this->_resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Layout\Update');
     }
 
     /**
@@ -29,9 +30,15 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     public function testFetchUpdatesByHandle()
     {
         /** @var $theme \Magento\Core\Model\Theme */
-        $theme = \Mage::getModel('Magento\Core\Model\Theme');
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme');
         $theme->load('Test Theme', 'theme_title');
-        $result = $this->_resourceModel->fetchUpdatesByHandle('test_handle', $theme, \Mage::app()->getStore());
+        $result = $this->_resourceModel->fetchUpdatesByHandle(
+            'test_handle',
+            $theme,
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()
+        );
         $this->assertEquals('not_temporary', $result);
     }
 
@@ -43,15 +50,17 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     public function testSaveAfterClearCache()
     {
         /** @var $appCache \Magento\Core\Model\Cache */
-        $appCache = \Mage::getSingleton('Magento\Core\Model\Cache');
+        $appCache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Cache');
         /** @var \Magento\Core\Model\Cache\Type\Layout $layoutCache */
-        $layoutCache = \Mage::getSingleton('Magento\Core\Model\Cache\Type\Layout');
+        $layoutCache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Cache\Type\Layout');
 
         $this->assertNotEmpty($appCache->load('APPLICATION_FIXTURE'));
         $this->assertNotEmpty($layoutCache->load('LAYOUT_CACHE_FIXTURE'));
 
         /** @var $layoutUpdate \Magento\Core\Model\Layout\Update */
-        $layoutUpdate = \Mage::getModel('Magento\Core\Model\Layout\Update');
+        $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\Update');
         $this->_resourceModel->save($layoutUpdate);
 
         $this->assertNotEmpty($appCache->load('APPLICATION_FIXTURE'), 'Non-layout cache must be kept');

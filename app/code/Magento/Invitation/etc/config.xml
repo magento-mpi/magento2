@@ -10,24 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <invitation_setup>
-                <setup>
-                    <module>Magento_Invitation</module>
-                </setup>
-            </invitation_setup>
-        </resources>
-        <template>
-            <email>
-                <magento_invitation_email_template translate="label" module="Magento_Invitation">
-                    <label>Customer Invitation</label>
-                    <file>email/invitation.html</file>
-                    <type>html</type>
-                </magento_invitation_email_template>
-            </email>
-        </template>
-    </global>
     <default>
         <magento_invitation>
             <email>

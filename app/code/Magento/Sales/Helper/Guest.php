@@ -30,7 +30,7 @@ class Guest extends \Magento\Core\Helper\Data
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -68,12 +68,13 @@ class Guest extends \Magento\Core\Helper\Data
     protected $_orderFactory;
 
     /**
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Core\Model\Cookie $coreCookie
@@ -81,23 +82,24 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     *
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Core\Model\Cookie $coreCookie,
         \Magento\Core\Model\App $coreApp,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Session $coreSession,
-        \Magento\Sales\Model\OrderFactory $orderFactory
+        \Magento\Sales\Model\OrderFactory $orderFactory    
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
@@ -107,7 +109,7 @@ class Guest extends \Magento\Core\Helper\Data
         $this->_storeManager = $storeManager;
         $this->_coreSession = $coreSession;
         $this->_orderFactory = $orderFactory;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     /**

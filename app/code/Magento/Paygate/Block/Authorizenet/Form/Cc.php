@@ -56,7 +56,7 @@ class Cc extends \Magento\Payment\Block\Form
      */
     public function getAdminCancelUrl()
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
+        return $this->_urlBuilder->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
     }
 
     /**

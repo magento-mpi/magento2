@@ -15,7 +15,8 @@ class StatusTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Rss\Block\Order\Status');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Rss\Block\Order\Status');
         $this->assertEmpty($block->toHtml());
 
         $uniqid = uniqid();

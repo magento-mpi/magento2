@@ -28,7 +28,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @var string
      */
-    protected $_fixtureKey = '_fixture/Magento\ImportExport\Customers\Array';
+    protected $_fixtureKey = '_fixture/Magento_ImportExport_Customers_Array';
 
     /**
      * Address entity adapter instance
@@ -147,7 +147,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         }
 
         // invoke _initAddresses
-        $initAddresses = new \ReflectionMethod($this->_testClassName, '_initAddresses');
+        $initAddresses = new ReflectionMethod($this->_testClassName, '_initAddresses');
         $initAddresses->setAccessible(true);
         $initAddresses->invoke($this->_entityAdapter);
 
@@ -188,7 +188,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         list($customerId, $addressId) = $this->_addTestAddress($this->_entityAdapter);
 
         // check DB
-        $testAddress = \Mage::getModel('Magento\Customer\Model\Address');
+        $testAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Address');
         $testAddress->load($addressId);
         $this->assertEquals($addressId, $testAddress->getId(), 'Incorrect address ID.');
         $this->assertEquals($customerId, $testAddress->getParentId(), 'Incorrect address customer ID.');
@@ -206,14 +207,16 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $customers = $objectManager->get('Magento\Core\Model\Registry')->registry($this->_fixtureKey);
-        /** @var $customer Magento\Customer\Model\Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = reset($customers);
         $customerId = $customer->getId();
 
         /** @var $addressModel \Magento\Customer\Model\Address */
-        $addressModel = \Mage::getModel('Magento\Customer\Model\Address');
-        $tableName    = $addressModel->getResource()->getEntityTable();
-        $addressId    = \Mage::getResourceHelper('Magento_ImportExport')->getNextAutoincrement($tableName);
+        $addressModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Address');
+        $tableName = $addressModel->getResource()->getEntityTable();
+        $addressId = $objectManager->get('Magento\Core\Model\Resource\HelperPool')->get('Magento_ImportExport')
+            ->getNextAutoincrement($tableName);
 
         $entityData = array(
             'entity_id'      => $addressId,
@@ -224,7 +227,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
 
         // invoke _saveAddressEntities
-        $saveAddressEntities = new \ReflectionMethod($this->_testClassName, '_saveAddressEntities');
+        $saveAddressEntities = new ReflectionMethod($this->_testClassName, '_saveAddressEntities');
         $saveAddressEntities->setAccessible(true);
         $saveAddressEntities->invoke($entityAdapter, $entityData);
 
@@ -262,13 +265,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $attributeArray[$attributeTable][$addressId][$attributeId] = $attributeValue;
 
         // invoke _saveAddressAttributes
-        $saveAttributes = new \ReflectionMethod($this->_testClassName, '_saveAddressAttributes');
+        $saveAttributes = new ReflectionMethod($this->_testClassName, '_saveAddressAttributes');
         $saveAttributes->setAccessible(true);
         $saveAttributes->invoke($this->_entityAdapter, $attributeArray);
 
         // check DB
         /** @var $testAddress \Magento\Customer\Model\Address */
-        $testAddress = \Mage::getModel('Magento\Customer\Model\Address');
+        $testAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Address');
         $testAddress->load($addressId);
         $this->assertEquals($addressId, $testAddress->getId(), 'Incorrect address ID.');
         $this->assertEquals($attributeValue, $testAddress->getData($attributeName), 'There is no attribute value.');
@@ -323,13 +327,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         }
 
         // invoke _saveCustomerDefaults
-        $saveDefaults = new \ReflectionMethod($this->_testClassName, '_saveCustomerDefaults');
+        $saveDefaults = new ReflectionMethod($this->_testClassName, '_saveCustomerDefaults');
         $saveDefaults->setAccessible(true);
         $saveDefaults->invoke($this->_entityAdapter, $defaults);
 
         // check DB
         /** @var $testCustomer \Magento\Customer\Model\Customer */
-        $testCustomer = \Mage::getModel('Magento\Customer\Model\Customer');
+        $testCustomer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
         $testCustomer->load($customerId);
         $this->assertEquals($customerId, $testCustomer->getId(), 'Customer must exists.');
         $this->assertNotNull($testCustomer->getDefaultBillingAddress(), 'Default billing address must exists.');
@@ -379,7 +384,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         }
 
         // get addresses
-        $addressCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Collection');
+        $addressCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Address\Collection');
         $addressCollection->addAttributeToSelect($requiredAttributes);
         $addresses = array();
         /** @var $address \Magento\Customer\Model\Address */
@@ -412,7 +418,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         // are default billing/shipping addresses have new value
         /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
         $customer->setWebsiteId(0);
         $customer->loadByEmail('BetsyParker@example.com');
         $defaultsData = $this->_updateData['default'];
@@ -456,7 +463,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         // get addresses
         /** @var $addressCollection \Magento\Customer\Model\Resource\Address\Collection */
-        $addressCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Collection');
+        $addressCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Address\Collection');
         $addressCollection->addAttributeToSelect($keyAttribute);
         $addresses = array();
         /** @var $address \Magento\Customer\Model\Address */

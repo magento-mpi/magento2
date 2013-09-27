@@ -18,8 +18,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_USE_CUSTOM_ADMIN_URL         = 'admin/url/use_custom';
     const XML_PATH_USE_CUSTOM_ADMIN_PATH        = 'admin/url/use_custom_path';
     const XML_PATH_CUSTOM_ADMIN_PATH            = 'admin/url/custom_path';
-    const XML_PATH_BACKEND_AREA_FRONTNAME       = 'default/backend/frontName';
     const BACKEND_AREA_CODE                     = 'adminhtml';
+
+    const PARAM_BACKEND_FRONT_NAME              = 'backend.frontName';
 
     protected $_pageHelpUrl;
 
@@ -36,7 +37,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * @var string
      */
-    protected $_dfltAreaFrontName;
+    protected $_defaultAreaFrontName;
 
     /**
      * Area front name
@@ -57,12 +58,20 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreData = null;
 
     /**
+     * Backend area front name
+     *
+     * @var string
+     */
+    protected $_backendFrontName;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ConfigInterface $applicationConfig
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\Core\Model\RouterList $routerList
-     * @param string $dfltAreaFrontName
+     * @param string $defaultAreaFrontName
+     * @param string $backendFrontName
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -70,14 +79,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\ConfigInterface $applicationConfig,
         \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\Core\Model\RouterList $routerList,
-        $dfltAreaFrontName
+        $defaultAreaFrontName,
+        $backendFrontName
     ) {
         parent::__construct($context);
         $this->_coreData = $coreData;
         $this->_config = $applicationConfig;
         $this->_primaryConfig = $primaryConfig;
-        $this->_dfltAreaFrontName = $dfltAreaFrontName;
+        $this->_defaultAreaFrontName = $defaultAreaFrontName;
         $this->_routerList = $routerList;
+        $this->_backendFrontName = $backendFrontName;
     }
 
     public function getPageHelpUrl()
@@ -200,14 +211,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if (null === $this->_areaFrontName) {
             $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
-            $configAreaFrontName = (string)$this->_primaryConfig->getNode(self::XML_PATH_BACKEND_AREA_FRONTNAME);
 
             if ($isCustomPathUsed) {
                 $this->_areaFrontName = (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default');
-            } elseif ($configAreaFrontName) {
-                $this->_areaFrontName = $configAreaFrontName;
+            } elseif ($this->_backendFrontName) {
+                $this->_areaFrontName = $this->_backendFrontName;
             } else {
-                $this->_areaFrontName = $this->_dfltAreaFrontName;
+                $this->_areaFrontName = $this->_defaultAreaFrontName;
             }
         }
 

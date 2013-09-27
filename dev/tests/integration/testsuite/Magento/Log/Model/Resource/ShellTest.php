@@ -20,7 +20,8 @@ class ShellTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getResourceModel('Magento\Log\Model\Resource\Shell');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Log\Model\Resource\Shell');
     }
 
     public function testGetTablesInfo()

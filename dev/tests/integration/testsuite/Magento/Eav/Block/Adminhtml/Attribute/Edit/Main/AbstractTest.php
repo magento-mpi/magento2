@@ -28,7 +28,8 @@ class AbstractTest
         $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer');
+        $entityType = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
+            ->getEntityType('customer');
         $model = $objectManager->create('Magento\Customer\Model\Attribute');
         $model->setEntityTypeId($entityType->getId());
         $objectManager->get('Magento\Core\Model\Registry')->register('entity_attribute', $model);
@@ -46,7 +47,7 @@ class AbstractTest
         )
         ->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
-        $method = new \ReflectionMethod(
+        $method = new ReflectionMethod(
             'Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain', '_prepareForm');
         $method->setAccessible(true);
         $method->invoke($block);

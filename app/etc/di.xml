@@ -28,39 +28,47 @@
     <preference for="Magento\Core\Model\Event\ConfigInterface" type="Magento\Core\Model\Event\Config" />
     <preference for="Magento\Interception\PluginList" type="Magento\Interception\PluginList\PluginList" />
     <type name="Magento\Core\Model\App\State">
+        <param name="installDate">
+            <value type="argument">Magento\Core\Model\App\State::PARAM_INSTALL_DATE</value>
+        </param>
         <param name="mode">
-            <value type="argument">Mage::PARAM_MODE</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_MODE</value>
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Config\ValidationState">
+        <param name="appMode">
+            <value type="argument">Magento\Core\Model\App::PARAM_MODE</value>
         </param>
     </type>
     <type name="Magento\Core\Model\Config\Loader\Local">
         <param name="customFile">
-            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_CUSTOM_LOCAL_FILE</value>
         </param>
         <param name="customConfig">
-            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_CONFIG</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
     </type>
     <type name="Magento\Core\Model\Module\Declaration\Reader\Filesystem">
         <param name="allowedModules">
-            <value type="argument">Mage::PARAM_ALLOWED_MODULES</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_ALLOWED_MODULES</value>
         </param>
     </type>
     <type name="Magento\Core\Model\Cache\Frontend\Factory">
         <param name="enforcedOptions">
-            <value type="argument">Mage::PARAM_CACHE_OPTIONS</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_CACHE_OPTIONS</value>
         </param>
     </type>
     <type name="Magento\Core\Model\Cache\State">
         <param name="banAll">
-            <value type="argument">Mage::PARAM_BAN_CACHE</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_BAN_CACHE</value>
         </param>
     </type>
     <type name="Magento\Core\Model\StoreManager">
         <param name="scopeCode">
-            <value type="argument">Mage::PARAM_RUN_CODE</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_RUN_CODE</value>
         </param>
         <param name="scopeType">
-            <value type="argument">Mage::PARAM_RUN_TYPE</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_RUN_TYPE</value>
         </param>
     </type>
     <type name="Magento\Core\Model\Cache">
@@ -74,11 +82,6 @@
     <type name="Magento\Core\Model\Config">
         <param name="storage">
             <instance type="Magento\Core\Model\Config\Storage" />
-        </param>
-    </type>
-    <type name="Magento\Core\Model\Config\Resource">
-        <param name="config">
-            <instance type="Magento\Core\Model\Config\Primary" />
         </param>
     </type>
     <type name="Magento\Core\Model\Config\Storage">
@@ -106,7 +109,7 @@
             <instance type="Magento\Core\Model\Config\Proxy" />
         </param>
     </type>
-    <type name="Magento\Filesystem" shared="false">
+    <type name="Magento_Filesystem" shared="false">
         <param name="adapter">
             <instance type="Magento\Filesystem\Adapter\Local" />
         </param>
@@ -145,7 +148,7 @@
             <instance type="Magento\Core\Model\StoreManager\Proxy" />
         </param>
     </type>
-    <type name="Magento\Acl" shared="false" />
+    <type name="Magento_Acl" shared="false" />
     <type name="Magento\Core\Model\Context">
         <param name="eventDispatcher">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
@@ -164,7 +167,7 @@
             <instance type="Magento\Core\Model\Config\Modules\Reader\Proxy" />
         </param>
         <param name="mode">
-            <value type="argument">Mage::PARAM_MODE</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_MODE</value>
         </param>
     </type>
     <type name="Magento\Core\Model\ObjectManager\ConfigCache">
@@ -212,6 +215,14 @@
             <value>
                 <first>global</first>
             </value>
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Resource">
+        <param name="resourceConfig">
+            <instance type="Magento\Core\Model\Config\Resource\Primary" />
+        </param>
+        <param name="tablePrefix">
+            <value type="argument">Magento\Core\Model\Resource::PARAM_TABLE_PREFIX</value>
         </param>
     </type>
 </config>

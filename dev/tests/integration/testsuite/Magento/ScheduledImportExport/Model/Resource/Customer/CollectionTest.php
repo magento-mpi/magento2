@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\ScheduledImportExport\Model\Resource\Customer;
-
 /**
  * Test collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
  *
  * @magentoConfigFixture current_store magento_reward/general/is_enabled            1
  * @magentoConfigFixture current_store customer/magento_customerbalance/is_enabled  1
  */
+namespace Magento\ScheduledImportExport\Model\Resource\Customer;
+
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -24,7 +24,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        \Mage::app()->reinitStores();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->reinitStores();
     }
 
     /**
@@ -35,7 +36,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testJoinWithRewardPoints()
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
-        $collection = \Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithRewardPoints();
         $items = $collection->getItems();
         $this->assertCount(1, $items);
@@ -45,7 +47,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $website \Magento\Core\Model\Website */
-        foreach (\Mage::app()->getWebsites() as $website) {
+        $websites = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsites();
+        foreach ($websites as $website) {
             $key = $website->getCode() . '_'
                 . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_REWARD_POINTS;
@@ -64,7 +67,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testJoinWithCustomerBalance()
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
-        $collection = \Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithCustomerBalance();
         $items = $collection->getItems();
         $this->assertCount(1, $items);
@@ -73,8 +77,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $customer = reset($items);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $websites = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsites();
         /** @var $website \Magento\Core\Model\Website */
-        foreach (\Mage::app()->getWebsites() as $website) {
+        foreach ($websites as $website) {
             $key = $website->getCode() . '_'
                 . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_CUSTOMER_BALANCE;
@@ -93,7 +98,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testFilterWithRewardPointsAndCustomerBalance()
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
-        $collection = \Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithCustomerBalance()
             ->joinWithRewardPoints();
         $items = $collection->getItems();
@@ -124,7 +130,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testFilterWithRewardPoints()
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
-        $collection = \Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithRewardPoints();
         $items = $collection->getItems();
         $this->assertCount(2, $items);
@@ -154,7 +161,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testFilterWithCustomerBalance()
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
-        $collection = \Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithCustomerBalance();
         $items = $collection->getItems();
         $this->assertCount(2, $items);
@@ -184,7 +192,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testFilterWithoutRewardPointsAndCustomerBalance()
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
-        $collection = \Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $items = $collection->getItems();
         $this->assertCount(4, $items);
 

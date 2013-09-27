@@ -48,6 +48,12 @@ class Config
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Catalog\Model\Product\Type\Configurable
+     */
+    protected $_configurableType;
+
+    /**
+     * @param \Magento\Catalog\Model\Product\Type\Configurable $configurableType
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -57,6 +63,7 @@ class Config
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Product\Type\Configurable $configurableType,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -65,6 +72,7 @@ class Config
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_configurableType = $configurableType;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogData = $catalogData;
         $this->_app = $app;
@@ -114,16 +122,6 @@ class Config
     public function isAttributesConfigurationReadonly()
     {
         return (bool)$this->getProduct()->getAttributesConfigurationReadonly();
-    }
-
-    /**
-     * Get configurable product type
-     *
-     * @return \Magento\Catalog\Model\Product\Type\Configurable
-     */
-    protected function _getProductType()
-    {
-        return \Mage::getModel('Magento\Catalog\Model\Product\Type\Configurable');
     }
 
     /**
@@ -250,7 +248,7 @@ class Config
     public function getAttributes()
     {
         if (!$this->hasData('attributes')) {
-            $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->getProduct());
+            $attributes = (array)$this->_configurableType->getConfigurableAttributesAsArray($this->getProduct());
             $productData = (array)$this->getRequest()->getParam('product');
             if (isset($productData['configurable_attributes_data'])) {
                 $configurableData = $productData['configurable_attributes_data'];
@@ -290,7 +288,7 @@ class Config
      */
     public function getLinksJson()
     {
-        $products = $this->_getProductType()
+        $products = $this->_configurableType
             ->getUsedProducts($this->getProduct());
         if(!$products) {
             return '{}';
@@ -310,7 +308,7 @@ class Config
      */
     public function getConfigurableSettings($product) {
         $data = array();
-        $attributes = $this->_getProductType()
+        $attributes = $this->_configurableType
             ->getUsedProductAttributes($this->getProduct());
         foreach ($attributes as $attribute) {
             $data[] = array(
@@ -456,7 +454,7 @@ class Config
     public function getSelectedAttributes()
     {
         return $this->getProduct()->isConfigurable()
-            ? array_filter($this->_getProductType()->getUsedProductAttributes($this->getProduct()))
+            ? array_filter($this->_configurableType->getUsedProductAttributes($this->getProduct()))
             : array();
     }
 

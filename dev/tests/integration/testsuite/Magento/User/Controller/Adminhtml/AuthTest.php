@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Controller\Adminhtml;
-
 /**
  * Test class for \Magento\User\Controller\Adminhtml\Auth.
  *
  * @magentoAppArea adminhtml
  */
+namespace Magento\User\Controller\Adminhtml;
+
 class AuthTest extends \Magento\Backend\Utility\Controller
 {
     /**
@@ -54,7 +54,8 @@ class AuthTest extends \Magento\Backend\Utility\Controller
     public function testResetPasswordAction()
     {
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('Magento\User\Model\User')->loadByUsername('dummy_username');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->loadByUsername('dummy_username');
         $this->assertNotEmpty($user->getId(), 'Broken fixture');
         $resetPasswordToken = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\User\Helper\Data')
@@ -96,7 +97,8 @@ class AuthTest extends \Magento\Backend\Utility\Controller
     public function testResetPasswordPostAction()
     {
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('Magento\User\Model\User')->loadByUsername('dummy_username');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->loadByUsername('dummy_username');
         $this->assertNotEmpty($user->getId(), 'Broken fixture');
         $resetPasswordToken = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\User\Helper\Data')
@@ -120,7 +122,8 @@ class AuthTest extends \Magento\Backend\Utility\Controller
         ));
 
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('Magento\User\Model\User')->loadByUsername('dummy_username');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->loadByUsername('dummy_username');
         $this->assertTrue(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
                 ->validateHash($newDummyPassword, $user->getPassword())
@@ -152,7 +155,8 @@ class AuthTest extends \Magento\Backend\Utility\Controller
      */
     public function testResetPasswordPostActionWithInvalidPassword()
     {
-        $user = \Mage::getModel('Magento\User\Model\User')->loadByUsername('dummy_username');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->loadByUsername('dummy_username');
         $resetPasswordToken = null;
         if ($user->getId()) {
             $resetPasswordToken = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

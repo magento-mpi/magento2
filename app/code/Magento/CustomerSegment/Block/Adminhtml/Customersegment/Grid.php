@@ -17,8 +17,41 @@
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * @var \Magento\CustomerSegment\Model\SegmentFactory
+     */
+    protected $_segmentFactory;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        $this->_segmentFactory = $segmentFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     /**
      * Initialize grid
      * Set sort settings
@@ -42,7 +75,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\CustomerSegment\Model\Resource\Segment\Collection */
-        $collection = \Mage::getModel('Magento\CustomerSegment\Model\Segment')->getCollection();
+        $collection = $this->_segmentFactory->create()
+            ->getCollection();
         $collection->addWebsitesToResult();
         $this->setCollection($collection);
 
@@ -83,14 +117,14 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             ),
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('grid_segment_website', array(
                 'header'    => __('Website'),
                 'align'     => 'left',
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'sortable'  => false,
-                'options'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash(),
+                'options'   => $this->_systemStore->getWebsiteOptionHash(),
                 'width'     => 200,
             ));
         }

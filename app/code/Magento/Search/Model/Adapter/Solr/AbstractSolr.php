@@ -51,11 +51,16 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     protected $_advancedIndexFieldsPrefix = '';
 
     /**
-     * Return client factory
+     * Client factory
      *
-     * @var \Magento\Search\Model\Client\FactoryInterface
+     * @var \Magento\Search\Model\FactoryInterface
      */
     protected $_clientFactory;
+
+    /**
+     * @var SolrClient|\Magento\Search\Model\Client\Solr
+     */
+    protected $_client;
 
     /**
      * Search client helper
@@ -84,23 +89,23 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     protected $_eavConfig;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
-     * @param \Magento\Search\Model\Resource\Index $resourceIndex
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
+     * @param \Magento\Customer\Model\Session                              $customerSession
+     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price             $filterPrice
+     * @param \Magento\Search\Model\Resource\Index                         $resourceIndex
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext               $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\CacheInterface $cache
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Search\Model\Client\FactoryInterface $clientFactory
-     * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param array $options
+     * @param \Magento\Core\Model\Logger                                   $logger
+     * @param \Magento\Core\Model\StoreManagerInterface                    $storeManager
+     * @param \Magento\Core\Model\CacheInterface                           $cache
+     * @param \Magento\Eav\Model\Config                                    $eavConfig
+     * @param \Magento\Search\Model\Factory\Factory                        $searchFactory
+     * @param \Magento\Search\Helper\ClientInterface                       $clientHelper
+     * @param \Magento\Core\Model\Registry                                 $registry
+     * @param \Magento\Core\Model\Store\ConfigInterface                    $coreStoreConfig
+     * @param array                                                       $options
+     *
      * @throws \Magento\Core\Exception
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
@@ -112,21 +117,21 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Search\Model\Client\FactoryInterface $clientFactory,
+        \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         $options = array()
     ) {
         $this->_eavConfig = $eavConfig;
+        $this->_clientFactory = $searchFactory->getFactory();
         $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
-        $this->_clientFactory = $clientFactory;
-        $this->_clientHelper = $clientHelper;
-        $this->_coreRegistry = $registry;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
-            $logger, $storeManager, $cache);
+        parent::__construct(
+            $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
+            $logger, $storeManager, $cache
+        );
         try {
             $this->_connect($options);
         } catch (\Exception $e) {
@@ -141,7 +146,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * Connect to Solr Client by specified options that will be merged with default
      *
      * @param  array $options
-     * @throws RuntimeException
+     * @throws \RuntimeException
      * @return SolrClient|\Magento\Search\Model\Client\Solr
      */
     protected function _connect($options = array())
@@ -432,6 +437,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      *
      * @param   string $filed
      * @param   string $suffix
+     * @param   int  $storeId
      * @return  string
      */
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)

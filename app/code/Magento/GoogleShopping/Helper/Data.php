@@ -25,14 +25,24 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreString = null;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Context $context
     ) {
         $this->_coreString = $coreString;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -94,7 +104,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             if (strip_tags($row) == $row) {
                 $row = preg_replace('/@ (.*)/', __("See '\\1'"), $row);
                 if (!is_null($product)) {
-                    $row .= ' ' . __("for product '%1' (in '%2' store)", $product->getName(), \Mage::app()->getStore($product->getStoreId())->getName());
+                    $row .= ' ' . __("for product '%1' (in '%2' store)", $product->getName(), $this->_storeManager->getStore($product->getStoreId())->getName());
                 }
                 $result[] = $row;
                 continue;

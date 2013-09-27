@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
-
 /**
  * @magentoAppIsolation enabled
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
+
 class GroupTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,7 +28,8 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
         $registryData = array(
             'store_type' => 'group',
-            'store_data' => \Mage::getModel('Magento\Core\Model\Store\Group'),
+            'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Core\Model\Store\Group'),
             'store_action' => 'add'
         );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
@@ -37,9 +38,8 @@ class GroupTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Core\Model\Registry')->register($key, $value);
         }
 
-
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = $objectManager->get('Magento\Core\Model\Layout');
 
         $this->_block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Edit\Form\Group');
 

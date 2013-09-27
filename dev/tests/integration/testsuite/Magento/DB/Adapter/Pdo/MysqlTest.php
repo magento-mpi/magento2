@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for an \PDO MySQL adapter
+ * Test for an PDO MySQL adapter
  */
 namespace Magento\DB\Adapter\Pdo;
 
@@ -84,13 +84,13 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     protected function _executeQuery($sql)
     {
         /**
-         * Suppress \PDO warnings to work around the bug
+         * Suppress PDO warnings to work around the bug
          * @link https://bugs.php.net/bug.php?id=63812
          */
         $phpErrorReporting = error_reporting();
-        /** @var $pdoConnection \PDO */
+        /** @var $pdoConnection PDO */
         $pdoConnection = $this->_getDbAdapter()->getConnection();
-        $pdoWarningsEnabled = $pdoConnection->getAttribute(\PDO::ATTR_ERRMODE) & \PDO::ERRMODE_WARNING;
+        $pdoWarningsEnabled = $pdoConnection->getAttribute(PDO::ATTR_ERRMODE) & PDO::ERRMODE_WARNING;
         if (!$pdoWarningsEnabled) {
             error_reporting($phpErrorReporting & ~E_WARNING);
         }
@@ -113,8 +113,9 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     {
         if (is_null($this->_dbAdapter)) {
             /** @var $coreResource \Magento\Core\Model\Resource */
-            $coreResource = \Mage::getSingleton('Magento\Core\Model\Resource');
-            $this->_dbAdapter = $coreResource->getConnection(\Magento\Core\Model\Resource::DEFAULT_WRITE_RESOURCE);
+            $coreResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Resource');
+            $this->_dbAdapter = $coreResource->getConnection('default_setup');
         }
         return $this->_dbAdapter;
     }

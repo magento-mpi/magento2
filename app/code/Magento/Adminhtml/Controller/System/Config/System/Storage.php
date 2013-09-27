@@ -26,7 +26,7 @@ class Storage extends \Magento\Adminhtml\Controller\Action
      */
     protected function _getSyncSingleton()
     {
-        return \Mage::getSingleton('Magento\Core\Model\File\Storage');
+        return $this->_objectManager->get('Magento\Core\Model\File\Storage');
     }
 
     /**

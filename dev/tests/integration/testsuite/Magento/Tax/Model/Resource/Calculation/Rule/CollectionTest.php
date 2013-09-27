@@ -24,7 +24,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetClassTypeFilter($classType, $elementId, $expected)
     {
-        $collection = \Mage::getModel('Magento\Tax\Model\Resource\Calculation\Rule\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\Resource\Calculation\Rule\Collection');
         $collection->setClassTypeFilter($classType, $elementId);
         $this->assertRegExp($expected, (string)$collection->getSelect());
     }
@@ -46,7 +47,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetClassTypeFilterWithWrongType()
     {
-        $collection = \Mage::getModel('Magento\Tax\Model\Resource\Calculation\Rule\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\Resource\Calculation\Rule\Collection');
         $collection->setClassTypeFilter('WrongType', 1);
     }
 }

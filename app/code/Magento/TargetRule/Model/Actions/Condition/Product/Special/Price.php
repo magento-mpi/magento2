@@ -21,11 +21,6 @@ class Price
     extends \Magento\TargetRule\Model\Actions\Condition\Product\Special
 {
     /**
-     * Set rule type
-     *
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Catalog\Model\Resource\Product $productResource
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavEntitySetFactory
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Eav\Model\Config $config
@@ -35,9 +30,6 @@ class Price
      * @param array $data
      */
     public function __construct(
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Model\Resource\Product $productResource,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavEntitySetFactory,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Eav\Model\Config $config,
@@ -46,7 +38,9 @@ class Price
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         array $data = array()
     ) {
-        parent::__construct($eavConfig, $productResource, $eavEntitySetFactory, $backendData, $context, $config, $product, $productResource, $attrSetCollection, $data);
+        parent::__construct(
+            $backendData, $context, $config, $product, $productResource, $attrSetCollection, $data
+        );
         $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Special\Price');
         $this->setValue(100);
     }

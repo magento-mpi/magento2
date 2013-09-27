@@ -16,6 +16,39 @@ class Design
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
+     * @var \Magento\Core\Model\Theme\LabelFactory
+     */
+    protected $_labelFactory;
+
+    /**
+     * @var \Magento\Page\Model\Source\Layout
+     */
+    protected $_pageLayout;
+
+    /**
+     * @param \Magento\Page\Model\Source\Layout $pageLayout
+     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Page\Model\Source\Layout $pageLayout,
+        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_labelFactory = $labelFactory;
+        $this->_pageLayout = $pageLayout;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare form tab configuration
      */
     protected function _construct()
@@ -55,11 +88,11 @@ class Design
             'name'     => 'root_template',
             'label'    => __('Layout'),
             'required' => true,
-            'values'   => \Mage::getSingleton('Magento\Page\Model\Source\Layout')->toOptionArray(),
+            'values'   => $this->_pageLayout->toOptionArray(),
             'disabled' => $isElementDisabled
         ));
         if (!$model->getId()) {
-            $model->setRootTemplate(\Mage::getSingleton('Magento\Page\Model\Source\Layout')->getDefaultValue());
+            $model->setRootTemplate($this->_pageLayout->getDefaultValue());
         }
 
         $layoutFieldset->addField('layout_update_xml', 'textarea', array(
@@ -75,7 +108,7 @@ class Design
             'disabled'  => $isElementDisabled
         ));
 
-        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $designFieldset->addField('custom_theme_from', 'date', array(
             'name'      => 'custom_theme_from',
@@ -95,9 +128,7 @@ class Design
             'class'     => 'validate-date validate-date-range date-range-custom_theme-to'
         ));
 
-        /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
-        $options = $label->getLabelsCollection(__('-- Please Select --'));
+        $options = $this->_labelFactory->create()->getLabelsCollection(__('-- Please Select --'));
         $designFieldset->addField('custom_theme', 'select', array(
             'name'      => 'custom_theme',
             'label'     => __('Custom Theme'),
@@ -108,7 +139,7 @@ class Design
         $designFieldset->addField('custom_root_template', 'select', array(
             'name'      => 'custom_root_template',
             'label'     => __('Custom Layout'),
-            'values'    => \Mage::getSingleton('Magento\Page\Model\Source\Layout')->toOptionArray(true),
+            'values'    => $this->_pageLayout->toOptionArray(true),
             'disabled'  => $isElementDisabled
         ));
 

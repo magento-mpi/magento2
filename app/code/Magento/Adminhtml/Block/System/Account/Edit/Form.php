@@ -20,11 +20,43 @@ namespace Magento\Adminhtml\Block\System\Account\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_authSession;
+
+    /**
+     * @var \Magento\User\Model\UserFactory
+     */
+    protected $_userFactory;
+
+    /**
+     * @param \Magento\User\Model\UserFactory $userFactory
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\User\Model\UserFactory $userFactory,
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_userFactory = $userFactory;
+        $this->_authSession = $authSession;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     protected function _prepareForm()
     {
-        $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
-        $user = \Mage::getModel('Magento\User\Model\User')
-            ->load($userId);
+        $userId = $this->_authSession->getUser()->getId();
+        $user = $this->_userFactory->create()->load($userId);
         $user->unsetData('password');
 
         /** @var \Magento\Data\Form $form */
@@ -81,7 +113,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'name'   => 'interface_locale',
             'label'  => __('Interface Locale'),
             'title'  => __('Interface Locale'),
-            'values' => \Mage::app()->getLocale()->getTranslatedOptionLocales(),
+            'values' => $this->_locale->getTranslatedOptionLocales(),
             'class'  => 'select',
         ));
 

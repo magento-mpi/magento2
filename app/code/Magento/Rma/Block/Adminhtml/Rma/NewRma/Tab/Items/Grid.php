@@ -13,7 +13,8 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items;
 
-class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
+class Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -42,28 +43,28 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_collectionFactory;
 
     /**
+     * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
-        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -151,7 +152,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'index' => 'qty_ordered',
             'sortable' => false,
             'order_data' => $this->getOrderItemsData(),
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
+            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
         ));
@@ -215,7 +216,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->addColumn('action',
             array(
                 'header'    =>  __('Action'),
-                'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
+                'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action',
                 'actions'   => $actionsArray,
                 'sortable'  => false,
                 'is_system' => true,

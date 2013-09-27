@@ -27,14 +27,19 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_coreStoreConfig;
 
     /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
+     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\GoogleShopping\Helper\Price $gsPrice,
@@ -46,7 +51,8 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($gsData, $gsProduct, $gsPrice, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($productFactory, $gsData, $gsProduct, $gsPrice, $context, $registry, $resource,
+            $resourceCollection, $data);
     }
 
     /**

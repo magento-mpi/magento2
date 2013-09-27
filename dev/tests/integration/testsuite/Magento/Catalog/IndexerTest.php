@@ -2,19 +2,17 @@
 /**
  * Test for \Magento\Index\Model\Indexer
  *
- * We have to implement it in Magento_Catalog module, because Magento_Index module doesn't implement any index processes
+ * We have to implement it in \Magento\Catalog module, because \Magento\Index module doesn't implement any index processes
  * and also the original \Magento\Index\Model\Indexer is not coverable with unit tests in current implementation
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ * @magentoDbIsolation enabled
  */
 namespace Magento\Catalog;
 
-/**
- * @magentoDbIsolation enabled
- */
 class IndexerTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -24,7 +22,8 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_indexer = \Mage::getModel('Magento\Index\Model\Indexer');
+        $this->_indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Index\Model\Indexer');
     }
 
     protected function tearDown()
@@ -86,7 +85,8 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
      */
     private function _getProcessModel($typeCode)
     {
-        $process = \Mage::getModel('Magento\Index\Model\Process');
+        $process = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Index\Model\Process');
         $process->load($typeCode, 'indexer_code');
         return $process;
     }

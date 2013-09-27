@@ -9,18 +9,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block;
+
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
         $this->assertInstanceOf(
             'Magento\Backend\Block\Template',
-            \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Template')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Adminhtml\Block\Template')
         );
     }
 }

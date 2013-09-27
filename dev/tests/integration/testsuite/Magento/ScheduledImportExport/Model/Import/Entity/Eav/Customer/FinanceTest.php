@@ -29,7 +29,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             ->registry('Magento\ScheduledImportExport\Model\Website');
         if ($testWebsite) {
             // Clear test website info from application cache.
-            \Mage::app()->clearWebsiteCache($testWebsite->getId());
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->clearWebsiteCache($testWebsite->getId());
         }
     }
 
@@ -56,12 +57,14 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $testWebsite \Magento\Core\Model\Website */
         $testWebsite = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('Magento\ScheduledImportExport\Model\Website');
-        \Mage::app()->getWebsite($testWebsite->getId());
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
         $websiteCodes = array();
+        $websites = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsites();
         /** @var $website \Magento\Core\Model\Website */
-        foreach (\Mage::app()->getWebsites() as $website) {
+        foreach ($websites as $website) {
             $websiteCodes[$website->getId()] = $website->getCode();
         }
 
@@ -70,14 +73,16 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             'username' => $userName
         ));
         /** @var $session \Magento\Backend\Model\Auth\Session */
-        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
 
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile);
-        $model = \Mage::getModel('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
         $model->setParameters(
             array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE)
         );
@@ -86,16 +91,16 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $model->importData();
 
         $rewardPointsKey =
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
-                COLUMN_REWARD_POINTS;
+            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
         $customerBalanceKey =
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
-                COLUMN_CUSTOMER_BALANCE;
+            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
 
-        $customerCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+        $customerCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Customer\Collection');
         /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customerCollection as $customer) {
-            $rewardCollection = \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\Collection');
+            $rewardCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Reward\Model\Resource\Reward\Collection');
             $rewardCollection->addFieldToFilter('customer_id', $customer->getId());
             /** @var $rewardPoints \Magento\Reward\Model\Reward */
             foreach ($rewardCollection as $rewardPoints) {
@@ -111,7 +116,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 );
             }
 
-            $customerBalance = \Mage::getResourceModel('Magento\CustomerBalance\Model\Resource\Balance\Collection');
+            $customerBalance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\CustomerBalance\Model\Resource\Balance\Collection');
             $customerBalance->addFieldToFilter('customer_id', $customer->getId());
             /** @var $balance \Magento\CustomerBalance\Model\Balance */
             foreach ($customerBalance as $balance) {
@@ -141,15 +147,15 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     public function testImportDataDelete()
     {
         /* clean up the database from prior tests before importing */
-        $rewards  = \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\Collection');
+        $rewards  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Reward\Model\Resource\Reward\Collection');
         foreach ($rewards as $reward) {
             $reward->delete();
         }
 
-        $source = new \Magento\ImportExport\Model\Import\Source\Csv(
-            __DIR__ . '/../_files/customer_finance_delete.csv'
-        );
-        $model = \Mage::getModel('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
         $model->setParameters(
             array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE)
         );
@@ -157,13 +163,15 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $model->validateData();
         $model->importData();
 
-        $rewards  = \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\Collection');
-        $balances = \Mage::getResourceModel('Magento\CustomerBalance\Model\Resource\Balance\Collection');
+        $rewards  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Reward\Model\Resource\Reward\Collection');
+        $balances = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CustomerBalance\Model\Resource\Balance\Collection');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $expectedRewards = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\ScheduledImportExport\Customers\ExpectedRewards');
+            ->registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedRewards');
         /** @var $reward \Magento\Reward\Model\Reward */
         foreach ($rewards as $reward) {
             $this->assertEquals(
@@ -173,7 +181,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $expectedBalances = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\ScheduledImportExport\Customers\ExpectedBalances');
+            ->registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedBalances');
         /** @var $balance \Magento\CustomerBalance\Model\Balance */
         foreach ($balances as $balance) {
             $this->assertEquals(

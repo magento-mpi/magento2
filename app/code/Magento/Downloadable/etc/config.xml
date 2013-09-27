@@ -10,35 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <downloadable_setup>
-                <setup>
-                    <module>Magento_Downloadable</module>
-                    <class>Magento\Catalog\Model\Resource\Setup</class>
-                </setup>
-            </downloadable_setup>
-        </resources>
-        <pdf>
-            <invoice>
-                <downloadable>Magento\Downloadable\Model\Sales\Order\Pdf\Items\Invoice</downloadable>
-            </invoice>
-            <creditmemo>
-                <downloadable>Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo</downloadable>
-            </creditmemo>
-        </pdf>
-    </global>
-    <adminhtml>
-        <sales>
-            <order>
-                <create>
-                    <available_product_types>
-                        <downloadable />
-                    </available_product_types>
-                </create>
-            </order>
-        </sales>
-    </adminhtml>
     <default>
         <catalog>
             <downloadable>

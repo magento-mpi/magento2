@@ -9,8 +9,6 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model;
-
 /**
  * Layout integration tests
  *
@@ -18,6 +16,8 @@ namespace Magento\Core\Model;
  *
  * @see \Magento\Core\Model\LayoutDirectivesTest
  */
+namespace Magento\Core\Model;
+
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,7 +27,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
     }
 
     /**
@@ -37,7 +37,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor(array $inputArguments, $expectedArea)
     {
-        $layout = \Mage::getModel('Magento\Core\Model\Layout', $inputArguments);
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout', $inputArguments);
         $this->assertEquals($expectedArea, $layout->getArea());
     }
 
@@ -55,7 +56,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $structure = new \Magento\Data\Structure;
         $structure->createElement('test.container', array());
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getModel('Magento\Core\Model\Layout', array('structure' => $structure));
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout', array('structure' => $structure));
         $this->assertTrue($layout->hasElement('test.container'));
     }
 
@@ -202,7 +204,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     'type' => 'Magento\Core\Block\Text\ListText',
                     'key1' => 'value1',
                 ),
-                '/text\\\\listtext/'
+                '/text_list/'
             ),
         );
     }
@@ -279,7 +281,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $msg = 'Html tag "span" is forbidden for usage in containers. ' .
                'Consider to use one of the allowed: dd, div, dl, fieldset, header, hgroup, ol, p, section, table, ' .
                'tfoot, ul.';
-        $this->setExpectedException('Magento\Exception', $msg);
+        $this->setExpectedException('Magento_Exception', $msg);
         $this->_layout->addContainer('container', 'Container', array('htmlTag' => 'span'));
     }
 
@@ -412,7 +414,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function testGetBlock()
     {
         $this->assertFalse($this->_layout->getBlock('test'));
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Text');
         $this->_layout->setBlock('test', $block);
         $this->assertSame($block, $this->_layout->getBlock('test'));
     }

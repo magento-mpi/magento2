@@ -20,7 +20,8 @@ class CsvImportHandlerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_importHandler = \Mage::getModel('Magento\Tax\Model\Rate\CsvImportHandler');
+        $this->_importHandler = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\Rate\CsvImportHandler');
     }
 
     protected function tearDown()
@@ -38,12 +39,14 @@ class CsvImportHandlerTest extends \PHPUnit_Framework_TestCase
         $this->_importHandler->importFromCsvFile(array('tmp_name' => $importFileName));
 
         // assert that both tax rates, specified in import file, have been imported correctly
-        $importedRuleCA = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')->loadByCode('US-CA-*-Rate Import Test');
+        $importedRuleCA = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\Calculation\Rate')->loadByCode('US-CA-*-Rate Import Test');
         $this->assertNotEmpty($importedRuleCA->getId());
         $this->assertEquals(8.25, (float)$importedRuleCA->getRate());
         $this->assertEquals('US', $importedRuleCA->getTaxCountryId());
 
-        $importedRuleFL = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')->loadByCode('US-FL-*-Rate Import Test');
+        $importedRuleFL = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\Calculation\Rate')->loadByCode('US-FL-*-Rate Import Test');
         $this->assertNotEmpty($importedRuleFL->getId());
         $this->assertEquals(15, (float)$importedRuleFL->getRate());
         $this->assertEquals('US', $importedRuleFL->getTaxCountryId());

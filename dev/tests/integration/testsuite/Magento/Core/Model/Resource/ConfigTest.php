@@ -20,7 +20,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getResourceModel('Magento\Core\Model\Resource\Config');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Config');
     }
 
     public function testSaveDeleteConfig()

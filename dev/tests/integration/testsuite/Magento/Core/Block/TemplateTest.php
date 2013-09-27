@@ -23,16 +23,14 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $params = array('layout' => $objectManager->create('Magento\Core\Model\Layout', array()));
         $context = $objectManager->create('Magento\Core\Block\Template\Context', $params);
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Template', '',
-            array('context' => $context)
-        );
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Template', '', array('context' => $context));
     }
 
     public function testConstruct()
     {
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Template', '',
-            array('data' => array('template' => 'value'))
-        );
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Template', '', array('data' => array('template' => 'value')));
         $this->assertEquals('value', $block->getTemplate());
     }
 
@@ -46,7 +44,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testGetArea()
     {
         $this->assertEquals('frontend', $this->_block->getArea());
-        $this->_block->setLayout(\Mage::getModel('Magento\Core\Model\Layout', array('area' => 'some_area')));
+        $this->_block->setLayout(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout', array('area' => 'some_area')));
         $this->assertEquals('some_area', $this->_block->getArea());
         $this->_block->setArea('another_area');
         $this->assertEquals('another_area', $this->_block->getArea());
@@ -56,7 +55,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_block->getDirectOutput());
 
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $layout->setDirectOutput(true);
         $this->_block->setLayout($layout);
         $this->assertTrue($this->_block->getDirectOutput());

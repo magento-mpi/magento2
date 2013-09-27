@@ -219,7 +219,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         );
         $resourceModel = $this->getMock(
             'Magento\Eav\Model\Resource\Entity\Attribute',
-            array('getAdditionalAttributeTable'), // \Mage::getResourceSingleton dependency
+            array('getAdditionalAttributeTable'),
             $arguments
         );
 

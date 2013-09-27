@@ -20,10 +20,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(\Mage::PARAM_CUSTOM_LOCAL_CONFIG
-            => sprintf(\Magento\Core\Model\Config\Primary::CONFIG_TEMPLATE_INSTALL_DATE, date('r', strtotime('now')))
-        ));
-        $this->_model = \Mage::getModel('Magento\Core\Controller\Request\Http');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Request\Http');
     }
 
     public function testGetOriginalPathInfo()

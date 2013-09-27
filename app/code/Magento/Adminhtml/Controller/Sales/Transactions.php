@@ -43,7 +43,7 @@ class Transactions extends \Magento\Adminhtml\Controller\Action
      */
     protected function _initTransaction()
     {
-        $txn = \Mage::getModel('Magento\Sales\Model\Order\Payment\Transaction')->load(
+        $txn = $this->_objectManager->create('Magento\Sales\Model\Order\Payment\Transaction')->load(
             $this->getRequest()->getParam('txn_id')
         );
 
@@ -113,13 +113,13 @@ class Transactions extends \Magento\Adminhtml\Controller\Action
                 ->setOrder($txn->getOrder())
                 ->importTransactionInfo($txn);
             $txn->save();
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                 __('The transaction details have been updated.')
             );
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                 __('We can\'t update the transaction details.')
             );
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);

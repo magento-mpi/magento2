@@ -16,6 +16,35 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
 class Configurable extends \Magento\Catalog\Block\Product\View\Type\Configurable
 {
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreRegistry, $catalogProduct, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve product
      *
      * @return \Magento\Catalog\Model\Product
@@ -27,7 +56,10 @@ class Configurable extends \Magento\Catalog\Block\Product\View\Type\Configurable
         }
         $product = $this->getData('product');
         if (is_null($product->getTypeInstance()->getStoreFilter($product))) {
-            $product->getTypeInstance()->setStoreFilter(\Mage::app()->getStore($product->getStoreId()), $product);
+            $product->getTypeInstance()->setStoreFilter(
+                $this->_storeConfig->getStore($product->getStoreId()),
+                $product
+            );
         }
 
         return $product;
@@ -40,7 +72,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\Type\Configurable
      */
     public function getCurrentStore()
     {
-        return \Mage::app()->getStore($this->getProduct()->getStoreId());
+        return $this->_storeManager->getStore($this->getProduct()->getStoreId());
     }
 
     /**

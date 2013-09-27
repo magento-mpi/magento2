@@ -32,6 +32,12 @@ class Category extends \Magento\Data\Form\Element\Multiselect
     protected $_backendData = null;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
@@ -40,6 +46,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
      * @param array $attributes
      */
     public function __construct(
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
@@ -47,6 +54,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
         \Magento\Core\Model\Layout $layout,
         array $attributes = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_backendData = $backendData;
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
         $this->_layout = $layout;
@@ -83,7 +91,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
      */
     protected function _getCategoriesCollection()
     {
-        return \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection');
+        return $this->_collectionFactory->create();
     }
 
     /**

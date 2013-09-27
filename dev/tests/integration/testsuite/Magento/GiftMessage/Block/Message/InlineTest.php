@@ -20,7 +20,8 @@ class InlineTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\GiftMessage\Block\Message\Inline');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\GiftMessage\Block\Message\Inline');
     }
 
     /**
@@ -28,8 +29,10 @@ class InlineTest extends \PHPUnit_Framework_TestCase
      */
     public function testThumbnail()
     {
-        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
 
         $size = $this->_block->getThumbnailSize();

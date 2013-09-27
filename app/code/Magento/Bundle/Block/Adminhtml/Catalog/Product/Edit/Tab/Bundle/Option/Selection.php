@@ -15,9 +15,10 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle_Option;
 
-class Selection extends \Magento\Backend\Block\Widget
+class Selection
+    extends \Magento\Backend\Block\Widget
 {
     protected $_template = 'product/edit/bundle/option/selection.phtml';
 
@@ -36,6 +37,18 @@ class Selection extends \Magento\Backend\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Bundle\Model\Source\Option\Selection\Price\Type
+     */
+    protected $_priceType;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $_yesno;
+
+    /**
+     * @param \Magento\Backend\Model\Config\Source\Yesno $yesno
+     * @param \Magento\Bundle\Model\Source\Option\Selection\Price\Type $priceType
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -43,6 +56,8 @@ class Selection extends \Magento\Backend\Block\Widget
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Model\Config\Source\Yesno $yesno,
+        \Magento\Bundle\Model\Source\Option\Selection\Price\Type $priceType,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -51,6 +66,8 @@ class Selection extends \Magento\Backend\Block\Widget
     ) {
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
+        $this->_priceType = $priceType;
+        $this->_yesno = $yesno;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -87,7 +104,7 @@ class Selection extends \Magento\Backend\Block\Widget
     /**
      * Prepare block layout
      *
-     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection
+     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle_Option_Selection
      */
     protected function _prepareLayout()
     {
@@ -122,7 +139,7 @@ class Selection extends \Magento\Backend\Block\Widget
                 'class' => 'select select-product-option-type required-option-select'
             ))
             ->setName($this->getFieldName() . '[{{parentIndex}}][{{index}}][selection_price_type]')
-            ->setOptions(\Mage::getSingleton('Magento\Bundle\Model\Source\Option\Selection\Price\Type')->toOptionArray());
+            ->setOptions($this->_priceType->toOptionArray());
         if ($this->getCanEditPrice() === false) {
             $select->setExtraParams('disabled="disabled"');
         }
@@ -142,7 +159,7 @@ class Selection extends \Magento\Backend\Block\Widget
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{parentIndex}}][{{index}}][selection_can_change_qty]')
-            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
+            ->setOptions($this->_yesno->toOptionArray());
 
         return $select->getHtml();
     }

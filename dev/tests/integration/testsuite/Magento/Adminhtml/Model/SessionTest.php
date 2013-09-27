@@ -9,15 +9,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Model;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Model;
+
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        $this->assertInstanceOf('Magento\Backend\Model\Session', \Mage::getModel('Magento\Adminhtml\Model\Session'));
+        $this->assertInstanceOf(
+            'Magento\Backend\Model\Session',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Adminhtml\Model\Session')
+        );
     }
 }

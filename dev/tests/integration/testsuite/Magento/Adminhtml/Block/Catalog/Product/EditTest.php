@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Catalog\Product;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Catalog\Product;
+
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -33,7 +33,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit');
     }
 
     public function testGetTypeSwitcherData()

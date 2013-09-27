@@ -125,7 +125,7 @@ class Wishlist
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
         $currentTime = \Mage::getModel('Magento\Core\Model\Date')->gmtDate();
-        /** @var \Magento\Core\Model\Resource\Helper\Mysql4 $daysDiffSql */
+        /** @var \Magento\Core\Model\Resource\Helper $daysDiffSql */
         $daysDiffSql = \Mage::getResourceHelper('Magento_Core');
         $daysDiffSql->getDateDiff('list.updated_at', $select->getAdapter()->formatDate($currentTime));
         $select->where($daysDiffSql . " {$operator} ?", $conditionValue);

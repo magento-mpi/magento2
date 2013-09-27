@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Captcha\Model;
-
 /**
  * Test captcha observer behavior
  *
  * @magentoAppArea adminhtml
  */
+namespace Magento\Captcha\Model;
+
 class ObserverTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
@@ -25,7 +25,8 @@ class ObserverTest extends \Magento\TestFramework\TestCase\ControllerAbstract
      */
     public function testBackendLoginActionWithInvalidCaptchaReturnsError()
     {
-        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
+            ->turnOffSecretKey();
 
         $post = array(
             'login' => array(
@@ -51,12 +52,14 @@ class ObserverTest extends \Magento\TestFramework\TestCase\ControllerAbstract
      */
     public function testCaptchaIsRequiredAfterFailedLoginAttempts()
     {
-        \Mage::app()->setCurrentStore(0);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->setCurrentStore(0);
         $captchaModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Captcha\Helper\Data')
             ->getCaptcha('backend_login');
 
         try {
-            $authModel = \Mage::getModel('Magento\Backend\Model\Auth');
+            $authModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Auth');
             $authModel->login(
                 \Magento\TestFramework\Bootstrap::ADMIN_NAME,
                 'wrong_password'
@@ -95,7 +98,8 @@ class ObserverTest extends \Magento\TestFramework\TestCase\ControllerAbstract
      */
     public function testCheckUnsuccessfulMessageWhenCaptchaFailed()
     {
-        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
+            ->turnOffSecretKey();
         $this->getRequest()->setPost(array('email'   => 'dummy@dummy.com', 'captcha' => '1234'));
         $this->dispatch('backend/admin/auth/forgotpassword');
         $this->assertSessionMessages(

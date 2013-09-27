@@ -28,39 +28,28 @@ class Setup extends \Magento\Core\Model\Resource\Setup\Generic
     protected $_pageFactory;
 
     /**
-     * Construct
-     *
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param $resourceName
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
+        \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config\Resource $resourcesConfig,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        $resourceName,
         \Magento\Cms\Model\BlockFactory $blockFactory,
-        \Magento\Cms\Model\PageFactory $pageFactory
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        $resourceName,
+        $moduleName = 'Magento_Cms',
+        $connectionName = ''
     ) {
-        parent::__construct($migrationFactory, $logger, $eventManager, $resourcesConfig, $config, $moduleList,
-            $resource, $modulesReader, $resourceName);
-
         $this->_blockFactory = $blockFactory;
         $this->_pageFactory = $pageFactory;
+        parent::__construct($context, $migrationFactory, $resourceName, $moduleName, $connectionName);
     }
+
 
     /**
      * Create block

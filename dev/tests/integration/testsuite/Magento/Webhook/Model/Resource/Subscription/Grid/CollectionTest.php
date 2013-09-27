@@ -1,5 +1,11 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Resource\Subscription\Grid\Collection
+ *
+ * We need DB isolation to avoid confusing interactions with the other Webhook tests.
+ *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -9,13 +15,6 @@
  */
 namespace Magento\Webhook\Model\Resource\Subscription\Grid;
 
-/**
- * \Magento\Webhook\Model\Resource\Subscription\Grid\Collection
- *
- * We need DB isolation to avoid confusing interactions with the other Webhook tests.
- *
- * @magentoDbIsolation enabled
- */
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /** Topics */
@@ -119,9 +118,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $objectManager->create('Magento\Core\Model\Config\Modules\Reader', array(
-            'dirs' => $dirs,
             'moduleList' => $moduleList
         ));
+        $moduleReader->setModuleDir('Acme_Subscriber', 'etc', __DIR__ . '/_files/Acme/Subscriber/etc');
 
         /** @var \Magento\Core\Model\Config\Loader $modulesLoader */
         $modulesLoader = $objectManager->create(

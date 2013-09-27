@@ -62,6 +62,8 @@ class Form extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
@@ -71,6 +73,8 @@ class Form extends \Magento\Core\Block\Template
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_reviewSession = $reviewSession;
         $this->_reviewData = $reviewData;
         $this->_customerSession = $customerSession;
         $this->_productFactory = $productFactory;

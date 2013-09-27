@@ -25,6 +25,12 @@ class Shipments
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Sales\Model\Resource\Order\Collection\Factory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -33,6 +39,7 @@ class Shipments
      * @param array $data
      */
     public function __construct(
+        \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -41,6 +48,7 @@ class Shipments
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -63,7 +71,7 @@ class Shipments
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel($this->_getCollectionClass())
+        $collection = $this->_collectionFactory->create($this->_getCollectionClass())
             ->addFieldToSelect('entity_id')
             ->addFieldToSelect('created_at')
             ->addFieldToSelect('increment_id')

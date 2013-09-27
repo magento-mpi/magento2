@@ -9,17 +9,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar;
+
 class AddTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtmlFormId()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
 
         $block = $layout->addBlock('Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Add', 'block');
         $block->setArea('adminhtml')->unsetChild('setForm');

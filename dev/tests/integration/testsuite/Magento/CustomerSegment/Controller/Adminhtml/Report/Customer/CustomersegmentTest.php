@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
+
 class CustomersegmentTest
     extends \Magento\Backend\Utility\Controller
 {
@@ -25,7 +25,8 @@ class CustomersegmentTest
      */
     public function testSegmentAction()
     {
-        $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
+        $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
 
         $this->dispatch('backend/admin/report_customer_customersegment/detail/segment_id/' . $segment->getId());

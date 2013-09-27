@@ -37,21 +37,21 @@ class Returns extends \Magento\Core\Block\Template
     protected $_customerSession;
 
     /**
+     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
-     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
+        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
-        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;

@@ -32,12 +32,24 @@ class ListCombine
     protected $_inputType = 'select';
 
     /**
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine');
         $this->setValue(self::CART);
     }
@@ -68,7 +80,7 @@ class ListCombine
      */
     public function getNewChildSelectOptions()
     {
-        return \Mage::getModel('Magento\CustomerSegment\Model\Segment\Condition\Product\Combine')
+        return $this->_conditionFactory->create('Product_Combine')
             ->setDateConditions(true)
             ->getNewChildSelectOptions();
     }

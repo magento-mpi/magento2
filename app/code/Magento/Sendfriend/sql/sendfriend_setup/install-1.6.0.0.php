@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/* @var $installer \Magento\Sendfriend\Model\Resource\Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 
 $installer->startSetup();
 
@@ -22,7 +22,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Log ID')
     ->addColumn('ip', \Magento\DB\Ddl\Table::TYPE_BIGINT, '20', array(
-        'unsigned'  => true, 
+        'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Customer IP address')
@@ -32,7 +32,7 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Log time')
     ->addColumn('website_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true, 
+        'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Website ID')

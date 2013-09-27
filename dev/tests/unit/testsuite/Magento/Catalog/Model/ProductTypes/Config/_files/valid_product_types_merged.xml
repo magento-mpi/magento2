@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type label="some_label" name="some_name" modelInstance="model_name">
+        <allowProductTypes>
+            <type name="type_name"/>
+        </allowProductTypes>
+        <allowedSelectionTypes>
+            <type name="some_name" />
+        </allowedSelectionTypes>
+        <priceModel instance="instance_name" />
+        <indexerModel instance="instance_name" />
+        <stockIndexerModel instance="instance_name"/>
+    </type>
+    <type label="some_label" name="some_name2" modelInstance="model_name">
+        <allowProductTypes>
+            <type name="type_name"/>
+        </allowProductTypes>
+        <allowedSelectionTypes>
+            <type name="some_name" />
+        </allowedSelectionTypes>
+        <priceModel instance="instance_name" />
+        <indexerModel instance="instance_name" />
+        <stockIndexerModel instance="instance_name"/>
+    </type>
+</config>

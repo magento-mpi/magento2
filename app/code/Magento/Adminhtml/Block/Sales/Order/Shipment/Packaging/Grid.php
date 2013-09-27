@@ -30,17 +30,25 @@ class Grid extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Sales\Model\Order\Shipment\ItemFactory
+     */
+    protected $_shipmentItemFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Order\Shipment\ItemFactory $shipmentItemFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Sales\Model\Order\Shipment\ItemFactory $shipmentItemFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_shipmentItemFactory = $shipmentItemFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -53,7 +61,7 @@ class Grid extends \Magento\Adminhtml\Block\Template
     public function getCollection()
     {
         if ($this->getShipment()->getId()) {
-            $collection = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Item')->getCollection()
+            $collection = $this->_shipmentItemFactory->create()->getCollection()
                     ->setShipmentFilter($this->getShipment()->getId());
         } else {
             $collection = $this->getShipment()->getAllItems();

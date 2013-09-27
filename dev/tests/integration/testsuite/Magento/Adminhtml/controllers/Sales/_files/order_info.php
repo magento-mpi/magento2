@@ -9,10 +9,11 @@
  * @license     {license_link}
  */
 
-\Mage::app()->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+    ->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $product->setTypeId('virtual')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -32,7 +33,10 @@ $product->load(1);
 
 $addressData = include(__DIR__ . DIRECTORY_SEPARATOR . 'address_data.php');
 
-$billingAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address', array('data' => $addressData));
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Sales\Model\Quote\Address',
+    array('data' => $addressData)
+);
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -41,9 +45,12 @@ $shippingAddress->setId(null)
 $shippingAddress->setShippingMethod('flatrate_flatrate');
 
 /** @var $quote \Magento\Sales\Model\Quote */
-$quote = \Mage::getModel('Magento\Sales\Model\Quote');
+$quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
 $quote->setCustomerIsGuest(true)
-    ->setStoreId(\Mage::app()->getStore()->getId())
+    ->setStoreId(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->getId()
+    )
     ->setReservedOrderId('test01')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
@@ -58,7 +65,10 @@ $quote->collectTotals();
 $quote->save();
 
 /** @var $service \Magento\Sales\Model\Service\Quote */
-$service = \Mage::getModel('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
+$service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Sales\Model\Service\Quote',
+    array('quote' => $quote)
+);
 $service->setOrderData(array('increment_id' => '100000001'));
 $service->submitAll();
 
@@ -71,13 +81,15 @@ $orderItems = $order->getAllItems();
 $item = $orderItems[0];
 
 /** @var $invoice \Magento\Sales\Model\Order\Invoice */
-$invoice = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $order))
+$invoice = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Service\Order', array('order' => $order))
     ->prepareInvoice(array($item->getId() => 10));
 
 $invoice->register();
 $invoice->save();
 
-$creditmemo = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $order))
+$creditmemo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Service\Order', array('order' => $order))
     ->prepareInvoiceCreditmemo($invoice, array('qtys' => array($item->getId() => 5)));
 
 foreach ($creditmemo->getAllItems() as $creditmemoItem) {
@@ -88,7 +100,8 @@ foreach ($creditmemo->getAllItems() as $creditmemoItem) {
 $creditmemo->register();
 $creditmemo->save();
 
-$transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
+$transactionSave = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Resource\Transaction')
     ->addObject($creditmemo)
     ->addObject($creditmemo->getOrder());
 if ($creditmemo->getInvoice()) {

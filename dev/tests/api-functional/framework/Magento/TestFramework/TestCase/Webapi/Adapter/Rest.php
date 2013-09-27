@@ -9,17 +9,35 @@
  */
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
+class Rest
+    implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
     /** @var \Magento\Webapi\Model\Config */
     protected $_config;
+
+    /** @var \Magento\Oauth\Model\Consumer */
+    protected static $_consumer;
+
+    /** @var \Magento\Oauth\Model\Token */
+    protected static $_token;
+
+    /** @var string */
+    protected static $_consumerKey;
+
+    /** @var string */
+    protected static $_consumerSecret;
+
+    /** @var string */
+    protected static $_verifier;
 
     /**
      * Initialize dependencies.
      */
     public function __construct()
     {
-        $this->_config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Webapi\Model\Config');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_config = $objectManager->get('Magento\Webapi\Model\Config');
     }
 
     /**
@@ -30,20 +48,30 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     {
         $resourcePath = $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
+        //Get a valid token
+        $token = \Magento\TestFramework\Authentication\OauthHelper::getAccessToken();
+        /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient*/
+        $oAuthClient = $token['oauth_client'];
         // delegate the request to vanilla cURL REST client
         $curlClient = new \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient();
+        $oauthHeader = $oAuthClient
+            ->buildOauthHeaderForApiRequest($curlClient->constructResourceUrl($resourcePath),
+                                            $token['key'],
+                                            $token['secret'],
+                                            ($httpMethod == 'PUT' || $httpMethod == 'POST') ? $arguments : array(),
+                                            $httpMethod);
         switch ($httpMethod) {
             case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET:
-                $response = $curlClient->get($resourcePath, $arguments);
+                $response = $curlClient->get($resourcePath, array(), $oauthHeader);
                 break;
             case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST:
-                $response = $curlClient->post($resourcePath, $arguments);
+                $response = $curlClient->post($resourcePath, $arguments, $oauthHeader);
                 break;
             case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT:
-                $response = $curlClient->put($resourcePath, $arguments);
+                $response = $curlClient->put($resourcePath, $arguments, $oauthHeader);
                 break;
             case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE:
-                $response = $curlClient->delete($resourcePath);
+                $response = $curlClient->delete($resourcePath, $oauthHeader);
                 break;
             default:
                 throw new \LogicException("HTTP method '{$httpMethod}' is not supported.");
@@ -75,7 +103,7 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             if (isset($services[$serviceInterface]['methods'][$method])) {
                 $serviceData = $services[$serviceInterface];
                 $methodData = $serviceData['methods'][$method];
-                $routePattern = $serviceData[\Magento\Webapi\Model\Config::ATTR_SERVICE_PATH] . $methodData['route'];
+                $routePattern = $serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodData['route'];
                 $numberOfPlaceholders = substr_count($routePattern, ':');
                 if ($numberOfPlaceholders == 1) {
                     if (!isset($serviceInfo['entityId'])) {
@@ -112,7 +140,7 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             $method = $serviceInfo['method'];
             if (isset($services[$serviceInterface]['methods'][$method])) {
                 $httpMethod
-                    = $services[$serviceInterface]['methods'][$method][\Magento\Webapi\Model\Config::ATTR_HTTP_METHOD];
+                    = $services[$serviceInterface]['methods'][$method][Magento_Webapi_Model_Config::ATTR_HTTP_METHOD];
             }
         }
         if (!isset($httpMethod)) {

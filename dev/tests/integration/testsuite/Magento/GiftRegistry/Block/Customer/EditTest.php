@@ -20,7 +20,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\GiftRegistry\Block\Customer\Edit');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\GiftRegistry\Block\Customer\Edit');
     }
 
     public function testAddInputTypeTemplate()

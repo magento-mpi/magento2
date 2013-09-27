@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Sales\Order;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
 class CreditmemoTest extends \Magento\Backend\Utility\Controller
 {
     /**
@@ -23,13 +23,15 @@ class CreditmemoTest extends \Magento\Backend\Utility\Controller
     public function testAddCommentAction()
     {
         /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-        $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
+        $stockItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogInventory\Model\Stock\Item');
         $stockItem->loadByProduct(1);
         $this->assertEquals(95, $stockItem->getStockQty());
         $stockItem = null;
 
         /** @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->load('100000001', 'increment_id');
 
         $items = $order->getCreditmemosCollection()->getItems();
@@ -45,7 +47,8 @@ class CreditmemoTest extends \Magento\Backend\Utility\Controller
 
         $this->assertContains($comment, $html);
         /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-        $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
+        $stockItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogInventory\Model\Stock\Item');
         $stockItem->loadByProduct(1);
         $this->assertEquals(95, $stockItem->getStockQty());
     }

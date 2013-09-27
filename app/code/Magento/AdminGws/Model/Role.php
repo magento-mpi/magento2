@@ -55,20 +55,28 @@ class Role extends \Magento\Object
     protected $_exclusiveAccessToCategory = array();
 
     /**
-     * @var \Magento\Core\Model\StoreManager|null
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
      */
-    protected $_storeManager = null;
+    protected $_categoryCollFactory;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
 
     /**
      * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollFactory,
         array $data = array()
     ) {
-        parent::__construct($data);
+        $this->_categoryCollFactory = $categoryCollFactory;
         $this->_storeManager = $storeManager;
+        parent::__construct($data);
     }
 
     /**
@@ -284,7 +292,7 @@ class Role extends \Magento\Object
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
 
-            $categories = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Collection')
+            $categories = $this->_categoryCollFactory->create()
                 ->addIdFilter($categoryIds);
             foreach ($categories  as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();

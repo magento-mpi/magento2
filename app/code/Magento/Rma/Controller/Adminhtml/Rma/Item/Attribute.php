@@ -46,7 +46,8 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = $this->_objectManager->get('Magento\Eav\Model\Config')->getEntityType('rma_item');
+            $this->_entityType = $this->_objectManager->get('Magento\Eav\Model\Config')
+                ->getEntityType('rma_item');
         }
         return $this->_entityType;
     }

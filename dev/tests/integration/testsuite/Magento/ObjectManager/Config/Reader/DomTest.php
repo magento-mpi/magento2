@@ -57,7 +57,8 @@ class DomTest extends \PHPUnit_Framework_TestCase
         );
         $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue($this->_fileList));
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
-        $this->_validationState = new \Magento\Core\Model\Config\ValidationState(new \Magento\Core\Model\App\State());
+        $this->_validationState =
+            new \Magento\Core\Model\Config\ValidationState(\Magento\Core\Model\App\State::MODE_DEFAULT);
         $this->_schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
 
         $this->_mergedConfig = new \DOMDocument();

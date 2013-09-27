@@ -17,12 +17,24 @@ class Combine
     extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Combine');
     }
 
@@ -33,13 +45,13 @@ class Combine
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento\CustomerSegment\Model\Segment\Condition\Order\Address\\';
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
-                'label' => __('Conditions Combination')),
-            \Mage::getModel($prefix.'Type')->getNewChildSelectOptions(),
-            \Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
+                'label' => __('Conditions Combination'),
+            ),
+            $this->_conditionFactory->create('Order_Address_Type')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Order_Address_Attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }

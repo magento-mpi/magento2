@@ -61,7 +61,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Product Templates'));
 
         $this->_setTypeId();
-        $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
+        $attributeSet = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$attributeSet->getId()) {
@@ -111,7 +111,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
         $isNewSet       = $this->getRequest()->getParam('gotoEdit', false) == '1';
 
         /* @var $model \Magento\Eav\Model\Entity\Attribute\Set */
-        $model  = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
+        $model  = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')
             ->setEntityTypeId($entityTypeId);
 
         /** @var $helper \Magento\Adminhtml\Helper\Data */
@@ -127,7 +127,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
                     $model->load($attributeSetId);
                 }
                 if (!$model->getId()) {
-                    \Mage::throwException(__('This attribute set no longer exists.'));
+                    throw new \Magento\Core\Exception(__('This attribute set no longer exists.'));
                 }
                 $data = $this->_objectManager->get('Magento\Core\Helper\Data')
                     ->jsonDecode($this->getRequest()->getPost('data'));
@@ -208,7 +208,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
     {
         $setId = $this->getRequest()->getParam('id');
         try {
-            \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
+            $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')
                 ->setId($setId)
                 ->delete();
 
@@ -227,7 +227,7 @@ class Set extends \Magento\Adminhtml\Controller\Action
     protected function _setTypeId()
     {
         $this->_coreRegistry->register('entityType',
-            \Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId());
+            $this->_objectManager->create('Magento\Catalog\Model\Product')->getResource()->getTypeId());
     }
 
     protected function _isAllowed()

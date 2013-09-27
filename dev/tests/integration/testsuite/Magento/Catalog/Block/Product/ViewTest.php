@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Block\Product;
-
 /**
  * Test class for \Magento\Catalog\Block\Product\View.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
+namespace Magento\Catalog\Block\Product;
+
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -41,7 +41,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testSetLayout()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $headBlock = $layout->createBlock('Magento\Core\Block\Template', 'head');
         $layout->addBlock($this->_block);
 

@@ -18,10 +18,12 @@ class RewardTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
         $customer->load(1);
 
-        \Mage::getSingleton('Magento\Customer\Model\Session')->setCustomer($customer);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session')
+            ->setCustomer($customer);
 
         $utility = new \Magento\Core\Utility\Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/magento_reward_customer_info.xml',

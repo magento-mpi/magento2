@@ -20,8 +20,49 @@
 namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
 
 class Group
-    extends \Magento\Adminhtml\Block\System\Store\Edit\AbstractForm
+    extends \Magento\Adminhtml\Block\System\Store\Edit\FormAbstract
 {
+    /**
+     * @var \Magento\Catalog\Model\Config\Source\Category
+     */
+    protected $_category;
+
+    /**
+     * @var \Magento\Core\Model\StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @var \Magento\Core\Model\Website\Factory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\Config\Source\Category $category
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Core\Model\Website\Factory $websiteFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Config\Source\Category $category,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_category = $category;
+        $this->_storeFactory = $storeFactory;
+        $this->_websiteFactory = $websiteFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Prepare group specific fieldset
      *
@@ -41,7 +82,7 @@ class Group
 
         $storeAction = $this->_coreRegistry->registry('store_action');
         if ($storeAction == 'edit' || $storeAction == 'add') {
-            $websites = \Mage::getModel('Magento\Core\Model\Website')->getCollection()->toOptionArray();
+            $websites = $this->_websiteFactory->create()->getCollection()->toOptionArray();
             $fieldset->addField('group_website_id', 'select', array(
                 'name'      => 'group[website_id]',
                 'label'     => __('Web Site'),
@@ -78,7 +119,7 @@ class Group
             'disabled'  => $groupModel->isReadOnly(),
         ));
 
-        $categories = \Mage::getModel('Magento\Catalog\Model\Config\Source\Category')->toOptionArray();
+        $categories = $this->_category->toOptionArray();
 
         $fieldset->addField('group_root_category_id', 'select', array(
             'name'      => 'group[root_category_id]',
@@ -90,7 +131,7 @@ class Group
         ));
 
         if ($this->_coreRegistry->registry('store_action') == 'edit') {
-            $stores = \Mage::getModel('Magento\Core\Model\Store')->getCollection()
+            $stores = $this->_storeFactory->create()->getCollection()
                 ->addGroupFilter($groupModel->getId())->toOptionArray();
             $fieldset->addField('group_default_store_id', 'select', array(
                 'name'      => 'group[default_store_id]',

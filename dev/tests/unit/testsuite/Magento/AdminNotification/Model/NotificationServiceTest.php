@@ -33,7 +33,7 @@ class NotificationServiceTest extends \PHPUnit_Framework_TestCase
         );
         $notification = $this->getMock(
             'Magento\AdminNotification\Model\Inbox',
-            array('load', 'getId', 'save','setIsRead'),
+            array('load', 'getId', 'save','setIsRead', '__sleep', '__wakeup'),
             array(),
             '',
             false

@@ -148,7 +148,7 @@ abstract class AbstractEntity
     {
         $entityCode = $this->getEntityTypeCode();
         $this->_entityTypeId = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType($entityCode)->getEntityTypeId();
-        $this->_connection   = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('write');
+        $this->_connection   = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
     }
 
     /**
@@ -188,9 +188,9 @@ abstract class AbstractEntity
     protected function _getExportAttrCodes()
     {
         if (null === self::$attrCodes) {
-            if (!empty($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP])
-                    && is_array($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP])) {
-                $skipAttr = array_flip($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP]);
+            if (!empty($this->_parameters[Magento_ImportExport_Model_Export::FILTER_ELEMENT_SKIP])
+                    && is_array($this->_parameters[Magento_ImportExport_Model_Export::FILTER_ELEMENT_SKIP])) {
+                $skipAttr = array_flip($this->_parameters[Magento_ImportExport_Model_Export::FILTER_ELEMENT_SKIP]);
             } else {
                 $skipAttr = array();
             }
@@ -228,11 +228,11 @@ abstract class AbstractEntity
      */
     protected function _prepareEntityCollection(\Magento\Eav\Model\Entity\Collection\AbstractCollection $collection)
     {
-        if (!isset($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP])
-            || !is_array($this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP])) {
+        if (!isset($this->_parameters[Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP])
+            || !is_array($this->_parameters[Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP])) {
             $exportFilter = array();
         } else {
-            $exportFilter = $this->_parameters[\Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP];
+            $exportFilter = $this->_parameters[Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP];
         }
         $exportAttrCodes = $this->_getExportAttrCodes();
 

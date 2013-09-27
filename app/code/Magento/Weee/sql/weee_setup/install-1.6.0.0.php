@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Weee\Model\Resource\Setup */
+/** @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
 /**
  * Create table 'weee_tax'

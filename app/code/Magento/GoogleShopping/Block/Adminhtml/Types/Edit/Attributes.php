@@ -24,6 +24,40 @@ class Attributes
     protected $_template = 'types/edit/attributes.phtml';
 
     /**
+     * Config
+     *
+     * @var \Magento\GoogleShopping\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * Attribute factory
+     *
+     * @var \Magento\GoogleShopping\Model\AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @param \Magento\GoogleShopping\Model\Config $config
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GoogleShopping\Model\Config $config,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_config = $config;
+        $this->_attributeFactory = $attributeFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
+    /**
      * Preparing global layout
      *
      * @return \Magento\Core\Block\AbstractBlock
@@ -74,8 +108,7 @@ class Attributes
     {
         $options[] = array('label' => __('Custom attribute, no mapping'));
 
-        $attributesTree = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')
-            ->getAttributesByCountry($this->getTargetCountry());
+        $attributesTree = $this->_config->getAttributesByCountry($this->getTargetCountry());
 
         foreach ($attributesTree as $destination => $attributes) {
             $options[] = array(
@@ -147,7 +180,7 @@ class Attributes
      */
     public function _getAttributes($setId, $escapeJsQuotes = false)
     {
-        $attributes = \Mage::getModel('Magento\GoogleShopping\Model\Attribute')->getAllowedAttributes($setId);
+        $attributes = $this->_attributeFactory->create()->getAllowedAttributes($setId);
         $result = array();
 
         foreach ($attributes as $attribute) {

@@ -29,7 +29,7 @@ class Cart
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session');
+        return $this->_objectManager->get('Magento\Checkout\Model\Session');
     }
 
     /**
@@ -39,7 +39,7 @@ class Cart
      */
     protected function _getCustomerSession()
     {
-        return \Mage::getSingleton('Magento\Customer\Model\Session');
+        return $this->_objectManager->get('Magento\Customer\Model\Session');
     }
 
     /**
@@ -59,7 +59,7 @@ class Cart
      */
     protected function _getCart()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Cart');
+        return $this->_objectManager->get('Magento\Checkout\Model\Cart');
     }
 
     /**
@@ -69,7 +69,7 @@ class Cart
      */
     protected function _getFailedItemsCart()
     {
-        return \Mage::getSingleton('Magento\AdvancedCheckout\Model\Cart')
+        return $this->_objectManager->get('Magento\AdvancedCheckout\Model\Cart')
             ->setContext(\Magento\AdvancedCheckout\Model\Cart::CONTEXT_FRONTEND);
     }
 

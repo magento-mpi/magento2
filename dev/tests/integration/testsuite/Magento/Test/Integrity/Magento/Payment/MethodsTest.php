@@ -27,7 +27,8 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
         /** @var $blockFactory \Magento\Core\Model\BlockFactory */
         $blockFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\BlockFactory');
-        $storeId = \Mage::app()->getStore()->getId();
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
         /** @var $model \Magento\Payment\Model\Method\AbstractMethod */
         if (empty($methodClass)) {
             /**
@@ -45,12 +46,21 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
             $this->assertFileExists($block->getTemplateFile(), $message);
             if ($model->canUseInternal()) {
                 try {
-                    \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->get('Magento\Core\Model\StoreManagerInterface')
+                        ->getStore()
+                        ->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
                     $block->setArea('adminhtml');
                     $this->assertFileExists($block->getTemplateFile(), $message);
-                    \Mage::app()->getStore()->setId($storeId);
+                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->get('Magento\Core\Model\StoreManagerInterface')
+                        ->getStore()
+                        ->setId($storeId);
                 } catch (\Exception $e) {
-                    \Mage::app()->getStore()->setId($storeId);
+                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->get('Magento\Core\Model\StoreManagerInterface')
+                        ->getStore()
+                        ->setId($storeId);
                     throw $e;
                 }
             }

@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Layer\Filter\Price;
-
 /**
  * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_base.php
  */
+namespace Magento\Catalog\Model\Layer\Filter\Price;
+
 class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -41,9 +41,12 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
-        $this->_layer = \Mage::getModel('Magento\Catalog\Model\Layer');
-        $this->_filter = \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Price');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
+        $this->_layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer');
+        $this->_filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Price');
         $this->_filter
             ->setLayer($this->_layer)
             ->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));

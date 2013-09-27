@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
+
 class GridTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareColumns()
     {
         /** @var \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid $block */
-        $block = \Mage::app()->getLayout()->createBlock(
-            'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock(
+                'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid'
+            );
         $block->toHtml();
         foreach (array('code', 'label', 'store_id', 'theme', 'is_system') as $key) {
             $this->assertInstanceOf('Magento\Backend\Block\Widget\Grid\Column', $block->getColumn($key));

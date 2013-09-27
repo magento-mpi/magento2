@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/** @var $installer \Magento\Reminder\Model\Resource\Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 
 $installer->startSetup();
 

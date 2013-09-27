@@ -12,6 +12,47 @@ namespace Magento\Adminhtml\Block\System\Design\Edit\Tab;
 class General extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Core\Model\Theme\LabelFactory
+     */
+    protected $_labelFactory;
+
+    /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_labelFactory = $labelFactory;
+        $this->_backendSession = $backendSession;
+        $this->_systemStore = $systemStore;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Initialise form fields
      *
      * @return \Magento\Adminhtml\Block\System\Design\Edit\Tab\General
@@ -25,11 +66,11 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
             'legend' => __('General Settings'))
         );
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'label'    => __('Store'),
                 'title'    => __('Store'),
-                'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
+                'values'   => $this->_systemStore->getStoreValuesForForm(),
                 'name'     => 'store_id',
                 'required' => true,
             ));
@@ -39,12 +80,12 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         } else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'store_id',
-                'value'     => \Mage::app()->getStore(true)->getId(),
+                'value'     => $this->_storeManager->getStore(true)->getId(),
             ));
         }
 
         /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
+        $label = $this->_labelFactory->create();
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('design', 'select', array(
             'label'    => __('Custom Design'),
@@ -54,7 +95,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
             'required' => true,
         ));
 
-        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('date_from', 'date', array(
             'label'    => __('Date From'),
             'title'    => __('Date From'),
@@ -72,7 +113,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
             //'required' => true,
         ));
 
-        $formData = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getDesignData(true);
+        $formData = $this->_backendSession->getDesignData(true);
         if (!$formData) {
             $formData = $this->_coreRegistry->registry('design')->getData();
         } else {

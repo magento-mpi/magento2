@@ -21,6 +21,51 @@ namespace Magento\Adminhtml\Model\Email;
 class Template extends \Magento\Core\Model\Email\Template
 {
     /**
+     * @var \Magento\Core\Model\Config
+     */
+    private $_coreConfig;
+    
+    /**
+     * @var \Magento\Backend\Model\Config\Structure
+     */
+    private $_structure;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Email\Template\Config $emailConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Backend\Model\Config\Structure $structure
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Email\Template\Config $emailConfig,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Backend\Model\Config\Structure $structure,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $coreStoreConfig, $emailConfig, $data
+        );
+        $this->_coreConfig = $coreConfig;
+        $this->_structure = $structure;
+    }
+
+    /**
      * Collect all system config paths where current template is used as default
      *
      * @return array
@@ -76,9 +121,7 @@ class Template extends \Magento\Core\Model\Email\Template
             return array();
         }
 
-        /** @var \Magento\Backend\Model\Config\Structure $configStructure  */
-        $configStructure = \Mage::getSingleton('Magento\Backend\Model\Config\Structure');
-        $templatePaths = $configStructure
+        $templatePaths = $this->_structure
             ->getFieldPathsByAttribute('source_model', 'Magento\Backend\Model\Config\Source\Email\Template');
 
         if (!count($templatePaths)) {

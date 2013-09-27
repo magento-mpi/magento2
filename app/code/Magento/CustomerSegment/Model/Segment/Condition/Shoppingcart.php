@@ -17,12 +17,24 @@ class Shoppingcart
     extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart');
         $this->setValue(null);
     }
@@ -34,12 +46,11 @@ class Shoppingcart
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\\';
         return array(
             'value' => array(
-                \Mage::getModel($prefix . 'Amount')->getNewChildSelectOptions(),
-                \Mage::getModel($prefix . 'Itemsquantity')->getNewChildSelectOptions(),
-                \Mage::getModel($prefix . 'Productsquantity')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Shoppingcart_Amount')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Shoppingcart_Itemsquantity')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Shoppingcart_Productsquantity')->getNewChildSelectOptions(),
             ),
             'label' => __('Shopping Cart'),
             'available_in_guest_mode' => true,

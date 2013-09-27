@@ -20,8 +20,41 @@
 namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
 
 class Store
-    extends \Magento\Adminhtml\Block\System\Store\Edit\AbstractForm
+    extends \Magento\Adminhtml\Block\System\Store\Edit\FormAbstract
 {
+    /**
+     * @var \Magento\Core\Model\Website\Factory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * @var \Magento\Core\Model\Store\Group\Factory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @param \Magento\Core\Model\Store\Group\Factory $groupFactory
+     * @param \Magento\Core\Model\Website\Factory $websiteFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Store\Group\Factory $groupFactory,
+        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_groupFactory = $groupFactory;
+        $this->_websiteFactory = $websiteFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Prepare store specific fieldset
      *
@@ -122,8 +155,8 @@ class Store
      */
     protected function _getStoreGroups()
     {
-        $websites = \Mage::getModel('Magento\Core\Model\Website')->getCollection();
-        $allgroups = \Mage::getModel('Magento\Core\Model\Store\Group')->getCollection();
+        $websites = $this->_websiteFactory->create()->getCollection();
+        $allgroups = $this->_groupFactory->create()->getCollection();
         $groups = array();
         foreach ($websites as $website) {
             $values = array();

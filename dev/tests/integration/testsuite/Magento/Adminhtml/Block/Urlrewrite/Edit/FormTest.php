@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Urlrewrite\Edit;
-
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Edit\FormTest
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Urlrewrite\Edit;
+
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -26,7 +26,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function _getFormInstance($args = array())
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Edit\Form */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Urlrewrite\Edit\Form', 'block', array('data' => $args));
         $block->setTemplate(null);
@@ -79,7 +79,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
             'options'      => 'options',
             'description'  => 'description'
         );
-        \Mage::getModel('Magento\Adminhtml\Model\Session')->setUrlrewriteData($sessionValues);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Adminhtml\Model\Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object()));
 
@@ -103,7 +104,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Data\Form\Element\Hidden', $storeElement);
 
         // Check that store value set correctly
-        $defaultStore = \Mage::app()->getStore(true)->getId();
+        $defaultStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore(true)->getId();
         $this->assertEquals($defaultStore, $storeElement->getValue());
     }
 
@@ -127,7 +129,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
             $storeElement->getRenderer());
 
         // Check store elements has expected values
-        $storesList = \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm();
+        $storesList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\System\Store')
+            ->getStoreValuesForForm();
         $this->assertInternalType('array', $storeElement->getValues());
         $this->assertNotEmpty($storeElement->getValues());
         $this->assertEquals($storesList, $storeElement->getValues());

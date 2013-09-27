@@ -8,8 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Mage::app()->loadArea('frontend');
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadArea('frontend');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -34,16 +34,21 @@ $product->setTypeId('simple')
 $product->load(1);
 
 $addressData = include(__DIR__ . '/address_data.php');
-$billingAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address', array('data' => $addressData));
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Quote\Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
-$quote = \Mage::getModel('Magento\Sales\Model\Quote');
+$quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Quote');
 $quote->setCustomerIsGuest(true)
-    ->setStoreId(\Mage::app()->getStore()->getId())
+    ->setStoreId(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->getId()
+    )
     ->setReservedOrderId('test01')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)

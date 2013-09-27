@@ -20,6 +20,26 @@ namespace Magento\Paygate\Controller\Authorizenet;
 class Payment extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Checkout session
+     *
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Checkout\Model\Session $session
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Checkout\Model\Session $session
+    ) {
+        $this->_session = $session;
+        parent::__construct($context);
+    }
+
+
+    /**
      * Cancel active partail authorizations
      */
     public function cancelAction()
@@ -30,7 +50,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
                 ->getMethodInstance(\Magento\Paygate\Model\Authorizenet::METHOD_CODE);
             if ($paymentMethod) {
                 $paymentMethod->cancelPartialAuthorization(
-                    \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()
+                    $this->_session->getQuote()->getPayment()
                 );
             }
             $result['success']  = true;
@@ -43,7 +63,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
             $result['error_message'] = __('There was an error canceling transactions. Please contact us or try again later.');
         }
 
-        \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()->save();
+        $this->_session->getQuote()->getPayment()->save();
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 

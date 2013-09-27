@@ -20,6 +20,39 @@ namespace Magento\Adminhtml\Block\Cms\Block\Widget;
 class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * @var \Magento\Cms\Model\BlockFactory
+     */
+    protected $_blockFactory;
+
+    /**
+     * @var \Magento\Cms\Model\Resource\Block\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Cms\Model\BlockFactory $blockFactory
+     * @param \Magento\Cms\Model\Resource\Block\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Cms\Model\BlockFactory $blockFactory,
+        \Magento\Cms\Model\Resource\Block\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_blockFactory = $blockFactory;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block construction, prepare grid params
      */
     protected function _construct()
@@ -51,7 +84,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 
 
         if ($element->getValue()) {
-            $block = \Mage::getModel('Magento\Cms\Model\Block')->load($element->getValue());
+            $block = $this->_blockFactory->create()->load($element->getValue());
             if ($block->getId()) {
                 $chooser->setLabel($block->getTitle());
             }
@@ -89,9 +122,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Cms\Model\Block')->getCollection();
-        /* @var $collection \Magento\Cms\Model\Resource\Block\Collection */
-        $this->setCollection($collection);
+        $this->setCollection($this->_collectionFactory->create());
         return parent::_prepareCollection();
     }
 

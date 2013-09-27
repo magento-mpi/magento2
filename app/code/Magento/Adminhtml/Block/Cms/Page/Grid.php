@@ -19,6 +19,46 @@ namespace Magento\Adminhtml\Block\Cms\Page;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Cms\Model\Page
+     */
+    protected $_cmsPage;
+
+    /**
+     * @var \Magento\Page\Model\Source\Layout
+     */
+    protected $_pageLayout;
+
+    /**
+     * @param \Magento\Page\Model\Source\Layout $pageLayout
+     * @param \Magento\Cms\Model\Page $cmsPage
+     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Page\Model\Source\Layout $pageLayout,
+        \Magento\Cms\Model\Page $cmsPage,
+        \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_cmsPage = $cmsPage;
+        $this->_pageLayout = $pageLayout;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -30,7 +70,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Cms\Model\Page')->getCollection();
+        $collection = $this->_collectionFactory->create();
         /* @var $collection \Magento\Cms\Model\Resource\Page\Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);
@@ -54,19 +94,17 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'index'     => 'identifier'
         ));
 
-
-
         $this->addColumn('root_template', array(
             'header'    => __('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
-            'options'   => \Mage::getSingleton('Magento\Page\Model\Source\Layout')->getOptions(),
+            'options'   => $this->_pageLayout->getOptions(),
         ));
 
         /**
          * Check is single store mode
          */
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'        => __('Store View'),
                 'index'         => 'store_id',
@@ -83,7 +121,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => \Mage::getSingleton('Magento\Cms\Model\Page')->getAvailableStatuses()
+            'options'   => $this->_cmsPage->getAvailableStatuses()
         ));
 
         $this->addColumn('creation_time', array(

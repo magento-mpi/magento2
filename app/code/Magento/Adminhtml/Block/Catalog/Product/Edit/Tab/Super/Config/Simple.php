@@ -27,6 +27,35 @@ class Simple
      */
     protected $_product = null;
 
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        parent::__construct($wysiwygConfig, $formFactory, $catalogData, $coreData, $context, $registry, $data);
+    }
+
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
@@ -46,7 +75,7 @@ class Simple
 
         $availableTypes = array('text', 'select', 'multiselect', 'textarea', 'price', 'weight');
 
-        $attributes = \Mage::getModel('Magento\Catalog\Model\Product')
+        $attributes = $this->_productFactory->create()
             ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
             ->setAttributeSetId($this->getProduct()->getAttributeSetId())
             ->getAttributes();

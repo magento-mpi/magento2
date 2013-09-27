@@ -10,7 +10,8 @@
 
 /** @var $this \Magento\Rma\Model\Resource\Setup */
 //Add Product's Attribute
-$installer = $this->getCatalogResourceSetup(array('resourceName' => 'catalog_setup'));
+/** @var \Magento\Catalog\Model\Resource\Setup $installer */
+$installer = $this->getCatalogSetup(array('resourceName' => 'catalog_setup'));
 
 $installer->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable');
 $installer->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'use_config_is_returnable');

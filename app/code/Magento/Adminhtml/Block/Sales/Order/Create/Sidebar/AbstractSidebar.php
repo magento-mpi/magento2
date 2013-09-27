@@ -27,26 +27,28 @@ class AbstractSidebar extends \Magento\Adminhtml\Block\Sales\Order\Create\Abstra
     protected $_sidebarStorageAction = 'add';
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Sales\Model\Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
-        $this->_coreConfig = $coreConfig;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
+        $this->_salesConfig = $salesConfig;
     }
 
     /**
@@ -142,7 +144,7 @@ class AbstractSidebar extends \Magento\Adminhtml\Block\Sales\Order\Create\Abstra
         $items = array();
         $collection = $this->getItemCollection();
         if ($collection) {
-            $productTypes = $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray();
+            $productTypes = $this->_salesConfig->getAvailableProductTypes();
             if (is_array($collection)) {
                 $items = $collection;
             } else {
@@ -169,7 +171,7 @@ class AbstractSidebar extends \Magento\Adminhtml\Block\Sales\Order\Create\Abstra
                         }
                     }
                 }
-                if (!isset($productTypes[$type])) {
+                if (!in_array($type, $productTypes)) {
                     unset($items[$key]);
                 }
             }

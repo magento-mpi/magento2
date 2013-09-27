@@ -25,7 +25,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            \Mage::throwException(__('Invalid parent block for this block'));
+            throw new \Magento\Core\Exception(__('Invalid parent block for this block'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
         parent::_beforeToHtml();

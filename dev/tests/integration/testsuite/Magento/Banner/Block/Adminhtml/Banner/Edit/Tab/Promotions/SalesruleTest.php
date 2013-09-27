@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-
-namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
-
 /**
  * @magentoDataFixture Magento/SalesRule/_files/cart_rule_40_percent_off.php
  * @magentoDataFixture Magento/SalesRule/_files/cart_rule_50_percent_off.php
  * @magentoAppArea adminhtml
  */
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
+
 class SalesruleTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,9 +22,8 @@ class SalesruleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Mage::app()->getLayout()->createBlock(
-            'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule'
-        );
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule');
     }
 
     protected function tearDown()
@@ -36,11 +34,13 @@ class SalesruleTest extends \PHPUnit_Framework_TestCase
     public function testGetCollection()
     {
         /** @var \Magento\SalesRule\Model\Rule $ruleOne */
-        $ruleOne = \Mage::getModel('Magento\SalesRule\Model\Rule');
+        $ruleOne = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\SalesRule\Model\Rule');
         $ruleOne->load('40% Off on Large Orders', 'name');
 
         /** @var \Magento\SalesRule\Model\Rule $ruleTwo */
-        $ruleTwo = \Mage::getModel('Magento\SalesRule\Model\Rule');
+        $ruleTwo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\SalesRule\Model\Rule');
         $ruleTwo->load('50% Off on Large Orders', 'name');
 
         $this->assertEquals(array($ruleOne->getId(), $ruleTwo->getId()), $this->_block->getCollection()->getAllIds());

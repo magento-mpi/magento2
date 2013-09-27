@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,9 +25,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_block = \Mage::app()->getLayout()->createBlock(
-            'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container'
-        );
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container');
     }
 
     public function testSetGetAllowedContainers()

@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)

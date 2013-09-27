@@ -25,7 +25,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\CatalogSearch\Block\Advanced\Result', 'block');
     }
 
@@ -46,7 +46,8 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             ->method('getAvailableSortByOptions')
             ->will($this->returnValue($sortOptions));
         $category->setId(100500); // Any id - just for layer navigation
-        \Mage::getSingleton('Magento\Catalog\Model\Layer')->setCurrentCategory($category);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Layer')
+            ->setCurrentCategory($category);
 
         $childBlock = $this->_layout->addBlock('Magento\Core\Block\Text', 'search_result_list', 'block');
 

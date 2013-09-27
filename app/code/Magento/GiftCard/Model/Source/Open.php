@@ -20,11 +20,31 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected $_coreData = null;
 
     /**
+     * Eav entity attribute factory
+     *
+     * @var \Magento\Eav\Model\Resource\Entity\AttributeFactory
+     */
+    protected $_eavAttributeFactory;
+
+    /**
+     * Resource helper
+     *
+     * @var \Magento\Eav\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @param \Magento\Eav\Model\Resource\Entity\AttributeFactory $eavAttributeFactory
+     * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
+        \Magento\Eav\Model\Resource\Helper $resourceHelper,
+        \Magento\Eav\Model\Resource\Entity\AttributeFactory $eavAttributeFactory,
         \Magento\Core\Helper\Data $coreData
     ) {
+        $this->_resourceHelper = $resourceHelper;
+        $this->_eavAttributeFactory = $eavAttributeFactory;
         $this->_coreData = $coreData;
     }
 
@@ -96,7 +116,7 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             $column['type']     = $attributeType;
             $column['is_null']  = $isNullable;
         } else {
-            $column['type']     = \Mage::getResourceHelper('Magento_Eav')->getDdlTypeByColumnType($attributeType);
+            $column['type']     = $this->_resourceHelper->getDdlTypeByColumnType($attributeType);
             $column['nullable'] = $isNullable;
             $column['comment']  = 'Enterprise Giftcard Open ' . $attributeCode . ' column';
         }
@@ -112,7 +132,6 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute')
-            ->getFlatUpdateSelect($this->getAttribute(), $store);
+        return $this->_eavAttributeFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

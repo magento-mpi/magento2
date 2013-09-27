@@ -84,7 +84,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         /** @var $resourceMock \Magento\Core\Model\Resource\Resource */
         $resourceMock = $this->getMock(
             'Magento\Core\Model\Resource\Resource',
-            array('_getReadAdapter', 'getIdFieldName'),
+            array('_getReadAdapter', 'getIdFieldName', '__sleep', '__wakeup'),
             array(),
             '',
             false

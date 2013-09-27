@@ -29,6 +29,10 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_adminhtmlAddresses = null;
 
     /**
+     * @param \Magento\Adminhtml\Model\Customer\Renderer\RegionFactory $regionFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\FormFactory $customerFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
      * @param \Magento\Core\Helper\Data $coreData
@@ -37,6 +41,10 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      * @param array $data
      */
     public function __construct(
+        \Magento\Adminhtml\Model\Customer\Renderer\RegionFactory $regionFactory,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Model\FormFactory $customerFactory,
+        \Magento\Core\Model\System\Store $systemStore,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
         \Magento\Core\Helper\Data $coreData,
@@ -45,6 +53,10 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         array $data = array()
     ) {
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
+        $this->_regionFactory = $regionFactory;
+        $this->_addressFactory = $addressFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_systemStore = $systemStore;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -113,10 +125,10 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
             'legend'    => __("Edit Customer's Address"))
         );
 
-        $addressModel = \Mage::getModel('Magento\Customer\Model\Address');
+        $addressModel = $this->_addressFactory->create();
         $addressModel->setCountryId($this->_coreData->getDefaultCountry($customer->getStore()));
         /** @var $addressForm \Magento\Customer\Model\Form */
-        $addressForm = \Mage::getModel('Magento\Customer\Model\Form');
+        $addressForm = $this->_customerFactory->create();
         $addressForm->setFormCode('adminhtml_customer_address')
             ->setEntity($addressModel)
             ->initDefaultValues();
@@ -136,7 +148,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         $regionElement = $form->getElement('region');
         $regionElement->setRequired(true);
         if ($regionElement) {
-            $regionElement->setRenderer(\Mage::getModel('Magento\Adminhtml\Model\Customer\Renderer\Region'));
+            $regionElement->setRenderer($this->_regionFactory->create());
         }
 
         $regionElement = $form->getElement('region_id');
@@ -160,7 +172,9 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
 
         $customerStoreId = null;
         if ($customer->getId()) {
-            $customerStoreId = \Mage::app()->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
+            $customerStoreId = $this->_storeManager->getWebsite($customer->getWebsiteId())
+                ->getDefaultStore()
+                ->getId();
         }
 
         $prefixElement = $form->getElement('prefix');
@@ -236,12 +250,13 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getDefaultCountriesJson()
     {
-        $websites = \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(false, true);
+        $websites = $this->_systemStore->getWebsiteValuesForForm(false, true);
         $result = array();
         foreach ($websites as $website) {
-            $result[$website['value']] = \Mage::app()->getWebsite($website['value'])->getConfig(
-                \Magento\Core\Helper\Data::XML_PATH_DEFAULT_COUNTRY
-            );
+            $result[$website['value']] = $this->_storeManager->getWebsite($website['value'])
+                ->getConfig(
+                    \Magento\Core\Helper\Data::XML_PATH_DEFAULT_COUNTRY
+                );
         }
 
         return $this->_coreData->jsonEncode($result);

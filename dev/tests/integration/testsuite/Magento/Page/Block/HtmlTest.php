@@ -37,13 +37,21 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));
 
-        $context = \Mage::getModel('Magento\Core\Block\Template\Context', array(
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Block\Template\Context', array(
             'storeConfig' => $storeConfig,
             'urlBuilder' => $urlBuilder,
         ));
-
+        $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface');
+        $locale = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false);
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Page\Block\Html', array('context' => $context));
+            ->create('Magento\Page\Block\Html', array(
+                'storeManager'  => $storeManager,
+                'locale'        => $locale,
+                'urlHelperMock' => $urlHelperMock,
+                'context'       => $context
+            ));
 
         $this->assertEquals($returnValue, $block->getPrintLogoUrl());
     }

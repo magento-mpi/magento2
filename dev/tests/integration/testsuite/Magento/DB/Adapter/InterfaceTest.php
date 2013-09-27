@@ -38,9 +38,12 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $installer = \Mage::getResourceModel(
+        $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Resource\Setup',
-            array('resourceName' => \Magento\Core\Model\Resource\Setup::DEFAULT_SETUP_CONNECTION)
+            array(
+                'resourceName' => \Magento\Core\Model\Resource\Setup::DEFAULT_SETUP_CONNECTION,
+                'moduleName' => 'Magento_Core',
+            )
         );
         $this->_connection = $installer->getConnection();
         $this->_tableName = $installer->getTable('table_two_column_idx');

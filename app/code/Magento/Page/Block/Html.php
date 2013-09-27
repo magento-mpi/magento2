@@ -22,13 +22,42 @@ class Html extends \Magento\Core\Block\Template
     protected $_urls = array();
     protected $_title = '';
 
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
 
         $this->_urls = array(
-            'base'      => \Mage::getBaseUrl('web'),
-            'baseSecure'=> \Mage::getBaseUrl('web', true),
+            'base'      => $this->_storeManager->getStore()->getBaseUrl('web'),
+            'baseSecure'=> $this->_storeManager->getStore()->getBaseUrl('web', true),
             'current'   => $this->_request->getRequestUri()
         );
 
@@ -125,7 +154,7 @@ class Html extends \Magento\Core\Block\Template
     public function getLang()
     {
         if (!$this->hasData('lang')) {
-            $this->setData('lang', substr(\Mage::app()->getLocale()->getLocaleCode(), 0, 2));
+            $this->setData('lang', substr($this->_locale->getLocaleCode(), 0, 2));
         }
         return $this->getData('lang');
     }

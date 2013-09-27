@@ -12,13 +12,15 @@
 include(__DIR__ . '/../../../Magento/Sales/_files/order.php');
 
 /** @var $rma \Magento\Rma\Model\Rma */
-$rma = \Mage::getModel('Magento\Rma\Model\Rma');
+$rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Rma\Model\Rma');
 $rma->setOrderId($order->getId());
 $rma->setIncrementId(1);
 $rma->save();
 
 /** @var $trackingNumber \Magento\Rma\Model\Shipping */
-$trackingNumber = \Mage::getModel('Magento\Rma\Model\Shipping');
+$trackingNumber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Rma\Model\Shipping');
 $trackingNumber
     ->setRmaEntityId($rma->getId())
     ->setCarrierTitle('CarrierTitle')

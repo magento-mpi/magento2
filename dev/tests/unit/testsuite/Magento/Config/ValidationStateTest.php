@@ -16,8 +16,7 @@ class ValidationStateTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValidated($appMode, $expectedResult)
     {
-        $appStateModel = new \Magento\Core\Model\App\State($appMode);
-        $model = new \Magento\Core\Model\Config\ValidationState($appStateModel);
+        $model = new \Magento\Core\Model\Config\ValidationState($appMode);
         $this->assertEquals($model->isValidated(), $expectedResult);
     }
 

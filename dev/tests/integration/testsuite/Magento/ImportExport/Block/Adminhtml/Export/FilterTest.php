@@ -27,7 +27,7 @@ class FilterTest
             ->setDefaultDesignTheme();
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\ImportExport\Block\Adminhtml\Export\Filter');
-        $method = new \ReflectionMethod(
+        $method = new ReflectionMethod(
                     'Magento\ImportExport\Block\Adminhtml\Export\Filter', '_getDateFromToHtmlWithValue');
         $method->setAccessible(true);
 
@@ -44,7 +44,9 @@ class FilterTest
         $html = $method->invoke($block, $attribute, null);
         $this->assertNotEmpty($html);
 
-        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\LocaleInterface')
+            ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $pieces = array_filter(explode('<strong>', $html));
         foreach ($pieces as $piece) {
             $this->assertContains('dateFormat: "' . $dateFormat . '",', $piece);

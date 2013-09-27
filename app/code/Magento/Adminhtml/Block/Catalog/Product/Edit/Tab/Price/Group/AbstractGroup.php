@@ -57,6 +57,18 @@ abstract class AbstractGroup
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Directory\Helper\Data
+     */
+    protected $_directoryHelper;
+
+    /**
+     * @var \Magento\Customer\Model\GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -64,12 +76,16 @@ abstract class AbstractGroup
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_groupFactory = $groupFactory;
+        $this->_directoryHelper = $directoryHelper;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
@@ -101,7 +117,7 @@ abstract class AbstractGroup
      * Set form element instance
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group\AbstractGroup
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group_AbstractGroup
      */
     public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
     {
@@ -165,7 +181,7 @@ abstract class AbstractGroup
             if (!$this->_catalogData->isModuleEnabled('Magento_Customer')) {
                 return array();
             }
-            $collection = \Mage::getModel('Magento\Customer\Model\Group')->getCollection();
+            $collection = $this->_groupFactory->create()->getCollection();
             $this->_customerGroups = $this->_getInitialCustomerGroups();
 
             foreach ($collection as $item) {
@@ -208,7 +224,7 @@ abstract class AbstractGroup
      */
     public function isMultiWebsites()
     {
-        return !\Mage::app()->isSingleStoreMode();
+        return !$this->_storeManager->isSingleStoreMode();
     }
 
     /**
@@ -225,20 +241,20 @@ abstract class AbstractGroup
         $this->_websites = array(
             0 => array(
                 'name' => __('All Websites'),
-                'currency' => \Mage::app()->getBaseCurrencyCode()
+                'currency' => $this->_directoryHelper->getBaseCurrencyCode()
             )
         );
 
         if (!$this->isScopeGlobal() && $this->getProduct()->getStoreId()) {
             /** @var $website \Magento\Core\Model\Website */
-            $website = \Mage::app()->getStore($this->getProduct()->getStoreId())->getWebsite();
+            $website = $this->_storeManager->getStore($this->getProduct()->getStoreId())->getWebsite();
 
             $this->_websites[$website->getId()] = array(
                 'name' => $website->getName(),
                 'currency' => $website->getBaseCurrencyCode()
             );
         } elseif (!$this->isScopeGlobal()) {
-            $websites = \Mage::app()->getWebsites(false);
+            $websites = $this->_storeManager->getWebsites(false);
             $productWebsiteIds  = $this->getProduct()->getWebsiteIds();
             foreach ($websites as $website) {
                 /** @var $website \Magento\Core\Model\Website */
@@ -273,7 +289,7 @@ abstract class AbstractGroup
     public function getDefaultWebsite()
     {
         if ($this->isShowWebsiteColumn() && !$this->isAllowChangeWebsite()) {
-            return \Mage::app()->getStore($this->getProduct()->getStoreId())->getWebsiteId();
+            return $this->_storeManager->getStore($this->getProduct()->getStoreId())->getWebsiteId();
         }
         return 0;
     }
@@ -345,7 +361,7 @@ abstract class AbstractGroup
      */
     public function isShowWebsiteColumn()
     {
-        if ($this->isScopeGlobal() || \Mage::app()->isSingleStoreMode()) {
+        if ($this->isScopeGlobal() || $this->_storeManager->isSingleStoreMode()) {
             return false;
         }
         return true;

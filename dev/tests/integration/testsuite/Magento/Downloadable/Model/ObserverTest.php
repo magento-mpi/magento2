@@ -21,7 +21,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testDuplicateProductDownloadableProductWithFilesSuccessfullyDuplicated()
     {
-        $currentProduct = \Mage::getModel('Magento\Catalog\Model\Product');
+        $currentProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $currentProduct->load(1); // fixture for initial product
         $currentLinks = $currentProduct->getTypeInstance($currentProduct)->getLinks($currentProduct);
         $currentSamples = $currentProduct->getTypeInstance($currentProduct)->getSamples($currentProduct);

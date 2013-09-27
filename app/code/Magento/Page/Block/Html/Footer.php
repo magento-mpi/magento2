@@ -22,6 +22,35 @@ class Footer extends \Magento\Core\Block\Template
 
     protected $_copyright;
 
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->addData(array(
@@ -39,10 +68,10 @@ class Footer extends \Magento\Core\Block\Template
     {
         return array(
             'PAGE_FOOTER',
-            \Mage::app()->getStore()->getId(),
-            (int)\Mage::app()->getStore()->isCurrentlySecure(),
+            $this->_storeManager->getStore()->getId(),
+            (int)$this->_storeManager->getStore()->isCurrentlySecure(),
             $this->_design->getDesignTheme()->getId(),
-            \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
+            $this->_customerSession->isLoggedIn()
         );
     }
 

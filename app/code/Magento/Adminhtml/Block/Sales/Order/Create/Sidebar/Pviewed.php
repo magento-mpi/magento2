@@ -20,6 +20,41 @@ namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
 
 class Pviewed extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Reports\Model\EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * @param \Magento\Reports\Model\EventFactory $eventFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Config $salesConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reports\Model\EventFactory $eventFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Config $salesConfig,
+        array $data = array()
+    ) {
+        $this->_eventFactory = $eventFactory;
+        $this->_productFactory = $productFactory;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $salesConfig, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -42,12 +77,12 @@ class Pviewed extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Abstra
         $productCollection = $this->getData('item_collection');
         if (is_null($productCollection)) {
             $stores = array();
-            $website = \Mage::app()->getStore($this->getStoreId())->getWebsite();
+            $website = $this->_storeManager->getStore($this->getStoreId())->getWebsite();
             foreach ($website->getStores() as $store) {
                 $stores[] = $store->getId();
             }
 
-            $collection = \Mage::getModel('Magento\Reports\Model\Event')
+            $collection = $this->_eventFactory->create()
                 ->getCollection()
                 ->addStoreFilter($stores)
                 ->addRecentlyFiler(\Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
@@ -58,7 +93,7 @@ class Pviewed extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Abstra
 
             $productCollection = null;
             if ($productIds) {
-                $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')
+                $productCollection = $this->_productFactory->create()
                     ->getCollection()
                     ->setStoreId($this->getQuote()->getStoreId())
                     ->addStoreFilter($this->getQuote()->getStoreId())

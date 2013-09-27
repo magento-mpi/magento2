@@ -20,14 +20,18 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= \Mage::getResourceModel('Magento\Catalog\Model\Resource\Eav\Attribute');
+        $this->_model= \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Resource\Eav\Attribute');
     }
 
     public function testCRUD()
     {
         $this->_model->setAttributeCode('test')
-            ->setEntityTypeId(\Mage::getSingleton('Magento\Eav\Model\Config')
-            ->getEntityType('catalog_product')->getId())->setFrontendLabel('test');
+            ->setEntityTypeId(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
+                    ->getEntityType('catalog_product')->getId()
+            )
+            ->setFrontendLabel('test');
         $crud = new \Magento\TestFramework\Entity($this->_model, array('frontend_label' => uniqid()));
         $crud->testCrud();
     }

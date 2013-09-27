@@ -23,7 +23,7 @@ class AttributeTest
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $this->_block = $this->_layout
             ->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute');
     }

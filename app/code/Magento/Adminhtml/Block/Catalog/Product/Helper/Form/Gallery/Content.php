@@ -24,14 +24,34 @@ class Content extends \Magento\Backend\Block\Widget
 {
     protected $_template = 'catalog/product/helper/gallery.phtml';
 
+    /**
+     * @var \Magento\Catalog\Model\Product\Media\Config
+     */
+    protected $_mediaConfig;
+
+    /**
+     * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_mediaConfig = $mediaConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->addChild('uploader', 'Magento\Adminhtml\Block\Media\Uploader');
 
         $this->getUploader()->getConfig()
             ->setUrl(
-                \Mage::getModel('Magento\Backend\Model\Url')
-                    ->addSessionParam()
+                $this->_urlBuilder->addSessionParam()
                     ->getUrl('adminhtml/catalog_product_gallery/upload')
             )
             ->setFileField('image')
@@ -89,8 +109,7 @@ class Content extends \Magento\Backend\Block\Widget
             $value = $this->getElement()->getValue();
             if (is_array($value['images']) && count($value['images']) > 0) {
                 foreach ($value['images'] as &$image) {
-                    $image['url'] = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')
-                        ->getMediaUrl($image['file']);
+                    $image['url'] = $this->_mediaConfig->getMediaUrl($image['file']);
                 }
                 return $this->_coreData->jsonEncode($value['images']);
             }

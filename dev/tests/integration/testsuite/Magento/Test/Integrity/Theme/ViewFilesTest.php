@@ -18,7 +18,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
      * @param string $themeId
      * @param string $file
      * @dataProvider viewFilesFromThemesDataProvider
-     * @throws \PHPUnit_Framework_AssertionFailedError|Exception
+     * @throws PHPUnit_Framework_AssertionFailedError|Exception
      */
     public function testViewFilesFromThemes($area, $themeId, $file)
     {
@@ -51,7 +51,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
                     $this->fail('Cannot find file(s): ' . implode(', ', $errors));
                 }
             }
-        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
             throw $e;
         } catch (\Exception $e) {
             $this->fail($e->getMessage());
@@ -143,7 +143,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
     {
         $searchDir = $theme->getCustomization()->getThemeFilesPath();
         $dirLength = strlen($searchDir);
-        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($searchDir)) as $fileInfo) {
+        foreach (new \RecursiveIteratorIterator(new RecursiveDirectoryIterator($searchDir)) as $fileInfo) {
             // Check that file path is valid
             $relativePath = substr($fileInfo->getPath(), $dirLength);
             if (!$this->_validateTemplatePath($relativePath)) {
@@ -158,7 +158,8 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 
         // Collect "addCss" and "addJs" from theme layout
         /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
-        $layoutUpdate = \Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+        $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
         $fileLayoutUpdates = $layoutUpdate->getFileLayoutUpdatesXml();
         $elements = $fileLayoutUpdates->xpath(
             '//block[@class="Magento\Page\Block\Html\Head\Css" or @class="Magento\Page\Block\Html\Head\Script"]'
@@ -203,10 +204,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
     /**
      * Scan specified file for getViewUrl() pattern
      *
-     * @param \SplFileInfo $fileInfo
+     * @param SplFileInfo $fileInfo
      * @return array
      */
-    protected function _findReferencesToViewFile(\SplFileInfo $fileInfo)
+    protected function _findReferencesToViewFile(SplFileInfo $fileInfo)
     {
         $result = array();
         if (preg_match_all(
@@ -229,7 +230,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
     public function testStaticLibs($file)
     {
         $this->markTestIncomplete('Should be fixed when static when we have static folder jslib implemented');
-        $this->assertFileExists(\Mage::getBaseDir('jslib') . DIRECTORY_SEPARATOR . $file);
+        $this->assertFileExists(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('jslib')
+                . DIRECTORY_SEPARATOR . $file
+        );
     }
 
     /**

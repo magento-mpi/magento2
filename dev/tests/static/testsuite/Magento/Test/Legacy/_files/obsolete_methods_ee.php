@@ -87,7 +87,7 @@ return array(
     array('getCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_saveCustomerSegmentRelations', 'Magento\TargetRule\Model\Resource\Rule'),
     array('_prepareRuleProducts', 'Magento\TargetRule\Model\Resource\Rule'),
-    array('getInetNtoaExpr', 'Magento\Logging\Model\Resource\Helper\Mysql4'),
+    array('getInetNtoaExpr', 'Magento\Logging\Model\Resource\Helper'),
     array('catalogCategoryIsCatalogPermissionsAllowed', 'Magento\AdminGws\Model\Models'),
     array('catalogCategoryMoveBefore', 'Magento\AdminGws\Model\Models'),
     array('catalogProductActionWithWebsitesAfter', 'Magento\AdminGws\Model\Models'),
@@ -98,4 +98,5 @@ return array(
     array('_helper', 'Magento\GiftRegistry\Model\Entity'),
     array('_getIndexModel', 'Magento\CatalogPermissions\Model\Observer'),
     array('_getConfig', 'Magento\SalesArchive\Model\Resource\Archive'),
+    array('_getCart', 'Magento\AdvancedCheckout\Model\Cart'),
 );

@@ -25,24 +25,24 @@ class Link extends \Magento\Sales\Block\Order\Link
 
     /**
      * Constructor
-     *
+     * 
+     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Rma\Helper\Data $rmaHelper,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
-        $this->_rmaHelper = $rmaHelper;
         $this->_collectionFactory = $collectionFactory;
+        $this->_rmaHelper = $rmaHelper;
         parent::__construct($context, $registry, $coreData, $data);
     }
 

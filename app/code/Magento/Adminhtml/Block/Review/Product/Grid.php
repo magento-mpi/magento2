@@ -19,6 +19,49 @@ namespace Magento\Adminhtml\Block\Review\Product;
 
 class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
 {
+    /**
+     * @var \Magento\Core\Model\Resource\Website\CollectionFactory
+     */
+    protected $_websitesFactory;
+
+    /**
+     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory
+     * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Type $type
+     * @param \Magento\Catalog\Model\Product\Status $status
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory,
+        \Magento\Core\Model\WebsiteFactory $websiteFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Product\Type $type,
+        \Magento\Catalog\Model\Product\Status $status,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_websitesFactory = $websitesFactory;
+        parent::__construct(
+            $websiteFactory, $setsFactory, $productFactory, $type, $status, $visibility, $catalogData, $coreData,
+            $context, $storeManager, $urlModel, $data
+        );
+    }
 
     protected function _construct()
     {
@@ -72,13 +115,13 @@ class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
                 'index'     => 'status',
                 'type'      => 'options',
                 'source'    => 'Magento\Catalog\Model\Product\Status',
-                'options'   => \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getOptionArray(),
+                'options'   => $this->_status->getOptionArray(),
         ));
 
         /**
          * Check is single store mode
          */
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
                     'header'=> __('Websites'),
@@ -86,7 +129,7 @@ class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => \Mage::getModel('Magento\Core\Model\Website')->getCollection()->toOptionHash(),
+                    'options'   => $this->_websitesFactory->create()->toOptionHash(),
             ));
         }
     }

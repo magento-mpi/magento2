@@ -46,7 +46,10 @@ class FrontTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponse()
     {
-        \Mage::app()->setResponse(\Mage::getSingleton('Magento\Core\Controller\Response\Http'));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->setResponse(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Controller\Response\Http')
+        );
         if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get response without sending headers');
         }
@@ -55,8 +58,7 @@ class FrontTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRouter()
     {
-        $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\DefaultRouter',
-            $this->_model->getRouter('default'));
+        $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\DefaultRouter', $this->_model->getRouter('default'));
     }
 
     public function testGetRouters()

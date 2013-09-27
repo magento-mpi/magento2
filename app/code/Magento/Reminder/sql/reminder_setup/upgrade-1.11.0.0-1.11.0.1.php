@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Reminder\Model\Resource\Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $ruleTable  = $installer->getTable('magento_reminder_rule');

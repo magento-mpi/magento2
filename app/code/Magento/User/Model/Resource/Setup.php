@@ -44,45 +44,23 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      */
     protected $_rulesFactory;
 
-    /**
-     * Construct
-     *
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param $resourceName
-     * @param \Magento\User\Model\Resource\Role\CollectionFactory $roleCollectionFactory
-     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
-     * @param \Magento\User\Model\RoleFactory $roleFactory
-     * @param \Magento\User\Model\RulesFactory $rulesFactory
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config\Resource $resourcesConfig,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        $resourceName,
+        \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\User\Model\Resource\Role\CollectionFactory $roleCollectionFactory,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
         \Magento\User\Model\RoleFactory $roleFactory,
-        \Magento\User\Model\RulesFactory $rulesFactory
+        \Magento\User\Model\RulesFactory $rulesFactory,
+        $resourceName,
+        $moduleName = 'Magento_User',
+        $connectionName = ''
     ) {
-        parent::__construct($logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
-            $resourceName);
         $this->_roleCollectionFactory = $roleCollectionFactory;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
         $this->_roleFactory = $roleFactory;
         $this->_rulesFactory = $rulesFactory;
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
+
 
     /**
      * Creates role collection

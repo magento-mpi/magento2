@@ -12,6 +12,28 @@ namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create;
 class Adjustments extends \Magento\Adminhtml\Block\Template
 {
     protected $_source;
+
+    /**
+     * @var \Magento\Tax\Model\Config
+     */
+    protected $_taxConfig;
+
+    /**
+     * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_taxConfig = $taxConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Initialize creditmemo agjustment totals
      *
@@ -43,14 +65,13 @@ class Adjustments extends \Magento\Adminhtml\Block\Template
      */
     public function getShippingAmount()
     {
-        $config = \Mage::getSingleton('Magento\Tax\Model\Config');
         $source = $this->getSource();
-        if ($config->displaySalesShippingInclTax($source->getOrder()->getStoreId())) {
+        if ($this->_taxConfig->displaySalesShippingInclTax($source->getOrder()->getStoreId())) {
             $shipping = $source->getBaseShippingInclTax();
         } else {
             $shipping = $source->getBaseShippingAmount();
         }
-        return \Mage::app()->getStore()->roundPrice($shipping) * 1;
+        return $this->_storeManager->getStore()->roundPrice($shipping) * 1;
     }
 
     /**
@@ -59,11 +80,10 @@ class Adjustments extends \Magento\Adminhtml\Block\Template
      */
     public function getShippingLabel()
     {
-        $config = \Mage::getSingleton('Magento\Tax\Model\Config');
         $source = $this->getSource();
-        if ($config->displaySalesShippingInclTax($source->getOrder()->getStoreId())) {
+        if ($this->_taxConfig->displaySalesShippingInclTax($source->getOrder()->getStoreId())) {
             $label = __('Refund Shipping (Incl. Tax)');
-        } elseif ($config->displaySalesShippingBoth($source->getOrder()->getStoreId())) {
+        } elseif ($this->_taxConfig->displaySalesShippingBoth($source->getOrder()->getStoreId())) {
             $label = __('Refund Shipping (Excl. Tax)');
         } else {
             $label = __('Refund Shipping');

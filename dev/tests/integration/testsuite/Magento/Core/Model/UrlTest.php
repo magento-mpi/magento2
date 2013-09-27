@@ -20,7 +20,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Url');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Url');
     }
 
     public function testParseUrl()
@@ -76,7 +77,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Zend_Controller_Request_Http', $this->_model->getRequest());
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
@@ -97,7 +98,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isSecure());
         $this->_model->setSecureIsForced(1);
         $this->assertTrue(is_bool($this->_model->isSecure()));
-        \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $this->assertFalse($this->_model->isSecure());
     }
 
@@ -105,7 +107,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Magento\Core\Model\Store', $this->_model->getStore());
 
-        $store = \Mage::getModel('Magento\Core\Model\Store');
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store');
         $this->_model->setStore($store);
         $this->assertSame($store, $this->_model->getStore());
     }
@@ -585,7 +588,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testSessionUrlVar()
     {
-        $sessionId = \Mage::getSingleton('Magento\Core\Model\Session')->getEncryptedSessionId();
+        $sessionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session')
+            ->getEncryptedSessionId();
         $sessionUrl = $this->_model->sessionUrlVar('<a href="http://example.com/?___SID=U">www.example.com</a>');
         $this->assertEquals('<a href="http://example.com/?SID=' . $sessionId . '">www.example.com</a>',
             $sessionUrl

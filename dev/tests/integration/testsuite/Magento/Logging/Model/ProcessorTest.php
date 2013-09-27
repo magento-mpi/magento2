@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Logging\Model;
-
 /**
  * Test Enterprise logging processor
  *
  * @magentoAppArea adminhtml
  */
+namespace Magento\Logging\Model;
+
 class ProcessorTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
@@ -30,22 +30,27 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\ControllerAbstract
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
-        \Mage::app()->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $collection = \Mage::getModel('Magento\Logging\Model\Event')->getCollection();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Logging\Model\Event')->getCollection();
         $eventCountBefore = count($collection);
 
-        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
+            ->turnOffSecretKey();
 
-        $this->_auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
+        $this->_auth = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth');
         $this->_auth->login(\Magento\TestFramework\Bootstrap::ADMIN_NAME,
             \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
 
         $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
         $this->getRequest()->setPost(
-            array_merge($post, array('form_key' => \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey()))
+            array_merge($post, array('form_key' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Session')->getFormKey()))
         );
         $this->dispatch($url);
-        $collection = \Mage::getModel('Magento\Logging\Model\Event')->getCollection();
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Logging\Model\Event')->getCollection();
 
         // Number 2 means we have "login" event logged first and then the tested one.
         $eventCountAfter = $eventCountBefore + 2;
@@ -82,8 +87,8 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\ControllerAbstract
                 )
             ),
             array('backend/admin/user_role/delete/rid/2', 'delete'),
-            array('backend/admin/tax_tax/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
-            array('backend/admin/tax_tax/ajaxSave', 'save',
+            array('backend/admin/tax_class/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
+            array('backend/admin/tax_class/ajaxSave', 'save',
                 array(
                     'class_id' => null,
                     'class_name' => 'test',

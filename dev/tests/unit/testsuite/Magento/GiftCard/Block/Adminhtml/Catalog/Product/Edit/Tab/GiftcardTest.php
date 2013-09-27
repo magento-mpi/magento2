@@ -46,7 +46,12 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $block = $objectManagerHelper->getObject(
             'Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard',
-            array('context' => $contextMock, 'storeManager' => $storeManagerMock)
+            array(
+                'context' => $contextMock,
+                'storeManager' => $storeManagerMock,
+                'templateOptions' => $this->getMockBuilder('Magento\Backend\Model\Config\Source\Email\TemplateFactory')
+                    ->getMock()
+            )
         );
 
 

@@ -28,27 +28,17 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_connectData = null;
 
     /**
-     * @param \Magento\Core\Model\Session\Validator $validator
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Connect\Helper\Data $connectData
-     * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Session\Validator $validator,
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Session\Context $context,
         \Magento\Connect\Helper\Data $connectData,
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
         $this->_connectData = $connectData;
-        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($context, $data);
         $this->init('adminhtml');
     }
 

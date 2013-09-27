@@ -41,10 +41,12 @@ class TemplateFilesTest extends \PHPUnit_Framework_TestCase
     {
         $result = array();
         /** @var $model \Magento\Widget\Model\Widget */
-        $model = \Mage::getModel('Magento\Widget\Model\Widget');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget');
         foreach ($model->getWidgetsArray() as $row) {
             /** @var $instance \Magento\Widget\Model\Widget\Instance */
-            $instance = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
+            $instance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget\Instance');
             $config = $instance->setType($row['type'])->getWidgetConfigAsArray();
             $class = $row['type'];
             if (is_subclass_of($class, 'Magento\Core\Block\Template')) {

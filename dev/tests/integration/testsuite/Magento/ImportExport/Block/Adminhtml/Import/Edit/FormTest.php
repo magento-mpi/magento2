@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
-
 /**
  * Tests for block \Magento\ImportExport\Block\Adminhtml\Import\Edit\FormTest
  * @magentoAppArea adminhtml
  */
+namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
+
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -47,8 +47,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareForm()
     {
-        $formBlock = \Mage::app()->getLayout()->createBlock('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
-        $prepareForm = new \ReflectionMethod(
+        $formBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
+        $prepareForm = new ReflectionMethod(
             'Magento\ImportExport\Block\Adminhtml\Import\Edit\Form',
             '_prepareForm'
         );

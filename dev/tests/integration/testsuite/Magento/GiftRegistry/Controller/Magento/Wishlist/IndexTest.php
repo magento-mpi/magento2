@@ -21,7 +21,8 @@ class IndexTest
     {
         $this->markTestIncomplete('Bug MAGE-6447');
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        $session = \Mage::getModel('Magento\Customer\Model\Session', array($logger));
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Session', array($logger));
         $this->assertTrue($session->login('customer@example.com', 'password')); // fixture
         $this->dispatch('wishlist/index/index');
         $this->assertContains('id="giftregistry-form">', $this->getResponse()->getBody());

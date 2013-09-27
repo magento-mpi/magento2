@@ -28,14 +28,14 @@ class Wysiwyg extends \Magento\Adminhtml\Controller\Action
     {
         $directive = $this->getRequest()->getParam('___directive');
         $directive = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($directive);
-        $url = \Mage::getModel('Magento\Core\Model\Email\Template\Filter')->filter($directive);
+        $url = $this->_objectManager->create('Magento\Core\Model\Email\Template\Filter')->filter($directive);
         $image = $this->_objectManager->get('Magento\Core\Model\Image\AdapterFactory')->create();
         $response = $this->getResponse();
         try {
             $image->open($url);
             $response->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
         } catch (\Exception $e) {
-            $image->open(\Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->getSkinImagePlaceholderUrl());
+            $image->open($this->_objectManager->get('Magento\Cms\Model\Wysiwyg\Config')->getSkinImagePlaceholderUrl());
             $response->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }

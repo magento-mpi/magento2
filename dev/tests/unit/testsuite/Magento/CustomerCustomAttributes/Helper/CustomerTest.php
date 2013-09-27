@@ -49,16 +49,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($abstractHelperMock));
-        \Mage::reset();
         \Magento\Core\Model\ObjectManager::setInstance($objectManagerMock);
-    }
-
-    /**
-     * Clean up after test
-     */
-    protected function tearDown()
-    {
-        \Mage::reset();
     }
 
     /**

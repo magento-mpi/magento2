@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <renderers>
+        <page type="invoice">
+            <renderer product_type="bundle">Magento\Bundle\Model\Sales\Order\Pdf\Items\Invoice</renderer>
+        </page>
+        <page type="shipment">
+            <renderer product_type="bundle">Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment</renderer>
+        </page>
+        <page type="creditmemo">
+            <renderer product_type="bundle">Magento\Bundle\Model\Sales\Order\Pdf\Items\Creditmemo</renderer>
+        </page>
+    </renderers>
+</config>

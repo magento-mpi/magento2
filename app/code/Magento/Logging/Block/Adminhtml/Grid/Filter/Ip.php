@@ -16,7 +16,7 @@ class Ip extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Text
     /**
      * Core resource helper
      *
-     * @var \Magento\Core\Model\Resource\Helper\Mysql4
+     * @var \Magento\Core\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
@@ -24,12 +24,12 @@ class Ip extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Text
      * Construct
      *
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Logging\Model\Resource\Helper\Mysql4 $resourceHelper
+     * @param \Magento\Logging\Model\Resource\Helper $resourceHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Logging\Model\Resource\Helper\Mysql4 $resourceHelper,
+        \Magento\Logging\Model\Resource\Helper $resourceHelper,
         array $data = array()
     ) {
         parent::__construct($context, $data);

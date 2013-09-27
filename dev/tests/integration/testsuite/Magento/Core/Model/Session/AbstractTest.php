@@ -24,12 +24,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Core\Model\Session\AbstractSession _model */
         $this->_model = $this->getMockForAbstractClass('Magento\Core\Model\Session\AbstractSession',
             array(
-                $objectManager->get('Magento\Core\Model\Session\Validator'),
-                $objectManager->get('Magento\Core\Model\Logger'),
-                $objectManager->get('Magento\Core\Model\Event\Manager'),
-                $objectManager->get('Magento\Core\Helper\Http'),
-                $objectManager->get('Magento\Core\Model\Store\Config'),
-                $objectManager->get('Magento\Core\Model\Config')
+                $objectManager->get('Magento\Core\Model\Session\Context')
             ));
     }
 
@@ -156,6 +151,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSessionSavePath()
     {
-        $this->assertEquals(\Mage::getBaseDir('session'), $this->_model->getSessionSavePath());
+        $this->assertEquals(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir('session'),
+            $this->_model->getSessionSavePath()
+        );
     }
 }

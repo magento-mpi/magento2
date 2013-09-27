@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model;
-
 /**
  * Test class for \Magento\Catalog\Model\Url.
  *
  * @magentoDataFixture Magento/Catalog/_files/url_rewrites.php
  */
+namespace Magento\Catalog\Model;
+
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,7 +25,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Url');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Url');
     }
 
     /**
@@ -37,7 +38,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected function _loadRewrite($idPath)
     {
         /** @var $rewrite \Magento\Core\Model\Url\Rewrite */
-        $rewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite');
+        $rewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Url\Rewrite');
         $rewrite->loadByIdPath($idPath);
         return $rewrite;
     }

@@ -12,7 +12,7 @@ namespace Magento\Customer\Service;
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Customer\Service\Customer|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\Customer|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_service;
 
@@ -31,7 +31,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected $_customer;
 
-    /** @var \Magento\Customer\Helper\Data|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
 
     /**
@@ -88,7 +88,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $address = $this->getMockBuilder('Magento\Customer\Model\Address')
             ->disableOriginalConstructor()
-            ->setMethods(array('hasDataChanges', 'getId', 'addData', 'setData', 'setCustomerId', 'setPostIndex'))
+            ->setMethods(array('hasDataChanges', 'getId', 'addData', 'setData', 'setCustomerId', 'setPostIndex',
+                '__sleep', '__wakeup'))
             ->getMock();
         $address->expects($this->any())
             ->method('hasDataChanges')

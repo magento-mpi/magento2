@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftRegistry\Controller\Adminhtml;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\GiftRegistry\Controller\Adminhtml;
+
 class GiftregistryTest extends \Magento\Backend\Utility\Controller
 {
     public function testNewAction()
@@ -45,7 +45,8 @@ class GiftregistryTest extends \Magento\Backend\Utility\Controller
         ));
         $this->dispatch('backend/admin/giftregistry/save/store/0');
         /** @var $type \Magento\GiftRegistry\Model\Type */
-        $type = \Mage::getModel('Magento\GiftRegistry\Model\Type');
+        $type = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftRegistry\Model\Type');
         $type->setStoreId(0);
 
         $type = $type->load('test_registry', 'code');

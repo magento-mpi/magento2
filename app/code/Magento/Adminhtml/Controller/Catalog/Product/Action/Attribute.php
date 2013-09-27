@@ -55,12 +55,12 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
         try {
             if ($attributesData) {
-                $dateFormat = \Mage::app()->getLocale()
+                $dateFormat = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')
                     ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')
+                    $attribute = $this->_objectManager->get('Magento\Eav\Model\Config')
                         ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
@@ -93,11 +93,11 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                     }
                 }
 
-                \Mage::getSingleton('Magento\Catalog\Model\Product\Action')
+                $this->_objectManager->get('Magento\Catalog\Model\Product\Action')
                     ->updateAttributes($this->_getHelper()->getProductIds(), $attributesData, $storeId);
             }
             if ($inventoryData) {
-                $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
+                $stockItem = $this->_objectManager->create('Magento\CatalogInventory\Model\Stock\Item');
                 $stockItem->setProcessIndexEvents(false);
                 $stockItemSaved = false;
 
@@ -120,7 +120,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                 }
 
                 if ($stockItemSaved) {
-                    \Mage::getSingleton('Magento\Index\Model\Indexer')->indexEvents(
+                    $this->_objectManager->get('Magento\Index\Model\Indexer')->indexEvents(
                         \Magento\CatalogInventory\Model\Stock\Item::ENTITY,
                         \Magento\Index\Model\Event::TYPE_SAVE
                     );
@@ -129,7 +129,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
             if ($websiteAddData || $websiteRemoveData) {
                 /* @var $actionModel \Magento\Catalog\Model\Product\Action */
-                $actionModel = \Mage::getSingleton('Magento\Catalog\Model\Product\Action');
+                $actionModel = $this->_objectManager->get('Magento\Catalog\Model\Product\Action');
                 $productIds  = $this->_getHelper()->getProductIds();
 
                 if ($websiteRemoveData) {
@@ -175,7 +175,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
         $productIds = $this->_getHelper()->getProductIds();
         if (!is_array($productIds)) {
             $error = __('Please select products for attributes update.');
-        } else if (!\Mage::getModel('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
+        } else if (!$this->_objectManager->create('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
             $error = __('Please make sure to define SKU values for all processed products.');
         }
 
@@ -215,12 +215,8 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
         try {
             if ($attributesData) {
-                $dateFormat = \Mage::app()->getLocale()
-                    ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-                $storeId    = $this->_getHelper()->getSelectedStoreId();
-
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')
+                    $attribute = $this->_objectManager->get('Magento\Eav\Model\Config')
                         ->getAttribute('catalog_product', $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);

@@ -48,7 +48,7 @@ class View extends \Magento\Adminhtml\Block\Template
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            \Mage::throwException(__('Please correct the parent block for this block.'));
+            throw new \Magento\Core\Exception(__('Please correct the parent block for this block.'));
         }
         $this->setEntity($this->getParentBlock()->getSource());
         parent::_beforeToHtml();

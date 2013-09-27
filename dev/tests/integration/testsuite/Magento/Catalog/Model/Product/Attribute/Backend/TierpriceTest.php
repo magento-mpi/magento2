@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 /**
  * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Tierprice.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
 class TierpriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,9 +25,11 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Product\Attribute\Backend\Tierprice');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Attribute\Backend\Tierprice');
         $this->_model->setAttribute(
-            \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', 'tier_price')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
+                ->getAttribute('catalog_product', 'tier_price')
         );
     }
 
@@ -93,7 +95,8 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
     public function testAfterLoad()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setId(1);
         $this->_model->afterLoad($product);
         $price = $product->getTierPrice();
@@ -103,9 +106,15 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterSave()
     {
-        \Mage::app()->setCurrentStore(\Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->setCurrentStore(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')
+                    ->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+            );
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setOrigData();
         $product->setTierPrice(
@@ -119,7 +128,8 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->afterSave($product);
 
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setId(1);
         $this->_model->afterLoad($product);
         $this->assertEquals(3, count($product->getTierPrice()));
@@ -130,15 +140,22 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterSaveEmpty()
     {
-        \Mage::app()->setCurrentStore(\Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->setCurrentStore(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')
+                    ->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+            );
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setOrigData();
         $product->setTierPrice(array());
         $this->_model->afterSave($product);
 
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setId(1);
         $this->_model->afterLoad($product);
         $this->assertEmpty($product->getTierPrice());

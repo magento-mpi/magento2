@@ -12,8 +12,7 @@
  * Block for Catalog Category URL rewrites editing
  *
  * @method \Magento\Catalog\Model\Category getCategory()
- * @method \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit
- *      setCategory(\Magento\Catalog\Model\Category $category)
+ * @method \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit setCategory(\Magento\Catalog\Model\Category $category)
  * @method \Magento\Catalog\Model\Product getProduct()
  * @method \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit setProduct(\Magento\Catalog\Model\Product $product)
  * @method bool getIsCategoryMode()
@@ -26,6 +25,39 @@ namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Product;
 
 class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
 {
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_productFactory = $productFactory;
+        parent::__construct($rewriteFactory, $adminhtmlData, $coreData, $context, $data);
+    }
+
     /**
      * Prepare layout for URL rewrite creating for product
      */
@@ -72,7 +104,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
     private function _getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setProduct(\Mage::getModel('Magento\Catalog\Model\Product'));
+            $this->setProduct($this->_productFactory->create());
         }
         return $this->getProduct();
     }
@@ -85,7 +117,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
     private function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(\Mage::getModel('Magento\Catalog\Model\Category'));
+            $this->setCategory($this->_categoryFactory->create());
         }
         return $this->getCategory();
     }

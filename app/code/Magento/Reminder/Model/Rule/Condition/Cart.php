@@ -128,7 +128,7 @@ class Cart
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
-        /** @var \Magento\Core\Model\Resource\Helper\Mysql4 $resourceHelper */
+        /** @var \Magento\Core\Model\Resource\Helper $resourceHelper */
         $resourceHelper = \Mage::getResourceHelper('Magento_Core');
         $daysDiffSql = $resourceHelper->getDateDiff(
             'quote.updated_at', $select->getAdapter()->formatDate($currentTime)

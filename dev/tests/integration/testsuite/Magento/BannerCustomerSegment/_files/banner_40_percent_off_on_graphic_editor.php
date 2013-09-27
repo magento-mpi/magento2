@@ -10,15 +10,18 @@ require __DIR__ . '/../../../Magento/SalesRule/_files/cart_rule_40_percent_off.p
 require __DIR__ . '/../../../Magento/CustomerSegment/_files/segment_designers.php';
 
 /** @var \Magento\SalesRule\Model\Rule $rule */
-$rule = \Mage::getModel('Magento\SalesRule\Model\Rule');
+$rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\SalesRule\Model\Rule');
 $rule->load('40% Off on Large Orders', 'name');
 
 /** @var $segment \Magento\CustomerSegment\Model\Segment */
-$segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
+$segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CustomerSegment\Model\Segment');
 $segment->load('Designers', 'name');
 
 /** @var \Magento\Banner\Model\Banner $banner */
-$banner = \Mage::getModel('Magento\Banner\Model\Banner');
+$banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Banner\Model\Banner');
 $banner->setData(array(
     'name' => 'Get 40% Off on Graphic Editors',
     'is_enabled' => \Magento\Banner\Model\Banner::STATUS_ENABLED,

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Image
+ * @package     Magento_Image
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -579,7 +579,11 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     public function testCreatePngFromString($pixel1, $expectedColor1, $pixel2, $expectedColor2, $adapterType)
     {
         $adapter = $this->_getAdapter($adapterType);
-        $adapter->createPngFromString('T', \Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
+        $adapter->createPngFromString(
+            'T',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir()
+                . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf'
+        );
         $adapter->refreshImageDimensions();
 
         $color1 = $adapter->getColorAt($pixel1['x'], $pixel1['y']);

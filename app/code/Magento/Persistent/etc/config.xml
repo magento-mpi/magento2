@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <persistent_setup>
-                <setup>
-                    <module>Magento_Persistent</module>
-                </setup>
-            </persistent_setup>
-        </resources>
-    </global>
     <default>
         <persistent>
             <options>

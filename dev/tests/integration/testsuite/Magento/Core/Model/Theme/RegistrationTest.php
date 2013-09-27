@@ -28,8 +28,10 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_theme = \Mage::getModel('Magento\Core\Model\Theme');
-        $this->_model = \Mage::getModel('Magento\Core\Model\Theme\Registration', array('theme' => $this->_theme));
+        $this->_theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Registration', array('theme' => $this->_theme));
     }
 
     /**

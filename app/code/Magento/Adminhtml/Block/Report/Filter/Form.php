@@ -117,7 +117,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form->setHtmlIdPrefix($htmlIdPrefix);
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Filter')));
 
-        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('store_ids', 'hidden', array(
             'name'  => 'store_ids'

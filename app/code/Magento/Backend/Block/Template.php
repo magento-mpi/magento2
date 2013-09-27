@@ -27,6 +27,16 @@ class Template extends \Magento\Core\Block\Template
     protected $_authorization;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -36,6 +46,8 @@ class Template extends \Magento\Core\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_storeManager = $context->getStoreManager();
+        $this->_locale = $context->getLocale();
         $this->_authorization = $context->getAuthorization();
         parent::__construct($coreData, $context, $data);
     }

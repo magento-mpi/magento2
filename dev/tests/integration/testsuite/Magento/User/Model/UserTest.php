@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Model;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\User\Model;
+
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,7 +28,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User');
     }
 
     /**
@@ -72,8 +73,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public static function roleDataFixture()
     {
-        self::$_newRole =
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
+        self::$_newRole = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Role');
         self::$_newRole->setName('admin_role')
             ->setRoleType('G')
             ->setPid('1');
@@ -171,7 +172,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAclRole()
     {
-        $newuser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
+        $newuser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User');
         $newuser->setUserId(10);
         $this->assertNotEquals($this->_model->getAclRole(), $newuser->getAclRole());
     }

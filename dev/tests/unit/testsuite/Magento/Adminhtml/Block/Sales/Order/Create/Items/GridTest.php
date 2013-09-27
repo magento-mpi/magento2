@@ -20,6 +20,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $orderCreateMock = $this->getMock('Magento\Adminhtml\Model\Sales\Order\Create', array(), array(), '', false);
         $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
@@ -30,20 +31,20 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getHelperFactory'))
             ->getMock();
         $contextMock->expects($this->any())->method('getHelperFactory')->will($this->returnValue($helperFactory));
+
         $taxData = $this->getMockBuilder('Magento\Tax\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
+
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_block = $this->getMockBuilder('Magento\Adminhtml\Block\Sales\Order\Create\Items\Grid')
-            ->setConstructorArgs(array($taxData, $coreData, $contextMock))
-            ->setMethods(array('_getSession'))
-            ->getMock();
+
         $sessionMock = $this->getMockBuilder('Magento\Adminhtml\Model\Session\Quote')
             ->disableOriginalConstructor()
             ->setMethods(array('getQuote'))
             ->getMock();
+
         $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
@@ -57,6 +58,27 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
 
         $sessionMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
+
+        $wishlistFactoryMock = $this->getMockBuilder('Magento\Wishlist\Model\WishlistFactory')
+            ->setMethods(array('methods'))
+            ->getMock();
+
+        $giftMessageSave = $this->getMockBuilder('Magento\Adminhtml\Model\Giftmessage\Save')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $taxConfig = $this->getMockBuilder('Magento\Tax\Model\Config')->disableOriginalConstructor()->getMock();
+
+        $this->_block = $this->getMockBuilder('Magento\Adminhtml\Block\Sales\Order\Create\Items\Grid')
+            ->setConstructorArgs(
+                array(
+                    $wishlistFactoryMock, $giftMessageSave, $taxConfig, $taxData,
+                    $sessionMock, $orderCreateMock, $coreData, $contextMock
+                )
+            )
+            ->setMethods(array('_getSession'))
+            ->getMock();
+
         $this->_block->expects($this->any())->method('_getSession')->will($this->returnValue($sessionMock));
     }
 

@@ -24,10 +24,13 @@ class Attributes
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     /**
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Catalog\Model\Resource\Product $productResource
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavEntitySetFactory
-     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @var \Magento\CustomerSegment\Model\Resource\Segment
+     */
+    protected $_resourceSegment;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Catalog\Model\Product $product
@@ -36,10 +39,8 @@ class Attributes
      * @param array $data
      */
     public function __construct(
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Model\Resource\Product $productResource,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavEntitySetFactory,
-        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Backend\Helper\Data $backendData,
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Eav\Model\Config $config,
         \Magento\Catalog\Model\Product $product,
@@ -47,9 +48,9 @@ class Attributes
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         array $data = array()
     ) {
+        $this->_resourceSegment = $resourceSegment;
         parent::__construct(
-            $eavConfig, $productResource, $eavEntitySetFactory, $adminhtmlData, $context, $config, $product,
-            $productResource, $attrSetCollection, $data
+            $backendData, $context, $config, $product, $productResource, $attrSetCollection, $data
         );
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Attributes');
         $this->setValue(null);
@@ -129,7 +130,7 @@ class Attributes
      */
     public function getAttributeObject()
     {
-        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', $this->getAttribute());
+        return $this->_eavConfig->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**
@@ -139,7 +140,7 @@ class Attributes
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('Magento\CustomerSegment\Model\Resource\Segment');
+        return $this->_resourceSegment;
     }
 
     /**

@@ -16,7 +16,8 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Resource\Product\Flat\Indexer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Resource\Product\Flat\Indexer');
     }
 
     public function testGetAttributeCodes()

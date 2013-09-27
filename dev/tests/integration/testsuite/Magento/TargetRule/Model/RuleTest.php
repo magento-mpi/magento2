@@ -20,7 +20,8 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\TargetRule\Model\Rule');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\TargetRule\Model\Rule');
     }
 
     public function testValidateDataOnEmpty()
@@ -85,7 +86,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $data->setRule(array(
                 'actions' => array(
                     'test' => array(
-                        'type' => 'Magento_TargetRule_Invalid',
+                        'type' => 'Magento\TargetRule\Invalid',
                     )
                 )
             )

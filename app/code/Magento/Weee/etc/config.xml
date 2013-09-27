@@ -10,51 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <weee_setup>
-                <setup>
-                    <module>Magento_Weee</module>
-                    <class>Magento\Weee\Model\Resource\Setup</class>
-                </setup>
-            </weee_setup>
-        </resources>
-        <sales>
-            <quote>
-                <totals>
-                    <weee>
-                        <class>Magento\Weee\Model\Total\Quote\Weee</class>
-                        <after>subtotal,tax_subtotal</after>
-                        <before>tax,discount</before>
-                    </weee>
-                </totals>
-                <nominal_totals>
-                    <nominal_weee>
-                        <class>Magento\Weee\Model\Total\Quote\Nominal\Weee</class>
-                        <sort_order>600</sort_order>
-                    </nominal_weee>
-                </nominal_totals>
-            </quote>
-            <order_invoice>
-                <totals>
-                    <weee>
-                        <class>Magento\Weee\Model\Total\Invoice\Weee</class>
-                        <after>subtotal,tax,discount,grand_total,cost_total,shipping</after>
-                        <before />
-                    </weee>
-                </totals>
-            </order_invoice>
-            <order_creditmemo>
-                <totals>
-                    <weee>
-                        <class>Magento\Weee\Model\Total\Creditmemo\Weee</class>
-                        <after>subtotal</after>
-                        <before>tax,discount,grand_total</before>
-                    </weee>
-                </totals>
-            </order_creditmemo>
-        </sales>
-    </global>
     <default>
         <sales>
             <totals_sort>

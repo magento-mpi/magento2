@@ -27,6 +27,18 @@ class Price extends \Magento\Data\Form\Element\Text
     protected $_taxData = null;
 
     /**
+     * @var Magneto_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
@@ -34,14 +46,18 @@ class Price extends \Magento\Data\Form\Element\Text
      * @param array $attributes
      */
     public function __construct(
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Tax\Helper\Data $taxData,
         array $attributes = array()
     ) {
-        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
         $this->_taxData = $taxData;
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 
     protected function _construct()
@@ -61,12 +77,13 @@ class Price extends \Magento\Data\Form\Element\Text
             if (!($storeId = $attribute->getStoreId())) {
                 $storeId = $this->getForm()->getDataObject()->getStoreId();
             }
-            $store = \Mage::app()->getStore($storeId);
-            $html.= '<strong>' . \Mage::app()->getLocale()->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
+            $store = $this->_storeManager->getStore($storeId);
+            $html .= '<strong>' . $this->_locale->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
             if ($this->_taxData->priceIncludesTax($store)) {
                 if ($attribute->getAttributeCode()!=='cost') {
                     $addJsObserver = true;
-                    $html.= ' <strong>['.__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';
+                    $html .= ' <strong>[' . __('Inc. Tax') . '<span id="dynamic-tax-'
+                        . $attribute->getAttributeCode() . '"></span>]</strong>';
                 }
             }
         }
@@ -95,6 +112,4 @@ class Price extends \Magento\Data\Form\Element\Text
 
         return number_format($value, 2, null, '');
     }
-
 }
-

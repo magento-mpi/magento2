@@ -109,9 +109,39 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
+
+    /**
+     * @var \Magento\AdvancedCheckout\Model\Cart
+     */
+    protected $_cart;
+
+    /**
+     * @var \Magento\AdvancedCheckout\Model\Resource\Product\Collection
+     */
+    protected $_products;
+
+    /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_url;
+
+    /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
 
     /**
      * Sales quote item factory
@@ -142,22 +172,55 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_importFactory = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
+    /**
+     * @param \Magento\AdvancedCheckout\Model\Cart $cart
+     * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Checkout\Helper\Cart $checkoutCart
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
+     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
     public function __construct(
+        \Magento\AdvancedCheckout\Model\Cart $cart,
+        \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products,
+        \Magento\Core\Model\Url $url,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Helper\Cart $checkoutCart,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
+        $this->_cart = $cart;
+        $this->_products = $products;
+        $this->_url = $url;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_session = $session;
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $checkoutSession;
         $this->_checkoutCart = $checkoutCart;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
@@ -177,12 +240,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getSession()
     {
-        if (!$this->_session) {
-            $sessionClassPath = $this->_storeManager->getStore()->isAdmin() ?
-                    'Magento\Adminhtml\Model\Session' : 'Magento\Customer\Model\Session';
-            $this->_session =  \Mage::getSingleton($sessionClassPath);
-        }
-
         return $this->_session;
     }
 
@@ -277,10 +334,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 $result = true;
                 break;
             case \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::YES_SPECIFIED_GROUPS_VALUE:
-                /** @var $customerSession \Magento\Customer\Model\Session */
-                $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
-                if ($customerSession) {
-                    $groupId = $customerSession->getCustomerGroupId();
+
+                if ($this->_customerSession) {
+                    $groupId = $this->_customerSession->getCustomerGroupId();
                     $result = $groupId === \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
                         || in_array($groupId, $this->getSkuCustomerGroups());
                 }
@@ -313,12 +369,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getFailedItems($all = true)
     {
         if ($all && is_null($this->_itemsAll) || !$all && is_null($this->_items)) {
-            $failedItems = \Mage::getSingleton('Magento\AdvancedCheckout\Model\Cart')->getFailedItems();
-            $collection = \Mage::getResourceSingleton('Magento\AdvancedCheckout\Model\Resource\Product\Collection')
+            $failedItems = $this->_cart->getFailedItems();
+            $collection = $this->_products
                 ->addMinimalPrice()
                 ->addFinalPrice()
                 ->addTaxPercents()
-                ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
+                ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
                 ->addUrlRewrite();
             $itemsToLoad = array();
 
@@ -350,7 +406,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             if ($ids) {
                 $collection->addIdFilter($ids);
 
-                $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+                $quote = $this->_checkoutSession->getQuote();
                 $emptyQuoteItem = $this->_quoteItemFactory->create();
 
                 /** @var $itemProduct \Magento\Catalog\Model\Product */
@@ -374,8 +430,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                         if ($this->_catalogData->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
-                                $this->_storeManager->getStore()->formatPrice($this->_storeManager->getStore()->convertPrice(
-                                    $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
+                                $this->_storeManager->getStore()->formatPrice(
+                                    $this->_storeManager->getStore()->convertPrice(
+                                        $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
                             $itemProduct->setAddToCartUrl($this->_checkoutCart->getAddUrl($itemProduct));
@@ -458,7 +515,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getAccountSkuUrl()
     {
-        return \Mage::getSingleton('Magento\Core\Model\Url')->getUrl('magento_advancedcheckout/sku');
+        return $this->_url->getUrl('magento_advancedcheckout/sku');
     }
 
     /**

@@ -21,7 +21,8 @@ class PoolTest extends \PHPUnit_Framework_TestCase
     {
         $settings = array('backend' => $cacheBackendName);
         $this->_model = new \Magento\Core\Model\Cache\Frontend\Pool(
-            \Mage::getModel('Magento\Core\Model\Cache\Frontend\Factory'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Cache\Frontend\Factory'),
             $settings
         );
 

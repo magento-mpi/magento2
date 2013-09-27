@@ -46,18 +46,54 @@ class Updater implements \Magento\Core\Model\Db\UpdaterInterface
     protected $_appState;
 
     /**
+     * if it set to true, we will ignore applying scheme updates
+     *
+     * @var bool
+     */
+    protected $_skipModuleUpdate;
+
+    /**
+     * Map that contains setup model names per resource name
+     *
+     * @var array
+     */
+    protected $_resourceList;
+
+    /**
+     * @var \Magento\Core\Model\ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
+     * @var \Magento\Core\Model\Module\ResourceResolverInterface
+     */
+    protected $_resourceResolver;
+
+    /**
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Resource\SetupFactory $factory
      * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Module\ResourceResolverInterface $resourceResolver
+     * @param array $resourceList
+     * @param bool $skipModuleUpdate
      */
     public function __construct(
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Resource\SetupFactory $factory,
-        \Magento\Core\Model\App\State $appState
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Module\ResourceResolverInterface $resourceResolver,
+        array $resourceList,
+        $skipModuleUpdate = false
     ) {
         $this->_config = $config;
         $this->_factory = $factory;
         $this->_appState = $appState;
+        $this->_moduleList = $moduleList;
+        $this->_resourceResolver = $resourceResolver;
+        $this->_resourceList = $resourceList;
+        $this->_skipModuleUpdate = (bool)$skipModuleUpdate;
     }
 
     /**
@@ -71,14 +107,7 @@ class Updater implements \Magento\Core\Model\Db\UpdaterInterface
             return false;
         }
 
-        $ignoreDevMode = (bool)(string)$this->_config->getNode(self::XML_PATH_IGNORE_DEV_MODE);
-        if (($this->_appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER)
-            && false == $ignoreDevMode
-        ) {
-            return false;
-        }
-
-        return (bool)(string)$this->_config->getNode(self::XML_PATH_SKIP_PROCESS_MODULES_UPDATES);
+        return $this->_skipModuleUpdate;
     }
 
     /**
@@ -86,29 +115,32 @@ class Updater implements \Magento\Core\Model\Db\UpdaterInterface
      */
     public function updateScheme()
     {
-        if (true == $this->_shouldSkipProcessModulesUpdates()) {
+        if ($this->_shouldSkipProcessModulesUpdates()) {
             return;
         }
 
         \Magento\Profiler::start('apply_db_schema_updates');
         $this->_appState->setUpdateMode(true);
 
-        $resources = $this->_config->getNode('global/resources')->children();
         $afterApplyUpdates = array();
-        foreach ($resources as $resName => $resource) {
-            if (!$resource->setup) {
-                continue;
-            }
-            $className = $this->_defaultClass;
-            if (isset($resource->setup->class)) {
-                $className = $resource->setup->getClassName();
-            }
+        foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
+            foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
+                $className = isset($this->_resourceList[$resourceName])
+                    ? $this->_resourceList[$resourceName]
+                    : $this->_defaultClass;
 
-            $setupClass = $this->_factory->create($className, array('resourceName' => $resName));
-            $setupClass->applyUpdates();
+                $setupClass = $this->_factory->create(
+                    $className,
+                    array(
+                        'resourceName' => $resourceName,
+                        'moduleName' => $moduleName,
+                    )
+                );
+                $setupClass->applyUpdates();
 
-            if ($setupClass->getCallAfterApplyAllUpdates()) {
-                $afterApplyUpdates[] = $setupClass;
+                if ($setupClass->getCallAfterApplyAllUpdates()) {
+                    $afterApplyUpdates[] = $setupClass;
+                }
             }
         }
 
@@ -130,17 +162,15 @@ class Updater implements \Magento\Core\Model\Db\UpdaterInterface
         if (!$this->_isUpdatedSchema) {
             return;
         }
-        $resources = $this->_config->getNode('global/resources')->children();
-        foreach ($resources as $resName => $resource) {
-            if (!$resource->setup) {
-                continue;
+        foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
+            foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
+                $className = isset($this->_resourceList[$resourceName])
+                    ? $this->_resourceList[$resourceName]
+                    : $this->_defaultClass;
+                $setupClass = $this->_factory->create($className, array('resourceName' => $resourceName,
+                    'moduleName' => $moduleName,));
+                $setupClass->applyDataUpdates();
             }
-            $className = $this->_defaultClass;
-            if (isset($resource->setup->class)) {
-                $className = $resource->setup->getClassName();
-            }
-            $setupClass = $this->_factory->create($className, array('resourceName' => $resName));
-            $setupClass->applyDataUpdates();
         }
     }
 }

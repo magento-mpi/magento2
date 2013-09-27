@@ -26,7 +26,8 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $config->test_key   = 'test';
         // @codingStandardsIgnoreEnd
 
-        $this->_model = \Mage::getResourceModel('Magento\Core\Model\Resource\Entity\Table', array('config' => $config));
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Entity\Table', array('config' => $config));
     }
 
     public function testGetTable()

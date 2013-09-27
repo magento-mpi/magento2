@@ -32,7 +32,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $expectedUrl = 'http://localhost/index.php/simple-product.html';
 
         // product as object
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $this->assertEquals($expectedUrl, $this->_helper->getProductUrl($product));
 
@@ -43,7 +44,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testGetPrice()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setPrice(49.95);
         $this->assertEquals(49.95, $this->_helper->getPrice($product));
     }
@@ -51,7 +53,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testGetFinalPrice()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setFinalPrice(49.95);
         $this->assertEquals(49.95, $this->_helper->getFinalPrice($product));
     }
@@ -59,7 +62,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testGetImageUrl()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertStringEndsWith('placeholder/image.jpg', $this->_helper->getImageUrl($product));
 
         $product->setImage('test_image.png');
@@ -69,7 +73,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testGetSmallImageUrl()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertStringEndsWith('placeholder/small_image.jpg', $this->_helper->getSmallImageUrl($product));
 
         $product->setSmallImage('test_image.png');
@@ -78,14 +83,17 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testGetThumbnailUrl()
     {
-        $this->assertEmpty($this->_helper->getThumbnailUrl(\Mage::getModel('Magento\Catalog\Model\Product')));
+        $this->assertEmpty($this->_helper->getThumbnailUrl(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')));
     }
 
     public function testGetEmailToFriendUrl()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setId(100);
-        $category = \Mage::getModel('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $category->setId(10);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -114,7 +122,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         // non-visible or disabled
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertFalse($this->_helper->canShow($product));
 
         // enabled and visible
@@ -176,7 +185,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitProduct()
     {
-        \Mage::getSingleton('Magento\Catalog\Model\Session')->setLastVisitedCategoryId(2);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session')
+            ->setLastVisitedCategoryId(2);
         $this->_helper->initProduct(1, 'view');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -194,7 +204,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testPrepareProductOptions()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $buyRequest = new \Magento\Object(array('qty' => 100, 'options' => array('option' => 'value')));
         $this->_helper->prepareProductOptions($product, $buyRequest);
         $result = $product->getPreconfiguredValues();

@@ -31,27 +31,31 @@ class Totals extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
     protected $_salesData = null;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Sales\Model\Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Sales\Helper\Data $salesData,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
-        $this->_coreConfig = $coreConfig;
-        parent::__construct($coreData, $context, $data);
+        $this->_salesConfig = $salesConfig;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
     }
 
     protected function _construct()
@@ -80,10 +84,11 @@ class Totals extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
         $blockName = $code.'_total_renderer';
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
-            $block = $this->_defaultRenderer;
-            $config = $this->_coreConfig->getNode("global/sales/quote/totals/{$code}/admin_renderer");
-            if ($config) {
-                $block = (string) $config;
+            $configRenderer = $this->_salesConfig->getTotalsRenderer('quote', 'totals', $code, 'adminhtml');
+            if (empty($configRenderer)) {
+                $block = $this->_defaultRenderer;
+            } else {
+                $block = $configRenderer;
             }
 
             $block = $this->getLayout()->createBlock($block, $blockName);

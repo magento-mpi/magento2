@@ -38,11 +38,19 @@ class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
     protected $_adminhtmlData = null;
 
     /**
+     * @var \Magento\Directory\Model\CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      */
     public function __construct(
+        \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Adminhtml\Helper\Data $adminhtmlData
     ) {
+        $this->_countryFactory = $countryFactory;
         $this->_adminhtmlData = $adminhtmlData;
     }
 
@@ -58,7 +66,7 @@ class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
         $regionCollection = false;
         if ($countryId) {
             if (!isset(self::$_regionCollections[$countryId])) {
-                self::$_regionCollections[$countryId] = \Mage::getModel('Magento\Directory\Model\Country')
+                self::$_regionCollections[$countryId] = $this->_countryFactory->create()
                     ->setId($countryId)
                     ->getLoadedRegionCollection()
                     ->toOptionArray();

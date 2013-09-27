@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Customer;
-
 /**
  * @magentoAppArea adminhtml
  * @magentoDataFixture customerGroupDataFixture
  */
+namespace Magento\Adminhtml\Controller\Customer;
+
 class GroupTest extends \Magento\Backend\Utility\Controller
 {
     protected static $_customerGroupId;
@@ -22,7 +22,8 @@ class GroupTest extends \Magento\Backend\Utility\Controller
     public static function customerGroupDataFixture()
     {
         /** @var \Magento\Customer\Model\Group $group */
-        $group = \Mage::getModel('Magento\Customer\Model\Group');
+        $group = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Group');
 
         $groupData = array(
             'customer_group_code' => 'New Customer Group',

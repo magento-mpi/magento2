@@ -20,6 +20,30 @@ namespace Magento\Adminhtml\Block\Dashboard\Tab\Customers;
 
 class Newest extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
+    /**
+     * @var \Magento\Reports\Model\Resource\Customer\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Reports\Model\Resource\Customer\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reports\Model\Resource\Customer\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -29,18 +53,18 @@ class Newest extends \Magento\Adminhtml\Block\Dashboard\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Customer\Collection')
+        $collection = $this->_collectionFactory->create()
             ->addCustomerName();
 
         $storeFilter = 0;
         if ($this->getParam('store')) {
             $collection->addAttributeToFilter('store_id', $this->getParam('store'));
             $storeFilter = 1;
-        } else if ($this->getParam('website')){
-            $storeIds = \Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+        } elseif ($this->getParam('website')) {
+            $storeIds = $this->_storeManager->getWebsite($this->getParam('website'))->getStoreIds();
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
-        } else if ($this->getParam('group')){
-            $storeIds = \Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+        } elseif ($this->getParam('group')) {
+            $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         }
 
@@ -67,7 +91,8 @@ class Newest extends \Magento\Adminhtml\Block\Dashboard\Grid
             'type'      => 'number'
         ));
 
-        $baseCurrencyCode = (string) \Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
+        $baseCurrencyCode = (string) $this->_storeManager->getStore((int)$this->getParam('store'))
+            ->getBaseCurrencyCode();
 
         $this->addColumn('orders_avg_amount', array(
             'header'    => __('Average'),

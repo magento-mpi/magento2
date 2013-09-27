@@ -20,6 +20,27 @@ namespace Magento\Adminhtml\Block\Sales\Order;
 
 class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
+    /**
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_sessionQuote = $sessionQuote;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->_objectId = 'order_id';
@@ -30,8 +51,8 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         $this->setId('sales_order_create');
 
-        $customerId = $this->_getSession()->getCustomerId();
-        $storeId    = $this->_getSession()->getStoreId();
+        $customerId = $this->_sessionQuote->getCustomerId();
+        $storeId    = $this->_sessionQuote->getStoreId();
 
 
         $this->_updateButton('save', 'label', __('Submit Order'));
@@ -103,14 +124,14 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
+        return $this->_sessionQuote;
     }
 
     public function getCancelUrl()
     {
-        if ($this->_getSession()->getOrder()->getId()) {
+        if ($this->_sessionQuote->getOrder()->getId()) {
             $url = $this->getUrl('*/sales_order/view', array(
-                'order_id' => \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getOrder()->getId()
+                'order_id' => $this->_sessionQuote->getOrder()->getId()
             ));
         } else {
             $url = $this->getUrl('*/*/cancel');

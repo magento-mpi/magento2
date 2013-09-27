@@ -24,7 +24,11 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
         if ($file === self::NO_VIEW_XML_FILES_MARKER) {
             $this->markTestSkipped('No view.xml files in themes.');
         }
-        $this->_validateConfigFile($file, \Mage::getBaseDir('lib') . '/Magento/Config/etc/view.xsd');
+        $this->_validateConfigFile(
+            $file,
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('lib')
+                . '/Magento/Config/etc/view.xsd'
+        );
     }
 
     /**
@@ -33,7 +37,11 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     public function viewConfigFileDataProvider()
     {
         $result = array();
-        foreach (glob(\Mage::getBaseDir('design') . '/*/*/view.xml') as $file) {
+        $files = glob(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('design')
+                . '/*/*/view.xml'
+        );
+        foreach ($files as $file) {
             $result[$file] = array($file);
         }
         return $result === array() ? array(array(self::NO_VIEW_XML_FILES_MARKER)) : $result;
@@ -54,7 +62,11 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     public function themeConfigFileExistsDataProvider()
     {
         $result = array();
-        foreach (glob(\Mage::getBaseDir('design') . '/*/*', GLOB_ONLYDIR) as $themeDir) {
+        $files = glob(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('design')
+                . '/*/*', GLOB_ONLYDIR
+        );
+        foreach ($files as $themeDir) {
             $result[$themeDir] = array($themeDir);
         }
         return $result;
@@ -66,7 +78,11 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testThemeConfigFileSchema($file)
     {
-        $this->_validateConfigFile($file, \Mage::getBaseDir('lib') . '/Magento/Config/etc/theme.xsd');
+        $this->_validateConfigFile(
+            $file,
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('lib')
+                . '/Magento/Config/etc/theme.xsd'
+        );
     }
 
     /**
@@ -89,7 +105,11 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     public function themeConfigFileDataProvider()
     {
         $result = array();
-        foreach (glob(\Mage::getBaseDir('design') . '/*/*/theme.xml') as $file) {
+        $files = glob(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('design')
+                . '/*/*/theme.xml'
+        );
+        foreach ($files as $file) {
             $result[$file] = array($file);
         }
         return $result;
@@ -100,7 +120,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $file
      * @param string $schemaFile
-     * @throws \PHPUnit_Framework_AssertionFailedError if file is invalid
+     * @throws PHPUnit_Framework_AssertionFailedError if file is invalid
      */
     protected function _validateConfigFile($file, $schemaFile)
     {

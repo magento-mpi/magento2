@@ -26,6 +26,12 @@ class Rest implements \Magento\Core\Controller\FrontInterface
     /** @var \Magento\Core\Model\App\State */
     protected $_appState;
 
+    /** @var \Magento\Oauth\Service\OauthV1Interface */
+    protected $_oauthService;
+
+    /** @var  \Magento\Oauth\Helper\Data */
+    protected $_oauthHelper;
+
     /**
      * Initialize dependencies.
      *
@@ -34,19 +40,25 @@ class Rest implements \Magento\Core\Controller\FrontInterface
      * @param \Magento\Webapi\Controller\Rest\Router $router
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
+     * @param \Magento\Oauth\Helper\Data $oauthHelper
      */
     public function __construct(
         \Magento\Webapi\Controller\Rest\Request $request,
         \Magento\Webapi\Controller\Rest\Response $response,
         \Magento\Webapi\Controller\Rest\Router $router,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\App\State $appState
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Oauth\Service\OauthV1Interface $oauthService,
+        \Magento\Oauth\Helper\Data $oauthHelper
     ) {
         $this->_router = $router;
         $this->_request = $request;
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;
+        $this->_oauthService = $oauthService;
+        $this->_oauthHelper = $oauthHelper;
     }
 
     /**
@@ -70,6 +82,8 @@ class Rest implements \Magento\Core\Controller\FrontInterface
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
             }
+            $oauthReq = $this->_oauthHelper->prepareServiceRequest($this->_request, $this->_request->getRequestData());
+            $this->_oauthService->validateAccessTokenRequest($oauthReq);
             $route = $this->_router->match($this->_request);
 
             if ($route->isSecure() && !$this->_request->isSecure()) {

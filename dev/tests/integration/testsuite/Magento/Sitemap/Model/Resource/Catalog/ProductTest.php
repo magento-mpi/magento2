@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sitemap\Model\Resource\Catalog;
-
 /**
  * Test class for \Magento\Sitemap\Model\Resource\Catalog\Product.
  * - test products collection generation for sitemap
  *
  * @magentoDataFixture Magento/Sitemap/_files/sitemap_products.php
  */
+namespace Magento\Sitemap\Model\Resource\Catalog;
+
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,7 +28,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionNone()
     {
-        $model = \Mage::getResourceModel('Magento\Sitemap\Model\Resource\Catalog\Product');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sitemap\Model\Resource\Catalog\Product');
         $products = $model->getCollection(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
@@ -53,7 +54,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionAll()
     {
-        $model = \Mage::getResourceModel('Magento\Sitemap\Model\Resource\Catalog\Product');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sitemap\Model\Resource\Catalog\Product');
         $products = $model->getCollection(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
@@ -104,7 +106,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionBase()
     {
-        $model = \Mage::getResourceModel('Magento\Sitemap\Model\Resource\Catalog\Product');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sitemap\Model\Resource\Catalog\Product');
         $products = $model->getCollection(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));

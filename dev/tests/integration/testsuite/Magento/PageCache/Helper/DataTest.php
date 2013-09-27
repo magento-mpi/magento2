@@ -27,7 +27,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testSetNoCacheCookie()
     {
         /** @var $cookie \Magento\Core\Model\Cookie */
-        $cookie = \Mage::getSingleton('Magento\Core\Model\Cookie');
+        $cookie = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Cookie');
         $this->assertEmpty($cookie->get(\Magento\PageCache\Helper\Data::NO_CACHE_COOKIE));
         $this->_helper->setNoCacheCookie();
         $this->assertNotEmpty($cookie->get(\Magento\PageCache\Helper\Data::NO_CACHE_COOKIE));
@@ -36,7 +36,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testRemoveNoCacheCookie()
     {
         /** @var $cookie \Magento\Core\Model\Cookie */
-        $cookie = \Mage::getSingleton('Magento\Core\Model\Cookie');
+        $cookie = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Cookie');
         $this->_helper->setNoCacheCookie();
         $this->_helper->removeNoCacheCookie();
         $this->assertEmpty($cookie->get(\Magento\PageCache\Helper\Data::NO_CACHE_COOKIE));
@@ -45,7 +45,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testLockUnlockNoCacheCookie()
     {
         /** @var $cookie \Magento\Core\Model\Cookie */
-        $cookie = \Mage::getSingleton('Magento\Core\Model\Cookie');
+        $cookie = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Cookie');
         $this->_helper->setNoCacheCookie();
         $this->assertNotEmpty($cookie->get(\Magento\PageCache\Helper\Data::NO_CACHE_COOKIE));
 

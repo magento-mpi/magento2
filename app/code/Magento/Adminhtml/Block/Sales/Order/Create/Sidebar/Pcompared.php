@@ -20,6 +20,41 @@ namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
 
 class Pcompared extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Reports\Model\Resource\Event
+     */
+    protected $_event;
+
+    /**
+     * @param \Magento\Reports\Model\Resource\Event $event
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Config $salesConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reports\Model\Resource\Event $event,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Config $salesConfig,
+        array $data = array()
+    ) {
+        $this->_event = $event;
+        $this->_productFactory = $productFactory;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $salesConfig, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -55,13 +90,13 @@ class Pcompared extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Abst
             }
 
             // prepare products collection and apply visitors log to it
-            $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+            $productCollection = $this->_productFactory->create()->getCollection()
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->addStoreFilter($this->getQuote()->getStoreId())
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image');
-            \Mage::getResourceSingleton('Magento\Reports\Model\Resource\Event')->applyLogToCollection(
+            $this->_event->applyLogToCollection(
                 $productCollection, \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE, $this->getCustomerId(), 0, $skipProducts
             );
 

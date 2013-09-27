@@ -31,6 +31,7 @@ class Content
 
     /**
      * @param \Magento\VersionsCms\Helper\Data $cmsData
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
@@ -40,6 +41,7 @@ class Content
      */
     public function __construct(
         \Magento\VersionsCms\Helper\Data $cmsData,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
@@ -48,16 +50,14 @@ class Content
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct(
-            $context, $formFactory, $coreData, $eventManager, $coreRegistry, $data
-        );
+        parent::__construct($wysiwygConfig, $context, $formFactory, $coreData, $eventManager, $coreRegistry, $data);
     }
 
     /**
      * Preparing form by adding extra fields.
      * Adding on change js call.
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab_Content
      */
     protected function _prepareForm()
     {

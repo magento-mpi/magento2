@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Model;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\User\Model;
+
 class RulesTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,7 +23,8 @@ class RulesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\User\Model\Rules');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Rules');
     }
 
     /**

@@ -40,7 +40,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Install\Model\Installer\Config(
             $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false),
             new \Magento\Core\Model\Dir(__DIR__, array(), array(\Magento\Core\Model\Dir::CONFIG => TESTS_TEMP_DIR)),
-            $this->getMock('Magento\Core\Model\Config\Resource', array(), array(), '', false),
             new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local())
         );
     }

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <indexer name="name" instance="One_Two_Three" />
+    <indexer name="name_node" instance="Some_Name">
+        <depends name="name_three" />
+    </indexer>
+</config>

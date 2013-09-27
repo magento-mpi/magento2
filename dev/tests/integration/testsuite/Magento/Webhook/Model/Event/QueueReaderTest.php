@@ -1,5 +1,9 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Event\QueueReader
+ *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -7,20 +11,13 @@
  */
 namespace Magento\Webhook\Model\Event;
 
-/**
- * \Magento\Webhook\Model\Event\QueueReader
- *
- * @magentoDbIsolation enabled
- */
 class QueueReaderTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @magentoDbIsolation enabled
-     */
     public function testPoll()
     {
         /** @var \Magento\Webhook\Model\Event $event */
-        $event = \Mage::getModel('Magento\Webhook\Model\Event')
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
         /** @var \Magento\Webhook\Model\Event\QueueReader $queue */

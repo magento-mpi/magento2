@@ -25,15 +25,23 @@ class Layout extends \Magento\Core\Helper\AbstractHelper
     protected $_layout;
 
     /**
+     * @var \Magento\Page\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @param \Magento\Page\Model\Config $config
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
+        \Magento\Page\Model\Config $config,
         \Magento\Core\Model\Layout $layout,
         \Magento\Core\Helper\Context $context
     ) {
         parent::__construct($context);
         $this->_layout = $layout;
+        $this->_config = $config;
     }
 
     /**
@@ -44,7 +52,7 @@ class Layout extends \Magento\Core\Helper\AbstractHelper
      */
     public function applyHandle($pageLayout)
     {
-        $pageLayout = $this->_getConfig()->getPageLayout($pageLayout);
+        $pageLayout = $this->_config->getPageLayout($pageLayout);
 
         if (!$pageLayout) {
             return $this;
@@ -68,7 +76,7 @@ class Layout extends \Magento\Core\Helper\AbstractHelper
         if ($pageLayout === null) {
             $pageLayout = $this->getCurrentPageLayout();
         } else {
-            $pageLayout = $this->_getConfig()->getPageLayout($pageLayout);
+            $pageLayout = $this->_config->getPageLayout($pageLayout);
         }
 
         if (!$pageLayout) {
@@ -94,13 +102,13 @@ class Layout extends \Magento\Core\Helper\AbstractHelper
     {
         if ($this->_layout->getBlock('root') &&
             $this->_layout->getBlock('root')->getLayoutCode()) {
-            return $this->_getConfig()->getPageLayout($this->_layout->getBlock('root')->getLayoutCode());
+            return $this->_config->getPageLayout($this->_layout->getBlock('root')->getLayoutCode());
         }
 
         // All loaded handles
         $handles = $this->_layout->getUpdate()->getHandles();
         // Handles used in page layouts
-        $pageLayoutHandles = $this->_getConfig()->getPageLayoutHandles();
+        $pageLayoutHandles = $this->_config->getPageLayoutHandles();
         // Applied page layout handles
         $appliedHandles = array_intersect($handles, $pageLayoutHandles);
 
@@ -112,16 +120,6 @@ class Layout extends \Magento\Core\Helper\AbstractHelper
 
         $layoutCode = array_search($currentHandle, $pageLayoutHandles, true);
 
-        return $this->_getConfig()->getPageLayout($layoutCode);
-    }
-
-    /**
-     * Retrieve page config
-     *
-     * @return \Magento\Page\Model\Config
-     */
-    protected function _getConfig()
-    {
-        return \Mage::getSingleton('Magento\Page\Model\Config');
+        return $this->_config->getPageLayout($layoutCode);
     }
 }

@@ -35,6 +35,39 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_conditionName;
 
     /**
+     * @var \Magento\Shipping\Model\Carrier\Tablerate
+     */
+    protected $_tablerate;
+
+    /**
+     * @var \Magento\Shipping\Model\Resource\Carrier\Tablerate\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Shipping\Model\Resource\Carrier\Tablerate\CollectionFactory $collectionFactory
+     * @param \Magento\Shipping\Model\Carrier\Tablerate $tablerate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Shipping\Model\Resource\Carrier\Tablerate\CollectionFactory $collectionFactory,
+        \Magento\Shipping\Model\Carrier\Tablerate $tablerate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_tablerate = $tablerate;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Define grid properties
      *
      * @return void
@@ -54,7 +87,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function setWebsiteId($websiteId)
     {
-        $this->_websiteId = \Mage::app()->getWebsite($websiteId)->getId();
+        $this->_websiteId = $this->_storeManager->getWebsite($websiteId)->getId();
         return $this;
     }
 
@@ -66,7 +99,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     public function getWebsiteId()
     {
         if (is_null($this->_websiteId)) {
-            $this->_websiteId = \Mage::app()->getWebsite()->getId();
+            $this->_websiteId = $this->_storeManager->getWebsite()->getId();
         }
         return $this->_websiteId;
     }
@@ -101,7 +134,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection */
-        $collection = \Mage::getResourceModel('Magento\Shipping\Model\Resource\Carrier\Tablerate\Collection');
+        $collection = $this->_collectionFactory->create();
         $collection->setConditionFilter($this->getConditionName())
             ->setWebsiteFilter($this->getWebsiteId());
 
@@ -135,8 +168,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'default'   => '*',
         ));
 
-        $label = \Mage::getSingleton('Magento\Shipping\Model\Carrier\Tablerate')
-            ->getCode('condition_name_short', $this->getConditionName());
+        $label = $this->_tablerate->getCode('condition_name_short', $this->getConditionName());
         $this->addColumn('condition_value', array(
             'header'    => $label,
             'index'     => 'condition_value',

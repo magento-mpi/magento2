@@ -175,7 +175,7 @@ class Observer
                 \Magento\CatalogPermissions\Model\Permission\Index::ENTITY_CATEGORY,
                 \Magento\CatalogPermissions\Model\Permission\Index::EVENT_TYPE_REINDEX_PRODUCTS
             );
-            $this->_coreCache->cleanCache(array(\Magento\Catalog\Model\Category::CACHE_TAG));
+            $this->_coreCache->clean(array(\Magento\Catalog\Model\Category::CACHE_TAG));
         }
 
         if (!empty($this->_indexProductQueue)) {

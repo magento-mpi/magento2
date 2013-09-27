@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\System;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\System;
+
 class AccountTest extends \Magento\Backend\Utility\Controller
 {
     /**
@@ -20,7 +20,8 @@ class AccountTest extends \Magento\Backend\Utility\Controller
     {
         $userId = $this->_session->getUser()->getId();
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('Magento\User\Model\User')->load($userId);
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->load($userId);
         $oldPassword = $user->getPassword();
 
         $password = uniqid('123q');
@@ -31,7 +32,8 @@ class AccountTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/system_account/save');
 
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('Magento\User\Model\User')->load($userId);
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->load($userId);
         $this->assertNotEquals($oldPassword, $user->getPassword());
         $this->assertTrue(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')

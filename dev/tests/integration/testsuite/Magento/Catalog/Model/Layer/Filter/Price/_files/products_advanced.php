@@ -16,12 +16,14 @@
 $prices = array(5, 10, 15, 20, 50, 100, 150);
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
-$installer = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
+$installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
 /** @var $category \Magento\Catalog\Model\Category */
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(3)
     ->setName('Root Category')
     ->setParentId(2) /**/
@@ -33,7 +35,8 @@ $category->setId(3)
     ->setPosition(1)
     ->save();
 
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(4)
     ->setName('PLN Category')
     ->setParentId(3)
@@ -48,7 +51,8 @@ $category->setId(4)
 
 $lastProductId = 0;
 foreach ($prices as $price) {
-    $product = \Mage::getModel('Magento\Catalog\Model\Product');
+    $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
     $productId = $lastProductId + 1;
     $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
         ->setId($productId)

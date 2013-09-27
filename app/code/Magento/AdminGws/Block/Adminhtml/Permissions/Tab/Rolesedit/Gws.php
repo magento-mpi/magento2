@@ -26,8 +26,14 @@ class Gws extends \Magento\Backend\Block\Template
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
+     * @var \Magento\AdminGws\Model\Role
+     */
+    protected $_adminGwsRole;
+
+    /**
+     * @param \Magento\AdminGws\Model\Role $adminGwsRole
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -35,12 +41,14 @@ class Gws extends \Magento\Backend\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\AdminGws\Model\Role $adminGwsRole,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_adminGwsRole = $adminGwsRole;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
@@ -81,7 +89,7 @@ class Gws extends \Magento\Backend\Block\Template
      */
     public function canAssignGwsAll()
     {
-        return \Mage::getSingleton('Magento\AdminGws\Model\Role')->getIsAll();
+        return $this->_adminGwsRole->getIsAll();
     }
 
     /**
@@ -95,7 +103,7 @@ class Gws extends \Magento\Backend\Block\Template
         foreach ($this->_storeManager->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $groupId = $group->getId();
-                if (!\Mage::getSingleton('Magento\AdminGws\Model\Role')->hasStoreGroupAccess($groupId)) {
+                if (!$this->_adminGwsRole->hasStoreGroupAccess($groupId)) {
                     $result[$groupId] = $groupId;
                 }
             }

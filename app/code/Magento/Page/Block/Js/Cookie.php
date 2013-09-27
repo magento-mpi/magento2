@@ -13,13 +13,34 @@ namespace Magento\Page\Block\Js;
 class Cookie extends \Magento\Core\Block\Template
 {
     /**
+     * @var \Magento\Core\Model\Cookie
+     */
+    protected $_cookie;
+
+    /**
+     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_cookie = $cookie;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get cookie model instance
      *
      * @return \Magento\Core\Model\Cookie
      */
     public function getCookie()
     {
-        return \Mage::getSingleton('Magento\Core\Model\Cookie');
+        return $this->_cookie;
     }
     /**
      * Get configured cookie domain

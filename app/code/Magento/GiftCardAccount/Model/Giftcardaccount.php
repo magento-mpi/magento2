@@ -114,7 +114,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
 
         if (!$this->getId()) {
             $now = \Mage::app()->getLocale()->date()
-                ->setTimezone(\Mage::DEFAULT_TIMEZONE)
+                ->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE)
                 ->toString(\Magento\Date::DATE_INTERNAL_FORMAT);
 
             $this->setDateCreated($now);

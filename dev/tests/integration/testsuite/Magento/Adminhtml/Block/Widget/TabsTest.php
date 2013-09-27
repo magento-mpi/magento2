@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Widget;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Widget;
+
 class TabsTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -22,13 +22,14 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     public function testAddTab()
     {
         /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
-        $widgetInstance = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
+        $widgetInstance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget\Instance');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', $widgetInstance);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Widget\Tabs */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Widget\Tabs', 'block');
         $layout->addBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main', 'child_tab', 'block');

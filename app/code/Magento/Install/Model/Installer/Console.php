@@ -71,13 +71,6 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_dataModel;
 
     /**
-     * Resource config
-     *
-     * @var \Magento\Core\Model\Config\Resource
-     */
-    protected $_resourceConfig;
-
-    /**
      * DB updater
      *
      * @var \Magento\Core\Model\Db\UpdaterInterface
@@ -85,16 +78,13 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_dbUpdater;
 
     /**
-     * @param \Magento\Core\Model\Config\Resource $resourceConfig
      * @param \Magento\Core\Model\Db\UpdaterInterface $daUpdater
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Core\Model\Config\Resource $resourceConfig,
         \Magento\Core\Model\Db\UpdaterInterface $daUpdater,
         \Magento\Filesystem $filesystem
     ) {
-        $this->_resourceConfig = $resourceConfig;
         $this->_dbUpdater = $daUpdater;
         $this->_getInstaller()->setDataModel($this->_getDataModel());
         $this->_filesystem = $filesystem;
@@ -333,18 +323,10 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     protected function _cleanUpDatabase()
     {
-        $dbConfig = $this->_resourceConfig
-            ->getResourceConnectionConfig(\Magento\Core\Model\Resource::DEFAULT_SETUP_RESOURCE);
-        $modelName = 'Magento\Install\Model\Installer\Db\\' . ucfirst($dbConfig->model);
-
-        if (!class_exists($modelName)) {
-            $this->addError('Database uninstall is not supported for the ' . ucfirst($dbConfig->model) . '.');
-            return false;
-        }
-
+        $modelName = 'Magento\Install\Model\Installer\Db\Mysql4';
         /** @var $resourceModel \Magento\Install\Model\Installer\Db\AbstractDb */
         $resourceModel = \Mage::getModel($modelName);
-        $resourceModel->cleanUpDatabase($dbConfig);
+        $resourceModel->cleanUpDatabase();
     }
 
     /**

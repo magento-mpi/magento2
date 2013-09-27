@@ -12,6 +12,8 @@
  * Create random order
  *
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Adminhtml\Model\Sales\Order;
 
@@ -37,16 +39,54 @@ class Random
     protected static $_storeCollection;
     protected static $_customerCollection;
 
-    public function __construct()
-    {
-        $this->_quote = \Mage::getModel('Magento\Sales\Model\Quote')->save();
-        $this->_order = \Mage::getModel('Magento\Sales\Model\Order');
+    /**
+     * @var \Magento\Core\Model\Resource\Store\CollectionFactory
+     */
+    protected $_storeCollectionFactory;
+
+    /**
+     * @var \Magento\Customer\Model\Resource\Customer\CollectionFactory
+     */
+    protected $_customerCollectionFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
+     * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
+        \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory
+    ) {
+        $this->_productVisibility = $productVisibility;
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_customerCollectionFactory = $customerCollectionFactory;
+        $this->_storeCollectionFactory = $storeCollectionFactory;
+        $this->_quote = $quoteFactory->create()->save();
+        $this->_order = $orderFactory->create();
     }
 
     protected function _getStores()
     {
         if (!self::$_storeCollection) {
-            self::$_storeCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection')
+            self::$_storeCollection = $this->_storeCollectionFactory->create()
                 ->load();
         }
         return self::$_storeCollection->getItems();
@@ -55,7 +95,7 @@ class Random
     protected function _getCustomers()
     {
         if (!self::$_customerCollection) {
-            self::$_customerCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
+            self::$_customerCollection = $this->_customerCollectionFactory->create()
                 ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'inner')
                 ->joinAttribute('shipping_country_id', 'customer_address/country_id', 'default_shipping', null, 'inner')
                 ->load();
@@ -66,12 +106,12 @@ class Random
     protected function _getProducts()
     {
         if (!$this->_productCollection) {
-            $this->_productCollection= \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
+            $this->_productCollection= $this->_productCollectionFactory->create();
             //$this->_productCollection->getEntity()->setStore($this->_getStore());
             $this->_productCollection->addAttributeToSelect('name')
                 ->addAttributeToSelect('sku')
                 ->addAttributeToFilter('type_id', \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
-                ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSearchIds())
+                ->setVisibility($this->_productVisibility->getVisibleInSearchIds())
                 ->load();
         }
         return $this->_productCollection->getItems();

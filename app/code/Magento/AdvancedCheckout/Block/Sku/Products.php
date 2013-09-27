@@ -35,6 +35,18 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_storeManager;
 
     /**
+     * @var \Magento\AdvancedCheckout\Model\Cart
+     */
+    protected $_cart;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Url
+     */
+    protected $_catalogUrlResource;
+
+    /**
+     * @param \Magento\AdvancedCheckout\Model\Cart $cart
+     * @param \Magento\Catalog\Model\Resource\Url $catalogUrlResource
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -44,6 +56,8 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param array $data
      */
     public function __construct(
+        \Magento\AdvancedCheckout\Model\Cart $cart,
+        \Magento\Catalog\Model\Resource\Url $catalogUrlResource,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -52,10 +66,12 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
+        $this->_cart = $cart;
+        $this->_catalogUrlResource = $catalogUrlResource;
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
-        parent::__construct($catalogData, $coreData, $context, $data);
         $this->_storeManager = $storeManager;
+        parent::__construct($catalogData, $coreData, $context, $data);
     }
 
     /**
@@ -124,8 +140,7 @@ class Products extends \Magento\Checkout\Block\Cart
         }
 
         if ($products) {
-            $products = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Url')
-                ->getRewriteByProductStore($products);
+            $products = $this->_catalogUrlResource->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 if ($item->getProductType() == 'undefined') {
                     continue;
@@ -202,7 +217,7 @@ class Products extends \Magento\Checkout\Block\Cart
      */
     protected function _toHtml()
     {
-        if (\Mage::getSingleton('Magento\AdvancedCheckout\Model\Cart')->getFailedItems()) {
+        if ($this->_cart->getFailedItems()) {
             $html = parent::_toHtml();
         } else {
             $html = '';

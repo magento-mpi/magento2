@@ -25,7 +25,7 @@ class MultistoreTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
         $arguments = array(
             'storeManager' => $this->_storeManagerMock,

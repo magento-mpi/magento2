@@ -25,27 +25,27 @@ class Rma
     protected $_coreRegistry = null;
 
     /**
+     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
-     * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
+        \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
-        \Magento\Rma\Model\RmaFactory $rmaFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $collectionFactory, $rmaFactory, $data);
+        parent::__construct($collectionFactory, $rmaFactory, $coreData, $context, $storeManager, $urlModel, $data);
     }
 
     public function _construct()
@@ -71,8 +71,8 @@ class Rma
         }
         if ($orderId) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $collection = $this->_collectionFactory->create();
-            $collection->addFieldToFilter('order_id', $orderId);
+            $collection = $this->_collectionFactory->create()
+                ->addFieldToFilter('order_id', $orderId);
             $this->setCollection($collection);
         }
         return $this;

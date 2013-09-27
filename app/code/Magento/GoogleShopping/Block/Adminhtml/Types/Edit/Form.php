@@ -39,23 +39,63 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_coreRegistry = null;
 
     /**
+     * Config
+     *
+     * @var \Magento\GoogleShopping\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * EAV attribute set collection factory
+     *
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory
+     */
+    protected $_eavCollectionFactory;
+
+    /**
+     * Type collection factory
+     *
+     * @var \Magento\GoogleShopping\Model\Resource\Type\CollectionFactory
+     */
+    protected $_typeCollectionFactory;
+
+    /**
+     * @param \Magento\GoogleShopping\Model\Resource\Type\CollectionFactory $typeCollectionFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\GoogleShopping\Model\Config $config
+     * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\GoogleShopping\Helper\Category $googleShoppingCategory
-     * @param \Magento\Data\Form\Factory $formFactory
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\GoogleShopping\Model\Resource\Type\CollectionFactory $typeCollectionFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\GoogleShopping\Model\Config $config,
+        \Magento\Data\Form\Factory $formFactory,
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\GoogleShopping\Helper\Category $googleShoppingCategory,
-        \Magento\Data\Form\Factory $formFactory,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_typeCollectionFactory = $typeCollectionFactory;
+        $this->_eavCollectionFactory = $eavCollectionFactory;
+        $this->_productFactory = $productFactory;
+        $this->_config = $config;
         $this->_coreRegistry = $registry;
         $this->_googleShoppingCategory = $googleShoppingCategory;
         $this->_elementFactory = $elementFactory;
@@ -169,7 +209,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getCountriesArray()
     {
-        $_allowed = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getAllowedCountries();
+        $_allowed = $this->_config->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[$iso] = $info['name'];
@@ -185,16 +225,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getAttributeSetsArray($targetCountry)
     {
-        $entityType = \Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getEntityType();
-        $collection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
-            ->setEntityTypeFilter($entityType->getId());
+        $entityType = $this->_productFactory->create()->getResource()->getEntityType();
+        $collection = $this->_eavCollectionFactory->create()->setEntityTypeFilter($entityType->getId());
 
         $ids = array();
         $itemType = $this->getItemType();
         if (!($itemType instanceof \Magento\Object && $itemType->getId())) {
-            $typesCollection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Type\Collection')
-                ->addCountryFilter($targetCountry)
-                ->load();
+            $typesCollection = $this->_typeCollectionFactory->create()->addCountryFilter($targetCountry)->load();
             foreach ($typesCollection as $type) {
                 $ids[] = $type->getAttributeSetId();
             }

@@ -35,12 +35,12 @@ class Pager extends \Magento\Core\Helper\AbstractHelper
     protected $_backendSession;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Backend\Model\Session $backendSession
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_backendSession = $backendSession;
         parent::__construct($context);
@@ -65,7 +65,7 @@ class Pager extends \Magento\Core\Helper\AbstractHelper
     public function setItems(array $items)
     {
         $this->_items = $items;
-        $this->_getSession()->setData($this->_getStorageKey(), $this->_items);
+        $this->_backendSession->setData($this->_getStorageKey(), $this->_items);
 
         return $this;
     }
@@ -76,7 +76,7 @@ class Pager extends \Magento\Core\Helper\AbstractHelper
     protected function _loadItems()
     {
         if (is_null($this->_items)) {
-            $this->_items = (array) $this->_getSession()->getData($this->_getStorageKey());
+            $this->_items = (array) $this->_backendSession->getData($this->_getStorageKey());
         }
     }
 
@@ -136,15 +136,5 @@ class Pager extends \Magento\Core\Helper\AbstractHelper
         }
 
         return self::STORAGE_PREFIX . $this->_storageId;
-    }
-
-    /**
-     * Get session
-     *
-     * @return \Magento\Backend\Model\Session
-     */
-    protected function _getSession()
-    {
-        return $this->_backendSession;
     }
 }

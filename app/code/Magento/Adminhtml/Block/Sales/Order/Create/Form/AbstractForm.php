@@ -35,18 +35,22 @@ abstract class AbstractForm
 
     /**
      * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Data\Form\Factory $formFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
     }
 
     /**
@@ -157,7 +161,7 @@ abstract class AbstractForm
 
         foreach ($attributes as $attribute) {
             /** @var $attribute \Magento\Customer\Model\Attribute */
-            $attribute->setStoreId(\Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getStoreId());
+            $attribute->setStoreId($this->_sessionQuote->getStoreId());
             $inputType = $attribute->getFrontend()->getInputType();
 
             if ($inputType) {
@@ -180,8 +184,7 @@ abstract class AbstractForm
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $element->setValues($attribute->getFrontend()->getSelectOptions());
                 } else if ($inputType == 'date') {
-                    $format = \Mage::app()->getLocale()
-                        ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+                    $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                     $element->setImage($this->getViewFileUrl('images/grid-cal.gif'));
                     $element->setDateFormat($format);
                 }

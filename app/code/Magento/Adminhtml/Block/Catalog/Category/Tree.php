@@ -24,6 +24,47 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 
     protected $_template = 'catalog/category/tree.phtml';
 
+    /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var \Magento\Core\Model\Resource\HelperPool
+     */
+    protected $_helperPool;
+
+    /**
+     * @param \Magento\Core\Model\Resource\HelperPool $helperPool
+     * @param \Magento\Backend\Model\Auth\Session $backendSession
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource\HelperPool $helperPool,
+        \Magento\Backend\Model\Auth\Session $backendSession,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_helperPool = $helperPool;
+        $this->_backendSession = $backendSession;
+        $this->_categoryFactory = $categoryFactory;
+        parent::__construct($categoryTree, $coreData, $context, $registry, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -74,7 +115,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
         $collection = $this->getData('category_collection');
         if (is_null($collection)) {
-            $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection();
+            $collection = $this->_categoryFactory->create()->getCollection();
 
             /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
             $collection->addAttributeToSelect('name')
@@ -99,10 +140,10 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
 
         /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
-        $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection();
+        $collection = $this->_categoryFactory->create()->getCollection();
 
         $matchingNamesCollection = clone $collection;
-        $escapedNamePart = \Mage::getResourceHelper('Magento_Core')->addLikeEscape($namePart, array('position' => 'any'));
+        $escapedNamePart = $this->_helperPool->get('Magento_Core')->addLikeEscape($namePart, array('position' => 'any'));
         $matchingNamesCollection->addAttributeToFilter('name', array('like' => $escapedNamePart))
             ->addAttributeToFilter('entity_id', array('neq' => \Magento\Catalog\Model\Category::TREE_ROOT_ID))
             ->addAttributeToSelect('path')
@@ -137,7 +178,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         }
 
         return $this->_coreData->jsonEncode(
-            $categoryById[\Magento\Catalog\Model\Category::TREE_ROOT_ID]['children']
+            $categoryById[Magento_Catalog_Model_Category::TREE_ROOT_ID]['children']
         );
     }
 
@@ -170,7 +211,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
     {
         $params = array('_current'=>true, 'id'=>null,'store'=>null);
         if (
-            (is_null($expanded) && \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getIsTreeWasExpanded())
+            (is_null($expanded) && $this->_backendSession->getIsTreeWasExpanded())
             || $expanded == true) {
             $params['expand_all'] = true;
         }
@@ -192,7 +233,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 
     public function getIsWasExpanded()
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getIsTreeWasExpanded();
+        return $this->_backendSession->getIsTreeWasExpanded();
     }
 
     public function getMoveUrl()
@@ -229,8 +270,8 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
             return '';
         }
 
-        $categories = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Tree')
-            ->setStoreId($this->getStore()->getId())->loadBreadcrumbsArray($path);
+        $categories = $this->_categoryTree->setStoreId($this->getStore()->getId())
+            ->loadBreadcrumbsArray($path);
         if (empty($categories)) {
             return '';
         }
@@ -263,9 +304,6 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         $item = array();
         $item['text'] = $this->buildNodeName($node);
 
-        /* $rootForStores = \Mage::getModel('Magento\Core\Model\Store')
-            ->getCollection()
-            ->loadByCategoryIds(array($node->getEntityId())); */
         $rootForStores = in_array($node->getEntityId(), $this->getRootIds());
 
         $item['id']  = $node->getId();

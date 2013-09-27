@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <shipping_setup>
-                <setup>
-                    <module>Magento_Shipping</module>
-                </setup>
-            </shipping_setup>
-        </resources>
-    </global>
     <default>
         <shipping>
             <option>

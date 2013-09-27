@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
+
 class GeneralTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */
@@ -22,14 +22,15 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Theme */
     protected $_theme;
 
-    /** @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General */
+    /** @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab_General */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
-        $this->_theme = \Mage::getModel('Magento\Core\Model\Theme');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $this->_theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme');
         $this->_theme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL);
         $this->_block = $this->_layout
             ->createBlock('Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General');

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <section name="quote">
+        <group name="totals">
+            <item name="customerbalance" instance="Magento\CustomerBalance\Model\Total\Quote\Customerbalance" sort_order="750">
+                <renderer name="frontend" instance="Magento\CustomerBalance\Block\Checkout\Total"/>
+            </item>
+        </group>
+    </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="customerbalance" instance="Magento\CustomerBalance\Model\Total\Invoice\Customerbalance" sort_order="550"/>
+        </group>
+    </section>
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="customerbalance" instance="Magento\CustomerBalance\Model\Total\Creditmemo\Customerbalance" sort_order="450"/>
+        </group>
+    </section>
+</config>

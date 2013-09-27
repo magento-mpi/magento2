@@ -22,21 +22,39 @@ class Problem extends \Magento\Adminhtml\Block\Template
 
     protected $_template = 'newsletter/problem/list.phtml';
 
+    /**
+     * @var \Magento\Newsletter\Model\Resource\Problem\Collection
+     */
+    protected $_problemCollection;
+
+    /**
+     * @param \Magento\Newsletter\Model\Resource\Problem\Collection $problemCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Newsletter\Model\Resource\Problem\Collection $problemCollection,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_problemCollection = $problemCollection;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
         parent::_construct();
 
-        $collection = \Mage::getResourceSingleton('Magento\Newsletter\Model\Resource\Problem\Collection')
-            ->addSubscriberInfo()
+        $collection = $this->_problemCollection->addSubscriberInfo()
             ->addQueueInfo();
-
     }
 
     protected function _prepareLayout()
     {
         $this->setChild('deleteButton',
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button','del.button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button', 'del.button')
                 ->setData(
                     array(
                         'label' => __('Delete Selected Problems'),
@@ -46,7 +64,7 @@ class Problem extends \Magento\Adminhtml\Block\Template
         );
 
         $this->setChild('unsubscribeButton',
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button','unsubscribe.button')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button', 'unsubscribe.button')
                 ->setData(
                     array(
                         'label' => __('Unsubscribe Selected'),
@@ -69,7 +87,6 @@ class Problem extends \Magento\Adminhtml\Block\Template
 
     public function getShowButtons()
     {
-        return  \Mage::getResourceSingleton('Magento\Newsletter\Model\Resource\Problem\Collection')->getSize() > 0;
+        return $this->_problemCollection->getSize() > 0;
     }
-
 }// Class \Magento\Adminhtml\Block\Newsletter\Problem END

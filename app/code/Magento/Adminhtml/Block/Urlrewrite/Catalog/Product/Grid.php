@@ -61,7 +61,7 @@ class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
                 'width' => 50,
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getOptionArray(),
+                'options' => $this->_status->getOptionArray(),
         ));
         return $this;
     }

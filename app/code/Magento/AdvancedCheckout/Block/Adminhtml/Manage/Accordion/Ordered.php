@@ -37,9 +37,9 @@ class Ordered
     protected $_configureRoute = '*/checkout/configureOrderedItem';
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Sales\Model\Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -48,26 +48,52 @@ class Ordered
 
     /**
      * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var \Magento\CatalogInventory\Model\Stock\Status
+     */
+    protected $_stockStatus;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
+     */
+    protected $_ordersFactory;
+
+    /**
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Sales\Model\Config $salesConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
+        $this->_catalogConfig = $catalogConfig;
+        $this->_stockStatus = $stockStatus;
+        $this->_ordersFactory = $ordersFactory;
+        $this->_salesConfig = $salesConfig;
         parent::__construct(
             $collectionFactory,
             $coreData,
@@ -77,7 +103,6 @@ class Ordered
             $coreRegistry,
             $data
         );
-        $this->_coreConfig = $coreConfig;
         $this->_productFactory = $productFactory;
     }
 
@@ -119,7 +144,8 @@ class Ordered
 
             // Load last order of a customer
             /* @var $collection \Magento\Core\Model\Resource\Db\Collection\AbstractCollection */
-            $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
+            $collection = $this->_ordersFactory
+                ->create()
                 ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
                 ->addAttributeToFilter('store_id', array('in' => $storeIds))
                 ->addAttributeToSort('created_at', 'desc')
@@ -142,20 +168,16 @@ class Ordered
                 }
                 if ($productIds) {
                     // Load products collection
-                    $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+                    $attributes = $this->_catalogConfig->getProductAttributes();
                     $products = $this->_productFactory->create()->getCollection()
                         ->setStore($this->_getStore())
                         ->addAttributeToSelect($attributes)
                         ->addAttributeToSelect('sku')
-                        ->addAttributeToFilter('type_id',
-                            array_keys(
-                                $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')
-                                    ->asArray()
-                            )
-                        )->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+                        ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
+                        ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
                         ->addStoreFilter($this->_getStore())
                         ->addIdFilter($productIds);
-                    \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')->addIsInStockFilterToCollection($products);
+                    $this->_stockStatus->addIsInStockFilterToCollection($products);
                     $products->addOptionsToResult();
 
                     // Set products to items

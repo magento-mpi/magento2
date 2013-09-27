@@ -19,11 +19,62 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit;
 
 class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
 {
+    /**
+     * @var \Magento\Cms\Model\PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @var \Magento\Cms\Model\Page\UrlrewriteFactory
+     */
+    protected $_urlRewriteFactory;
+
+    /**
+     * @param \Magento\Cms\Model\Page\UrlrewriteFactory $urlRewriteFactory
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory
+     * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Cms\Model\Page\UrlrewriteFactory $urlRewriteFactory,
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
+        \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_urlRewriteFactory = $urlRewriteFactory;
+        $this->_pageFactory = $pageFactory;
+        parent::__construct(
+            $typesFactory, $optionFactory, $rewriteFactory, $systemStore, $backendSession, $adminhtmlData, $registry,
+            $formFactory, $coreData, $context, $data
+        );
+    }
+
     /**
      * Form post init
      *
@@ -50,7 +101,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
 
         $model = $this->_getModel();
         /** @var $cmsPageUrlrewrite \Magento\Cms\Model\Page\Urlrewrite */
-        $cmsPageUrlrewrite = \Mage::getModel('Magento\Cms\Model\Page\Urlrewrite');
+        $cmsPageUrlrewrite = $this->_urlRewriteFactory->create();
         if (!$model->getId()) {
             $idPath->setValue($cmsPageUrlrewrite->generateIdPath($cmsPage));
 
@@ -106,7 +157,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
     protected function _getCmsPage()
     {
         if (!$this->hasData('cms_page')) {
-            $this->setCmsPage(\Mage::getModel('Magento\Cms\Model\Page'));
+            $this->setCmsPage($this->_pageFactory->create());
         }
         return $this->getCmsPage();
     }

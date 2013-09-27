@@ -11,9 +11,11 @@
 
 /* Create attribute */
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
-$installer = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
+$installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-$attribute = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Eav\Attribute');
+$attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Eav\Attribute');
 $attribute->setData(array(
     'attribute_code'                => 'test_configurable',
     'entity_type_id'                => $installer->getEntityTypeId('catalog_product'),
@@ -53,14 +55,16 @@ $installer->addAttributeToGroup('catalog_product', 'Default', 'General', $attrib
 
 /* Create simple products per each option */
 /** @var $options \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection */
-$options = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection');
+$options = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection');
 $options->setAttributeFilter($attribute->getId());
 
 $attributeValues = array();
 $productIds = array();
 foreach ($options as $option) {
     /** @var $product \Magento\Catalog\Model\Product */
-    $product = \Mage::getModel('Magento\Catalog\Model\Product');
+    $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
     $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
         ->setId($option->getId() * 10)
         ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
@@ -89,7 +93,8 @@ foreach ($options as $option) {
 }
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE)
     ->setId(1)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))

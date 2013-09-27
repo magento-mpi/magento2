@@ -32,7 +32,10 @@ class SuccessTest
     protected function setUp()
     {
         $this->_syncFlagMock = $this->getMock(
-            'Magento\Core\Model\File\Storage\Flag', array('getState', 'getFlagData', 'setState'), array(), '', false
+            'Magento\Core\Model\File\Storage\Flag', array('getState', 'getFlagData', 'setState', '__sleep', '__wakeup'),
+            array(),
+            '',
+            false
         );
 
         $this->_fileStorage = $this->getMock('Magento\Core\Model\File\Storage', array(), array(), '', false);

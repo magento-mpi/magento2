@@ -22,7 +22,8 @@ class OperationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
     }
 
 
@@ -50,7 +51,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->_model->setOperationType($operationType);
 
         $this->assertInstanceOf(
-            'Magento\\ScheduledImportExport\\Model\\' . uc_words($operationType),
+            'Magento\ScheduledImportExport\Model\\' . uc_words($operationType),
             $this->_model->getInstance()
         );
     }
@@ -76,7 +77,8 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $fileInfo = $this->_model->getFileInfo();
 
         // Create export directory if not exist
-        $varDir = \Mage::getBaseDir('var');
+        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+            ->getDir('var');
         $exportDir = $varDir . DS . $fileInfo['file_path'];
         if (!is_dir($exportDir)) {
             mkdir($exportDir, 0777);
@@ -88,7 +90,8 @@ class OperationTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->run();
 
-        $scheduledExport = \Mage::getModel('Magento\ScheduledImportExport\Model\Export');
+        $scheduledExport = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Export');
         $scheduledExport->setEntity($this->_model->getEntityType());
         $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());

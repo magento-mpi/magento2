@@ -10,46 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <paypal_setup>
-                <setup>
-                    <module>Magento_Paypal</module>
-                    <class>Magento\Paypal\Model\Resource\Setup</class>
-                </setup>
-            </paypal_setup>
-        </resources>
-        <sales>
-            <order>
-                <statuses>
-                    <pending_paypal translate="label">
-                        <label>Pending PayPal</label>
-                    </pending_paypal>
-                </statuses>
-            </order>
-        </sales>
-        <payment>
-            <cc>
-                <types>
-                    <SM translate="name">
-                        <code>SM</code>
-                        <name>Switch/Maestro</name>
-                        <order>60</order>
-                    </SM>
-                    <SO translate="name">
-                        <code>SO</code>
-                        <name>Solo</name>
-                        <order>61</order>
-                    </SO>
-                </types>
-            </cc>
-        </payment>
-        <payment>
-            <groups>
-                <paypal>PayPal</paypal>
-            </groups>
-        </payment>
-    </global>
     <default>
         <paypal>
             <style>

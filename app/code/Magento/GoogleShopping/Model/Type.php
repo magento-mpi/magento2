@@ -37,6 +37,30 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected $_gsData;
 
     /**
+     * Config
+     *
+     * @var \Magento\GoogleShopping\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * Attribute factory
+     *
+     * @var \Magento\GoogleShopping\Model\AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * Attribute collection factory
+     *
+     * @var \Magento\GoogleShopping\Model\Resource\Attribute\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\GoogleShopping\Model\Resource\Attribute\CollectionFactory $collectionFactory
+     * @param \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory
+     * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\Core\Model\Context $context
@@ -46,6 +70,9 @@ class Type extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\GoogleShopping\Model\Resource\Attribute\CollectionFactory $collectionFactory,
+        \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory,
+        \Magento\GoogleShopping\Model\Config $config,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\Core\Model\Context $context,
@@ -54,6 +81,9 @@ class Type extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_attributeFactory = $attributeFactory;
+        $this->_config = $config;
         $this->_gsProduct = $gsProduct;
         $this->_gsData = $gsData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -107,7 +137,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected function _getAttributesMapByProduct(\Magento\Catalog\Model\Product $product)
     {
         $result = array();
-        $group = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getAttributeGroupsFlat();
+        $group = $this->_config->getAttributeGroupsFlat();
         foreach ($this->_getAttributesCollection() as $attribute) {
             $productAttribute = $this->_gsProduct->getProductAttribute($product, $attribute->getAttributeId());
 
@@ -124,16 +154,17 @@ class Type extends \Magento\Core\Model\AbstractModel
                     if (isset($group[$name])) {
                         // if attribute is in the group
                         if (!isset($result[$group[$name]])) {
-                            $result[$group[$name]] = $this->_createAttribute($group[$name]);
+                            $result[$group[$name]] = $this->_attributeFactory->createAttribute($group[$name]);
                         }
                         // add group attribute to parent attribute
                         $result[$group[$name]]->addData(array(
-                            'group_attribute_' . $name => $this->_createAttribute($name)->addData($attribute->getData())
+                            'group_attribute_' . $name => $this->_attributeFactory->createAttribute($name)
+                                ->addData($attribute->getData())
                         ));
                         unset($group[$name]);
                     } else {
                         if (!isset($result[$name])) {
-                            $result[$name] = $this->_createAttribute($name);
+                            $result[$name] = $this->_attributeFactory->createAttribute($name);
                         }
                         $result[$name]->addData($attribute->getData());
                     }
@@ -151,10 +182,10 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     protected function _getBaseAttributes()
     {
-        $names = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getBaseAttributes();
+        $names = $this->_config->getBaseAttributes();
         $attributes = array();
         foreach ($names as $name) {
-            $attributes[$name] = $this->_createAttribute($name);
+            $attributes[$name] = $this->_attributeFactory->createAttribute($name);
         }
 
         return $this->_initGroupAttributes($attributes);
@@ -168,52 +199,17 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     protected function _initGroupAttributes($attributes)
     {
-        $group = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getAttributeGroupsFlat();
+        $group = $this->_config->getAttributeGroupsFlat();
         foreach ($group as $child => $parent) {
             if (isset($attributes[$parent]) &&
                 !isset($attributes[$parent]['group_attribute_' . $child])) {
                     $attributes[$parent]->addData(
-                        array('group_attribute_' . $child => $this->_createAttribute($child))
+                        array('group_attribute_' . $child => $this->_attributeFactory->createAttribute($child))
                     );
             }
         }
 
         return $attributes;
-    }
-
-    /**
-     * Prepare Google Content attribute model name
-     *
-     * @param string Attribute name
-     * @return string Normalized attribute name
-     */
-    protected function _prepareModelName($string)
-    {
-        return uc_words($this->_gsData->normalizeName($string));
-    }
-
-    /**
-     * Create attribute instance using attribute's name
-     *
-     * @param string $name
-     * @return \Magento\GoogleShopping\Model\Attribute
-     */
-    protected function _createAttribute($name)
-    {
-        $modelName = 'Magento\GoogleShopping\Model\Attribute\\' . $this->_prepareModelName($name);
-        $useDefault = false;
-        try {
-            $attributeModel = \Mage::getModel($modelName);
-            $useDefault = !$attributeModel;
-        } catch (\Exception $e) {
-            $useDefault = true;
-        }
-        if ($useDefault) {
-            $attributeModel = \Mage::getModel('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
-        }
-        $attributeModel->setName($name);
-
-        return $attributeModel;
     }
 
     /**
@@ -225,9 +221,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected function _getAttributesCollection()
     {
         if (is_null($this->_attributesCollection)) {
-            $this->_attributesCollection = \Mage::getResourceModel(
-                    'Magento\GoogleShopping\Model\Resource\Attribute\Collection'
-                )
+            $this->_attributesCollection = $this->_collectionFactory->create()
                 ->addAttributeSetFilter($this->getAttributeSetId(), $this->getTargetCountry());
         }
         return $this->_attributesCollection;

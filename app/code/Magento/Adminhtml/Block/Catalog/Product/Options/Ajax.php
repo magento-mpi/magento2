@@ -34,12 +34,19 @@ class Ajax extends \Magento\Backend\Block\AbstractBlock
     protected $_coreData = null;
 
     /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -47,6 +54,7 @@ class Ajax extends \Magento\Backend\Block\AbstractBlock
     ) {
         $this->_coreRegistry = $registry;
         $this->_coreData = $coreData;
+        $this->_productFactory = $productFactory;
         parent::__construct($context, $data);
     }
 
@@ -66,7 +74,7 @@ class Ajax extends \Magento\Backend\Block\AbstractBlock
         $products = $this->_coreRegistry->registry('import_option_products');
         if (is_array($products)) {
             foreach ($products as $productId) {
-                $product = \Mage::getModel('Magento\Catalog\Model\Product')->load((int)$productId);
+                $product = $this->_productFactory->create()->load((int)$productId);
                 if (!$product->getId()) {
                     continue;
                 }

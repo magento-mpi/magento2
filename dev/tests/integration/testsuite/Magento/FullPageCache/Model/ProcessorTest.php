@@ -27,7 +27,8 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\FullPageCache\Model\Processor');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\FullPageCache\Model\Processor');
     }
 
     public function testIsAllowedHttps()
@@ -40,7 +41,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     public function testIsAllowedSessionIdGetParam()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_GET[\Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM] = 'session_id';
+        $_GET[Magento_Core_Model_Session_AbstractSession::SESSION_ID_QUERY_PARAM] = 'session_id';
         $this->assertFalse($this->_model->isAllowed());
     }
 

@@ -41,15 +41,32 @@ class Rviewed
     protected $_productFactory;
 
     /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var \Magento\CatalogInventory\Model\Stock\Status
+     */
+    protected $_catalogStockStatus;
+
+    /**
+     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Reports\Model\EventFactory $eventFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
@@ -62,6 +79,8 @@ class Rviewed
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
+        $this->_catalogStockStatus = $catalogStockStatus;
+        $this->_catalogConfig = $catalogConfig;
         parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_productFactory = $productFactory;
         $this->_eventFactory = $eventFactory;
@@ -100,7 +119,7 @@ class Rviewed
 
             $productCollection = parent::getItemsCollection();
             if ($productIds) {
-                $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+                $attributes = $this->_catalogConfig->getProductAttributes();
                 $productCollection = $this->_productFactory->create()->getCollection()
                     ->setStoreId($this->_getStore()->getId())
                     ->addStoreFilter($this->_getStore()->getId())
@@ -108,8 +127,7 @@ class Rviewed
                     ->addIdFilter($productIds)
                     ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
 
-                \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')
-                    ->addIsInStockFilterToCollection($productCollection);
+                $this->_catalogStockStatus->addIsInStockFilterToCollection($productCollection);
                 $productCollection = $this->_adminhtmlSales
                     ->applySalableProductTypesFilter($productCollection);
                 $productCollection->addOptionsToResult();

@@ -25,11 +25,17 @@ class Items extends \Magento\Adminhtml\Block\Template
     protected $_registry;
 
     /**
+     * @var \Magento\Tax\Model\Config
+     */
+    protected $_taxConfig;
+
+    /**
      * @var \Magento\Wishlist\Model\WishlistFactory
      */
     protected $_wishlistFactory;
 
     /**
+     * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -37,12 +43,14 @@ class Items extends \Magento\Adminhtml\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Tax\Model\Config $taxConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         array $data = array()
     ) {
+        $this->_taxConfig = $taxConfig;
         $this->_registry = $registry;
         parent::__construct($coreData, $context, $data);
         $this->_wishlistFactory = $wishlistFactory;
@@ -85,8 +93,8 @@ class Items extends \Magento\Adminhtml\Block\Template
      */
     public function displayTotalsIncludeTax()
     {
-        $res = \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartSubtotalInclTax($this->getStore())
-            || \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartSubtotalBoth($this->getStore());
+        $res = $this->_taxConfig->displayCartSubtotalInclTax($this->getStore())
+            || $this->_taxConfig->displayCartSubtotalBoth($this->getStore());
 
         return $res;
     }

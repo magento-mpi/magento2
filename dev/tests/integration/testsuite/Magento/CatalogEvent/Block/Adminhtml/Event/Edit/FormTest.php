@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
-
 /**
  * Test class for \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form
  * @magentoAppArea adminhtml
  */
+namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
+
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,14 +23,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         /** @var $event \Magento\CatalogEvent\Model\Event */
-        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogEvent\Model\Event');
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\CatalogEvent\Model\Event');
         $event->setCategoryId(1)->setId(1);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('magento_catalogevent_event', $event);
-        $block = \Mage::app()->getLayout()->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form');
-        $prepareFormMethod = new \ReflectionMethod(
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form');
+        $prepareFormMethod = new ReflectionMethod(
             'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

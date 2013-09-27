@@ -30,6 +30,15 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_taxData = null;
 
     /**
+     * Config
+     *
+     * @var \Magento\GoogleShopping\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
@@ -41,6 +50,8 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
@@ -51,8 +62,10 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_config = $config;
         $this->_taxData = $taxData;
-        parent::__construct($gsData, $gsProduct, $gsPrice, $context, $resource, $resource, $resourceCollection, $data);
+        parent::__construct($productFactory, $gsData, $gsProduct, $gsPrice, $context, $resource, $resource,
+            $resourceCollection, $data);
     }
 
     /**
@@ -72,15 +85,14 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $calc = $this->_taxData->getCalculator();
         $customerTaxClass = $calc->getDefaultCustomerTaxClass($product->getStoreId());
         $rates = $calc->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
-        $targetCountry = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')
-            ->getTargetCountry($product->getStoreId());
+        $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
         foreach ($rates as $rate) {
             if ($targetCountry == $rate['country']) {
                 $regions = $this->_parseRegions($rate['state'], $rate['postcode']);
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
-                    \Mage::throwException(__("Google shopping only supports %1 tax rates per product", self::RATES_MAX));
+                    throw new \Magento\Core\Exception(__("Google shopping only supports %1 tax rates per product", self::RATES_MAX));
                 }
                 foreach ($regions as $region) {
                     $entry->addTax(array(

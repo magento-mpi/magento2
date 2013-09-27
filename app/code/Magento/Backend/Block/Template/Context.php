@@ -19,6 +19,18 @@ class Context extends \Magento\Core\Block\Template\Context
     protected $_authorization;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -43,6 +55,8 @@ class Context extends \Magento\Core\Block\Template\Context
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Core\Model\Layout $layout,
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -69,13 +83,34 @@ class Context extends \Magento\Core\Block\Template\Context
             $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState,
             $dirs, $logger, $filesystem, $viewFileSystem, $engineFactory
         );
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
         $this->_authorization = $authorization;
+    }
+
+    /**
+     * Get store manager
+     *
+     * @return \Magento\Core\Model\StoreManager
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
+    }
+
+    /**
+     * Get locale
+     * @return \Magento\Core\Model\LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
     }
 
     /**
      * Retrieve Authorization
      *
-     * @return \Magento\AuthorizationInterface
+     * @return \Magento_AuthorizationInterface
      */
     public function getAuthorization()
     {

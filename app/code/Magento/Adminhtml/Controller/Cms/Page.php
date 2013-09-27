@@ -84,13 +84,13 @@ class Page extends \Magento\Adminhtml\Controller\Action
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
-        $model = \Mage::getModel('Magento\Cms\Model\Page');
+        $model = $this->_objectManager->create('Magento\Cms\Model\Page');
 
         // 2. Initial checking
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This page no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -100,7 +100,7 @@ class Page extends \Magento\Adminhtml\Controller\Action
         $this->_title($model->getId() ? $model->getTitle() : __('New Page'));
 
         // 3. Set entered data if was error when we do save
-        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
@@ -128,7 +128,7 @@ class Page extends \Magento\Adminhtml\Controller\Action
         if ($data) {
             $data = $this->_filterPostData($data);
             //init model and set data
-            $model = \Mage::getModel('Magento\Cms\Model\Page');
+            $model = $this->_objectManager->create('Magento\Cms\Model\Page');
 
             $id = $this->getRequest()->getParam('page_id');
             if ($id) {
@@ -151,10 +151,10 @@ class Page extends \Magento\Adminhtml\Controller\Action
                 $model->save();
 
                 // display success message
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The page has been saved.'));
                 // clear previously saved data from session
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData(false);
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current'=>true));
@@ -189,12 +189,12 @@ class Page extends \Magento\Adminhtml\Controller\Action
             $title = "";
             try {
                 // init model and delete
-                $model = \Mage::getModel('Magento\Cms\Model\Page');
+                $model = $this->_objectManager->create('Magento\Cms\Model\Page');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();
                 // display success message
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The page has been deleted.'));
                 // go to grid
                 $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
@@ -204,14 +204,14 @@ class Page extends \Magento\Adminhtml\Controller\Action
             } catch (\Exception $e) {
                 $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'fail'));
                 // display error message
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('page_id' => $id));
                 return;
             }
         }
         // display error message
-        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a page to delete.'));
+        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a page to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -257,7 +257,7 @@ class Page extends \Magento\Adminhtml\Controller\Action
         $errorNo = true;
         if (!empty($data['layout_update_xml']) || !empty($data['custom_layout_update_xml'])) {
             /** @var $validatorCustomLayout \Magento\Adminhtml\Model\LayoutUpdate\Validator */
-            $validatorCustomLayout = \Mage::getModel('Magento\Adminhtml\Model\LayoutUpdate\Validator');
+            $validatorCustomLayout = $this->_objectManager->create('Magento\Adminhtml\Model\LayoutUpdate\Validator');
             if (!empty($data['layout_update_xml']) && !$validatorCustomLayout->isValid($data['layout_update_xml'])) {
                 $errorNo = false;
             }

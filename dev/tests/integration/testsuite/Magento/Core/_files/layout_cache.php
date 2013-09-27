@@ -7,5 +7,5 @@
  */
 
 /** @var \Magento\Core\Model\Cache\Type\Layout $layoutCache */
-$layoutCache = \Mage::getSingleton('Magento\Core\Model\Cache\Type\Layout');
+$layoutCache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Cache\Type\Layout');
 $layoutCache->save('fixture layout cache data', 'LAYOUT_CACHE_FIXTURE');

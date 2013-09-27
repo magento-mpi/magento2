@@ -1,5 +1,9 @@
 <?php
 /**
+ * \Magento\Webhook\Service\SubscriptionV1
+ *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -10,11 +14,6 @@
  */
 namespace Magento\Webhook\Service;
 
-/**
- * \Magento\Webhook\Service\SubscriptionV1
- *
- * @magentoDbIsolation enabled
- */
 class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 {
     /** Constants for validation of field data */
@@ -43,7 +42,8 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
             'secret'    => 'secret',
         );
         /** @var \Magento\Webhook\Model\Webapi\User\Factory $webapiUserFactory */
-        $webapiUserFactory = \Mage::getModel('Magento\Webhook\Model\Webapi\User\Factory');
+        $webapiUserFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Webapi\User\Factory');
         $this->_apiUserId = $webapiUserFactory->createUser($userContext, array('webhook/create'));
 
         $this->_subscriptionData = array(
@@ -59,7 +59,8 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         /** @var \Magento\Webapi\Model\Acl\User $user */
-        $user = \Mage::getModel('Magento\Webapi\Model\Acl\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\User');
         $user->load($this->_apiUserId);
         $user->delete();
     }
@@ -67,7 +68,8 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $resultData = $service->create($this->_subscriptionData);
 
         // verify
@@ -84,7 +86,8 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
         unset($this->_subscriptionData[self::KEY_API_USER_ID]);
 
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $resultData = $service->create($this->_subscriptionData);
 
         $this->assertTrue($resultData['subscription_id'] > 0);
@@ -98,7 +101,8 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
     {
         $this->_subscriptionData[self::KEY_TOPICS] = array('invalid/topic', 'also/invalid/topic');
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $resultData = $service->create($this->_subscriptionData);
 
         $this->assertTrue($resultData['subscription_id'] > 0);
@@ -107,12 +111,14 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->save();
 
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $resultData = $service->get($subscription->getId());
 
         $this->assertEquals($subscription->getId(), $resultData['subscription_id']);
@@ -126,24 +132,28 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
     public function testGetNotFound()
     {
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $service->get(0);
     }
 
     public function testGetAll()
     {
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $first = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $first = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $first->setData($this->_subscriptionData);
         $first->save();
 
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $second = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $second = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $second->setData($this->_subscriptionData);
         $second->save();
 
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $subscriptions = $service->getAll($this->_apiUserId);
 
         $this->assertEquals($first->getId(), $subscriptions[0]['subscription_id']);
@@ -154,14 +164,16 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
     {
         $newUrl = self::VALUE_ENDPOINT_URL . '/plus/this';
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->save();
         $subscriptionData = $subscription->getData();
         $subscriptionData[self::KEY_ENDPOINT_URL] = $newUrl;
 
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $resultData = $service->update($subscriptionData);
 
         $this->assertEquals($subscription->getId(), $resultData['subscription_id']);
@@ -172,12 +184,14 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
     public function testDelete()
     {
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->save();
 
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $resultData = $service->delete($subscription->getId());
 
         $this->assertEquals($subscription->getId(), $resultData['subscription_id']);
@@ -185,7 +199,8 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::VALUE_NAME, $resultData[self::KEY_NAME]);
 
 
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->load($resultData['subscription_id']);
         $this->assertEquals(0, $subscription->getId());
     }
@@ -193,14 +208,16 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
     public function testActivate()
     {
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->save();
         // verify initial state
         $this->assertEquals(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE, $subscription->getStatus());
 
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $subscriptionData = $service->activate($subscription->getId());
 
         // verify change
@@ -212,7 +229,8 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
     public function testDeactivate()
     {
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE);
         $subscription->save();
@@ -220,7 +238,8 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE, $subscription->getStatus());
 
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $subscriptionData = $service->deactivate($subscription->getId());
 
         // verify change
@@ -232,7 +251,8 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
     public function testRevoke()
     {
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE);
         $subscription->save();
@@ -240,7 +260,8 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE, $subscription->getStatus());
 
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
-        $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Service\SubscriptionV1');
         $subscriptionData = $service->revoke($subscription->getId());
 
         // verify change

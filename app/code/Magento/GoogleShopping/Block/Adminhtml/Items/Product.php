@@ -17,8 +17,65 @@
  */
 namespace Magento\GoogleShopping\Block\Adminhtml\Items;
 
-class Product extends \Magento\Adminhtml\Block\Widget\Grid
+class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * Product type
+     *
+     * @var \Magento\Catalog\Model\Product\Type
+     */
+    protected $_productType;
+
+    /**
+     * Product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * EAV attribute set collection factory
+     *
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory
+     */
+    protected $_eavCollectionFactory;
+
+    /**
+     * Item collection factory
+     *
+     * @var \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory
+     */
+    protected $_itemCollectionFactory;
+
+    /**
+     * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $itemCollectionFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Catalog\Model\Product\Type $productType,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        array $data = array()
+    ) {
+        $this->_itemCollectionFactory = $itemCollectionFactory;
+        $this->_eavCollectionFactory = $eavCollectionFactory;
+        $this->_productType = $productType;
+        $this->_productFactory = $productFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -47,7 +104,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+        $collection = $this->_productFactory->create()->getCollection()
             ->setStore($this->_getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
@@ -87,8 +144,8 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
             'column_css_class'=> 'name'
         ));
 
-        $sets = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
-            ->setEntityTypeFilter(\Mage::getModel('Magento\Catalog\Model\Product')->getResource()->getTypeId())
+        $sets = $this->_eavCollectionFactory->create()
+            ->setEntityTypeFilter($this->_productFactory->create()->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -98,7 +155,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getOptionArray(),
+                'options' => $this->_productType->getOptionArray(),
         ));
 
         $this->addColumn('set_name',
@@ -162,9 +219,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _getGoogleShoppingProductIds()
     {
-        $collection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Item\Collection')
-            ->addStoreFilter($this->_getStore()->getId())
-            ->load();
+        $collection = $this->_itemCollectionFactory->create()->addStoreFilter($this->_getStore()->getId())->load();
         $productIds = array();
         foreach ($collection as $item) {
             $productIds[] = $item->getProductId();
@@ -179,6 +234,6 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _getStore()
     {
-        return \Mage::app()->getStore($this->getRequest()->getParam('store'));
+        return $this->_storeManager->getStore($this->getRequest()->getParam('store'));
     }
 }

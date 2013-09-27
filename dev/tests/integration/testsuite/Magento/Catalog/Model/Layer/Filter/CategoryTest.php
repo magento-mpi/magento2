@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Layer\Filter;
-
 /**
  * Test class for \Magento\Catalog\Model\Layer\Filter\Category.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
+namespace Magento\Catalog\Model\Layer\Filter;
+
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -30,11 +30,14 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_category = \Mage::getModel('Magento\Catalog\Model\Category');
+        $this->_category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $this->_category->load(5);
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Category');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Category');
         $this->_model->setData(array(
-            'layer' => \Mage::getModel('Magento\Catalog\Model\Layer', array(
+            'layer' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer', array(
                 'data' => array('current_category' => $this->_category)
             )),
         ));
@@ -50,7 +53,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model->apply(
             $objectManager->get('Magento\TestFramework\Request'),
-            \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
         );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -62,7 +66,11 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('cat', 3);
-        $this->_model->apply($request, \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
+        $this->_model->apply(
+            $request,
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
+        );
 
         /** @var $category \Magento\Catalog\Model\Category */
         $category = $objectManager->get('Magento\Core\Model\Registry')->registry('current_category_filter');

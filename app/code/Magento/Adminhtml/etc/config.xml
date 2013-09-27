@@ -25,18 +25,6 @@
                 <acl>Magento_Sales::sales</acl>
             </sales>
         </global_search>
-        <sales>
-            <order>
-                <create>
-                    <available_product_types>
-                        <simple />
-                        <virtual />
-                        <configurable />
-                        <grouped />
-                    </available_product_types>
-                </create>
-            </order>
-        </sales>
     </adminhtml>
     <default>
         <system>

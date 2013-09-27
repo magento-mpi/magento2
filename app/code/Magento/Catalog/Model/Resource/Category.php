@@ -66,6 +66,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
         \Magento\Core\Model\Event\Manager $eventManager
     ) {
         $this->_eventManager = $eventManager;
+        /** @var \Magento\Core\Model\Resource $resource */
         $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $this->setType(\Magento\Catalog\Model\Category::ENTITY)
             ->setConnection(

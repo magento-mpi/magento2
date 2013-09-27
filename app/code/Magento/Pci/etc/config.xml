@@ -10,21 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <helpers>
-            <core>
-                <encryption_model>Magento\Pci\Model\Encryption</encryption_model>
-            </core>
-        </helpers>
-        <resources>
-            <pci_setup>
-                <setup>
-                    <module>Magento_Pci</module>
-                    <class>Magento\Core\Model\Resource\Setup</class>
-                </setup>
-            </pci_setup>
-        </resources>
-    </global>
     <default>
         <admin>
             <security>

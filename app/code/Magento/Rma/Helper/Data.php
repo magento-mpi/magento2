@@ -46,7 +46,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Store config model
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
     protected $_storeConfig;
 
@@ -109,8 +109,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -124,8 +123,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\App $app,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -137,7 +135,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Rma\Model\CarrierFactory $carrierFactory
     ) {
         $this->_coreData = $coreData;
-        $this->_app = $app;
         $this->_storeConfig = $storeConfig;
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;
@@ -307,7 +304,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getReturnAddressData($store = null)
     {
         if (!$store) {
-            $store = $this->_app->getStore();
+            $store = $this->_storeManager->getStore();
         }
 
         if ($this->_storeConfig->getConfigFlag(\Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS, $store)) {
@@ -419,8 +416,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCarrier($code, $storeId = null)
     {
-        $data  = explode('_', $code, 2);
-        $carrierCode = $data[0];
+        $data           = explode('_', $code, 2);
+        $carrierCode    = $data[0];
 
         if (!$this->_storeConfig->getConfig('carriers/' . $carrierCode . '/active_rma', $storeId)) {
             return false;
@@ -445,7 +442,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPackagePopupUrlByRmaModel($model, $action = 'package')
     {
-        $key = 'rma_id';
+        $key    = 'rma_id';
         $method = 'getId';
         $param = array(
              'hash' => $this->_coreData->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")

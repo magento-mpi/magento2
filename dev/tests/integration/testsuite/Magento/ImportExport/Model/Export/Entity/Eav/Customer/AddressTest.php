@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
-
 /**
  * Test for customer address export model
  *
  * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
  */
+namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
+
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -33,10 +33,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = \Mage::getModel('Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address');
 
+        $websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getWebsites(true);
         /** @var $website \Magento\Core\Model\Website */
-        foreach (\Mage::app()->getWebsites(true) as $website) {
+        foreach ($websites as $website) {
             $this->_websites[$website->getId()] = $website->getCode();
         }
     }
@@ -52,7 +55,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $expectedAttributes = array();
         /** @var $collection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
-        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Attribute\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Address\Attribute\Collection');
         /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
@@ -62,7 +66,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $defaultAddressMap
             = \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::getDefaultAddressAttributeMapping();
 
-        $this->_model->setWriter(\Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $this->_model->setParameters(array());
 
         $data = $this->_csvToArray($this->_model->export(), $entityIdCode);
@@ -81,7 +86,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         // Get addresses
         /** @var $customers \Magento\Customer\Model\Customer[] */
         $customers = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\ImportExport\Customers\Array');
+            ->registry('_fixture/Magento_ImportExport_Customers_Array');
         foreach ($customers as $customer) {
             /** @var $address \Magento\Customer\Model\Address */
             foreach ($customer->getAddresses() as $address) {
@@ -137,7 +142,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $entityIdCode = \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID;
 
-        $this->_model->setWriter(\Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
 
         $filterData = array(
             'export_filter' => array(
@@ -153,7 +159,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         // Get expected address count
         /** @var $customers \Magento\Customer\Model\Customer[] */
         $customers = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\ImportExport\Customers\Array');
+            ->registry('_fixture/Magento_ImportExport_Customers_Array');
         $expectedCount = 0;
         foreach ($customers as $customer) {
             if ($customer->getGender() == $genderFilterValue) {

@@ -2,17 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Oauth
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 /**
  * Application model
- *
- * @category    Magento
- * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method \Magento\Oauth\Model\Resource\Consumer _getResource()
  * @method \Magento\Oauth\Model\Resource\Consumer getResource()
@@ -20,7 +15,6 @@
  * @method \Magento\Oauth\Model\Resource\Consumer\Collection getResourceCollection()
  * @method string getName()
  * @method \Magento\Oauth\Model\Consumer setName() setName(string $name)
- * @method string getKey()
  * @method \Magento\Oauth\Model\Consumer setKey() setKey(string $key)
  * @method \Magento\Oauth\Model\Consumer setSecret() setSecret(string $secret)
  * @method \Magento\Oauth\Model\Consumer setCallbackUrl() setCallbackUrl(string $url)
@@ -30,10 +24,12 @@
  * @method \Magento\Oauth\Model\Consumer setUpdatedAt() setUpdatedAt(string $date)
  * @method string getRejectedCallbackUrl()
  * @method \Magento\Oauth\Model\Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
+ * @method string getHttpPostUrl()
+ * @method \Magento\Oauth\Model\Consumer setHttpPostUrl() setHttpPostUrl(string $httpPostUrl)
  */
 namespace Magento\Oauth\Model;
 
-abstract class Consumer extends \Magento\Core\Model\AbstractModel implements \Magento\Oauth\Model\ConsumerInterface
+class Consumer extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Key hash length
@@ -52,6 +48,7 @@ abstract class Consumer extends \Magento\Core\Model\AbstractModel implements \Ma
      */
     protected function _construct()
     {
+        parent::_construct();
         $this->_init('Magento\Oauth\Model\Resource\Consumer');
     }
 
@@ -127,6 +124,16 @@ abstract class Consumer extends \Magento\Core\Model\AbstractModel implements \Ma
 
     /**
      * Get consumer key.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->getData('key');
+    }
+
+    /**
+     * Get consumer secret.
      *
      * @return string
      */

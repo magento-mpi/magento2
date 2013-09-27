@@ -28,6 +28,12 @@ class Errors
     protected $_storeManager = null;
 
     /**
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\AdvancedCheckout\Model\CartFactory $cartFactory
@@ -35,12 +41,14 @@ class Errors
      * @param array $data
      */
     public function __construct(
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
         \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
+        $this->_sessionQuote = $sessionQuote;
         parent::__construct($coreData, $context, $cartFactory, $data);
         $this->_storeManager = $storeManager;
     }
@@ -64,8 +72,7 @@ class Errors
     public function getCart()
     {
         if (!$this->_cart) {
-            $session = \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
-            $this->_cart = parent::getCart()->setSession($session);
+            $this->_cart = parent::getCart()->setSession($this->_sessionQuote);
         }
         return $this->_cart;
     }

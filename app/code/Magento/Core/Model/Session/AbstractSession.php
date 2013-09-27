@@ -15,8 +15,10 @@ class AbstractSession extends \Magento\Object
 {
     const XML_PATH_COOKIE_DOMAIN        = 'web/cookie/cookie_domain';
     const XML_PATH_COOKIE_PATH          = 'web/cookie/cookie_path';
-    const XML_NODE_SESSION_SAVE         = 'global/session_save';
-    const XML_NODE_SESSION_SAVE_PATH    = 'global/session_save_path';
+
+    const PARAM_SESSION_SAVE_METHOD     = 'session_save';
+    const PARAM_SESSION_SAVE_PATH       = 'session_save_path';
+    const PARAM_SESSION_CACHE_LIMITER   = 'session_cache_limiter';
 
     const XML_PATH_USE_FRONTEND_SID     = 'web/session/use_frontend_sid';
 
@@ -79,34 +81,40 @@ class AbstractSession extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var string
      */
-    protected $_coreConfig;
+    protected $_saveMethod;
 
     /**
-     * @param \Magento\Core\Model\Session\Validator $validator
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @var string
+     */
+    protected $_savePath;
+
+    /**
+     * @var string
+     */
+    protected $_cacheLimiter;
+
+    /**
+     * @var array
+     */
+    protected $_sidNameMap;
+
+    /**
+     * @param \Magento\Core\Model\Session\Context $context
      * @param array $data
      */
-    public function __construct(
-        \Magento\Core\Model\Session\Validator $validator,
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
-        array $data = array()
-    ) {
-        $this->_validator = $validator;
-        $this->_eventManager = $eventManager;
-        $this->_coreHttp = $coreHttp;
-        $this->_logger = $logger;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreConfig = $coreConfig;
+    public function __construct(\Magento\Core\Model\Session\Context $context, array $data = array())
+    {
+        $this->_validator = $context->getValidator();
+        $this->_eventManager = $context->getEventManager();
+        $this->_coreHttp = $context->getHttpHelper();
+        $this->_logger = $context->getLogger();
+        $this->_coreStoreConfig = $context->getStoreConfig();
+        $this->_savePath = $this->_savePath ?: $context->getSavePath();
+        $this->_saveMethod = $this->_saveMethod ?: $context->getSaveMethod();
+        $this->_cacheLimiter = $this->_cacheLimiter ?: $context->getCacheLimiter();
+        $this->_sidNameMap = $context->getSidMap();
         parent::__construct($data);
     }
 
@@ -190,9 +198,9 @@ class AbstractSession extends \Magento\Object
         $this->setSessionId();
 
         \Magento\Profiler::start('session_start');
-        $sessionCacheLimiter = $this->_coreConfig->getNode('global/session_cache_limiter');
-        if ($sessionCacheLimiter) {
-            session_cache_limiter((string)$sessionCacheLimiter);
+
+        if ($this->_cacheLimiter) {
+            session_cache_limiter($this->_cacheLimiter);
         }
 
         session_start();
@@ -550,8 +558,8 @@ class AbstractSession extends \Magento\Object
     public function getSessionIdQueryParam()
     {
         $sessionName = $this->getSessionName();
-        if ($sessionName && $queryParam = (string)$this->_coreConfig->getNode($sessionName . '/session/query_param')) {
-            return $queryParam;
+        if ($sessionName && isset($this->_sidNameMap[$sessionName])) {
+            return $this->_sidNameMap[$sessionName];
         }
         return self::SESSION_ID_QUERY_PARAM;
     }
@@ -690,8 +698,8 @@ class AbstractSession extends \Magento\Object
      */
     public function getSessionSaveMethod()
     {
-        if (\Mage::isInstalled() && $sessionSave = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE)) {
-            return (string) $sessionSave;
+        if (\Mage::isInstalled() && $this->_saveMethod) {
+            return $this->_saveMethod;
         }
         return 'files';
     }
@@ -703,8 +711,8 @@ class AbstractSession extends \Magento\Object
      */
     public function getSessionSavePath()
     {
-        if (\Mage::isInstalled() && $sessionSavePath = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
-            return $sessionSavePath;
+        if (\Mage::isInstalled() && $this->_savePath) {
+            return $this->_savePath;
         }
         return \Mage::getBaseDir('session');
     }

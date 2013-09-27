@@ -32,13 +32,30 @@ class End extends \Magento\Install\Block\AbstractBlock
      */
     protected $_survey;
 
+    /**
+     * Cryptographic key
+     * 
+     * @var string
+     */
+    protected $_cryptKey;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\AdminNotification\Model\Survey $survey
+     * @param string $cryptKey
+     * @param array $data
+     */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\AdminNotification\Model\Survey $survey,
+        $cryptKey,
         array $data = array()
     ) {
+        $this->_cryptKey = $cryptKey;
         parent::__construct($coreData, $context, $data);
         $this->_coreConfig = $coreConfig;
         $this->_survey = $survey;
@@ -51,7 +68,7 @@ class End extends \Magento\Install\Block\AbstractBlock
     {
         $key = $this->getData('encryption_key');
         if (is_null($key)) {
-            $key = (string) $this->_coreConfig->getNode('global/crypt/key');
+            $key = $this->_cryptKey;
             $this->setData('encryption_key', $key);
         }
         return $key;

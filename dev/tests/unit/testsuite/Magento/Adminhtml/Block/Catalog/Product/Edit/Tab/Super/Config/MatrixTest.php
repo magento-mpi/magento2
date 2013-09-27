@@ -13,17 +13,17 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     /**
      * Object under test
      *
-     * @var \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix
+     * @var \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config_Matrix
      */
     protected $_block;
 
-    /** @var \Magento\Backend\Block\Template\Context|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Backend\Block\Template\Context|\PHPUnit_Framework_MockObject_MockObject */
     protected $_context;
 
-    /** @var \Magento\Core\Model\App|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Core\Model\App|\PHPUnit_Framework_MockObject_MockObject */
     protected $_application;
 
-    /** @var \Magento\Core\Model\LocaleInterface|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Core\Model\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_locale;
 
     protected function setUp()
@@ -35,6 +35,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             'application' => $this->_application,
             'locale' => $this->_locale,
             'formFactory' => $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
+            'productFactory' => $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),
         );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Form', $data);

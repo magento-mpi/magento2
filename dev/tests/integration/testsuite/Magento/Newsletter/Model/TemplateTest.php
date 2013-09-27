@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Newsletter\Model;
-
 /**
  * @magentoDataFixture Magento/Core/_files/store.php
  */
+namespace Magento\Newsletter\Model;
+
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,7 +23,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Newsletter\Model\Template');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Newsletter\Model\Template');
     }
 
     /**

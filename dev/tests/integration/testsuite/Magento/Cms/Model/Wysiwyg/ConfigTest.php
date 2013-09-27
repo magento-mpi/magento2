@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Model\Wysiwyg;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Cms\Model\Wysiwyg;
+
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,7 +25,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_model = \Mage::getModel('Magento\Cms\Model\Wysiwyg\Config');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cms\Model\Wysiwyg\Config');
     }
 
     /**

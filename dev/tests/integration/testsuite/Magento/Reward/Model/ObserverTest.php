@@ -26,12 +26,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $customer = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\ImportExport\Customer');
+            ->registry('_fixture/Magento_ImportExport_Customer');
 
         $this->_saveRewardPoints($customer, $pointsDelta);
 
         /** @var $reward \Magento\Reward\Model\Reward */
-        $reward = \Mage::getModel('Magento\Reward\Model\Reward');
+        $reward = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Reward\Model\Reward');
         $reward->setCustomer($customer)
             ->loadByCustomer();
 
@@ -62,7 +63,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'points_delta' => $pointsDelta
         );
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
@@ -81,7 +82,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             array('event' => $event)
         );
 
-        $rewardObserver = \Mage::getModel('Magento\Reward\Model\Observer');
+        $rewardObserver = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Reward\Model\Observer');
         $rewardObserver->saveRewardPoints($eventObserver);
     }
 }

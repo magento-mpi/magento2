@@ -19,36 +19,20 @@ class Loader implements \Magento\Core\Model\Config\LoaderInterface
     protected $_primaryConfig;
 
     /**
-     * @var \Magento\Core\Model\Config\Resource
-     */
-    protected $_resourceConfig;
-
-    /**
      * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_fileReader;
 
     /**
-     * @var \Magento\Core\Model\Config\Loader\Local
-     */
-    protected $_localLoader;
-
-    /**
      * @param \Magento\Core\Model\Config\Primary $primaryConfig
-     * @param \Magento\Core\Model\Config\Resource $resourceConfig
      * @param \Magento\Core\Model\Config\Modules\Reader $fileReader
-     * @param \Magento\Core\Model\Config\Loader\Local $localLoader
      */
     public function __construct(
         \Magento\Core\Model\Config\Primary $primaryConfig,
-        \Magento\Core\Model\Config\Resource $resourceConfig,
-        \Magento\Core\Model\Config\Modules\Reader $fileReader,
-        \Magento\Core\Model\Config\Loader\Local $localLoader
+        \Magento\Core\Model\Config\Modules\Reader $fileReader
     ) {
         $this->_primaryConfig = $primaryConfig;
-        $this->_resourceConfig = $resourceConfig;
         $this->_fileReader = $fileReader;
-        $this->_localLoader = $localLoader;
     }
 
     /**
@@ -69,12 +53,8 @@ class Loader implements \Magento\Core\Model\Config\LoaderInterface
 
         \Magento\Profiler::start('load_modules_configuration');
 
-        $resourceConfig = sprintf('config.%s.xml', $this->_resourceConfig->getResourceConnectionModel('core'));
-        $this->_fileReader->loadModulesConfiguration(array('config.xml', $resourceConfig), $config);
+        $this->_fileReader->loadModulesConfiguration(array('config.xml'), $config);
         \Magento\Profiler::stop('load_modules_configuration');
-
-        // Prevent local configuration overriding
-        $this->_localLoader->load($config);
 
         $config->applyExtends();
 

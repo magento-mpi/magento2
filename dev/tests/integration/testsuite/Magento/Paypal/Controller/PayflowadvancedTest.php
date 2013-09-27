@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Paypal\Controller;
-
 /**
  * @magentoDataFixture Magento/Sales/_files/order.php
  */
+namespace Magento\Paypal\Controller;
+
 class PayflowadvancedTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     protected function setUp()
@@ -21,7 +21,8 @@ class PayflowadvancedTest extends \Magento\TestFramework\TestCase\ControllerAbst
         $order->load('100000001', 'increment_id');
         $order->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED);
 
-        $quote = \Mage::getModel('Magento\Sales\Model\Quote')
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote')
             ->setStoreId($order->getStoreId())
             ->save();
 

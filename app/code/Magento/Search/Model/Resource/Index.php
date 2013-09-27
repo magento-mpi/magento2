@@ -30,7 +30,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     /**
      * Core resource helper
      *
-     * @var \Magento\Core\Model\Resource\Helper\Mysql4
+     * @var \Magento\Core\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
@@ -43,7 +43,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\Helper\Mysql4 $resourceHelper
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -52,7 +52,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\Helper\Mysql4 $resourceHelper
+        \Magento\Core\Model\Resource\Helper $resourceHelper
     ) {
         parent::__construct($eventManager, $coreString, $catalogSearchData, $resource, $coreStoreConfig);
         $this->_storeManager = $storeManager;

@@ -14,7 +14,6 @@ namespace Magento\Payment\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_PAYMENT_METHODS = 'payment';
-    const XML_PATH_PAYMENT_GROUPS = 'global/payment/groups';
 
     /**
      * Core store config
@@ -22,6 +21,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
+    
+    /** @var \Magento\Payment\Model\Config  */
+    protected $_paymentConfig;
 
     /**
      * Layout
@@ -60,6 +62,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\App\Emulation $appEmulation
+     * @param \Magento\Payment\Model\Config $paymentConfig
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -67,7 +70,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Layout $layout,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\App\Emulation $appEmulation
+        \Magento\Core\Model\App\Emulation $appEmulation,
+        \Magento\Payment\Model\Config $paymentConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -75,6 +79,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_methodFactory = $paymentMethodFactory;
         $this->_config = $config;
         $this->_appEmulation = $appEmulation;
+        $this->_paymentConfig = $paymentConfig;
     }
 
     /**
@@ -282,7 +287,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             }
         }
         if ($asLabelValue && $withGroups) {
-            $groups = $this->_config->getNode(self::XML_PATH_PAYMENT_GROUPS)->asCanonicalArray();
+            $groups = $this->_paymentConfig->getGroups();
             foreach ($groups as $code => $title) {
                 $methods[$code] = $title; // for sorting, see below
             }

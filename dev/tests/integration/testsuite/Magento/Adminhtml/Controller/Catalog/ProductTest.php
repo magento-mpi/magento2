@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Catalog;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Controller\Catalog;
+
 class ProductTest extends \Magento\Backend\Utility\Controller
 {
     /**
@@ -47,10 +47,12 @@ class ProductTest extends \Magento\Backend\Utility\Controller
      */
     protected function _getConfigurableAttribute()
     {
-        return \Mage::getModel('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
-            \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('catalog_product')->getId(),
-            'test_configurable'
-        );
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
+                    ->getEntityType('catalog_product')->getId(),
+                'test_configurable'
+            );
     }
 
     public function testSaveActionWithDangerRequest()

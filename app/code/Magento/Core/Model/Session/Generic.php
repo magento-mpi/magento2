@@ -10,28 +10,18 @@ namespace Magento\Core\Model\Session;
 class Generic extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
-     * @param \Magento\Core\Model\Session\Validator $validator
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Session\Context $context
      * @param array $sessionNamespace
      * @param array $data
-     * @param null $sessionName
+     * @param string $sessionName
      */
     public function __construct(
-        \Magento\Core\Model\Session\Validator $validator,
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Session\Context $context,
         $sessionNamespace,
         array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($context, $data);
         $this->init($sessionNamespace, $sessionName);
     }
 }

@@ -19,7 +19,8 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Widget\Model\Widget');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget');
     }
 
     public function testGetWidgetsArray()
@@ -47,8 +48,8 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
-        $expectedPubFile = \Mage::getBaseDir(\Magento\Core\Model\Dir::STATIC_VIEW)
-            . "/adminhtml/magento_basic/en_US/{$expectedFile}";
+        $expectedPubFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir(\Magento\Core\Model\Dir::STATIC_VIEW) . "/adminhtml/magento_basic/en_US/{$expectedFile}";
         if (file_exists($expectedPubFile)) {
             unlink($expectedPubFile);
         }
@@ -91,7 +92,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
         $property = new \ReflectionProperty($dir, '_dirs');
         $property->setAccessible(true);
         $dirs = $property->getValue($dir);
-        $dirs[\Magento\Core\Model\Dir::THEMES] = dirname(__DIR__) . '/_files/design';
+        $dirs[Magento_Core_Model_Dir::THEMES] = dirname(__DIR__) . '/_files/design';
         $property->setValue($dir, $dirs);
 
         $actualFile = $this->testGetPlaceholderImageUrl(

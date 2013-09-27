@@ -27,34 +27,24 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
 
     /**
      * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param $resourceName
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory,
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config\Resource $resourcesConfig,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Core\Model\CacheInterface $cache,
-        $resourceName
+        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        $resourceName,
+        $moduleName = 'Magento_TargetRule',
+        $connectionName = ''
     ) {
         $this->_migrationFactory = $migrationFactory;
-        parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $config, $moduleList,
-            $resource, $modulesReader, $cache, $resourceName
-        );
+        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
     }
+
 
     /**
      * Create migration setup

@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\Integrity\Modular;
-
 /**
  * This test ensures that all blocks have the appropriate constructor arguments that allow
  * them to be instantiated via the objectManager.
  *
  * @magentoAppIsolation
  */
+namespace Magento\Test\Integrity\Modular;
+
 class BlockInstantiationTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 {
     /**
@@ -37,7 +37,8 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\IntegrityAb
         $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
         $app->loadArea($area);
 
-        $block = \Mage::getModel($class);
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create($class);
         $this->assertNotNull($block);
     }
 
@@ -49,7 +50,8 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\IntegrityAb
         $blockClass = '';
         try {
             /** @var $website \Magento\Core\Model\Website */
-            \Mage::app()->getStore()->setWebsiteId(0);
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()->setWebsiteId(0);
 
             $enabledModules = $this->_getEnabledModules();
             $skipBlocks = $this->_getBlocksToSkip();
@@ -105,7 +107,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\IntegrityAb
         ) {
             $area = 'adminhtml';
         }
-        \Mage::app()->loadAreaPart(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
             \Magento\Core\Model\App\Area::AREA_ADMINHTML,
             \Magento\Core\Model\App\Area::PART_CONFIG
         );

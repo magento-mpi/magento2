@@ -20,26 +20,42 @@ namespace Magento\Adminhtml\Block\Sales\Order\View;
 class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Customer\Model\GroupFactory
      */
-    protected $_storeManager;
+    protected $_groupFactory;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
+        $this->_customerFactory = $customerFactory;
+        $this->_groupFactory = $groupFactory;
+        $this->_eavConfig = $eavConfig;
         parent::__construct($coreData, $context, $registry, $data);
-        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -48,7 +64,7 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            \Mage::throwException(__('Please correct the parent block for this block.'));
+            throw new \Magento\Core\Exception(__('Please correct the parent block for this block.'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
 
@@ -67,7 +83,7 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
                 $deleted = __(' [deleted]');
                 return nl2br($this->getOrder()->getStoreName()) . $deleted;
             }
-            $store = \Mage::app()->getStore($storeId);
+            $store = $this->_storeManager->getStore($storeId);
             $name = array(
                 $store->getWebsite()->getName(),
                 $store->getGroup()->getName(),
@@ -81,7 +97,7 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
     public function getCustomerGroupName()
     {
         if ($this->getOrder()) {
-            return \Mage::getModel('Magento\Customer\Model\Group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
+            return $this->_groupFactory->create()->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
         }
         return null;
     }
@@ -125,13 +141,11 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
     {
         $accountData = array();
 
-        /* @var $config \Magento\Eav\Model\Config */
-        $config     = \Mage::getSingleton('Magento\Eav\Model\Config');
         $entityType = 'customer';
-        $customer   = \Mage::getModel('Magento\Customer\Model\Customer');
-        foreach ($config->getEntityAttributeCodes($entityType) as $attributeCode) {
+        $customer   = $this->_customerFactory->create();
+        foreach ($this->_eavConfig->getEntityAttributeCodes($entityType) as $attributeCode) {
             /* @var $attribute \Magento\Customer\Model\Attribute */
-            $attribute = $config->getAttribute($entityType, $attributeCode);
+            $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
             if (!$attribute->getIsVisible() || $attribute->getIsSystem()) {
                 continue;
             }

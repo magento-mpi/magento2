@@ -9,8 +9,6 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model;
-
 /**
  * Test class for \Magento\Catalog\Model\Category.
  * - tree knowledge is tested
@@ -18,6 +16,8 @@ namespace Magento\Catalog\Model;
  * @see \Magento\Catalog\Model\CategoryTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
+namespace Magento\Catalog\Model;
+
 class CategoryTreeTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,7 +27,8 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Category');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
     }
 
     public function testMove()

@@ -41,19 +41,22 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected static function _refreshConfiguration()
     {
-        \Mage::app()->cleanCache(array(\Magento\Core\Model\Config::CACHE_TAG));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->cleanCache(array(\Magento\Core\Model\Config::CACHE_TAG));
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize();
     }
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Config\Value');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Config\Value');
     }
 
     public function testIsValueChanged()
     {
         // load the model
-        $collection = \Mage::getResourceModel('Magento\Core\Model\Resource\Config\Data\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Config\Data\Collection');
         $collection->addFieldToFilter('path', self::SAMPLE_CONFIG_PATH)->addFieldToFilter('scope_id', 0)
             ->addFieldToFilter('scope', 'default')
         ;

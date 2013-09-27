@@ -5,10 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Mage::app()->loadArea('adminhtml');
-\Mage::app()->getStore()->setConfig('carriers/flatrate/active', 1);
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadArea('adminhtml');
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')->getStore()
+    ->setConfig('carriers/flatrate/active', 1);
 /** @var $product \Magento\Catalog\Model\Product */
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -61,7 +62,8 @@ $billingData = array(
     'use_for_shipping' => '1',
 );
 
-$billingAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address', array('data' => $billingData));
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Quote\Address', array('data' => $billingData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -70,9 +72,13 @@ $shippingAddress->setShippingMethod('flatrate_flatrate');
 $shippingAddress->setCollectShippingRates(true);
 
 /** @var $quote \Magento\Sales\Model\Quote */
-$quote = \Mage::getModel('Magento\Sales\Model\Quote');
+$quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Quote');
 $quote->setCustomerIsGuest(true)
-    ->setStoreId(\Mage::app()->getStore()->getId())
+    ->setStoreId(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->getId()
+    )
     ->setReservedOrderId('test01')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
@@ -84,7 +90,8 @@ $quote->collectTotals()->save();
 $quote->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS);
 
 /** @var $service \Magento\Sales\Model\Service\Quote */
-$service = \Mage::getModel('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
+$service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
 $service->setOrderData(array('increment_id' => '100000002'));
 $service->submitAll();
 

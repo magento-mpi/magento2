@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <option name="name_one" label="Label One" renderer="Name_One_Two">
+        <inputType name="input_name" label="Label Two" />
+    </option>
+    <option name="name_two" >
+        <inputType name="input_name_two" disabled="true" />
+    </option>
+</config>

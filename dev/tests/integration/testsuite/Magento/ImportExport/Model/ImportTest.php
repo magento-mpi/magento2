@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model;
 
 /**
  * @magentoDataFixture Magento/ImportExport/_files/import_data.php
  */
+namespace Magento\ImportExport\Model;
+
 class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -63,8 +64,9 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_importConfig = \Mage::getModel('Magento\ImportExport\Model\Import\Config');
-        $this->_model = \Mage::getModel(
+        $this->_importConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Import\Config');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\ImportExport\Model\Import',
             array(
                 'importConfig' => $this->_importConfig,
@@ -78,7 +80,8 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     public function testImportSource()
     {
         /** @var $customersCollection \Magento\Customer\Model\Resource\Customer\Collection */
-        $customersCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+        $customersCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Customer\Collection');
 
         $existCustomersCount = count($customersCollection->load());
 
@@ -97,7 +100,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     public function testValidateSource()
     {
         $this->_model->setEntity('catalog_product');
-        /** @var \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject $source */
+        /** @var \Magento\ImportExport\Model\Import\SourceAbstract|\PHPUnit_Framework_MockObject_MockObject $source */
         $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(
             array('sku', 'name')
         ));

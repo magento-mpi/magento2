@@ -20,13 +20,15 @@ class AreaTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        \Mage::app()->cleanCache(array(\Magento\Core\Model\Design::CACHE_TAG));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->
+            cleanCache(array(\Magento\Core\Model\Design::CACHE_TAG));
     }
 
     protected function setUp()
     {
         /** @var $_model \Magento\Core\Model\App\Area */
-        $this->_model = \Mage::getModel('Magento\Core\Model\App\Area', array('areaCode' => 'frontend'));
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\App\Area', array('areaCode' => 'frontend'));
     }
 
     /**
@@ -94,7 +96,8 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     public function testDetectDesignNonFrontend()
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
-        $model = \Mage::getModel('Magento\Core\Model\App\Area', array('areaCode' => 'install'));
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\App\Area', array('areaCode' => 'install'));
         $model->detectDesign(new \Zend_Controller_Request_Http);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface');

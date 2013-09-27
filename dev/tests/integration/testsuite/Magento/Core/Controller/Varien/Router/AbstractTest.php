@@ -20,17 +20,15 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass(
-            'Magento\Core\Controller\Varien\Router\AbstractRouter',
-            array(),
-            '',
+        $this->_model = $this->getMockForAbstractClass('Magento\Core\Controller\Varien\Router\AbstractRouter', array(), '',
             false
         );
     }
 
     public function testGetSetFront()
     {
-        $expected = \Mage::getModel('Magento\Core\Controller\Varien\Front');
+        $expected = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Varien\Front');
         $this->assertNull($this->_model->getFront());
         $this->_model->setFront($expected);
         $this->assertSame($expected, $this->_model->getFront());

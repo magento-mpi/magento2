@@ -31,20 +31,36 @@ class Compared
     protected $_adminhtmlSales;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Compare\ListCompareFactory|null
+     * @var \Magento\Catalog\Model\Product\Compare\ListFactory|null
      */
     protected $_compareListFactory;
 
     /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var \Magento\CatalogInventory\Model\Stock\Status
+     */
+    protected $_catalogStockStatus;
+
+    /**
+     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
@@ -52,9 +68,11 @@ class Compared
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
+        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
         array $data = array()
     ) {
+        $this->_catalogStockStatus = $catalogStockStatus;
+        $this->_catalogConfig = $catalogConfig;
         parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_adminhtmlSales = $adminhtmlSales;
         $this->_compareListFactory = $compareListFactory;
@@ -79,7 +97,7 @@ class Compared
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+            $attributes = $this->_catalogConfig->getProductAttributes();
             $collection = $this->_compareListFactory->create()
                 ->getItemCollection()
                 ->useProductItem(true)
@@ -88,7 +106,7 @@ class Compared
                 ->setCustomerId($this->_getCustomer()->getId())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
-            \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')->addIsInStockFilterToCollection($collection);
+            $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $collection = $this->_adminhtmlSales->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();
             $this->setData('items_collection', $collection);

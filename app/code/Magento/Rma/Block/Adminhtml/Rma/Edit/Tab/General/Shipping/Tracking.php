@@ -30,37 +30,37 @@ class Tracking extends \Magento\Backend\Block\Template
     protected $_rmaData;
 
     /**
-     * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
-     */
-    protected $_shippingFactory;
-
-    /**
      * @var \Magento\Shipping\Model\Config
      */
     protected $_shippingConfig;
 
     /**
+     * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
+     */
+    protected $_shippingCollFactory;
+
+    /**
+     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory
+     * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingFactory
-     * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory,
+        \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingFactory,
-        \Magento\Shipping\Model\Config $shippingConfig,
         array $data = array()
     ) {
+        $this->_shippingCollFactory = $shippingCollFactory;
+        $this->_shippingConfig = $shippingConfig;
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
-        $this->_shippingFactory = $shippingFactory;
-        $this->_shippingConfig = $shippingConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -91,13 +91,10 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getAllTracks()
     {
-        /** @var $collection \Magento\Rma\Model\Resource\Shipping\Collection */
-        $collection = $this->_shippingFactory->create();
-        $collection->addFieldToFilter('rma_entity_id', $this->getRma()->getId());
-        $collection->addFieldToFilter('is_admin', array(
-            'neq' => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL
-        ));
-        return $collection;
+        return $this->_shippingCollFactory->create()
+            ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
+            ->addFieldToFilter('is_admin', array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
+        ;
     }
 
     /**

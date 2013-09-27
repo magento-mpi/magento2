@@ -340,15 +340,19 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Helper\Address $customerAddress
+     * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Customer\Helper\Address $customerAddress
+        \Magento\Customer\Helper\Address $customerAddress,
+        array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($customerAddress);
+        parent::__construct($customerAddress, $logger, $data);
     }
 
     /**
@@ -509,7 +513,9 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     /**
      * Handle logical errors
      *
-     * @param array
+     * @param array $response
+     *
+     * @throws \Magento\Core\Exception
      */
     protected function _handleCallErrors($response)
     {
@@ -517,9 +523,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
             $message = $response['RESPMSG'];
             $e = new \Exception(sprintf('PayPal gateway errors: %s.', $message));
             $this->_logger->logException($e);
-            \Mage::throwException(
-                __('PayPal gateway rejected the request. %1', $message)
-            );
+            throw new \Magento\Core\Exception(__('PayPal gateway rejected the request. %1', $message));
         }
     }
 

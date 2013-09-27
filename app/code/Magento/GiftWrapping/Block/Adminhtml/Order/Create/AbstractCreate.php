@@ -39,6 +39,8 @@ class AbstractCreate
 
     /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
@@ -46,6 +48,8 @@ class AbstractCreate
      */
     public function __construct(
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
@@ -53,7 +57,7 @@ class AbstractCreate
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingCollFactory = $wrappingCollFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
     }
 
     /**

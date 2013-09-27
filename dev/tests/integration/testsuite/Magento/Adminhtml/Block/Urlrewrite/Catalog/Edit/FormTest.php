@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit;
-
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\FormTest
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit;
+
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -26,7 +26,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function _getFormInstance($args = array())
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form */
         $block = $layout->createBlock(
             'Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', 'block', array('data' => $args)

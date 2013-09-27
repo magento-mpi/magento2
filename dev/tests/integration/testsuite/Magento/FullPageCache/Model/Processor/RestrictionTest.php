@@ -27,13 +27,14 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\FullPageCache\Model\Processor');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\FullPageCache\Model\Processor');
     }
 
     public function testIsAllowedNoCacheCookie()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_COOKIE[\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE] = '1';
+        $_COOKIE[Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE] = '1';
         $this->assertFalse($this->_model->isAllowed());
     }
 

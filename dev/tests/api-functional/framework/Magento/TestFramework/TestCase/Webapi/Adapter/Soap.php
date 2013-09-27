@@ -9,14 +9,15 @@
  */
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
+class Soap
+    implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
     const WSDL_BASE_PATH = '/soap?wsdl=1';
 
     /**
      * SOAP client initialized with different WSDLs.
      *
-     * @var \Zend\Soap\Client[]
+     * @var Zend\Soap\Client[]
      */
     protected $_soapClients = array();
 
@@ -30,8 +31,9 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
      */
     public function __construct()
     {
-        $this->_soapConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Webapi\Model\Soap\Config');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_soapConfig = $objectManager->get('Magento\Webapi\Model\Soap\Config');
     }
 
     /**
@@ -53,7 +55,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
      * Get proper SOAP client instance that is initialized with with WSDL corresponding to requested service interface.
      *
      * @param string $serviceInfo PHP service interface name, should include version if present
-     * @return \Zend\Soap\Client
+     * @return Zend\Soap\Client
      */
     protected function _getSoapClient($serviceInfo)
     {
@@ -75,8 +77,16 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
      */
     public function instantiateSoapClient($wsdlUrl)
     {
-        $soapClient = new \Zend\Soap\Client($wsdlUrl);
+        $token = \Magento\TestFramework\Authentication\OauthHelper::getAccessToken();
+        $opts = array(
+            'http'=>array(
+                'header'=>"Authorization: Bearer " . $token['key']
+            )
+        );
+        $context = stream_context_create($opts);
+        $soapClient = new Zend\Soap\Client($wsdlUrl);
         $soapClient->setSoapVersion(SOAP_1_2);
+        $soapClient->setStreamContext($context);
         return $soapClient;
     }
 
@@ -217,19 +227,19 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     protected function _soapResultToArray($soapResult)
     {
         if (is_object($soapResult) && null !== ($_data = get_object_vars($soapResult))) {
-            foreach ($_data as $key => $value) {
+            array_walk($_data, function ($value, $key) use (&$_data) {
                 if (is_object($value) || is_array($value)) {
                     $_data[$key] = $this->_soapResultToArray($value);
                 }
-            }
+            });
             return $_data;
-        } elseif (is_array($soapResult)) {
+        } else if (is_array($soapResult)) {
             $_data = array();
-            foreach ($soapResult as $key => $value) {
+            array_walk($soapResult, function ($value, $key) use (&$_data) {
                 if (is_object($value) || is_array($value)) {
                     $_data[$key] = $this->_soapResultToArray($value);
                 }
-            }
+            });
             return $_data;
         }
         return array();

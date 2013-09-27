@@ -15,7 +15,8 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
-        $block = \Mage::app()->getLayout()->createBlock('Magento\AdvancedCheckout\Block\Sku\Products')
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\AdvancedCheckout\Block\Sku\Products')
             ->setTemplate('cart/sku/failed.phtml');
         $this->assertEmpty($block->toHtml());
 
@@ -24,7 +25,10 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
             'code' => \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\AdvancedCheckout\Helper\Data')
-            ->getSession()->setAffectedItems(array(\Mage::app()->getStore()->getId() => array($item)));
+            ->getSession()->setAffectedItems(array(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId() => array($item)
+            ));
         $this->assertContains('<form', $block->toHtml());
     }
 }

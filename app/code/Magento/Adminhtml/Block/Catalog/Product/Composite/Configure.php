@@ -19,6 +19,9 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Composite;
 
 class Configure extends \Magento\Adminhtml\Block\Widget
 {
+    /**
+     * @var \Magento\Catalog\Model\Product
+     */
     protected $_product;
 
     protected $_template = 'catalog/product/composite/configure.phtml';
@@ -31,17 +34,25 @@ class Configure extends \Magento\Adminhtml\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Catalog\Model\Product
+     */
+    protected $_catalogProduct;
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Product $product,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_catalogProduct = $product;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -57,7 +68,7 @@ class Configure extends \Magento\Adminhtml\Block\Widget
             if ($this->_coreRegistry->registry('current_product')) {
                 $this->_product = $this->_coreRegistry->registry('current_product');
             } else {
-                $this->_product = \Mage::getSingleton('Magento\Catalog\Model\Product');
+                $this->_product = $this->_catalogProduct;
             }
         }
         return $this->_product;

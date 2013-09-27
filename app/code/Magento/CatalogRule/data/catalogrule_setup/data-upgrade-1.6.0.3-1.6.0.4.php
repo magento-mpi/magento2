@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup\Migration */
 /** @var $this \Magento\Core\Model\Resource\Setup\Generic */
 $installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
 $installer->startSetup();

@@ -35,7 +35,7 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
@@ -43,11 +43,11 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($catalogData, $coreData, $context, $coreConfig, $data);
+        parent::__construct($catalogData, $coreData, $context, $salesConfig, $data);
     }
 
     /**

@@ -31,7 +31,13 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
     public function setProductDataProvider()
     {
-        $product = $this->getMock('Magento\Catalog\Model\Product', array('getId'), array(), '', false);
+        $product = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            array('getId', '__sleep', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $product->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(3));

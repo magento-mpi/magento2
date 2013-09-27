@@ -8,9 +8,9 @@
  * @license    {license_link}
  */
 require __DIR__ . '/../app/bootstrap.php';
-\Magento\Profiler::start('mage');
+Magento_Profiler::start('mage');
 $params = $_SERVER;
-$params[Mage::PARAM_APP_URIS][\Magento\Core\Model\Dir::PUB] = '';
+$params[Magento_Core_Model_App::PARAM_APP_URIS][Magento_Core_Model_Dir::PUB] = '';
 $entryPoint = new \Magento\Core\Model\EntryPoint\Http(new \Magento\Core\Model\Config\Primary(BP, $params));
 $entryPoint->processRequest();
-\Magento\Profiler::stop('mage');
+Magento_Profiler::stop('mage');

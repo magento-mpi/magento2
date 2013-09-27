@@ -27,6 +27,27 @@ class Created extends \Magento\Adminhtml\Block\Widget
      */
     protected $_template = 'catalog/product/created.phtml';
 
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->addChild('close_button', 'Magento\Adminhtml\Block\Widget\Button', array(
@@ -114,8 +135,7 @@ class Created extends \Magento\Adminhtml\Block\Widget
     public function getConfigurableProduct()
     {
         if ($this->_configurableProduct === null) {
-            $this->_configurableProduct = \Mage::getModel('Magento\Catalog\Model\Product')
-                ->setStore(0)
+            $this->_configurableProduct = $this->_productFactory->create()->setStore(0)
                 ->load($this->getRequest()->getParam('product'));
         }
         return $this->_configurableProduct;
@@ -129,8 +149,7 @@ class Created extends \Magento\Adminhtml\Block\Widget
     public function getProduct()
     {
         if ($this->_product === null) {
-            $this->_product = \Mage::getModel('Magento\Catalog\Model\Product')
-                ->setStore(0)
+            $this->_product = $this->_productFactory->create()->setStore(0)
                 ->load($this->getRequest()->getParam('id'));
         }
         return $this->_product;

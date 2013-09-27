@@ -8,7 +8,7 @@
  */
 
 /**
- * Test class for \Magento\Core\Model\Config_Modules_File
+ * Test class for \Magento\Core\Model\Config\Modules\File
  */
 namespace Magento\Core\Model\Config\Modules;
 
@@ -43,7 +43,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_protFactoryMock = $this->getMock('Magento\Core\Model\Config\BaseFactory',
             array(), array(), '', false, false);
-        $this->_dirsMock = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
+        $this->_dirsMock = $this->getMock('Magento\Core\Model\Module\Dir', array(), array(), '', false, false);
         $this->_baseConfigMock = $this->getMock('Magento\Core\Model\Config\Base', array(), array(), '', false, false);
         $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
 
@@ -90,12 +90,17 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_model->loadModulesConfiguration($fileName, $mergeToObject, $mergeModel);
     }
 
-    public function testGetModuleDirWithData()
+    public function testGetModuleDir()
     {
-        $moduleName = 'test';
-        $type = 'etc';
-        $path = realpath(__DIR__. '/../../_files/testdir/etc');
-        $this->_model->setModuleDir($moduleName, $type, $path);
-        $this->assertEquals($path, $this->_model->getModuleDir($type, $moduleName));
+        $expectedResult = new \stdClass();
+        $this->_dirsMock->expects($this->once())
+            ->method('getDir')
+            ->with('Test_Module', 'etc')
+            ->will($this->returnValue($expectedResult));
+        $this->assertSame($expectedResult, $this->_model->getModuleDir('etc', 'Test_Module'));
+
+        // Custom value overrides the default one
+        $this->_model->setModuleDir('Test_Module', 'etc', 'app/code/Test/Module/etc');
+        $this->assertEquals('app/code/Test/Module/etc', $this->_model->getModuleDir('etc', 'Test_Module'));
     }
 }

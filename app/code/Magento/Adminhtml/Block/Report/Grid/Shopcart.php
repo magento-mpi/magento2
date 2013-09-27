@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Report\Grid;
 
-class Shopcart extends \Magento\Adminhtml\Block\Widget\Grid
+class Shopcart extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * stores current currency code
@@ -33,7 +33,7 @@ class Shopcart extends \Magento\Adminhtml\Block\Widget\Grid
      * storeIds setter
      *
      * @param  array $storeIds
-     * @return \Magento\Adminhtml\Block\Report\Grid\Shopcart_Abstract
+     * @return \Magento\Adminhtml\Block\Report\Grid\Shopcart\AbstractShopcart
      */
     public function setStoreIds($storeIds)
     {
@@ -51,8 +51,8 @@ class Shopcart extends \Magento\Adminhtml\Block\Widget\Grid
         if (is_null($this->_currentCurrencyCode)) {
             reset($this->_storeIds);
             $this->_currentCurrencyCode = (count($this->_storeIds) > 0)
-                ? \Mage::app()->getStore(current($this->_storeIds))->getBaseCurrencyCode()
-                : \Mage::app()->getStore()->getBaseCurrencyCode();
+                ? $this->_storeManager->getStore(current($this->_storeIds))->getBaseCurrencyCode()
+                : $this->_storeManager->getStore()->getBaseCurrencyCode();
         }
         return $this->_currentCurrencyCode;
     }
@@ -65,6 +65,6 @@ class Shopcart extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getRate($toCurrency)
     {
-        return \Mage::app()->getStore()->getBaseCurrency()->getRate($toCurrency);
+        return $this->_storeManager->getStore()->getBaseCurrency()->getRate($toCurrency);
     }
 }

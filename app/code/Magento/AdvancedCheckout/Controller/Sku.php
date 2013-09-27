@@ -20,11 +20,10 @@ namespace Magento\AdvancedCheckout\Controller;
 
 class Sku extends \Magento\Core\Controller\Front\Action
 {
-
     /**
      * Check functionality is enabled and applicable to the Customer
      *
-     * @return Magento_AdvancedCheckout_IndexController
+     * @return \Magento\AdvancedCheckout\IndexController
      */
     public function preDispatch()
     {
@@ -32,7 +31,7 @@ class Sku extends \Magento\Core\Controller\Front\Action
 
         // guest redirected to "Login or Create an Account" page
         /** @var $customerSession \Magento\Customer\Model\Session */
-        $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
+        $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
         if (!$customerSession->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
             return $this;
@@ -95,6 +94,6 @@ class Sku extends \Magento\Core\Controller\Front\Action
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session');
+        return $this->_objectManager->get('Magento\Checkout\Model\Session');
     }
 }

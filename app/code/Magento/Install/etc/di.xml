@@ -18,6 +18,11 @@
             <value>LICENSE.html</value>
         </param>
     </type>
+    <type name="Magento\Install\Block\End">
+        <param name="cryptKey">
+            <value type="argument">Magento\Core\Model\Encryption::PARAM_CRYPT_KEY</value>
+        </param>
+    </type>
     <type name="Magento\Install\Model\Installer\Db">
         <param name="dbConfig">
             <value>
@@ -55,6 +60,11 @@
         </param>
         <param name="cacheId">
             <value>install_wizard_config</value>
+        </param>
+    </type>
+    <type name="Magento\Install\Controller\Wizard">
+        <param name="installDate">
+            <value type="argument">Magento\Core\Model\App\State::PARAM_INSTALL_DATE</value>
         </param>
     </type>
 </config>

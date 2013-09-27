@@ -69,16 +69,37 @@ class Head extends \Magento\Core\Block\Template
     protected $_fileStorageDatabase = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Dir
+     */
+    protected $_dir;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Page $page
-     * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
-     * @param \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
+     * @param \Magento_Core_Block_Template_Context $context
+     * @param \Magento_ObjectManager $objectManager
+     * @param \Magento_Core_Model_Page $page
+     * @param \Magento_Core_Model_Page_Asset_MergeService $assetMergeService
+     * @param \Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
@@ -94,6 +115,9 @@ class Head extends \Magento\Core\Block\Template
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $page->getAssets();
+        $this->_storeManager = $storeManager;
+        $this->_dir = $dir;
+        $this->_locale = $locale;
     }
 
     /**
@@ -374,8 +398,8 @@ class Head extends \Magento\Core\Block\Template
     {
         $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
         $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
-        $faviconFile = \Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
-        $absolutePath = \Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
+        $faviconFile = $this->_storeManager->getStore()->getBaseUrl('media') . $folderName . '/' . $storeConfig;
+        $absolutePath = $this->_dir->getDir('media') . '/' . $folderName . '/' . $storeConfig;
 
         if (!is_null($storeConfig) && $this->_isFile($absolutePath)) {
             $url = $faviconFile;
@@ -406,6 +430,6 @@ class Head extends \Magento\Core\Block\Template
      */
     public function getLocale()
     {
-        return substr(\Mage::app()->getLocale()->getLocaleCode(), 0, 2);
+        return substr($this->_locale->getLocaleCode(), 0, 2);
     }
 }

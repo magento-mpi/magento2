@@ -9,8 +9,6 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model;
-
 /**
  * Tests product model:
  * - external interaction is tested
@@ -19,6 +17,8 @@ namespace Magento\Catalog\Model;
  * @see \Magento\Catalog\Model\ProductPriceTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
+namespace Magento\Catalog\Model;
+
 class ProductExternalTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,12 +28,17 @@ class ProductExternalTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Product');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
     }
 
     public function testGetStoreId()
     {
-        $this->assertEquals(\Mage::app()->getStore()->getId(), $this->_model->getStoreId());
+        $this->assertEquals(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()->getId(),
+            $this->_model->getStoreId()
+        );
         $this->_model->setData('store_id', 999);
         $this->assertEquals(999, $this->_model->getStoreId());
     }
@@ -88,7 +93,8 @@ class ProductExternalTest extends \PHPUnit_Framework_TestCase
     {
         // none
         /** @var $model \Magento\Catalog\Model\Product */
-        $model = \Mage::getModel('Magento\Catalog\Model\Product');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertEquals(array(), $model->getCategoryIds());
 
         // fixture
@@ -118,7 +124,8 @@ class ProductExternalTest extends \PHPUnit_Framework_TestCase
     {
         // set
         /** @var $model \Magento\Catalog\Model\Product */
-        $model = \Mage::getModel('Magento\Catalog\Model\Product',
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product',
             array('data' => array('website_ids' => array(1, 2)))
         );
         $this->assertEquals(array(1, 2), $model->getWebsiteIds());
@@ -132,7 +139,8 @@ class ProductExternalTest extends \PHPUnit_Framework_TestCase
     {
         // set
         /** @var $model \Magento\Catalog\Model\Product */
-        $model = \Mage::getModel('Magento\Catalog\Model\Product',
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product',
             array('data' => array('store_ids' => array(1, 2)))
         );
         $this->assertEquals(array(1, 2), $model->getStoreIds());
@@ -239,7 +247,8 @@ class ProductExternalTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test', $this->_model->getUrlPath());
 
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = \Mage::getModel('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $category->setUrlPath('category');
         $this->assertEquals('category/test', $this->_model->getUrlPath($category));
     }
@@ -254,7 +263,8 @@ class ProductExternalTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $this->_model->getOptions());
 
         $optionId = uniqid();
-        $option = \Mage::getModel('Magento\Catalog\Model\Product\Option',
+        $option = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Option',
             array('data' => array('key' => 'value'))
         );
         $option->setId($optionId);

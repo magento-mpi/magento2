@@ -26,7 +26,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         'Magento\Core\Model\View\FileSystem',
         'Magento\Core\Model\View\Design',
         'Magento\Core\Model\Store\Config',
-        'Magento\Core\Model\Config'
+        'Magento\Core\Model\Email\Template\Config',
     );
 
     /**
@@ -36,8 +36,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 
         $event = new \Magento\Event(array('order' => $order));
@@ -55,7 +57,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('_getMail')
             ->will($this->returnValue($zendMailMock));
         /** @var $model \Magento\GiftCard\Model\Observer */
-        $model = \Mage::getModel('Magento\GiftCard\Model\Observer', array(
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftCard\Model\Observer', array(
             'data' => array('email_template_model' => $emailTemplateMock)
         ));
         $model->generateGiftCardAccounts($observer);
@@ -92,7 +95,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
-            $arguments[] = \Mage::getModel($injectionClass);
+            $arguments[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create($injectionClass);
         }
         return $arguments;
     }

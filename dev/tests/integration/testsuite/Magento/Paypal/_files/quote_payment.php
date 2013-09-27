@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$quote = \Mage::getModel('Magento\Sales\Model\Quote');
+$quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Quote');
 $quote->load('test01', 'reserved_order_id');
 
 $payment = $quote->getPayment();

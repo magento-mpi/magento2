@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,14 +9,15 @@
 /**
  * OAuth Consumer grid block
  *
- * @category   Magento
- * @package    Magento_Oauth
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Oauth\Block\Adminhtml\Oauth\Consumer;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /** @var \Magento\Oauth\Model\Consumer\Factory  */
+    private $_consumerFactory;
+
     /**
      * Allow edit status
      *
@@ -27,30 +26,48 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_editAllow = false;
 
     /**
-     * Construct grid block
+     * Internal constructor. Override _construct(), not __construct().
+     *
+     * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
      */
-    protected function _construct()
+    public function __construct(
+        \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_consumerFactory = $consumerFactory;
+    }
+
+    /**
+     * Internal constructor: override this in subclasses
+     */
+    public function _construct()
     {
         parent::_construct();
         $this->setId('consumerGrid');
-        $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
-        $this->setDefaultSort('entity_id')
-            ->setDefaultDir(\Magento\DB\Select::SQL_DESC);
-
+        $this->setDefaultSort('entity_id')->setDefaultDir(\Magento\Db\Select::SQL_DESC);
         $this->_editAllow = $this->_authorization->isAllowed('Magento_Oauth::consumer_edit');
     }
 
     /**
      * Prepare collection
      *
-     * @return \Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Oauth\Model\Consumer')->getCollection();
+        $collection = $this->_consumerFactory->create()->getCollection();
         $this->setCollection($collection);
-
         return parent::_prepareCollection();
     }
 
@@ -62,15 +79,26 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header' => __('ID'), 'index' => 'entity_id', 'align' => 'right', 'width' => '50px'
+            'header' => __('ID'),
+            'index'  => 'entity_id',
+            'align'  => 'right',
+            'width'  => '50px'
         ));
 
         $this->addColumn('name', array(
-            'header' => __('Consumer Name'), 'index' => 'name', 'escape' => true
+            'header' => __('Add-On Name'),
+            'index'  => 'name',
+            'escape' => true
+        ));
+
+        $this->addColumn('http_post_url', array(
+            'header' => __('Http Post URL'),
+            'index'  => 'http_post_url',
         ));
 
         $this->addColumn('created_at', array(
-            'header' => __('Created'), 'index' => 'created_at'
+            'header' => __('Created'),
+            'index'  => 'created_at'
         ));
 
         return parent::_prepareColumns();

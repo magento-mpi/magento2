@@ -11,7 +11,7 @@ define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
 define('DS', DIRECTORY_SEPARATOR);
 require BP . '/app/code/Magento/Core/functions.php';
 require BP . '/app/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(array(
+Magento_Autoload_IncludePath::addIncludePath(array(
     __DIR__,
     realpath(__DIR__ . '/../testsuite'),
     realpath(BP . '/app'),
@@ -23,9 +23,7 @@ if (is_dir(TESTS_TEMP_DIR)) {
 }
 mkdir(TESTS_TEMP_DIR);
 
-\Magento\Phrase::setRenderer(new \Magento\Phrase\Renderer\Placeholder());
-
-\Mage::setIsSerializable(false);
+Magento_Phrase::setRenderer(new \Magento\Phrase\Renderer\Placeholder());
 
 function tool_autoloader($className)
 {

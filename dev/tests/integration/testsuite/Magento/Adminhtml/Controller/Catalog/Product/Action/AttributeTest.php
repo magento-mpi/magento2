@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Catalog\Product\Action;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Controller\Catalog\Product\Action;
+
 class AttributeTest extends \Magento\Backend\Utility\Controller
 {
     /**
@@ -24,13 +24,14 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
     public function testSaveActionRedirectsSuccessfully()
     {
         /** @var $session \Magento\Adminhtml\Model\Session */
-        $session = \Mage::getSingleton('Magento\Adminhtml\Model\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Adminhtml\Model\Session');
         $session->setProductIds(array(1));
 
         $this->dispatch('backend/admin/catalog_product_action_attribute/save/store/0');
 
         $this->assertEquals(302, $this->getResponse()->getHttpResponseCode());
-        $expectedUrl = \Mage::getUrl('backend/admin/catalog_product/index');
+        $expectedUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Url')->
+            getUrl('backend/admin/catalog_product/index');
         $isRedirectPresent = false;
         foreach ($this->getResponse()->getHeaders() as $header) {
             if ($header['name'] === 'Location' && strpos($header['value'], $expectedUrl) === 0) {

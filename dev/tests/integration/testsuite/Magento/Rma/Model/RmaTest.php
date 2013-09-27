@@ -18,9 +18,11 @@ class RmaTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveRma()
     {
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
-        $rma = \Mage::getModel('Magento\Rma\Model\Rma');
+        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Rma\Model\Rma');
         $rmaItems = array();
 
         foreach ($order->getItemsCollection() as $item) {
@@ -39,7 +41,8 @@ class RmaTest extends \PHPUnit_Framework_TestCase
         );
         $rmaData = array(
             'status'                => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
-            'date_requested'        => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate(),
+            'date_requested'        => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Date')->gmtDate(),
             'order_id'              => $order->getId(),
             'order_increment_id'    => $order->getIncrementId(),
             'store_id'              => $order->getStoreId(),
@@ -53,7 +56,8 @@ class RmaTest extends \PHPUnit_Framework_TestCase
         $rmaId = $rma->getId();
 
         unset($rma);
-        $rma = \Mage::getModel('Magento\Rma\Model\Rma');
+        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Rma\Model\Rma');
         $rma->load($rmaId);
         $this->assertEquals($rma->getId(), $rmaId);
         $this->assertEquals($rma->getOrderId(), $order->getId());

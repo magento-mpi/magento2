@@ -17,8 +17,35 @@
  */
 namespace Magento\GoogleShopping\Block\Adminhtml\Items;
 
-class Item extends \Magento\Adminhtml\Block\Widget\Grid
+class Item extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * Collection factory
+     *
+     * @var \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -33,8 +60,8 @@ class Item extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Item\Collection');
-        $store = $this->_getStore();
+        $collection = $this->_collectionFactory->create();
+        $store = $this->_storeManager->getStore($this->getRequest()->getParam('store'));
         $collection->addStoreFilter($store->getId());
         $this->setCollection($collection);
         parent::_prepareCollection();
@@ -99,15 +126,5 @@ class Item extends \Magento\Adminhtml\Block\Widget\Grid
     public function getGridUrl()
     {
         return $this->getUrl('*/*/grid', array('_current'=>true));
-    }
-
-    /**
-     * Get store model by request param
-     *
-     * @return \Magento\Core\Model\Store
-     */
-    protected function _getStore()
-    {
-        return \Mage::app()->getStore($this->getRequest()->getParam('store'));
     }
 }

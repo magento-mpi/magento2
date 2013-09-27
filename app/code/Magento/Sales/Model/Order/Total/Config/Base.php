@@ -34,7 +34,7 @@ class Base extends \Magento\Sales\Model\Config\Ordered
      *
      * @var string
      */
-    protected $_totalsConfigNode = 'totals';
+    protected $_configGroup = 'totals';
 
     /**
      * @var \Magento\Sales\Model\Order\TotalFactory
@@ -45,15 +45,17 @@ class Base extends \Magento\Sales\Model\Config\Ordered
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Sales\Model\Order\TotalFactory $orderTotalFactory
+     * @param \Magento\Sales\Model\Config $salesConfig,
      * @param null $sourceData
      */
     public function __construct(
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Logger $logger,
         \Magento\Sales\Model\Order\TotalFactory $orderTotalFactory,
+        \Magento\Sales\Model\Config $salesConfig,
         $sourceData = null
     ) {
-        parent::__construct($configCacheType, $logger, $sourceData);
+        parent::__construct($configCacheType, $logger, $salesConfig, $sourceData);
         $this->_orderTotalFactory = $orderTotalFactory;
     }
 

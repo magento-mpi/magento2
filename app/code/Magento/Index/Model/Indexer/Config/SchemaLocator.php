@@ -19,11 +19,21 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
     protected $_schema = null;
 
     /**
+     * Path to corresponding XSD file with validation rules for separate config files
+     *
+     * @var string
+     */
+    protected $_perFileSchema = null;
+
+    /**
      * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      */
     public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Index') . DIRECTORY_SEPARATOR . 'indexers.xsd';
+        $this->_schema
+            = $moduleReader->getModuleDir('etc', 'Magento_Index') . DIRECTORY_SEPARATOR . 'indexers_merged.xsd';
+        $this->_perFileSchema
+            = $moduleReader->getModuleDir('etc', 'Magento_Index') . DIRECTORY_SEPARATOR . 'indexers.xsd';
     }
 
     /**
@@ -43,6 +53,6 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
      */
     public function getPerFileSchema()
     {
-        return null;
+        return $this->_perFileSchema;
     }
 }

@@ -11,7 +11,7 @@
     <preference for="Magento\FullPageCache\Model\Processor\RestrictionInterface" type="Magento\FullPageCache\Model\Processor\Restriction" />
     <type name="Magento\FullPageCache\Model\Request\Identifier">
         <param name="scopeCode">
-            <value type="argument">Mage::PARAM_RUN_CODE</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_RUN_CODE</value>
         </param>
     </type>
     <type name="Magento\FullPageCache\Model\Processor">

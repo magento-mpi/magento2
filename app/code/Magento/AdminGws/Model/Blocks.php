@@ -24,15 +24,29 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_coreRegistry = null;
 
     /**
-     * Initialize helper
-     *
+     * @var \Magento\Catalog\Model\Resource\Category
+     */
+    protected $_categoryResource;
+
+    /**
+     * @var \Magento\Cms\Model\Resource\Page
+     */
+    protected $_cmsPageResource;
+
+    /**
+     * @param \Magento\Cms\Model\Resource\Page $cmsPageResource
+     * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      * @param \Magento\AdminGws\Model\Role $role
-     * @param \Magento\Core\Model\Registry $coreRegistry\
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\Cms\Model\Resource\Page $cmsPageResource,
+        \Magento\Catalog\Model\Resource\Category $categoryResource,
         \Magento\AdminGws\Model\Role $role,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
+        $this->_cmsPageResource = $cmsPageResource;
+        $this->_categoryResource = $categoryResource;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($role);
     }
@@ -319,7 +333,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $setDisabled = true;
         } else {
             $categoryId = $observer->getEvent()->getBlock()->getEvent()->getCategoryId();
-            $path = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category')->getCategoryPathById($categoryId);
+            $path = $this->_categoryResource->getCategoryPathById($categoryId);
             if (!$this->_role->hasExclusiveCategoryAccess($path)) {
                 $setDisabled = true;
             }
@@ -385,7 +399,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     private function _removeButtons($observer, $registryKey, $buttons = array())
     {
-        /* @var $model \Magento\Core\Model\Abstract */
+        /* @var $model \Magento\Core\Model\AbstractModel */
         $model = $this->_coreRegistry->registry($registryKey);
         if ($model) {
             $storeIds = $model->getStoreId();
@@ -585,8 +599,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         /* @var $model \Magento\Cms\Model\Page */
         $model = $this->_coreRegistry->registry('cms_page');
         if ($model && $model->getId()) {
-            $storeIds = \Mage::getResourceSingleton('Magento\Cms\Model\Resource\Page')
-                ->lookupStoreIds($model->getPageId());
+            $storeIds = $this->_cmsPageResource->lookupStoreIds($model->getPageId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $observer->getEvent()->getBlock()
                     ->removeButton('publish')
@@ -606,8 +619,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $model = $this->_coreRegistry->registry('cms_page');
         if ($model && $model->getId()) {
-            $storeIds = \Mage::getResourceSingleton('Magento\Cms\Model\Resource\Page')
-                ->lookupStoreIds($model->getPageId());
+            $storeIds = $this->_cmsPageResource->lookupStoreIds($model->getPageId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $observer->getEvent()->getBlock()
                     ->removeButton('publish');
@@ -929,8 +941,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $block = $observer->getEvent()->getBlock();
         $eventCategoryId = $block->getEvent()->getCategoryId();
-        $categoryPath = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')
-            ->getCategoryPathById($eventCategoryId);
+        $categoryPath = $this->_categoryResource->getCategoryPathById($eventCategoryId);
         if (!$this->_role->hasExclusiveCategoryAccess($categoryPath)) {
             $block->removeButton('save');
             $block->removeButton('save_and_continue');

@@ -19,6 +19,35 @@ namespace Magento\Page\Block\Html;
 
 class Header extends \Magento\Core\Block\Template
 {
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var \Magento\Core\Model\App\State
+     */
+    protected $_appState;
+
+    /**
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_appState = $appState;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function _construct()
     {
         $this->setTemplate('html/header.phtml');
@@ -65,8 +94,8 @@ class Header extends \Magento\Core\Block\Template
     public function getWelcome()
     {
         if (empty($this->_data['welcome'])) {
-            if (\Mage::isInstalled() && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-                $this->_data['welcome'] = __('Welcome, %1!', $this->escapeHtml(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getName()));
+            if ($this->_appState->isInstalled() && $this->_customerSession->isLoggedIn()) {
+                $this->_data['welcome'] = __('Welcome, %1!', $this->escapeHtml($this->_customerSession->getCustomer()->getName()));
             } else {
                 $this->_data['welcome'] = $this->_storeConfig->getConfig('design/header/welcome');
             }

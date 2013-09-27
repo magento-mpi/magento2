@@ -21,6 +21,26 @@ namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
 class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($resource);
+    }
+
+
+    /**
      * Define main table and primary key
      *
      */
@@ -55,7 +75,7 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
         } else {
             if ($storeId = $product->getStoreId()) {
                 $select->where('website_id IN (0, :website_id)');
-                $bind['website_id'] = \Mage::app()->getStore($storeId)->getWebsiteId();
+                $bind['website_id'] = $this->_storeManager->getStore($storeId)->getWebsiteId();
             }
         }
         return $read->fetchAll($select, $bind);
@@ -74,7 +94,7 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         if (!$attribute->isScopeGlobal()) {
             if ($storeId = $product->getStoreId()) {
-                $condition['website_id IN (?)'] = array(0, \Mage::app()->getStore($storeId)->getWebsiteId());
+                $condition['website_id IN (?)'] = array(0, $this->_storeManager->getStore($storeId)->getWebsiteId());
             }
         }
 

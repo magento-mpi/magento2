@@ -50,11 +50,6 @@ class Messages extends \Magento\Adminhtml\Block\Messages
     protected function _prepareLayout()
     {
         /**
-         * Check customer existing
-         */
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($this->_getOrder()->getCustomerId());
-
-        /**
          * Check Item products existing
          */
         $productIds = array();

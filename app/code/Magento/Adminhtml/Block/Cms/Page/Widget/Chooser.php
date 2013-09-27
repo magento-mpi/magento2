@@ -20,9 +20,56 @@ namespace Magento\Adminhtml\Block\Cms\Page\Widget;
 class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * @var \Magento\Page\Model\Source\Layout
+     */
+    protected $_pageLayout;
+
+    /**
+     * @var \Magento\Cms\Model\Page
+     */
+    protected $_cmsPage;
+
+    /**
+     * @var \Magento\Cms\Model\PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Page\Model\Source\Layout $pageLayout
+     * @param \Magento\Cms\Model\Page $cmsPage
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Page\Model\Source\Layout $pageLayout,
+        \Magento\Cms\Model\Page $cmsPage,
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_pageLayout = $pageLayout;
+        $this->_cmsPage = $cmsPage;
+        $this->_pageFactory = $pageFactory;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block construction, prepare grid params
-     *
-     * @param array $arguments Object data
      */
     protected function _construct()
     {
@@ -52,7 +99,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 
 
         if ($element->getValue()) {
-            $page = \Mage::getModel('Magento\Cms\Model\Page')->load((int)$element->getValue());
+            $page = $this->_pageFactory->create()->load((int)$element->getValue());
             if ($page->getId()) {
                 $chooser->setLabel($page->getTitle());
             }
@@ -90,7 +137,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Cms\Model\Page')->getCollection();
+        $collection = $this->_collectionFactory->create();
         /* @var $collection \Magento\Cms\Model\Resource\Page\Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);
@@ -130,7 +177,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
             'header'    => __('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
-            'options'   => \Mage::getSingleton('Magento\Page\Model\Source\Layout')->getOptions(),
+            'options'   => $this->_pageLayout->getOptions(),
             'header_css_class'  => 'col-layout',
             'column_css_class'  => 'col-layout'
         ));
@@ -139,7 +186,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
             'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => \Mage::getModel('Magento\Cms\Model\Page')->getAvailableStatuses(),
+            'options'   => $this->_cmsPage->getAvailableStatuses(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

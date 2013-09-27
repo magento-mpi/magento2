@@ -27,7 +27,8 @@ class BannerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_resourceModel = \Mage::getResourceModel('Magento\Banner\Model\Resource\Banner');
+        $this->_resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Resource\Banner');
     }
 
     protected function tearDown()
@@ -53,7 +54,8 @@ class BannerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCatalogRuleRelatedBannerIds()
     {
-        $banner = \Mage::getModel('Magento\Banner\Model\Banner');
+        $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Banner');
         $banner->load('Test Banner', 'name');
 
         $this->assertSame(
@@ -92,11 +94,13 @@ class BannerTest extends \PHPUnit_Framework_TestCase
     public function testGetSalesRuleRelatedBannerIds()
     {
         /** @var \Magento\SalesRule\Model\Rule $rule */
-        $rule = \Mage::getModel('Magento\SalesRule\Model\Rule');
+        $rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\SalesRule\Model\Rule');
         $rule->load('40% Off on Large Orders', 'name');
 
         /** @var \Magento\Banner\Model\Banner $banner */
-        $banner = \Mage::getModel('Magento\Banner\Model\Banner');
+        $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Banner');
         $banner->load('Get from 40% to 50% Off on Large Orders', 'name');
 
         $this->assertEquals(

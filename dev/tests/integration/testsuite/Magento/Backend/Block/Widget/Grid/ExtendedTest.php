@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Block\Widget\Grid;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Block\Widget\Grid;
+
 class ExtendedTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -30,8 +30,10 @@ class ExtendedTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_layoutMock = \Mage:: getSingleton('Magento\Core\Model\Layout');
-        $context = \Mage::getModel('Magento\Backend\Block\Template\Context', array('layout' => $this->_layoutMock));
+        $this->_layoutMock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Layout');
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Block\Template\Context', array('layout' => $this->_layoutMock));
         $this->_block = $this->_layoutMock->createBlock(
             'Magento\Backend\Block\Widget\Grid\Extended', 'grid', array('context' => $context)
         );

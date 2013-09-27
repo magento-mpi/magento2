@@ -22,7 +22,8 @@ class HeadTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo', 'frontend');
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Page\Block\Html\Head');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Page\Block\Html\Head');
     }
 
     /**

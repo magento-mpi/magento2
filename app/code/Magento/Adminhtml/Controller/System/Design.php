@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Adminhtml\Controller\System;
 
 class Design extends \Magento\Adminhtml\Controller\Action
@@ -60,7 +59,7 @@ class Design extends \Magento\Adminhtml\Controller\Action
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int)$this->getRequest()->getParam('id');
-        $design    = \Mage::getModel('Magento\Core\Model\Design');
+        $design    = $this->_objectManager->create('Magento\Core\Model\Design');
 
         if ($id) {
             $design->load($id);
@@ -82,7 +81,7 @@ class Design extends \Magento\Adminhtml\Controller\Action
         if ($data) {
             $id = (int) $this->getRequest()->getParam('id');
 
-            $design = \Mage::getModel('Magento\Core\Model\Design');
+            $design = $this->_objectManager->create('Magento\Core\Model\Design');
             if ($id) {
                 $design->load($id);
             }
@@ -94,9 +93,9 @@ class Design extends \Magento\Adminhtml\Controller\Action
             try {
                 $design->save();
 
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the design change.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the design change.'));
             } catch (\Exception $e){
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError($e->getMessage())
                     ->setDesignData($data);
                 $this->_redirect('*/*/edit', array('id'=>$design->getId()));
@@ -111,18 +110,18 @@ class Design extends \Magento\Adminhtml\Controller\Action
     {
         $id = $this->getRequest()->getParam('id');
         if ($id) {
-            $design = \Mage::getModel('Magento\Core\Model\Design')->load($id);
+            $design = $this->_objectManager->create('Magento\Core\Model\Design')->load($id);
 
             try {
                 $design->delete();
 
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addSuccess(__('You deleted the design change.'));
             } catch (\Magento\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError($e->getMessage());
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addException($e, __("Cannot delete the design change."));
             }
         }

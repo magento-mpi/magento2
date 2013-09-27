@@ -49,17 +49,57 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @var \Magento\Customer\Model\GroupFactory
+     */
+    protected $_customerGroup;
+
+    /**
+     * @var \Magento\CatalogRule\Model\Resource\RuleFactory
+     */
+    protected $_catalogRuleFactory;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Class constructor
      *
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory
+     * @param \Magento\Customer\Model\GroupFactory $customerGroup
+     * @param \Magento\Catalog\Model\Config $config
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory,
+        \Magento\Customer\Model\GroupFactory $customerGroup,
+        \Magento\Catalog\Model\Config $config,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Resource $resource
     ) {
         $this->_eventManager = $eventManager;
         parent::__construct($resource);
+        $this->_config = $config;
+        $this->_customerGroup = $customerGroup;
+        $this->_catalogRuleFactory = $catalogRuleFactory;
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -80,7 +120,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getAttribute($attributeCode)
     {
         if (!isset($this->_attributes[$attributeCode])) {
-            $this->_attributes[$attributeCode] = \Mage::getSingleton('Magento\Catalog\Model\Config')
+            $this->_attributes[$attributeCode] = $this->_config
                 ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeCode);
         }
         return $this->_attributes[$attributeCode];
@@ -94,7 +134,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getWebsites()
     {
         if (is_null($this->_websites)) {
-            $this->_websites = \Mage::app()->getWebsites(false);
+            $this->_websites = $this->_storeManager->getWebsites(false);
         }
         return $this->_websites;
     }
@@ -108,7 +148,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            foreach (\Mage::getModel('Magento\Customer\Model\Group')->getCollection() as $group) {
+            foreach ($this->_customerGroup->create()->getCollection() as $group) {
                 $this->_customerGroups[$group->getId()] = $group;
             }
         }
@@ -491,10 +531,10 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getBasePrice($productId, array $priceData, $website, $customerGroup)
     {
         $store          = $website->getDefaultStore();
-        $storeTimeStamp = \Mage::app()->getLocale()->storeTimeStamp($store);
+        $storeTimeStamp = $this->_locale->storeTimeStamp($store);
         $finalPrice     = $this->_calculateSpecialPrice($priceData['price'], $priceData, $website);
 
-        $rulePrice = \Mage::getResourceModel('Magento\CatalogRule\Model\Resource\Rule')
+        $rulePrice = $this->_catalogRuleFactory->create()
             ->getRulePrice($storeTimeStamp, $website->getId(), $customerGroup->getId(), $productId);
 
         if ($rulePrice !== null && $rulePrice !== false) {
@@ -788,7 +828,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
         $specialPrice       = $priceData['special_price'];
 
         if (!is_null($specialPrice) && $specialPrice != false) {
-            if (\Mage::app()->getLocale()->isStoreDateInInterval($store, $priceData['special_from_date'],
+            if ($this->_locale->isStoreDateInInterval($store, $priceData['special_from_date'],
             $priceData['special_to_date'])) {
                 $specialPrice   = ($finalPrice * $specialPrice) / 100;
                 $finalPrice     = min($finalPrice, $specialPrice);

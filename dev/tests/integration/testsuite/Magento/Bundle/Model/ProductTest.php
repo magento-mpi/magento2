@@ -24,7 +24,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Product');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
     }
 
@@ -41,12 +42,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($typeInstance, $this->_model->getTypeInstance());
 
         // singleton getter
-        $otherProduct = \Mage::getModel('Magento\Catalog\Model\Product');
+        $otherProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $otherProduct->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
         $this->assertSame($typeInstance, $otherProduct->getTypeInstance());
 
         // model setter
-        $customTypeInstance = \Mage::getModel('Magento\Bundle\Model\Product\Type');
+        $customTypeInstance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Bundle\Model\Product\Type');
         $this->_model->setTypeInstance($customTypeInstance);
         $this->assertSame($customTypeInstance, $this->_model->getTypeInstance());
     }
@@ -57,7 +60,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        \Mage::app()->setCurrentStore(\Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->setCurrentStore(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')
+                    ->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+            );
         $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
             ->setAttributeSetId(4)
             ->setName('Bundle Product')->setSku(uniqid())->setPrice(10)

@@ -27,9 +27,9 @@ class Config
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Config\DataInterface
      */
-    protected $_coreConfig;
+    protected $_dataStorage;
 
     /**
      * Locale model
@@ -52,14 +52,17 @@ class Config
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Config\DataInterface $dataStorage
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Config\DataInterface $dataStorage
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_dataStorage = $dataStorage;
         $this->_coreConfig = $coreConfig;
         $this->_methodFactory = $paymentMethodFactory;
         $this->_locale = $locale;
@@ -134,17 +137,22 @@ class Config
      */
     public function getCcTypes()
     {
-        $_types = $this->_coreConfig->getNode('global/payment/cc/types')->asArray();
+        return $this->_dataStorage->get('credit_cards');
+    }
 
-        uasort($_types, array('Magento\Payment\Model\Config', 'compareCcTypes'));
-
-        $types = array();
-        foreach ($_types as $data) {
-            if (isset($data['code']) && isset($data['name'])) {
-                $types[$data['code']] = $data['name'];
-            }
+    /**
+     * Get payment groups
+     *
+     * @return array
+     */
+    public function getGroups()
+    {
+        $groups = $this->_dataStorage->get('groups');
+        $result = array();
+        foreach ($groups as $code => $title) {
+            $result[$code] = $title;
         }
-        return $types;
+        return $result;
     }
 
     /**
@@ -177,31 +185,5 @@ class Config
             $years[$year] = $year;
         }
         return $years;
-    }
-
-    /**
-     * Statis Method for compare sort order of CC Types
-     *
-     * @param array $a
-     * @param array $b
-     * @return int
-     */
-    static function compareCcTypes($a, $b)
-    {
-        if (!isset($a['order'])) {
-            $a['order'] = 0;
-        }
-
-        if (!isset($b['order'])) {
-            $b['order'] = 0;
-        }
-
-        if ($a['order'] == $b['order']) {
-            return 0;
-        } else if ($a['order'] > $b['order']) {
-            return 1;
-        } else {
-            return -1;
-        }
     }
 }

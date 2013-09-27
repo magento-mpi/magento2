@@ -45,7 +45,7 @@ class DefaultTotal extends \Magento\Object
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Tax\Model\Sales\Order\TaxFactory $taxFactory,
         array $data = array()
-    ){
+    ) {
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;
         $this->_taxOrder = $taxFactory->create();

@@ -6,27 +6,29 @@
  * @license     {license_link}
  */
 
-namespace Magento\Paypal\Controller;
-
 /**
  * @magentoDataFixture Magento/Sales/_files/order.php
  */
+namespace Magento\Paypal\Controller;
+
 class HostedproTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     public function testCancelActionIsContentGenerated()
     {
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->load('100000001', 'increment_id');
         $order->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_HOSTEDPRO);
 
-        $quote = \Mage::getModel('Magento\Sales\Model\Quote')
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote')
             ->setStoreId($order->getStoreId())
             ->save();
 
         $order->setQuoteId($quote->getId());
         $order->save();
 
-        $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session');
         $session->setLastRealOrderId($order->getRealOrderId())
             ->setLastQuoteId($order->getQuoteId());
 

@@ -11,7 +11,8 @@
 
 $addressData = include(__DIR__ . '/../../../Magento/Sales/_files/address_data.php');
 /** @var $billingAddress \Magento\Sales\Model\Order\Address */
-$billingAddress = \Mage::getModel('Magento\Sales\Model\Order\Address', array('data' => $addressData));
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -19,11 +20,13 @@ $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
 /** @var $payment \Magento\Sales\Model\Order\Payment */
-$payment = \Mage::getModel('Magento\Sales\Model\Order\Payment');
+$payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
 /** @var $orderItem \Magento\Sales\Model\Order\Item */
-$orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item');
+$orderItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Item');
 $orderItem->setProductId(1)
     ->setProductType(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setName('product name')
@@ -34,7 +37,8 @@ $orderItem->setProductId(1)
     ->setIsQtyDecimal(true);
 
 /** @var $order \Magento\Sales\Model\Order */
-$order = \Mage::getModel('Magento\Sales\Model\Order');
+$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order');
 $order->addItem($orderItem)
     ->setIncrementId('100000001')
     ->setSubtotal(100)
@@ -42,6 +46,9 @@ $order->addItem($orderItem)
     ->setCustomerIsGuest(true)
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
-    ->setStoreId(\Mage::app()->getStore()->getId())
+    ->setStoreId(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->getId()
+    )
     ->setPayment($payment);
 $order->save();

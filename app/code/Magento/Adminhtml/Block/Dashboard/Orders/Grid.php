@@ -20,6 +20,31 @@ namespace Magento\Adminhtml\Block\Dashboard\Orders;
 
 class Grid extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
+    /**
+     * @var \Magento\Reports\Model\Resource\Order\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -31,7 +56,7 @@ class Grid extends \Magento\Adminhtml\Block\Dashboard\Grid
         if (!$this->_coreData->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
-        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Order\Collection')
+        $collection = $this->_collectionFactory->create()
             ->addItemCountExpr()
             ->joinCustomerName('customer')
             ->orderByCreatedAt();
@@ -40,10 +65,10 @@ class Grid extends \Magento\Adminhtml\Block\Dashboard\Grid
             if ($this->getParam('store')) {
                 $collection->addAttributeToFilter('store_id', $this->getParam('store'));
             } else if ($this->getParam('website')) {
-                $storeIds = \Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+                $storeIds = $this->_storeManager->getWebsite($this->getParam('website'))->getStoreIds();
                 $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
             } else if ($this->getParam('group')) {
-                $storeIds = \Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+                $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
                 $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
             }
 
@@ -86,7 +111,7 @@ class Grid extends \Magento\Adminhtml\Block\Dashboard\Grid
             'index'     => 'items_count'
         ));
 
-        $baseCurrencyCode = \Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
+        $baseCurrencyCode = $this->_storeManager->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
 
         $this->addColumn('total', array(
             'header'    => __('Grand Total'),

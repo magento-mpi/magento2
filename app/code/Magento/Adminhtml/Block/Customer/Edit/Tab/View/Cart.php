@@ -33,6 +33,12 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_dataCollectionFactory;
 
     /**
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Data\CollectionFactory $dataCollectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -42,6 +48,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Data\CollectionFactory $dataCollectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -52,6 +59,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
     ) {
         $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_quoteFactory = $quoteFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -68,10 +76,10 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
+        $quote = $this->_quoteFactory->create();
         // set website to quote, if any
         if ($this->getWebsiteId()) {
-            $quote->setWebsite(\Mage::app()->getWebsite($this->getWebsiteId()));
+            $quote->setWebsite($this->_storeManager->getWebsite($this->getWebsiteId()));
         }
         $quote->loadByCustomer($this->_coreRegistry->registry('current_customer'));
 

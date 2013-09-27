@@ -187,7 +187,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
 
                 $headers = 'GET ' . $path . $query . ' HTTP/1.0' . "\r\n"
                     . 'Host: ' . $hostname . "\r\n"
-                    . 'User-Agent: Magento ver/' . \Mage::VERSION . "\r\n"
+                    . 'User-Agent: Magento ver/' . \Magento\Core\Model\App::VERSION . "\r\n"
                     . 'Connection: close' . "\r\n"
                     . "\r\n";
                 fwrite($this->_handle, $headers);

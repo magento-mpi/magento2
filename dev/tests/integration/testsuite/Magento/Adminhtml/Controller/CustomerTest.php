@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Controller;
+
 class CustomerTest extends \Magento\Backend\Utility\Controller
 {
     /**
@@ -34,12 +34,14 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
         /**
          * Unset customer data
          */
-        \Mage::getSingleton('Magento\Backend\Model\Session')->setCustomerData(null);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
+            ->setCustomerData(null);
 
         /**
          * Unset messages
          */
-        \Mage::getSingleton('Magento\Backend\Model\Session')->getMessages(true);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
+            ->getMessages(true);
     }
 
 
@@ -67,7 +69,10 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that customer data were set to session
          */
-        $this->assertEquals($post, \Mage::getSingleton('Magento\Backend\Model\Session')->getCustomerData());
+        $this->assertEquals(
+            $post, \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Backend\Model\Session')->getCustomerData()
+        );
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'new'));
     }
 
@@ -94,7 +99,8 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that customer data were set to session
          */
-        $this->assertEquals($post, \Mage::getSingleton('Magento\Backend\Model\Session')->getCustomerData());
+        $this->assertEquals($post, \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Session')->getCustomerData());
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'new'));
     }
 
@@ -136,7 +142,8 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that customer data were set to session
          */
-        $this->assertEmpty(\Mage::getSingleton('Magento\Backend\Model\Session')->getCustomerData());
+        $this->assertEmpty(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Session')->getCustomerData());
 
         /**
          * Check that success message is set
@@ -237,7 +244,8 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
         $this->assertCount(2, $customer->getAddressesCollection());
 
         /** @var $savedCustomer \Magento\Customer\Model\Customer */
-        $savedCustomer = \Mage::getModel('Magento\Customer\Model\Customer');
+        $savedCustomer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
         $savedCustomer->load($customer->getId());
         /**
          * addressOne - updated
@@ -273,7 +281,8 @@ class CustomerTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(array('Customer with the same email already exists.')),
             \Magento\Core\Model\Message::ERROR
         );
-        $this->assertEquals($post, \Mage::getSingleton('Magento\Backend\Model\Session')->getCustomerData());
+        $this->assertEquals($post, \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Session')->getCustomerData());
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'new/key/'));
     }
 }

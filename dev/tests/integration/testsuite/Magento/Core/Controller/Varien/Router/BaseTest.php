@@ -25,8 +25,10 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             'baseController' => 'Magento\Core\Controller\Front\Action',
             'routerId' => 'standard'
         );
-        $this->_model = \Mage::getModel('Magento\Core\Controller\Varien\Router\Base', $options);
-        $this->_model->setFront(\Mage::getModel('Magento\Core\Controller\Varien\Front'));
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Varien\Router\Base', $options);
+        $this->_model->setFront(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Controller\Varien\Front'));
     }
 
     public function testFetchDefault()
@@ -47,7 +49,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Can\'t test get match without sending headers');
         }
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');

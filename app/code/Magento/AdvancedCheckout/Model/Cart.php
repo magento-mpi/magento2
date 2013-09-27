@@ -116,6 +116,16 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\Core\Model\Message
+     */
+    protected $_coreMessage;
+
+    /**
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_sessionQuote;
+
+    /**
      * Sales quote factory
      *
      * @var \Magento\Sales\Model\QuoteFactory
@@ -151,7 +161,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_optionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -160,7 +170,26 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     protected $_locale;
 
+    /**
+     * @param \Magento\Checkout\Model\Cart $cart
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Core\Model\Message $coreMessage
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
+     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param array $data
+     */
     public function __construct(
+        \Magento\Checkout\Model\Cart $cart,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Core\Model\Message $coreMessage,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Customer\Helper\Data $customerData,
@@ -169,10 +198,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
+        $this->_cart = $cart;
+        $this->_sessionQuote = $sessionQuote;
+        $this->_coreMessage = $coreMessage;
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;
         $this->_customerData = $customerData;
@@ -274,7 +306,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function getActualQuote()
     {
         if ($this->_storeManager->getStore()->isAdmin()) {
-            return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote();
+            return $this->_quote->getQuote();
         } else {
             if (!$this->getCustomer()) {
                 $customer = $this->_customerData->getCustomer();
@@ -1287,7 +1319,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function saveAffectedProducts(\Magento\Checkout\Model\Cart\CartInterface $cart = null, $saveQuote = true)
     {
-        $cart = $cart ? $cart : $this->_getCart();
+        $cart = $cart ? $cart : $this->_cart;
         $affectedItems = $this->getAffectedItems();
         foreach ($affectedItems as &$item) {
             if ($item['code'] == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS) {
@@ -1488,13 +1520,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $message = ($addedItemsCount == 1)
                     ? __('You added %1 product to your shopping cart.', $addedItemsCount)
                     : __('You added %1 products to your shopping cart.', $addedItemsCount);
-            $messages[] = \Mage::getSingleton('Magento\Core\Model\Message')->success($message);
+            $messages[] = $this->_coreMessage->success($message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
                     ? __('%1 product requires your attention.', $failedItemsCount)
                     : __('%1 products require your attention.', $failedItemsCount);
-            $messages[] = \Mage::getSingleton('Magento\Core\Model\Message')->error($warning);
+            $messages[] = $this->_coreMessage->error($warning);
         }
         return $messages;
     }
@@ -1606,16 +1638,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         }
         $this->setAffectedItems($affectedItems);
         return $this;
-    }
-
-    /**
-     * Retrieve shopping cart model object
-     *
-     * @return \Magento\Checkout\Model\Cart
-     */
-    protected function _getCart()
-    {
-        return \Mage::getSingleton('Magento\Checkout\Model\Cart');
     }
 
     /**

@@ -53,10 +53,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $moduleReader = $objectManager->create(
             'Magento\Core\Model\Config\Modules\Reader',
             array(
-                'dirs' => $dirs,
                 'moduleList' => $moduleList
             )
         );
+        $moduleReader->setModuleDir('Magento_Last', 'etc', __DIR__ . '/LayoutTest/Magento/Last/etc');
 
         /** @var \Magento\Core\Model\DataService\Config\Reader\Factory $dsCfgReaderFactory */
         $dsCfgReaderFactory = $objectManager->create('Magento\Core\Model\DataService\Config\Reader\Factory');

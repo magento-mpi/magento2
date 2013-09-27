@@ -22,12 +22,12 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
-     * @var \Magento\TestFramework\Bootstrap|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Bootstrap|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_bootstrap;
 
     /**
-     * @var \Magento\TestFramework\Application|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Application|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_application;
 
@@ -37,7 +37,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_fixtureInitParams = array(
-        \Mage::PARAM_APP_DIRS => array(
+        \Magento\Core\Model\App::PARAM_APP_DIRS => array(
             \Magento\Core\Model\Dir::CONFIG     => __DIR__,
             \Magento\Core\Model\Dir::VAR_DIR    => __DIR__,
         ),

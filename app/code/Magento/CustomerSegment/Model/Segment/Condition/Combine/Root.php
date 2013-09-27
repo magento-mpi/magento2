@@ -22,16 +22,20 @@ class Root
     protected $_configShare;
 
     /**
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param array $data
      */
     public function __construct(
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Customer\Model\Config\Share $configShare,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($conditionFactory, $resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
         $this->_configShare = $configShare;
     }

@@ -17,20 +17,28 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * @var \Magento\CustomerSegment\Model\SegmentFactory
+     */
+    protected $_segmentFactory;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_segmentFactory = $segmentFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -80,7 +88,8 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
             ));
 
             if ($segment->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
-                $customersQty = \Mage::getModel('Magento\CustomerSegment\Model\Segment')->getResource()
+                $customersQty = $this->_segmentFactory->create()
+                    ->getResource()
                     ->getSegmentCustomersQty($segment->getId());
                 $this->addTab('customers_tab', array(
                     'label' => __('Matched Customers (%1)', $customersQty),

@@ -35,6 +35,38 @@ class Express extends \Magento\Paypal\Model\Express
     protected $_ecInstance = null;
 
     /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_urlModel;
+
+    /**
+     * @var \Magento\Paypal\Model\InfoFactory
+     */
+    protected $_paypalInfoFactory;
+
+    /**
+     * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        array $data = array()
+    ) {
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+        $this->_paypalInfoFactory = $paypalInfoFactory;
+    }
+
+    /**
      * EC PE won't be available if the EC is available
      *
      * @param \Magento\Sales\Model\Quote $quote
@@ -72,7 +104,7 @@ class Express extends \Magento\Paypal\Model\Express
                 $api->getTransactionId())
         ;
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
-        \Mage::getModel('Magento\Paypal\Model\Info')->importToPayment($api, $payment);
+        $this->_paypalInfoFactory->create()->importToPayment($api, $payment);
     }
 
     /**
@@ -84,6 +116,6 @@ class Express extends \Magento\Paypal\Model\Express
      */
     public function getCheckoutRedirectUrl()
     {
-        return \Mage::getUrl('paypaluk/express/start');
+        return $this->_urlModel->getUrl('paypaluk/express/start');
     }
 }

@@ -11,7 +11,6 @@
 /**
  * Poll edit form
  */
-
 namespace Magento\Adminhtml\Block\Rating\Edit\Tab;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
@@ -24,6 +23,30 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_storeManager;
 
     /**
+     * System store
+     *
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * Session
+     *
+     * @var \Magento\Core\Model\Session\AbstractSession
+     */
+    protected $_session;
+
+    /**
+     * Option factory
+     *
+     * @var \Magento\Rating\Model\Rating\OptionFactory
+     */
+    protected $_optionFactory;
+
+    /**
+     * @param \Magento\Rating\Model\Rating\OptionFactory $optionFactory
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -32,6 +55,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param array $data
      */
     public function __construct(
+        \Magento\Rating\Model\Rating\OptionFactory $optionFactory,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Core\Model\System\Store $systemStore,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -39,6 +65,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_optionFactory = $optionFactory;
+        $this->_session = $session;
+        $this->_systemStore = $systemStore;
         $this->_storeManager = $storeManager;
         parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
     }
@@ -66,20 +95,20 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'required' => true,
         ));
 
-        foreach (\Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreCollection() as $store) {
+        foreach ($this->_systemStore->getStoreCollection() as $store) {
             $fieldset->addField('rating_code_' . $store->getId(), 'text', array(
                 'label' => $store->getName(),
                 'name' => 'rating_codes[' . $store->getId() . ']',
             ));
         }
 
-        if (\Mage::getSingleton('Magento\Adminhtml\Model\Session')->getRatingData()) {
-            $form->setValues(\Mage::getSingleton('Magento\Adminhtml\Model\Session')->getRatingData());
-            $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getRatingData();
+        if ($this->_session->getRatingData()) {
+            $form->setValues($this->_session->getRatingData());
+            $data = $this->_session->getRatingData();
             if (isset($data['rating_codes'])) {
                $this->_setRatingCodes($data['rating_codes']);
             }
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setRatingData(null);
+            $this->_session->setRatingData(null);
         } elseif ($this->_coreRegistry->registry('rating_data')) {
             $form->setValues($this->_coreRegistry->registry('rating_data')->getData());
             if ($this->_coreRegistry->registry('rating_data')->getRatingCodes()) {
@@ -88,7 +117,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         if ($this->_coreRegistry->registry('rating_data')) {
-            $collection = \Mage::getModel('Magento\Rating\Model\Rating\Option')
+            $collection = $this->_optionFactory->create()
                 ->getResourceCollection()
                 ->addRatingFilter($this->_coreRegistry->registry('rating_data')->getId())
                 ->load();
@@ -120,7 +149,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $field = $fieldset->addField('stores', 'multiselect', array(
                 'label' => __('Visible In'),
                 'name' => 'stores[]',
-                'values' => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
+                'values' => $this->_systemStore->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);

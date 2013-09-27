@@ -17,12 +17,40 @@ class Attributes
     extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Customer\Model\Resource\Customer
+     */
+    protected $_resourceCustomer;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Resource\Customer $resourceCustomer,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        $this->_resourceCustomer = $resourceCustomer;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes');
         $this->setValue(null);
     }
@@ -60,7 +88,7 @@ class Attributes
      */
     public function getAttributeObject()
     {
-        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer', $this->getAttribute());
+        return $this->_eavConfig->getAttribute('customer', $this->getAttribute());
     }
 
     /**
@@ -70,7 +98,7 @@ class Attributes
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Customer')
+        $productAttributes = $this->_resourceCustomer
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -280,7 +308,7 @@ class Attributes
     public function getDateValue()
     {
         if ($this->getOperator() == '==') {
-            $dateObj = \Mage::app()->getLocale()
+            $dateObj = $this->_locale
                 ->date($this->getValue(), \Magento\Date::DATE_INTERNAL_FORMAT, null, false)
                 ->setHour(0)->setMinute(0)->setSecond(0);
             $value = array(

@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Widget;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Widget;
+
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetButtonsHtml()
@@ -58,7 +58,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     protected function _buildBlock($titles)
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getModel(
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );

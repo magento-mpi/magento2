@@ -16,6 +16,13 @@ namespace Magento\Sales\Model\Order\Pdf\Shipment;
 class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
     /**
+     * Usa data
+     *
+     * @var \Magento\Usa\Helper\Data
+     */
+    protected $_usaData = null;
+
+    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -26,29 +33,22 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_storeManager;
 
     /**
-     * Usa data
-     *
-     * @var \Magento\Usa\Helper\Data
-     */
-    protected $_usaData = null;
-
-    /**
      * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Core\Model\Dir $coreDir
      * @param \Magento\Shipping\Model\Config $shippingConfig
-     * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Sales\Model\Order\Pdf\TotalFactory $pdfTotalFactory
+     * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
+     * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
+     * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Layout $layout
@@ -57,24 +57,28 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Usa\Helper\Data $usaData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Core\Model\Translate $translate,
         \Magento\Core\Model\Dir $coreDir,
         \Magento\Shipping\Model\Config $shippingConfig,
-        \Magento\Core\Model\Translate $translate,
-        \Magento\Sales\Model\Order\Pdf\TotalFactory $pdfTotalFactory,
+        \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
+        \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
+        \Magento\Usa\Helper\Data $usaData,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Layout $layout,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
-        parent::__construct($paymentData, $coreData, $coreString, $data);
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+        $this->_layout = $layout;
+        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $coreDir,
+            $shippingConfig, $pdfConfig, $pdfTotalFactory, $pdfItemsFactory, $data);
     }
 
     /**

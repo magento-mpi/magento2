@@ -20,6 +20,36 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
 
 class Gallery extends \Magento\Data\Form\Element\AbstractElement
 {
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param array $attributes
+     */
+    public function __construct(
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        $attributes = array()
+    ) {
+        $this->_layout = $layout;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+    }
 
     public function getElementHtml()
     {
@@ -36,9 +66,7 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
     {
 
         /* @var $content \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content */
-        $content = \Mage::app()->getLayout()
-            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content');
-
+        $content = $this->_layout->createBlock('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content');
         $content->setId($this->getHtmlId() . '_content')->setElement($this);
         $galleryJs = $content->getJsObjectName();
         $content->getUploader()->getConfig()->setMegiaGallery($galleryJs);
@@ -99,7 +127,7 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
     public function getScopeLabel($attribute)
     {
         $html = '';
-        if (\Mage::app()->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return $html;
         }
 

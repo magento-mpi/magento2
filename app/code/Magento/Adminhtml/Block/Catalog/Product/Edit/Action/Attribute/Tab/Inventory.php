@@ -22,13 +22,34 @@ class Inventory
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
+     * @var \Magento\CatalogInventory\Model\Source\Backorders
+     */
+    protected $_backorders;
+
+    /**
+     * @param \Magento\CatalogInventory\Model\Source\Backorders $backorders
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CatalogInventory\Model\Source\Backorders $backorders,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_backorders = $backorders;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve Backorders Options
      *
      * @return array
      */
     public function getBackordersOption()
     {
-        return \Mage::getSingleton('Magento\CatalogInventory\Model\Source\Backorders')->toOptionArray();
+        return $this->_backorders->toOptionArray();
     }
 
     /**

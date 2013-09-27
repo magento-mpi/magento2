@@ -176,9 +176,7 @@ abstract class AbstractModel extends \Magento\Object
     public function __sleep()
     {
         $properties = array_keys(get_object_vars($this));
-        if (\Mage::getIsSerializable()) {
-            $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager', '_coreRegistry'));
-        }
+        $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager', '_coreRegistry'));
         return $properties;
     }
 
@@ -187,12 +185,10 @@ abstract class AbstractModel extends \Magento\Object
      */
     public function __wakeup()
     {
-        if (\Mage::getIsSerializable()) {
-            $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
-            $this->_eventDispatcher = $objectManager->get('Magento\Core\Model\Event\Manager');
-            $this->_cacheManager = $objectManager->get('Magento\Core\Model\CacheInterface');
-            $this->_coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
-        }
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $this->_eventDispatcher = $objectManager->get('Magento\Core\Model\Event\Manager');
+        $this->_cacheManager = $objectManager->get('Magento\Core\Model\CacheInterface');
+        $this->_coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
     }
 
     /**
@@ -207,8 +203,7 @@ abstract class AbstractModel extends \Magento\Object
     {
         $this->_resourceName = $resourceName;
         if (is_null($collectionName)) {
-            $collectionName = $resourceName .
-                \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Collection';
+            $collectionName = $resourceName . '_Collection';
         }
         $this->_collectionName = $collectionName;
     }

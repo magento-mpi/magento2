@@ -51,6 +51,13 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_ignoredUserAgents;
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -63,6 +70,13 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_coreConfig;
 
     /**
+     * Ignored Modules
+     *
+     * @var array
+     */
+    protected $_ignores;
+
+    /*
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -83,46 +97,57 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_customerFactory;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
+     * @param \Magento\Core\Model\Context               $context
+     * @param \Magento\Core\Model\Registry              $registry
+     * @param \Magento\Core\Model\Store\Config          $coreStoreConfig
+     * @param \Magento\Core\Model\Event\Manager         $eventManager
+     * @param \Magento\Customer\Model\CustomerFactory   $customerFactory
+     * @param \Magento\Sales\Model\QuoteFactory         $quoteFactory
+     * @param \Magento\Core\Model\Session               $session
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Http                 $coreHttp
+     * @param \Magento\Core\Model\Config                $coreConfig
+     * @param array                                    $data
+     * @param array                                    $ignoredUserAgents
+     * @param array                                    $ignores
+     * @param \Magento\Core\Model\Resource\AbstractResource     $resource
+     * @param \Magento\Data\Collection\Db               $resourceCollection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array(),
         array $ignoredUserAgents = array(),
-        array $data = array()
+        array $ignores = array(),
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null
     ) {
-        $this->_quoteFactory = $quoteFactory;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_eventManager = $eventManager;
         $this->_customerFactory = $customerFactory;
+        $this->_quoteFactory = $quoteFactory;
         $this->_session = $session;
         $this->_storeManager = $storeManager;
         $this->_coreHttp = $coreHttp;
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         $this->_ignoredUserAgents = $ignoredUserAgents;
+
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_ignores = $ignores;
     }
 
     /**
-     * Onject initialization
+     * Object initialization
      */
     protected function _construct()
     {
@@ -230,7 +255,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
             $this->setFirstVisitAt(now());
             $this->setIsNewVisitor(true);
             $this->save();
-            $this->_eventDispatcher->dispatch('visitor_init', array('visitor' => $this));
+            $this->_eventManager->dispatch('visitor_init', array('visitor' => $this));
         }
         return $this;
     }
@@ -372,11 +397,9 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function isModuleIgnored($observer)
     {
-        $ignores = $this->_coreConfig->getNode('global/ignoredModules/entities')->asArray();
-
-        if (is_array($ignores) && $observer) {
+        if (is_array($this->_ignores) && $observer) {
             $curModule = $observer->getEvent()->getControllerAction()->getRequest()->getRouteName();
-            if (isset($ignores[$curModule])) {
+            if (isset($this->_ignores[$curModule])) {
                 return true;
             }
         }

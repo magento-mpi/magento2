@@ -11,15 +11,18 @@
 
 // add new website
 /** @var $website \Magento\Core\Model\Website */
-$website = \Mage::getModel('Magento\Core\Model\Website');
+$website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Website');
 $website->setCode('finance_website')
     ->setName('Finance Website');
 $website->save();
- \Mage::app()->reinitStores();
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+    ->reinitStores();
 
 // create test customer
 /** @var $customer \Magento\Customer\Model\Customer */
-$customer = \Mage::getModel('Magento\Customer\Model\Customer');
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
@@ -31,7 +34,10 @@ $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $objectManager->get('Magento\Core\Model\Registry')->unregister($registerKey);
 $objectManager->get('Magento\Core\Model\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
-$customer->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
+$customer->setWebsiteId(
+    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        ->getStore()->getWebsiteId()
+);
 $customer->save();
 
 // create store credit and reward points
@@ -40,12 +46,15 @@ $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Mage
 
 // increment to modify balance values
 $increment = 0;
+$websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+    ->getWebsites();
 /** @var $website \Magento\Core\Model\Website */
-foreach (\Mage::app()->getWebsites() as $website) {
+foreach ($websites as $website) {
     $increment += 10;
 
     /** @var $customerBalance \Magento\CustomerBalance\Model\Balance */
-    $customerBalance = \Mage::getModel('Magento\CustomerBalance\Model\Balance');
+    $customerBalance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\CustomerBalance\Model\Balance');
     $customerBalance->setCustomerId($customer->getId());
     $customerBalanceAmount = 50 + $increment;
     $registerKey = 'customer_balance_' . $website->getCode();
@@ -56,7 +65,8 @@ foreach (\Mage::app()->getWebsites() as $website) {
     $customerBalance->save();
 
     /** @var $rewardPoints \Magento\Reward\Model\Reward */
-    $rewardPoints = \Mage::getModel('Magento\Reward\Model\Reward');
+    $rewardPoints = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Reward\Model\Reward');
     $rewardPoints->setCustomerId($customer->getId());
     $rewardPointsBalance = 100 + $increment;
     $registerKey = 'reward_point_balance_' . $website->getCode();

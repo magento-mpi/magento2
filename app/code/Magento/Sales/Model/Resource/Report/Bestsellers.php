@@ -25,7 +25,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
     protected $_productResource;
 
     /**
-     * @var \Magento\Sales\Model\Resource\Helper\Mysql4
+     * @var \Magento\Sales\Model\Resource\Helper
      */
     protected $_salesResourceHelper;
 
@@ -33,13 +33,13 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Catalog\Model\Resource\Product $productResource
-     * @param \Magento\Sales\Model\Resource\Helper\Mysql4 $salesResourceHelper
+     * @param \Magento\Sales\Model\Resource\Helper $salesResourceHelper
      */
     public function __construct(
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Resource $resource,
         \Magento\Catalog\Model\Resource\Product $productResource,
-        \Magento\Sales\Model\Resource\Helper\Mysql4 $salesResourceHelper
+        \Magento\Sales\Model\Resource\Helper $salesResourceHelper
     ) {
         parent::__construct($logger, $resource);
         $this->_productResource = $productResource;

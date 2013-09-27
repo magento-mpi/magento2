@@ -13,4 +13,11 @@
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
+    <type name="Magento\Core\Model\Db\Updater">
+        <param name="resourceList">
+            <value>
+                <eav_setup>Magento\Eav\Model\Entity\Setup</eav_setup>
+            </value>
+        </param>
+    </type>
 </config>

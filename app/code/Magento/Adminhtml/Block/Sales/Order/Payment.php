@@ -48,7 +48,7 @@ class Payment extends \Magento\Adminhtml\Block\Template
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            \Mage::throwException(__('Invalid parent block for this block'));
+            throw new \Magento\Core\Exception(__('Invalid parent block for this block'));
         }
         $this->setPayment($this->getParentBlock()->getOrder()->getPayment());
         parent::_beforeToHtml();

@@ -20,7 +20,8 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Pci\Model\Encryption');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Pci\Model\Encryption');
     }
 
     public function testEncryptDecrypt()

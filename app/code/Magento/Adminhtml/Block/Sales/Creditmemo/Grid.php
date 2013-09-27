@@ -17,6 +17,38 @@ namespace Magento\Adminhtml\Block\Sales\Creditmemo;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\CreditmemoFactory
+     */
+    protected $_creditmemoFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory
+     * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory,
+        \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_creditmemoFactory = $creditmemoFactory;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -26,19 +58,9 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->setDefaultDir('DESC');
     }
 
-    /**
-     * Retrieve collection class
-     *
-     * @return string
-     */
-    protected function _getCollectionClass()
-    {
-        return 'Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Collection';
-    }
-
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel($this->_getCollectionClass());
+        $collection = $this->_collectionFactory->create();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -89,7 +111,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header'    => __('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->getStates(),
+            'options'   => $this->_creditmemoFactory->create()->getStates(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

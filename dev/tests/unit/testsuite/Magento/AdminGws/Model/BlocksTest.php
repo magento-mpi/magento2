@@ -21,6 +21,8 @@ class BlocksTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\AdminGws\Model\Blocks(
+            $this->getMock('Magento\Cms\Model\Resource\Page', array(), array(), '', false),
+            $this->getMock('Magento\Catalog\Model\Resource\Category', array(), array(), '', false),
             $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false)
         );

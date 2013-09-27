@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit;
+
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form */
@@ -22,11 +22,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $layout = \Mage::getModel('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         if (!$objectManager->get('Magento\Core\Model\Registry')->registry('current_reward_rate')) {
-            $rate = \Mage::getModel('Magento\Reward\Model\Reward\Rate');
+            $rate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Reward\Model\Reward\Rate');
             $objectManager->get('Magento\Core\Model\Registry')->register('current_reward_rate', $rate);
         }
 

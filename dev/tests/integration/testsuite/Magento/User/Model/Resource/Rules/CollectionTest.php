@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Model\Resource\Rules;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\User\Model\Resource\Rules;
+
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,12 +23,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Mage::getResourceModel('Magento\User\Model\Resource\Rules\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Resource\Rules\Collection');
     }
 
     public function testGetByRoles()
     {
-        $user = \Mage::getModel('Magento\User\Model\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User');
         $user->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
         $this->_collection->getByRoles($user->getRole()->getId());
 

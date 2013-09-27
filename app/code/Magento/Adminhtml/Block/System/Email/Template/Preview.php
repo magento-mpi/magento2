@@ -20,6 +20,35 @@ namespace Magento\Adminhtml\Block\System\Email\Template;
 class Preview extends \Magento\Adminhtml\Block\Widget
 {
     /**
+     * @var \Magento\Core\Model\Input\Filter\MaliciousCode
+     */
+    protected $_maliciousCode;
+
+    /**
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_emailFactory;
+
+    /**
+     * @param \Magento\Core\Model\Input\Filter\MaliciousCode $maliciousCode
+     * @param \Magento\Core\Model\Email\TemplateFactory $emailFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Input\Filter\MaliciousCode $maliciousCode,
+        \Magento\Core\Model\Email\TemplateFactory $emailFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_maliciousCode = $maliciousCode;
+        $this->_emailFactory = $emailFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare html output
      *
      * @return string
@@ -27,8 +56,9 @@ class Preview extends \Magento\Adminhtml\Block\Widget
     protected function _toHtml()
     {
         /** @var $template \Magento\Core\Model\Email\Template */
-        $template = \Mage::getModel('Magento\Core\Model\Email\Template',
-            array('data' => array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND)));
+        $template = $this->_emailFactory->create(
+            array('data' => array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND))
+        );
         $id = (int)$this->getRequest()->getParam('id');
         if ($id) {
             $template->load($id);
@@ -38,11 +68,8 @@ class Preview extends \Magento\Adminhtml\Block\Widget
             $template->setTemplateStyles($this->getRequest()->getParam('styles'));
         }
 
-        /* @var $filter \Magento\Core\Model\Input\Filter\MaliciousCode */
-        $filter = \Mage::getSingleton('Magento\Core\Model\Input\Filter\MaliciousCode');
-
         $template->setTemplateText(
-            $filter->filter($template->getTemplateText())
+            $this->_maliciousCode->filter($template->getTemplateText())
         );
 
         \Magento\Profiler::start("email_template_proccessing");
@@ -51,7 +78,7 @@ class Preview extends \Magento\Adminhtml\Block\Widget
         $template->setDesignConfig(
             array(
                 'area' => $this->_design->getArea(),
-                'store' => \Mage::getSingleton('Magento\Core\Model\StoreManagerInterface')->getDefaultStoreView()->getId()
+                'store' => $this->_storeManager->getDefaultStoreView()->getId()
             )
         );
         $templateProcessed = $template->getProcessedTemplate($vars, true);

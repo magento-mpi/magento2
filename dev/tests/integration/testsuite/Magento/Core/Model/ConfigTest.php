@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model;
 
 /**
  * First part of \Magento\Core\Model\Config testing:
@@ -17,6 +16,8 @@ namespace Magento\Core\Model;
  *
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
+namespace Magento\Core\Model;
+
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
@@ -88,7 +89,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function _createModel(array $arguments = array())
     {
         /** @var $model \Magento\Core\Model\Config */
-        $model = \Mage::getModel('Magento\Core\Model\Config', $arguments);
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Config', $arguments);
         return $model;
     }
 
@@ -98,7 +100,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAreaConfigThrowsExceptionIfNonexistentAreaIsRequested()
     {
-        \Mage::app()->getConfig()->getAreaConfig('non_existent_area_code');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->getConfig()
+            ->getAreaConfig('non_existent_area_code');
     }
 
     /**

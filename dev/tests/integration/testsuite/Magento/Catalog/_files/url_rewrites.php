@@ -10,7 +10,8 @@
  */
 
 /** @var $category \Magento\Catalog\Model\Category */
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(3)
     ->setName('Category 1')
     ->setParentId(2) /**/
@@ -22,7 +23,8 @@ $category->setId(3)
     ->setPosition(1)
     ->save();
 
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(4)
     ->setName('Category 2')
     ->setParentId(2) /**/
@@ -34,7 +36,8 @@ $category->setId(4)
     ->setPosition(2)
     ->save();
 
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(5)
     ->setName('Old Root')
     ->setParentId(1) /**/
@@ -47,7 +50,8 @@ $category->setId(5)
     ->save();
 
 
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)

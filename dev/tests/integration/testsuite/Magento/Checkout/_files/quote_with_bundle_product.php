@@ -12,7 +12,8 @@
 require __DIR__ . '/../../../Magento/Bundle/_files/product.php';
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->load(3);
 
 /** @var $typeInstance \Magento\Bundle\Model\Product\Type */
@@ -39,13 +40,14 @@ $requestInfo = new \Magento\Object(array(
 ));
 
 /** @var $cart \Magento\Checkout\Model\Cart */
-$cart = \Mage::getModel('Magento\Checkout\Model\Cart');
+$cart = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Checkout\Model\Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$objectManager->get('Magento\Core\Model\Registry')->unregister('_singleton/Magento\Checkout\Model\Session');
+$objectManager->get('Magento\Core\Model\Registry')->unregister('_singleton/Magento_Checkout_Model_Session');
 
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();

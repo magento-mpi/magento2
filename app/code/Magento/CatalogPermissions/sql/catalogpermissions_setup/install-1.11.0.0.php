@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\CatalogPermissions\Model\Resource\Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 

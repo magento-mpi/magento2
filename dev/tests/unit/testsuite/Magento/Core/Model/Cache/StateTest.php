@@ -15,12 +15,12 @@ class StateTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Model\Resource\Cache|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Resource\Cache|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resource;
 
     /**
-     * @var \Magento\Cache\FrontendInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cache\FrontendInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheFrontend;
 
@@ -116,7 +116,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             ->method('getAllOptions')
             ->will($this->returnValue($resourceTypeOptions));
 
-        $appState = $this->getMock('Magento\Core\Model\App\State');
+        $appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
         $appState->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue($appInstalled));

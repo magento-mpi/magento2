@@ -35,6 +35,24 @@ class Matrix
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Catalog\Model\Product\Type\Configurable
+     */
+    protected $_configurableType;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @param \Magento\Catalog\Model\Product\Type\Configurable $configurableType
+     * @param \Magento\Catalog\Model\Config $config
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\App $application
@@ -43,6 +61,9 @@ class Matrix
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Product\Type\Configurable $configurableType,
+        \Magento\Catalog\Model\Config $config,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\App $application,
@@ -50,6 +71,9 @@ class Matrix
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_configurableType = $configurableType;
+        $this->_productFactory = $productFactory;
+        $this->_config = $config;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $data);
         $this->_application = $application;
@@ -65,16 +89,6 @@ class Matrix
     public function renderPrice($price)
     {
         return $this->_locale->currency($this->_application->getBaseCurrencyCode())->toCurrency(sprintf('%f', $price));
-    }
-
-    /**
-     * Get configurable product type
-     *
-     * @return \Magento\Catalog\Model\Product\Type\Configurable
-     */
-    protected function _getProductType()
-    {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Type\Configurable');
     }
 
     /**
@@ -169,7 +183,7 @@ class Matrix
     public function getAttributes()
     {
         if (!$this->hasData('attributes')) {
-            $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->getProduct());
+            $attributes = (array)$this->_configurableType->getConfigurableAttributesAsArray($this->getProduct());
             $productData = (array)$this->getRequest()->getParam('product');
             if (isset($productData['configurable_attributes_data'])) {
                 $configurableData = $productData['configurable_attributes_data'];
@@ -196,7 +210,7 @@ class Matrix
      */
     public function getUsedAttributes()
     {
-        return $this->_getProductType()->getUsedProductAttributes($this->getProduct());
+        return $this->_configurableType->getUsedProductAttributes($this->getProduct());
     }
 
     /**
@@ -229,12 +243,12 @@ class Matrix
         $product = $this->getProduct();
         $ids = $this->getProduct()->getAssociatedProductIds();
         if ($ids === null) { // form data overrides any relations stored in database
-            return $this->_getProductType()->getUsedProducts($product);
+            return $this->_configurableType->getUsedProducts($product);
         }
         $products = array();
         foreach ($ids as $productId) {
             /** @var $product \Magento\Catalog\Model\Product */
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
+            $product = $this->_productFactory->create()->load($productId);
             if ($product->getId()) {
                 $products[] = $product;
             }
@@ -250,10 +264,8 @@ class Matrix
      */
     public function getAttributeFrontendClass($code)
     {
-        /** @var $config \Magento\Catalog\Model\Config */
-        $config = \Mage::getSingleton('Magento\Catalog\Model\Config');
         /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-        $attribute = $config->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $code);
+        $attribute = $this->_config->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $code);
         return $attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
             ? $attribute->getFrontend()->getClass()
             : '';

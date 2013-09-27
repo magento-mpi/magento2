@@ -16,8 +16,32 @@ namespace Magento\Adminhtml\Block\Tax\Rule\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Tax\Model\Calculation\RateFactory
+     */
+    protected $_rateFactory;
+
+    /**
+     * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Model\Calculation\RateFactory $rateFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_rateFactory = $rateFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Init class
-     *
      */
     protected function _construct()
     {
@@ -47,7 +71,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'legend' => __('Tax Rule Information')
         ));
 
-        $rates = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')
+        $rates = $this->_rateFactory->create()
             ->getCollection()
             ->toOptionArray();
 
@@ -185,7 +209,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'add_button_caption' => __('Add New Tax Class'),
             'submit_data' => array(
                 'class_type' => $classType,
-                'form_key' => \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey(),
+                'form_key' => $this->_session->getFormKey(),
             ),
             'entity_id_name' => 'class_id',
             'entity_value_name' => 'class_name',

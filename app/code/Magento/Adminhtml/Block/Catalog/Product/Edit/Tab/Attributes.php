@@ -27,6 +27,12 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
     protected $_catalogData = null;
 
     /**
+     * @var \Magento\Cms\Model\Wysiwyg\Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
@@ -35,6 +41,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
      * @param array $data
      */
     public function __construct(
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
@@ -42,6 +49,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_wysiwygConfig = $wysiwygConfig;
         $this->_catalogData = $catalogData;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -53,7 +61,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
     {
         parent::_prepareLayout();
         if ($this->_catalogData->isModuleEnabled('Magento_Cms')
-            && \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()
+            && $this->_wysiwygConfig->isEnabled()
         ) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }

@@ -35,7 +35,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Cart Price Rules'));
 
-        $this->_coreRegistry->register('current_promo_quote_rule', \Mage::getModel('Magento\SalesRule\Model\Rule'));
+        $this->_coreRegistry->register('current_promo_quote_rule', $this->_objectManager->create('Magento\SalesRule\Model\Rule'));
         $id = (int)$this->getRequest()->getParam('id');
 
         if (!$id && $this->getRequest()->getParam('rule_id')) {
@@ -73,12 +73,12 @@ class Quote extends \Magento\Adminhtml\Controller\Action
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = \Mage::getModel('Magento\SalesRule\Model\Rule');
+        $model = $this->_objectManager->create('Magento\SalesRule\Model\Rule');
 
         if ($id) {
             $model->load($id);
             if (! $model->getRuleId()) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This rule no longer exists.'));
                 $this->_redirect('*/*');
                 return;
@@ -88,7 +88,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         $this->_title($model->getRuleId() ? $model->getName() : __('New Cart Price Rule'));
 
         // set entered data if was error when we do save
-        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getPageData(true);
+        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -120,7 +120,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         if ($this->getRequest()->getPost()) {
             try {
                 /** @var $model \Magento\SalesRule\Model\Rule */
-                $model = \Mage::getModel('Magento\SalesRule\Model\Rule');
+                $model = $this->_objectManager->create('Magento\SalesRule\Model\Rule');
                 $this->_eventManager->dispatch(
                     'adminhtml_controller_salesrule_prepare_save',
                     array('request' => $this->getRequest()));
@@ -130,11 +130,11 @@ class Quote extends \Magento\Adminhtml\Controller\Action
                 if ($id) {
                     $model->load($id);
                     if ($id != $model->getId()) {
-                        \Mage::throwException(__('The wrong rule is specified.'));
+                        throw new \Magento\Core\Exception(__('The wrong rule is specified.'));
                     }
                 }
 
-                $session = \Mage::getSingleton('Magento\Adminhtml\Model\Session');
+                $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
 
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
@@ -188,7 +188,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addError(
                     __('An error occurred while saving the rule data. Please review the log and try again.'));
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setPageData($data);
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -201,10 +201,10 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         $id = $this->getRequest()->getParam('id');
         if ($id) {
             try {
-                $model = \Mage::getModel('Magento\SalesRule\Model\Rule');
+                $model = $this->_objectManager->create('Magento\SalesRule\Model\Rule');
                 $model->load($id);
                 $model->delete();
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The rule has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
@@ -218,7 +218,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
                 return;
             }
         }
-        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
+        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
             __('We can\'t find a rule to delete.'));
         $this->_redirect('*/*/');
     }
@@ -229,10 +229,10 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
-        $model = \Mage::getModel($type)
+        $model = $this->_objectManager->create($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(\Mage::getModel('Magento\SalesRule\Model\Rule'))
+            ->setRule($this->_objectManager->create('Magento\SalesRule\Model\Rule'))
             ->setPrefix('conditions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -253,10 +253,10 @@ class Quote extends \Magento\Adminhtml\Controller\Action
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
-        $model = \Mage::getModel($type)
+        $model = $this->_objectManager->create($type)
             ->setId($id)
             ->setType($type)
-            ->setRule(\Mage::getModel('Magento\SalesRule\Model\Rule'))
+            ->setRule($this->_objectManager->create('Magento\SalesRule\Model\Rule'))
             ->setPrefix('actions');
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
@@ -344,7 +344,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
 
         if (is_array($codesIds)) {
 
-            $couponsCollection = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Coupon\Collection')
+            $couponsCollection = $this->_objectManager->create('Magento\SalesRule\Model\Resource\Coupon\Collection')
                 ->addFieldToFilter('coupon_id', array('in' => $codesIds));
 
             foreach ($couponsCollection as $coupon) {

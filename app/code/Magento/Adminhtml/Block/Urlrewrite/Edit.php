@@ -49,17 +49,25 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Container
     protected $_adminhtmlData = null;
 
     /**
+     * @var \Magento\Core\Model\Url\RewriteFactory
+     */
+    protected $_rewriteFactory;
+
+    /**
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_rewriteFactory = $rewriteFactory;
         $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($coreData, $context, $data);
     }
@@ -249,7 +257,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Container
     protected function _getUrlRewrite()
     {
         if (!$this->hasData('url_rewrite')) {
-            $this->setUrlRewrite(\Mage::getModel('Magento\Core\Model\Url\Rewrite'));
+            $this->setUrlRewrite($this->_rewriteFactory->create());
         }
         return $this->getUrlRewrite();
     }

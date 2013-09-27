@@ -27,12 +27,32 @@ class Status
     protected $_inputType = 'select';
 
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Config
+     */
+    protected $_orderConfig;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Sales\Model\Order\Config $orderConfig,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_orderConfig = $orderConfig;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Status');
         $this->setValue(null);
     }
@@ -79,8 +99,8 @@ class Status
     {
         $this->setValueOption(array_merge(
             array(self::VALUE_ANY => __('Any')),
-            \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getStatuses())
-        );
+            $this->_orderConfig->getStatuses()
+        ));
         return $this;
     }
 
@@ -103,7 +123,7 @@ class Status
      */
     public function getAttributeObject()
     {
-        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('order', 'status');
+        return $this->_eavConfig->getAttribute('order', 'status');
     }
 
     /**

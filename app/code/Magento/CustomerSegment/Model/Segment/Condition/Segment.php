@@ -25,27 +25,43 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
      *
      * @var \Magento\Backend\Helper\Data
      */
-    protected $_adminhtmlData = null;
+    protected $_adminhtmlData;
 
     /**
      * Customer segment data
      *
      * @var \Magento\CustomerSegment\Helper\Data
      */
-    protected $_customerSegmentData = null;
+    protected $_customerSegmentData;
 
     /**
+     * @var \Magento\CustomerSegment\Model\Customer
+     */
+    protected $_customer;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\CustomerSegment\Helper\Data $customerSegmentData,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_customer = $customer;
         $this->_customerSegmentData = $customerSegmentData;
         $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($context, $data);
@@ -167,25 +183,22 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
         if (!$this->_customerSegmentData->isEnabled()) {
             return false;
         }
-        $customer = null;
         if ($object->getQuote()) {
             $customer = $object->getQuote()->getCustomer();
         }
-        if (!$customer) {
+        if (!isset($customer)) {
             return false;
         }
 
         $quoteWebsiteId = $object->getQuote()->getStore()->getWebsite()->getId();
+        $segments = array();
         if (!$customer->getId()) {
-            $visitorSegmentIds = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerSegmentIds();
+            $visitorSegmentIds = $this->_customerSession->getCustomerSegmentIds();
             if (is_array($visitorSegmentIds) && isset($visitorSegmentIds[$quoteWebsiteId])) {
                 $segments = $visitorSegmentIds[$quoteWebsiteId];
-            } else {
-                $segments = array();
             }
         } else {
-            $segments = \Mage::getSingleton('Magento\CustomerSegment\Model\Customer')
-                ->getCustomerSegmentIdsForWebsite($customer->getId(), $quoteWebsiteId);
+            $segments = $this->_customer->getCustomerSegmentIdsForWebsite($customer->getId(), $quoteWebsiteId);
         }
         return $this->validateAttribute($segments);
     }

@@ -63,7 +63,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Instance of import/export resource helper
      *
-     * @var \Magento\ImportExport\Model\Resource\Helper\Mysql4
+     * @var \Magento\ImportExport\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
@@ -263,7 +263,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
-            $this->_connection = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('write');
+            $this->_connection = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
         }
 
         if (isset($data['resource_helper'])) {
@@ -435,7 +435,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $addCustomOptions = function (\Magento\Catalog\Model\Product\Option $customOption) use (
                     &$oldCustomOptions,
                     $storeId
-                ) {
+                    ) {
                     $productId = $customOption->getProductId();
                     if (!isset($oldCustomOptions[$productId])) {
                         $oldCustomOptions[$productId] = array();
@@ -1056,20 +1056,20 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $typeValues[$prevOptionId][] = $specificTypeData['value'];
 
                 // ensure default title is set
-                if (!isset($typeTitles[$nextValueId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID])) {
-                    $typeTitles[$nextValueId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID]
+                if (!isset($typeTitles[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID])) {
+                    $typeTitles[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID]
                         = $specificTypeData['title'];
                 }
                 $typeTitles[$nextValueId][$this->_rowStoreId] = $specificTypeData['title'];;
 
                 if ($specificTypeData['price']) {
                     if ($this->_isPriceGlobal) {
-                        $typePrices[$nextValueId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID]
+                        $typePrices[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID]
                             = $specificTypeData['price'];
                     } else {
                         // ensure default price is set
-                        if (!isset($typePrices[$nextValueId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID])) {
-                            $typePrices[$nextValueId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID]
+                        if (!isset($typePrices[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID])) {
+                            $typePrices[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID]
                                 = $specificTypeData['price'];
                         }
                         $typePrices[$nextValueId][$this->_rowStoreId] = $specificTypeData['price'];
@@ -1091,9 +1091,9 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected function _collectOptionTitle(array $rowData, $prevOptionId, array &$titles)
     {
         if (!empty($rowData[self::COLUMN_TITLE])) {
-            if (!isset($titles[$prevOptionId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID])) {
+            if (!isset($titles[$prevOptionId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID])) {
                 // ensure default title is set
-                $titles[$prevOptionId][\Magento\Core\Model\AppInterface::ADMIN_STORE_ID] = $rowData[self::COLUMN_TITLE];
+                $titles[$prevOptionId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID] = $rowData[self::COLUMN_TITLE];
             }
             $titles[$prevOptionId][$this->_rowStoreId] = $rowData[self::COLUMN_TITLE];
         }

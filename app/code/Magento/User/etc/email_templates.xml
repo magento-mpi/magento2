@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template id="admin_emails_forgot_email_template" label="Forgot Admin Password" file="password_reset_confirmation.html" type="html"/>
+    <template id="admin_emails_reset_password_template" label="Reset Password" file="password_reset.html" type="html"/>
+</config>

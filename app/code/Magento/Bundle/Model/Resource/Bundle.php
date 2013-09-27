@@ -21,6 +21,25 @@ namespace Magento\Bundle\Model\Resource;
 class Bundle extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * @var \Magento\Catalog\Model\Resource\Product\Relation
+     */
+    protected $_productRelation;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Catalog\Model\Resource\Product\Relation $productRelation
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product\Relation $productRelation,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        parent::__construct($resource);
+        $this->_productRelation = $productRelation;
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
@@ -112,8 +131,7 @@ class Bundle extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function saveProductRelations($parentId, $childIds)
     {
-        \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Relation')
-            ->processRelations($parentId, $childIds);
+        $this->_productRelation->processRelations($parentId, $childIds);
 
         return $this;
     }

@@ -20,7 +20,8 @@ class VariableTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Variable');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Variable');
     }
 
     public function testGetSetStoreId()
@@ -37,7 +38,8 @@ class VariableTest extends \PHPUnit_Framework_TestCase
         ));
         $this->_model->save();
 
-        $variable = \Mage::getModel('Magento\Core\Model\Variable');
+        $variable = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Variable');
         $variable->loadByCode('test_code');
         $this->assertEquals($this->_model->getName(), $variable->getName());
         $this->_model->delete();

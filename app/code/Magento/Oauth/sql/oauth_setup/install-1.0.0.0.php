@@ -10,7 +10,7 @@
 /**
  * Installation of OAuth module tables
  */
-/** @var $install \Magento\Oauth\Model\Resource\Setup */
+/** @var $install \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $installer->startSetup();

@@ -19,7 +19,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 <?xml version="1.0"?>
 <root><key>value</key></root>
 XML;
-        $config = \Mage::getModel('Magento\Core\Model\Config\Base', array('sourceData' => $xml));
+        $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Config\Base', array('sourceData' => $xml));
 
         $this->assertInstanceOf('Magento\Core\Model\Config\Element', $config->getNode('key'));
     }

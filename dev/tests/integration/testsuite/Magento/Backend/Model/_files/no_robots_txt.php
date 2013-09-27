@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$robotsTxtPath = \Mage::getBaseDir() . DS . 'robots.txt';
+$robotsTxtPath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir()
+    . DS . 'robots.txt';
 if (is_file($robotsTxtPath)) {
     @unlink($robotsTxtPath);
 }

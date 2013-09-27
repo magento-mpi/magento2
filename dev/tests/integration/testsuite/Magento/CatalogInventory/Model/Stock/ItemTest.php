@@ -20,7 +20,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogInventory\Model\Stock\Item');
     }
 
     /**
@@ -29,7 +30,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     public static function simpleProductFixture()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setTypeId('simple')
             ->setId(1)
             ->setAttributeSetId(4)

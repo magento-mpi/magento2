@@ -67,7 +67,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
     protected function _initOrder()
     {
         $id = $this->getRequest()->getParam('order_id');
-        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($id);
+        $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($id);
 
         if (!$order->getId()) {
             $this->_getSession()->addError(__('This order no longer exists.'));
@@ -122,7 +122,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
         if ($order) {
             try {
                 $order->sendNewOrderEmail();
-                $historyItem = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\History\Collection')
+                $historyItem = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Status\History\Collection')
                     ->getUnnotifiedForInstance($order, \Magento\Sales\Model\Order::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
@@ -258,7 +258,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
                 $response = false;
                 $data = $this->getRequest()->getPost('history');
                 if (empty($data['comment']) && ($data['status'] == $order->getDataByKey('status'))) {
-                    \Mage::throwException(__('Comment text cannot be empty.'));
+                    throw new \Magento\Core\Exception(__('Comment text cannot be empty.'));
                 }
 
                 $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
@@ -349,7 +349,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
         $countCancelOrder = 0;
         $countNonCancelOrder = 0;
         foreach ($orderIds as $orderId) {
-            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             if ($order->canCancel()) {
                 $order->cancel()
                     ->save();
@@ -380,7 +380,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
         $countHoldOrder = 0;
 
         foreach ($orderIds as $orderId) {
-            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             if ($order->canHold()) {
                 $order->hold()
                     ->save();
@@ -414,7 +414,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
         $countNonUnHoldOrder = 0;
 
         foreach ($orderIds as $orderId) {
-            $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             if ($order->canUnhold()) {
                 $order->unhold()
                     ->save();
@@ -466,22 +466,22 @@ class Order extends \Magento\Adminhtml\Controller\Action
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $invoices = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Invoice\Collection')
+                $invoices = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Invoice\Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize() > 0) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
+                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
                     } else {
-                        $pages = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
+                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'invoice' . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'invoice' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -504,22 +504,22 @@ class Order extends \Magento\Adminhtml\Controller\Action
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $shipments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Shipment\Collection')
+                $shipments = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
+                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
                     } else {
-                        $pages = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
+                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'packingslip' . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -542,22 +542,22 @@ class Order extends \Magento\Adminhtml\Controller\Action
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $creditmemos = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
+                $creditmemos = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
+                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
                     } else {
-                        $pages = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
+                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
                         $pdf->pages = array_merge($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'creditmemo' . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'creditmemo' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -580,48 +580,48 @@ class Order extends \Magento\Adminhtml\Controller\Action
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $invoices = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Invoice\Collection')
+                $invoices = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Invoice\Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($invoices->getSize()) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
+                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
                     } else {
-                        $pages = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
+                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
 
-                $shipments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Shipment\Collection')
+                $shipments = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($shipments->getSize()) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
+                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
                     } else {
-                        $pages = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
+                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
                         $pdf->pages = array_merge($pdf->pages, $pages->pages);
                     }
                 }
 
-                $creditmemos = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
+                $creditmemos = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
                     ->setOrderFilter($orderId)
                     ->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
+                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
                     } else {
-                        $pages = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
+                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
                         $pdf->pages = array_merge ($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'docs' . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'docs' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -743,7 +743,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
     public function addressAction()
     {
         $addressId = $this->getRequest()->getParam('address_id');
-        $address = \Mage::getModel('Magento\Sales\Model\Order\Address')->load($addressId);
+        $address = $this->_objectManager->create('Magento\Sales\Model\Order\Address')->load($addressId);
         if ($address->getId()) {
             $this->_coreRegistry->register('order_address', $address);
             $this->loadLayout();
@@ -765,7 +765,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
     public function addressSaveAction()
     {
         $addressId  = $this->getRequest()->getParam('address_id');
-        $address    = \Mage::getModel('Magento\Sales\Model\Order\Address')->load($addressId);
+        $address    = $this->_objectManager->create('Magento\Sales\Model\Order\Address')->load($addressId);
         $data       = $this->getRequest()->getPost();
         if ($data && $address->getId()) {
             $address->addData($data);

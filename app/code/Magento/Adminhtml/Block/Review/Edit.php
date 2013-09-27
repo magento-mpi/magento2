@@ -11,7 +11,6 @@
 /**
  * Review edit form
  */
-
 namespace Magento\Adminhtml\Block\Review;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
@@ -31,6 +30,12 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Review\Model\ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Review\Helper\Action\Pager $reviewActionPager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -38,6 +43,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      * @param array $data
      */
     public function __construct(
+        \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Review\Helper\Action\Pager $reviewActionPager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -46,6 +52,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     ) {
         $this->_coreRegistry = $registry;
         $this->_reviewActionPager = $reviewActionPager;
+        $this->_reviewFactory = $reviewFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -161,7 +168,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         }
 
         if ($this->getRequest()->getParam($this->_objectId)) {
-            $reviewData = \Mage::getModel('Magento\Review\Model\Review')
+            $reviewData = $this->_reviewFactory->create()
                 ->load($this->getRequest()->getParam($this->_objectId));
             $this->_coreRegistry->register('review_data', $reviewData);
         }

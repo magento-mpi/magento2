@@ -23,7 +23,7 @@ class Collection
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogSearch\Model\Resource\Helper\Mysql4 $resourceHelper
+     * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
@@ -33,7 +33,7 @@ class Collection
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\CatalogSearch\Model\Resource\Helper\Mysql4 $resourceHelper,
+        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
         \Magento\Core\Model\Registry $registry,
         $resource = null
     ) {

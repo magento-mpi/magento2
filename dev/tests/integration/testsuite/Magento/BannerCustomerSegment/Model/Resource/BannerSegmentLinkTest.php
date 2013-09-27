@@ -17,7 +17,7 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_resourceModel = \Mage::getResourceModel(
+        $this->_resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink'
         );
     }
@@ -77,7 +77,8 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
         }
 
         /** @var \Magento\Banner\Model\Resource\Salesrule\Collection $collection */
-        $collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Salesrule\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Resource\Salesrule\Collection');
         $select = $collection->getSelect();
         $initialSql = (string)$select;
 
@@ -122,7 +123,8 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
     protected function _getBannerId($bannerName)
     {
         /** @var \Magento\Banner\Model\Banner $banner */
-        $banner = \Mage::getModel('Magento\Banner\Model\Banner');
+        $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Banner');
         $banner->load($bannerName, 'name');
         return $banner->getId();
     }
@@ -138,7 +140,8 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
         $result = array();
         foreach ($segmentNames as $segmentName) {
             /** @var $segment \Magento\CustomerSegment\Model\Segment */
-            $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
+            $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\CustomerSegment\Model\Segment');
             $segment->load($segmentName, 'name');
             $result[] = $segment->getId();
         }

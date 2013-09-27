@@ -20,7 +20,8 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Website');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Website');
         $this->_model->load(1);
     }
 
@@ -46,7 +47,8 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     public function testSetGroupsAndStores()
     {
         /* Groups */
-        $expectedGroup = \Mage::getModel('Magento\Core\Model\Store\Group');
+        $expectedGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store\Group');
         $expectedGroup->setId(123);
         $this->_model->setDefaultGroupId($expectedGroup->getId());
         $this->_model->setGroups(array($expectedGroup));
@@ -55,7 +57,8 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedGroup, reset($groups));
 
         /* Stores */
-        $expectedStore = \Mage::getModel('Magento\Core\Model\Store');
+        $expectedStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store');
         $expectedStore->setId(456);
         $expectedGroup->setDefaultStoreId($expectedStore->getId());
         $this->_model->setStores(array($expectedStore));
@@ -175,7 +178,8 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         );
 
         /* emulate admin store */
-        \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $crud = new \Magento\TestFramework\Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }

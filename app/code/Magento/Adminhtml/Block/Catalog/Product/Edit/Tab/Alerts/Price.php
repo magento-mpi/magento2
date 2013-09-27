@@ -28,6 +28,12 @@ class Price extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_catalogData = null;
 
     /**
+     * @var \Magento\ProductAlert\Model\PriceFactory
+     */
+    protected $_priceFactory;
+
+    /**
+     * @param \Magento\ProductAlert\Model\PriceFactory $priceFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -36,6 +42,7 @@ class Price extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\ProductAlert\Model\PriceFactory $priceFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -43,6 +50,7 @@ class Price extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
+        $this->_priceFactory = $priceFactory;
         $this->_catalogData = $catalogData;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -64,11 +72,10 @@ class Price extends \Magento\Adminhtml\Block\Widget\Grid
         $productId = $this->getRequest()->getParam('id');
         $websiteId = 0;
         if ($store = $this->getRequest()->getParam('store')) {
-            $websiteId = \Mage::app()->getStore($store)->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($store)->getWebsiteId();
         }
         if ($this->_catalogData->isModuleEnabled('Magento_ProductAlert')) {
-            $collection = \Mage::getModel('Magento\ProductAlert\Model\Price')
-                ->getCustomerCollection()
+            $collection = $this->_priceFactory->create()->getCustomerCollection()
                 ->join($productId, $websiteId);
             $this->setCollection($collection);
         }
@@ -125,7 +132,7 @@ class Price extends \Magento\Adminhtml\Block\Widget\Grid
         $productId = $this->getRequest()->getParam('id');
         $storeId   = $this->getRequest()->getParam('store', 0);
         if ($storeId) {
-            $storeId = \Mage::app()->getStore($storeId)->getId();
+            $storeId = $this->_storeManager->getStore($storeId)->getId();
         }
         return $this->getUrl('*/catalog_product/alertsPriceGrid', array(
             'id'    => $productId,

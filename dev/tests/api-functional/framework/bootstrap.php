@@ -11,16 +11,18 @@
 
 require_once __DIR__ . '/../../../../app/bootstrap.php';
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Classes.php';
+require_once __DIR__ . '/../lib/OAuth/bootstrap.php';
 
 $testsBaseDir = dirname(__DIR__);
 $testsTmpDir = "{$testsBaseDir}/tmp";
 $magentoBaseDir = realpath("{$testsBaseDir}/../../../");
 $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 
-\Magento\Autoload\IncludePath::addIncludePath(array(
+Magento_Autoload_IncludePath::addIncludePath(array(
     "{$testsBaseDir}/framework",
     "{$testsBaseDir}/testsuite",
-    "{$integrationTestsDir}/framework"
+    "{$integrationTestsDir}/framework",
+    "{$integrationTestsDir}/lib"
 ));
 
 /* Bootstrap the application */
@@ -30,14 +32,14 @@ $invariantSettings = array(
 $bootstrap = new \Magento\TestFramework\Bootstrap(
     new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
     new \Magento\TestFramework\Bootstrap\Environment(),
-    new \Magento\TestFramework\Bootstrap\DocBlock("{$testsBaseDir}/testsuite"),
+    new \Magento\TestFramework\Bootstrap\WebapiDocBlock("{$integrationTestsDir}/testsuite"),
     new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Profiler\Driver\Standard()),
     new \Magento\Shell(),
     $testsTmpDir
 );
 $bootstrap->runBootstrap();
-\Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
-\Magento\TestFramework\Utility\Files::init(new Magento\TestFramework\Utility\Files($magentoBaseDir));
+Magento_TestFramework_Helper_Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
+Magento_TestFramework_Utility_Files::init(new \Magento\TestFramework\Utility\Files($magentoBaseDir));
 
 /** Magento installation */
 if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {

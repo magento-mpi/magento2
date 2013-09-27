@@ -21,6 +21,31 @@ class Content
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Cms\Model\Wysiwyg\Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_wysiwygConfig = $wysiwygConfig;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare form.
      * Adding editor field to render
      *
@@ -50,7 +75,7 @@ class Content
             'style'     => 'width:725px;height:460px',
             'required'  => true,
             'force_load' => true,
-            'config'    => \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->getConfig($config)
+            'config'    => $this->_wysiwygConfig->getConfig($config)
         ));
         $this->setForm($form);
         return parent::_prepareForm();

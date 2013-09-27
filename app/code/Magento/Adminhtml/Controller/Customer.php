@@ -47,7 +47,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Customers'));
 
         $customerId = (int)$this->getRequest()->getParam($idFieldName);
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer');
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
         if ($customerId) {
             $customer->load($customerId);
         }
@@ -112,7 +112,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $customer = $this->_coreRegistry->registry('current_customer');
 
         // set entered data if was error when we do save
-        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCustomerData(true);
+        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCustomerData(true);
 
         // restore data from SESSION
         if ($data) {
@@ -121,7 +121,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
 
             if (isset($data['account'])) {
                 /* @var $customerForm \Magento\Customer\Model\Form */
-                $customerForm = \Mage::getModel('Magento\Customer\Model\Form');
+                $customerForm = $this->_objectManager->create('Magento\Customer\Model\Form');
                 $customerForm->setEntity($customer)
                     ->setFormCode('adminhtml_customer')
                     ->setIsAjaxRequest(true);
@@ -131,7 +131,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
 
             if (isset($data['address']) && is_array($data['address'])) {
                 /* @var $addressForm \Magento\Customer\Model\Form */
-                $addressForm = \Mage::getModel('Magento\Customer\Model\Form');
+                $addressForm = $this->_objectManager->create('Magento\Customer\Model\Form');
                 $addressForm->setFormCode('adminhtml_customer_address');
 
                 foreach (array_keys($data['address']) as $addressId) {
@@ -141,7 +141,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
 
                     $address = $customer->getAddressItemById($addressId);
                     if (!$address) {
-                        $address = \Mage::getModel('Magento\Customer\Model\Address');
+                        $address = $this->_objectManager->create('Magento\Customer\Model\Address');
                         $address->setId($addressId);
                         $customer->addAddress($address);
                     }
@@ -247,7 +247,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
                 $customerId = $customer->getId();
-            } catch (\Magento\Validator\ValidatorException $exception) {
+            } catch (\Magento\Validator\Exception $exception) {
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
@@ -486,7 +486,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     public function newsletterAction()
     {
         $this->_initCustomer();
-        $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')
+        $subscriber = $this->_objectManager->create('Magento\Newsletter\Model\Subscriber')
             ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
 
         $this->_coreRegistry->register('subscriber', $subscriber);
@@ -500,7 +500,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $itemId = (int)$this->getRequest()->getParam('delete');
         if ($customer->getId() && $itemId) {
             try {
-                \Mage::getModel('Magento\Wishlist\Model\Item')->load($itemId)
+                $this->_objectManager->create('Magento\Wishlist\Model\Item')->load($itemId)
                     ->delete();
             } catch (\Exception $exception) {
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($exception);
@@ -535,8 +535,10 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         // delete an item from cart
         $deleteItemId = $this->getRequest()->getPost('delete');
         if ($deleteItemId) {
-            $quote = \Mage::getModel('Magento\Sales\Model\Quote')
-                ->setWebsite(\Mage::app()->getWebsite($websiteId))
+            $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')
+                ->setWebsite(
+                    $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($websiteId)
+                )
                 ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
@@ -678,7 +680,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
         $addressesData = $this->getRequest()->getParam('address');
         if (is_array($addressesData)) {
             /* @var $addressForm \Magento\Customer\Model\Form */
-            $addressForm = \Mage::getModel('Magento\Customer\Model\Form');
+            $addressForm = $this->_objectManager->create('Magento\Customer\Model\Form');
             $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
             foreach (array_keys($addressesData) as $index) {
                 if ($index == '_template_') {
@@ -686,7 +688,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
                 }
                 $address = $customer->getAddressItemById($index);
                 if (!$address) {
-                    $address   = \Mage::getModel('Magento\Customer\Model\Address');
+                    $address   = $this->_objectManager->create('Magento\Customer\Model\Address');
                 }
 
                 $requestScope = sprintf('address/%s', $index);
@@ -711,19 +713,19 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if (!is_array($customersIds)) {
-             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
+             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
+                    $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
                     $customer->setIsSubscribed(true);
                     $customer->save();
                 }
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('A total of %1 record(s) were updated.', count($customersIds))
                 );
             } catch (\Exception $exception) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
             }
         }
         $this->_redirect('*/*/index');
@@ -736,19 +738,19 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if (!is_array($customersIds)) {
-             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
+             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
+                    $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
                     $customer->setIsSubscribed(false);
                     $customer->save();
                 }
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('A total of %1 record(s) were updated.', count($customersIds))
                 );
             } catch (\Exception $exception) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
             }
         }
 
@@ -762,20 +764,20 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if (!is_array($customersIds)) {
-             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
+             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
         } else {
             try {
-                $customer = \Mage::getModel('Magento\Customer\Model\Customer');
+                $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
                 foreach ($customersIds as $customerId) {
                     $customer->reset()
                         ->load($customerId)
                         ->delete();
                 }
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('A total of %1 record(s) were deleted.', count($customersIds))
                 );
             } catch (\Exception $exception) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
             }
         }
 
@@ -789,19 +791,19 @@ class Customer extends \Magento\Adminhtml\Controller\Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if (!is_array($customersIds)) {
-             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
+             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($customerId);
+                    $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
                     $customer->setGroupId($this->getRequest()->getParam('group'));
                     $customer->save();
                 }
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('A total of %1 record(s) were updated.', count($customersIds))
                 );
             } catch (\Exception $exception) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
             }
         }
 
@@ -828,7 +830,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
             return $this->norouteAction();
         }
 
-        $path = \Mage::getBaseDir('media') . DS . 'customer';
+        $path = $this->_objectManager->get('Magento\Core\Model\Dir')->getDir('media') . DS . 'customer';
 
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = $this->_objectManager->get('Magento\Filesystem');

@@ -53,7 +53,8 @@ class Carts extends \Magento\Backend\Block\Template
             $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Cart',
                 $blockName, array('data' => array('website_id' => $websiteId)));
             if ($isShared) {
-                $block->setCartHeader(__('Shopping Cart from %1', \Mage::app()->getWebsite($websiteId)->getName()));
+                $websiteName = $this->_storeManager->getWebsite($websiteId)->getName();
+                $block->setCartHeader(__('Shopping Cart from %1', $websiteName));
             }
             $this->setChild($blockName, $block);
         }

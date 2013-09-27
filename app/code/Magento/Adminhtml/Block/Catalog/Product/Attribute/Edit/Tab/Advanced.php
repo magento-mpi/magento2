@@ -29,6 +29,12 @@ class Advanced
     protected $_eavData = null;
 
     /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $_yesNo;
+
+    /**
+     * @param \Magento\Backend\Model\Config\Source\Yesno $yesNo
      * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
@@ -37,6 +43,7 @@ class Advanced
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Model\Config\Source\Yesno $yesNo,
         \Magento\Eav\Helper\Data $eavData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
@@ -44,6 +51,7 @@ class Advanced
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_yesNo = $yesNo;
         $this->_eavData = $eavData;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -71,7 +79,7 @@ class Advanced
             )
         );
 
-        $yesno = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
+        $yesno = $this->_yesNo->toOptionArray();
 
         $validateClass = sprintf(
             'validate-code validate-length maximum-length-%d',
@@ -115,7 +123,7 @@ class Advanced
             )
         );
 
-        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField(
             'default_value_date',
             'date',
@@ -172,7 +180,7 @@ class Advanced
             }
         }
 
-        $yesnoSource = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
+        $yesnoSource = $this->_yesNo->toOptionArray();
 
         $scopes = array(
             \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE =>__('Store View'),

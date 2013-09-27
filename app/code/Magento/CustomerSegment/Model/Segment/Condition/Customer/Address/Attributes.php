@@ -17,12 +17,56 @@ class Attributes
     extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
+     * @var \Magento\Directory\Model\Config\Source\CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
+     * @var \Magento\Directory\Model\Config\Source\AllregionFactory
+     */
+    protected $_allregionFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\Customer\Model\Resource\Address
+     */
+    protected $_resourceAddress;
+
+    /**
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\Customer\Model\Resource\Address $resourceAddress
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Directory\Model\Config\Source\CountryFactory $countryFactory
+     * @param \Magento\Directory\Model\Config\Source\AllregionFactory $allregionFactory
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\Customer\Model\Resource\Address $resourceAddress,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Directory\Model\Config\Source\CountryFactory $countryFactory,
+        \Magento\Directory\Model\Config\Source\AllregionFactory $allregionFactory,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        $this->_resourceAddress = $resourceAddress;
+        $this->_eavConfig = $eavConfig;
+        $this->_countryFactory = $countryFactory;
+        $this->_allregionFactory = $allregionFactory;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\Attributes');
         $this->setValue(null);
     }
@@ -44,16 +88,15 @@ class Attributes
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\\';
-        $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
-        foreach ($attributes as $code => $label) {
+        foreach ($this->loadAttributeOptions()->getAttributeOption() as $code => $label) {
             $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
         }
-        $conditions = array_merge($conditions, \Mage::getModel($prefix . 'Region')->getNewChildSelectOptions());
+        $conditions = array_merge($conditions,
+            $this->_conditionFactory->create('Customer_Address_Region')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
-            'label' => __('Address Attributes')
+            'label' => __('Address Attributes'),
         );
     }
 
@@ -64,8 +107,7 @@ class Attributes
      */
     public function loadAttributeOptions()
     {
-        $customerAttributes = \Mage::getResourceSingleton('Magento\Customer\Model\Resource\Address')
-            ->loadAllAttributes()
+        $customerAttributes = $this->_resourceAddress->loadAllAttributes()
             ->getAttributesByCode();
 
         $attributes = array();
@@ -78,9 +120,9 @@ class Attributes
                 $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
             }
         }
-
         asort($attributes);
         $this->setAttributeOption($attributes);
+
         return $this;
     }
 
@@ -94,11 +136,13 @@ class Attributes
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')->toOptionArray();
+                    $options = $this->_countryFactory->create()
+                        ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Allregion')->toOptionArray();
+                    $options = $this->_allregionFactory->create()
+                        ->toOptionArray();
                     break;
 
                 default:
@@ -203,7 +247,7 @@ class Attributes
      */
     public function getAttributeObject()
     {
-        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer_address', $this->getAttribute());
+        return $this->_eavConfig->getAttribute('customer_address', $this->getAttribute());
     }
 
     /**

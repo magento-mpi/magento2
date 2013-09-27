@@ -11,6 +11,30 @@ namespace Magento\Adminhtml\Block\Checkout\Agreement;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -23,9 +47,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Checkout\Model\Agreement')
-            ->getCollection();
-        $this->setCollection($collection);
+        $this->setCollection($this->_collectionFactory->create());
         return parent::_prepareCollection();
     }
 
@@ -49,7 +71,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             )
         );
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'        => __('Store View'),
                 'index'         => 'store_id',

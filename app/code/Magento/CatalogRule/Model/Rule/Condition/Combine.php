@@ -18,7 +18,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     /**
      * @var \Magento\CatalogRule\Model\Rule\Condition\ProductFactory
      */
-    protected $_conditionFactory;
+    protected $_productFactory;
 
     /**
      * @param \Magento\CatalogRule\Model\Rule\Condition\ProductFactory $conditionFactory
@@ -30,7 +30,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
-        $this->_conditionFactory = $conditionFactory;
+        $this->_productFactory = $conditionFactory;
         parent::__construct($context, $data);
         $this->setType('Magento\CatalogRule\Model\Rule\Condition\Combine');
     }
@@ -40,7 +40,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
      */
     public function getNewChildSelectOptions()
     {
-        $productAttributes = $this->_conditionFactory->create()
+        $productAttributes = $this->_productFactory->create()
             ->loadAttributeOptions()
             ->getAttributeOption();
         $attributes = array();

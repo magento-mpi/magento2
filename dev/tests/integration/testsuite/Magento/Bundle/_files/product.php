@@ -17,7 +17,8 @@
 require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->setTypeId('bundle')
     ->setId(3)
     ->setAttributeSetId(4)

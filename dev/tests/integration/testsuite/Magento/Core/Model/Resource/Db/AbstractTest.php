@@ -50,14 +50,20 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($idFieldName, $this->_model->getIdFieldName());
     }
 
-    /**
-     * @magentoConfigFixture global/resources/db/table_prefix prefix_
-     */
+
     public function testGetTableName()
     {
         $tableNameOrig = 'core_website';
         $tableSuffix = 'suffix';
-        $tableName = $this->_model->getTable(array($tableNameOrig, $tableSuffix));
+        $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource', array('tablePrefix' => 'prefix_')
+        );
+
+        $model = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
+            array('resource' => $resource)
+        );
+
+        $tableName = $model->getTable(array($tableNameOrig, $tableSuffix));
         $this->assertEquals('prefix_core_website_suffix', $tableName);
     }
 }

@@ -17,6 +17,38 @@ namespace Magento\Adminhtml\Block\Sales\Invoice;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\InvoiceFactory
+     */
+    protected $_invoiceFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
+     * @param \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
+        \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_invoiceFactory = $invoiceFactory;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -40,7 +72,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel($this->_getCollectionClass());
+        $collection = $this->_collectionFactory->create();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -90,7 +122,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header'    => __('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => \Mage::getModel('Magento\Sales\Model\Order\Invoice')->getStates(),
+            'options'   => $this->_invoiceFactory->create()->getStates(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

@@ -45,6 +45,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Encryption $encryptor
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Dir $dirs
      */
@@ -55,12 +56,13 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Encryption $encryptor,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Dir $dirs
     ) {
         $this->_coreData = $coreData;
         $this->_dirs = $dirs;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
         $this->_filesystem = $filesystem;
     }
 

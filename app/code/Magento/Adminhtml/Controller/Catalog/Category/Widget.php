@@ -56,7 +56,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
         $categoryId = (int)$this->getRequest()->getPost('id');
         if ($categoryId) {
 
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
+            $category = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($categoryId);
             if ($category->getId()) {
                 $this->_coreRegistry->register('category', $category);
                 $this->_coreRegistry->register('current_category', $category);

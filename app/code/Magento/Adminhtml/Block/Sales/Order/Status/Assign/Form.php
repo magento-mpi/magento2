@@ -15,6 +15,39 @@ namespace Magento\Adminhtml\Block\Sales\Order\Status\Assign;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Status\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Config
+     */
+    protected $_orderConfig;
+
+    /**
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Sales\Model\Order\Config $orderConfig,
+        \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_orderConfig = $orderConfig;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -40,11 +73,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'legend'    => __('Assignment Information')
         ));
 
-        $statuses = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\Collection')
-            ->toOptionArray();
+        $statuses = $this->_collectionFactory->create()->toOptionArray();
         array_unshift($statuses, array('value' => '', 'label' => ''));
 
-        $states = \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getStates();
+        $states = $this->_orderConfig->getStates();
         $states = array_merge(array('' => ''), $states);
 
         $fieldset->addField('status', 'select',

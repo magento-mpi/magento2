@@ -24,12 +24,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     const XML_PATH_EXTERNAL_CACHE_ENABLED  = 'system/external_page_cache/enabled';
     const XML_PATH_EXTERNAL_CACHE_LIFETIME = 'system/external_page_cache/cookie_lifetime';
-    const XML_PATH_EXTERNAL_CACHE_CONTROL  = 'system/external_page_cache/control';
-
-    /**
-     * Path to external cache controls
-     */
-    const XML_PATH_EXTERNAL_CACHE_CONTROLS = 'global/external_cache/controls';
 
     /**
      * Cookie name for disabling external caching
@@ -54,28 +48,22 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * Initialize 'no cache' cookie locking
-     *
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Context                 $context
+     * @param \Magento\PageCache\Model\CacheControlFactory $ccFactory
+     * @param \Magento\Core\Model\Cookie                   $cookie
+     * @param \Magento\Core\Model\Store\Config             $coreStoreConfig
      */
     function __construct(
         \Magento\Core\Helper\Context $context,
+        \Magento\PageCache\Model\CacheControlFactory $ccFactory,
+        \Magento\Core\Model\Cookie $cookie,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_isNoCacheCookieLocked = (bool)$this->_getCookie()->get(self::NO_CACHE_LOCK_COOKIE);
-    }
-
-    /**
-     * Retrieve the cookie model instance
-     *
-     * @return \Magento\Core\Model\Cookie
-     */
-    protected function _getCookie()
-    {
-        return \Mage::getSingleton('Magento\Core\Model\Cookie');
+        $this->_isNoCacheCookieLocked = (bool)$cookie->get(self::NO_CACHE_LOCK_COOKIE);
+        $this->_cookie = $cookie;
+        $this->_ccFactory = $ccFactory;
     }
 
     /**
@@ -89,17 +77,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Return all available external cache controls
-     *
-     * @return array
-     */
-    public function getCacheControls()
-    {
-        $controls = \Mage::app()->getConfig()->getNode(self::XML_PATH_EXTERNAL_CACHE_CONTROLS);
-        return $controls->asCanonicalArray();
-    }
-
-    /**
      * Initialize proper external cache control model
      *
      * @throws \Magento\Core\Exception
@@ -107,15 +84,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCacheControlInstance()
     {
-        $usedControl = $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_CONTROL);
-        if ($usedControl) {
-            foreach ($this->getCacheControls() as $control => $info) {
-                if ($control == $usedControl && !empty($info['class'])) {
-                    return \Mage::getSingleton($info['class']);
-                }
-            }
-        }
-        \Mage::throwException(__('Failed to load external cache control'));
+        return $this->_ccFactory->getCacheControlInstance();
     }
 
     /**
@@ -130,10 +99,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             return $this;
         }
         $lifetime = $lifetime !== null ? $lifetime : $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
-        if ($this->_getCookie()->get(self::NO_CACHE_COOKIE)) {
-            $this->_getCookie()->renew(self::NO_CACHE_COOKIE, $lifetime);
+        if ($this->_cookie->get(self::NO_CACHE_COOKIE)) {
+            $this->_cookie->renew(self::NO_CACHE_COOKIE, $lifetime);
         } else {
-            $this->_getCookie()->set(self::NO_CACHE_COOKIE, '1', $lifetime);
+            $this->_cookie->set(self::NO_CACHE_COOKIE, '1', $lifetime);
         }
         return $this;
     }
@@ -146,7 +115,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function removeNoCacheCookie()
     {
         if (!$this->_isNoCacheCookieLocked) {
-            $this->_getCookie()->delete(self::NO_CACHE_COOKIE);
+            $this->_cookie->delete(self::NO_CACHE_COOKIE);
         }
         return $this;
     }
@@ -158,7 +127,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function lockNoCacheCookie()
     {
-        $this->_getCookie()->set(self::NO_CACHE_LOCK_COOKIE, '1', 0);
+        $this->_cookie->set(self::NO_CACHE_LOCK_COOKIE, '1', 0);
         $this->_isNoCacheCookieLocked = true;
         return $this;
     }
@@ -170,7 +139,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function unlockNoCacheCookie()
     {
-        $this->_getCookie()->delete(self::NO_CACHE_LOCK_COOKIE);
+        $this->_cookie->delete(self::NO_CACHE_LOCK_COOKIE);
         $this->_isNoCacheCookieLocked = false;
         return $this;
     }

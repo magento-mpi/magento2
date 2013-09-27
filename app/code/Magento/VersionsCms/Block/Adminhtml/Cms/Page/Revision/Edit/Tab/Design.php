@@ -31,6 +31,8 @@ class Design
 
     /**
      * @param \Magento\VersionsCms\Helper\Data $cmsData
+     * @param \Magento\Page\Model\Source\Layout $pageLayout
+     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
@@ -39,6 +41,8 @@ class Design
      */
     public function __construct(
         \Magento\VersionsCms\Helper\Data $cmsData,
+        \Magento\Page\Model\Source\Layout $pageLayout,
+        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
@@ -46,13 +50,13 @@ class Design
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
+        parent::__construct($pageLayout, $labelFactory, $coreRegistry, $formFactory, $coreData, $context, $data);
     }
 
     /**
      * Adding onchange js call
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Design
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab_Design
      */
     protected function _prepareForm()
     {

@@ -19,6 +19,42 @@ namespace Magento\Adminhtml\Block\Poll;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Poll\Model\PollFactory
+     */
+    protected $_pollFactory;
+
+    /**
+     * @param \Magento\Poll\Model\PollFactory $pollFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Poll\Model\PollFactory $pollFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_locale = $context->getLocale();
+        $this->_storeManager = $storeManager;
+        $this->_pollFactory = $pollFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -31,11 +67,11 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Poll\Model\Poll')->getCollection();
+        $collection = $this->_pollFactory->create()->getCollection();
         $this->setCollection($collection);
         parent::_prepareCollection();
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->getCollection()->addStoreData();
         }
 
@@ -70,7 +106,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'width'     => '120px',
             'type'      => 'datetime',
             'index'     => 'date_posted',
-            'date_format' => \Mage::app()->getLocale()->getDateFormat()
+            'date_format' => $this->_locale->getDateFormat()
         ));
 
         $this->addColumn('date_closed', array(
@@ -80,10 +116,10 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'type'      => 'datetime',
             'default'   => '--',
             'index'     => 'date_closed',
-            'date_format' => \Mage::app()->getLocale()->getDateFormat()
+            'date_format' => $this->_locale->getDateFormat()
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
                 'header'    => __('Visibility'),
                 'index'     => 'stores',

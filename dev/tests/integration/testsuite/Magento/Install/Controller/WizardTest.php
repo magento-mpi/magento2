@@ -26,8 +26,7 @@ class WizardTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public static function setUpBeforeClass()
     {
         $tmpDir =
-            \Magento\TestFramework\Helper\Bootstrap::getInstance()
-                ->getAppInstallDir() . DIRECTORY_SEPARATOR . 'WizardTest';
+            \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR . __CLASS__;
         if (is_file($tmpDir)) {
             unlink($tmpDir);
         } elseif (is_dir($tmpDir)) {
@@ -36,24 +35,22 @@ class WizardTest extends \Magento\TestFramework\TestCase\ControllerAbstract
         // deliberately create a file instead of directory to emulate broken access to static directory
         touch($tmpDir);
         self::$_tmpDir = $tmpDir;
-
-        // emulate invalid installation date, so that application will think it is not installed
-        self::$_params = array(\Mage::PARAM_CUSTOM_LOCAL_CONFIG
-            => sprintf(\Magento\Core\Model\Config\Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
-        );
     }
 
     public function testPreDispatch()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(self::$_params);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
                 'Magento\Core\Controller\Request\Http' => 'Magento\TestFramework\Request',
                 'Magento\Core\Controller\Response\Http' => 'Magento\TestFramework\Response'
             )
         ));
+        /** @var $appState \Magento\Core\Model\App\State */
+        $appState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App\State');
+        $appState->setInstallDate(false);
         $this->dispatch('install/wizard');
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
+        $appState->setInstallDate(date('r', strtotime('now')));
     }
 
     /**
@@ -64,7 +61,7 @@ class WizardTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function testPreDispatchImpossibleToRenderPage($action)
     {
         $params = self::$_params;
-        $params[\Mage::PARAM_APP_DIRS][\Magento\Core\Model\Dir::STATIC_VIEW] = self::$_tmpDir;
+        $params[Magento_Core_Model_App::PARAM_APP_DIRS][Magento_Core_Model_Dir::STATIC_VIEW] = self::$_tmpDir;
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize($params);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(

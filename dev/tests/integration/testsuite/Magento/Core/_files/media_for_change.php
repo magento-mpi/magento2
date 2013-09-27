@@ -8,7 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Mage::app()->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+    ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
 $designDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir() . '/media_for_change';
 $themeDir = $designDir . DIRECTORY_SEPARATOR . 'frontend/test_default';
 $sourcePath = dirname(__DIR__) . '/Model/_files/design/frontend/test_publication/';
@@ -24,7 +25,8 @@ foreach ($files as $file) {
 }
 
 /** @var $registration \Magento\Core\Model\Theme\Registration */
-$registration = \Mage::getModel('Magento\Core\Model\Theme\Registration');
+$registration = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Theme\Registration');
 $registration->register(
     $designDir,
     implode(DIRECTORY_SEPARATOR, array('*', '*', 'theme.xml'))

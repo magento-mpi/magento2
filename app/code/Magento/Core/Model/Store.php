@@ -166,7 +166,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_configCacheBaseNodes = array();
 
     /**
-     * \Directory cache
+     * Directory cache
      *
      * @var array
      */
@@ -322,15 +322,13 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function __sleep()
     {
         $properties = parent::__sleep();
-        if (\Mage::getIsSerializable()) {
-            $properties = array_diff($properties, array(
-                '_coreFileStorageDatabase',
-                '_eventDispatcher',
-                '_cacheManager',
-                '_coreStoreConfig',
-                '_coreConfig'
-            ));
-        }
+        $properties = array_diff($properties, array(
+            '_coreFileStorageDatabase',
+            '_eventDispatcher',
+            '_cacheManager',
+            '_coreStoreConfig',
+            '_coreConfig'
+        ));
         return $properties;
     }
 
@@ -340,13 +338,11 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function __wakeup()
     {
         parent::__wakeup();
-        if (\Mage::getIsSerializable()) {
-            $this->_eventDispatcher = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Event\Manager');
-            $this->_cacheManager    = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\CacheInterface');
-            $this->_coreStoreConfig = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Store\Config');
-            $this->_coreConfig = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Config');
-            $this->_coreFileStorageDatabase = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Helper\File\Storage\Database');
-        }
+        $this->_eventDispatcher = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Event\Manager');
+        $this->_cacheManager    = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\CacheInterface');
+        $this->_coreStoreConfig = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Store\Config');
+        $this->_coreConfig = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Config');
+        $this->_coreFileStorageDatabase = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Helper\File\Storage\Database');
     }
 
     /**

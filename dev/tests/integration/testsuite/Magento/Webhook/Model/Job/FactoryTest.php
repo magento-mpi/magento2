@@ -1,5 +1,9 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Job\Factory
+ *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -7,21 +11,18 @@
  */
 namespace Magento\Webhook\Model\Job;
 
-/**
- * \Magento\Webhook\Model\Job\Factory
- *
- * @magentoDbIsolation enabled
- */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
         $factory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Job\Factory');
-        $event = \Mage::getModel('Magento\Webhook\Model\Event')
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription')
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         $job = $factory->create($subscription, $event);

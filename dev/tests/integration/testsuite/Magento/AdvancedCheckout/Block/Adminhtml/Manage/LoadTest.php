@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
+
 class LoadTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */
@@ -25,7 +25,7 @@ class LoadTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Load');
     }
 

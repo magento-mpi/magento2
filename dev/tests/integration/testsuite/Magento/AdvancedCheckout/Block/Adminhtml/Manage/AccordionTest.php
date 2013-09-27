@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
+
 class AccordionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */
@@ -27,7 +27,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion');
     }
 
@@ -79,12 +79,14 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
      */
     protected function _initAcl()
     {
-        $user = \Mage::getModel('Magento\User\Model\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User');
         $user->setId(1)->setRole(true);
-        \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setUpdatedAt(time())->setUser($user);
-        \Mage::getModel(
-            'Magento\AuthorizationInterface', array(
-                'data' => array('policy' => new \Magento\Authorization\Policy\DefaultPolicy())
-        ));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth\Session')
+            ->setUpdatedAt(time())->setUser($user);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento_AuthorizationInterface',
+            array('data' => array('policy' => new \Magento\Authorization\Policy\DefaultPolicy()))
+        );
     }
 }

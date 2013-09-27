@@ -11,7 +11,6 @@
 /**
  * Catalog product attribute controller
  */
-
 namespace Magento\Adminhtml\Controller\Catalog\Product;
 
 class Attribute extends \Magento\Adminhtml\Controller\Action
@@ -51,7 +50,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->_entityTypeId = \Mage::getModel('Magento\Eav\Model\Entity')
+        $this->_entityTypeId = $this->_objectManager->create('Magento\Eav\Model\Entity')
             ->setType(\Magento\Catalog\Model\Product::ENTITY)
             ->getTypeId();
     }
@@ -95,13 +94,13 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     {
         $id = $this->getRequest()->getParam('attribute_id');
         /** @var $model \Magento\Catalog\Model\Resource\Eav\Attribute */
-        $model = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute')
+        $model = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute')
             ->setEntityTypeId($this->_entityTypeId);
         if ($id) {
             $model->load($id);
 
             if (! $model->getId()) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This attribute no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -109,7 +108,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
             // entity type check
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This attribute cannot be edited.'));
                 $this->_redirect('*/*/');
                 return;
@@ -117,7 +116,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
         }
 
         // set entered data if was error when we do save
-        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getAttributeData(true);
+        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getAttributeData(true);
         if (! empty($data)) {
             $model->addData($data);
         }
@@ -153,7 +152,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
         $frontendLabel = $this->getRequest()->getParam('frontend_label');
         $attributeCode = $attributeCode ?: $this->generateCode($frontendLabel[0]);
         $attributeId = $this->getRequest()->getParam('attribute_id');
-        $attribute = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute')
+        $attribute = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute')
             ->loadByCode($this->_entityTypeId, $attributeCode);
 
         if ($attribute->getId() && !$attributeId) {
@@ -216,12 +215,12 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
         $data = $this->getRequest()->getPost();
         if ($data) {
             /** @var $session \Magento\Backend\Model\Auth\Session */
-            $session = \Mage::getSingleton('Magento\Adminhtml\Model\Session');
+            $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
 
             $isNewAttributeSet = false;
             if (!empty($data['new_attribute_set_name'])) {
                 /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
-                $attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set');
+                $attributeSet = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set');
                 $name = $this->_objectManager->get('Magento\Adminhtml\Helper\Data')
                     ->stripTags($data['new_attribute_set_name']);
                 $name = trim($name);
@@ -251,7 +250,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
             $redirectBack   = $this->getRequest()->getParam('back', false);
             /* @var $model \Magento\Catalog\Model\Resource\Eav\Attribute */
-            $model = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute');
+            $model = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute');
             /* @var $helper \Magento\Catalog\Helper\Product */
             $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product');
 
@@ -276,7 +275,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
             //validate frontend_input
             if (isset($data['frontend_input'])) {
                 /** @var $inputType \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator */
-                $inputType = \Mage::getModel('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator');
+                $inputType = $this->_objectManager->create('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator');
                 if (!$inputType->isValid($data['frontend_input'])) {
                     foreach ($inputType->getMessages() as $message) {
                         $session->addError($message);
@@ -347,7 +346,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
                 $attributeSetId = $isNewAttributeSet ? $attributeSet->getId() : $this->getRequest()->getParam('set');
                 $groupCollection = $isNewAttributeSet
                     ? $attributeSet->getGroups()
-                    : \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
+                    : $this->_objectManager->create('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
                         ->setAttributeSetFilter($attributeSetId)
                         ->load();
                 foreach ($groupCollection as $group) {
@@ -397,12 +396,12 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     {
         $id = $this->getRequest()->getParam('attribute_id');
         if ($id) {
-            $model = \Mage::getModel('Magento\Catalog\Model\Resource\Eav\Attribute');
+            $model = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute');
 
             // entity type check
             $model->load($id);
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This attribute cannot be deleted.'));
                 $this->_redirect('*/*/');
                 return;
@@ -410,17 +409,17 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
 
             try {
                 $model->delete();
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The product attribute has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
                 return;
             }
         }
-        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
+        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
             __('We can\'t find an attribute to delete.'));
         $this->_redirect('*/*/');
     }

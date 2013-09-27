@@ -60,7 +60,7 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
 
         $this->setId($this->getId() . '_Uploader');
 
-        $uploadUrl = \Mage::getModel('Magento\Backend\Model\Url')->addSessionParam()->getUrl('*/*/upload');
+        $uploadUrl = $this->_urlBuilder->addSessionParam()->getUrl('*/*/upload');
         $this->getConfig()->setUrl($uploadUrl);
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('file');

@@ -14,7 +14,8 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
-class Totals extends \Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals
+class Totals
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals
 {
     /**
      * Gift wrapping data
@@ -26,21 +27,25 @@ class Totals extends \Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultT
     /**
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Sales\Helper\Data $salesData,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($salesData, $coreData, $context, $coreConfig, $data);
+        parent::__construct($salesData, $sessionQuote, $orderCreate, $coreData, $context, $salesConfig, $data);
     }
 
     /**

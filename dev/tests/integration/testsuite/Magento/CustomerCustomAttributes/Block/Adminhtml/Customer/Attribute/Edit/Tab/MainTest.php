@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab;
-
 /**
  * Test class for \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab;
+
 class MainTest
     extends \PHPUnit_Framework_TestCase
 {
@@ -27,17 +27,20 @@ class MainTest
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer');
-        $model = \Mage::getModel('Magento\Customer\Model\Attribute');
+        $entityType = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
+            ->getEntityType('customer');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Attribute');
         $model->setEntityTypeId($entityType->getId());
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('entity_attribute', $model);
 
-        $block = \Mage::app()->getLayout()->createBlock(
-            'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main'
-        );
-        $prepareFormMethod = new \ReflectionMethod(
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock(
+                'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main'
+            );
+        $prepareFormMethod = new ReflectionMethod(
             'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

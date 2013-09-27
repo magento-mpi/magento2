@@ -20,13 +20,38 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Attribute;
 class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Prepare product attributes grid collection object
      *
      * @return \Magento\Adminhtml\Block\Catalog\Product\Attribute\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Attribute\Collection')
+        $collection = $this->_collectionFactory->create()
             ->addVisibleFilter();
         $this->setCollection($collection);
 

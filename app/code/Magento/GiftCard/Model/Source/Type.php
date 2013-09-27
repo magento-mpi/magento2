@@ -20,11 +20,21 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected $_coreData = null;
 
     /**
+     * Eav entity attribute factory
+     *
+     * @var \Magento\Eav\Model\Resource\Entity\AttributeFactory
+     */
+    protected $_eavAttributeFactory;
+
+    /**
+     * @param \Magento\Eav\Model\Resource\Entity\AttributeFactory $eavAttributeFactory
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
+        \Magento\Eav\Model\Resource\Entity\AttributeFactory $eavAttributeFactory,
         \Magento\Core\Helper\Data $coreData
     ) {
+        $this->_eavAttributeFactory = $eavAttributeFactory;
         $this->_coreData = $coreData;
     }
 
@@ -109,7 +119,6 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute')
-            ->getFlatUpdateSelect($this->getAttribute(), $store);
+        return $this->_eavAttributeFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

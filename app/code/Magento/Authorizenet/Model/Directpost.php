@@ -60,6 +60,11 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
     /**
      * Construct
      *
+     * @param \Magento\Paygate\Model\Authorizenet\CardsFactory $cardsFactory
+     * @param \Magento\Paygate\Model\Authorizenet\RequestFactory $parentRequestFactory
+     * @param \Magento\Paygate\Model\Authorizenet\ResultFactory $resultFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Paygate\Helper\Data $paygateData
@@ -77,6 +82,11 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
      * @param array $data
      */
     public function __construct(
+        \Magento\Paygate\Model\Authorizenet\CardsFactory $cardsFactory,
+        \Magento\Paygate\Model\Authorizenet\RequestFactory $parentRequestFactory,
+        \Magento\Paygate\Model\Authorizenet\ResultFactory $resultFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Paygate\Helper\Data $paygateData,
@@ -93,7 +103,8 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
         \Magento\Authorizenet\Model\Directpost\Response $response,
         array $data = array()
     ) {
-        parent::__construct($logger, $eventManager, $paygateData, $moduleList, $coreStoreConfig, $paymentData,
+        parent::__construct($cardsFactory, $parentRequestFactory, $resultFactory, $orderFactory, $session,
+            $logger, $eventManager, $paygateData, $moduleList, $coreStoreConfig, $paymentData,
             $logAdapterFactory, $locale, $centinelService, $data);
         $this->_storeManager = $storeManager;
         $this->_orderFactory = $orderFactory;

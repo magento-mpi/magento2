@@ -20,22 +20,14 @@ class Guest extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_session;
-
-    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Session $session
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Session $session
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_session = $session;
         parent::__construct($context);
     }
 
@@ -135,6 +127,10 @@ class Guest extends \Magento\Core\Controller\Front\Action
         }
 
         $post = $this->getRequest()->getPost();
+        /** @var \Magento\Core\Model\Session $coreSession */
+        $coreSession = $this->_objectManager->get('Magento\Core\Model\Session');
+        /** @var \Magento\Core\Model\Date $coreDate */
+        $coreDate = $this->_objectManager->get('Magento\Core\Model\Date');
         if (($post) && !empty($post['items'])) {
             try {
                 /** @var $urlModel \Magento\Core\Model\Url */
@@ -143,7 +139,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
                 $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');
                 $rmaData = array(
                     'status'                => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
-                    'date_requested'        => $this->_objectManager->get('Magento\Core\Model\Date')->gmtDate(),
+                    'date_requested'        => $coreDate->gmtDate(),
                     'order_id'              => $order->getId(),
                     'order_increment_id'    => $order->getIncrementId(),
                     'store_id'              => $order->getStoreId(),
@@ -165,16 +161,16 @@ class Guest extends \Magento\Core\Controller\Front\Action
                         ->setComment($post['rma_comment'])
                         ->setIsVisibleOnFront(true)
                         ->setStatus($rmaModel->getStatus())
-                        ->setCreatedAt($this->_objectManager->get('Magento\Core\Model\Date')->gmtDate())
+                        ->setCreatedAt($coreDate->gmtDate())
                         ->save();
                 }
-                $this->_session->addSuccess(
+                $coreSession->addSuccess(
                     __('You submitted Return #%1.', $rmaModel->getIncrementId())
                 );
                 $this->_redirectSuccess($urlModel->getUrl('*/*/returns'));
                 return;
             } catch (\Exception $e) {
-                $this->_session->addError(
+                $coreSession->addError(
                     __('We cannot create a new return transaction. Please try again later.')
                 );
                 $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
@@ -203,7 +199,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
 
         $incrementId = $this->_coreRegistry->registry('current_order')->getIncrementId();
         $message = __('We cannot create a return transaction for order #%1.', $incrementId);
-        $this->_session->addError($message);
+        $this->_objectManager->get('Magento\Core\Model\Session')->addError($message);
         $this->_redirect('sales/order/history');
         return false;
     }
@@ -246,7 +242,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
                 );
             }
             if (is_array($response)) {
-                $this->_session->addError($response['message']);
+               $this->_objectManager->get('Magento\Core\Model\Session')->addError($response['message']);
             }
             $this->_redirect('*/*/view', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
             return;
@@ -306,7 +302,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
             );
         }
         if (is_array($response)) {
-            $this->_session->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
         $this->addPageLayoutHandles();
@@ -359,7 +355,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
             );
         }
         if (is_array($response)) {
-            $this->_session->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
         $this->addPageLayoutHandles();

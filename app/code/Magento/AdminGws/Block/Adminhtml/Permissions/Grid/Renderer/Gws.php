@@ -14,12 +14,32 @@
  */
 namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer;
 
-class Gws extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Gws
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var array
      */
     public static $websites = array();
+
+    /**
+     * @var \Magento\Core\Model\Resource\Store\Group\Collection
+     */
+    protected $_storeGroupCollection;
+
+    /**
+     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection
+     * @param \Magento\Backend\Block\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection,
+        \Magento\Backend\Block\Context $context,
+        array $data = array()
+    ) {
+        $this->_storeGroupCollection = $storeGroupCollection;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Render cell contents
@@ -40,7 +60,7 @@ class Gws extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractR
 
         // lookup websites and store groups in system
         if (!self::$websites) {
-            foreach (\Mage::getResourceSingleton('Magento\Core\Model\Resource\Store\Group\Collection') as $storeGroup) {
+            foreach ($this->_storeGroupCollection as $storeGroup) {
                 /* @var $storeGroup \Magento\Core\Model\Store\Group */
                 $website = $storeGroup->getWebsite();
                 $websiteId = (string)$storeGroup->getWebsiteId();

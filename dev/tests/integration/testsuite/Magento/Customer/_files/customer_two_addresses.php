@@ -11,7 +11,8 @@
 require 'customer_address.php';
 
 /** @var \Magento\Customer\Model\Address $customerAddress */
-$customerAddress = \Mage::getModel('Magento\Customer\Model\Address');
+$customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Address');
 $customerAddress->isObjectNew(true);
 $customerAddress->setCustomerId(1)
     ->setData(array(

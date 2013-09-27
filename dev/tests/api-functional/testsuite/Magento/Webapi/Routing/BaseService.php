@@ -70,7 +70,7 @@ abstract class BaseService extends \Magento\TestFramework\TestCase\WebapiAbstrac
                 get_class($e),
                 'SoapFault',
                 sprintf(
-                    'Expected \SoapFault exception not generated for
+                    'Expected SoapFault exception not generated for
                     Service - "%s" and Operation - "%s"',
                     $serviceInfo['soap']['service'],
                     $serviceInfo['soap']['operation']

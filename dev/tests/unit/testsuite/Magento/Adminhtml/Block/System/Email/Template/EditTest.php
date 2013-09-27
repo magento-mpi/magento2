@@ -19,14 +19,45 @@ class EditTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
+     * @var \Magento\Core\Model\Registry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_registryMock;
+
+    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configStructureMock;
 
+    /**
+     * @var \Magento\Core\Model\Email\Template\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_emailConfigMock;
+
+    /**
+     * @var array
+     */
+    protected $_fixtureConfigPath = array(
+        array(
+            'scope'     => 'scope_11',
+            'scope_id'  => 'scope_id_1',
+            'path'      => 'section1/group1/field1',
+        ),
+        array(
+            'scope'     => 'scope_11',
+            'scope_id'  => 'scope_id_1',
+            'path'      => 'section1/group1/group2/field1',
+        ),
+        array(
+            'scope'     => 'scope_11',
+            'scope_id'  => 'scope_id_1',
+            'path'      => 'section1/group1/group2/group3/field1',
+        ),
+    );
+
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false, false);
+        $this->_registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false, false);
         $layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
         $helperMock = $this->getMock('Magento\Adminhtml\Helper\Data', array(), array(), '', false, false);
         $menuConfigMock = $this->getMock('Magento\Backend\Model\Menu\Config', array(), array(), '', false, false);
@@ -36,13 +67,17 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->_configStructureMock = $this->getMock('Magento\Backend\Model\Config\Structure',
             array(), array(), '', false, false
         );
+        $this->_emailConfigMock = $this->getMock(
+            'Magento\Core\Model\Email\Template\Config', array(), array(), '', false
+        );
 
         $params = array(
             'urlBuilder' => $urlBuilder,
-            'registry' => $registryMock,
+            'registry' => $this->_registryMock,
             'layout' => $layoutMock,
             'menuConfig' => $menuConfigMock,
             'configStructure' => $this->_configStructureMock,
+            'emailConfig' => $this->_emailConfigMock,
         );
         $arguments = $objectManager->getConstructArguments(
             'Magento\Adminhtml\Block\System\Email\Template\Edit',
@@ -53,31 +88,6 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $menuConfigMock->expects($this->any())->method('getMenu')->will($this->returnValue($menuMock));
         $menuMock->expects($this->any())->method('get')->will($this->returnValue($menuItemMock));
         $menuItemMock->expects($this->any())->method('getTitle')->will($this->returnValue('Title'));
-
-        $paths = array(
-            array(
-                'scope' => 'scope_11',
-                'scope_id' => 'scope_id_1',
-                'path' => 'section1/group1/field1',
-            ),
-            array(
-                'scope' => 'scope_11',
-                'scope_id' => 'scope_id_1',
-                'path' => 'section1/group1/group2/field1',
-            ),
-            array(
-                'scope' => 'scope_11',
-                'scope_id' => 'scope_id_1',
-                'path' => 'section1/group1/group2/group3/field1',
-            ),
-        );
-        $templateMock = $this->getMock('Magento\Adminhtml\Model\Email\Template', array(), array(), '', false, false);
-        $templateMock->expects($this->once())
-            ->method('getSystemConfigPathsWhereUsedCurrently')
-            ->will($this->returnValue($paths));
-
-        $registryMock->expects($this->once())->method('registry')
-            ->with('current_email_template')->will($this->returnValue($templateMock));
 
         $layoutMock->expects($this->any())->method('helper')->will($this->returnValue($helperMock));
 
@@ -121,6 +131,14 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->_configStructureMock->expects($this->any())
             ->method('getElementByPathParts')->will($this->returnValueMap($map));
 
+        $templateMock = $this->getMock('Magento\Adminhtml\Model\Email\Template', array(), array(), '', false, false);
+        $templateMock->expects($this->once())
+            ->method('getSystemConfigPathsWhereUsedCurrently')
+            ->will($this->returnValue($this->_fixtureConfigPath));
+
+        $this->_registryMock->expects($this->once())->method('registry')
+            ->with('current_email_template')->will($this->returnValue($templateMock));
+
         $actual = $this->_block->getUsedCurrentlyForPaths(false);
         $expected = array(
             array(
@@ -149,5 +167,59 @@ class EditTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testGetDefaultTemplatesAsOptionsArray()
+    {
+        $this->_emailConfigMock
+            ->expects($this->once())
+            ->method('getAvailableTemplates')
+            ->will($this->returnValue(array('template_b2', 'template_a', 'template_b1')))
+        ;
+        $this->_emailConfigMock
+            ->expects($this->exactly(3))
+            ->method('getTemplateModule')
+            ->will($this->onConsecutiveCalls('Fixture_ModuleB', 'Fixture_ModuleA', 'Fixture_ModuleB'))
+        ;
+        $this->_emailConfigMock
+            ->expects($this->exactly(3))
+            ->method('getTemplateLabel')
+            ->will($this->onConsecutiveCalls('Template B2', 'Template A', 'Template B1'))
+        ;
+        $this->assertEmpty($this->_block->getData('template_options'));
+        $this->_block->toHtml();
+        $expectedResult = array (
+            '' => array(
+                array(
+                    'value' => '',
+                    'label' => '',
+                    'group' => '',
+                ),
+            ),
+            'Fixture_ModuleA' => array(
+                array(
+                    'value' => 'template_a',
+                    'label' => 'Template A',
+                    'group' => 'Fixture_ModuleA',
+                ),
+            ),
+            'Fixture_ModuleB' => array(
+                array(
+                    'value' => 'template_b1',
+                    'label' => 'Template B1',
+                    'group' => 'Fixture_ModuleB',
+                ),
+                array(
+                    'value' => 'template_b2',
+                    'label' => 'Template B2',
+                    'group' => 'Fixture_ModuleB',
+                ),
+            ),
+        );
+        $this->assertEquals(
+            $expectedResult,
+            $this->_block->getData('template_options'),
+            'Options are expected to be sorted by modules and by labels of email templates within modules'
+        );
     }
 }

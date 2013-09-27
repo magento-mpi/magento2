@@ -12,16 +12,16 @@ namespace Magento\Core\Model\Config;
 class ValidationState implements \Magento\Config\ValidationStateInterface
 {
     /**
-     * @var \Magento\Core\Model\App\State
+     * @var string
      */
-    protected $_appState;
+    protected $_appMode;
 
     /**
-     * @param \Magento\Core\Model\App\State $appState
+     * @param string $appMode
      */
-    public function __construct(\Magento\Core\Model\App\State $appState)
+    public function __construct($appMode)
     {
-        $this->_appState = $appState;
+        $this->_appMode = $appMode;
     }
 
     /**
@@ -31,6 +31,6 @@ class ValidationState implements \Magento\Config\ValidationStateInterface
      */
     public function isValidated()
     {
-        return $this->_appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER;
+        return $this->_appMode == \Magento\Core\Model\App\State::MODE_DEVELOPER;
     }
 }

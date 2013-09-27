@@ -42,7 +42,7 @@ class Abandoned extends \Magento\Adminhtml\Block\Widget\Grid\Container
 
     public function getStoreSwitcherHtml()
     {
-        if (\Mage::app()->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return '';
         }
         return $this->getChildHtml('store_switcher');

@@ -34,15 +34,39 @@ class Observer
     protected $_adminhtmlCatalog = null;
 
     /**
+     * @var \Magento\Bundle\Model\Resource\Selection
+     */
+    protected $_bundleSelection;
+
+    /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Catalog\Model\Config $config
+     * @param \Magento\Bundle\Model\Resource\Selection $bundleSelection
      * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
      * @param \Magento\Bundle\Helper\Data $bundleData
      */
     public function __construct(
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Catalog\Model\Config $config,
+        \Magento\Bundle\Model\Resource\Selection $bundleSelection,
         \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
         \Magento\Bundle\Helper\Data $bundleData
     ) {
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         $this->_bundleData = $bundleData;
+        $this->_bundleSelection = $bundleSelection;
+        $this->_config = $config;
+        $this->_productVisibility = $productVisibility;
     }
 
     /**
@@ -111,7 +135,7 @@ class Observer
         }
 
         /* @var $resource \Magento\Bundle\Model\Resource\Selection */
-        $resource   = \Mage::getResourceSingleton('Magento\Bundle\Model\Resource\Selection');
+        $resource   = $this->_bundleSelection;
 
         $productIds = array_keys($collection->getItems());
         if (!is_null($limit) && $limit <= count($productIds)) {
@@ -129,12 +153,12 @@ class Observer
 
         /* @var $bundleCollection \Magento\Catalog\Model\Resource\Product\Collection */
         $bundleCollection = $product->getCollection()
-            ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
+            ->addAttributeToSelect($this->_config->getProductAttributes())
             ->addStoreFilter()
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
-            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
+            ->setVisibility($this->_productVisibility->getVisibleInCatalogIds());
 
         if (!is_null($limit)) {
             $bundleCollection->setPageSize($limit);

@@ -57,7 +57,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             $this->getSelect()->joinLeft(
                 array('state_table' => $this->getTable('sales_order_status_state')),
                 'main_table.status=state_table.status',
-                array('state', 'is_default')
+                array('state', 'is_default', 'visible_on_front')
             );
             $this->setFlag('states_joined', true);
         }

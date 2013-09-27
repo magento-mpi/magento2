@@ -143,7 +143,8 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
      */
     public function testImportData($behavior, $sourceFile, array $dataBefore, array $dataAfter, array $errors = array())
     {
-        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         // set entity adapter parameters
         $this->_entityAdapter->setParameters(array('behavior' => $behavior));
 

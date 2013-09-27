@@ -82,7 +82,7 @@ class CompareTest extends \PHPUnit_Framework_TestCase
     public function testCalculate()
     {
          /** @var $session \Magento\Catalog\Model\Session */
-        $session = \Mage::getSingleton('Magento\Catalog\Model\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session');
         try {
             $session->unsCatalogCompareItemsCount();
             $this->assertFalse($this->_helper->hasItems());
@@ -109,7 +109,8 @@ class CompareTest extends \PHPUnit_Framework_TestCase
 
     protected function _testGetProductUrl($method, $expectedFullAction)
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setId(10);
         $url = $this->_helper->$method($product);
         $this->assertContains($expectedFullAction, $url);
@@ -122,12 +123,15 @@ class CompareTest extends \PHPUnit_Framework_TestCase
      */
     protected function _populateCompareList()
     {
-        $productOne = \Mage::getModel('Magento\Catalog\Model\Product');
-        $productTwo = \Mage::getModel('Magento\Catalog\Model\Product');
+        $productOne = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
+        $productTwo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $productOne->load(10);
         $productTwo->load(11);
         /** @var $compareList \Magento\Catalog\Model\Product\Compare\ListCompare */
-        $compareList = \Mage::getModel('Magento\Catalog\Model\Product\Compare\ListCompare');
+        $compareList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Compare\ListCompare');
         $compareList->addProduct($productOne)->addProduct($productTwo);
     }
 }

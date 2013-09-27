@@ -30,12 +30,22 @@ class Price
     protected $_coreRegistry = null;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -51,12 +61,12 @@ class Price
             case \Magento\Catalog\Model\Product\Type::TYPE_GROUPED:
                 // Workaround to avoid loading stock status by admin's website
                 if ($store instanceof \Magento\Core\Model\Store) {
-                    $oldStore = \Mage::app()->getStore();
-                    \Mage::app()->setCurrentStore($store);
+                    $oldStore = $this->_storeManager->getStore();
+                    $this->_storeManager->setCurrentStore($store);
                 }
                 $subProducts = $product->getTypeInstance()->getAssociatedProducts($product);
                 if ($store instanceof \Magento\Core\Model\Store) {
-                    \Mage::app()->setCurrentStore($oldStore);
+                    $this->_storeManager->setCurrentStore($oldStore);
                 }
                 if (!count($subProducts)) {
                     return null;
@@ -76,8 +86,8 @@ class Price
 
             case \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
                 if ($store instanceof \Magento\Core\Model\Store) {
-                    $oldStore = \Mage::app()->getStore();
-                    \Mage::app()->setCurrentStore($store);
+                    $oldStore = $this->_storeManager->getStore();
+                    $this->_storeManager->setCurrentStore($store);
                 }
 
                 $this->_coreRegistry->unregister('rule_data');
@@ -89,7 +99,7 @@ class Price
                 $minPrice = $product->getPriceModel()->getTotalPrices($product, 'min', $inclTax);
 
                 if ($store instanceof \Magento\Core\Model\Store) {
-                    \Mage::app()->setCurrentStore($oldStore);
+                    $this->_storeManager->setCurrentStore($oldStore);
                 }
                 return $minPrice;
 

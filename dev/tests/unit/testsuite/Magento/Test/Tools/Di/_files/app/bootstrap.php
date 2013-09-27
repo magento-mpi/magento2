@@ -5,4 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
- \Mage::getModel('Magento_Bootstrap_ModelFactory');
+
+$objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+$bootstrapFactory = $objectManager->getObject('Magento\Bootstrap\ModelFactory');

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <section name="quote">
+        <group name="totals">
+            <item name="giftwrapping" instance="Magento\GiftWrapping\Model\Total\Quote\Giftwrapping" sort_order="900">
+                <renderer name="frontend" instance="Magento\GiftWrapping\Block\Checkout\Totals"/>
+            </item>
+            <item name="tax_giftwrapping" instance="Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping" sort_order="500"/>
+        </group>
+    </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="giftwrapping" instance="Magento\GiftWrapping\Model\Total\Invoice\Giftwrapping" sort_order="400"/>
+            <item name="tax_giftwrapping" instance="Magento\GiftWrapping\Model\Total\Invoice\Tax\Giftwrapping" sort_order="300"/>
+        </group>
+    </section>
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="giftwrapping" instance="Magento\GiftWrapping\Model\Total\Creditmemo\Giftwrapping" sort_order="450"/>
+            <item name="tax_giftwrapping" instance="Magento\GiftWrapping\Model\Total\Creditmemo\Tax\Giftwrapping" sort_order="350"/>
+        </group>
+    </section>
+</config>

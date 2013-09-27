@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
+
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */
@@ -25,7 +25,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form');
     }
 
@@ -33,7 +33,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $parentName = 'parent';
         $mockClass = $this->getMockClass('Magento\Catalog\Block\Product\AbstractProduct', array('_prepareLayout'),
-            array(\Mage::getModel('Magento\Core\Block\Template\Context'))
+            array(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Block\Template\Context'))
         );
         $this->_layout->createBlock($mockClass, $parentName);
         $this->_layout->setChild($parentName, $this->_block->getNameInLayout(), '');

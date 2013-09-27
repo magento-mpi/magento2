@@ -30,4 +30,11 @@
             <instance type="Magento\Backend\Model\Session\Proxy" />
         </param>
     </type>
+    <type name="Magento\Core\Model\Db\Updater">
+        <param name="resourceList">
+            <value>
+                <catalogrule_setup>Magento\Core\Model\Resource\Setup\Generic</catalogrule_setup>
+            </value>
+        </param>
+    </type>
 </config>

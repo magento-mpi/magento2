@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Model\Sales\Order;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Model\Sales\Order;
+
 class CreateTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,7 +27,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_model = \Mage::getModel('Magento\Adminhtml\Model\Sales\Order\Create');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Adminhtml\Model\Sales\Order\Create');
     }
 
     /**
@@ -37,7 +38,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     public function testInitFromOrderShippingAddressSameAsBillingWhenEmpty()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->getShippingAddress());
 
@@ -57,7 +59,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     public function testInitFromOrderShippingAddressSameAsBillingWhenSame()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
@@ -78,7 +81,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     public function testInitFromOrderShippingAddressSameAsBillingWhenDifferent()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
@@ -97,7 +101,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     public function testInitFromOrderCcInformationDeleted()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $payment = $order->getPayment();
@@ -123,7 +128,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     public function testInitFromOrderSavedCcInformationNotDeleted()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $payment = $order->getPayment();

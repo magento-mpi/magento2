@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Centinel\Model\StateFactory">
+        <param name="stateClassMap">
+            <value>
+                <VI>Magento\Centinel\Model\State\Visa</VI>
+                <MC>Magento\Centinel\Model\State\Mastercard</MC>
+                <JCB>Magento\Centinel\Model\State\Jcb</JCB>
+                <SM>Magento\Centinel\Model\State\Mastercard</SM>
+            </value>
+        </param>
+    </type>
+</config>

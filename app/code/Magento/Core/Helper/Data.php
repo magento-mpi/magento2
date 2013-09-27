@@ -20,7 +20,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_DEFAULT_COUNTRY              = 'general/country/default';
     const XML_PATH_PROTECTED_FILE_EXTENSIONS    = 'general/file/protected_extensions';
     const XML_PATH_PUBLIC_FILES_VALID_PATHS     = 'general/file/public_files_valid_paths';
-    const XML_PATH_ENCRYPTION_MODEL             = 'global/helpers/core/encryption_model';
     const XML_PATH_DEV_ALLOW_IPS                = 'dev/restrict/allow_ips';
     const XML_PATH_CONNECTION_TYPE              = 'global/resources/default_setup/connection/type';
 
@@ -55,7 +54,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * @var \Magento\Core\Model\Encryption
      */
-    protected $_encryptor = null;
+    protected $_encryptor;
 
     protected $_allowedFormats = array(
         \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
@@ -106,18 +105,27 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @var boolean
+     */
+    protected $_dbCompatibleMode;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor,
+        $dbCompatibleMode = true
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
@@ -127,22 +135,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_cacheConfig = $context->getCacheConfig();
         $this->_encryptorFactory = $context->getEncryptorFactory();
         $this->_fieldsetConfig = $context->getFieldsetConfig();
+        $this->_encryptor = $encryptor;
+        $this->_encryptor->setHelper($this);
+        $this->_dbCompatibleMode = $dbCompatibleMode;
     }
 
     /**
-     * @return \Magento\Core\Model\EncryptionInterface
+     * @return \Magento\Core\Model\Encryption
      */
     public function getEncryptor()
     {
-        if ($this->_encryptor === null) {
-            $encryptionModel = (string)$this->_config->getNode(self::XML_PATH_ENCRYPTION_MODEL);
-
-            if (!$encryptionModel) {
-                $encryptionModel = 'Magento\Core\Model\Encryption';
-            }
-            $this->_encryptor = $this->_encryptorFactory->create($encryptionModel);
-            $this->_encryptor->setHelper($this);
-        }
         return $this->_encryptor;
     }
 
@@ -522,7 +524,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * Decorate a plain array of arrays or objects
-     * The array actually can be an object with \Iterator interface
+     * The array actually can be an object with Iterator interface
      *
      * Keys with prefix_* will be set:
      * *_is_first - if the element is first
@@ -552,7 +554,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $keyIsEven  = "{$prefix}is_even";
         $keyIsLast  = "{$prefix}is_last";
 
-        $count  = count($array); // this will force \Iterator to load
+        $count  = count($array); // this will force Iterator to load
         $i      = 0;
         $isEven = false;
         foreach ($array as $key => $element) {
@@ -790,11 +792,7 @@ XML;
      */
     public function useDbCompatibleMode()
     {
-        /** @var $resourceConfig \Magento\Core\Model\Config\Resource */
-        $resourceConfig = \Mage::getSingleton('Magento\Core\Model\Config\Resource');
-        $connType = (string) $resourceConfig->getResourceConnectionConfig('default_setup')->type;
-        $value = (string) $resourceConfig->getResourceTypeConfig($connType)->compatibleMode;
-        return (bool) $value;
+        return $this->_dbCompatibleMode;
     }
 
     /**

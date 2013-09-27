@@ -49,7 +49,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Catalog Search resource helper
      *
-     * @var \Magento\CatalogSearch\Model\Resource\Helper\Mysql4
+     * @var \Magento\CatalogSearch\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
@@ -65,7 +65,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\CatalogSearch\Model\Resource\Helper\Mysql4 $resourceHelper
+     * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
@@ -77,7 +77,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Core\Model\Resource $resource,
-        \Magento\CatalogSearch\Model\Resource\Helper\Mysql4 $resourceHelper
+        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
     ) {
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         $this->_resource = $resource;

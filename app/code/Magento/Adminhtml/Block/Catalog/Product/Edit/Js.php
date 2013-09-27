@@ -54,8 +54,8 @@ class Js extends \Magento\Adminhtml\Block\Template
     {
         $product = $this->getProduct();
         if ($product) {
-            return \Mage::app()->getStore($product->getStoreId());
+            return $this->_storeManager->getStore($product->getStoreId());
         }
-        return \Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 }

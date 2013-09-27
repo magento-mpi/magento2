@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Controller;
 
-class Returns extends \Magento\Core\Controller\Front\Action
+class Return extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Core registry
@@ -20,30 +20,14 @@ class Returns extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_session;
-
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Session $session
-     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Session $session,
-        \Magento\Customer\Model\Session $customerSession
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_session = $session;
-        $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
 
@@ -57,7 +41,7 @@ class Returns extends \Magento\Core\Controller\Front\Action
         parent::preDispatch();
         $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
 
-        if (!$this->_customerSession->authenticate($this, $loginUrl)) {
+        if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -101,19 +85,21 @@ class Returns extends \Magento\Core\Controller\Front\Action
             return;
         }
 
+        /** @var \Magento\Core\Model\Date $coreDate */
+        $coreDate = $this->_objectManager->get('Magento\Core\Model\Date');
+        /** @var \Magento\Core\Model\Session $coreSession */
+        $coreSession = $this->_objectManager->get('Magento\Core\Model\Session');
         if ($this->_canViewOrder($order)) {
             $post = $this->getRequest()->getPost();
             if (($post) && !empty($post['items'])) {
                 try {
                     /** @var $urlModel \Magento\Core\Model\Url */
                     $urlModel = $this->_objectManager->get('Magento\Core\Model\Url');
-                    /** @var $dateModel \Magento\Core\Model\Date */
-                    $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
                     /** @var $rmaModel \Magento\Rma\Model\Rma */
                     $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');
                     $rmaData = array(
                         'status'                => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
-                        'date_requested'        => $dateModel->gmtDate(),
+                        'date_requested'        => $coreDate->gmtDate(),
                         'order_id'              => $order->getId(),
                         'order_increment_id'    => $order->getIncrementId(),
                         'store_id'              => $order->getStoreId(),
@@ -135,16 +121,16 @@ class Returns extends \Magento\Core\Controller\Front\Action
                             ->setComment($post['rma_comment'])
                             ->setIsVisibleOnFront(true)
                             ->setStatus($rmaModel->getStatus())
-                            ->setCreatedAt($dateModel->gmtDate())
+                            ->setCreatedAt($coreDate->gmtDate())
                             ->save();
                     }
-                    $this->_session->addSuccess(
+                    $coreSession->addSuccess(
                         __('You submitted Return #%1.', $rmaModel->getIncrementId())
                     );
                     $this->_redirectSuccess($urlModel->getUrl('*/*/history'));
                     return;
                 } catch (\Exception $e) {
-                    $this->_session->addError(
+                    $coreSession->addError(
                         __('We cannot create a new return transaction. Please try again later.')
                     );
                     $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
@@ -170,7 +156,7 @@ class Returns extends \Magento\Core\Controller\Front\Action
      */
     protected function _canViewOrder($item)
     {
-        $customerId = $this->_customerSession->getCustomerId();
+        $customerId = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId();
         if ($item->getId() && $item->getCustomerId() && ($item->getCustomerId() == $customerId)) {
             return true;
         }
@@ -218,9 +204,9 @@ class Returns extends \Magento\Core\Controller\Front\Action
             return true;
         }
 
-        $incrementId = $this->_coreRegistry->registry('current_order')->getIncrementId();
-        $message = __('We cannot create a return transaction for order #%1.', $incrementId);
-        $this->_session->addError($message);
+        $incrementId    = $this->_coreRegistry->registry('current_order')->getIncrementId();
+        $message        = __('We cannot create a return transaction for order #%1.', $incrementId);
+        $this->_objectManager->get('Magento\Core\Model\Session')->addError($message);
         $this->_redirect('sales/order/history');
         return false;
     }
@@ -254,19 +240,17 @@ class Returns extends \Magento\Core\Controller\Front\Action
      */
     public function returnsAction()
     {
-        $orderId = (int) $this->getRequest()->getParam('order_id');
-        $customerId = $this->_customerSession->getCustomerId();
+        $orderId    = (int) $this->getRequest()->getParam('order_id');
+        $customerId = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId();
 
         if (!$orderId || !$this->_isEnabledOnFront()) {
             $this->_forward('noRoute');
             return false;
         }
 
-        /** @var $order \Magento\Sales\Model\Order */
-        $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
-        /** @var $orderConfig  \Magento\Sales\Model\Order\Config*/
-        $orderConfig = $this->_objectManager->get('Magento\Sales\Model\Order\Config');
-        $availableStates = $orderConfig->getVisibleOnFrontStates();
+        $order = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+
+        $availableStates = $this->_objectManager->get('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates();
         if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)
             && in_array($order->getState(), $availableStates, $strict = true)
             ) {
@@ -325,13 +309,14 @@ class Returns extends \Magento\Core\Controller\Front\Action
                 );
             }
             if (is_array($response)) {
-                $this->_session->addError($response['message']);
+               $this->_objectManager->get('Magento\Core\Model\Session')->addError($response['message']);
             }
             $this->_redirect('*/*/view', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
             return;
         }
         return;
     }
+    
     /**
      * Add Tracking Number action
      */
@@ -349,7 +334,8 @@ class Returns extends \Magento\Core\Controller\Front\Action
                 $number    = $this->getRequest()->getPost('number');
                 $number    = trim(strip_tags($number));
                 $carrier   = $this->getRequest()->getPost('carrier');
-                $carriers  = $this->_objectManager->get('Magento\Rma\Helper\Data')->getShippingCarriers($rma->getStoreId());
+                $carriers  = $this->_objectManager->get('Magento\Rma\Helper\Data')
+                    ->getShippingCarriers($rma->getStoreId());
 
                 if (!isset($carriers[$carrier])) {
                     throw new \Magento\Core\Exception(__('Please select a valid carrier.'));
@@ -385,7 +371,7 @@ class Returns extends \Magento\Core\Controller\Front\Action
             );
         }
         if (is_array($response)) {
-            $this->_session->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
         $this->addPageLayoutHandles();
@@ -438,7 +424,7 @@ class Returns extends \Magento\Core\Controller\Front\Action
             );
         }
         if (is_array($response)) {
-            $this->_session->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
         $this->addPageLayoutHandles();

@@ -58,7 +58,8 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $payment->void(new \Magento\Object);
         $order->save();
 
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->canVoidPayment());
     }

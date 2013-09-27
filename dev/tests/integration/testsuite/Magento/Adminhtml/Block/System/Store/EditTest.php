@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\System\Store;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\System\Store;
+
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()
@@ -48,7 +48,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->_initStoreTypesInRegistry($registryData);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\System\Store\Edit */
         $block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Edit', 'block');
         $block->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
@@ -63,15 +63,27 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('store_type' => 'website', 'store_data' => \Mage::getModel('Magento\Core\Model\Website')),
+                array(
+                    'store_type' => 'website',
+                    'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->create('Magento\Core\Model\Website')
+                ),
                 'Magento\Adminhtml\Block\System\Store\Edit\Form\Website'
             ),
             array(
-                array('store_type' => 'group', 'store_data' => \Mage::getModel('Magento\Core\Model\Store\Group')),
+                array(
+                    'store_type' => 'group',
+                    'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->create('Magento\Core\Model\Store\Group')
+                ),
                 'Magento\Adminhtml\Block\System\Store\Edit\Form\Group'
             ),
             array(
-                array('store_type' => 'store', 'store_data' => \Mage::getModel('Magento\Core\Model\Store')),
+                array(
+                    'store_type' => 'store',
+                    'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->create('Magento\Core\Model\Store')
+                ),
                 'Magento\Adminhtml\Block\System\Store\Edit\Form\Store'
             )
         );
@@ -87,7 +99,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->_initStoreTypesInRegistry($registryData);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\System\Store\Edit */
         $block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Edit', 'block');
         $block->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
@@ -104,7 +116,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'store_type' => 'website',
-                    'store_data' => \Mage::getModel('Magento\Core\Model\Website'),
+                    'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->create('Magento\Core\Model\Website'),
                     'store_action' => 'add'
                 ),
                 'New Web Site'
@@ -112,7 +125,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'store_type' => 'website',
-                    'store_data' => \Mage::getModel('Magento\Core\Model\Website'),
+                    'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->create('Magento\Core\Model\Website'),
                     'store_action' => 'edit'
                 ),
                 'Edit Web Site'
@@ -120,7 +134,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'store_type' => 'group',
-                    'store_data' => \Mage::getModel('Magento\Core\Model\Store\Group'),
+                    'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->create('Magento\Core\Model\Store\Group'),
                     'store_action' => 'add'
                 ),
                 'New Store'
@@ -128,7 +143,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'store_type' => 'group',
-                    'store_data' => \Mage::getModel('Magento\Core\Model\Store\Group'),
+                    'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->create('Magento\Core\Model\Store\Group'),
                     'store_action' => 'edit'
                 ),
                 'Edit Store'
@@ -136,7 +152,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'store_type' => 'store',
-                    'store_data' => \Mage::getModel('Magento\Core\Model\Store'),
+                    'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->create('Magento\Core\Model\Store'),
                     'store_action' => 'add'
                 ),
                 'New Store View'
@@ -144,7 +161,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'store_type' => 'store',
-                    'store_data' => \Mage::getModel('Magento\Core\Model\Store'),
+                    'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->create('Magento\Core\Model\Store'),
                     'store_action' => 'edit'
                 ),
                 'Edit Store View'

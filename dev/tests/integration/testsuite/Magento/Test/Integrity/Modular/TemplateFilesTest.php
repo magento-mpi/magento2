@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Test\Integrity\Modular;
 
 /**
  * @magentoAppIsolation
  */
+namespace Magento\Test\Integrity\Modular;
+
 class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 {
     /**
@@ -29,7 +30,8 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstrac
         // intentionally to make sure the module files will be requested
         $params = array(
             'area'       => $area,
-            'themeModel' => \Mage::getModel('Magento\Core\Model\Theme'),
+            'themeModel' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme'),
             'module'     => $module
         );
         $file = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
@@ -46,7 +48,8 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstrac
         $blockClass = '';
         try {
             /** @var $website \Magento\Core\Model\Website */
-            \Mage::app()->getStore()->setWebsiteId(0);
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore()->setWebsiteId(0);
 
             $templates = array();
             foreach (\Magento\TestFramework\Utility\Classes::collectModuleClasses('Block') as $blockClass => $module) {
@@ -61,14 +64,14 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstrac
                 $area = 'frontend';
                 if ($module == 'Magento_Install') {
                     $area = 'install';
-                } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '\\Adminhtml\\')
-                    || strpos($blockClass, '\\Backend\\')
+                } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
+                    || strpos($blockClass, '_Backend_')
                     || $class->isSubclassOf('Magento\Backend\Block\Template')
                 ) {
                     $area = 'adminhtml';
                 }
 
-                \Mage::app()->loadAreaPart(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
                     \Magento\Core\Model\App\Area::AREA_ADMINHTML,
                     \Magento\Core\Model\App\Area::PART_CONFIG
                 );
@@ -76,7 +79,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstrac
                     ->get('Magento\Core\Model\Config\Scope')
                     ->setCurrentScope($area);
 
-                $block = \Mage::getModel($blockClass);
+                $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($blockClass);
                 $template = $block->getTemplate();
                 if ($template) {
                     $templates[$module . ', ' . $template . ', ' . $blockClass . ', ' . $area] =

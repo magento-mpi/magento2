@@ -26,12 +26,14 @@ class RoleTest extends \PHPUnit_Framework_TestCase
     {
         $expectedRoleNames = array('test_role', 'Test role');
         /** @var $roleResource \Magento\Webapi\Model\Resource\Acl\Role */
-        $roleResource = \Mage::getResourceModel('Magento\Webapi\Model\Resource\Acl\Role');
+        $roleResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Resource\Acl\Role');
         $rolesIds = $roleResource->getRolesIds();
         $this->assertCount(2, $rolesIds);
         foreach ($rolesIds as $roleId) {
             /** @var $role \Magento\Webapi\Model\Acl\Role */
-            $role = \Mage::getModel('Magento\Webapi\Model\Acl\Role')->load($roleId);
+            $role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\Role')->load($roleId);
             $this->assertNotEmpty($role->getId());
             $this->assertContains($role->getRoleName(), $expectedRoleNames);
         }
@@ -46,11 +48,13 @@ class RoleTest extends \PHPUnit_Framework_TestCase
     public function testGetRolesList()
     {
         /** @var $roleResource \Magento\Webapi\Model\Resource\Acl\Role */
-        $roleResource = \Mage::getResourceModel('Magento\Webapi\Model\Resource\Acl\Role');
+        $roleResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Resource\Acl\Role');
         $rolesList = $roleResource->getRolesList();
         $this->assertCount(2, $rolesList);
         foreach ($rolesList as $roleId => $roleName) {
-            $role = \Mage::getModel('Magento\Webapi\Model\Acl\Role')->load($roleId);
+            $role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\Role')->load($roleId);
             $this->assertEquals($roleId, $role->getId());
             $this->assertEquals($roleName, $role->getRoleName());
         }
@@ -66,7 +70,8 @@ class RoleTest extends \PHPUnit_Framework_TestCase
     public function testInitUniqueFields()
     {
         /** @var $roleResource \Magento\Webapi\Model\Resource\Acl\Role */
-        $roleResource = \Mage::getResourceModel('Magento\Webapi\Model\Resource\Acl\Role');
+        $roleResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Resource\Acl\Role');
         $uniqueFields = $roleResource->getUniqueFields();
         $expectedUnique = array(
             array(
@@ -76,7 +81,8 @@ class RoleTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals($expectedUnique, $uniqueFields);
 
-        \Mage::getModel('Magento\Webapi\Model\Acl\Role')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\Role')
             ->setRoleName('test_role')
             ->save();
     }
@@ -88,11 +94,13 @@ class RoleTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteRole()
     {
-        \Mage::getModel('Magento\Webapi\Model\Acl\Role')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\Role')
             ->load('Test role', 'role_name')
             ->delete();
         /** @var \Magento\Webapi\Model\Acl\User $user */
-        $user = \Mage::getModel('Magento\Webapi\Model\Acl\User')
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\User')
             ->load('test_username', 'api_key');
         $this->assertNotEmpty($user->getId());
     }

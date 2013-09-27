@@ -103,33 +103,22 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected $_storeManager;
 
-    /**
-     * Construct
-     * 
-     * @param \Magento\Search\Model\Resource\CollectionFactory $searchCollFactory
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext
-     * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
-     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
-     * @param \Magento\Search\Model\AdapterInterface $adapter
-     * @param \Magento\Search\Model\Resource\Advanced $searchResource
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     */
+
     public function __construct(
         \Magento\Search\Model\Resource\CollectionFactory $searchCollFactory,
         \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext,
         \Magento\Search\Model\Resource\Index $searchResourceIndex,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
-        \Magento\Search\Model\AdapterInterface $adapter,
         \Magento\Search\Model\Resource\Advanced $searchResource,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Search\Model\Factory\Factory $searchFactory
     ) {
         $this->_searchCollFactory = $searchCollFactory;
         $this->_catalogSearchResourceFulltext = $catalogSearchResourceFulltext;
         $this->_searchResourceIndex = $searchResourceIndex;
         $this->_catalogProductVisibility = $catalogProductVisibility;
-        $this->_adapter = $adapter;
+        $this->_adapter = $searchFactory->getFactory()->createAdapter();
         $this->_searchResource = $searchResource;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;

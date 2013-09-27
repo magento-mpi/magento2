@@ -20,6 +20,12 @@ namespace Magento\Adminhtml\Block\Newsletter\Template;
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
+     * @var \Magento\Newsletter\Model\Resource\Template\Collection
+     */
+    protected $_templateCollection;
+
+    /**
+     * @param \Magento\Newsletter\Model\Resource\Template\Collection $templateCollection
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -27,22 +33,21 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param array $data
      */
     public function __construct(
+        \Magento\Newsletter\Model\Resource\Template\Collection $templateCollection,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
+        $this->_templateCollection = $templateCollection;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->setEmptyText(__('No Templates Found'));
     }
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceSingleton('Magento\Newsletter\Model\Resource\Template\Collection')
-            ->useOnlyActual();
-
-        $this->setCollection($collection);
+        $this->setCollection($this->_templateCollection->useOnlyActual());
 
         return parent::_prepareCollection();
     }
@@ -133,6 +138,5 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         return $this->getUrl('*/*/edit', array('id'=>$row->getId()));
     }
-
 }
 

@@ -1,5 +1,10 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Subscription
+ *
+ * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -10,12 +15,6 @@
  */
 namespace Magento\Webhook\Model;
 
-/**
- * \Magento\Webhook\Model\Subscription
- *
- * @magentoAppArea adminhtml
- * @magentoDbIsolation enabled
- */
 class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -79,8 +78,10 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
 
     public function testSetGetHooks()
     {
+
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $this->assertEmpty($subscription->getTopics(),
             "New subscription shouldn't be subscribed on any hooks.");
 
@@ -104,7 +105,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     public function testHasTopic()
     {
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setTopics(array(self::HOOK_IN_CONFIG))
             ->save();
 
@@ -116,7 +118,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     {
         //setup
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE)
             ->save();
 
@@ -133,7 +136,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     {
         //setup
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
 
@@ -150,7 +154,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     {
         //setup
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
 
@@ -246,6 +251,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
 
     public function testSetData()
     {
+
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
 
@@ -282,6 +288,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     
     public function testSetGetMethods()
     {
+
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription');
 

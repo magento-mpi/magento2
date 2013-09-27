@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Block;
 
-class Switcher extends \Magento\Core\Block\Template
+class Switch extends \Magento\Core\Block\Template
 {
     protected $_storeInUrl;
 
@@ -44,23 +44,23 @@ class Switcher extends \Magento\Core\Block\Template
 
     public function getCurrentWebsiteId()
     {
-        return \Mage::app()->getStore()->getWebsiteId();
+        return $this->_storeManager->getStore()->getWebsiteId();
     }
 
     public function getCurrentGroupId()
     {
-        return \Mage::app()->getStore()->getGroupId();
+        return $this->_storeManager->getStore()->getGroupId();
     }
 
     public function getCurrentStoreId()
     {
-        return \Mage::app()->getStore()->getId();
+        return $this->_storeManager->getStore()->getId();
     }
 
     public function getRawGroups()
     {
         if (!$this->hasData('raw_groups')) {
-            $websiteGroups = \Mage::app()->getWebsite()->getGroups();
+            $websiteGroups = $this->_storeManager->getWebsite()->getGroups();
 
             $groups = array();
             foreach ($websiteGroups as $group) {
@@ -74,7 +74,7 @@ class Switcher extends \Magento\Core\Block\Template
     public function getRawStores()
     {
         if (!$this->hasData('raw_stores')) {
-            $websiteStores = \Mage::app()->getWebsite()->getStores();
+            $websiteStores = $this->_storeManager->getWebsite()->getStores();
             $stores = array();
             foreach ($websiteStores as $store) {
                 /* @var $store \Magento\Core\Model\Store */
@@ -152,7 +152,7 @@ class Switcher extends \Magento\Core\Block\Template
 
     public function getCurrentStoreCode()
     {
-        return \Mage::app()->getStore()->getCode();
+        return $this->_storeManager->getStore()->getCode();
     }
 
     public function isStoreInUrl()

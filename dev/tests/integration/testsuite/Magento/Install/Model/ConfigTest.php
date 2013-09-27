@@ -25,7 +25,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $cacheTypeList \Magento\Core\Model\Cache\TypeListInterface */
-        $cacheTypeList = \Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
+        $cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Cache\TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
 
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
@@ -72,10 +73,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $this->_objectManager->create(
             'Magento\Core\Model\Config\Modules\Reader', array(
-                'dirs' => $dirs,
                 'moduleList' => $modulesList
             )
         );
+        $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/Magento/Test/etc');
 
         /** @var \Magento\Core\Model\Config\FileResolver $fileResolver */
         $fileResolver = $this->_objectManager->create(
@@ -84,7 +85,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var Magento_Logging_Model_Config_Reader $configReader */
+        /** @var \Magento\Logging\Model\Config\Reader $configReader */
         $configReader = $this->_objectManager->create(
             'Magento\Install\Model\Config\Reader', array(
                 'fileResolver' => $fileResolver,

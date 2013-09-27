@@ -39,7 +39,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->method('getSource')
             ->will($this->returnValue($source));
 
-        $productCollection = \Mage::getResourceModel('Magento\Search\Model\Resource\Collection');
+        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Search\Model\Resource\Collection');
         $layer = $this->getMock('Magento\Search\Model\Catalog\Layer');
         $layer->expects($this->any())
             ->method('getProductCollection')
@@ -48,12 +49,14 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         /**
          * @var \Magento\Search\Model\Catalog\Layer\Filter\Attribute
          */
-        $selectModel = \Mage::getModel('Magento\Search\Model\Catalog\Layer\Filter\Attribute');
+        $selectModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Search\Model\Catalog\Layer\Filter\Attribute');
         $selectModel->setAttributeModel($attribute)->setLayer($layer);
 
         $selectModel->applyFilterToCollection($selectModel, $givenValue);
         $filterParams = $selectModel->getLayer()->getProductCollection()->getExtendedSearchParams();
-        $fieldName = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Engine')
+        $fieldName = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Search\Model\Resource\Engine')
             ->getSearchEngineFieldName($selectModel->getAttributeModel(), 'nav');
         $resultFilter = $filterParams[$fieldName];
 

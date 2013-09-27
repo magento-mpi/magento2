@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Model\Adminhtml\System\Config\Source;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Search\Model\Adminhtml\System\Config\Source;
+
 class EngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -24,7 +24,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model= \Mage::getModel('Magento\Search\Model\Adminhtml\System\Config\Source\Engine');
+        $this->_model= \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Search\Model\Adminhtml\System\Config\Source\Engine');
     }
 
     public function testToOptionArray()

@@ -11,7 +11,7 @@
  */
 namespace Magento\Sales\Model;
 
-abstract class AbstractCollectorPositionsTest extends \PHPUnit_Framework_TestCase
+abstract class CollectorPositionsTestAbstract extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $collectorCode
@@ -72,7 +72,8 @@ abstract class AbstractCollectorPositionsTest extends \PHPUnit_Framework_TestCas
             default:
                 throw new \InvalidArgumentException('Unknown config type: ' . $configType);
         }
-        $config = \Mage::getModel($configClass);
+        $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create($configClass);
         return $config->$methodGetCollectors();
     }
 

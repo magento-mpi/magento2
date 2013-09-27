@@ -1,5 +1,9 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Job
+ *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -7,11 +11,6 @@
  */
 namespace Magento\Webhook\Model;
 
-/**
- * \Magento\Webhook\Model\Job
- *
- * @magentoDbIsolation enabled
- */
 class JobTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -33,11 +32,13 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $event = \Mage::getModel('Magento\Webhook\Model\Event')
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
         $eventId = $event->getId();
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription')
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         $subscriptionId = $subscription->getId();
@@ -52,7 +53,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testGetEventById()
     {
-        $eventId = \Mage::getModel('Magento\Webhook\Model\Event')
+        $eventId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save()
             ->getId();
@@ -62,7 +64,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testGetEvent()
     {
-        $event = \Mage::getModel('Magento\Webhook\Model\Event')
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
         $this->_job->setData('event', $event);
@@ -71,7 +74,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSubscriptionById()
     {
-        $subscriptionId = \Mage::getModel('Magento\Webhook\Model\Subscription')
+        $subscriptionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
@@ -81,7 +85,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSubscription()
     {
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription')
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         $this->_job->setData('subscription', $subscription);
@@ -96,11 +101,13 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleResponseSuccess()
     {
-        $subscriptionId = \Mage::getModel('Magento\Webhook\Model\Subscription')
+        $subscriptionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
-        $eventId = \Mage::getModel('Magento\Webhook\Model\Event')
+        $eventId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save()
             ->getId();
@@ -113,13 +120,15 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleResponseRetry()
     {
-        $subscriptionId = \Mage::getModel('Magento\Webhook\Model\Subscription')
+        $subscriptionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
         $this->_job->setData('subscription_id', $subscriptionId);
 
-        $eventId = \Mage::getModel('Magento\Webhook\Model\Event')
+        $eventId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save()
             ->getId();

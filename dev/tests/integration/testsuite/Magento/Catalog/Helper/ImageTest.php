@@ -36,7 +36,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         // image fixtures
-        self::$_fixtureMediaDir = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
+        self::$_fixtureMediaDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
         mkdir(self::$_fixtureMediaDir . '/m/a', 0777, true);
         $fixtureDir = dirname(__DIR__) . '/_files';
         copy("{$fixtureDir}/magento_image.jpg", self::$_fixtureMediaDir . '/m/a/magento_image.jpg');
@@ -44,13 +45,21 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         copy("{$fixtureDir}/magento_thumbnail.jpg", self::$_fixtureMediaDir . '/m/a/magento_thumbnail.jpg');
 
         // watermark fixture
-        mkdir(self::$_fixtureMediaDir . '/watermark/stores/' . \Mage::app()->getStore()->getId(), 0777, true);
-        copy("{$fixtureDir}/watermark.jpg",
-            self::$_fixtureMediaDir . '/watermark/stores/' . \Mage::app()->getStore()->getId() . '/watermark.jpg'
+        mkdir(
+            self::$_fixtureMediaDir . '/watermark/stores/' . \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId(),
+            0777,
+            true
+        );
+        copy(
+            "{$fixtureDir}/watermark.jpg",
+            self::$_fixtureMediaDir . '/watermark/stores/' . \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId() . '/watermark.jpg'
         );
 
         // sample product with images
-        self::$_product = \Mage::getModel('Magento\Catalog\Model\Product');
+        self::$_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         self::$_product
             ->addData(array(
                 'image'       => '/m/a/magento_image.jpg',
@@ -68,7 +77,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\Io\File::rmdirRecursive(self::$_fixtureMediaDir);
         \Magento\Io\File::rmdirRecursive(
-            \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseTmpMediaPath()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Catalog\Model\Product\Media\Config')->getBaseTmpMediaPath()
         );
     }
 
@@ -181,7 +191,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testGetPlaceholder()
     {
         /** @var $model \Magento\Catalog\Model\Product */
-        $model = \Mage::getModel('Magento\Catalog\Model\Product');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->_helper->init($model, 'image');
         $placeholder = $this->_helper->getPlaceholder();
         $this->assertEquals('Magento_Catalog::images/product/placeholder/image.jpg', $placeholder);

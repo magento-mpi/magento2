@@ -33,13 +33,10 @@ class PagerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('search_result_idsreviews'))
             ->will($this->returnValue(array(3,2,6,5)));
 
-        $this->_helper = $this->getMockBuilder('Magento\Review\Helper\Action\Pager')
-            ->setMethods(array('_getSession'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_helper->expects($this->any())
-            ->method('_getSession')
-            ->will($this->returnValue($sessionMock));
+        $contextMock = $this->getMock(
+            'Magento\Core\Helper\Context', array('getTranslator', 'getModuleManager', 'getRequest'), array(), '', false
+        );
+        $this->_helper = new \Magento\Review\Helper\Action\Pager($sessionMock, $contextMock);
         $this->_helper->setStorageId('reviews');
     }
 

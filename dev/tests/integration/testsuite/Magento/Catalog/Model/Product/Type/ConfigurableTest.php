@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Product\Type;
-
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
  */
+namespace Magento\Catalog\Model\Product\Type;
+
 class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -30,10 +30,12 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->_product->load(1); // fixture
 
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Product\Type\Configurable');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Type\Configurable');
         // prevent fatal errors by assigning proper "singleton" of type instance to the product
         $this->_product->setTypeInstance($this->_model);
     }
@@ -323,8 +325,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_PARENT, $result['product_calculations']
         );
-        $this->assertEquals(\Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_TOGETHER,
-            $result['shipment_type']);
+        $this->assertEquals(\Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_TOGETHER, $result['shipment_type']);
     }
 
     /**
@@ -362,7 +363,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->_model->assignProductToOption('test', $option, $this->_product);
         $this->assertEquals('test', $option->getProduct());
 
-        // other branch of logic depends on Magento_Sales module
+        // other branch of logic depends on \Magento\Sales module
     }
 
     public function testGetProductsToPurchaseByReqGroups()
@@ -434,7 +435,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, count($generatedProducts));
         foreach ($generatedProducts as $productId) {
             /** @var $product \Magento\Catalog\Model\Product */
-            $product = \Mage::getModel('Magento\Catalog\Model\Product');
+            $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
             $product->load($productId);
             $this->assertNotNull($product->getName());
             $this->assertNotNull($product->getSku());
@@ -454,7 +456,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
         foreach ($generatedProducts as $productId) {
             /** @var $product \Magento\Catalog\Model\Product */
-            $product = \Mage::getModel('Magento\Catalog\Model\Product');
+            $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
             $product->load($productId);
             $this->assertEquals('0', $product->getStockItem()->getData('manage_stock'));
         }
@@ -516,7 +519,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getAttributeByCode($code)
     {
-        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', $code);
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
+            ->getAttribute('catalog_product', $code);
     }
 
     /**

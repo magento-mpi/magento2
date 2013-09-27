@@ -21,13 +21,6 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_dbResource;
 
     /**
-     * Resource configuration
-     *
-     * @var \Magento\Core\Model\Config\Resource
-     */
-    protected $_resourceConfig;
-
-    /**
      * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
@@ -41,16 +34,10 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
 
     /**
      * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Config\Resource $resourceConfig
      * @param array $dbConfig
      */
-    public function __construct(
-        \Magento\Core\Model\Logger $logger, 
-        \Magento\Core\Model\Config\Resource $resourceConfig,
-        array $dbConfig
-    )
+    public function __construct(\Magento\Core\Model\Logger $logger, array $dbConfig)
     {
-        $this->_resourceConfig = $resourceConfig;
         $this->_logger = $logger;
         $this->_dbConfig = $dbConfig;
     }
@@ -67,14 +54,7 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
         $data = $this->_getCheckedData($data);
 
         try {
-            $dbModel = ($data['db_model']);
-
-            if (!$resource = $this->_getDbResource($dbModel)) {
-                \Mage::throwException(
-                    __('There is no resource for %1 DB model.', $dbModel)
-                );
-            }
-
+            $resource = $this->_getDbResource();
             $resource->setConfig($data);
 
             // check required extensions
@@ -92,8 +72,8 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
             }
 
             $version    = $resource->getVersion();
-            $requiredVersion = isset($this->_dbConfig[$dbModel]['min_version'])
-                ? $this->_dbConfig[$dbModel]['min_version']
+            $requiredVersion = isset($this->_dbConfig['mysql4']['min_version'])
+                ? $this->_dbConfig['mysql4']['min_version']
                 : 0;
 
             // check DB server version
@@ -145,11 +125,6 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
                 );
             }
         }
-        //set default db model
-        if (!isset($data['db_model']) || empty($data['db_model'])) {
-            $data['db_model'] = $this->_resourceConfig
-                ->getResourceConnectionConfig(\Magento\Core\Model\Resource::DEFAULT_SETUP_RESOURCE)->model;
-        }
         //set db type according the db model
         if (!isset($data['db_type'])) {
             $data['db_type'] = isset($this->_dbConfig[(string)$data['db_model']]['type'])
@@ -157,7 +132,7 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
                 : null;
         }
 
-        $dbResource = $this->_getDbResource($data['db_model']);
+        $dbResource = $this->_getDbResource();
         $data['db_pdo_type'] = $dbResource->getPdoType();
 
         if (!isset($data['db_init_statements'])) {
@@ -172,19 +147,12 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * Retrieve the database resource
      *
-     * @param  string $model database type
      * @return \Magento\Install\Model\Installer\Db\AbstractDb
      */
-    protected function _getDbResource($model)
+    protected function _getDbResource()
     {
         if (!isset($this->_dbResource)) {
-            $resource =  \Mage::getSingleton("Magento\\Install\\Model\\Installer\\Db\\" . ucfirst($model));
-            if (!$resource) {
-                \Mage::throwException(
-                    __('Installer does not exist for %1 database type', $model)
-                );
-            }
-            $this->_dbResource = $resource;
+            $this->_dbResource = \Mage::getSingleton("Magento\Install\Model\Installer\Db\Mysql4");
         }
         return $this->_dbResource;
     }

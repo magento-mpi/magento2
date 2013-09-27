@@ -24,12 +24,40 @@ class Attributes
     protected $_attributes;
 
     /**
+     * @var \Magento\Directory\Model\Config\Source\CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
+     * @var \Magento\Directory\Model\Config\Source\AllregionFactory
+     */
+    protected $_allregionFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Directory\Model\Config\Source\CountryFactory $countryFactory
+     * @param \Magento\Directory\Model\Config\Source\AllregionFactory $allregionFactory
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Directory\Model\Config\Source\CountryFactory $countryFactory,
+        \Magento\Directory\Model\Config\Source\AllregionFactory $allregionFactory,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_countryFactory = $countryFactory;
+        $this->_allregionFactory = $allregionFactory;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Attributes');
         $this->setValue(null);
     }
@@ -76,12 +104,9 @@ class Attributes
         if (is_null($this->_attributes)) {
             $this->_attributes  = array();
 
-            /* @var $config \Magento\Eav\Model\Config */
-            $config     = \Mage::getSingleton('Magento\Eav\Model\Config');
             $attributes = array();
-
-            foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
-                $attribute = $config->getAttribute('customer_address', $attributeCode);
+            foreach ($this->_eavConfig->getEntityAttributeCodes('customer_address') as $attributeCode) {
+                $attribute = $this->_eavConfig->getAttribute('customer_address', $attributeCode);
                 if (!$attribute || !$attribute->getIsUsedForCustomerSegment()) {
                     continue;
                 }
@@ -109,12 +134,12 @@ class Attributes
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Country')
+                    $options = $this->_countryFactory->create()
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = \Mage::getModel('Magento\Directory\Model\Config\Source\Allregion')
+                    $options = $this->_allregionFactory->create()
                         ->toOptionArray();
                     break;
 

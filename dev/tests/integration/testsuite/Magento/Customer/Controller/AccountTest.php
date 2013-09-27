@@ -19,7 +19,8 @@ class AccountTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function testIndexAction()
     {
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        $session = \Mage::getModel('Magento\Customer\Model\Session', array($logger));
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
         $this->dispatch('customer/account/index');
         $this->assertContains('<div class="my-account">', $this->getResponse()->getBody());
@@ -31,7 +32,8 @@ class AccountTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function testCreatepasswordAction()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(1);
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer')->load(1);
 
         $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
             ->generateResetPasswordLinkToken();
@@ -51,7 +53,8 @@ class AccountTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function testOpenActionCreatepasswordAction()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(1);
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer')->load(1);
 
         $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
             ->generateResetPasswordLinkToken();

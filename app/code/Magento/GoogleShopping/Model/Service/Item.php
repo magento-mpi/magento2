@@ -25,15 +25,31 @@ class Item extends \Magento\GoogleShopping\Model\Service
     protected $_gsData = null;
 
     /**
+     * Date
+     *
+     * @var \Magento\Core\Model\Date|null
+     */
+    protected $_date;
+
+    /**
+     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Core\Model\Date $date,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\GoogleShopping\Model\Config $config,
         \Magento\GoogleShopping\Helper\Data $gsData,
         array $data = array()
     ) {
+        $this->_date = $date;
         $this->_gsData = $gsData;
-        parent::__construct($data);
+        parent::__construct($logAdapterFactory, $coreRegistry, $config, $data);
     }
 
     /**
@@ -123,7 +139,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      */
     public function convertContentDateToTimestamp($gContentDate)
     {
-        return \Mage::getSingleton('Magento\Core\Model\Date')->date(null, $gContentDate);
+        return $this->_date->date(null, $gContentDate);
     }
 
     /**

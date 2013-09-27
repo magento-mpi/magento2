@@ -31,7 +31,7 @@ class Rcompared
     protected $_adminhtmlSales;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Compare\ListCompareFactory
+     * @var \Magento\Catalog\Model\Product\Compare\ListFactory
      */
     protected $_compareListFactory;
 
@@ -41,6 +41,18 @@ class Rcompared
     protected $_productFactory;
 
     /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var \Magento\Reports\Model\Resource\Event
+     */
+    protected $_reportsEventResource;
+
+    /**
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Reports\Model\Resource\Event $reportsEventResource
      * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
@@ -49,10 +61,12 @@ class Rcompared
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory
+     * @param \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Reports\Model\Resource\Event $reportsEventResource,
         \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
@@ -61,9 +75,11 @@ class Rcompared
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
+        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
         array $data = array()
     ) {
+        $this->_catalogConfig = $catalogConfig;
+        $this->_reportsEventResource = $reportsEventResource;
         parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_adminhtmlSales = $adminhtmlSales;
         $this->_productFactory = $productFactory;
@@ -105,7 +121,7 @@ class Rcompared
             }
 
             // prepare products collection and apply visitors log to it
-            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+            $attributes = $this->_catalogConfig->getProductAttributes();
             if (!in_array('status', $attributes)) {
                 // Status attribute is required even if it is not used in product listings
                 array_push($attributes, 'status');
@@ -114,7 +130,7 @@ class Rcompared
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);
-            \Mage::getResourceSingleton('Magento\Reports\Model\Resource\Event')->applyLogToCollection(
+            $this->_reportsEventResource->applyLogToCollection(
                 $productCollection,
                 \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE,
                 $this->_getCustomer()->getId(),

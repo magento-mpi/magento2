@@ -50,7 +50,7 @@ class Giftmessage extends \Magento\Adminhtml\Controller\Action
      */
     protected function _getGiftmessageSaveModel()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Giftmessage\Save');
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Giftmessage\Save');
     }
 
 }

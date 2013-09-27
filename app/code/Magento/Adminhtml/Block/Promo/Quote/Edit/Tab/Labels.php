@@ -131,7 +131,7 @@ class Labels
         $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
         $fieldset->setRenderer($renderer);
 
-        foreach (\Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $fieldset->addField("w_{$website->getId()}_label", 'note', array(
                 'label' => $website->getName(),
                 'fieldset_html_class' => 'website',

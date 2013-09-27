@@ -15,16 +15,20 @@
  */
 
 /** @var $connection \Magento\TestFramework\Db\Adapter\TransactionInterface */
-$connection = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('write');
+$connection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource')
+    ->getConnection('core_write');
 $connection->commitTransparentTransaction();
 
-$entityType = \Mage::getModel('Magento\Eav\Model\Config')->getEntityType('customer_address');
+$entityType = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Eav\Model\Config')->getEntityType('customer_address');
 /** @var $entityType \Magento\Eav\Model\Entity\Type */
 
-$attributeSet = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set');
+$attributeSet = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Eav\Model\Entity\Attribute\Set');
 /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
 
-$attribute = \Mage::getModel('Magento\Customer\Model\Attribute',
+$attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Attribute',
     array(
         'data' => array(
             'frontend_input'     => 'text',
@@ -46,7 +50,8 @@ $attribute->setAttributeCode('fixture_address_attribute');
 $attribute->save();
 
 $addressData = include(__DIR__ . '/../../../Magento/Sales/_files/address_data.php');
-$billingAddress = \Mage::getModel('Magento\Sales\Model\Order\Address', array('data' => $addressData));
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Sales\Model\Order\Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 $billingAddress->setData($attribute->getAttributeCode(), 'fixture_attribute_custom_value');
 $billingAddress->save();

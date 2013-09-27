@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <salesarchive_setup>
-                <setup>
-                    <module>Magento_SalesArchive</module>
-                    <class>Magento\SalesArchive\Model\Resource\Setup</class>
-                </setup>
-            </salesarchive_setup>
-        </resources>
-    </global>
     <default>
         <sales>
             <magento_salesarchive>

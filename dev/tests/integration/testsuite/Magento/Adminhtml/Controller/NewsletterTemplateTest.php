@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Controller;
+
 class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
 {
     /**
@@ -30,7 +30,8 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
                       'sender_name'=>'Test Sender Name',
                       'text'=>'Template Content');
         $this->getRequest()->setPost($post);
-        $this->_model = \Mage::getModel('Magento\Newsletter\Model\Template');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Newsletter\Model\Template');
     }
 
     protected function tearDown()
@@ -38,7 +39,8 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
         /**
          * Unset messages
          */
-        \Mage::getSingleton('Magento\Backend\Model\Session')->getMessages(true);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
+            ->getMessages(true);
         unset($this->_model);
     }
 

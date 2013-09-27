@@ -27,16 +27,19 @@ class Order extends \Magento\Object
     protected $_adminhtmlData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $collectionFactory
      * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      */
     public function __construct(
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $collectionFactory,
         \Magento\Adminhtml\Helper\Data $adminhtmlData
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_adminhtmlData = $adminhtmlData;
     }
 
@@ -55,7 +58,7 @@ class Order extends \Magento\Object
 
         $query = $this->getQuery();
         //TODO: add full name logic
-        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
+        $collection = $this->_collectionFactory->create()
             ->addAttributeToSelect('*')
             ->addAttributeToSearchFilter(array(
                 array('attribute' => 'increment_id',       'like'=>$query.'%'),

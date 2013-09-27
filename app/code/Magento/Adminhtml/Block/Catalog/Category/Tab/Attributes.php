@@ -21,6 +21,31 @@ namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
 class Attributes extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Cms\Model\Wysiwyg\Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_wysiwygConfig = $wysiwygConfig;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve Category object
      *
      * @return \Magento\Catalog\Model\Category
@@ -46,7 +71,7 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (\Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()) {
+        if ($this->_wysiwygConfig->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }

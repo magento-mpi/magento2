@@ -23,7 +23,7 @@ class Attribute extends \Magento\Backend\Helper\Data
     /**
      * Selected products for mass-update
      *
-     * @var Magento_Catalog_Model_Entity_Product_Collection
+     * @var \Magento\Catalog\Model\Entity\Product\Collection
      */
     protected $_products;
 
@@ -42,6 +42,54 @@ class Attribute extends \Magento\Backend\Helper\Data
     protected $_excludedAttributes = array('url_key');
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $_productsFactory;
+
+    /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Backend\Model\Session $session
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productsFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\ConfigInterface $applicationConfig
+     * @param \Magento\Core\Model\Config\Primary $primaryConfig
+     * @param \Magento\Core\Model\RouterList $routerList
+     * @param string $defaultAreaFrontName
+     * @param string $backendFrontName
+     */
+    public function __construct(
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Backend\Model\Session $session,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productsFactory,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\ConfigInterface $applicationConfig,
+        \Magento\Core\Model\Config\Primary $primaryConfig,
+        \Magento\Core\Model\RouterList $routerList,
+        $defaultAreaFrontName,
+        $backendFrontName
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_session = $session;
+        $this->_productsFactory = $productsFactory;
+        parent::__construct(
+            $context, $coreData, $applicationConfig, $primaryConfig, $routerList,
+            $defaultAreaFrontName, $backendFrontName
+        );
+    }
+
+    /**
      * Return product collection with selected product filter
      * Product collection didn't load
      *
@@ -56,7 +104,7 @@ class Attribute extends \Magento\Backend\Helper\Data
                 $productsIds = array(0);
             }
 
-            $this->_products = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
+            $this->_products = $this->_productsFactory->create()
                 ->setStoreId($this->getSelectedStoreId())
                 ->addIdFilter($productsIds);
         }
@@ -71,13 +119,11 @@ class Attribute extends \Magento\Backend\Helper\Data
      */
     public function getProductIds()
     {
-        $session = \Mage::getSingleton('Magento\Adminhtml\Model\Session');
-
         if ($this->_getRequest()->isPost() && $this->_getRequest()->getActionName() == 'edit') {
-            $session->setProductIds($this->_getRequest()->getParam('product', null));
+            $this->_session->setProductIds($this->_getRequest()->getParam('product', null));
         }
 
-        return $session->getProductIds();
+        return $this->_session->getProductIds();
     }
 
     /**
@@ -108,8 +154,7 @@ class Attribute extends \Magento\Backend\Helper\Data
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes  = \Mage::getSingleton('Magento\Eav\Model\Config')
-                ->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
+            $this->_attributes  = $this->_eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
                 ->getAttributeCollection()
                 ->addIsNotUniqueFilter()
                 ->setInAllAttributeSetsFilter($this->getProductsSetIds());

@@ -28,7 +28,27 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $bundleModelSelection = $this->getMock('Magento\Bundle\Model\SelectionFactory', array(), array(), '', false);
+        $bundleFactory = $this->getMock('Magento\Bundle\Model\Resource\BundleFactory', array(), array(), '', false);
+        $bundleCollection = $this->getMock(
+            'Magento\Bundle\Model\Resource\Selection\CollectionFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $config = $this->getMock('Magento\Catalog\Model\Config', array(), array(), '', false);
+        $bundleSelection = $this->getMock('Magento\Bundle\Model\Resource\Selection', array(), array(), '', false);
+        $bundleOption = $this->getMock('Magento\Bundle\Model\OptionFactory', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false);
         $this->_model = new \Magento\Bundle\Model\Product\Type(
+            $bundleModelSelection,
+            $bundleFactory,
+            $bundleCollection,
+            $config,
+            $bundleSelection,
+            $bundleOption,
+            $storeManager,
             $eventManager,
             $catalogProduct,
             $catalogData,

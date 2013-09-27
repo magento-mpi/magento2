@@ -26,7 +26,7 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
         $coreRegisterMock = $this->getMock('Magento\Core\Model\Registry');
         $coreRegisterMock->expects($this->any())
             ->method('registry')
-            ->with('_singleton/Magento\Core\Model\Source\Urlrewrite\Options')
+            ->with('_singleton/Magento_Core_Model_Source_Urlrewrite_Options')
             ->will($this->returnValue($optionsModel));
 
         $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
@@ -35,7 +35,6 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
             ->with('Magento\Core\Model\Registry')
             ->will($this->returnValue($coreRegisterMock));
 
-        \Mage::reset();
         \Magento\Core\Model\ObjectManager::setInstance($objectManagerMock);
     }
 

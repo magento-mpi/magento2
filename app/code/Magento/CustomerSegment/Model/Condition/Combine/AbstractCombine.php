@@ -13,6 +13,25 @@ namespace Magento\CustomerSegment\Model\Condition\Combine;
 abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
+     * @var \Magento\CustomerSegment\Model\Resource\Segment
+     */
+    protected $_resourceSegment;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_resourceSegment = $resourceSegment;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Flag of using condition combine (for conditions of Product_Attribute)
      *
      * @var bool
@@ -71,7 +90,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('Magento\CustomerSegment\Model\Resource\Segment');
+        return $this->_resourceSegment;
     }
 
     /**
@@ -83,13 +102,11 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     protected function _createCustomerFilter($customer, $fieldName)
     {
-        $customerFilter = '';
         if ($customer) {
             $customerFilter = "{$fieldName} = :customer_id";
         } else {
             $customerFilter = "{$fieldName} = root.entity_id";
         }
-
         return $customerFilter;
     }
 
@@ -176,7 +193,6 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
         /**
          * Process combine subfilters. Subfilters are part of base select which cah be affected by children.
          */
-        $subfilters = array();
         $subfilterMap = $this->_getSubfilterMap();
         if ($subfilterMap) {
             foreach ($this->getConditions() as $condition) {

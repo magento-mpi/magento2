@@ -8,7 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$customer = \Mage::getModel('Magento\Customer\Model\Customer');
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Customer');
 $customer
     ->setWebsiteId(1)
     ->setEntityId(1)

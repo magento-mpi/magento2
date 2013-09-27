@@ -12,7 +12,8 @@
 /**
  * Create dummy user
  */
-$user = \Mage::getModel('Magento\User\Model\User');
+$user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\User\Model\User');
 $user->setFirstname('Dummy')
     ->setLastname('Dummy')
     ->setEmail('dummy@dummy.com')

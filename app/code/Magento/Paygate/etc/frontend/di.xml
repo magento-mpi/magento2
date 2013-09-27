@@ -15,4 +15,9 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Paygate\Model\Authorizenet">
+        <param name="session">
+            <instance type="Magento\Checkout\Model\Session" />
+        </param>
+    </type>
 </config>

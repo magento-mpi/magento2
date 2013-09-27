@@ -62,17 +62,17 @@ abstract class AbstractStorage extends \Magento\Core\Model\Resource\Db\AbstractD
     /**
      * Get connection by name or type
      *
-     * @param string $connectionName
+     * @param string $resourceName
      * @return \Magento\DB\Adapter\AdapterInterface
      */
-    protected function _getConnection($connectionName)
+    protected function _getConnection($resourceName)
     {
-        if (isset($this->_connections[$connectionName])) {
-            return $this->_connections[$connectionName];
+        if (isset($this->_connections[$resourceName])) {
+            return $this->_connections[$resourceName];
         }
 
-        $this->_connections[$connectionName] = $this->_resources->getConnection($connectionName);
+        $this->_connections[$resourceName] = $this->_resources->getConnection($resourceName);
 
-        return $this->_connections[$connectionName];
+        return $this->_connections[$resourceName];
     }
 }

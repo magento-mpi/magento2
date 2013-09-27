@@ -82,7 +82,8 @@ class Queue extends \Magento\Adminhtml\Controller\Action
         }
 
         // set default value for selected store
-        $data['preview_store_id'] = \Mage::app()->getDefaultStoreView()->getId();
+        $data['preview_store_id'] = $this->_objectManager->get('Magento\Core\Model\StoreManager')
+            ->getDefaultStoreView()->getId();
 
         $this->getLayout()->getBlock('preview_form')->setFormData($data);
         $this->renderLayout();
@@ -99,7 +100,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
 
     public function startAction()
     {
-        $queue = \Mage::getModel('Magento\Newsletter\Model\Queue')
+        $queue = $this->_objectManager->create('Magento\Newsletter\Model\Queue')
             ->load($this->getRequest()->getParam('id'));
         if ($queue->getId()) {
             if (!in_array($queue->getQueueStatus(),
@@ -109,7 +110,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
                 return;
             }
 
-            $queue->setQueueStartAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate())
+            $queue->setQueueStartAt($this->_objectManager->get('Magento\Core\Model\Date')->gmtDate())
                 ->setQueueStatus(\Magento\Newsletter\Model\Queue::STATUS_SENDING)
                 ->save();
         }
@@ -119,7 +120,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
 
     public function pauseAction()
     {
-        $queue = \Mage::getSingleton('Magento\Newsletter\Model\Queue')
+        $queue = $this->_objectManager->get('Magento\Newsletter\Model\Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
@@ -136,7 +137,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
 
     public function resumeAction()
     {
-        $queue = \Mage::getSingleton('Magento\Newsletter\Model\Queue')
+        $queue = $this->_objectManager->get('Magento\Newsletter\Model\Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
@@ -153,7 +154,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
 
     public function cancelAction()
     {
-        $queue = \Mage::getSingleton('Magento\Newsletter\Model\Queue')
+        $queue = $this->_objectManager->get('Magento\Newsletter\Model\Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
@@ -174,7 +175,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        $collection = \Mage::getResourceModel('Magento\Newsletter\Model\Resource\Queue\Collection')
+        $collection = $this->_objectManager->create('Magento\Newsletter\Model\Resource\Queue\Collection')
             ->setPageSize($countOfQueue)
             ->setCurPage(1)
             ->addOnlyForSendingFilter()
@@ -187,7 +188,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Newsletter Queue'));
 
-        $this->_coreRegistry->register('current_queue', \Mage::getSingleton('Magento\Newsletter\Model\Queue'));
+        $this->_coreRegistry->register('current_queue', $this->_objectManager->get('Magento\Newsletter\Model\Queue'));
 
         $id = $this->getRequest()->getParam('id');
         $templateId = $this->getRequest()->getParam('template_id');
@@ -195,7 +196,7 @@ class Queue extends \Magento\Adminhtml\Controller\Action
         if ($id) {
             $queue = $this->_coreRegistry->registry('current_queue')->load($id);
         } elseif ($templateId) {
-            $template = \Mage::getModel('Magento\Newsletter\Model\Template')->load($templateId);
+            $template = $this->_objectManager->create('Magento\Newsletter\Model\Template')->load($templateId);
             $queue = $this->_coreRegistry->registry('current_queue')->setTemplateId($template->getId());
         }
 
@@ -219,15 +220,15 @@ class Queue extends \Magento\Adminhtml\Controller\Action
     {
         try {
             /* @var $queue \Magento\Newsletter\Model\Queue */
-            $queue = \Mage::getModel('Magento\Newsletter\Model\Queue');
+            $queue = $this->_objectManager->create('Magento\Newsletter\Model\Queue');
 
             $templateId = $this->getRequest()->getParam('template_id');
             if ($templateId) {
                 /* @var $template \Magento\Newsletter\Model\Template */
-                $template = \Mage::getModel('Magento\Newsletter\Model\Template')->load($templateId);
+                $template = $this->_objectManager->create('Magento\Newsletter\Model\Template')->load($templateId);
 
                 if (!$template->getId() || $template->getIsSystem()) {
-                    \Mage::throwException(__('Please correct the newsletter template and try again.'));
+                    throw new \Magento\Core\Exception(__('Please correct the newsletter template and try again.'));
                 }
 
                 $queue->setTemplateId($template->getId())

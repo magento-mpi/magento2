@@ -46,7 +46,7 @@ class ApiDataFixture
      *
      * @param \PHPUnit_Framework_TestCase $test
      */
-    public function startTest(\PHPUnit_Framework_TestCase $test)
+    public function startTest(PHPUnit_Framework_TestCase $test)
     {
         /** Apply method level fixtures if thy are available, apply class level fixtures otherwise */
         $this->_applyFixtures($this->_getFixtures('method', $test) ?: $this->_getFixtures('class', $test));

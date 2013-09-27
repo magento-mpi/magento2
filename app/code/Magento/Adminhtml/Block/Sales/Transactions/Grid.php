@@ -34,6 +34,18 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_paymentData = null;
 
     /**
+     * @var \Magento\Sales\Model\Order\Payment\Transaction
+     */
+    protected $_transaction;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Order\Payment\Transaction $transaction
+     * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $collectionFactory
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -43,6 +55,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\Sales\Model\Order\Payment\Transaction $transaction,
+        \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $collectionFactory,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -53,6 +67,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_paymentData = $paymentData;
+        $this->_transaction = $transaction;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -79,7 +95,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     {
         $collection = $this->getCollection();
         if (!$collection) {
-            $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection');
+            $collection = $this->_collectionFactory->create();
         }
         $order = $this->_coreRegistry->registry('current_order');
         if ($order) {
@@ -144,7 +160,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header' => __('Transaction Type'),
             'index' => 'txn_type',
             'type' => 'options',
-            'options' => \Mage::getSingleton('Magento\Sales\Model\Order\Payment\Transaction')->getTransactionTypes(),
+            'options' => $this->_transaction->getTransactionTypes(),
             'header_css_class' => 'col-transaction-type',
             'column_css_class' => 'col-transaction-type'
         ));

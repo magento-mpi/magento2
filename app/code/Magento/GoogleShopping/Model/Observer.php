@@ -27,12 +27,62 @@ class Observer
     protected $_coreStoreConfig;
 
     /**
+     * Admin session
+     *
+     * @var \Magento\Core\Model\Session\AbstractSession
+     */
+    protected $_session;
+
+    /**
+     * Admin session
+     *
+     * @var \Magento\GoogleShopping\Model\Flag
+     */
+    protected $_flag;
+
+    /**
+     * Mass operations factory
+     *
+     * @var \Magento\GoogleShopping\Model\MassOperationsFactory
+     */
+    protected $_operationsFactory;
+
+    /**
+     * Inbox factory
+     *
+     * @var \Magento\AdminNotification\Model\InboxFactory
+     */
+    protected $_inboxFactory;
+
+    /**
+     * Collection factory
+     *
+     * @var \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
+     * @param \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory
+     * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\GoogleShopping\Model\Flag $flag
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
+        \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory,
+        \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\GoogleShopping\Model\Flag $flag
     ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_operationsFactory = $operationsFactory;
+        $this->_inboxFactory = $inboxFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_session = $session;
+        $this->_flag = $flag;
     }
 
     /**
@@ -47,11 +97,9 @@ class Observer
         $items = $this->_getItemsCollection($product);
 
         try {
-            \Mage::getModel('Magento\GoogleShopping\Model\MassOperations')
-                ->synchronizeItems($items);
+            $this->_operationsFactory->create()->synchronizeItems($items);
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
-                ->addError('Cannot update Google Content Item. Google requires CAPTCHA.');
+            $this->_session->addError('Cannot update Google Content Item. Google requires CAPTCHA.');
         }
 
         return $this;
@@ -69,11 +117,9 @@ class Observer
         $items = $this->_getItemsCollection($product);
 
         try {
-            \Mage::getModel('Magento\GoogleShopping\Model\MassOperations')
-                ->deleteItems($items);
+            $this->_operationsFactory->create()->deleteItems($items);
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
-                ->addError('Cannot delete Google Content Item. Google requires CAPTCHA.');
+            $this->_session->addError('Cannot delete Google Content Item. Google requires CAPTCHA.');
         }
 
         return $this;
@@ -87,8 +133,7 @@ class Observer
      */
     protected function _getItemsCollection($product)
     {
-        $items = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Item\Collection')
-            ->addProductFilterId($product->getId());
+        $items = $this->_collectionFactory->create()->addProductFilterId($product->getId());
         if ($product->getStoreId()) {
             $items->addStoreFilter($product->getStoreId());
         }
@@ -110,9 +155,9 @@ class Observer
      */
     public function checkSynchronizationOperations(\Magento\Event\Observer $observer)
     {
-        $flag = \Mage::getSingleton('Magento\GoogleShopping\Model\Flag')->loadSelf();
+        $flag = $this->_flag->loadSelf();
         if ($flag->isExpired()) {
-            \Mage::getModel('Magento\AdminNotification\Model\Inbox')->addMajor(
+            $this->_inboxFactory->create()->addMajor(
                 __('Google Shopping operation has expired.'),
                 __('One or more google shopping synchronization operations failed because of timeout.')
             );

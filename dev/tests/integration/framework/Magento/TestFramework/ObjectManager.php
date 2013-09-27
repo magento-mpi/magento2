@@ -88,4 +88,12 @@ class ObjectManager extends \Magento\Core\Model\ObjectManager
     {
         return self::$_instance = $objectManager;
     }
+
+    /**
+     * @return \Magento\ObjectManager\Factory|\Magento\ObjectManager\Factory\Factory
+     */
+    public function getFactory()
+    {
+        return $this->_factory;
+    }
 }

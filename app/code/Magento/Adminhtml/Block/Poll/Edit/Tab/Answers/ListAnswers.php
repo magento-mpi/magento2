@@ -8,10 +8,9 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Adminhtml\Block\Poll\Edit\Tab\Answers;
 
-class ListAnswers extends \Magento\Adminhtml\Block\Template
+class ListAnswers extends \Magento\Backend\Block\Template
 {
     protected $_template = 'poll/answers/list.phtml';
 
@@ -23,18 +22,26 @@ class ListAnswers extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Poll\Model\Poll\AnswerFactory
+     */
+    protected $_pollAnswerFactory;
+
+    /**
+     * @param \Magento\Poll\Model\Poll\AnswerFactory $pollAnswerFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Poll\Model\Poll\AnswerFactory $pollAnswerFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_pollAnswerFactory = $pollAnswerFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -45,7 +52,7 @@ class ListAnswers extends \Magento\Adminhtml\Block\Template
             return parent::_toHtml();
         }
 
-        $collection = \Mage::getModel('Magento\Poll\Model\Poll\Answer')
+        $collection = $this->_pollAnswerFactory->create()
             ->getResourceCollection()
             ->addPollFilter($this->_coreRegistry->registry('poll_data')->getId())
             ->load();

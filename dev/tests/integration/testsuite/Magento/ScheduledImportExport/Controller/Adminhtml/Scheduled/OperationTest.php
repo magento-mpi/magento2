@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled;
+
 class OperationTest
     extends \Magento\Backend\Utility\Controller
 {
@@ -92,7 +92,8 @@ class OperationTest
     public function testEditAction($expectedContains)
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection */
-        $collection = \Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
         $this->assertCount(1, $collection->getItems());
         $operation = $collection->getFirstItem();
 
@@ -113,12 +114,14 @@ class OperationTest
     {
         $this->markTestSkipped('This test failed on incorrect getcwd, and this is not a functionality problem');
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection */
-        $collection = \Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
         $this->assertCount(1, $collection->getItems());
         $operation = $collection->getFirstItem();
 
         // Create export directory if not exist
-        $varDir = \Mage::getBaseDir('var');
+        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+            ->getDir('var');
         $exportDir = $varDir . DS . 'export';
         if (!is_dir($exportDir)) {
             mkdir($exportDir, 0777);

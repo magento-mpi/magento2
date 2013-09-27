@@ -65,9 +65,9 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
         $shipmentId = $this->getRequest()->getParam('shipment_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($shipmentId) {
-            $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
+            $shipment = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
         } elseif ($orderId) {
-            $order      = \Mage::getModel('Magento\Sales\Model\Order')->load($orderId);
+            $order      = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
 
             /**
              * Check order existing
@@ -91,16 +91,16 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
-            $shipment = \Mage::getModel('Magento\Sales\Model\Service\Order', array('order' => $order))
+            $shipment = $this->_objectManager->create('Magento\Sales\Model\Service\Order', array('order' => $order))
                 ->prepareShipment($savedQtys);
 
             $tracks = $this->getRequest()->getPost('tracking');
             if ($tracks) {
                 foreach ($tracks as $data) {
                     if (empty($data['number'])) {
-                        \Mage::throwException(__('Please enter a tracking number.'));
+                        throw new \Magento\Core\Exception(__('Please enter a tracking number.'));
                     }
-                    $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')
+                    $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')
                         ->addData($data);
                     $shipment->addTrack($track);
                 }
@@ -120,7 +120,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     protected function _saveShipment($shipment)
     {
         $shipment->getOrder()->setIsInProcess(true);
-        $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
+        $transactionSave = $this->_objectManager->create('Magento\Core\Model\Resource\Transaction')
             ->addObject($shipment)
             ->addObject($shipment->getOrder())
             ->save();
@@ -166,7 +166,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
         if ($shipment) {
             $this->_title(__('New Shipment'));
 
-            $comment = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCommentText(true);
+            $comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
             if ($comment) {
                 $shipment->setCommentText($comment);
             }
@@ -189,7 +189,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     {
         $data = $this->getRequest()->getPost('shipment');
         if (!empty($data['comment_text'])) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setCommentText($data['comment_text']);
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCommentText($data['comment_text']);
         }
 
         try {
@@ -233,7 +233,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
 
             $this->_getSession()->addSuccess($isNeedCreateLabel ? $shipmentCreatedMessage . ' ' . $labelCreatedMessage
                 : $shipmentCreatedMessage);
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCommentText(true);
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
         } catch (\Magento\Core\Exception $e) {
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
@@ -272,7 +272,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 $shipment->sendEmail(true)
                     ->setEmailSent(true)
                     ->save();
-                $historyItem = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Status\History\Collection')
+                $historyItem = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Status\History\Collection')
                     ->getUnnotifiedForInstance($shipment, \Magento\Sales\Model\Order\Shipment::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
@@ -300,14 +300,14 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             $number  = $this->getRequest()->getPost('number');
             $title  = $this->getRequest()->getPost('title');
             if (empty($carrier)) {
-                \Mage::throwException(__('Please specify a carrier.'));
+                throw new \Magento\Core\Exception(__('Please specify a carrier.'));
             }
             if (empty($number)) {
-                \Mage::throwException(__('Please enter a tracking number.'));
+                throw new \Magento\Core\Exception(__('Please enter a tracking number.'));
             }
             $shipment = $this->_initShipment();
             if ($shipment) {
-                $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')
+                $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')
                     ->setNumber($number)
                     ->setCarrierCode($carrier)
                     ->setTitle($title);
@@ -345,7 +345,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     public function removeTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
+        $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
         if ($track->getId()) {
             try {
                 if ($this->_initShipment()) {
@@ -383,7 +383,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     public function viewTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
+        $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
         if ($track->getId()) {
             try {
                 $response = $track->getNumberDetail();
@@ -427,7 +427,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                \Mage::throwException(__("The comment text field cannot be empty."));
+                throw new \Magento\Core\Exception(__("The comment text field cannot be empty."));
             }
             $shipment = $this->_initShipment();
             $shipment->addComment(
@@ -472,9 +472,9 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             return false;
         }
         $shipment->setPackages($this->getRequest()->getParam('packages'));
-        $response = \Mage::getModel('Magento\Shipping\Model\Shipping')->requestToShipment($shipment);
+        $response = $this->_objectManager->create('Magento\Shipping\Model\Shipping')->requestToShipment($shipment);
         if ($response->hasErrors()) {
-            \Mage::throwException($response->getErrors());
+            throw new \Magento\Core\Exception($response->getErrors());
         }
         if (!$response->hasInfo()) {
             return false;
@@ -495,7 +495,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             ->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
         if ($trackingNumbers) {
             foreach ($trackingNumbers as $trackingNumber) {
-                $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')
+                $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')
                         ->setNumber($trackingNumber)
                         ->setCarrierCode($carrierCode)
                         ->setTitle($carrierTitle);
@@ -584,9 +584,9 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
         $shipment = $this->_initShipment();
 
         if ($shipment) {
-            $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment\Packaging')->getPdf($shipment);
+            $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging')->getPdf($shipment);
             $this->_prepareDownloadResponse(
-                'packingslip' . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
+                'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
                 'application/pdf'
             );
@@ -613,7 +613,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 $ids = $request->getParam('shipment_ids');
                 array_filter($ids, 'intval');
                 if (!empty($ids)) {
-                    $shipments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Shipment\Collection')
+                    $shipments = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
                         ->addFieldToFilter('entity_id', array('in' => $ids));
                 }
                 break;
@@ -621,7 +621,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 $ids = $request->getParam('order_ids');
                 array_filter($ids, 'intval');
                 if (!empty($ids)) {
-                    $shipments = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Shipment\Collection')
+                    $shipments = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
                         ->setOrderFilter(array('in' => $ids));
                 }
                 break;

@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\ObjectManager_Test
+ * Test class for \Magento\ObjectManager\Test
  */
 namespace Magento\Test;
 
@@ -31,6 +31,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $resource = new \stdClass;
         $instanceConfig = new \Magento\TestFramework\ObjectManager\Config();
         $primaryConfig = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
+        $primaryConfig->expects($this->any())->method('getParams')->will($this->returnValue(array()));
         $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
         $verification = $this->getMock('Magento\Core\Model\Dir\Verification', array(), array(), '', false);
         $cache = $this->getMock('Magento\Core\Model\CacheInterface');
@@ -53,6 +54,12 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
                 'Magento\Config\ScopeInterface' => $this->getMock('Magento\Config\ScopeInterface'),
                 'Magento\Config\CacheInterface' => $this->getMock('Magento\Config\CacheInterface'),
                 'Magento\Cache\FrontendInterface' => $this->getMock('Magento\Cache\FrontendInterface'),
+                'Magento\Core\Model\Resource' => $this->getMock(
+                    'Magento\Core\Model\Resource', array(), array(), '', false
+                ),
+                'Magento\Core\Model\Config\Resource' => $this->getMock(
+                    'Magento\Core\Model\Config\Resource', array(), array(), '', false
+                ),
             ),
             $primaryLoaderMock
         );

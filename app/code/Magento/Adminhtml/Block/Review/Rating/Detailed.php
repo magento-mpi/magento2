@@ -11,7 +11,6 @@
 /**
  * Adminhtml detailed rating stars
  */
-
 namespace Magento\Adminhtml\Block\Review\Rating;
 
 class Detailed extends \Magento\Adminhtml\Block\Template
@@ -28,17 +27,33 @@ class Detailed extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Rating\Model\Resource\Rating\CollectionFactory
+     */
+    protected $_ratingsFactory;
+
+    /**
+     * @var \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory
+     */
+    protected $_votesFactory;
+
+    /**
+     * @param \Magento\Rating\Model\Resource\Rating\CollectionFactory $ratingsFactory
+     * @param \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Rating\Model\Resource\Rating\CollectionFactory $ratingsFactory,
+        \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_ratingsFactory = $ratingsFactory;
+        $this->_votesFactory = $votesFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -60,8 +75,7 @@ class Detailed extends \Magento\Adminhtml\Block\Template
 
                 $stores = array_diff($stores, array(0));
 
-                $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating')
-                    ->getResourceCollection()
+                $ratingCollection = $this->_ratingsFactory->create()
                     ->addEntityFilter('product')
                     ->setStoreFilter($stores)
                     ->setActiveFilter(true)
@@ -69,32 +83,29 @@ class Detailed extends \Magento\Adminhtml\Block\Template
                     ->load()
                     ->addOptionToItems();
 
-                $this->_voteCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
-                    ->getResourceCollection()
+                $this->_voteCollection = $this->_votesFactory->create()
                     ->setReviewFilter($this->getReviewId())
                     ->addOptionInfo()
                     ->load()
                     ->addRatingOptions();
 
             } elseif (!$this->getIsIndependentMode()) {
-                $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating')
-                    ->getResourceCollection()
+                $ratingCollection = $this->_ratingsFactory->create()
                     ->addEntityFilter('product')
                     ->setStoreFilter(null)
                     ->setPositionOrder()
                     ->load()
                     ->addOptionToItems();
             } else {
-                $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating')
-                    ->getResourceCollection()
+                $stores = $this->getRequest()->getParam('select_stores') ?: $this->getRequest()->getParam('stores');
+                $ratingCollection = $this->_ratingsFactory->create()
                     ->addEntityFilter('product')
-                    ->setStoreFilter($this->getRequest()->getParam('select_stores') ? $this->getRequest()->getParam('select_stores') : $this->getRequest()->getParam('stores'))
+                    ->setStoreFilter($stores)
                     ->setPositionOrder()
                     ->load()
                     ->addOptionToItems();
-                if(intval($this->getRequest()->getParam('id'))){
-                    $this->_voteCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
-                        ->getResourceCollection()
+                if (intval($this->getRequest()->getParam('id'))) {
+                    $this->_voteCollection = $this->_votesFactory->create()
                         ->setReviewFilter(intval($this->getRequest()->getParam('id')))
                         ->addOptionInfo()
                         ->load()

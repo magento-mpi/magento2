@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <resource name="ogone_setup" extends="core_setup" />
+    <resource name="ogone_write" extends="core_write" />
+    <resource name="ogone_read" extends="core_read" />
+</config>

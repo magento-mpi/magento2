@@ -10,34 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <checkout_setup>
-                <setup>
-                    <module>Magento_Checkout</module>
-                    <class>Magento\Checkout\Model\Resource\Setup</class>
-                </setup>
-            </checkout_setup>
-        </resources>
-        <template>
-            <email>
-                <checkout_payment_failed_template translate="label" module="Magento_Checkout">
-                    <label>Payment Failed</label>
-                    <file>email/failed_payment.html</file>
-                    <type>html</type>
-                </checkout_payment_failed_template>
-            </email>
-        </template>
-        <sales>
-            <quote>
-                <totals>
-                    <nominal>
-                        <renderer>Magento\Checkout\Block\Total\Nominal</renderer>
-                    </nominal>
-                </totals>
-            </quote>
-        </sales>
-    </global>
     <default>
         <checkout>
             <options>

@@ -11,7 +11,7 @@
 
 namespace Magento\Adminhtml\Block\Report\Grid;
 
-class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
+class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     protected $_resourceCollectionName  = '';
     protected $_currentCurrencyCode     = null;
@@ -26,6 +26,22 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_reportsData = null;
 
     /**
+     * Reports grouped collection factory
+     *
+     * @var \Magento\Reports\Model\Grouped\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * Resource collection factory
+     *
+     * @var \Magento\Reports\Model\Resource\Report\Collection\Factory
+     */
+    protected $_resourceFactory;
+
+    /**
+     * @param \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory
+     * @param \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory
      * @param \Magento\Reports\Helper\Data $reportsData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -34,6 +50,8 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory,
+        \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory,
         \Magento\Reports\Helper\Data $reportsData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -41,6 +59,8 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
+        $this->_resourceFactory = $resourceFactory;
+        $this->_collectionFactory = $collectionFactory;
         $this->_reportsData = $reportsData;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -65,7 +85,7 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
     public function getCollection()
     {
         if (is_null($this->_collection)) {
-            $this->setCollection(\Mage::getModel('Magento\Reports\Model\Grouped\Collection'));
+            $this->setCollection($this->_collectionFactory->create());
         }
         return $this->_collection;
     }
@@ -136,7 +156,7 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
             $storeIds = array();
         }
         // By default storeIds array contains only allowed stores
-        $allowedStoreIds = array_keys(\Mage::app()->getStores());
+        $allowedStoreIds = array_keys($this->_storeManager->getStores());
         // And then array_intersect with post data for prevent unauthorized stores reports
         $storeIds = array_intersect($allowedStoreIds, $storeIds);
         // If selected all websites or unauthorized stores use only allowed
@@ -168,7 +188,7 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
             }
         }
 
-        $resourceCollection = \Mage::getResourceModel($this->getResourceCollectionName())
+        $resourceCollection = $this->_resourceFactory->create($this->getResourceCollectionName())
             ->setPeriod($filterData->getData('period_type'))
             ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
             ->addStoreFilter($storeIds)
@@ -196,7 +216,7 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
         }
 
         if ($this->getCountTotals()) {
-            $totalsCollection = \Mage::getResourceModel($this->getResourceCollectionName())
+            $totalsCollection = $this->_resourceFactory->create($this->getResourceCollectionName())
                 ->setPeriod($filterData->getData('period_type'))
                 ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
                 ->addStoreFilter($storeIds)
@@ -222,7 +242,7 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
     {
         if (!$this->getTotals()) {
             $filterData = $this->getFilterData();
-            $totalsCollection = \Mage::getResourceModel($this->getResourceCollectionName())
+            $totalsCollection = $this->_resourceFactory->create($this->getResourceCollectionName())
                 ->setPeriod($filterData->getData('period_type'))
                 ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
                 ->addStoreFilter($this->_getStoreIds())
@@ -246,7 +266,7 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
     public function getSubTotals()
     {
         $filterData = $this->getFilterData();
-        $subTotalsCollection = \Mage::getResourceModel($this->getResourceCollectionName())
+        $subTotalsCollection = $this->_resourceFactory->create($this->getResourceCollectionName())
             ->setPeriod($filterData->getData('period_type'))
             ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
             ->addStoreFilter($this->_getStoreIds())
@@ -270,8 +290,8 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
     {
         if (is_null($this->_currentCurrencyCode)) {
             $this->_currentCurrencyCode = (count($this->_storeIds) > 0)
-                ? \Mage::app()->getStore(array_shift($this->_storeIds))->getBaseCurrencyCode()
-                : \Mage::app()->getStore()->getBaseCurrencyCode();
+                ? $this->_storeManager->getStore(array_shift($this->_storeIds))->getBaseCurrencyCode()
+                : $this->_storeManager->getStore()->getBaseCurrencyCode();
         }
         return $this->_currentCurrencyCode;
     }
@@ -284,7 +304,7 @@ class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getRate($toCurrency)
     {
-        return \Mage::app()->getStore()->getBaseCurrency()->getRate($toCurrency);
+        return $this->_storeManager->getStore()->getBaseCurrency()->getRate($toCurrency);
     }
 
     /**

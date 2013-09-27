@@ -11,7 +11,6 @@
 /**
  * Adminhtml newsletter queue edit block
  */
-
 namespace Magento\Adminhtml\Block\Newsletter\Queue;
 
 class Edit extends \Magento\Adminhtml\Block\Template
@@ -26,18 +25,26 @@ class Edit extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Cms\Model\Wysiwyg\Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_wysiwygConfig = $wysiwygConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -81,7 +88,7 @@ class Edit extends \Magento\Adminhtml\Block\Template
     protected function _prepareLayout()
     {
         // Load Wysiwyg on demand and Prepare layout
-        if (\Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()) {
+        if ($this->_wysiwygConfig->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
 
@@ -214,7 +221,7 @@ class Edit extends \Magento\Adminhtml\Block\Template
      */
     protected function isSingleStoreMode()
     {
-        return \Mage::app()->isSingleStoreMode();
+        return $this->_storeManager->isSingleStoreMode();
     }
 
     /**
@@ -224,7 +231,7 @@ class Edit extends \Magento\Adminhtml\Block\Template
      */
     protected function getStoreId()
     {
-        return \Mage::app()->getStore(true)->getId();
+        return $this->_storeManager->getStore(true)->getId();
     }
 
     /**

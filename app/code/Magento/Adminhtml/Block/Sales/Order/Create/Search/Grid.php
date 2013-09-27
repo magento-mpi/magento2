@@ -19,32 +19,53 @@ namespace Magento\Adminhtml\Block\Sales\Order\Create\Search;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
-
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Sales\Model\Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
-     * Constructor
-     *
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
+        $this->_productFactory = $productFactory;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_sessionQuote = $sessionQuote;
+        $this->_salesConfig = $salesConfig;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
-        $this->_coreConfig = $coreConfig;
     }
 
     protected function _construct()
@@ -67,7 +88,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getStore()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getStore();
+        return $this->_sessionQuote->getStore();
     }
 
     /**
@@ -76,7 +97,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote();
+        return $this->_sessionQuote->getQuote();
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -107,17 +128,15 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+        $attributes = $this->_catalogConfig->getProductAttributes();
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection();
+        $collection = $this->_productFactory->create()->getCollection();
         $collection
             ->setStore($this->getStore())
             ->addAttributeToSelect($attributes)
             ->addAttributeToSelect('sku')
             ->addStoreFilter()
-            ->addAttributeToFilter('type_id', array_keys(
-                $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
-            ))
+            ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
             ->addAttributeToSelect('gift_message_available');
 
         $this->setCollection($collection);

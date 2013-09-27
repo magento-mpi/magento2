@@ -56,6 +56,7 @@ class Permissions
      * @param \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory
      * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
      * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
+     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -67,6 +68,7 @@ class Permissions
         \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory,
         \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
         \Magento\CatalogPermissions\Helper\Data $catalogPermData,
+        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -77,7 +79,7 @@ class Permissions
         $this->_permissionCollFactory = $permissionCollFactory;
         $this->_groupCollFactory = $groupCollFactory;
         $this->_catalogPermData = $catalogPermData;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($categoryTree, $coreData, $context, $registry, $data);
     }
 
     /**

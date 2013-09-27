@@ -8,13 +8,55 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
 
 class Actions
     extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Backend\Block\Widget\Form\Renderer\Fieldset
+     */
+    protected $_rendererFieldset;
+
+    /**
+     * @var \Magento\Rule\Block\Actions
+     */
+    protected $_ruleActions;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $_sourceYesno;
+
+    /**
+     * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
+     * @param \Magento\Rule\Block\Actions $ruleActions
+     * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
+        \Magento\Rule\Block\Actions $ruleActions,
+        \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_rendererFieldset = $rendererFieldset;
+        $this->_ruleActions = $ruleActions;
+        $this->_sourceYesno = $sourceYesno;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Prepare content for tab
      *
@@ -100,7 +142,7 @@ class Actions
             'label'     => __('Apply to Shipping Amount'),
             'title'     => __('Apply to Shipping Amount'),
             'name'      => 'apply_to_shipping',
-            'values'    => \Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray(),
+            'values'    => $this->_sourceYesno->toOptionArray(),
         ));
 
         $fieldset->addField('simple_free_shipping', 'select', array(
@@ -124,7 +166,7 @@ class Actions
             ),
         ));
 
-        $renderer = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
+        $renderer = $this->_rendererFieldset
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
 
@@ -138,7 +180,7 @@ class Actions
             'label' => __('Apply To'),
             'title' => __('Apply To'),
             'required' => true,
-        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Actions'));
+        ))->setRule($model)->setRenderer($this->_ruleActions);
 
         $this->_eventManager->dispatch('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
 

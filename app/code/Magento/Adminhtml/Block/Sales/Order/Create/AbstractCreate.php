@@ -20,13 +20,35 @@ namespace Magento\Adminhtml\Block\Sales\Order\Create;
 abstract class AbstractCreate extends \Magento\Backend\Block\Widget
 {
     /**
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @var \Magento\Adminhtml\Model\Sales\Order\Create
+     */
+    protected $_orderCreate;
+
+    public function __construct(
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_sessionQuote = $sessionQuote;
+        $this->_orderCreate = $orderCreate;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve create order model object
      *
      * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     public function getCreateOrderModel()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
+        return $this->_orderCreate;
     }
 
     /**
@@ -36,7 +58,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
      */
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
+        return $this->_sessionQuote;
     }
 
     /**

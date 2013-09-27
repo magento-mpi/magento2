@@ -25,23 +25,31 @@ class Customersegment
      *
      * @var \Magento\Backend\Model\Auth\Session
      */
-    protected $_adminSession = null;
+    protected $_adminSession;
 
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * @var \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -84,8 +92,7 @@ class Customersegment
         }
 
         /* @var $segment \Magento\CustomerSegment\Model\Segment */
-        $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
-
+        $segment = $this->_objectManager->create('Magento\CustomerSegment\Model\Segment');
         if ($segmentId) {
             $segment->load($segmentId);
         }
@@ -95,9 +102,7 @@ class Customersegment
         }
         if (!$segment->getId() && !$segment->getMassactionIds()) {
             if ($outputMessage) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
-                    __('You requested the wrong customer segment.')
-                );
+                $this->_session->addError(__('You requested the wrong customer segment.'));
             }
             return false;
         }
@@ -145,13 +150,14 @@ class Customersegment
         $this->_title(__('Customer Segment Report'));
 
         if ($this->_initSegment()) {
-
             // Add help Notice to Combined Report
             if ($this->_getAdminSession()->getMassactionIds()) {
-                $collection = \Mage::getResourceModel('Magento\CustomerSegment\Model\Resource\Segment\Collection')
+                $collection = $this->_collectionFactory->create()
                     ->addFieldToFilter(
                         'segment_id',
-                        array('in' => $this->_getAdminSession()->getMassactionIds())
+                        array(
+                            'in' => $this->_getAdminSession()->getMassactionIds(),
+                        )
                     );
 
                 $segments = array();
@@ -160,10 +166,9 @@ class Customersegment
                 }
                 /* @translation __('Viewing combined "%1" report from segments: %2') */
                 if ($segments) {
-                    $viewModeLabel = $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')->getViewModeLabel(
-                        $this->_getAdminSession()->getViewMode()
-                    );
-                    \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addNotice(
+                    $viewModeLabel = $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')
+                        ->getViewModeLabel($this->_getAdminSession()->getViewMode());
+                    $this->_session->addNotice(
                         __('Viewing combined "%1" report from segments: %2.', $viewModeLabel, implode(', ', $segments))
                     );
                 }
@@ -189,13 +194,11 @@ class Customersegment
                 if ($segment->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
                     $segment->matchCustomers();
                 }
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
-                    __('Customer Segment data has been refreshed.')
-                );
+                $this->_session->addSuccess(__('Customer Segment data has been refreshed.'));
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return;
             } catch (\Magento\Core\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_session->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/detail', array('_current' => true));
@@ -258,7 +261,7 @@ class Customersegment
     protected function _getAdminSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = \Mage::getModel('Magento\Backend\Model\Auth\Session');
+            $this->_adminSession = $this->_objectManager->create('Magento\Backend\Model\Auth\Session');
         }
         return $this->_adminSession;
     }

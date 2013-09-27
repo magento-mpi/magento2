@@ -26,7 +26,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Invitation\Block\Form');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Invitation\Block\Form');
     }
 
     /**
@@ -69,7 +70,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     protected function _changeConfig($path, $value)
     {
-        $store = \Mage::app()->getStore();
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore();
         $oldValue = $store->getConfig($path);
         $store->setConfig($path, $value);
 
@@ -89,8 +91,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     protected function _restoreConfig()
     {
-        \Mage::app()->getStore()
-            ->setConfig($this->_rememberedConfig['path'], $this->_rememberedConfig['old_value']);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setConfig($this->_rememberedConfig['path'], $this->_rememberedConfig['old_value']);
         $this->_rememberedConfig = null;
         return $this;
     }

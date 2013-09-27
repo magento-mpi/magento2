@@ -57,6 +57,8 @@ app/code/Magento/Core/Model/Design/Fallback
 app/code/Magento/Core/Model/Design/Source/Design.php
 app/code/Magento/Core/Model/Dir
 app/code/Magento/Core/Model/Dir.php
+app/code/Magento/Core/Model/Email/Template/Config
+app/code/Magento/Core/Model/Email/Template/Config.php
 app/code/Magento/Core/Model/EntryPoint
 app/code/Magento/Core/Model/AbstractEntryPoint.php
 app/code/Magento/Core/Model/Layout/Factory.php
@@ -64,6 +66,8 @@ app/code/Magento/Core/Model/Layout/Update.php
 app/code/Magento/Core/Model/Layout/Argument
 app/code/Magento/Core/Model/Locale/Validator.php
 app/code/Magento/Core/Model/LocaleInterface.php
+app/code/Magento/Core/Model/Module/Dir
+app/code/Magento/Core/Model/Module/Dir.php
 app/code/Magento/Core/Model/ObjectManager
 app/code/Magento/Core/Model/Page
 app/code/Magento/Core/Model/Page.php
@@ -95,6 +99,7 @@ app/code/Magento/Directory/Model/Resource/Region
 app/code/Magento/Eav/Model/Cache/Type.php
 app/code/Magento/GiftMessage/Model/Plugin
 app/code/Magento/GoogleShopping/Block/SiteVerification.php
+app/code/Magento/GoogleShopping/Model/AttributeFactory.php
 app/code/Magento/Eav/Model/Entity/Attribute/Config
 app/code/Magento/Eav/Model/Entity/Attribute/Config.php
 app/code/Magento/ImportExport/Model/Import/Entity/CustomerComposite.php
@@ -117,7 +122,7 @@ app/code/Magento/Index/Model/EntryPoint/Indexer.php
 app/code/Magento/Index/Model/Shell.php
 app/code/Magento/Install/Model/EntryPoint
 app/code/Magento/Log/Model/EntryPoint
-app/code/Magento/Log/Model/Resource/Helper
+app/code/Magento/Log/Model/Resource/Helper.php
 app/code/Magento/Log/Model/Resource/Shell.php
 app/code/Magento/Log/Model/Shell.php
 app/code/Magento/Log/Model/Shell
@@ -125,6 +130,7 @@ app/code/Magento/Page/Block/Html/Head
 app/code/Magento/Page/Block/Link{,.php,s.php}
 app/code/Magento/Page/Helper/Robots.php
 app/code/Magento/Page/Model/Asset
+app/code/Magento/PageCache/Model/CacheControlFactory.php
 app/code/Magento/ProductAlert/Block/Product/View
 app/code/Magento/Reports/Block/Adminhtml/Customer
 app/code/Magento/Reports/Block/Adminhtml/Product
@@ -137,6 +143,9 @@ app/code/Magento/Sales/Block/Order/Link.php
 app/code/Magento/Sales/Block/Recurring/Profile/Grid.php
 app/code/Magento/Sales/Block/Recurring/Profile/Related/Orders/Grid.php
 app/code/Magento/Sales/Block/Recurring/Profile/View
+app/code/Magento/Sales/Model/Order/Pdf/Config
+app/code/Magento/Sales/Model/Order/Pdf/Config.php
+app/code/Magento/Sales/Model/Order/Pdf/Total/Factory.php
 app/code/Magento/SalesRule/Model/Plugin
 app/code/Magento/Theme
 app/code/Magento/Webapi

@@ -19,6 +19,31 @@ namespace Magento\Adminhtml\Block\Report\Product\Downloads;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * @var \Magento\Reports\Model\Resource\Product\Downloads\CollectionFactory
+     */
+    protected $_downloadsFactory;
+
+    /**
+     * @param \Magento\Reports\Model\Resource\Product\Downloads\CollectionFactory $downloadsFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reports\Model\Resource\Product\Downloads\CollectionFactory $downloadsFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_downloadsFactory = $downloadsFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -29,10 +54,10 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         if ($this->getRequest()->getParam('website')) {
-            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else if ($this->getRequest()->getParam('group')) {
-            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = $this->_storeManager->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else if ($this->getRequest()->getParam('store')) {
             $storeId = (int)$this->getRequest()->getParam('store');
@@ -40,13 +65,13 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             $storeId = '';
         }
 
-        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Product\Downloads\Collection')
+        $collection = $this->_downloadsFactory->create()
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
             ->addAttributeToFilter('type_id', array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE))
             ->addSummary();
 
-        if( $storeId ) {
+        if ($storeId) {
             $collection->addStoreFilter($storeId);
         }
 

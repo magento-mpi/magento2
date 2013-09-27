@@ -78,4 +78,20 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
             return 0;
         }
     }
+
+    /**
+     * Select a single token of the specified type for the specified consumer.
+     *
+     * @param int $consumerId - The consumer id
+     * @param string $type - The token type (e.g. 'verifier')
+     * @return array|boolean - Row data (array) or false if there is no corresponding row
+     */
+    public function selectTokenByType($consumerId, $type)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('consumer_id = ?', $consumerId)->where('type = ?', $type);
+        return $adapter->fetchRow($select);
+    }
 }

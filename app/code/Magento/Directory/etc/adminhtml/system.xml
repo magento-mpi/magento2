@@ -29,7 +29,7 @@
                 <field id="default" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Default Display Currency</label>
                     <source_model>Magento\Backend\Model\Config\Source\Currency</source_model>
-                    <backend_model>Magento\Backend\Model\Config\Backend\Currency\DefaultCurrency</backend_model>
+                    <backend_model>Magento\Backend\Model\Config\Backend\Currency\Default</backend_model>
                 </field>
                 <field id="allow" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Allowed Currencies</label>
@@ -68,7 +68,7 @@
                 </field>
                 <field id="service" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Service</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Currency\Service</source_model>
+                    <source_model>Magento\Directory\Model\Currency\Import\Source\Service</source_model>
                     <backend_model>Magento\Backend\Model\Config\Backend\Currency\Cron</backend_model>
                 </field>
                 <field id="time" translate="label" type="time" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">

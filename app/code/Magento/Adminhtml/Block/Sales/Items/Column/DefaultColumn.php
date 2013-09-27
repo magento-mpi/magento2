@@ -20,6 +20,28 @@ namespace Magento\Adminhtml\Block\Sales\Items\Column;
 
 class DefaultColumn extends \Magento\Adminhtml\Block\Template
 {
+    /**
+     * @var \Magento\Catalog\Model\Product\OptionFactory
+     */
+    protected $_optionFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_optionFactory = $optionFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
     public function getItem()
     {
         if ($this->_getData('item') instanceof \Magento\Sales\Model\Order\Item) {
@@ -58,7 +80,7 @@ class DefaultColumn extends \Magento\Adminhtml\Block\Template
         $_default = $optionInfo['value'];
         if (isset($optionInfo['option_type'])) {
             try {
-                $group = \Mage::getModel('Magento\Catalog\Model\Product\Option')->groupFactory($optionInfo['option_type']);
+                $group = $this->_optionFactory->create()->groupFactory($optionInfo['option_type']);
                 return $group->getCustomizedView($optionInfo);
             } catch (\Exception $e) {
                 return $_default;

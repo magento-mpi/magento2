@@ -25,6 +25,31 @@ class Edit
     extends \Magento\Adminhtml\Block\Urlrewrite\Edit
 {
     /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_categoryFactory = $categoryFactory;
+        parent::__construct($rewriteFactory, $adminhtmlData, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare layout for URL rewrite creating for category
      */
     protected function _prepareLayoutFeatures()
@@ -53,7 +78,7 @@ class Edit
     private function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(\Mage::getModel('Magento\Catalog\Model\Category'));
+            $this->setCategory($this->_categoryFactory->create());
         }
         return $this->getCategory();
     }

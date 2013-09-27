@@ -18,14 +18,15 @@ class AssociatedProductsCollectionTest
     public function testGetColumnValues()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(9);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
 
         /** @var \Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection $collection */
-        $collection = \Mage::getResourceModel(
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
         );
 

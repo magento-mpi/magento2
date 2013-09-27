@@ -20,13 +20,15 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Store\Group');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store\Group');
     }
 
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());
-        $website = \Mage::app()->getWebsite();
+        $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite();
         $this->_model->setWebsite($website);
         $actualResult = $this->_model->getWebsite();
         $this->assertSame($website, $actualResult);

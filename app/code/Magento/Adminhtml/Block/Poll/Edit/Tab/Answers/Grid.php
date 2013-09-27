@@ -17,8 +17,34 @@
  */
 namespace Magento\Adminhtml\Block\Poll\Edit\Tab\Answers;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * @var \Magento\Poll\Model\Poll\AnswerFactory
+     */
+    protected $_pollAnswerFactory;
+
+    /**
+     * @param \Magento\Poll\Model\Poll\AnswerFactory $pollAnswerFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Poll\Model\Poll\AnswerFactory $pollAnswerFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_urlModel = $urlModel;
+        $this->_pollAnswerFactory = $pollAnswerFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -31,7 +57,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Poll\Model\Poll\Answer')
+        $collection = $this->_pollAnswerFactory->create()
             ->getResourceCollection()
             ->addPollFilter($this->getRequest()->getParam('id'));
         $this->setCollection($collection);

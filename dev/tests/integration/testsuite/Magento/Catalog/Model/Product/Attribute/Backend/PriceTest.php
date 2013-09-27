@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 /**
  * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Price.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,9 +25,11 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Product\Attribute\Backend\Price');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Attribute\Backend\Price');
         $this->_model->setAttribute(
-            \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', 'price')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
+                ->getAttribute('catalog_product', 'price')
         );
     }
 
@@ -64,7 +66,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function testAfterSave()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setOrigData();
         $product->setPrice(9.99);
@@ -78,7 +81,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             $product->getResource()->getAttributeRawValue(
                 $product->getId(),
                 $this->_model->getAttribute()->getId(),
-                \Mage::app()->getStore()->getId()
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId()
             )
         );
     }

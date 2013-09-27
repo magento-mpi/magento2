@@ -13,6 +13,13 @@ namespace Magento\GiftCard\Model\Catalog\Product\Price;
 class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
 {
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Cached amounts
      * @var array
      */
@@ -23,6 +30,19 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      * @var array
      */
     protected $_minMaxCache = array();
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Event\Manager $eventManager
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($eventManager);
+    }
+
 
     /**
      * Return price of the specified product
@@ -120,7 +140,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
             $giftcardAmounts = $this->getAmounts($product);
             if (is_array($giftcardAmounts)) {
                 foreach ($giftcardAmounts as $amount) {
-                    $result[] = \Mage::app()->getStore()->roundPrice($amount['website_value']);
+                    $result[] = $this->_storeManager->getStore()->roundPrice($amount['website_value']);
                 }
             }
             sort($result);

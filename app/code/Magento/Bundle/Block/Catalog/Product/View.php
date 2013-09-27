@@ -21,6 +21,35 @@ namespace Magento\Bundle\Block\Catalog\Product;
 class View extends \Magento\Catalog\Block\Product\View
 {
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreRegistry, $coreString, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Get tier prices (formatted)
      *
      * @param \Magento\Catalog\Model\Product|null $product
@@ -36,7 +65,7 @@ class View extends \Magento\Catalog\Block\Product\View
 
         $prices = $product->getFormatedTierPrice();
         if (is_array($prices)) {
-            $store = \Mage::app()->getStore();
+            $store = $this->_storeManager->getStore();
             $helper = $this->_taxData;
             $specialPrice = $product->getSpecialPrice();
             $defaultDiscount = max($product->getGroupPrice(), $specialPrice ? 100 - $specialPrice : 0);

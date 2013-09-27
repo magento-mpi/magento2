@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Layer\Filter\Price;
-
 /**
  * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_advanced.php
  */
+namespace Magento\Catalog\Model\Layer\Filter\Price;
+
 class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,7 +27,8 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-         $this->_model = \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
+         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
     }
 
     /**
@@ -38,14 +39,21 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
     protected function _prepareFilter($request = null)
     {
         /** @var $layer \Magento\Catalog\Model\Layer */
-        $layer = \Mage::getModel('Magento\Catalog\Model\Layer');
+        $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer');
         $layer->setCurrentCategory(4);
-        $layer->setState(\Mage::getModel('Magento\Catalog\Model\Layer\State'));
+        $layer->setState(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\State'));
         /** @var $filter \Magento\Catalog\Model\Layer\Filter\Price */
-        $filter = \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Price');
+        $filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Price');
         $filter->setLayer($layer)->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));
         if (!is_null($request)) {
-            $filter->apply($request, \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
+            $filter->apply(
+                $request,
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                    ->createBlock('Magento\Core\Block\Text')
+            );
             $interval = $filter->getInterval();
             if ($interval) {
                 $this->_model->setLimits($interval[0], $interval[1]);
@@ -62,7 +70,7 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
 
     public function testWithoutLimits()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
@@ -77,7 +85,7 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
     public function testWithLimits()
     {
         $this->markTestIncomplete('Bug MAGE-6561');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');

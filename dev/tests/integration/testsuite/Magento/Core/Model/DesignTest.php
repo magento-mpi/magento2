@@ -20,8 +20,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Design');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Design');
     }
 
     public function testLoadChange()
@@ -35,9 +34,12 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangeDesign()
     {
-        $design = \Mage::getModel('Magento\Core\Model\View\DesignInterface');
-        $storeId = \Mage::app()->getAnyStoreView()->getId(); // fixture design_change
-        $designChange = \Mage::getModel('Magento\Core\Model\Design');
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\DesignInterface');
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
+        $designChange = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Design');
         $designChange->loadChange($storeId)->changeDesign($design);
         $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
@@ -57,7 +59,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_model->getId());
 
         try {
-            $model =  \Mage::getModel('Magento\Core\Model\Design');
+            $model =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Design');
             $model->loadChange(1);
             $this->assertEquals($this->_model->getId(), $model->getId());
 
@@ -76,7 +79,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             throw $e;
         }
 
-        $model =  \Mage::getModel('Magento\Core\Model\Design');
+        $model =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Design');
         $model->loadChange(1);
         $this->assertEmpty($model->getId());
     }
@@ -99,14 +103,17 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testLoadChangeCache()
     {
         $date = \Magento\Date::now(true);
-        $storeId = \Mage::app()->getAnyStoreView()->getId(); // fixture design_change
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
 
         $cacheId = 'design_change_' . md5($storeId . $date);
 
-        $design = \Mage::getModel('Magento\Core\Model\Design');
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Design');
         $design->loadChange($storeId, $date);
 
-        $cachedDesign = \Mage::app()->loadCache($cacheId);
+        $cachedDesign = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadCache($cacheId);
         $cachedDesign = unserialize($cachedDesign);
 
         $this->assertInternalType('array', $cachedDesign);
@@ -115,10 +122,12 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
         $design->setDesign('magento_demo')->save();
 
-        $design = \Mage::getModel('Magento\Core\Model\Design');
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Design');
         $design->loadChange($storeId, $date);
 
-        $cachedDesign = \Mage::app()->loadCache($cacheId);
+        $cachedDesign = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadCache($cacheId);
         $cachedDesign = unserialize($cachedDesign);
 
         $this->assertTrue(is_array($cachedDesign));
@@ -148,17 +157,19 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             $expectedDesign = "{$storeCode}_yesterday_design";
         }
 
-        $store = \Mage::app()->getStore($storeCode);
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore($storeCode);
         $store->setConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
         $storeId = $store->getId();
 
-        /** @var $locale \Magento\Core\Model\LocaleInterface|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $locale \Magento\Core\Model\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject */
         $locale = $this->getMock('Magento\Core\Model\LocaleInterface');
         $locale->expects($this->once())
             ->method('storeTimeStamp')
             ->with($storeId)
             ->will($this->returnValue($storeDatetime)); // store time must stay unchanged during test execution
-        $design = \Mage::getModel('Magento\Core\Model\Design', array('locale' => $locale));
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Design', array('locale' => $locale));
         $design->loadChange($storeId);
         $actualDesign = $design->getDesign();
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Fieldset configuration data container. Provides fieldset configuration data based on current config scope
+ * Fieldset configuration data container. Provides fieldset configuration data.
  *
  * {license_notice}
  *
@@ -11,10 +11,4 @@ namespace Magento\Core\Model\Fieldset\Config;
 
 class Data extends \Magento\Config\Data
 {
-    /**
-     * Scope priority loading scheme
-     *
-     * @var array
-     */
-    protected $_scopePriorityScheme = array('global');
 }

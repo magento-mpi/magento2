@@ -21,7 +21,8 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModel($entryPoint = 'fake.php')
     {
-        return \Mage::getModel('Magento\Log\Model\Shell', array('entryPoint' => $entryPoint));
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Log\Model\Shell', array('entryPoint' => $entryPoint));
     }
 
     /**

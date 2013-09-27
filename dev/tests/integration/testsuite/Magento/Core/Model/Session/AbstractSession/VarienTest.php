@@ -43,9 +43,10 @@ class VarienTest extends \PHPUnit_Framework_TestCase
         $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
         $configModel->setNode(\Magento\Core\Model\Session\AbstractSession::XML_NODE_SESSION_SAVE, $saveMethod);
         /**
-         * @var \Magento\Core\Model\Session\AbstractSession_Varien
+         * @var \Magento\Core\Model\Session\AbstractSession\Varien
          */
-        $model = \Mage::getModel('Magento\Core\Model\Session\AbstractSession');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Session\AbstractSession');
         //There is no any possibility to determine whether session already started or not in php before 5.4
         $model->setSkipEmptySessionCheck(true);
         $model->start();

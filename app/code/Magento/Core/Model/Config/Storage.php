@@ -9,29 +9,19 @@
  */
 namespace Magento\Core\Model\Config;
 
-class Storage extends \Magento\Core\Model\Config\AbstractStorage
+class Storage extends \Magento\Core\Model\Config\StorageAbstract
 {
-    /**
-     * Resource configuration
-     *
-     * @var \Magento\Core\Model\Config\Resource
-     */
-    protected $_resourcesConfig;
-
     /**
      * @param \Magento\Core\Model\Config\Cache $cache
      * @param \Magento\Core\Model\Config\Loader $loader
      * @param \Magento\Core\Model\Config\BaseFactory $factory
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
      */
     public function __construct(
         \Magento\Core\Model\Config\Cache $cache,
         \Magento\Core\Model\Config\Loader $loader,
-        \Magento\Core\Model\Config\BaseFactory $factory,
-        \Magento\Core\Model\Config\Resource $resourcesConfig
+        \Magento\Core\Model\Config\BaseFactory $factory
     ) {
         parent::__construct($cache, $loader, $factory);
-        $this->_resourcesConfig = $resourcesConfig;
     }
 
     /**
@@ -47,11 +37,6 @@ class Storage extends \Magento\Core\Model\Config\AbstractStorage
             $this->_loader->load($config);
             $this->_cache->save($config);
         }
-        /*
-         * Update resource configuration when total configuration is loaded.
-         * Required until resource model is refactored.
-         */
-        $this->_resourcesConfig->setConfig($config);
         return $config;
     }
 

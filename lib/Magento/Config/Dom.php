@@ -22,7 +22,7 @@ class Dom
     const ROOT_NAMESPACE_PREFIX = 'x';
 
     /**
-     * Format of items in errors array to be used by default. Available placeholders - fields of LibXMLError.
+     * Format of items in errors array to be used by default. Available placeholders - fields of \LibXMLError.
      */
     const ERROR_FORMAT_DEFAULT = "%message%\nLine: %line%\n";
 
@@ -226,31 +226,37 @@ class Dom
      * @param string $schemaFileName
      * @param string $errorFormat
      * @return array of errors
+     * @throws \Exception
      */
     public static function validateDomDocument(
         \DOMDocument $dom, $schemaFileName, $errorFormat = self::ERROR_FORMAT_DEFAULT
     ) {
         libxml_use_internal_errors(true);
-        $result = $dom->schemaValidate($schemaFileName);
-        $errors = array();
-        if (!$result) {
-            $validationErrors = libxml_get_errors();
-            if (count($validationErrors)) {
-                foreach ($validationErrors as $error) {
-                    $errors[] = self::_renderErrorMessage($error, $errorFormat);
+        try {
+            $result = $dom->schemaValidate($schemaFileName);
+            $errors = array();
+            if (!$result) {
+                $validationErrors = libxml_get_errors();
+                if (count($validationErrors)) {
+                    foreach ($validationErrors as $error) {
+                        $errors[] = self::_renderErrorMessage($error, $errorFormat);
+                    }
+                } else {
+                    $errors[] = 'Unknown validation error';
                 }
-            } else {
-                $errors[] = 'Unknown validation error';
             }
+        } catch (\Exception $exception) {
+            libxml_use_internal_errors(false);
+            throw $exception;
         }
         libxml_use_internal_errors(false);
         return $errors;
     }
 
     /**
-     * Render error message string by replacing placeholders '%field%' with properties of LibXMLError
+     * Render error message string by replacing placeholders '%field%' with properties of \LibXMLError
      *
-     * @param LibXMLError $errorInfo
+     * @param \LibXMLError $errorInfo
      * @param string $format
      * @return string
      * @throws \InvalidArgumentException

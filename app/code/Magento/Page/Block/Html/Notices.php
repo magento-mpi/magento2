@@ -20,6 +20,27 @@ namespace Magento\Page\Block\Html;
 class Notices extends \Magento\Core\Block\Template
 {
     /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_urlModel;
+
+    /**
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_urlModel = $urlModel;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Check if noscript notice should be displayed
      *
      * @return boolean
@@ -46,6 +67,6 @@ class Notices extends \Magento\Core\Block\Template
      */
     public function getPrivacyPolicyLink()
     {
-        return \Mage::getUrl('privacy-policy-cookie-restriction-mode');
+        return $this->_urlModel->getUrl('privacy-policy-cookie-restriction-mode');
     }
 }

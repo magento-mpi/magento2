@@ -18,7 +18,8 @@
  */
 namespace Magento\Bundle\Model\Product\Attribute\Source\Price;
 
-class View extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+class View
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Core data
@@ -28,12 +29,20 @@ class View extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected $_coreData = null;
 
     /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory
+     */
+    protected $_entityAttribute;
+
+    /**
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $entityAttribute
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
+        \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $entityAttribute,
         \Magento\Core\Helper\Data $coreData
     ) {
         $this->_coreData = $coreData;
+        $this->_entityAttribute = $entityAttribute;
     }
 
     /**
@@ -109,7 +118,7 @@ class View extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function getFlatUpdateSelect($store)
     {
-        return \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Option')
+        return $this->_entityAttribute->create()
             ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

@@ -41,14 +41,28 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\CatalogInventory\Model\Source\Stock
+     */
+    protected $_stock;
+
+    /**
+     * @var \Magento\CatalogInventory\Model\Source\Backorders
+     */
+    protected $_backorders;
+
+    /**
+     * @param \Magento\CatalogInventory\Model\Source\Backorders $backorders
+     * @param \Magento\CatalogInventory\Model\Source\Stock $stock
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        \Magento\CatalogInventory\Model\Source\Backorders $backorders,
+        \Magento\CatalogInventory\Model\Source\Stock $stock,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Helper\Data $coreData,
@@ -56,6 +70,8 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_stock = $stock;
+        $this->_backorders = $backorders;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
@@ -65,7 +81,7 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
     public function getBackordersOption()
     {
         if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-            return \Mage::getSingleton('Magento\CatalogInventory\Model\Source\Backorders')->toOptionArray();
+            return $this->_backorders->toOptionArray();
         }
 
         return array();
@@ -79,7 +95,7 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
     public function getStockOption()
     {
         if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-            return \Mage::getSingleton('Magento\CatalogInventory\Model\Source\Stock')->toOptionArray();
+            return $this->_stock->toOptionArray();
         }
 
         return array();

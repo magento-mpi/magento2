@@ -19,13 +19,39 @@ namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
 
 class Reorder extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
-
     /**
      * Storage action on selected item
      *
      * @var string
      */
     protected $_sidebarStorageAction = 'add_order_item';
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
+     */
+    protected $_ordersFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Model\Config $salesConfig
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Config $salesConfig,
+        array $data = array()
+    ) {
+        $this->_ordersFactory = $ordersFactory;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $salesConfig, $data);
+    }
 
     protected function _construct()
     {
@@ -48,7 +74,7 @@ class Reorder extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Abstra
     public function getLastOrder()
     {
         $storeIds = $this->getQuote()->getStore()->getWebsite()->getStoreIds();
-        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
+        $collection = $this->_ordersFactory->create()
             ->addFieldToFilter('customer_id', $this->getCustomerId())
             ->addFieldToFilter('store_id', array('in' => $storeIds))
             ->setOrder('created_at', 'desc')

@@ -22,7 +22,8 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_indexModel = \Mage::getModel('Magento\CatalogPermissions\Model\Permission\Index');
+        $this->_indexModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogPermissions\Model\Permission\Index');
     }
 
     /**
@@ -33,7 +34,8 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     {
         $fixturePermission = array(
             'category_id'                 => 6,
-            'website_id'                  => \Mage::app()->getWebsite()->getId(),
+            'website_id'                  => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
+                get('Magento\Core\Model\StoreManagerInterface')->getWebsite()->getId(),
             'customer_group_id'           => 1,
             'grant_catalog_category_view' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
             'grant_catalog_product_price' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,

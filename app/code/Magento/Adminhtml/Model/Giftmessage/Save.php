@@ -30,16 +30,35 @@ class Save extends \Magento\Object
     protected $_giftMessageMessage = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_session;
+
+    /**
+     * @var \Magento\GiftMessage\Model\MessageFactory
+     */
+    protected $_messageFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $session
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\GiftMessage\Model\MessageFactory $messageFactory,
+        \Magento\Adminhtml\Model\Session\Quote $session,
         \Magento\GiftMessage\Helper\Message $giftMessageMessage
     ) {
+        $this->_productFactory = $productFactory;
+        $this->_messageFactory = $messageFactory;
+        $this->_session = $session;
         $this->_giftMessageMessage = $giftMessageMessage;
     }
 
@@ -93,7 +112,7 @@ class Save extends \Magento\Object
     protected function _saveOne($entityId, $giftmessage)
     {
         /* @var $giftmessageModel \Magento\GiftMessage\Model\Message */
-        $giftmessageModel = \Mage::getModel('Magento\GiftMessage\Model\Message');
+        $giftmessageModel = $this->_messageFactory->create();
         $entityType = $this->_getMappedType($giftmessage['type']);
 
         switch($entityType) {
@@ -147,7 +166,7 @@ class Save extends \Magento\Object
     protected function _deleteOne($entityModel, $giftmessageModel=null)
     {
         if (is_null($giftmessageModel)) {
-            $giftmessageModel = \Mage::getModel('Magento\GiftMessage\Model\Message')
+            $giftmessageModel = $this->_messageFactory->create()
                 ->load($entityModel->getGiftMessageId());
         }
         $giftmessageModel->delete();
@@ -258,7 +277,7 @@ class Save extends \Magento\Object
         $allowedItems = $this->getAllowQuoteItems();
         $deleteAllowedItems = array();
         foreach ($products as $productId=>$data) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')
+            $product = $this->_productFactory->create()
                 ->setStore($this->_getSession()->getStore())
                 ->load($productId);
             $item = $this->_getQuote()->getItemByProduct($product);
@@ -335,22 +354,12 @@ class Save extends \Magento\Object
     }
 
     /**
-     * Retrieve session object
-     *
-     * @return \Magento\Adminhtml\Model\Session\Quote
-     */
-    protected function _getSession()
-    {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
-    }
-
-    /**
      * Retrieve quote object
      *
      * @return \Magento\Sales\Model\Quote
      */
     protected function _getQuote()
     {
-        return $this->_getSession()->getQuote();
+        return $this->_session->getQuote();
     }
 }

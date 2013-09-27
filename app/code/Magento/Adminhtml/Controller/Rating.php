@@ -11,7 +11,6 @@
 /**
  * Admin ratings controller
  */
-
 namespace Magento\Adminhtml\Controller;
 
 class Rating extends \Magento\Adminhtml\Controller\Action
@@ -51,7 +50,7 @@ class Rating extends \Magento\Adminhtml\Controller\Action
         $this->_initEnityId();
         $this->loadLayout();
 
-        $ratingModel = \Mage::getModel('Magento\Rating\Model\Rating');
+        $ratingModel = $this->_objectManager->create('Magento\Rating\Model\Rating');
         if ($this->getRequest()->getParam('id')) {
             $ratingModel->load($this->getRequest()->getParam('id'));
         }
@@ -80,7 +79,7 @@ class Rating extends \Magento\Adminhtml\Controller\Action
 
         if ($this->getRequest()->getPost()) {
             try {
-                $ratingModel = \Mage::getModel('Magento\Rating\Model\Rating');
+                $ratingModel = $this->_objectManager->create('Magento\Rating\Model\Rating');
 
                 $stores = $this->getRequest()->getParam('stores');
                 $position = (int)$this->getRequest()->getParam('position');
@@ -100,7 +99,7 @@ class Rating extends \Magento\Adminhtml\Controller\Action
                 if (is_array($options)) {
                     $i = 1;
                     foreach ($options as $key => $optionCode) {
-                        $optionModel = \Mage::getModel('Magento\Rating\Model\Rating\Option');
+                        $optionModel = $this->_objectManager->create('Magento\Rating\Model\Rating\Option');
                         if (!preg_match("/^add_([0-9]*?)$/", $key)) {
                             $optionModel->setId($key);
                         }
@@ -114,14 +113,14 @@ class Rating extends \Magento\Adminhtml\Controller\Action
                     }
                 }
 
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the rating.'));
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setRatingData(false);
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the rating.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setRatingData(false);
 
                 $this->_redirect('*/*/');
                 return;
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setRatingData($this->getRequest()->getPost());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setRatingData($this->getRequest()->getPost());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -133,14 +132,14 @@ class Rating extends \Magento\Adminhtml\Controller\Action
     {
         if ($this->getRequest()->getParam('id') > 0) {
             try {
-                $model = \Mage::getModel('Magento\Rating\Model\Rating');
+                $model = $this->_objectManager->create('Magento\Rating\Model\Rating');
                 /* @var $model \Magento\Rating\Model\Rating */
                 $model->load($this->getRequest()->getParam('id'))
                     ->delete();
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the rating.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the rating.'));
                 $this->_redirect('*/*/');
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             }
         }
@@ -152,7 +151,7 @@ class Rating extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Ratings'));
 
         $this->_coreRegistry->register(
-            'entityId', \Mage::getModel('Magento\Rating\Model\Rating\Entity')->getIdByCode('product')
+            'entityId', $this->_objectManager->create('Magento\Rating\Model\Rating\Entity')->getIdByCode('product')
         );
     }
 

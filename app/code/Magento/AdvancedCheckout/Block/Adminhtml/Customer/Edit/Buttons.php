@@ -58,7 +58,7 @@ class Buttons extends \Magento\Adminhtml\Block\Customer\Edit
         }
         $container = $this->getParentBlock();
         if ($container instanceof \Magento\Backend\Block\Template && $container->getCustomerId()) {
-            $url = \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/checkout/index', array(
+            $url = $this->_urlBuilder->getUrl('*/checkout/index', array(
                 'customer' => $container->getCustomerId()
             ));
             $container->addButton('manage_quote', array(

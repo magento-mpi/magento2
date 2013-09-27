@@ -24,7 +24,8 @@ class ProductTest extends \Magento\TestFramework\TestCase\ControllerAbstract
         $this->dispatch('catalog/product/view/id/1');
         $this->assertContains(
             'catalog_product_view_type_downloadable',
-            \Mage::app()->getLayout()->getUpdate()->getHandles()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->getUpdate()->getHandles()
         );
         $responseBody = $this->getResponse()->getBody();
         $this->assertContains('Downloadable Product', $responseBody);

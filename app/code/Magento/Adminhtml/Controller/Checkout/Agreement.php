@@ -58,12 +58,12 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Terms and Conditions'));
 
         $id  = $this->getRequest()->getParam('id');
-        $agreementModel  = \Mage::getModel('Magento\Checkout\Model\Agreement');
+        $agreementModel  = $this->_objectManager->create('Magento\Checkout\Model\Agreement');
 
         if ($id) {
             $agreementModel->load($id);
             if (!$agreementModel->getId()) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
                     __('This condition no longer exists.')
                 );
                 $this->_redirect('*/*/');
@@ -73,7 +73,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
 
         $this->_title($agreementModel->getId() ? $agreementModel->getName() : __('New Condition'));
 
-        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getAgreementData(true);
+        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getAgreementData(true);
         if (!empty($data)) {
             $agreementModel->setData($data);
         }
@@ -97,23 +97,23 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
     {
         $postData = $this->getRequest()->getPost();
         if ($postData) {
-            $model = \Mage::getSingleton('Magento\Checkout\Model\Agreement');
+            $model = $this->_objectManager->get('Magento\Checkout\Model\Agreement');
             $model->setData($postData);
 
             try {
                 $model->save();
 
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The condition has been saved.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The condition has been saved.'));
                 $this->_redirect('*/*/');
 
                 return;
             } catch (\Magento\Core\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong while saving this condition.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong while saving this condition.'));
             }
 
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setAgreementData($postData);
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setAgreementData($postData);
             $this->_redirectReferer();
         }
     }
@@ -121,23 +121,23 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
     public function deleteAction()
     {
         $id = (int)$this->getRequest()->getParam('id');
-        $model = \Mage::getSingleton('Magento\Checkout\Model\Agreement')
+        $model = $this->_objectManager->get('Magento\Checkout\Model\Agreement')
             ->load($id);
         if (!$model->getId()) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('This condition no longer exists.'));
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('This condition no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
 
         try {
             $model->delete();
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The condition has been deleted.'));
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('The condition has been deleted.'));
             $this->_redirect('*/*/');
             return;
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong  while deleting this condition.'));
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong  while deleting this condition.'));
         }
 
         $this->_redirectReferer();

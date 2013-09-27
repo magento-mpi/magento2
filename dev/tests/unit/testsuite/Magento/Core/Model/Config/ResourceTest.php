@@ -17,85 +17,92 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_configMock;
+    protected $_scopeMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_cacheMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_readerMock;
+
+    /**
+     * @var array
+     */
+    protected $_resourcesConfig;
 
     protected function setUp()
     {
-        $this->_configMock = new \Magento\Core\Model\Config\Base('
-        <config>
-            <global>
-                <resources>
-                    <default_setup>
-                        <connection>
-                            <type>pdo_mysql</type>
-                            <model>mysql4</model>
-                        </connection>
-                    </default_setup>
-                    <default_read>
-                        <connection>
-                            <use>default_setup</use>
-                        </connection>
-                    </default_read>
-                    <core_setup>
-                        <connection>
-                            <use>default_setup</use>
-                        </connection>
-                    </core_setup>
-                    <db>
-                        <table_prefix>some_prefix_</table_prefix>
-                    </db>
-                </resources>
-                <resource>
-                    <connection>
-                        <types>
-                            <pdo_mysql>Mysql_Config</pdo_mysql>
-                        </types>
-                    </connection>
-                </resource>
-            </global>
-        </config>
-        ');
-        $this->_model = new \Magento\Core\Model\Config\Resource($this->_configMock);
+        $this->_scopeMock = $this->getMock('Magento\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
+
+        $this->_readerMock = $this->getMock(
+            'Magento\Core\Model\Resource\Config\Reader', array(), array(), '', false
+        );
+
+        $this->_resourcesConfig = array(
+            'mainResourceName' => array(
+                'name' => 'mainResourceName',
+                'extends' => 'anotherResourceName',
+            ),
+            'otherResourceName' => array(
+                'name' => 'otherResourceName',
+                'connection' => 'otherConnectionName',
+            ),
+            'anotherResourceName' => array(
+                'name' => 'anotherResourceName',
+                'connection' => 'anotherConnection'
+            ),
+            'brokenResourceName' => array(
+                'name' => 'brokenResourceName',
+                'extends' => 'absentResourceName',
+            ),
+        );
+
+        $this->_cacheMock->expects($this->once())
+            ->method('load')
+            ->will($this->returnValue(serialize($this->_resourcesConfig)));
+
+        $this->_model = new \Magento\Core\Model\Config\Resource(
+            $this->_readerMock,
+            $this->_scopeMock,
+            $this->_cacheMock,
+            'cacheId'
+        );
     }
 
-    protected function tearDown()
+    /**
+     * @covers \Magento\Core\Model\Config\Resource::getConnectionName
+     * @dataProvider getConnectionNameDataProvider
+     * @param string $resourceName
+     * @param string $connectionName
+     */
+    public function testGetConnectionName($resourceName, $connectionName)
     {
-        unset($this->_model);
-        unset($this->_configMock);
+        $this->assertEquals($connectionName, $this->_model->getConnectionName($resourceName));
     }
 
-    public function testGetResourceConfig()
+    /**
+     * @return array
+     */
+    public function getConnectionNameDataProvider()
     {
-        $resourceConfig = $this->_model->getResourceConfig('default_read');
-        $this->assertEquals('default_setup', (string) $resourceConfig->connection->use);
-    }
-
-    public function testGetResourceConnectionConfig()
-    {
-        $resourceConfig = $this->_model->getResourceConnectionConfig('default_setup');
-        $this->assertEquals('pdo_mysql', (string) $resourceConfig->type);
-        $this->assertEquals('mysql4', (string) $resourceConfig->model);
-    }
-
-    public function testGetResourceConnectionConfigUsesInheritance()
-    {
-        $resourceConfig = $this->_model->getResourceConnectionConfig('default_read');
-        $this->assertEquals('pdo_mysql', (string) $resourceConfig->type);
-        $this->assertEquals('mysql4', (string) $resourceConfig->model);
-    }
-
-    public function testGetTablePrefix()
-    {
-        $this->assertEquals('some_prefix_', $this->_model->getTablePrefix());
-    }
-
-    public function testGetResourceTypeConfig()
-    {
-        $this->assertEquals('Mysql_Config', $this->_model->getResourceTypeConfig('pdo_mysql'));
-    }
-
-    public function testGetResourceConnectionModel()
-    {
-        $this->assertEquals('mysql4', $this->_model->getResourceConnectionModel('core'));
+        return array(
+            array(
+                'resourceName' => 'otherResourceName',
+                'connectionName' => 'otherConnectionName',
+            ),
+            array(
+                'resourceName' => 'mainResourceName',
+                'connectionName' => 'anotherConnection',
+            ),
+            array(
+                'resourceName' => 'brokenResourceName',
+                'connectionName' => \Magento\Core\Model\Config\Resource::DEFAULT_SETUP_CONNECTION,
+            )
+        );
     }
 }

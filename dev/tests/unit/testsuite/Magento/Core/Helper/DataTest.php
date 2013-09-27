@@ -22,12 +22,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $contextMock = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
         $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $encryptor = $this->getMock('Magento\Core\Model\Encryption', array(), array(), '', false);
         $this->_helper = new \Magento\Core\Helper\Data(
             $eventManager,
             $coreHttp,
             $contextMock,
             $coreConfig,
-            $coreStoreConfig
+            $coreStoreConfig,
+            $encryptor,
+            true
         );
     }
 

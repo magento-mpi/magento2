@@ -33,21 +33,21 @@ class Totals extends \Magento\Adminhtml\Block\Dashboard\Bar
         $period = $this->getRequest()->getParam('period', '24h');
 
         /* @var $collection \Magento\Reports\Model\Resource\Order\Collection */
-        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Order\Collection')
+        $collection = $this->_collectionFactory->create()
             ->addCreateAtPeriodFilter($period)
             ->calculateTotals($isFilter);
 
         if ($this->getRequest()->getParam('store')) {
             $collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
         } else if ($this->getRequest()->getParam('website')) {
-            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } else if ($this->getRequest()->getParam('group')) {
-            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = $this->_storeManager->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } elseif (!$collection->isLive()) {
             $collection->addFieldToFilter('store_id',
-                array('eq' => \Mage::app()->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId())
+                array('eq' => $this->_storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId())
             );
         }
 

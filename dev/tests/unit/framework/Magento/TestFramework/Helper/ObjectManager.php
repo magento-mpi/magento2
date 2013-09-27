@@ -37,7 +37,7 @@ class ObjectManager
      *
      * @param \PHPUnit_Framework_TestCase $testObject
      */
-    public function __construct(\PHPUnit_Framework_TestCase $testObject)
+    public function __construct(PHPUnit_Framework_TestCase $testObject)
     {
         $this->_testObject = $testObject;
     }
@@ -47,7 +47,7 @@ class ObjectManager
      *
      * @param string $argClassName
      * @param array $originalArguments
-     * @return null|object|PHPUnit_Framework_MockObject_MockObject
+     * @return null|object|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createArgumentMock($argClassName, array $originalArguments)
     {
@@ -85,11 +85,12 @@ class ObjectManager
     /**
      * Retrieve specific mock of core resource model
      *
-     * @return \Magento\Core\Model\Resource\Resource|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Resource\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getResourceModelMock()
     {
-        $resourceMock = $this->_testObject->getMock('Magento\Core\Model\Resource\Resource', array('getIdFieldName'),
+        $resourceMock = $this->_testObject->getMock('Magento\Core\Model\Resource\Resource',
+            array('getIdFieldName', '__sleep', '__wakeup'),
             array(), '', false
         );
         $resourceMock->expects($this->_testObject->any())
@@ -103,7 +104,7 @@ class ObjectManager
      * Retrieve mock of core translator model
      *
      * @param string $className
-     * @return \Magento\Core\Model\Translate|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Translate|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getTranslatorMock($className)
     {
@@ -165,7 +166,7 @@ class ObjectManager
         if (!method_exists($className, '__construct')) {
             return $constructArguments;
         }
-        $method = new \ReflectionMethod($className, '__construct');
+        $method = new ReflectionMethod($className, '__construct');
 
         foreach ($method->getParameters() as $parameter) {
             $parameterName = $parameter->getName();

@@ -16,15 +16,40 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Main;
 
-class Filter extends \Magento\Backend\Block\Widget\Form\Generic
+class Filter
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
+     */
+    protected $_setFactory;
+
+    /**
+     * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_setFactory = $setFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
 
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $collection = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
+        $collection = $this->_setFactory->create()
             ->getResourceCollection()
             ->load()
             ->toOptionArray();

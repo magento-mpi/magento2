@@ -43,6 +43,12 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     protected $_adminhtmlCatalog = null;
 
     /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
      * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -50,12 +56,14 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @param array $data
      */
     public function __construct(
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
         \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $registry;
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         parent::__construct($coreData, $context, $data);
@@ -116,7 +124,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
         $attributeSetId     = $this->getCategory()->getDefaultAttributeSetId();
         /** @var $groupCollection \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection */
-        $groupCollection    = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
+        $groupCollection = $this->_collectionFactory->create()
             ->setAttributeSetFilter($attributeSetId)
             ->setSortOrder()
             ->load();

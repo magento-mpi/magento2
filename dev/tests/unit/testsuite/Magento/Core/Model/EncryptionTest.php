@@ -18,14 +18,14 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
         $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->once())
             ->method('get')
-            ->with($this->stringContains('Data'))
+            ->with($this->stringContains('Magento\Core\Helper\Data'))
             ->will($this->returnValue($this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)));
         $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         /**
          * @var \Magento\Core\Model\Encryption
          */
-        $model = new \Magento\Core\Model\Encryption($objectManager, $coreConfig);
+        $model = new \Magento\Core\Model\Encryption($objectManager, $coreConfig, 'cryptKey');
         $model->setHelper($input);
         $model->getHash('password', 1);
     }
@@ -53,7 +53,7 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
          * @var \Magento\Core\Model\Encryption
          */
         $model = new \Magento\Core\Model\Encryption($objectManager, $coreConfig);
-        /** Mock object is not instance of Magento_Code_Helper_Data and should not pass validation */
+        /** Mock object is not instance of \Magento\Code\Helper\Data and should not pass validation */
         $input = $this->getMock('Magento\Code\Helper\Data', array(), array(), '', false);
         $model->setHelper($input);
     }

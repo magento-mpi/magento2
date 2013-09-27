@@ -21,6 +21,23 @@ namespace Magento\Catalog\Model\Resource;
 class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        $resourceName,
+        $moduleName = 'Magento_Catalog',
+        $connectionName = ''
+    ) {
+        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
+    }
+
+    /**
      * Prepare catalog attribute values to save
      *
      * @param array $attr

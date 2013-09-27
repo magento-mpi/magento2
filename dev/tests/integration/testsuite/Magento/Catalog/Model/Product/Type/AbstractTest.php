@@ -53,7 +53,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSetAttributes()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $attributes = $this->_model->getSetAttributes($product);
         $this->assertArrayHasKey('sku', $attributes);
@@ -82,7 +83,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEditableAttributes()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertArrayNotHasKey('_cache_editable_attributes', $product->getData());
         $attributes = $this->_model->getEditableAttributes($product);
@@ -104,18 +106,21 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetAttributeById()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load(1);
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')->load(1);
 
         $this->assertNull($this->_model->getAttributeById(-1, $product));
         $this->assertNull($this->_model->getAttributeById(null, $product));
 
-        $sku = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', 'sku');
+        $sku = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
+            ->getAttribute('catalog_product', 'sku');
         $this->assertSame($sku, $this->_model->getAttributeById($sku->getId(), $product));
     }
 
     public function testIsVirtual()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertFalse($this->_model->isVirtual($product));
     }
 
@@ -124,7 +129,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsSalable()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertTrue($this->_model->isSalable($product));
 
         $product->load(1); // fixture
@@ -140,7 +146,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testPrepareForCart()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(10); // fixture
         $this->assertEmpty($product->getCustomOption('info_buyRequest'));
 
@@ -160,7 +167,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareForCartOptionsException()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals(
             'Please specify the product required option(s).',
@@ -178,7 +186,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testCheckProductBuyState()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setSkipCheckRequiredOption('_');
         $this->_model->checkProductBuyState($product);
     }
@@ -189,7 +198,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckProductBuyStateException()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->_model->checkProductBuyState($product);
     }
@@ -200,7 +210,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetOrderOptions()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertEquals(array(), $this->_model->getOrderOptions($product));
 
         $product->load(1); // fixture
@@ -235,7 +246,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testBeforeSave()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $product->setData('links_purchased_separately', 'value'); // this attribute is applicable only for downloadable
         $this->_model->beforeSave($product);
@@ -249,7 +261,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSku()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals('simple', $this->_model->getSku($product));
     }
@@ -260,7 +273,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetOptionSku()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->assertEmpty($this->_model->getOptionSku($product));
 
         $product->load(1); // fixture
@@ -320,14 +334,16 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetForceChildItemQtyChanges()
     {
         $this->assertFalse(
-            $this->_model->getForceChildItemQtyChanges(\Mage::getModel('Magento\Catalog\Model\Product'))
+            $this->_model->getForceChildItemQtyChanges(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product'))
         );
     }
 
     public function testPrepareQuoteItemQty()
     {
         $this->assertEquals(3.0,
-            $this->_model->prepareQuoteItemQty(3, \Mage::getModel('Magento\Catalog\Model\Product')));
+            $this->_model->prepareQuoteItemQty(3, \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')));
     }
 
     public function testAssignProductToOption()
@@ -349,11 +365,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetConfig()
     {
-        $this->assertFalse($this->_model->isComposite(\Mage::getModel('Magento\Catalog\Model\Product')));
+        $this->assertFalse($this->_model->isComposite(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')));
         $this->assertTrue($this->_model->canUseQtyDecimals());
         $config = array('composite' => 1, 'can_use_qty_decimals' => 0);
         $this->_model->setConfig($config);
-        $this->assertTrue($this->_model->isComposite(\Mage::getModel('Magento\Catalog\Model\Product')));
+        $this->assertTrue($this->_model->isComposite(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product')));
         $this->assertFalse($this->_model->canUseQtyDecimals());
     }
 
@@ -362,7 +380,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSearchableData()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $data = $this->_model->getSearchableData($product);
         $this->assertContains('Test Field', $data);
@@ -388,7 +407,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckProductConfiguration()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $buyRequest = new \Magento\Object(array('qty' => 5));
         $this->_model->checkProductConfiguration($product, $buyRequest);
     }

@@ -50,6 +50,12 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
     protected $_adminhtmlCatalog = null;
 
     /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
      * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
@@ -58,6 +64,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
      * @param array $data
      */
     public function __construct(
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
         \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
@@ -65,6 +72,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
@@ -87,7 +95,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
         }
 
         if ($setId) {
-            $groupCollection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
+            $groupCollection = $this->_collectionFactory->create()
                 ->setAttributeSetFilter($setId)
                 ->setSortOrder()
                 ->load();
@@ -134,7 +142,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
             }
 
             /* Don't display website tab for single mode */
-            if (!\Mage::app()->isSingleStoreMode()) {
+            if (!$this->_storeManager->isSingleStoreMode()) {
                 $this->addTab('websites', array(
                     'label'     => __('Websites'),
                     'content'   => $this->_translateHtml($this->getLayout()

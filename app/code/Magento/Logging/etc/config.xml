@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <logging_setup>
-                <setup>
-                    <module>Magento_Logging</module>
-                    <class>Magento\Core\Model\Resource\Setup</class>
-                </setup>
-            </logging_setup>
-        </resources>
-    </global>
-
     <default>
         <system>
             <rotation translate="frequency">

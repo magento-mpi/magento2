@@ -17,6 +17,47 @@ namespace Magento\Adminhtml\Block\System\Email\Template\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var \Magento\Core\Model\Source\Email\Variables
+     */
+    protected $_variables;
+
+    /**
+     * @var \Magento\Core\Model\VariableFactory
+     */
+    protected $_variableFactory;
+
+    /**
+     * @param \Magento\Core\Model\VariableFactory $variableFactory
+     * @param \Magento\Core\Model\Source\Email\Variables $variables
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\VariableFactory $variableFactory,
+        \Magento\Core\Model\Source\Email\Variables $variables,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_variableFactory = $variableFactory;
+        $this->_variables = $variables;
+        $this->_backendSession = $backendSession;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare layout.
      * Add files to use dialog windows
      *
@@ -154,7 +195,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $form->addValues($this->getEmailTemplate()->getData());
         }
 
-        $values = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getData('email_template_form_data', true);
+        $values = $this->_backendSession->getData('email_template_form_data', true);
         if ($values) {
             $form->setValues($values);
         }
@@ -182,10 +223,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function getVariables()
     {
         $variables = array();
-        $variables[] = \Mage::getModel('Magento\Core\Model\Source\Email\Variables')
-            ->toOptionArray(true);
-        $customVariables = \Mage::getModel('Magento\Core\Model\Variable')
-            ->getVariablesOptionArray(true);
+        $variables[] = $this->_variables->toOptionArray(true);
+        $customVariables = $this->_variableFactory->create()->getVariablesOptionArray(true);
         if ($customVariables) {
             $variables[] = $customVariables;
         }

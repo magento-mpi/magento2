@@ -20,12 +20,14 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Layout\Update');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\Update');
     }
 
     public function testConstructor()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Layout\Update');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\Update');
         $this->assertInstanceOf('Magento\Core\Model\Resource\Layout\Update', $this->_model->getResource());
     }
 

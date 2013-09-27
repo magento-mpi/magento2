@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
-
-namespace Magento\Backend\Model;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Model;
+
 class LocaleTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,7 +24,8 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = \Mage::getModel('Magento\Backend\Model\Locale');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Locale');
     }
 
     /**
@@ -42,9 +42,11 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
     public function testSetLocaleWithBaseInterfaceLocale()
     {
         $user = new \Magento\Object();
-        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
-        \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->setInterfaceLocale('fr_FR');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth\Session')
+            ->getUser()->setInterfaceLocale('fr_FR');
         $this->_checkSetLocale('fr_FR');
     }
 
@@ -53,7 +55,8 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetLocaleWithSessionLocale()
     {
-        \Mage::getSingleton('Magento\Backend\Model\Session')->setSessionLocale('es_ES');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
+            ->setSessionLocale('es_ES');
         $this->_checkSetLocale('es_ES');
     }
 
@@ -62,7 +65,8 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetLocaleWithRequestLocale()
     {
-        $request = \Mage::app()->getRequest();
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Controller\Request\Http');
         $request->setPost(array('locale' => 'de_DE'));
         $this->_checkSetLocale('de_DE');
     }

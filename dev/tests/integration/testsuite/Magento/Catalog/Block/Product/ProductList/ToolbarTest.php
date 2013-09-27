@@ -9,16 +9,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Block\Product\ProductList;
+namespace Magento\Catalog\Block\Product\ListProduct;
 
 class ToolbarTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetPagerHtml()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
-        /** @var $block \Magento\Catalog\Block\Product\ProductList\Toolbar */
-        $block = $layout->createBlock('Magento\Catalog\Block\Product\ProductList\Toolbar', 'block');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        /** @var $block \Magento\Catalog\Block\Product\ListProduct\Toolbar */
+        $block = $layout->createBlock('Magento\Catalog\Block\Product\ListProduct\Toolbar', 'block');
         /** @var $childBlock \Magento\Core\Block\Text */
         $childBlock = $layout->addBlock('Magento\Core\Block\Text', 'product_list_toolbar_pager', 'block');
 

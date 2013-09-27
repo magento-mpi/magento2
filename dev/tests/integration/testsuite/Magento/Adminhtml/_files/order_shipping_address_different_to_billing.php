@@ -10,7 +10,8 @@
  */
 
 /** @var $billingAddress \Magento\Sales\Model\Order\Address */
-$billingAddress = \Mage::getModel('Magento\Sales\Model\Order\Address',
+$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Sales\Model\Order\Address',
     array(
         'data' => array(
             'firstname'  => 'guest',
@@ -33,14 +34,14 @@ $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
 /** @var $order \Magento\Sales\Model\Order */
-$order = \Mage::getModel('Magento\Sales\Model\Order');
+$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
 $order->loadByIncrementId('100000001');
 $clonedOrder = clone $order;
 $order->setIncrementId('100000002');
 $order->save();
 
 /** @var $payment \Magento\Sales\Model\Order\Payment */
-$payment = \Mage::getModel('Magento\Sales\Model\Order\Payment');
+$payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
 $order = $clonedOrder;

@@ -25,33 +25,23 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_directoryData;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $modulesConfig
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param $resourceName
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Directory\Helper\Data $directoryData,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config\Resource $resourcesConfig,
-        \Magento\Core\Model\Config $modulesConfig,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        $resourceName
+        $resourceName,
+        $moduleName = 'Magento_Directory',
+        $connectionName = ''
     ) {
-        parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $modulesConfig,
-            $moduleList, $resource, $modulesReader, $resourceName
-        );
         $this->_directoryData = $directoryData;
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
+
 
     /**
      * @return \Magento\Directory\Helper\Data

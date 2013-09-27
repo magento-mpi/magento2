@@ -13,54 +13,83 @@
  *
  * @category   Magento
  * @package    Magento_Cron
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Cron\Model\Config\Backend;
 
 class Sitemap extends \Magento\Core\Model\Config\Value
 {
-
+    /**
+     * Cron string path
+     */
     const CRON_STRING_PATH = 'crontab/jobs/sitemap_generate/schedule/cron_expr';
-    const CRON_MODEL_PATH = 'crontab/jobs/sitemap_generate/run/model';
 
+    /**
+     * Cron mode path
+     */
+    const CRON_MODEL_PATH  = 'crontab/jobs/sitemap_generate/run/model';
+
+    /**
+     * @var \Magento\Core\Model\Config\ValueFactory
+     */
+    protected $_configValueFactory;
+
+    /**
+     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_configValueFactory = $configValueFactory;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
+    /**
+     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Exception
+     */
     protected function _afterSave()
     {
-        $enabled = $this->getData('groups/generate/enabled/value');
-        //$service = $this->getData('groups/import/fields/service/value');
         $time = $this->getData('groups/generate/fields/time/value');
-        $frequncy = $this->getData('groups/generate/frequency/value');
-        $errorEmail = $this->getData('groups/generate/error_email/value');
-
-        $frequencyDaily = \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY;
-        $frequencyWeekly = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
-        $frequencyMonthly = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
-
-        $cronDayOfWeek = date('N');
+        $frequency = $this->getData('groups/generate/frequency/value');
 
         $cronExprArray = array(
-            intval($time[1]),                                   # Minute
-            intval($time[0]),                                   # Hour
-            ($frequncy == $frequencyMonthly) ? '1' : '*',       # Day of the Month
-            '*',                                                # Month of the Year
-            ($frequncy == $frequencyWeekly) ? '1' : '*',        # Day of the Week
+            intval($time[1]), //Minute
+            intval($time[0]), //Hour
+            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY) ? '1' : '*', //Day of the Month
+            '*', //Month of the Year
+            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY) ? '1' : '*', //# Day of the Week
         );
 
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            \Mage::getModel('Magento\Core\Model\Config\Value')
+            $this->_configValueFactory->create()
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
-            \Mage::getModel('Magento\Core\Model\Config\Value')
+            $this->_configValueFactory->create()
                 ->load(self::CRON_MODEL_PATH, 'path')
                 ->setValue((string)$this->_config->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         } catch (\Exception $e) {
-            throw new \Exception(__("We can't save the cron expression."));
+            throw new \Exception(__('We can\'t save the cron expression.'));
         }
     }
-
 }

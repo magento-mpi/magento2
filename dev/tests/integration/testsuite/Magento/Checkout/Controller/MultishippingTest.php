@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Controller;
-
 /**
  * Test class for \Magento\Checkout\Controller\Multishipping
  *
  * @magentoAppArea frontend
  */
+namespace Magento\Checkout\Controller;
+
 class MultishippingTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
@@ -29,12 +29,15 @@ class MultishippingTest extends \Magento\TestFramework\TestCase\ControllerAbstra
     public function testOverviewAction()
     {
         /** @var $quote \Magento\Sales\Model\Quote */
-        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
-        \Mage::getSingleton('Magento\Checkout\Model\Session')->setQuoteId($quote->getId());
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session')
+            ->setQuoteId($quote->getId());
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
         /** @var $session \Magento\Customer\Model\Session */
-        $session = \Mage::getModel('Magento\Customer\Model\Session', array($logger));
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
         $this->getRequest()->setPost('payment', array('method' => 'checkmo'));
         $this->dispatch('checkout/multishipping/overview');

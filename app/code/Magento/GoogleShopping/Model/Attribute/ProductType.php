@@ -20,6 +20,43 @@ namespace Magento\GoogleShopping\Model\Attribute;
 class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
+     * Category factory
+     *
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
+     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\GoogleShopping\Helper\Product $gsProduct,
+        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleShopping\Model\Resource\Attribute $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_categoryFactory = $categoryFactory;
+        parent::__construct($productFactory, $gsData, $gsProduct, $gsPrice, $context, $registry, $resource,
+            $resourceCollection, $data);
+    }
+
+
+    /**
      * Set current attribute to entry (for specified product)
      *
      * @param \Magento\Catalog\Model\Product $product
@@ -35,9 +72,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
         $value = 'Shop';
 
         if (!empty($productCategories)) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load(
-                array_shift($productCategories)
-            );
+            $category = $this->_categoryFactory->create()->load(array_shift($productCategories));
 
             $breadcrumbs = array();
 

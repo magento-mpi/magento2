@@ -34,7 +34,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         try {
             $this->_webApiCall($serviceInfo, $arguments);
             $this->fail("SoapFault was not raised as expected.");
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             $this->_checkSoapFault(
                 $e,
                 'Parameterized service exception',
@@ -56,7 +56,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         try {
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             $this->_checkSoapFault(
                 $e,
                 'Service not found',
@@ -77,7 +77,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         try {
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             /** In developer mode message is masked, so checks should be different in two modes */
             if (strpos($e->getMessage(), 'Internal Error') === false) {
                 $this->_checkSoapFault(
@@ -107,7 +107,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         try {
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             /** In developer mode message is masked, so checks should be different in two modes */
             if (strpos($e->getMessage(), 'Internal Error') === false) {
                 $this->_checkSoapFault(
@@ -132,7 +132,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
     /**
      * Verify that SOAP fault contains necessary information.
      *
-     * @param \SoapFault $soapFault
+     * @param SoapFault $soapFault
      * @param string $expectedMessage
      * @param string $expectedFaultCode
      * @param string $expectedErrorCode
@@ -169,7 +169,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
             /** Check error trace */
             $traceNode = \Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_TRACE;
-            if (!Mage::app()->isDeveloperMode()) {
+            if (!\Mage::app()->isDeveloperMode()) {
                 /** Developer mode changes tested behavior and it cannot properly be tested for now */
                 if ($isTraceExpected) {
                     $this->assertNotNull($errorDetails->$traceNode, "Exception trace was expected.");
@@ -182,7 +182,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             if ($expectedErrorCode) {
                 $this->assertEquals(
                     $expectedErrorCode,
-                    $errorDetails->{\Magento\Webapi\Model\Soap\Fault::NODE_ERROR_DETAIL_CODE},
+                    $errorDetails->{Magento_Webapi_Model_Soap_Fault::NODE_ERROR_DETAIL_CODE},
                     "Error code in fault details is invalid."
                 );
             }

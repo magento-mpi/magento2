@@ -30,11 +30,6 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $helperFactoryMock = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($this->_helperMock));
-
         $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')
             ->disableOriginalConstructor()
             ->getMock();
@@ -45,7 +40,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
 
         /** Initialize SUT. */
         $this->_errorProcessor = new \Magento\Webapi\Controller\ErrorProcessor(
-            $helperFactoryMock,
+            $this->_helperMock,
             $this->_appMock,
             $this->_loggerMock
         );
@@ -206,18 +201,34 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'Magento\Service\ResourceNotFoundException' => array(
-                new \Magento\Service\ResourceNotFoundException('Resource not found', 2345),
+                new \Magento\Service\ResourceNotFoundException('Resource not found', 2345, null,
+                    array('datail1' => 'value1'), 'resource10'),
                 \Magento\Webapi\Exception::HTTP_NOT_FOUND,
                 'Resource not found',
                 2345,
-                array()
+                array('datail1' => 'value1', 'resource_id' => 'resource10')
+            ),
+            'Magento_Service_ResourceNotFoundException (Empty message)' => array(
+                new \Magento\Service\ResourceNotFoundException('', 2345, null,
+                    array('datail1' => 'value1'), 'resource10'),
+                \Magento\Webapi\Exception::HTTP_NOT_FOUND,
+                "Resource with ID 'resource10' not found.",
+                2345,
+                array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
             'Magento\Service\AuthorizationException' => array(
-                new \Magento\Service\AuthorizationException('Service authorization exception', 3456),
+                new \Magento\Service\AuthorizationException('Service authorization exception', 345, null, array(), 3, 4),
                 \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
                 'Service authorization exception',
-                3456,
-                array()
+                345,
+                array('user_id' => 3, 'resource_id' => 4)
+            ),
+            'Magento_Service_AuthorizationException (Empty message)' => array(
+                new \Magento\Service\AuthorizationException('', 345, null, array(), 3, 4),
+                \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
+                "User with ID '3' is not authorized to access resource with ID '4'.",
+                345,
+                array('user_id' => 3, 'resource_id' => 4)
             ),
             'Magento\Service\Exception' => array(
                 new \Magento\Service\Exception('Generic service exception', 4567),

@@ -34,17 +34,25 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @param \Magento\Backend\Model\Auth\Session $backendSession
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Model\Auth\Session $backendSession,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_backendSession = $backendSession;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -54,7 +62,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
         $this->_objectId    = 'invoice_id';
         $this->_controller  = 'sales_order_invoice';
         $this->_mode        = 'view';
-        $this->_session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
+        $this->_session = $this->_backendSession;
 
         parent::_construct();
 

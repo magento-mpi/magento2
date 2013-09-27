@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <giftmessage_setup>
-                <setup>
-                    <module>Magento_GiftMessage</module>
-                    <class>Magento\GiftMessage\Model\Resource\Setup</class>
-                </setup>
-            </giftmessage_setup>
-        </resources>
-    </global>
     <default>
         <sales>
             <gift_messages>

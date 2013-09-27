@@ -34,6 +34,12 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Sales\Helper\Reorder $salesReorder
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -43,6 +49,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory,
         \Magento\Sales\Helper\Reorder $salesReorder,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -53,6 +60,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_salesReorder = $salesReorder;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -66,7 +74,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Grid\Collection')
+        $collection = $this->_collectionFactory->create()
             ->addFieldToSelect('entity_id')
             ->addFieldToSelect('increment_id')
             ->addFieldToSelect('customer_id')
@@ -114,7 +122,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
             'currency'  => 'order_currency_code',
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'    => __('Purchase Point'),
                 'index'     => 'store_id',

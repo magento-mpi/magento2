@@ -22,6 +22,31 @@ class Top extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
     protected $_collection;
 
+    /**
+     * @var \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory
+     */
+    protected $_queriesFactory;
+
+    /**
+     * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queriesFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queriesFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_queriesFactory = $queriesFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -33,15 +58,14 @@ class Top extends \Magento\Adminhtml\Block\Dashboard\Grid
         if (!$this->_coreData->isModuleEnabled('Magento_CatalogSearch')) {
             return parent::_prepareCollection();
         }
-        $this->_collection = \Mage::getModel('Magento\CatalogSearch\Model\Query')
-            ->getResourceCollection();
+        $this->_collection = $this->_queriesFactory->create();
 
         if ($this->getRequest()->getParam('store')) {
             $storeIds = $this->getRequest()->getParam('store');
         } else if ($this->getRequest()->getParam('website')) {
-            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
         } else if ($this->getRequest()->getParam('group')) {
-            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = $this->_storeManager->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         } else {
             $storeIds = '';
         }

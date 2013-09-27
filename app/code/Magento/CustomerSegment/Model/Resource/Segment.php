@@ -26,14 +26,22 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_configShare;
 
     /**
+     * @var \Magento\Core\Model\Resource\HelperPool
+     */
+    protected $_resourceHelperPool;
+
+    /**
+     * @param \Magento\Core\Model\Resource\HelperPool $resourceHelperPool
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Customer\Model\Config\Share $configShare
      */
     public function __construct(
+        \Magento\Core\Model\Resource\HelperPool $resourceHelperPool,
         \Magento\Core\Model\Resource $resource,
         \Magento\Customer\Model\Config\Share $configShare
     ) {
         parent::__construct($resource);
+        $this->_resourceHelperPool = $resourceHelperPool;
         $this->_configShare = $configShare;
     }
 
@@ -281,7 +289,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      */
     public function getSqlOperator($operator)
     {
-        return \Mage::getResourceHelper('Magento_CustomerSegment')->getSqlOperator($operator);
+        return $this->_resourceHelperPool->get('Magento_CustomerSegment')->getSqlOperator($operator);
     }
 
     /**

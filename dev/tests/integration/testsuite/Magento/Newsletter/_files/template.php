@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$template = \Mage::getModel('Magento\Newsletter\Model\Template');
+$template = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Newsletter\Model\Template');
 $template->setTemplateCode('fixture_tpl')
     ->setTemplateText('<p>Follow this link to unsubscribe</p>
 <!-- This tag is for unsubscribe link  -->

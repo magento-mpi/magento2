@@ -23,7 +23,7 @@ class Websites
 {
     public function getWebsiteCollection()
     {
-        return \Mage::app()->getWebsites();
+        return $this->_storeManager->getWebsites();
     }
 
     public function getGroupCollection(\Magento\Core\Model\Website $website)

@@ -20,8 +20,33 @@
 namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
 
 class Website
-    extends \Magento\Adminhtml\Block\System\Store\Edit\AbstractForm
+    extends \Magento\Adminhtml\Block\System\Store\Edit\FormAbstract
 {
+    /**
+     * @var \Magento\Core\Model\Store\GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @param \Magento\Core\Model\Store\GroupFactory $groupFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Store\GroupFactory $groupFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_groupFactory = $groupFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Prepare website specific fieldset
      *
@@ -64,7 +89,7 @@ class Website
         ));
 
         if ($this->_coreRegistry->registry('store_action') == 'edit') {
-            $groups = \Mage::getModel('Magento\Core\Model\Store\Group')->getCollection()
+            $groups = $this->_groupFactory->create()->getCollection()
                 ->addWebsiteFilter($websiteModel->getId())
                 ->setWithoutStoreViewFilter()
                 ->toOptionArray();

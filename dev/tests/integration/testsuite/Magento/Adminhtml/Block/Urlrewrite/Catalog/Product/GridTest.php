@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Product;
-
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Product;
+
 class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,7 +23,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
     public function testPrepareGrid()
     {
         /** @var $gridBlock \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid */
-        $gridBlock = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid');
+        $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid');
         $gridBlock->toHtml();
 
         foreach (array('entity_id', 'name', 'sku', 'status') as $key) {

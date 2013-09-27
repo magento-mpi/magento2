@@ -17,7 +17,7 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle;
 
-class Option extends \Magento\Adminhtml\Block\Widget
+class Option extends \Magento\Backend\Block\Widget
 {
     /**
      * Form element
@@ -59,18 +59,42 @@ class Option extends \Magento\Adminhtml\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Bundle\Model\Source\Option\Type
+     */
+    protected $_optionTypes;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $_yesno;
+
+    /**
+     * @param \Magento\Backend\Model\Config\Source\Yesno $yesno
+     * @param \Magento\Bundle\Model\Source\Option\Type $optionTypes
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Model\Config\Source\Yesno $yesno,
+        \Magento\Bundle\Model\Source\Option\Type $optionTypes,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_storeManager = $storeManager;
+        $this->_optionTypes = $optionTypes;
+        $this->_yesno = $yesno;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -128,7 +152,7 @@ class Option extends \Magento\Adminhtml\Block\Widget
 
     public function isMultiWebsites()
     {
-        return !\Mage::app()->hasSingleStore();
+        return !$this->_storeManager->hasSingleStore();
     }
 
     protected function _prepareLayout()
@@ -154,7 +178,7 @@ class Option extends \Magento\Adminhtml\Block\Widget
 
         $this->addChild(
             'selection_template',
-            'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection'
+            'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection'
         );
 
         return parent::_prepareLayout();
@@ -235,7 +259,7 @@ class Option extends \Magento\Adminhtml\Block\Widget
                 'extra_params' => 'onchange="bOption.changeType(event)"'
             ))
             ->setName($this->getFieldName().'[{{index}}][type]')
-            ->setOptions(\Mage::getSingleton('Magento\Bundle\Model\Source\Option\Type')->toOptionArray());
+            ->setOptions($this->_optionTypes->toOptionArray());
 
         return $select->getHtml();
     }
@@ -248,7 +272,7 @@ class Option extends \Magento\Adminhtml\Block\Widget
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{index}}][required]')
-            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
+            ->setOptions($this->_yesno->toOptionArray());
 
         return $select->getHtml();
     }

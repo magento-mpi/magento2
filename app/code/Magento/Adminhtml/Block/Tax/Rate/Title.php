@@ -22,11 +22,40 @@ class Title extends \Magento\Core\Block\Template
 
     protected $_template = 'tax/rate/title.phtml';
 
+    /**
+     * @var \Magento\Tax\Model\Calculation\Rate
+     */
+    protected $_rate;
+
+    /**
+     * @var \Magento\Core\Model\StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Tax\Model\Calculation\Rate $rate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Tax\Model\Calculation\Rate $rate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_rate = $rate;
+        $this->_storeFactory = $storeFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getTitles()
     {
         if (is_null($this->_titles)) {
             $this->_titles = array();
-            $titles = \Mage::getSingleton('Magento\Tax\Model\Calculation\Rate')->getTitles();
+            $titles = $this->_rate->getTitles();
             foreach ($titles as $title) {
                 $this->_titles[$title->getStoreId()] = $title->getValue();
             }
@@ -43,7 +72,7 @@ class Title extends \Magento\Core\Block\Template
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = \Mage::getModel('Magento\Core\Model\Store')
+            $stores = $this->_storeFactory->create()
                 ->getResourceCollection()
                 ->setLoadDefault(false)
                 ->load();

@@ -74,7 +74,7 @@ class Item
 
         $helper = $this->_helperFactory->get($helperName);
         if (!($helper instanceof \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface)) {
-            \Mage::throwException(__("Helper for options rendering doesn't implement required interface."));
+            throw new \Magento\Core\Exception(__("Helper for options rendering doesn't implement required interface."));
         }
         return $helper;
     }
@@ -106,7 +106,7 @@ class Item
     /**
      * Returns formatted option value for an item
      *
-     * @param Magento_Wishlist_Item_Option
+     * @param \Magento\Wishlist\Item\Option
      * @return array
      */
     protected function getFormattedOptionValue($option)

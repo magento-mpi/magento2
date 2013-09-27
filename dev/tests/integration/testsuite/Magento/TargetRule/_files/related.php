@@ -15,7 +15,8 @@ if (!isset($type)) {
 $applyTo = $type == 'related' ? '1' : '2';
 
 /** @var $rule \Magento\TargetRule\Model\Rule */
-$rule = \Mage::getModel('Magento\TargetRule\Model\Rule');
+$rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\TargetRule\Model\Rule');
 $data = array(
     'name' => $type,
     'is_active' => '1',

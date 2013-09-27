@@ -17,7 +17,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Invoiced\Collection\Order');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Resource\Report\Invoiced\Collection\Order');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

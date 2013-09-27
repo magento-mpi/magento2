@@ -11,7 +11,6 @@
 /**
  * Adminhtml creditmemo items grid
  */
-
 namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create;
 
 class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
@@ -27,6 +26,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 
     /**
      * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -34,13 +34,14 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function __construct(
         \Magento\Sales\Helper\Data $salesData,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($productFactory, $coreData, $context, $registry, $data);
     }
 
     /**
@@ -133,7 +134,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     /**
      * Retrieve creditmemo model instance
      *
-     * @return Magento_Sales_Model_Creditmemo
+     * @return \Magento\Sales\Model\Creditmemo
      */
     public function getCreditmemo()
     {
@@ -186,8 +187,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
             if ($this->_canReturnToStock) {
                 $canReturnToStock = false;
                 foreach ($this->getCreditmemo()->getAllItems() as $item) {
-                    $product = \Mage::getModel('Magento\Catalog\Model\Product')
-                        ->load($item->getOrderItem()->getProductId());
+                    $product = $this->_productFactory->create()->load($item->getOrderItem()->getProductId());
                     if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                         $item->setCanReturnToStock($canReturnToStock = true);
                     } else {

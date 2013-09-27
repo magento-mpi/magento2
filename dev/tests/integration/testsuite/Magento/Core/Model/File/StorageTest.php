@@ -20,12 +20,16 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetScriptConfig()
     {
-        $config = \Mage::getModel('Magento\Core\Model\File\Storage')->getScriptConfig();
+        $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\File\Storage')->getScriptConfig();
         $this->assertInternalType('array', $config);
         $this->assertArrayHasKey('media_directory', $config);
         $this->assertArrayHasKey('allowed_resources', $config);
         $this->assertArrayHasKey('update_time', $config);
-        $this->assertEquals(\Mage::getBaseDir('media'), $config['media_directory']);
+        $this->assertEquals(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir('media'),
+            $config['media_directory']
+        );
         $this->assertInternalType('array', $config['allowed_resources']);
         $this->assertContains('css', $config['allowed_resources']);
         $this->assertContains('css_secure', $config['allowed_resources']);

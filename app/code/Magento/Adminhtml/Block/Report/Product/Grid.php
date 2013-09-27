@@ -17,8 +17,32 @@
  */
 namespace Magento\Adminhtml\Block\Report\Product;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * @var \Magento\Reports\Model\Resource\Product\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Reports\Model\Resource\Product\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reports\Model\Resource\Product\CollectionFactory $collectionFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -31,7 +55,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
 
-        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Product\Collection');
+        $collection = $this->_collectionFactory->create();
         $collection->getEntity()->setStore(0);
 
         $this->setCollection($collection);

@@ -27,16 +27,19 @@ class Customer extends \Magento\Object
     protected $_adminhtmlData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
+     * @var \Magento\Customer\Model\Resource\Customer\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $collectionFactory
      * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      */
     public function __construct(
+        \Magento\Customer\Model\Resource\Customer\CollectionFactory $collectionFactory,
         \Magento\Adminhtml\Helper\Data $adminhtmlData
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_adminhtmlData = $adminhtmlData;
     }
 
@@ -53,7 +56,7 @@ class Customer extends \Magento\Object
             return $this;
         }
 
-        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
+        $collection = $this->_collectionFactory->create()
             ->addNameToSelect()
             ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left')
             ->addAttributeToFilter(array(

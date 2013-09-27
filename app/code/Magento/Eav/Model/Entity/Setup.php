@@ -28,34 +28,6 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_cache;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param \Magento\Core\Model\CacheInterface $cache
-     * @param $resourceName
-     */
-    public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config\Resource $resourcesConfig,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        \Magento\Core\Model\CacheInterface $cache,
-        $resourceName
-    ) {
-        parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
-        );
-        $this->_cache = $cache;
-    }
-
-    /**
      * General Attribute Group Name
      *
      * @var string
@@ -84,6 +56,24 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * @var string
      */
     protected $_defaultAttributeSetName = 'Default';
+
+    /**
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
+     */
+    public function __construct(
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\CacheInterface $cache,
+        $resourceName,
+        $moduleName = 'Magento_Eav',
+        $connectionName = ''
+    ) {
+        $this->_cache = $cache;
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
+    }
 
     /**
      * Clean cache
@@ -155,7 +145,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         if ($this->getEntityType($code, 'entity_type_id')) {
             $this->updateEntityType($code, $data);
         } else {
-            $this->_conn->insert($this->getTable('eav_entity_type'), $data);
+            $this->_connection->insert($this->getTable('eav_entity_type'), $data);
         }
 
         if (!empty($params['default_group'])) {
@@ -248,11 +238,11 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     {
         if (!is_numeric($sortOrder)) {
             $bind   = array('entity_type_id' => $this->getEntityTypeId($entityTypeId));
-            $select = $this->_conn->select()
+            $select = $this->_connection->select()
                 ->from($this->getTable('eav_attribute_set'), 'MAX(sort_order)')
                 ->where('entity_type_id = :entity_type_id');
 
-            $sortOrder = $this->_conn->fetchOne($select, $bind) + 1;
+            $sortOrder = $this->_connection->fetchOne($select, $bind) + 1;
         }
 
         return $sortOrder;
@@ -278,7 +268,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         if ($setId) {
             $this->updateAttributeSet($entityTypeId, $setId, $data);
         } else {
-            $this->_conn->insert($this->getTable('eav_attribute_set'), $data);
+            $this->_connection->insert($this->getTable('eav_attribute_set'), $data);
 
             $this->addAttributeGroup($entityTypeId, $name, $this->_generalGroupName);
         }
@@ -376,7 +366,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      */
     public function getAllAttributeSetIds($entityTypeId = null)
     {
-        $select = $this->_conn->select()
+        $select = $this->_connection->select()
             ->from($this->getTable('eav_attribute_set'), 'attribute_set_id');
 
         $bind = array();
@@ -385,7 +375,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
             $select->where('entity_type_id = :entity_type_id');
         }
 
-        return $this->_conn->fetchCol($select, $bind);
+        return $this->_connection->fetchCol($select, $bind);
     }
 
     /**
@@ -423,11 +413,11 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     {
         if (!is_numeric($sortOrder)) {
             $bind   = array('attribute_set_id' => $this->getAttributeSetId($entityTypeId, $setId));
-            $select = $this->_conn->select()
+            $select = $this->_connection->select()
                 ->from($this->getTable('eav_attribute_group'), 'MAX(sort_order)')
                 ->where('attribute_set_id = :attribute_set_id');
 
-            $sortOrder = $this->_conn->fetchOne($select, $bind) + 1;
+            $sortOrder = $this->_connection->fetchOne($select, $bind) + 1;
         }
 
         return $sortOrder;
@@ -465,7 +455,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
             if ($sortOrder === null) {
                 $data['sort_order'] = $this->getAttributeGroupSortOrder($entityTypeId, $setId, $sortOrder);
             }
-            $this->_conn->insert($this->getTable('eav_attribute_group'), $data);
+            $this->_connection->insert($this->getTable('eav_attribute_group'), $data);
         }
 
         return $this;
@@ -597,13 +587,13 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      */
     public function getAttributesNumberInGroup($entityTypeId, $setId, $groupId)
     {
-        $select = $this->_conn->select()
+        $select = $this->_connection->select()
             ->from($this->getTable('eav_entity_attribute'), array('count' => 'COUNT(*)'))
             ->where('attribute_group_id = ?', $this->getAttributeGroupId($entityTypeId, $setId, $groupId))
             ->where('entity_type_id = ?', $entityTypeId)
             ->where('attribute_set_id = ?', $setId);
 
-        return $this->_conn->fetchOne($select);
+        return $this->_connection->fetchOne($select);
     }
 
 /******************* ATTRIBUTES *****************/
@@ -708,10 +698,10 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         }
 
         if (!empty($attr['group']) || empty($attr['user_defined'])) {
-            $select = $this->_conn->select()
+            $select = $this->_connection->select()
                 ->from($this->getTable('eav_attribute_set'))
                 ->where('entity_type_id = :entity_type_id');
-            $sets = $this->_conn->fetchAll($select, array('entity_type_id' => $entityTypeId));
+            $sets = $this->_connection->fetchAll($select, array('entity_type_id' => $entityTypeId));
             foreach ($sets as $set) {
                 if (!empty($attr['group'])) {
                     $this->addAttributeGroup($entityTypeId, $set['attribute_set_id'],
@@ -750,7 +740,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
                 if (!empty($option['delete'][$optionId])) {
                     if ($intOptionId) {
                         $condition = array('option_id =?' => $intOptionId);
-                        $this->_conn->delete($optionTable, $condition);
+                        $this->_connection->delete($optionTable, $condition);
                     }
                     continue;
                 }
@@ -760,13 +750,13 @@ class Setup extends \Magento\Core\Model\Resource\Setup
                         'attribute_id'  => $option['attribute_id'],
                         'sort_order'    => isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0,
                     );
-                    $this->_conn->insert($optionTable, $data);
-                    $intOptionId = $this->_conn->lastInsertId($optionTable);
+                    $this->_connection->insert($optionTable, $data);
+                    $intOptionId = $this->_connection->lastInsertId($optionTable);
                 } else {
                     $data = array(
                         'sort_order'    => isset($option['order'][$optionId]) ? $option['order'][$optionId] : 0,
                     );
-                    $this->_conn->update($optionTable, $data, array('option_id=?' => $intOptionId));
+                    $this->_connection->update($optionTable, $data, array('option_id=?' => $intOptionId));
                 }
 
                 // Default value
@@ -774,14 +764,14 @@ class Setup extends \Magento\Core\Model\Resource\Setup
                     \Mage::throwException(__('Default option value is not defined'));
                 }
                 $condition = array('option_id =?' => $intOptionId);
-                $this->_conn->delete($optionValueTable, $condition);
+                $this->_connection->delete($optionValueTable, $condition);
                 foreach ($values as $storeId => $value) {
                     $data = array(
                         'option_id' => $intOptionId,
                         'store_id'  => $storeId,
                         'value'     => $value,
                     );
-                    $this->_conn->insert($optionValueTable, $data);
+                    $this->_connection->insert($optionValueTable, $data);
                 }
             }
         } else if (isset($option['values'])) {
@@ -791,15 +781,15 @@ class Setup extends \Magento\Core\Model\Resource\Setup
                     'attribute_id' => $option['attribute_id'],
                     'sort_order'   => $sortOrder,
                 );
-                $this->_conn->insert($optionTable, $data);
-                $intOptionId = $this->_conn->lastInsertId($optionTable);
+                $this->_connection->insert($optionTable, $data);
+                $intOptionId = $this->_connection->lastInsertId($optionTable);
 
                 $data = array(
                     'option_id' => $intOptionId,
                     'store_id'  => 0,
                     'value'     => $label,
                 );
-                $this->_conn->insert($optionValueTable, $data);
+                $this->_connection->insert($optionValueTable, $data);
             }
         }
     }
@@ -934,7 +924,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
                 'id'                => $id,
                 'entity_type_id'    => $entityTypeId
             );
-            $select = $this->_conn->select()
+            $select = $this->_connection->select()
                 ->from(array('main' => $mainTable))
                 ->join(
                     array('additional' => $additionalTable),
@@ -942,7 +932,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
                 ->where("main.{$idField} = :id")
                 ->where('main.entity_type_id = :entity_type_id');
 
-            $row = $this->_conn->fetchRow($select, $bind);
+            $row = $this->_connection->fetchRow($select, $bind);
             if (!$row) {
                 $this->_setupCache[$mainTable][$entityTypeId][$id] = false;
             } else {
@@ -1050,11 +1040,11 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     {
         if (!is_numeric($sortOrder)) {
             $bind = array('attribute_group_id' => $this->getAttributeGroupId($entityTypeId, $setId, $groupId));
-            $select = $this->_conn->select()
+            $select = $this->_connection->select()
                 ->from($this->getTable('eav_entity_attribute'), 'MAX(sort_order)')
                 ->where('attribute_group_id = :attribute_group_id');
 
-            $sortOrder = $this->_conn->fetchOne($select, $bind) + 1;
+            $sortOrder = $this->_connection->fetchOne($select, $bind) + 1;
         }
 
         return $sortOrder;
@@ -1082,17 +1072,17 @@ class Setup extends \Magento\Core\Model\Resource\Setup
             'attribute_set_id' => $setId,
             'attribute_id'     => $attributeId
         );
-        $select = $this->_conn->select()
+        $select = $this->_connection->select()
             ->from($table)
             ->where('attribute_set_id = :attribute_set_id')
             ->where('attribute_id = :attribute_id');
-        $result = $this->_conn->fetchRow($select, $bind);
+        $result = $this->_connection->fetchRow($select, $bind);
 
         if ($result) {
             if ($result['attribute_group_id'] != $groupId) {
                 $where = array('entity_attribute_id =?' => $result['entity_attribute_id']);
                 $data  = array('attribute_group_id' => $groupId);
-                $this->_conn->update($table, $data, $where);
+                $this->_connection->update($table, $data, $where);
             }
         } else {
             $data = array(
@@ -1103,7 +1093,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
                 'sort_order'            => $this->getAttributeSortOrder($entityTypeId, $setId, $groupId, $sortOrder),
             );
 
-            $this->_conn->insert($table, $data);
+            $this->_connection->insert($table, $data);
         }
 
         return $this;

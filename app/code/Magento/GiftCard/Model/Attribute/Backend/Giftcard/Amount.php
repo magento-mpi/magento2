@@ -14,13 +14,44 @@ class Amount
     extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 {
     /**
-     * Retrieve resource model
+     * Giftcard amount backend resource model
      *
-     * @return \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amounts
+     * @var \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount
      */
-    protected function _getResource()
-    {
-        return \Mage::getResourceSingleton('Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount');
+    protected $_amountResource;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Directory helper
+     *
+     * @var \Magento\Directory\Helper\Data
+     */
+    protected $_directoryHelper;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Directory\Helper\Data $directoryHelper
+     * @param \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Logger $logger
+     */
+    public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Directory\Helper\Data $directoryHelper,
+        \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Logger $logger
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_directoryHelper = $directoryHelper;
+        $this->_amountResource = $amountResource;
+        parent::__construct($catalogData, $logger);
     }
 
     /**
@@ -45,7 +76,7 @@ class Amount
             $key1 = implode('-', array($row['website_id'], $row['price']));
 
             if (!empty($dup[$key1])) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Duplicate amount found.')
                 );
             }
@@ -62,11 +93,12 @@ class Amount
      */
     public function afterLoad($object)
     {
-        $data = $this->_getResource()->loadProductData($object, $this->getAttribute());
+        $data = $this->_amountResource->loadProductData($object, $this->getAttribute());
 
         foreach ($data as $i=>$row) {
             if ($data[$i]['website_id'] == 0) {
-                $rate = \Mage::app()->getStore()->getBaseCurrency()->getRate(\Mage::app()->getBaseCurrencyCode());
+                $rate = $this->_storeManager->getStore()->getBaseCurrency()
+                    ->getRate($this->_directoryHelper->getBaseCurrencyCode());
                 if ($rate) {
                     $data[$i]['website_value'] = $data[$i]['value']/$rate;
                 } else {
@@ -95,7 +127,7 @@ class Amount
             return $this;
         }
 
-        $this->_getResource()->deleteProductData($object, $this->getAttribute());
+        $this->_amountResource->deleteProductData($object, $this->getAttribute());
         $rows = $object->getData($this->getAttribute()->getName());
 
         if (!is_array($rows)) {
@@ -115,7 +147,7 @@ class Amount
             $data['value']        = (isset($row['price'])) ? $row['price'] : $row['value'];
             $data['attribute_id'] = $this->getAttribute()->getId();
 
-            $this->_getResource()->insertProductData($object, $data);
+            $this->_amountResource->insertProductData($object, $data);
         }
 
         return $this;
@@ -129,7 +161,7 @@ class Amount
      */
     public function afterDelete($object)
     {
-        $this->_getResource()->deleteProductData($object, $this->getAttribute());
+        $this->_amountResource->deleteProductData($object, $this->getAttribute());
         return $this;
     }
 
@@ -141,7 +173,7 @@ class Amount
 /*
     public function getTable()
     {
-        return $this->_getResource()->getMainTable();
+        return $this->_amountResource->getMainTable();
     }
 */
 }

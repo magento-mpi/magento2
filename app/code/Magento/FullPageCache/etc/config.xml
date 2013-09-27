@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <fullpagecache_setup>
-                <setup>
-                    <module>Magento_FullPageCache</module>
-                </setup>
-            </fullpagecache_setup>
-        </resources>
-    </global>
     <adminhtml>
         <cache>
             <dependency>

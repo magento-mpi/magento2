@@ -58,7 +58,7 @@ class AbstractOrder extends \Magento\Adminhtml\Block\Widget
         if ($this->_coreRegistry->registry('order')) {
             return $this->_coreRegistry->registry('order');
         }
-        \Mage::throwException(__('We cannot get the order instance.'));
+        throw new \Magento\Core\Exception(__('We cannot get the order instance.'));
     }
 
     public function getPriceDataObject()

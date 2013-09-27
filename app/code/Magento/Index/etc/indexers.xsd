@@ -45,7 +45,7 @@
             <xs:element name="depends" type="dependencyDeclaration" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="name" type="identifierType" use="required" />
-        <xs:attribute name="instance" type="instanceType" use="required" />
+        <xs:attribute name="instance" type="instanceType" use="optional" />
     </xs:complexType>
 
     <xs:complexType name="dependencyDeclaration">

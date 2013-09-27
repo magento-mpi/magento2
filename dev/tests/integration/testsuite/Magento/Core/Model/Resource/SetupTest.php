@@ -20,8 +20,9 @@ class SetupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getResourceModel('Magento\Core\Model\Resource\Setup',
-            array('resourceName' => 'default_setup')
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Setup',
+            array('resourceName' => 'default_setup', 'moduleName' => 'Magento_Core')
         );
     }
 
@@ -34,14 +35,15 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     public function testApplyAllDataUpdates()
     {
         /*reset versions*/
-        \Mage::getResourceModel('Magento\Core\Model\Resource\Resource')->setDbVersion('adminnotification_setup', false);
-        \Mage::getResourceModel('Magento\Core\Model\Resource\Resource')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Resource\Resource')
+            ->setDbVersion('adminnotification_setup', false);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Resource\Resource')
             ->setDataVersion('adminnotification_setup', false);
         $this->_model->deleteTableRow('core_resource', 'code', 'adminnotification_setup');
         $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));
         $this->_model->getConnection()->dropTable($this->_model->getTable('admin_system_messages'));
         /** @var $updater \Magento\Core\Model\Db\Updater */
-        $updater = \Mage::getSingleton('Magento\Core\Model\Db\Updater');
+        $updater = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Db\Updater');
         try {
             $updater->updateScheme();
             $updater->updateData();

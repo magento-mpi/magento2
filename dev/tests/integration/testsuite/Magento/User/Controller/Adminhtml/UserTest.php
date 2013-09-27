@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Controller\Adminhtml;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\User\Controller\Adminhtml;
+
 class UserTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()
@@ -36,7 +36,8 @@ class UserTest extends \Magento\Backend\Utility\Controller
     public function testSaveActionWrongId()
     {
         /** @var $user \Magento\User\Model\User */
-        $user = \Mage::getModel('Magento\User\Model\User')->loadByUsername('dummy_username');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->loadByUsername('dummy_username');
         $userId = $user->getId();
         $this->assertNotEmpty($userId, 'Broken fixture');
         $user->delete();

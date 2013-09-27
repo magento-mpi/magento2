@@ -36,21 +36,39 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
     protected $_adminhtmlData = null;
 
     /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_productFactory = $productFactory;
         $this->_adminhtmlData = $adminhtmlData;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($categoryTree, $coreData, $context, $registry, $data);
     }
 
     /**
@@ -63,16 +81,16 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
      */
     public function getTreeArray($parentId = null, $asJson = false, $recursionLevel = 3)
     {
-        $productId = \Mage::app()->getRequest()->getParam('product');
+        $productId = $this->_request->getParam('product');
         if ($productId) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')->setId($productId);
+            $product = $this->_productFactory->create()->setId($productId);
             $this->_allowedCategoryIds = $product->getCategoryIds();
             unset($product);
         }
 
         $result = array();
         if ($parentId) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($parentId);
+            $category = $this->_categoryFactory->create()->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
                 if (!empty($tree) && !empty($tree['children'])) {
@@ -101,7 +119,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection()
+            $collection = $this->_categoryFactory->create()->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
                 ->setLoadProductCount(true);
             $this->setData('category_collection', $collection);

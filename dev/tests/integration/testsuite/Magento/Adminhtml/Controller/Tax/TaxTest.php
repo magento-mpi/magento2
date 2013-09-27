@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Tax;
-
 /**
  * @magentoAppArea adminhtml
  */
-class TaxTest extends \Magento\Backend\Utility\Controller
+namespace Magento\Adminhtml\Controller\Tax;
+
+class ClassTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @dataProvider ajaxSaveActionDataProvider
@@ -27,7 +27,7 @@ class TaxTest extends \Magento\Backend\Utility\Controller
     {
         $this->getRequest()->setPost($postData);
 
-        $this->dispatch('backend/admin/tax_tax/ajaxSave');
+        $this->dispatch('backend/admin/tax_class/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
         $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
@@ -37,7 +37,8 @@ class TaxTest extends \Magento\Backend\Utility\Controller
 
         $classId = $result['class_id'];
         /** @var $rate \Magento\Tax\Model\ClassModel */
-        $class = \Mage::getModel('Magento\Tax\Model\ClassModel')->load($classId, 'class_id');
+        $class = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\ClassModel')->load($classId, 'class_id');
         $this->assertEquals($expectedData['class_name'], $class->getClassName());
     }
 

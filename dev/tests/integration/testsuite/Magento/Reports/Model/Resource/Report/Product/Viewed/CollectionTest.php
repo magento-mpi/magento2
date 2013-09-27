@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Reports\Model\Resource\Report\Product\Viewed;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Reports\Model\Resource\Report\Product\Viewed;
+
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,7 +20,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Report\Product\Viewed\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Reports\Model\Resource\Report\Product\Viewed\Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

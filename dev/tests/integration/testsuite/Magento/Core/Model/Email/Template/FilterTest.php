@@ -20,7 +20,8 @@ class FilterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Email\Template\Filter');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Email\Template\Filter');
     }
 
     /**
@@ -92,14 +93,16 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     public function testLayoutDirective($area, $directiveParams, $expectedOutput)
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Mage::PARAM_APP_DIRS => array(
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
                 \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
 
-        $collection = \Mage::getModel('Magento\Core\Model\Resource\Theme\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
-        \Mage::app()->getStore()->setConfig(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $themeId);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setConfig(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $themeId);
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
@@ -111,7 +114,10 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $layout = $objectManager->create('Magento\Core\Model\Layout', array('area' => $area));
         $objectManager->addSharedInstance($layout, 'Magento\Core\Model\Layout');
         $this->assertEquals($area, $layout->getArea());
-        $this->assertEquals($area, \Mage::app()->getLayout()->getArea());
+        $this->assertEquals(
+            $area,
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')->getArea()
+        );
         $objectManager->get('Magento\Core\Model\View\DesignInterface')->setDesignTheme('test_default');
 
         $actualOutput = $this->_model->layoutDirective(array(

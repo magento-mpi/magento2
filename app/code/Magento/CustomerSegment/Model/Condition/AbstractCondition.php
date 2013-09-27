@@ -13,6 +13,25 @@ namespace Magento\CustomerSegment\Model\Condition;
 class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     /**
+     * @var \Magento\CustomerSegment\Model\Resource\Segment
+     */
+    protected $_resourceSegment;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_resourceSegment = $resourceSegment;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get array of event names where segment with such conditions combine can be matched
      *
      * @return array
@@ -62,7 +81,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function getResource()
     {
-        return \Mage::getResourceSingleton('Magento\CustomerSegment\Model\Resource\Segment');
+        return $this->_resourceSegment;
     }
 
     /**

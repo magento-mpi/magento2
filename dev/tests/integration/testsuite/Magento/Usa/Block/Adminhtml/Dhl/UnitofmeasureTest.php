@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Usa\Block\Adminhtml\Dhl;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Usa\Block\Adminhtml\Dhl;
+
 class UnitofmeasureTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -24,7 +24,7 @@ class UnitofmeasureTest extends \PHPUnit_Framework_TestCase
             )
         ));
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Usa\Block\Adminhtml\Dhl\Unitofmeasure */
         $block = $layout->createBlock('Magento\Usa\Block\Adminhtml\Dhl\Unitofmeasure');
         $this->assertNotEmpty($block->toHtml());

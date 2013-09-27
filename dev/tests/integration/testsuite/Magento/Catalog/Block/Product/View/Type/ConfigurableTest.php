@@ -8,13 +8,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Block\Product\View\Type;
 
 /**
  * Test class for \Magento\Catalog\Block\Product\View\Type\Configurable.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
  */
+namespace Magento\Catalog\Block\Product\View\Type;
+
 class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -29,9 +30,11 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $this->_product->load(1);
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\View\Type\Configurable');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Catalog\Block\Product\View\Type\Configurable');
         $this->_block->setProduct($this->_product);
     }
 

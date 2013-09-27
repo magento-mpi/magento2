@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\GiftRegistry\Model\Resource\Setup */
+/** @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
 
 $defaultTypes = array(

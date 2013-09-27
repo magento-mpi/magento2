@@ -37,6 +37,31 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_giftMessage;
 
     /**
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_sessionQuote = $sessionQuote;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Set entity for form
      *
      * @param \Magento\Object $entity
@@ -60,7 +85,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     protected function _getSession()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
+        return $this->_sessionQuote;
     }
 
     /**

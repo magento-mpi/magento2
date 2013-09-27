@@ -25,7 +25,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\Core\Block\Text\ListText');
     }
 

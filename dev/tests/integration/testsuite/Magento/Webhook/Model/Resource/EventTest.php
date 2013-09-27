@@ -1,6 +1,10 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Resource\Event
+ *
  * {license_notice}
+ *
+ * @magentoDbIsolation enabled
  *
  * @category    Magento
  * @package     Magento_Webhook
@@ -9,22 +13,19 @@
  */
 namespace Magento\Webhook\Model\Resource;
 
-/**
- * \Magento\Webhook\Model\Resource\Event
- *
- * @magentoDbIsolation enabled
- */
 class EventTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDbIsolation enabled
-     * @magentoConfigFixture global/resources/db/table_prefix prefix_
+     * @covers \Magento\Webhook\Model\Resource\Event::init
      */
     public function testInit()
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $resource = $objectManager->create('Magento\Core\Model\Resource', array('tablePrefix' => 'prefix_'));
+
         /** @var \Magento\Webhook\Model\Resource\Event $eventResource */
-        $eventResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Webhook\Model\Resource\Event');
+        $eventResource = $objectManager->create('Magento\Webhook\Model\Resource\Event', array('resource' => $resource));
+
         $this->assertEquals('prefix_webhook_event', $eventResource->getMainTable());
         $this->assertEquals('event_id', $eventResource->getIdFieldName());
     }

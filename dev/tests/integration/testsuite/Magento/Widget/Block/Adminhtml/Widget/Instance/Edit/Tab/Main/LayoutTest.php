@@ -9,15 +9,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main;
 
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main;
+
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout
+     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main_Layout
      */
     protected $_block;
 
@@ -25,12 +26,18 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_block = \Mage::app()->getLayout()->createBlock(
-            'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout',
-            '',
-            array('data' => array('widget_instance' => \Mage::getModel('Magento\Widget\Model\Widget\Instance')))
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock(
+                'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout',
+                '',
+                array('data' => array(
+                    'widget_instance' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->create('Magento\Widget\Model\Widget\Instance')
+                ))
+            );
+        $this->_block->setLayout(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
         );
-        $this->_block->setLayout(\Mage::app()->getLayout());
     }
 
     /**

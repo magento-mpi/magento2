@@ -41,17 +41,19 @@ class Daterange
     protected $_adminhtmlData = null;
 
     /**
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Adminhtml\Helper\Data $adminhtmlData,
         \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
-        parent::__construct($context, $data);
+        parent::__construct($resourceSegment, $context, $data);
 
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Daterange');
         $this->setValue(null);

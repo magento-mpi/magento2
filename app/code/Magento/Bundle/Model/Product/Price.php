@@ -254,7 +254,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
                             }
 
                             $multiTypes = array(
-                                //\Magento\Catalog\Model\Product\Option::OPTION_TYPE_DROP_DOWN,
+                                //Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
                                 \Magento\Catalog\Model\Product\Option::OPTION_TYPE_CHECKBOX,
                                 \Magento\Catalog\Model\Product\Option::OPTION_TYPE_MULTIPLE
                             );
@@ -573,29 +573,6 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         }
 
         return ($prices) ? $prices : array();
-    }
-
-    /**
-     * Calculate and apply special price
-     *
-     * @param float  $finalPrice
-     * @param float  $specialPrice
-     * @param string $specialPriceFrom
-     * @param string $specialPriceTo
-     * @param mixed  $store
-     * @return float
-     */
-    public static function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
-         $store = null)
-    {
-        if (!is_null($specialPrice) && $specialPrice != false) {
-            if (\Mage::app()->getLocale()->isStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
-                $specialPrice   = \Mage::app()->getStore()->roundPrice($finalPrice * $specialPrice / 100);
-                $finalPrice     = min($finalPrice, $specialPrice);
-            }
-        }
-
-        return $finalPrice;
     }
 
     /**

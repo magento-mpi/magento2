@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance;
+
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -29,7 +29,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
             ->getDesignTheme();
 
         /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
-        $widgetInstance = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
+        $widgetInstance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Widget\Model\Widget\Instance');
         $widgetInstance
             ->setType($type)
             ->setThemeId($theme->getId())
@@ -38,8 +39,9 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', $widgetInstance);
 
-        \Mage::app()->getRequest()->setParam('instance_id', $widgetInstance->getId());
-        $block = \Mage::app()->getLayout()
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Controller\Request\Http')
+            ->setParam('instance_id', $widgetInstance->getId());
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit', 'widget');
         $this->assertArrayHasKey('widget-delete_button', $block->getLayout()->getAllBlocks());
     }

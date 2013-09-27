@@ -7,5 +7,6 @@
  */
 
 /** @var $cache \Magento\Core\Model\Cache */
-$cache = \Mage::getModel('Magento\Core\Model\Cache');
+$cache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Core\Model\Cache');
 $cache->clean();

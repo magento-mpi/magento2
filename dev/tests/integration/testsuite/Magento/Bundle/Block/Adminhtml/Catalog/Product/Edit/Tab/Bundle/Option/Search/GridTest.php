@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle_Option_Search;
 
 class GridTest
     extends \PHPUnit_Framework_TestCase
@@ -22,12 +22,12 @@ class GridTest
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getModel(
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
         $block = $layout->createBlock(
-            'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid',
+            'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid',
             'block');
         $block->setId('temp_id');
 

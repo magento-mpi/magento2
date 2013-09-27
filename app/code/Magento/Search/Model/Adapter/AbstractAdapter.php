@@ -298,6 +298,7 @@ abstract class AbstractAdapter
      *
      * @param   string $field
      * @param   string $suffix
+     * @param   int  $storeId
      *
      * @return  string
      */

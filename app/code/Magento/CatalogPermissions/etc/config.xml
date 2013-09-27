@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <catalogpermissions_setup>
-                <setup>
-                    <module>Magento_CatalogPermissions</module>
-                    <class>Magento\CatalogPermissions\Model\Resource\Setup</class>
-                </setup>
-            </catalogpermissions_setup>
-        </resources>
-    </global>
     <default>
         <catalog>
             <magento_catalogpermissions>

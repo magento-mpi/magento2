@@ -28,7 +28,8 @@ class RenderersTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
         $blocks = array();
         foreach ($this->_getDesignThemes() as $theme) {
             /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
-            $layoutUpdate = \Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+            $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
             $blockElements = $layoutUpdate->getFileLayoutUpdatesXml()->xpath($xpath);
             if ($blockElements) {
                 foreach ($blockElements as $block) {
@@ -41,7 +42,9 @@ class RenderersTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 
         foreach ($blocks as $block) {
             $this->assertNotEmpty(
-                \Mage::app()->getLayout()->createBlock($block), "Failed to instantiate block '{$block}'"
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                    ->createBlock($block),
+                "Failed to instantiate block '{$block}'"
             );
         }
     }

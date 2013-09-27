@@ -20,7 +20,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= \Mage::getModel('Magento\Customer\Model\Form');
+        $this->_model= \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Form');
         $this->_model->setFormCode('customer_account_create');
     }
 

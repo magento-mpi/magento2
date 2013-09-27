@@ -27,6 +27,12 @@ class Wishlist extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -35,6 +41,7 @@ class Wishlist extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -43,6 +50,7 @@ class Wishlist extends \Magento\Adminhtml\Block\Widget\Grid
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -68,7 +76,7 @@ class Wishlist extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Wishlist\Model\Item')->getCollection()
+        $collection = $this->_collectionFactory->create()
             ->addCustomerIdFilter($this->_coreRegistry->registry('current_customer')->getId())
             ->addDaysInWishlist()
             ->addStoreData()
@@ -99,7 +107,7 @@ class Wishlist extends \Magento\Adminhtml\Block\Widget\Grid
             'renderer'  => 'Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item'
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store', array(
                 'header'    => __('Add Locale'),
                 'index'     => 'store_id',

@@ -20,6 +20,27 @@ namespace Magento\Adminhtml\Block\Sales\Order\Create\Billing\Method;
 class Form extends \Magento\Payment\Block\Form\Container
 {
     /**
+     * @var \Magento\Adminhtml\Model\Session\Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_sessionQuote = $sessionQuote;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Check payment method model
      *
      * @param \Magento\Payment\Model\Method\AbstractMethod|null $method
@@ -76,7 +97,7 @@ class Form extends \Magento\Payment\Block\Form\Container
      */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote();
+        return $this->_sessionQuote->getQuote();
     }
 
     /*

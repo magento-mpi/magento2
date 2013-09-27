@@ -19,7 +19,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Model object which used for tests
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\EavAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\Entity\EavAbstract|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -41,7 +41,8 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
         $indexAttributeCode = 'gender';
 
         /** @var $attributeCollection \Magento\Customer\Model\Resource\Attribute\Collection */
-        $attributeCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
+        $attributeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter(
             'attribute_code',
             array(

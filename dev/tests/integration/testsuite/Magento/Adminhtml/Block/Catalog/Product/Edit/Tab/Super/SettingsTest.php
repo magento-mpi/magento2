@@ -39,9 +39,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
 
-        $context = \Mage::getModel('Magento\Backend\Block\Template\Context', array('urlBuilder' => $urlModel));
+        $context = $objectManager->create('Magento\Backend\Block\Template\Context', array('urlBuilder' => $urlModel));
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = $objectManager->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings */
         $block = $layout->createBlock(
             'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings',

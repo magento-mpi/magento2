@@ -12,23 +12,6 @@ namespace Magento\Core\Model\Config;
 class Primary extends \Magento\Core\Model\Config\Base
 {
     /**
-     * Install date xpath
-     */
-    const XML_PATH_INSTALL_DATE = 'global/install/date';
-
-    /**
-     * Configuration template for the application installation date
-     */
-    const CONFIG_TEMPLATE_INSTALL_DATE = '<config><global><install><date>%s</date></install></global></config>';
-
-    /**
-     * Application installation timestamp
-     *
-     * @var int|null
-     */
-    protected $_installDate;
-
-    /**
      * @var \Magento\Core\Model\Config\Loader\Primary
      */
     protected $_loader;
@@ -41,7 +24,7 @@ class Primary extends \Magento\Core\Model\Config\Base
     protected $_params;
 
     /**
-     * \Directory list
+     * Directory list
      *
      * @var \Magento\Core\Model\Dir
      */
@@ -54,7 +37,8 @@ class Primary extends \Magento\Core\Model\Config\Base
      * @param \Magento\Core\Model\Config\LoaderInterface $loader
      */
     public function __construct(
-        $baseDir, array $params,
+        $baseDir,
+        array $params,
         \Magento\Core\Model\Dir $dir = null,
         \Magento\Core\Model\Config\LoaderInterface $loader = null
     ) {
@@ -62,23 +46,17 @@ class Primary extends \Magento\Core\Model\Config\Base
         $this->_params = $params;
         $this->_dir = $dir ?: new \Magento\Core\Model\Dir(
             $baseDir,
-            $this->getParam(\Mage::PARAM_APP_URIS, array()),
-            $this->getParam(\Mage::PARAM_APP_DIRS, array())
+            $this->getParam(\Magento\Core\Model\App::PARAM_APP_URIS, array()),
+            $this->getParam(\Magento\Core\Model\App::PARAM_APP_DIRS, array())
         );
         \Magento\Autoload\IncludePath::addIncludePath(array(
             $this->_dir->getDir(\Magento\Core\Model\Dir::GENERATION)
         ));
 
         $this->_loader = $loader ?: new \Magento\Core\Model\Config\Loader\Primary(
-            new \Magento\Core\Model\Config\Loader\Local(
-                $this->_dir->getDir(\Magento\Core\Model\Dir::CONFIG),
-                $this->getParam(\Mage::PARAM_CUSTOM_LOCAL_CONFIG),
-                $this->getParam(\Mage::PARAM_CUSTOM_LOCAL_FILE)
-            ),
             $this->_dir->getDir(\Magento\Core\Model\Dir::CONFIG)
         );
         $this->_loader->load($this);
-        $this->_loadInstallDate();
     }
 
     /**
@@ -104,27 +82,6 @@ class Primary extends \Magento\Core\Model\Config\Base
     }
 
     /**
-     * Load application installation date
-     */
-    protected function _loadInstallDate()
-    {
-        $installDateNode = $this->getNode(self::XML_PATH_INSTALL_DATE);
-        if ($installDateNode) {
-            $this->_installDate = strtotime((string)$installDateNode);
-        }
-    }
-
-    /**
-     * Retrieve application installation date as a timestamp or NULL, if it has not been installed yet
-     *
-     * @return int|null
-     */
-    public function getInstallDate()
-    {
-        return $this->_installDate;
-    }
-
-    /**
      * Retrieve directories
      *
      * @return \Magento\Core\Model\Dir
@@ -141,7 +98,6 @@ class Primary extends \Magento\Core\Model\Config\Base
     {
         $this->loadString('<config/>');
         $this->_loader->load($this);
-        $this->_loadInstallDate();
     }
 
     /**
@@ -193,17 +149,6 @@ class Primary extends \Magento\Core\Model\Config\Base
             ),
         ));
 
-        $dynamicConfigurators = $this->getNode('global/configurators');
-        if ($dynamicConfigurators) {
-            $dynamicConfigurators = $dynamicConfigurators->asArray();
-            if (count($dynamicConfigurators)) {
-                foreach ($dynamicConfigurators as $configuratorClass) {
-                    /** @var $dynamicConfigurator \Magento\Core\Model\ObjectManager\DynamicConfigInterface*/
-                    $dynamicConfigurator = $objectManager->create($configuratorClass);
-                    $objectManager->configure($dynamicConfigurator->getConfiguration());
-                }
-            }
-        }
         \Magento\Profiler::stop('initial');
     }
 

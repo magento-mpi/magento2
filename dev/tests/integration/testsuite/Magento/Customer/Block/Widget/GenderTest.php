@@ -20,7 +20,8 @@ class GenderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Customer\Block\Widget\Gender');
     }
 
     public function testGetGenderOptions()

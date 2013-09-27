@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\GiftWrapping\Model\Resource\Setup */
+/* @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
 
 $installer->updateAttribute(

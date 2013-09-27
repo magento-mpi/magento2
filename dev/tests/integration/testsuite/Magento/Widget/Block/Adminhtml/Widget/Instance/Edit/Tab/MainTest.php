@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
+
 class MainTest extends \PHPUnit_Framework_TestCase
 {
     public function testPackageThemeElement()
@@ -21,8 +21,8 @@ class MainTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', new \Magento\Object());
-        $block = \Mage::app()->getLayout()->createBlock(
-            'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main');
         $block->setTemplate(null);
         $block->toHtml();
         $element = $block->getForm()->getElement('theme_id');

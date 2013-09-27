@@ -9,18 +9,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Controller\Adminhtml\User;
-
 /**
  * Test class for \Magento\User\Controller\Adminhtml\User\Role.
  *
  * @magentoAppArea adminhtml
  */
+namespace Magento\User\Controller\Adminhtml\User;
+
 class RoleTest extends \Magento\Backend\Utility\Controller
 {
     public function testEditRoleAction()
     {
-        $roleAdmin = \Mage::getModel('Magento\User\Model\Role');
+        $roleAdmin = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Role');
         $roleAdmin->load(\Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME, 'role_name');
 
         $this->getRequest()->setParam('rid', $roleAdmin->getId());

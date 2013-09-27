@@ -34,15 +34,39 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
     protected $_catalogProduct = null;
 
     /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
+        $this->_customerFactory = $customerFactory;
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogProduct = $catalogProduct;
         parent::__construct($context);
@@ -84,7 +108,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
       * $isOk - true or false, whether action was completed nicely or with some error
       * If $isOk is FALSE (some error during configuration), so $productType must be null
       *
-      * @param \Magento\Adminhtml\Controller\Action  $controller
+      * @param \Magento\Adminhtml\Controller\Action $controller
       * @param bool $isOk
       * @param string $productType
       * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
@@ -117,19 +141,19 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
     {
         try {
             if (!$configureResult->getOk()) {
-                \Mage::throwException($configureResult->getMessage());
+                throw new \Magento\Core\Exception($configureResult->getMessage());
             };
 
             $currentStoreId = (int) $configureResult->getCurrentStoreId();
             if (!$currentStoreId) {
-                $currentStoreId = \Mage::app()->getStore()->getId();
+                $currentStoreId = $this->_storeManager->getStore()->getId();
             }
 
-            $product = \Mage::getModel('Magento\Catalog\Model\Product')
+            $product = $this->_productFactory->create()
                 ->setStoreId($currentStoreId)
                 ->load($configureResult->getProductId());
             if (!$product->getId()) {
-                \Mage::throwException(__('The product is not loaded.'));
+                throw new \Magento\Core\Exception(__('The product is not loaded.'));
             }
             $this->_coreRegistry->register('current_product', $product);
             $this->_coreRegistry->register('product', $product);
@@ -139,8 +163,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
             if (!$currentCustomer) {
                 $currentCustomerId = (int) $configureResult->getCurrentCustomerId();
                 if ($currentCustomerId) {
-                    $currentCustomer = \Mage::getModel('Magento\Customer\Model\Customer')
-                        ->load($currentCustomerId);
+                    $currentCustomer = $this->_customerFactory->create()->load($currentCustomerId);
                 }
             }
             if ($currentCustomer) {

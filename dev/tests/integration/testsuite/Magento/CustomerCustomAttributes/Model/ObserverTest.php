@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerCustomAttributes\Model;
-
 /**
  * @magentoDataFixture Magento/CustomerCustomAttributes/_files/order_address_with_attribute.php
  */
+namespace Magento\CustomerCustomAttributes\Model;
+
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -95,7 +95,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
             if ($injectionClass) {
-                $arguments[] = \Mage::getModel($injectionClass);
+                $arguments[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($injectionClass);
             } else {
                 $arguments[] = null;
             }

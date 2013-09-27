@@ -29,18 +29,20 @@ class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\DefaultColumn
 
     /**
      * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
+        \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($optionFactory, $coreData, $context, $data);
     }
 
     /**

@@ -34,7 +34,8 @@ class BackendTest extends \PHPUnit_Framework_TestCase
     public function testIsValid()
     {
         /** @var $entity \Magento\Customer\Model\Customer */
-        $entity = \Mage::getModel('Magento\Customer\Model\Customer')->load(1);
+        $entity = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer')->load(1);
 
         $this->assertTrue($this->_model->isValid($entity));
         $this->assertEmpty($this->_model->getMessages());

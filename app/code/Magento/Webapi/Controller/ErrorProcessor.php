@@ -35,16 +35,16 @@ class ErrorProcessor
     /**
      * Initialize dependencies. Register custom shutdown function.
      *
-     * @param \Magento\Core\Model\Factory\Helper $helperFactory
+     * @param \Magento\Core\Helper\Data $helper
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        \Magento\Core\Model\Factory\Helper $helperFactory,
+        \Magento\Core\Helper\Data $helper,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Logger $logger
     ) {
-        $this->_coreHelper = $helperFactory->get('Magento\Core\Helper\Data');
+        $this->_coreHelper = $helper;
         $this->_app = $app;
         $this->_logger = $logger;
         $this->registerShutdownFunction();
@@ -55,7 +55,7 @@ class ErrorProcessor
      *
      * Convert any exception into \Magento\Webapi\Exception.
      *
-     * @param Exception $exception
+     * @param \Exception $exception
      * @return \Magento\Webapi\Exception
      */
     public function maskException(\Exception $exception)
@@ -244,7 +244,7 @@ class ErrorProcessor
     protected function _saveFatalErrorReport($reportData)
     {
         $file = new \Magento\Io\File();
-        $reportDir = BP . 'var/report/api';
+        $reportDir = BP . '/var/report/api';
         $file->checkAndCreateFolder($reportDir, 0777);
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
         $reportFile = "$reportDir/$reportId";

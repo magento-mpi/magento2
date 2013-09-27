@@ -11,7 +11,6 @@
 /**
  * Rating edit form
  */
-
 namespace Magento\Adminhtml\Block\Rating;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
@@ -24,17 +23,27 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
+     * Rating factory
+     *
+     * @var \Magento\Rating\Model\RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_ratingFactory = $ratingFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -49,7 +58,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $this->_updateButton('delete', 'label', __('Delete Rating'));
 
         if ($this->getRequest()->getParam($this->_objectId)) {
-            $ratingData = \Mage::getModel('Magento\Rating\Model\Rating')
+            $ratingData = $this->_ratingFactory->create()
                 ->load($this->getRequest()->getParam($this->_objectId));
 
             $this->_coreRegistry->register('rating_data', $ratingData);

@@ -37,7 +37,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Catalog search resource helper
      *
-     * @var \Magento\CatalogSearch\Model\Resource\Helper\Mysql4
+     * @var \Magento\CatalogSearch\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
@@ -49,7 +49,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogSearch\Model\Resource\Helper\Mysql4 $resourceHelper
+     * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -58,7 +58,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\CatalogSearch\Model\Resource\Helper\Mysql4 $resourceHelper,
+        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;

@@ -15,10 +15,10 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetColumns()
     {
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $block = $layout->addBlock('Magento\Wishlist\Block\Customer\Wishlist\Items', 'test');
         $child = $this->getMock('Magento\Core\Block\Text', array('isEnabled'),
-            array(\Mage::getSingleton('Magento\Core\Block\Context')));
+            array(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Block\Context')));
         $child->expects($this->any())
             ->method('isEnabled')
             ->will($this->returnValue(true));

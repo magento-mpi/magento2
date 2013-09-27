@@ -25,7 +25,7 @@ interface AdapterInterface
      *         'operation' => $operation     // soap operation name e.g. catalogProductCreate
      *     ),
      *     OR
-     *     'serviceInterface' => $phpServiceInterfaceName, // e.g. Magento_Catalog_Service_ProductInterfaceV1
+     *     'serviceInterface' => $phpServiceInterfaceName, // e.g. \Magento\Catalog\Service\ProductInterfaceV1
      *     'method' => $serviceMethodName                  // e.g. create
      *     'entityId' => $entityId                         // is used in REST route placeholder (if applicable)
      * );

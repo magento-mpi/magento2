@@ -327,7 +327,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             'log_sent_at_min' => 'MIN(l.sent_at)'
         ));
 
-        /** @var $helper \Magento\Core\Model\Resource\Helper\Mysql4 */
+        /** @var $helper \Magento\Core\Model\Resource\Helper */
         $helper = \Mage::getResourceHelper('Magento_Core');
         $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
             'finset' => $helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))

@@ -41,7 +41,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Core\Model\Resource\Helper\Mysql4 $coreResourceHelper
+     * @param \Magento\Core\Model\Resource\Helper $coreResourceHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
@@ -50,7 +50,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Core\Model\Resource\Helper\Mysql4 $coreResourceHelper,
+        \Magento\Core\Model\Resource\Helper $coreResourceHelper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
@@ -224,8 +224,8 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
             $this->_getConditionSql('main_table.period', $this->getDateRange($range, $customStart, $customEnd))
         );
 
-        $statuses = \Mage::getSingleton('Magento\Sales\Model\Config')
-            ->getOrderStatusesForState(\Magento\Sales\Model\Order::STATE_CANCELED);
+        $statuses = \Mage::getSingleton('Magento\Sales\Model\Order\Config')
+            ->getStateStatuses(\Magento\Sales\Model\Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -488,8 +488,8 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
             'quantity' => 'SUM(orders_count)',
         ));
 
-        $statuses = \Mage::getSingleton('Magento\Sales\Model\Config')
-            ->getOrderStatusesForState(\Magento\Sales\Model\Order::STATE_CANCELED);
+        $statuses = \Mage::getSingleton('Magento\Sales\Model\Order\Config')
+            ->getStateStatuses(\Magento\Sales\Model\Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -508,8 +508,8 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      */
     public function calculateSales($isFilter = 0)
     {
-        $statuses = \Mage::getSingleton('Magento\Sales\Model\Config')
-            ->getOrderStatusesForState(\Magento\Sales\Model\Order::STATE_CANCELED);
+        $statuses = \Mage::getSingleton('Magento\Sales\Model\Order\Config')
+            ->getStateStatuses(\Magento\Sales\Model\Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);

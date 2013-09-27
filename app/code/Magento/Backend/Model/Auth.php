@@ -31,30 +31,11 @@ class Auth
     protected $_credentialStorage = null;
 
     /**
-     * Backend data
-     *
-     * @var \Magento\Backend\Helper\Data
-     */
-    protected $_backendData = null;
-
-    /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Core\Model\Event\Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-    
-    /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Backend\Helper\Data $backendData
-     * @param \Magento\Backend\Model\Auth\StorageInterface $authStorage
+     * @param \Magento\Core\Model\Event\Manager                       $eventManager
+     * @param \Magento\Backend\Helper\Data                            $backendData
+     * @param \Magento\Backend\Model\Auth\StorageInterface            $authStorage
      * @param \Magento\Backend\Model\Auth\Credential\StorageInterface $credentialStorage
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Config                              $coreConfig
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -117,13 +98,14 @@ class Auth
     protected function _initCredentialStorage()
     {
         $areaConfig = $this->_coreConfig->getAreaConfig($this->_backendData->getAreaCode());
-        $storage = \Mage::getModel($areaConfig['auth']['credential_storage']);
 
-        if ($storage instanceof \Magento\Backend\Model\Auth\Credential\StorageInterface) {
-            $this->_credentialStorage = $storage;
-            return;
+        if (isset($areaConfig['auth_credential_storage'])) {
+            $storage = \Mage::getModel($areaConfig['auth_credential_storage']);
+            if ($storage instanceof \Magento\Backend\Model\Auth\Credential\StorageInterface) {
+                $this->_credentialStorage = $storage;
+                return;
+            }
         }
-
         self::throwException(
             __('There are no authentication credential storage.')
         );

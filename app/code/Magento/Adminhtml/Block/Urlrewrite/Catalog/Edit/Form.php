@@ -21,11 +21,70 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit;
 
 class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
 {
+    /**
+     * @var \Magento\Catalog\Model\Url
+     */
+    protected $_catalogUrl;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Url $catalogUrl
+     * @param \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory
+     * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Url $catalogUrl,
+        \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
+        \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_catalogUrl = $catalogUrl;
+        parent::__construct(
+            $typesFactory, $optionFactory, $rewriteFactory, $systemStore, $backendSession, $adminhtmlData, $registry,
+            $formFactory, $coreData, $context, $data
+        );
+    }
+
     /**
      * Form post init
      *
@@ -64,15 +123,13 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
             }
 
             if ($product || $category) {
-                /** @var $catalogUrlModel \Magento\Catalog\Model\Url */
-                $catalogUrlModel = \Mage::getSingleton('Magento\Catalog\Model\Url');
-                $idPath->setValue($catalogUrlModel->generatePath('id', $product, $category));
+                $idPath->setValue($this->_catalogUrl->generatePath('id', $product, $category));
 
                 $sessionData = $this->_getSessionData();
                 if (!isset($sessionData['request_path'])) {
-                    $requestPath->setValue($catalogUrlModel->generatePath('request', $product, $category, ''));
+                    $requestPath->setValue($this->_catalogUrl->generatePath('request', $product, $category, ''));
                 }
-                $targetPath->setValue($catalogUrlModel->generatePath('target', $product, $category));
+                $targetPath->setValue($this->_catalogUrl->generatePath('target', $product, $category));
                 $disablePaths = true;
             }
         } else {
@@ -138,7 +195,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
     protected function _getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setProduct(\Mage::getModel('Magento\Catalog\Model\Product'));
+            $this->setProduct($this->_productFactory->create());
         }
         return $this->getProduct();
     }
@@ -151,7 +208,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
     protected function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(\Mage::getModel('Magento\Catalog\Model\Category'));
+            $this->setCategory($this->_categoryFactory->create());
         }
         return $this->getCategory();
     }

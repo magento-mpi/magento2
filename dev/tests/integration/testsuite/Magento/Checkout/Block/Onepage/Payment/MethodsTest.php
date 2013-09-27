@@ -24,7 +24,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = \Mage::getSingleton('Magento\Core\Model\Layout')
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Checkout\Block\Onepage\Payment\Methods');
     }
 
@@ -32,7 +32,8 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
     {
         $expectedTitle = 'Free Method';
         $expectedLabel = 'Label After Html';
-        $method = \Mage::getModel('Magento\Payment\Model\Method\Free');
+        $method = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Payment\Model\Method\Free');
 
         $block = $this->_block->getLayout()->createBlock('Magento\Core\Block\Text')
             ->setMethodTitle($expectedTitle)

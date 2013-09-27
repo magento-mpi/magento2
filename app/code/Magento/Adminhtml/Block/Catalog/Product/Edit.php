@@ -29,17 +29,25 @@ class Edit extends \Magento\Backend\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
+     */
+    protected $_attributeSetFactory;
+
+    /**
+     * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_attributeSetFactory = $attributeSetFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -92,10 +100,10 @@ class Edit extends \Magento\Backend\Block\Widget
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->addChild('save-split-button', 'Magento\Backend\Block\Widget\Button\SplitButton', array(
+            $this->addChild('save-split-button', 'Magento\Backend\Block\Widget\Button\Split', array(
                 'id' => 'save-split-button',
                 'label' => __('Save'),
-                'class_name' => 'Magento\Backend\Block\Widget\Button\SplitButton',
+                'class_name' => 'Magento\Backend\Block\Widget\Button\Split',
                 'button_class' => 'widget-button-save',
                 'options' => $this->_getSaveSplitButtonOptions()
             ));
@@ -201,8 +209,7 @@ class Edit extends \Magento\Backend\Block\Widget
     public function getAttributeSetName()
     {
         if ($setId = $this->getProduct()->getAttributeSetId()) {
-            $set = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
-                ->load($setId);
+            $set = $this->_attributeSetFactory->create()->load($setId);
             return $set->getAttributeSetName();
         }
         return '';

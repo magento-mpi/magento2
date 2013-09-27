@@ -42,7 +42,7 @@ class Primary
             new \Magento\Core\Model\Config\FileResolver\Primary($this->_dirs),
             new \Magento\ObjectManager\Config\Mapper\Dom(),
             new \Magento\ObjectManager\Config\SchemaLocator(),
-            new \Magento\Core\Model\Config\ValidationState(new \Magento\Core\Model\App\State($this->_appMode))
+            new \Magento\Core\Model\Config\ValidationState($this->_appMode)
         );
 
         return $reader->read('primary');

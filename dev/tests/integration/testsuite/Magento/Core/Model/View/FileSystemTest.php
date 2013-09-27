@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\View;
-
 /**
  * Tests for the view layer fallback mechanism
  * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
  */
+namespace Magento\Core\Model\View;
+
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,7 +25,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Mage::PARAM_APP_DIRS => array(
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
                 \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));

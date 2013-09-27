@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Urlrewrite;
-
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Edit
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Urlrewrite;
+
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -29,7 +29,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getModel(
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
@@ -141,9 +141,11 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function prepareLayoutDataProvider()
     {
         /** @var $urlRewrite \Magento\Core\Model\Url\Rewrite */
-        $urlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite');
+        $urlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Url\Rewrite');
         /** @var $existingUrlRewrite \Magento\Core\Model\Url\Rewrite */
-        $existingUrlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite',
+        $existingUrlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Url\Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
 

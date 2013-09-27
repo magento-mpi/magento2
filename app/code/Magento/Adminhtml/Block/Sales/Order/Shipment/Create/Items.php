@@ -11,7 +11,6 @@
 /**
  * Adminhtml shipment items grid
  */
-
 namespace Magento\Adminhtml\Block\Sales\Order\Shipment\Create;
 
 class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
@@ -25,6 +24,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 
     /**
      * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -32,13 +32,14 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function __construct(
         \Magento\Sales\Helper\Data $salesData,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($productFactory, $coreData, $context, $registry, $data);
     }
 
     /**

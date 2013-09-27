@@ -11,12 +11,12 @@ namespace Magento\Core\Model\Page\Asset;
 class MinifyServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Store\Config|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfig;
 
     /**
-     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -26,7 +26,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Model\App\State|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\App\State|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appState;
 
@@ -35,7 +35,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
         $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_appState = $this->getMock('Magento\Core\Model\App\State');
+        $this->_appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
 
         $this->_model = new \Magento\Core\Model\Page\Asset\MinifyService($this->_storeConfig, $this->_objectManager,
             $dirs, $this->_appState);

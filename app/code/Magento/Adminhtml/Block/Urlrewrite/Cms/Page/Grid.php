@@ -57,7 +57,7 @@ class Grid extends \Magento\Adminhtml\Block\Cms\Page\Grid
             'index'  => 'identifier'
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'                    => __('Store View'),
                 'index'                     => 'store_id',
@@ -73,7 +73,7 @@ class Grid extends \Magento\Adminhtml\Block\Cms\Page\Grid
             'header'  => __('Status'),
             'index'   => 'is_active',
             'type'    => 'options',
-            'options' => \Mage::getSingleton('Magento\Cms\Model\Page')->getAvailableStatuses()
+            'options' => $this->_cmsPage->getAvailableStatuses()
         ));
 
         return $this;

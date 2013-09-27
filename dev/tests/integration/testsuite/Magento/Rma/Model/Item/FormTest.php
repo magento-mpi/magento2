@@ -20,7 +20,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= \Mage::getModel('Magento\Rma\Model\Item\Form');
+        $this->_model= \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Rma\Model\Item\Form');
         $this->_model->setFormCode('default');
     }
 

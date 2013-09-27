@@ -8,37 +8,6 @@
  */
 -->
 <config>
-    <global>
-        <areas>
-            <adminhtml>
-                <auth>
-                    <credential_storage>Magento\User\Model\User</credential_storage>
-                </auth>
-            </adminhtml>
-        </areas>
-        <resources>
-            <user_setup>
-                <setup>
-                    <module>Magento_User</module>
-                    <class>Magento\User\Model\Resource\Setup</class>
-                </setup>
-            </user_setup>
-        </resources>
-        <template>
-            <email>
-                <admin_emails_forgot_email_template translate="label" module="Magento_User">
-                    <label>Forgot Admin Password</label>
-                    <file>email/password_reset_confirmation.html</file>
-                    <type>html</type>
-                </admin_emails_forgot_email_template>
-                <admin_emails_reset_password_template translate="label" module="Magento_User">
-                    <label>Reset Password</label>
-                    <file>email/password_reset.html</file>
-                    <type>html</type>
-                </admin_emails_reset_password_template>
-            </email>
-        </template>
-    </global>
     <default>
         <admin>
             <emails>

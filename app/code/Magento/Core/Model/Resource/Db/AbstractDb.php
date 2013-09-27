@@ -140,9 +140,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     public function __sleep()
     {
         $properties = array_keys(get_object_vars($this));
-        if (\Mage::getIsSerializable()) {
-            $properties = array_diff($properties, array('_resources', '_connections'));
-        }
+        $properties = array_diff($properties, array('_resources', '_connections'));
         return $properties;
     }
 
@@ -151,9 +149,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
      */
     public function __wakeup()
     {
-        if (\Mage::getIsSerializable()) {
-            $this->_resources = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Resource');
-        }
+        $this->_resources = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Resource');
     }
 
     /**
@@ -272,21 +268,21 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     }
 
     /**
-     * Get connection by name or type
+     * Get connection by resource name
      *
-     * @param string $connectionName
+     * @param string $resourceName
      * @return \Magento\DB\Adapter\AdapterInterface|bool
      */
-    protected function _getConnection($connectionName)
+    protected function _getConnection($resourceName)
     {
-        if (isset($this->_connections[$connectionName])) {
-            return $this->_connections[$connectionName];
+        if (isset($this->_connections[$resourceName])) {
+            return $this->_connections[$resourceName];
         }
-        $connectionNameFull = ($this->_resourcePrefix ? $this->_resourcePrefix . '_' : '') . $connectionName;
-        $connectionInstance = $this->_resources->getConnection($connectionNameFull);
+        $fullResourceName = ($this->_resourcePrefix ? $this->_resourcePrefix . '_' : '') . $resourceName;
+        $connectionInstance = $this->_resources->getConnection($fullResourceName);
         // cache only active connections to detect inactive ones as soon as they become active
         if ($connectionInstance) {
-            $this->_connections[$connectionName] = $connectionInstance;
+            $this->_connections[$resourceName] = $connectionInstance;
         }
         return $connectionInstance;
     }

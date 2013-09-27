@@ -40,14 +40,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_observer = $objectManager->create(
-            'Magento\FullPageCache\Model\Observer',
+            'Magento\FullPageCache\Model\Observer', 
             array('cookie' => $this->_cookie)
         );
     }
 
     public function testProcessPreDispatchCanProcessRequest()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
@@ -62,7 +62,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $observerData->setEvent(new \Magento\Event(array(
-            'controller_action' => \Mage::getModel(
+            'controller_action' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Core\Controller\Front\Action',
                 array('context' => $context)
             )
@@ -77,13 +77,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $cacheState->setEnabled(\Magento\Core\Block\AbstractBlock::CACHE_GROUP, true);
 
         /** @var $session \Magento\Catalog\Model\Session */
-        $session = \Mage::getSingleton('Magento\Catalog\Model\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session');
         $session->setParamsMemorizeDisabled(false);
 
         $this->_observer->processPreDispatch($observerData);
 
         $this->assertFalse($cacheState->isEnabled(\Magento\Core\Block\AbstractBlock::CACHE_GROUP));
-        $this->assertTrue(\Mage::getSingleton('Magento\Catalog\Model\Session')->getParamsMemorizeDisabled());
+        $this->assertTrue(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Session')->getParamsMemorizeDisabled());
     }
 
     /**
@@ -92,9 +93,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testProcessPreDispatchCannotProcessRequest()
     {
         /** @var $restriction \Magento\FullPageCache\Model\Processor\RestrictionInterface */
-        $restriction = \Mage::getSingleton('Magento\FullPageCache\Model\Processor\RestrictionInterface');
+        $restriction = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\FullPageCache\Model\Processor\RestrictionInterface');
         $restriction->setIsDenied();
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
@@ -107,7 +109,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $observerData->setEvent(new \Magento\Event(array(
-            'controller_action' => \Mage::getModel(
+            'controller_action' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Core\Controller\Front\Action',
                 array('context' => $context)
             )
@@ -116,9 +118,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('updateCustomerCookies');
 
-        \Mage::getSingleton('Magento\Catalog\Model\Session')->setParamsMemorizeDisabled(true);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session')
+            ->setParamsMemorizeDisabled(true);
         $this->_observer->processPreDispatch($observerData);
-        $this->assertFalse(\Mage::getSingleton('Magento\Catalog\Model\Session')->getParamsMemorizeDisabled());
+        $this->assertFalse(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Model\Session')->getParamsMemorizeDisabled());
     }
 
     public function testSetNoCacheCookie()

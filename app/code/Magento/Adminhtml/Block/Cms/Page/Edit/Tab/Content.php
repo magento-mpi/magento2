@@ -11,7 +11,6 @@
 /**
  * Cms page edit form main tab
  */
-
 namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
 
 class Content
@@ -19,18 +18,12 @@ class Content
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\Core\Model\Event\Manager
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
-    protected $_eventManager;
+    protected $_wysiwygConfig;
 
     /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
@@ -39,6 +32,7 @@ class Content
      * @param array $data
      */
     public function __construct(
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,
@@ -46,7 +40,7 @@ class Content
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
+        $this->_wysiwygConfig = $wysiwygConfig;
         parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
     }
 
@@ -56,7 +50,7 @@ class Content
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (\Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()) {
+        if ($this->_wysiwygConfig->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
@@ -83,7 +77,7 @@ class Content
 
         $fieldset = $form->addFieldset('content_fieldset', array('legend'=>__('Content'),'class'=>'fieldset-wide'));
 
-        $wysiwygConfig = \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->getConfig(
+        $wysiwygConfig = $this->_wysiwygConfig->getConfig(
             array('tab_id' => $this->getTabId())
         );
 

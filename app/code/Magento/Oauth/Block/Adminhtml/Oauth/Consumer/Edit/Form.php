@@ -2,43 +2,24 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-
 /**
  * OAuth consumer edit form block
  *
- * @category   Magento
- * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
-    /**
-     * Consumer model
-     *
-     * @var \Magento\Oauth\Model\Consumer
-     */
-    protected $_model;
+    /** Key used to store consumer data into the registry */
+    const REGISTRY_KEY_CURRENT_CONSUMER = 'current_consumer';
 
-    /**
-     * Get consumer model
-     *
-     * @return \Magento\Oauth\Model\Consumer
-     */
-    public function getModel()
-    {
-        if (null === $this->_model) {
-            $this->_model = $this->_coreRegistry->registry('current_consumer');
-        }
-        return $this->_model;
-    }
+    /** Keys used to retrieve values from subscription data array */
+    const DATA_ENTITY_ID = 'entity_id';
 
     /**
      * Prepare form before rendering HTML
@@ -47,29 +28,32 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        $model = $this->getModel();
-        /** @var \Magento\Data\Form $form */
+        $consumerData = $this->_coreRegistry->registry(self::REGISTRY_KEY_CURRENT_CONSUMER);
+
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
-                'action' => $this->getData('action'),
-                'method' => 'post',
+                'action' => $this->getUrl('*/*/save',
+                    $consumerData[self::DATA_ENTITY_ID]
+                        ? array('id' => $consumerData[self::DATA_ENTITY_ID]) : array()),
+                'method' => 'post'
             ))
         );
 
-        $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => __('Consumer Information'), 'class' => 'fieldset-wide'
+        $fieldset = $form->addFieldset('consumer_fieldset', array(
+            'legend' => __('Add-On Information'), 'class' => 'fieldset-wide'
         ));
 
-        if ($model->getId()) {
-            $fieldset->addField('id', 'hidden', array('name' => 'id', 'value' => $model->getId()));
+        if ($consumerData[self::DATA_ENTITY_ID]) {
+            $fieldset->addField(
+                'id', 'hidden', array('name' => 'id', 'value' => $consumerData[self::DATA_ENTITY_ID]));
         }
+
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
             'label'     => __('Name'),
             'title'     => __('Name'),
-            'required'  => true,
-            'value'     => $model->getName(),
+            'required'  => true
         ));
 
         $fieldset->addField('key', 'text', array(
@@ -77,8 +61,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'label'     => __('Key'),
             'title'     => __('Key'),
             'disabled'  => true,
-            'required'  => true,
-            'value'     => $model->getKey(),
+            'required'  => true
         ));
 
         $fieldset->addField('secret', 'text', array(
@@ -86,8 +69,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'label'     => __('Secret'),
             'title'     => __('Secret'),
             'disabled'  => true,
-            'required'  => true,
-            'value'     => $model->getSecret(),
+            'required'  => true
         ));
 
         $fieldset->addField('callback_url', 'text', array(
@@ -95,7 +77,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'label'     => __('Callback URL'),
             'title'     => __('Callback URL'),
             'required'  => false,
-            'value'     => $model->getCallbackUrl(),
             'class'     => 'validate-url',
         ));
 
@@ -104,12 +85,19 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'label'     => __('Rejected Callback URL'),
             'title'     => __('Rejected Callback URL'),
             'required'  => false,
-            'value'     => $model->getRejectedCallbackUrl(),
             'class'     => 'validate-url',
         ));
 
-        $form->setAction($this->getUrl('*/*/save'));
+        $fieldset->addField('http_post_url', 'text', array(
+            'name'      => 'http_post_url',
+            'label'     => __('Http Post URL'),
+            'title'     => __('Http Post URL'),
+            'required'  => true,
+            'class'     => 'validate-url'
+        ));
+
         $form->setUseContainer(true);
+        $form->setValues($consumerData);
         $this->setForm($form);
 
         return parent::_prepareForm();

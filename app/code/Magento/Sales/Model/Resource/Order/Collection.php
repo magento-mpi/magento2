@@ -35,7 +35,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
     protected $_eventObject    = 'order_collection';
 
     /**
-     * @var \Magento\Core\Model\Resource\Helper\Mysql4
+     * @var \Magento\Core\Model\Resource\Helper
      */
     protected $_coreResourceHelper;
 
@@ -44,7 +44,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Core\Model\Resource\Helper\Mysql4 $coreResourceHelper
+     * @param \Magento\Core\Model\Resource\Helper $coreResourceHelper
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -52,7 +52,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
         \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Core\Model\Resource\Helper\Mysql4 $coreResourceHelper,
+        \Magento\Core\Model\Resource\Helper $coreResourceHelper,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);

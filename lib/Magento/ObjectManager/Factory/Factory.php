@@ -183,4 +183,14 @@ class Factory implements \Magento\ObjectManager\Factory
                 return $reflection->newInstanceArgs($args);
         }
     }
+
+    /**
+     * Set application arguments
+     *
+     * @param array $arguments
+     */
+    public function setArguments($arguments)
+    {
+        $this->_globalArguments = $arguments;
+    }
 }

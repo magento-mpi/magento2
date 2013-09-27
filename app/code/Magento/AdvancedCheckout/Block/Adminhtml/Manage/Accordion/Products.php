@@ -21,9 +21,9 @@ class Products
     extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Sales\Model\Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -32,23 +32,38 @@ class Products
 
     /**
      * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var \Magento\CatalogInventory\Model\Stock\Status
+     */
+    protected $_catalogStockStatus;
+
+    /**
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
+     * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
+        \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Sales\Model\Config $salesConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
@@ -61,7 +76,9 @@ class Products
             $coreRegistry,
             $data
         );
-        $this->_coreConfig = $coreConfig;
+        $this->_catalogStockStatus = $catalogStockStatus;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_salesConfig = $salesConfig;
         $this->_productFactory = $productFactory;
     }
 
@@ -96,19 +113,15 @@ class Products
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+            $attributes = $this->_catalogConfig->getProductAttributes();
             $collection = $this->_productFactory->create()->getCollection()
                 ->setStore($this->_getStore())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')
-                ->addAttributeToFilter(
-                    'type_id',
-                    array_keys(
-                        $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
-                    )
-                )->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+                ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
+                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
                 ->addStoreFilter($this->_getStore());
-            \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')->addIsInStockFilterToCollection($collection);
+            $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->getData('items_collection');

@@ -13,12 +13,11 @@
  * Test class for \Magento\ImportExport\Model\Import\Entity\Product
  *
  * The "CouplingBetweenObjects" warning is caused by tremendous complexity of the original class
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\ImportExport\Model\Import\Entity;
 
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -61,7 +60,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $existingProductIds = array(10, 11, 12);
         $productsBeforeImport = array();
         foreach ($existingProductIds as $productId) {
-            $product = \Mage::getModel('Magento\Catalog\Model\Product');
+            $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
             $product->load($productId);
             $productsBeforeImport[] = $product;
         }
@@ -77,7 +77,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var $productBeforeImport \Magento\Catalog\Model\Product */
         foreach ($productsBeforeImport as $productBeforeImport) {
             /** @var $productAfterImport \Magento\Catalog\Model\Product */
-            $productAfterImport = \Mage::getModel('Magento\Catalog\Model\Product');
+            $productAfterImport = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
             $productAfterImport->load($productBeforeImport->getId());
 
             $this->assertEquals(
@@ -100,7 +101,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $existingProductIds = array(10, 11, 12);
         $stockItems = array();
         foreach ($existingProductIds as $productId) {
-            $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
+            $stockItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogInventory\Model\Stock\Item');
             $stockItem->loadByProduct($productId);
             $stockItems[$productId] = $stockItem;
         }
@@ -117,7 +119,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         foreach ($stockItems as $productId => $stockItmBeforeImport) {
 
             /** @var $stockItemAfterImport \Magento\CatalogInventory\Model\Stock\Item */
-            $stockItemAfterImport = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
+            $stockItemAfterImport = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogInventory\Model\Stock\Item');
             $stockItemAfterImport->loadByProduct($productId);
 
             $this->assertEquals(
@@ -149,7 +152,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->isDataValid();
         $this->_model->importData();
 
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // product from fixture
         $options = $product->getProductOptionsCollection();
 
@@ -402,7 +406,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveMediaImage()
     {
-        $attribute = \Mage::getModel('Magento\Catalog\Model\Entity\Attribute');
+        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Entity\Attribute');
         $attribute->loadByCode('catalog_product', 'media_gallery');
         $data = implode(',', array(
             // minimum required set of attributes + media images
@@ -420,7 +425,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $data = 'data://text/plain;base64,' . base64_encode($data);
         $fixture = new \Magento\ImportExport\Model\Import\Source\Csv($data);
 
-        foreach (\Mage::getModel('Magento\Catalog\Model\Resource\Product\Collection') as $product) {
+        foreach (\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Resource\Product\Collection') as $product) {
             $this->fail("Unexpected precondition - product exists: '{$product->getId()}'.");
         }
 
@@ -431,7 +437,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $resource = new \Magento\Catalog\Model\Resource\Product;
         $productId = $resource->getIdBySku('test_sku'); // fixture
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load($productId);
         $gallery = $product->getMediaGalleryImages();
         $this->assertInstanceOf('Magento\Data\Collection', $gallery);
@@ -448,7 +455,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public static function mediaImportImageFixture()
     {
-        $dir = \Mage::getBaseDir('media') . '/import';
+        $dir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+            ->getDir('media') . '/import';
         mkdir($dir);
         copy(__DIR__ . '/../../../../../Magento/Catalog/_files/magento_image.jpg', "{$dir}/magento_image.jpg");
     }
@@ -458,7 +466,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public static function mediaImportImageFixtureRollback()
     {
-        $media = \Mage::getBaseDir('media');
+        $media = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+            ->getDir('media');
         \Magento\Io\File::rmdirRecursive("{$media}/import");
         \Magento\Io\File::rmdirRecursive("{$media}/catalog");
     }

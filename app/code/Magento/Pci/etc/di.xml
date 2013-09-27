@@ -13,4 +13,9 @@
             <instance type="Magento\Authorization" />
         </param>
     </type>
+    <type name="Magento\Core\Helper\Data">
+        <param name="encryptor">
+            <instance type="Magento\Pci\Model\Encryption" />
+        </param>
+    </type>
 </config>

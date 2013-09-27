@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Catalog;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Controller\Catalog;
+
 class CategoryTest extends \Magento\Backend\Utility\Controller
 {
     /**
@@ -27,7 +27,8 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
     public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
     {
         /** @var $store \Magento\Core\Model\Store */
-        $store = \Mage::getModel('Magento\Core\Model\Store');
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store');
         $store->load('fixturestore', 'code');
         $storeId = $store->getId();
 
@@ -41,7 +42,8 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
         );
 
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = \Mage::getModel('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $category->setStoreId($storeId);
         $category->load(2);
 

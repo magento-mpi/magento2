@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
-
 /**
  * Test class for block \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form
  * @magentoAppArea adminhtml
  */
+namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
+
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -46,7 +46,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = \Mage::app()->getLayout()->createBlock('Magento\ImportExport\Block\Adminhtml\Export\Edit\Form');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\ImportExport\Block\Adminhtml\Export\Edit\Form');
     }
 
     /**

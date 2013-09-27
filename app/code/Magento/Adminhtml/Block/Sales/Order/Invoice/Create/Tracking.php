@@ -27,17 +27,25 @@ class Tracking extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Shipping\Model\Config
+     */
+    protected $_shippingConfig;
+
+    /**
+     * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_shippingConfig = $shippingConfig;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -90,7 +98,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
     {
 
         $carriers = array();
-        $carrierInstances = \Mage::getSingleton('Magento\Shipping\Model\Config')->getAllCarriers(
+        $carrierInstances = $this->_shippingConfig->getAllCarriers(
             $this->getInvoice()->getStoreId()
         );
         $carriers['custom'] = __('Custom Value');

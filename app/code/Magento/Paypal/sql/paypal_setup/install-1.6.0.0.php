@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Paypal\Model\Resource\Setup */
+/** @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
 
 /**
@@ -137,6 +137,22 @@ $installer->addAttribute('quote_payment', 'paypal_payer_id', array());
 $installer->addAttribute('quote_payment', 'paypal_payer_status', array());
 $installer->addAttribute('quote_payment', 'paypal_correlation_id', array());
 $installer->addAttribute('order', 'paypal_ipn_customer_notified', array('type' => 'int', 'visible' => false, 'default' => 0));
+
+$data = array();
+$statuses = array(
+    'pending_paypal' => __('Pending PayPal')
+);
+foreach ($statuses as $code => $info) {
+    $data[] = array(
+        'status' => $code,
+        'label'  => $info
+    );
+}
+$installer->getConnection()->insertArray(
+    $installer->getTable('sales_order_status'),
+    array('status', 'label'),
+    $data
+);
 
 /**
  * Prepare database after install

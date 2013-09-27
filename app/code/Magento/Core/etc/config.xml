@@ -10,19 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <helpers>
-            <core>
-                <encryption_model>Magento\Core\Model\Encryption</encryption_model>
-            </core>
-        </helpers>
-        <template>
-            <email />
-        </template>
-        <migration>
-            <path_to_aliases_map_file>app/etc/aliases_to_classes_map.json</path_to_aliases_map_file>
-        </migration>
-    </global>
     <default>
         <design>
             <pagination>

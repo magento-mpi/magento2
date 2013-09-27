@@ -55,7 +55,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
             array(), '', false
         );
         $this->_configDataMock = $this->getMock('Magento\Core\Model\Config\Value',
-            array('getScope', 'getScopeId', 'getCollection'),
+            array('getScope', 'getScopeId', 'getCollection', '__sleep', '__wakeup'),
             array(), '', false
         );
         $this->_dataCollectionMock = $this->getMock('Magento\Core\Model\Resource\Config\Data\Collection',

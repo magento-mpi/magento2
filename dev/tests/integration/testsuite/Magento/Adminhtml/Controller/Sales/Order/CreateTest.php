@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Sales\Order;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
 class CreateTest extends \Magento\Backend\Utility\Controller
 {
     public function testLoadBlockAction()
@@ -29,7 +29,8 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function testLoadBlockActionData()
     {
-        \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create')->addProducts(array(1 => array('qty' => 1)));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Adminhtml\Model\Sales\Order\Create')
+            ->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'data');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/admin/sales_order_create/loadBlock');
@@ -68,7 +69,8 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function testLoadBlockActionItems()
     {
-        \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create')->addProducts(array(1 => array('qty' => 1)));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Adminhtml\Model\Sales\Order\Create')
+            ->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'items');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/admin/sales_order_create/loadBlock');
@@ -82,7 +84,8 @@ class CreateTest extends \Magento\Backend\Utility\Controller
     public function testIndexAction()
     {
         /** @var $order \Magento\Adminhtml\Model\Sales\Order\Create */
-        $order = \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Adminhtml\Model\Sales\Order\Create');
         $order->addProducts(array(1 => array('qty' => 1)));
         $this->dispatch('backend/admin/sales_order_create/index');
         $html = $this->getResponse()->getBody();

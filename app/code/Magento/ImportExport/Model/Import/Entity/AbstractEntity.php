@@ -219,7 +219,7 @@ abstract class AbstractEntity
 
         $this->_entityTypeId    = $entityType->getEntityTypeId();
         $this->_dataSourceModel = \Magento\ImportExport\Model\Import::getDataSourceModel();
-        $this->_connection      = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('write');
+        $this->_connection      = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
     }
 
     /**

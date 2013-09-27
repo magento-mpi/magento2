@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Core\Model\Db\Updater">
+        <param name="resourceList">
+            <value>
+                <giftmessage_setup>Magento\GiftMessage\Model\Resource\Setup</giftmessage_setup>
+            </value>
+        </param>
+    </type>
+</config>

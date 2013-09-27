@@ -8,13 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\Core\Block;
-
 /**
  * @magentoAppIsolation enabled
  */
-class AbstractBlockTest extends \PHPUnit_Framework_TestCase
+namespace Magento\Core\Block;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Block\AbstractBlock
@@ -33,7 +32,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock', array(
-            \Mage::getSingleton('Magento\Core\Block\Context'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Block\Context'),
             array('module_name' => 'Magento_Core')
         ));
     }
@@ -49,7 +48,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         /** @var $dirs \Magento\Core\Model\Dir */
         $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
 
-        $prepareFileName = new \ReflectionMethod($dirs, '_setDir');
+        $prepareFileName = new ReflectionMethod($dirs, '_setDir');
         $prepareFileName->setAccessible(true);
         $prepareFileName->invoke($dirs, \Magento\Core\Model\Dir::THEMES, $dirPath);
 
@@ -105,7 +104,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($name, $this->_block->getNameInLayout());
 
         // Setting second time, along with the layout
-        $layout = \Mage::app()->getLayout();
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $layout->createBlock('Magento\Core\Block\Template', $name);
         $block = $layout->getBlock($name);
         $this->assertInstanceOf('Magento\Core\Block\AbstractBlock', $block);
@@ -234,7 +233,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
         // With layout
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $child = $layout->createBlock('Magento\Core\Block\Text', $childName);
         $layout->addBlock($this->_block, $parentName);
 
@@ -340,8 +339,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $parent = $this->_createBlockWithLayout('parent', 'parent');
         $block = $this->_createBlockWithLayout('');
         $parent->setChild('', $block);
-        $childrenArray = $parent->getChildNames();
-        $this->assertContains('abstractblockmock', $childrenArray);
+        $this->assertContains('abstractmock', $parent->getChildNames());
     }
 
     /**
@@ -460,7 +458,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     public function testSetFrameTags()
     {
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Text');
         $block->setText('text');
 
         $block->setFrameTags('p');
@@ -525,11 +524,14 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testGetSetMessagesBlock()
     {
         // Get one from layout
-        $this->_block->setLayout(\Mage::getSingleton('Magento\Core\Model\Layout'));
+        $this->_block->setLayout(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        );
         $this->assertInstanceOf('Magento\Core\Block\Messages', $this->_block->getMessagesBlock());
 
         // Set explicitly
-        $messages = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Messages');
+        $messages = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Messages');
         $this->_block->setMessagesBlock($messages);
         $this->assertSame($messages, $this->_block->getMessagesBlock());
     }
@@ -618,7 +620,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testGetCacheKeyInfo()
     {
         $name = uniqid('block.');
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Text');
         $block->setNameInLayout($name);
         $this->assertEquals(array($name), $block->getCacheKeyInfo());
     }
@@ -626,7 +629,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testGetCacheKey()
     {
         $name = uniqid('block.');
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Core\Block\Text');
         $block->setNameInLayout($name);
         $key = $block->getCacheKey();
         $this->assertNotEmpty($key);
@@ -696,18 +700,18 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     protected function _createBlockWithLayout($name = 'block', $alias = null,
         $type = 'Magento\Core\Block\AbstractBlock'
     ) {
-        $typePart = explode('\\', $type);
-        $mockClass = array_pop($typePart) . 'Mock';
+        $mockClass = $type . 'Mock';
         if (!isset(self::$_mocks[$mockClass])) {
             self::$_mocks[$mockClass] = $this->getMockForAbstractClass($type, array(
-                    \Mage::getSingleton('Magento\Core\Block\Context'),
+                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Block\Context'),
                     array('module_name' => 'Magento_Core')
                 ),
-                $mockClass
+                $type . 'Mock'
             );
         }
         if (is_null($this->_layout)) {
-            $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+            $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Layout');
         }
         $block = $this->_layout->addBlock($mockClass, $name, '', $alias);
         return $block;

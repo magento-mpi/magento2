@@ -19,7 +19,7 @@
 namespace Magento\GoogleShopping\Block\Adminhtml\Items\Renderer;
 
 class Id
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders Google Shopping Item Id
@@ -41,6 +41,9 @@ class Id
         }
         $title = __('View Item in Google Content');
 
-        return sprintf('<a href="%s" alt="%s" title="%s" target="_blank">%s</a>', $baseUrl . $itemId, $title, $title, $itemId);
+        return sprintf(
+            '<a href="%s" alt="%s" title="%s" target="_blank">%s</a>',
+            $baseUrl . $itemId, $title, $title, $itemId
+        );
     }
 }

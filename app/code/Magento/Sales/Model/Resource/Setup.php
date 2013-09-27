@@ -26,35 +26,34 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_migrationFactory;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $modulesConfig
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @var \Magento\Core\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Core\Helper\Data $coreData
      * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config\Resource $resourcesConfig,
-        \Magento\Core\Model\Config $modulesConfig,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
-        $resourceName
+        \Magento\Core\Helper\Data $coreData,
+        $resourceName,
+        $moduleName = 'Magento_Sales',
+        $connectionName = ''
     ) {
         $this->_migrationFactory = $migrationFactory;
         $this->_coreData = $coreData;
-        parent::__construct($logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
-            $modulesReader, $cache, $resourceName);
+        $this->_config = $config;
+        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
     }
 
     /**

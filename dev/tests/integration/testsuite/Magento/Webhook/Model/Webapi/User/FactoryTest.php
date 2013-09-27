@@ -1,5 +1,9 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Webapi\User\Factory
+ *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -10,11 +14,6 @@
  */
 namespace Magento\Webhook\Model\Webapi\User;
 
-/**
- * \Magento\Webhook\Model\Webapi\User\Factory
- *
- * @magentoDbIsolation enabled
- */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** Values being sent to user service */
@@ -42,7 +41,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         /** @var \Magento\Webapi\Model\Acl\User $user */
-        $user = \Mage::getModel('Magento\Webapi\Model\Acl\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\User');
         $user->load($this->_apiUserId);
         $user->delete();
     }
@@ -50,11 +50,13 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         /** @var \Magento\Webhook\Model\Webapi\User\Factory $userFactory */
-        $userFactory = \Mage::getModel('Magento\Webhook\Model\Webapi\User\Factory');
+        $userFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Webapi\User\Factory');
         $this->_apiUserId = $userFactory->createUser($this->_userContext, array('webhook/create'));
 
         /** @var \Magento\Webapi\Model\Acl\User $user */
-        $user = \Mage::getModel('Magento\Webapi\Model\Acl\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Acl\User');
         $user->load($this->_apiUserId);
 
         $this->assertEquals(self::VALUE_COMPANY_NAME, $user->getCompanyName());
@@ -64,7 +66,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals(0, $user->getRoleId());
 
         /** @var \Magento\Webapi\Model\Resource\Acl\Rule $ruleResources */
-        $ruleResources = \Mage::getModel('Magento\Webapi\Model\Resource\Acl\Rule');
+        $ruleResources = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webapi\Model\Resource\Acl\Rule');
         $rules = $ruleResources->getResourceIdsByRole($user->getRoleId());
         $this->assertNotEmpty($rules);
     }

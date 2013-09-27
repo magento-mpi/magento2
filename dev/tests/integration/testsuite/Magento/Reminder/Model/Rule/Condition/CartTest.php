@@ -22,7 +22,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
         if ($checkGmtDate) {
             $dateModelMock->expects($this->at(1))->method('gmtDate')->with();
         }
-        $this->_model = \Mage::getModel('Magento\Reminder\Model\Rule\Condition\Cart', array(
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Reminder\Model\Rule\Condition\Cart', array(
             'dateModel' => $dateModelMock
         ));
         $this->_model->setOperator($operator);

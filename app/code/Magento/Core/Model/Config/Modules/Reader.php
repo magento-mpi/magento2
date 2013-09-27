@@ -12,18 +12,18 @@ namespace Magento\Core\Model\Config\Modules;
 class Reader
 {
     /**
-     * Module configuration directories
+     * Module directories that were set explicitly
      *
      * @var array
      */
-    protected $_moduleDirs = array();
+    protected $_customModuleDirs = array();
 
     /**
-     * \Directory registry
+     * Directory registry
      *
-     * @var \Magento\Core\Model\Dir
+     * @var \Magento\Core\Model\Module\Dir
      */
-    protected $_dirs;
+    protected $_moduleDirs;
 
     /**
      * Modules configuration provider
@@ -40,16 +40,16 @@ class Reader
     protected $_prototypeFactory;
 
     /**
-     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Model\Module\Dir $moduleDirs
      * @param \Magento\Core\Model\Config\BaseFactory $prototypeFactory
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      */
     public function __construct(
-        \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Model\Module\Dir $moduleDirs,
         \Magento\Core\Model\Config\BaseFactory $prototypeFactory,
         \Magento\Core\Model\ModuleListInterface $moduleList
     ) {
-        $this->_dirs = $dirs;
+        $this->_moduleDirs = $moduleDirs;
         $this->_prototypeFactory = $prototypeFactory;
         $this->_modulesList = $moduleList;
     }
@@ -124,26 +124,10 @@ class Reader
      */
     public function getModuleDir($type, $moduleName)
     {
-        if (isset($this->_moduleDirs[$moduleName][$type])) {
-            return $this->_moduleDirs[$moduleName][$type];
+        if (isset($this->_customModuleDirs[$moduleName][$type])) {
+            return $this->_customModuleDirs[$moduleName][$type];
         }
-
-        $dir = $this->_dirs->getDir(\Magento\Core\Model\Dir::MODULES) . DIRECTORY_SEPARATOR
-            . uc_words($moduleName, DIRECTORY_SEPARATOR);
-
-        switch ($type) {
-            case 'etc':
-            case 'controllers':
-            case 'sql':
-            case 'data':
-            case 'i18n':
-            case 'view':
-                $dir .= DS . $type;
-                break;
-        }
-
-        $dir = str_replace('/', DS, $dir);
-        return $dir;
+        return $this->_moduleDirs->getDir($moduleName, $type);
     }
 
     /**
@@ -155,9 +139,6 @@ class Reader
      */
     public function setModuleDir($moduleName, $type, $path)
     {
-        if (!isset($this->_moduleDirs[$moduleName])) {
-            $this->_moduleDirs[$moduleName] = array();
-        }
-        $this->_moduleDirs[$moduleName][$type] = $path;
+        $this->_customModuleDirs[$moduleName][$type] = $path;
     }
 }

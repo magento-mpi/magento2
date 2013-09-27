@@ -18,7 +18,8 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
-class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
+class Date
+    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
     protected $_locale;
 
@@ -174,7 +175,7 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
             $dateObj->set($date, \Zend_Date::DATE_SHORT, $locale);
 
             //convert store date to default date in UTC timezone without DST
-            $dateObj->setTimezone(\Mage::DEFAULT_TIMEZONE);
+            $dateObj->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
 
             return $dateObj;
         } catch (\Exception $e) {

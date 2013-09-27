@@ -16,7 +16,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Mage::getModel('Magento\GiftRegistry\Model\Resource\Item\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftRegistry\Model\Resource\Item\Collection');
     }
 
     public function testAddProductFilter()

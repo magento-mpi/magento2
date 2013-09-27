@@ -28,6 +28,7 @@ class Reorder extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
@@ -36,10 +37,11 @@ class Reorder extends \Magento\Core\Helper\Data
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor,
         \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_customerSession = $customerSession;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     /**

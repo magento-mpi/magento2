@@ -23,6 +23,30 @@ class Items extends \Magento\Adminhtml\Block\Widget\Grid\Container
     protected $_template = 'items.phtml';
 
     /**
+     * Flag factory
+     *
+     * @var \Magento\GoogleShopping\Model\FlagFactory
+     */
+    protected $_flagFactory;
+
+    /**
+     * @param \Magento\GoogleShopping\Model\FlagFactory $flagFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GoogleShopping\Model\FlagFactory $flagFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_flagFactory = $flagFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
+    /**
      * Preparing layout
      *
      * @return \Magento\GoogleShopping\Block\Adminhtml\Items
@@ -76,7 +100,7 @@ class Items extends \Magento\Adminhtml\Block\Widget\Grid\Container
      */
     public function isProcessRunning()
     {
-        $flag = \Mage::getModel('Magento\GoogleShopping\Model\Flag')->loadSelf();
+        $flag = $this->_flagFactory->create()->loadSelf();
         return $flag->isLocked();
     }
 

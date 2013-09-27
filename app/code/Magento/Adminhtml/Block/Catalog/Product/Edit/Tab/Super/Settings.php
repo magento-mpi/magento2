@@ -20,6 +20,31 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super;
 class Settings extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Catalog\Model\Product\Type\Configurable
+     */
+    protected $_configurableType;
+
+    /**
+     * @param \Magento\Catalog\Model\Product\Type\Configurable $configurableType
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Product\Type\Configurable $configurableType,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_configurableType = $configurableType;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare block children and data
      *
      */
@@ -65,14 +90,12 @@ class Settings extends \Magento\Backend\Block\Widget\Form\Generic
         ));
 
         $product = $this->getProduct();
-        /** @var $configurableType \Magento\Catalog\Model\Product\Type\Configurable */
-        $configurableType = \Mage::getSingleton('Magento\Catalog\Model\Product\Type\Configurable');
         $usedAttributes = $product->isConfigurable()
-            ? $configurableType->getUsedProductAttributes($product)
+            ? $this->_configurableType->getUsedProductAttributes($product)
             : array();
         foreach ($usedAttributes as $attribute) {
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-            if ($configurableType->canUseAttribute($attribute, $product)) {
+            if ($this->_configurableType->canUseAttribute($attribute, $product)) {
                 $fieldset->addField('attribute_' . $attribute->getAttributeId(), 'checkbox', array(
                     'label' => $attribute->getFrontendLabel(),
                     'title' => $attribute->getFrontendLabel(),

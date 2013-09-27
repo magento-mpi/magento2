@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <catalogevent_setup>
-                <setup>
-                    <module>Magento_CatalogEvent</module>
-                    <class>Magento\CatalogEvent\Model\Resource\Setup</class>
-                </setup>
-            </catalogevent_setup>
-        </resources>
-    </global>
     <default>
         <catalog>
             <magento_catalogevent>

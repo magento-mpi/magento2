@@ -9,14 +9,13 @@
  * @license     {license_link}
  */
 
-
-namespace Magento\Backend\Model;
-
 /**
  * Test class for \Magento\Backend\Model\Session.
  *
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Model;
+
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
     public function testContructor()
@@ -25,7 +24,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             unset($_SESSION['adminhtml']);
         }
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        \Mage::getModel('Magento\Backend\Model\Session', array($logger));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Session', array($logger));
         $this->assertArrayHasKey('adminhtml', $_SESSION);
     }
 }

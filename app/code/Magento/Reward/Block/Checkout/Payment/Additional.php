@@ -43,6 +43,12 @@ class Additional extends \Magento\Core\Block\Template
     protected $_customerSession;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+    
+    /**
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
@@ -52,6 +58,7 @@ class Additional extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
@@ -60,10 +67,11 @@ class Additional extends \Magento\Core\Block\Template
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $checkoutSession;
         $this->_rewardData = $rewardData;
         $this->_storeManager = $storeManager;
         $this->_rewardFactory = $rewardFactory;
-        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -84,7 +92,7 @@ class Additional extends \Magento\Core\Block\Template
      */
     public function getQuote()
     {
-        return $this->_customerSession->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**

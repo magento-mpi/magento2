@@ -20,13 +20,28 @@ namespace Magento\GoogleShopping\Model\Source;
 class Country implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
+     * Config
+     *
+     * @var \Magento\GoogleShopping\Model\Config
+     */
+    protected $_config;
+
+    /**
+     * @param \Magento\GoogleShopping\Model\Config $config
+     */
+    function __construct(\Magento\GoogleShopping\Model\Config $config)
+    {
+        $this->_config = $config;
+    }
+
+    /**
      * Retrieve option array with allowed countries
      *
      * @return array
      */
     public function toOptionArray()
     {
-        $_allowed = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getAllowedCountries();
+        $_allowed = $this->_config->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[] = array('value' => $iso, 'label' => $info['name']);

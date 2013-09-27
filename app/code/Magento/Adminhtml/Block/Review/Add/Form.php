@@ -28,6 +28,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_reviewData = null;
 
     /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
@@ -36,6 +42,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\System\Store $systemStore,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
@@ -44,6 +51,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
+        $this->_systemStore = $systemStore;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -77,12 +85,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /**
          * Check is single store mode
          */
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('select_stores', 'multiselect', array(
                 'label'     => __('Visible In'),
                 'required'  => true,
                 'name'      => 'select_stores[]',
-                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
+                'values'    => $this->_systemStore->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');

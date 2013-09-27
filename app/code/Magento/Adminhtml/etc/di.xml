@@ -18,4 +18,14 @@
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
+    <type name="Magento\Adminhtml\Helper\Dashboard\Data">
+        <param name="installDate">
+            <value type="argument">Magento\Core\Model\App\State::PARAM_INSTALL_DATE</value>
+        </param>
+    </type>
+    <type name="Magento\Adminhtml\Block\Rating\Edit\Tab\Form">
+        <param name="session">
+            <instance type="Magento\Adminhtml\Model\Session" />
+        </param>
+    </type>
 </config>

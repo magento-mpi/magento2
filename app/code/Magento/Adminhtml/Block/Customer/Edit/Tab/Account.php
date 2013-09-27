@@ -27,6 +27,39 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
     const DISABLE_ATTRIBUTE_NAME = 'disable_auto_group_change';
 
     /**
+     * @var \Magento\Customer\Model\FormFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var \Magento\Core\Model\System\Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param \Magento\Customer\Model\FormFactory $customerFactory
+     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Customer\Model\FormFactory $customerFactory,
+        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        $this->_customerFactory = $customerFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Initialize form
      *
      * @return \Magento\Adminhtml\Block\Customer\Edit\Tab\Account
@@ -147,7 +180,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _initCustomerForm(\Magento\Customer\Model\Customer $customer)
     {
         /** @var $customerForm \Magento\Customer\Model\Form */
-        $customerForm = \Mage::getModel('Magento\Customer\Model\Form');
+        $customerForm = $this->_customerFactory->create();
         $customerForm->setEntity($customer)
             ->setFormCode('adminhtml_customer')
             ->initDefaultValues();
@@ -181,14 +214,13 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _disableSendEmailStoreForEmptyWebsite(\Magento\Data\Form $form)
     {
-        $isSingleMode = \Mage::app()->isSingleStoreMode();
-        $sendEmailId = $isSingleMode ? 'sendemail' : 'sendemail_store_id';
+        $sendEmailId = $this->_storeManager->isSingleStoreMode() ? 'sendemail' : 'sendemail_store_id';
         $sendEmail = $form->getElement($sendEmailId);
 
         $prefix = $form->getHtmlIdPrefix();
         if ($sendEmail) {
             $_disableStoreField = '';
-            if (!$isSingleMode) {
+            if (!$this->_storeManager->isSingleStoreMode()) {
                 $_disableStoreField = "$('{$prefix}sendemail_store_id').disabled=(''==this.value || '0'==this.value);";
             }
             $sendEmail->setAfterElementHtml(
@@ -224,11 +256,11 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
             'name'  => 'sendemail',
             'id'    => 'sendemail',
         ));
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $form->getElement('website_id')->addClass('validate-website-has-store');
 
             $websites = array();
-            foreach (\Mage::app()->getWebsites(true) as $website) {
+            foreach ($this->_storeManager->getWebsites(true) as $website) {
                 $websites[$website->getId()] = !is_null($website->getDefaultStore());
             }
             $prefix = $form->getHtmlIdPrefix();
@@ -256,7 +288,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
             $fieldset->addField('sendemail_store_id', 'select', array(
                 'label' => __('Send From'),
                 'name' => 'sendemail_store_id',
-                'values' => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm()
+                'values' => $this->_systemStore->getStoreValuesForForm()
             ));
         } else {
             $fieldset->removeField('website_id');
@@ -276,7 +308,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _addEditCustomerFormFields($form, $fieldset, $customer)
     {
         $form->getElement('created_in')->setDisabled('disabled');
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $form->getElement('website_id')->setDisabled('disabled');
             $renderer = $this->getLayout()
                 ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
@@ -365,7 +397,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $customerStoreId = null;
         if ($customer->getId()) {
-            $customerStoreId = \Mage::app()->getWebsite($customer->getWebsiteId())
+            $customerStoreId = $this->_storeManager->getWebsite($customer->getWebsiteId())
                 ->getDefaultStore()
                 ->getId();
         }
@@ -379,8 +411,8 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _setCustomerWebsiteId(\Magento\Customer\Model\Customer $customer)
     {
-        if (\Mage::app()->isSingleStoreMode()) {
-            $customer->setWebsiteId(\Mage::app()->getStore(true)->getWebsiteId());
+        if ($this->_storeManager->isSingleStoreMode()) {
+            $customer->setWebsiteId($this->_storeManager->getStore(true)->getWebsiteId());
         }
     }
 }

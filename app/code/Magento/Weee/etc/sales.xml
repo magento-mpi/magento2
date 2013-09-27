@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <section name="quote">
+        <group name="totals">
+            <item name="weee" instance="Magento\Weee\Model\Total\Quote\Weee" sort_order="350"/>
+        </group>
+        <group name="nominal_totals">
+            <item name="nominal_weee" instance="Magento\Weee\Model\Total\Quote\Nominal\Weee" sort_order="600"/>
+        </group>
+    </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="weee" instance="Magento\Weee\Model\Total\Invoice\Weee" sort_order="600"/>
+        </group>
+    </section>
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="weee" instance="Magento\Weee\Model\Total\Creditmemo\Weee" sort_order="100"/>
+        </group>
+    </section>
+</config>

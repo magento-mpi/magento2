@@ -28,7 +28,7 @@ class Totalbar extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            \Mage::throwException(__('Please correct the parent block for this block.'));
+            throw new \Magento\Core\Exception(__('Please correct the parent block for this block.'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
         $this->setSource($this->getParentBlock()->getSource());

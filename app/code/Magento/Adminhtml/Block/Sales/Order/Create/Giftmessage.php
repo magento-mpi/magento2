@@ -21,6 +21,31 @@ namespace Magento\Adminhtml\Block\Sales\Order\Create;
 class Giftmessage extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
+     * @var \Magento\Adminhtml\Model\Giftmessage\Save
+     */
+    protected $_giftMessageSave;
+
+    /**
+     * @param \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_giftMessageSave = $giftMessageSave;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
+    }
+
+    /**
      * Generate form for editing of gift message for entity
      *
      * @param \Magento\Object $entity
@@ -70,7 +95,7 @@ class Giftmessage extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCr
      */
     protected function _getGiftmessageSaveModel()
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Giftmessage\Save');
+        return $this->_giftMessageSave;
     }
 
 }

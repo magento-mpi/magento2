@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Image;
-
 /**
  * Test class for \Magento\Core\Model\Image\AdapterFactory
  * @magentoAppArea adminhtml
  */
+namespace Magento\Core\Model\Image;
+
 class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Image\AdapterFactory');
-        $this->_config = \Mage::getModel('Magento\Core\Model\Store\Config');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Image\AdapterFactory');
+        $this->_config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store\Config');
     }
 
     /**

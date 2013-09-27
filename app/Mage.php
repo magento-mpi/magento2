@@ -14,90 +14,6 @@
 final class Mage
 {
     /**
-     * Default error handler function name
-     */
-    const DEFAULT_ERROR_HANDLER = 'mageCoreErrorHandler';
-
-    /**
-     * Application initialization option to specify custom product edition label
-     */
-    const PARAM_EDITION = 'edition';
-
-    /**
-     * Application run code
-     */
-    const PARAM_RUN_CODE = 'MAGE_RUN_CODE';
-
-    /**
-     * Application run type (store|website)
-     */
-    const PARAM_RUN_TYPE = 'MAGE_RUN_TYPE';
-
-    /**
-     * Application run code
-     */
-    const PARAM_MODE = 'MAGE_MODE';
-
-    /**
-     * Base directory
-     */
-    const PARAM_BASEDIR = 'base_dir';
-
-    /**
-     * Custom application dirs
-     */
-    const PARAM_APP_DIRS = 'app_dirs';
-
-    /**
-     * Custom application uris
-     */
-    const PARAM_APP_URIS = 'app_uris';
-
-    /**
-     * Allowed modules
-     */
-    const PARAM_ALLOWED_MODULES = 'allowed_modules';
-
-    /**
-     * Caching params
-     */
-    const PARAM_CACHE_OPTIONS = 'cache_options';
-
-    /**
-     * Disallow cache
-     */
-    const PARAM_BAN_CACHE = 'global_ban_use_cache';
-
-    /**
-     * Custom local configuration file name
-     */
-    const PARAM_CUSTOM_LOCAL_FILE = 'custom_local_xml';
-
-    /**
-     * Custom local configuration
-     */
-    const PARAM_CUSTOM_LOCAL_CONFIG = 'custom_local_config';
-
-    /**#@+
-     * Product edition labels
-     */
-    const EDITION_COMMUNITY    = 'Community';
-    const EDITION_ENTERPRISE   = 'Enterprise';
-    const EDITION_PROFESSIONAL = 'Professional';
-    const EDITION_GO           = 'Go';
-    /**#@-*/
-
-    /**
-     * Default timezone
-     */
-    const DEFAULT_TIMEZONE  = 'UTC';
-
-    /**
-     * Magento version
-     */
-    const VERSION = '2.0.0.0-dev43';
-
-    /**
      * Application root absolute path
      *
      * @var string
@@ -105,179 +21,11 @@ final class Mage
     static private $_appRoot;
 
     /**
-     * Application model
-     *
-     * @var \Magento\Core\Model\App
-     */
-    static private $_app;
-
-    /**
-     * Config Model
-     *
-     * @var \Magento\Core\Model\Config
-     */
-    static private $_config;
-
-    /**
-     * Object cache instance
-     *
-     * @var \Magento\Object\Cache
-     */
-    static private $_objects;
-
-    /**
-     * Is downloader flag
-     *
-     * @var bool
-     */
-    static private $_isDownloader = false;
-
-    /**
      * Is allow throw \Exception about headers already sent
      *
      * @var bool
      */
     public static $headersSentThrowsException  = true;
-
-    /**
-     * Logger entities
-     *
-     * @var array
-     */
-    static private $_loggers = array();
-
-    /**
-     * Design object
-     *
-     * @var \Magento\Core\Model\View\DesignInterface
-     */
-    protected static $_design;
-
-    /**
-     * Current Magento edition.
-     *
-     * @var string
-     * @static
-     */
-    static private $_currentEdition = self::EDITION_COMMUNITY;
-
-    /**
-     * Check if we need to use __sleep and __wakeup serialization methods in models
-     *
-     * @var bool
-     */
-    static private $_isSerializable = true;
-
-    /**
-     * Update mode flag
-     *
-     * @var bool
-     */
-    static private $_updateMode = false;
-
-    /**
-     * Gets the current Magento version string
-     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
-     *
-     * @return string
-     */
-    public static function getVersion()
-    {
-        $info = self::getVersionInfo();
-        return trim("{$info['major']}.{$info['minor']}.{$info['revision']}"
-            . ($info['patch'] != '' ? ".{$info['patch']}" : "")
-            . "-{$info['stability']}{$info['number']}", '.-');
-    }
-
-    /**
-     * Gets the detailed Magento version information
-     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
-     *
-     * @return array
-     */
-    public static function getVersionInfo()
-    {
-        return array(
-            'major'     => '2',
-            'minor'     => '0',
-            'revision'  => '0',
-            'patch'     => '0',
-            'stability' => 'dev',
-            'number'    => '45',
-        );
-    }
-
-    /**
-     * Get current Magento edition
-     *
-     * @static
-     * @return string
-     */
-    public static function getEdition()
-    {
-        return self::$_currentEdition;
-    }
-
-    /**
-     * Set edition
-     *
-     * @param string $edition
-     */
-    public static function setEdition($edition)
-    {
-        self::$_currentEdition = $edition;
-    }
-
-    /**
-     * Set all my static data to defaults
-     *
-     */
-    public static function reset()
-    {
-        self::$_appRoot         = null;
-        self::$_app             = null;
-        self::$_objects         = null;
-        self::$_isDownloader    = false;
-        self::$_loggers         = array();
-        self::$_design          = null;
-        // do not reset $headersSentThrowsException
-    }
-
-    /**
-     * Retrieve application root absolute path
-     *
-     * @return string
-     * @throws \Magento\Exception
-     */
-    public static function getRoot()
-    {
-        if (!self::$_appRoot) {
-            $appRootDir = __DIR__;
-            if (!is_readable($appRootDir)) {
-                throw new \Magento\Exception("Application root directory '$appRootDir' is not readable.");
-            }
-            self::$_appRoot = $appRootDir;
-        }
-        return self::$_appRoot;
-    }
-
-    /**
-     * Magento Objects Cache
-     *
-     * @param string $key optional, if specified will load this key
-     * @return \Magento\Object\Cache
-     */
-    public static function objects($key = null)
-    {
-        if (!self::$_objects) {
-            self::$_objects = new \Magento\Object\Cache;
-        }
-        if (is_null($key)) {
-            return self::$_objects;
-        } else {
-            return self::$_objects->load($key);
-        }
-    }
 
     /**
      * Retrieve application root absolute path
@@ -425,26 +173,8 @@ final class Mage
      */
     public static function getResourceHelper($moduleName)
     {
-        $connectionModel = \Magento\Core\Model\ObjectManager::getInstance()
-            ->get('Magento\Core\Model\Config\Resource')
-            ->getResourceConnectionModel('core');
-
-        $helperClassName = str_replace('_', '\\', $moduleName) . '\\Model\\Resource\\Helper\\'
-            . ucfirst($connectionModel);
-        $connection = strtolower($moduleName);
-        if (substr($moduleName, 0, 8) == 'Magento_') {
-            $connection = substr($connection, 8);
-        }
-        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
-        /** @var \Magento\Core\Model\Registry $registryObject */
-        $registryObject = $objectManager->get('Magento\Core\Model\Registry');
-        $key = 'resourceHelper/' . $connection;
-        if (!$registryObject->registry($key)) {
-            $registryObject->register(
-                $key, $objectManager->create($helperClassName, array('modulePrefix' => $connection))
-            );
-        }
-        return $registryObject->registry($key);
+        return \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Resource\HelperPool')
+            ->get($moduleName);
     }
 
     /**
@@ -458,8 +188,7 @@ final class Mage
      */
     public static function exception($module = 'Magento_Core', $message = '', $code = 0)
     {
-        $module = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $module);
-        $className = $module . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Exception';
+        $className = $module . '_Exception';
         return new $className($message, $code);
     }
 
@@ -487,10 +216,7 @@ final class Mage
      */
     public static function app()
     {
-        if (null === self::$_app) {
-            self::$_app = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App');
-        }
-        return self::$_app;
+        return \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App');
     }
 
     /**
@@ -501,7 +227,7 @@ final class Mage
      */
     public static function isInstalled()
     {
-        return (bool) \Mage::getSingleton('Magento\Core\Model\Config\Primary')->getInstallDate();
+        return (bool) \Mage::getSingleton('Magento\Core\Model\App\State')->isInstalled();
     }
 
     /**
@@ -572,67 +298,5 @@ final class Mage
         }
 
         die();
-    }
-
-    /**
-     * Set is downloader flag
-     *
-     * @param bool $flag
-     *
-     * @deprecated use \Magento\Core\Model\App\State::setIsDownloader()
-     */
-    public static function setIsDownloader($flag = true)
-    {
-        self::$_isDownloader = $flag;
-    }
-
-    /**
-     * Set is serializable flag
-     *
-     * @static
-     * @param bool $value
-     *
-     * @deprecated use \Magento\Core\Model\App\State::setIsSerializable()
-     */
-    public static function setIsSerializable($value = true)
-    {
-        self::$_isSerializable = !empty($value);
-    }
-
-    /**
-     * Get is serializable flag
-     *
-     * @static
-     * @return bool
-     *
-     * @deprecated use \Magento\Core\Model\App\State::getIsSerializable()
-     */
-    public static function getIsSerializable()
-    {
-        return self::$_isSerializable;
-    }
-
-    /**
-     * Set update mode flag
-     *
-     * @param bool $value
-     *
-     * @deprecated use \Magento\Core\Model\App\State::setUpdateMode()
-     */
-    public static function setUpdateMode($value)
-    {
-        self::$_updateMode = $value;
-
-    }
-
-    /**
-     * Get update mode flag
-     * @return bool
-     *
-     * @deprecated use \Magento\Core\Model\App\State::setUpdateMode()
-     */
-    public static function getUpdateMode()
-    {
-        return self::$_updateMode;
     }
 }

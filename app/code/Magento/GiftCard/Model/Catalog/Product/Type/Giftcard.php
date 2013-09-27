@@ -227,7 +227,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         $amount = null;
         if (($selectedAmount == 'custom' || !$selectedAmount) && $allowOpen) {
             if ($customAmount <= 0 && $isStrictProcessMode) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Please specify a gift card amount.')
                 );
             }
@@ -307,7 +307,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         }
 
         if ($emptyFields > 1 && $isStrictProcessMode) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Please specify all the required information.')
             );
         }
@@ -358,13 +358,13 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
                 return $customAmount;
             } elseif ($customAmount > $maxAmount && $isStrict) {
                 $messageAmount = $this->_coreData->currency($maxAmount, true, false);
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Gift Card max amount is %1', $messageAmount)
                 );
             }
         } elseif ($customAmount < $minAmount && $isStrict) {
             $messageAmount = $this->_coreData->currency($minAmount, true, false);
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Gift Card min amount is %1', $messageAmount)
             );
         }
@@ -380,29 +380,29 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected function _checkGiftcardFields($buyRequest, $isPhysical, $amount)
     {
         if (is_null($amount)) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Please specify a gift card amount.')
             );
         }
         if (!$buyRequest->getGiftcardRecipientName()) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Please specify a recipient name.')
             );
         }
         if (!$buyRequest->getGiftcardSenderName()) {
-            \Mage::throwException(
+            throw new \Magento\Core\Exception(
                 __('Please specify a sender name.')
             );
         }
 
         if (!$isPhysical) {
             if (!$buyRequest->getGiftcardRecipientEmail()) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Please specify a recipient email.')
                 );
             }
             if (!$buyRequest->getGiftcardSenderEmail()) {
-                \Mage::throwException(
+                throw new \Magento\Core\Exception(
                     __('Please specify a sender email.')
                 );
             }

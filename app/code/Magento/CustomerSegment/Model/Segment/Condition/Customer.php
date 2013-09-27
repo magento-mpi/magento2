@@ -17,11 +17,24 @@ class Customer
     extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
-     * @param \Magento\Rule\Model\Condition\Context $context
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    protected $_conditionFactory;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer');
         $this->setValue(null);
     }
@@ -33,13 +46,14 @@ class Customer
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento\CustomerSegment\Model\Segment\Condition\Customer\\';
-        $conditions = \Mage::getModel($prefix . 'Attributes')->getNewChildSelectOptions();
-        $conditions = array_merge($conditions, \Mage::getModel($prefix . 'Newsletter')->getNewChildSelectOptions());
-        $conditions = array_merge($conditions, \Mage::getModel($prefix . 'Storecredit')->getNewChildSelectOptions());
+        $conditions = $this->_conditionFactory->create('Customer_Attributes')->getNewChildSelectOptions();
+        $conditions = array_merge($conditions,
+            $this->_conditionFactory->create('Customer_Newsletter')->getNewChildSelectOptions());
+        $conditions = array_merge($conditions,
+            $this->_conditionFactory->create('Customer_Storecredit')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
-            'label' => __('Customer')
+            'label' => __('Customer'),
         );
     }
 }

@@ -20,6 +20,31 @@ namespace Magento\Adminhtml\Block\Sales\Order\Create;
 
 class Form extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
+    /**
+     * @var \Magento\Customer\Model\FormFactory
+     */
+    protected $_customerFormFactory;
+
+    /**
+     * @param \Magento\Customer\Model\FormFactory $customerFormFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Customer\Model\FormFactory $customerFormFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_customerFormFactory = $customerFormFactory;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -81,7 +106,7 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
             $data['addresses'] = array();
 
             /* @var $addressForm \Magento\Customer\Model\Form */
-            $addressForm = \Mage::getModel('Magento\Customer\Model\Form')
+            $addressForm = $this->_customerFormFactory->create()
                 ->setFormCode('adminhtml_customer_address')
                 ->setStore($this->getStore());
             foreach ($this->getCustomer()->getAddresses() as $address) {
@@ -91,7 +116,7 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
         }
         if (!is_null($this->getStoreId())) {
             $data['store_id'] = $this->getStoreId();
-            $currency = \Mage::app()->getLocale()->currency($this->getStore()->getCurrentCurrencyCode());
+            $currency = $this->_locale->currency($this->getStore()->getCurrentCurrencyCode());
             $symbol = $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
             $data['currency_symbol'] = $symbol;
             $data['shipping_method_reseted'] = !(bool)$this->getQuote()->getShippingAddress()->getShippingMethod();

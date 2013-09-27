@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <action path="some_path_name" type="register" />
+    <action path="SOME_PATH_NAME_SECOND" type="generic" />
+</config>

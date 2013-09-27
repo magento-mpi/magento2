@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Adminhtml\Controller\Promo;
 
 class Widget extends \Magento\Adminhtml\Controller\Action
@@ -117,13 +116,14 @@ class Widget extends \Magento\Adminhtml\Controller\Action
         $categoryId = (int)$this->getRequest()->getParam('id',false);
         $storeId    = (int)$this->getRequest()->getParam('store');
 
-        $category   = \Mage::getModel('Magento\Catalog\Model\Category');
+        $category   = $this->_objectManager->create('Magento\Catalog\Model\Category');
         $category->setStoreId($storeId);
 
         if ($categoryId) {
             $category->load($categoryId);
             if ($storeId) {
-                $rootId = \Mage::app()->getStore($storeId)->getRootCategoryId();
+                $rootId = $this->_objectManager->get('Magento\Core\Model\StoreManager')
+                    ->getStore($storeId)->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
                     $this->_redirect('*/*/', array('_current' => true, 'id' => null));
                     return false;

@@ -18,17 +18,18 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Core\Model\Resource');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource');
     }
 
-    /**
-     * @magentoConfigFixture global/resources/db/table_prefix prefix_
-     */
     public function testGetTableName()
     {
         $tablePrefix = 'prefix_';
         $tableSuffix = 'suffix';
         $tableNameOrig = 'core_website';
+
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource', array('tablePrefix' => 'prefix_'));
 
         $tableName = $this->_model->getTableName(array($tableNameOrig, $tableSuffix));
         $this->assertContains($tablePrefix, $tableName);
@@ -41,20 +42,30 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testProfilerInit()
     {
-        $connReadConfig = \Mage::getSingleton('Magento\Core\Model\Config\Resource')
-            ->getResourceConnectionConfig('core_read');
-        $profilerConfig = $connReadConfig->addChild('profiler');
-        $profilerConfig->addChild('class', 'Magento\Core\Model\Resource\Db\Profiler');
-        $profilerConfig->addChild('enabled', 'true');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var \Zend_Db_Adapter_Abstract $connection */
-        $connection = $this->_model->getConnection('core_read');
+        $connection = $objectManager->create(
+            'Magento\TestFramework\Db\Adapter\Mysql',
+            array(
+                'config' => array(
+                    'profiler' => array(
+                        'class' => 'Magento\Core\Model\Resource\Db\Profiler',
+                        'enabled' => 'true'
+                    ),
+                    'username' => 'username',
+                    'password' => 'password',
+                    'host' => 'host',
+                    'type' => 'type',
+                    'dbname' => 'dbname'
+                )
+            )
+        );
+
         /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
 
         $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Profiler', $profiler);
         $this->assertTrue($profiler->getEnabled());
-        $this->assertAttributeEquals((string)$connReadConfig->host, '_host', $profiler);
-        $this->assertAttributeEquals((string)$connReadConfig->type, '_type', $profiler);
     }
 }

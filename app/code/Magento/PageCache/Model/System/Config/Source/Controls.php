@@ -22,15 +22,15 @@ class Controls implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * Page cache data
      *
-     * @var \Magento\PageCache\Helper\Data
+     * @var \Magento\PageCache\Model\CacheControlFactory
      */
     protected $_pageCacheData = null;
 
     /**
-     * @param \Magento\PageCache\Helper\Data $pageCacheData
+     * @param \Magento\PageCache\Model\CacheControlFactory $pageCacheData
      */
     public function __construct(
-        \Magento\PageCache\Helper\Data $pageCacheData
+        \Magento\PageCache\Model\CacheControlFactory $pageCacheData
     ) {
         $this->_pageCacheData = $pageCacheData;
     }

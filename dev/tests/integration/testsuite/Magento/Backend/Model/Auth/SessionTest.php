@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
-
-namespace Magento\Backend\Model\Auth;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Model\Auth;
+
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -32,8 +31,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_auth  = \Mage::getModel('Magento\Backend\Model\Auth');
-        $this->_model = \Mage::getModel('Magento\Backend\Model\Auth\Session');
+        $this->_auth  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Auth');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Auth\Session');
         $this->_auth->setAuthStorage($this->_model);
     }
 

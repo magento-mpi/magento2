@@ -19,11 +19,13 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function testGetFinalPrice()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
 
         /** @var $model \Magento\Catalog\Model\Product\Type\Configurable\Price */
-        $model = \Mage::getModel('Magento\Catalog\Model\Product\Type\Configurable\Price');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product\Type\Configurable\Price');
 
         // without configurable options
         $this->assertEquals(100.0, $model->getFinalPrice(1, $product));

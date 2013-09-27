@@ -13,7 +13,7 @@
  */
 namespace Magento\Adminhtml\Block\Sales\Items;
 
-class AbstractItems extends \Magento\Adminhtml\Block\Template
+class AbstractItems extends \Magento\Backend\Block\Template
 {
     /**
      * Block alias fallback
@@ -45,17 +45,25 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_productFactory = $productFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -238,7 +246,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
             return $this->getItem()->getOrder();
         }
 
-        \Mage::throwException(__('We cannot get the order instance.'));
+        throw new \Magento\Core\Exception(__('We cannot get the order instance.'));
     }
 
     /**
@@ -498,7 +506,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
     /**
      * Retrieve invoice model instance
      *
-     * @return Magento_Sales_Model_Invoice
+     * @return \Magento\Sales\Model\Invoice
      */
     public function getInvoice()
     {
@@ -529,7 +537,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
         );
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
-                $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($item->getOrderItem()->getProductId());
+                $product = $this->_productFactory->create()->load($item->getOrderItem()->getProductId());
                 if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                     $item->setCanReturnToStock(true);
                 } else {

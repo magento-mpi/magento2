@@ -35,6 +35,12 @@ class RestTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\App\State */
     protected $_appStateMock;
 
+    /** @var \Magento\Oauth\Service\OauthV1 */
+    protected $_oauthServiceMock;
+
+    /** @var \Magento\Oauth\Helper\Data */
+    protected $_oauthHelperMock;
+
     const SERVICE_METHOD = \Magento\Webapi\Model\Rest\Config::KEY_METHOD;
     const SERVICE_ID = \Magento\Webapi\Model\Rest\Config::KEY_CLASS;
 
@@ -73,17 +79,26 @@ class RestTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Service\OauthV1')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_oauthHelperMock = $this->getMockBuilder('Magento\Oauth\Helper\Data')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         /** Init SUT. */
         $this->_restController = new \Magento\Webapi\Controller\Rest(
             $this->_requestMock,
             $this->_responseMock,
             $this->_routerMock,
             $this->_objectManagerMock,
-            $this->_appStateMock
+            $this->_appStateMock,
+            $this->_oauthServiceMock,
+            $this->_oauthHelperMock
         );
 
-
-        //Set default expectations used by all tests
+        // Set default expectations used by all tests
         $this->_routeMock
             ->expects($this->any())->method('getServiceClass')->will($this->returnValue(self::SERVICE_ID));
 
@@ -108,6 +123,8 @@ class RestTest extends \PHPUnit_Framework_TestCase
         unset($this->_responseMock);
         unset($this->_routerMock);
         unset($this->_objectManagerMock);
+        unset($this->_oauthServiceMock);
+        unset($this->_oauthHelperMock);
         unset($this->_appStateMock);
         parent::tearDown();
     }
@@ -131,11 +148,11 @@ class RestTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchAuthenticationException()
     {
-        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
-        $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
         $this->markTestIncomplete(
             "Test should be fixed after \Magento\Webapi\Controller\Rest::dispatch() enforces authentication"
         );
+        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
+        $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
     }
 
     /**

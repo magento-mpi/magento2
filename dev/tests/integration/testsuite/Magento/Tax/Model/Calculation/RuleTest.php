@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Model\Calculation;
 
 /**
  * @magentoDataFixture Magento/Tax/_files/tax_classes.php
  */
+namespace Magento\Tax\Model\Calculation;
+
 class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,7 +26,8 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $model = new \Magento\Tax\Model\Calculation\Rule(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
-            \Mage::getModel('Magento\Core\Model\Context'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
             $this->_getRegistryClassMock(),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
@@ -48,7 +50,8 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $model = new \Magento\Tax\Model\Calculation\Rule(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
-            \Mage::getModel('Magento\Core\Model\Context'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
             $this->_getRegistryClassMock(),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
@@ -71,7 +74,8 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $model = new \Magento\Tax\Model\Calculation\Rule(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
-            \Mage::getModel('Magento\Core\Model\Context'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
             $this->_getRegistryClassMock(),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
@@ -94,7 +98,8 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $model = new \Magento\Tax\Model\Calculation\Rule(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
-            \Mage::getModel('Magento\Core\Model\Context'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
             $this->_getRegistryClassMock(),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data'),
             $this->_getTaxClassMock(
@@ -117,10 +122,12 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $model = new \Magento\Tax\Model\Calculation\Rule(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
-            \Mage::getModel('Magento\Core\Model\Context'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
             $this->_getRegistryClassMock(),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data'),
-            \Mage::getModel('Magento\Tax\Model\ClassModel'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\ClassModel'),
             null,
             null,
             array()
@@ -170,7 +177,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected function _getTaxClassMock($callback, $filter)
     {
         $collection = $this->getMock(
-            'Magento\Tax\Model\Resource\TaxClass\Collection',
+            'Magento\Tax\Model\Resource\ClassResource\Collection',
             array('setClassTypeFilter', 'toOptionArray'),
             array(), '', false
         );
@@ -188,9 +195,11 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             'Magento\Tax\Model\ClassModel',
             array('getCollection'),
             array(
-                \Mage::getModel('Magento\Core\Model\Context'),
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Context'),
                 $objectManager->get('Magento\Core\Model\Registry'),
-                \Mage::getModel('Magento\Tax\Model\TaxClass\Factory'),
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\ClassModel\Factory'),
             ),
             '',
             true

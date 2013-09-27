@@ -21,8 +21,9 @@ class ProfileTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDateHtml()
     {
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-
+        
         $product = $objectManager->create('Magento\Catalog\Model\Product');
         $product->setIsRecurring('1');
         $product->setRecurringProfile(array('start_date_is_editable' => true));
@@ -32,8 +33,12 @@ class ProfileTest extends \PHPUnit_Framework_TestCase
 
         $html = $block->getDateHtml();
         $this->assertNotEmpty($html);
-        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = \Mage::app()->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\LocaleInterface')
+            ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\LocaleInterface')
+            ->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);
         $this->assertContains('timeFormat: "' . $timeFormat . '",', $html);
     }

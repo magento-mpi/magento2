@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Product;
-
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Product;
+
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,7 +28,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function testPrepareLayout($blockAttributes, $expected)
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getModel(
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
@@ -256,22 +256,27 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Data provider
      *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @return array
      */
     public function prepareLayoutDataProvider()
     {
         /** @var $urlRewrite \Magento\Core\Model\Url\Rewrite */
-        $urlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite');
+        $urlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Url\Rewrite');
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product',
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product',
             array('data' => array('entity_id' => 1, 'name' => 'Test product'))
         );
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = \Mage::getModel('Magento\Catalog\Model\Category',
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category',
             array('data' => array('entity_id' => 1, 'name' => 'Test category'))
         );
         /** @var $existingUrlRewrite \Magento\Core\Model\Url\Rewrite */
-        $existingUrlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite',
+        $existingUrlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Url\Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
         return array(

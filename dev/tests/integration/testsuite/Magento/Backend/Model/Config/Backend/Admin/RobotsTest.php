@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Model\Config\Backend\Admin;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
 class RobotsTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,7 +28,8 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_model = \Mage::getModel('Magento\Backend\Model\Config\Backend\Admin\Robots');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Backend\Model\Config\Backend\Admin\Robots');
         $this->_model->setPath('design/search_engine_robots/custom_instructions');
         $this->_model->afterLoad();
     }
@@ -60,7 +61,8 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterSaveFileNotExists()
     {
-        $robotsTxtPath = \Mage::getBaseDir() . DS . 'robots.txt';
+        $robotsTxtPath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Dir')->getDir() . DS . 'robots.txt';
         $this->assertFileNotExists($robotsTxtPath, 'robots.txt exists');
 
         $this->_modifyConfig();
@@ -74,7 +76,8 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterSaveFileExists()
     {
-        $robotsTxtPath = \Mage::getBaseDir() . DS . 'robots.txt';
+        $robotsTxtPath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
+                ->getDir() . DS . 'robots.txt';
         $this->assertFileExists($robotsTxtPath, 'robots.txt exists');
 
         $this->_modifyConfig();
@@ -87,7 +90,11 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
     {
         $robotsTxt = "User-Agent: *\nDisallow: /checkout";
         $this->_model->setValue($robotsTxt)->save();
-        $this->assertStringEqualsFile(\Mage::getBaseDir() . DS . 'robots.txt', $robotsTxt);
+        $this->assertStringEqualsFile(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\Core\Model\Dir')->getDir() . DS . 'robots.txt',
+            $robotsTxt
+        );
     }
 
     /**

@@ -1,5 +1,9 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Job\QueueWriter
+ *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -7,20 +11,17 @@
  */
 namespace Magento\Webhook\Model\Job;
 
-/**
- * \Magento\Webhook\Model\Job\QueueWriter
- *
- * @magentoDbIsolation enabled
- */
 class QueueWriterTest extends \PHPUnit_Framework_TestCase
 {
     public function testOffer()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $event = \Mage::getModel('Magento\Webhook\Model\Event')
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
-        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription')
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         /** @var \Magento\Webhook\Model\Job $job */

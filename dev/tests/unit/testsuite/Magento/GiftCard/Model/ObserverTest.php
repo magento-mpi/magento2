@@ -30,6 +30,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $this->_model = new \Magento\GiftCard\Model\Observer(
+            $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface', array(), '', false),
+            $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false),
+            $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface', array(), '', false),
+            $this->getMock(
+                'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', array(), array(), '', false
+            ),
+            $this->getMock('Magento\Core\Model\Email\TemplateFactory', array(), array(), '', false),
+            $this->getMock('Magento\Sales\Model\Order\InvoiceFactory', array(), array(), '', false),
+            $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false),
+            $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
             $this->getMock('Magento\GiftCard\Helper\Data', array(), array(), '', false),
             $context,
             $coreRegistry,
@@ -56,6 +66,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false)
         );
         $this->_model = new \Magento\GiftCard\Model\Observer(
+            $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface', array(), '', false),
+            $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false),
+            $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface', array(), '', false),
+            $this->getMock(
+                'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', array(), array(), '', false
+            ),
+            $this->getMock('Magento\Core\Model\Email\TemplateFactory', array(), array(), '', false),
+            $this->getMock('Magento\Sales\Model\Order\InvoiceFactory', array(), array(), '', false),
+            $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false),
+            $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
             $this->getMock('Magento\GiftCard\Helper\Data', array(), array(), '', false),
             $context,
             $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),

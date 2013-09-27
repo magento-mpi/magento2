@@ -10,36 +10,4 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <bundle_setup>
-                <setup>
-                    <module>Magento_Bundle</module>
-                    <class>Magento\Catalog\Model\Resource\Setup</class>
-                </setup>
-            </bundle_setup>
-        </resources>
-        <pdf>
-            <invoice>
-                <bundle>Magento\Bundle\Model\Sales\Order\Pdf\Items\Invoice</bundle>
-            </invoice>
-            <shipment>
-                <bundle>Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment</bundle>
-            </shipment>
-            <creditmemo>
-                <bundle>Magento\Bundle\Model\Sales\Order\Pdf\Items\Creditmemo</bundle>
-            </creditmemo>
-        </pdf>
-    </global>
-    <adminhtml>
-        <sales>
-            <order>
-                <create>
-                    <available_product_types>
-                        <bundle />
-                    </available_product_types>
-                </create>
-            </order>
-        </sales>
-    </adminhtml>
 </config>

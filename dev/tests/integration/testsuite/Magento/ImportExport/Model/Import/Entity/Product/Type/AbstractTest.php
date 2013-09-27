@@ -24,7 +24,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $arguments = array(\Mage::getModel('Magento\ImportExport\Model\Import\Entity\Product'), 'simple');
+        $arguments = array(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Import\Entity\Product'), 'simple');
         $this->_model = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType',
             array($arguments)

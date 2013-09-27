@@ -43,7 +43,7 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
      * Set object manager instance
      *
      * @param \Magento\ObjectManager $objectManager
-     * @throws LogicException
+     * @throws \LogicException
      */
     public static function setInstance(\Magento\ObjectManager $objectManager)
     {
@@ -73,16 +73,24 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
             $definitions
         );
 
-        $appMode = $primaryConfig->getParam(\Mage::PARAM_MODE, \Magento\Core\Model\App\State::MODE_DEFAULT);
-        $factory = new \Magento\ObjectManager\Factory\Factory($config, $this, $definitions, $primaryConfig->getParams());
+        $localConfig = new \Magento\Core\Model\Config\Local(new \Magento\Core\Model\Config\Loader\Local(
+            $primaryConfig->getDirectories()->getDir(\Magento\Core\Model\Dir::CONFIG),
+            $primaryConfig->getParam(\Magento\Core\Model\App::PARAM_CUSTOM_LOCAL_CONFIG),
+            $primaryConfig->getParam(\Magento\Core\Model\App::PARAM_CUSTOM_LOCAL_FILE)
+        ));
+        $appMode = $primaryConfig->getParam(\Magento\Core\Model\App::PARAM_MODE, \Magento\Core\Model\App\State::MODE_DEFAULT);
+        $factory = new \Magento\ObjectManager\Factory\Factory($config, $this, $definitions, array_replace(
+            $localConfig->getParams(),
+            $primaryConfig->getParams()
+        ));
 
+        $sharedInstances['Magento\Core\Model\Config\Local'] = $localConfig;
         $sharedInstances['Magento\Core\Model\Config\Primary'] = $primaryConfig;
         $sharedInstances['Magento\Core\Model\Dir'] = $primaryConfig->getDirectories();
         $sharedInstances['Magento\Core\Model\ObjectManager'] = $this;
 
         parent::__construct($factory, $config, $sharedInstances);
         $primaryConfig->configure($this);
-
         self::setInstance($this);
 
         \Magento\Profiler::start('global_primary');
@@ -147,6 +155,7 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
         ));
         $this->_config->setCache($this->get('Magento\Core\Model\ObjectManager\ConfigCache'));
         $this->configure($this->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load('global'));
+        $this->get('Magento\Core\Model\Resource')->setConfig($this->get('Magento\Core\Model\Config\Resource'));
 
         self::setInstance($this);
     }

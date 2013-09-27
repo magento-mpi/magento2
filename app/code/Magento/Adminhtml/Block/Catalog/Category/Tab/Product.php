@@ -19,7 +19,6 @@ namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
 
 class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 {
-
     /**
      * Core registry
      *
@@ -28,14 +27,21 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template_Context $context
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -43,6 +49,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_productFactory = $productFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -86,7 +93,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         if ($this->getCategory()->getId()) {
             $this->setDefaultFilter(array('in_category'=>1));
         }
-        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+        $collection = $this->_productFactory->create()->getCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')

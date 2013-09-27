@@ -121,7 +121,7 @@ class Element
     {
         $html = '';
         $attribute = $this->getElement()->getEntityAttribute();
-        if (!$attribute || \Mage::app()->isSingleStoreMode() || $attribute->getFrontendInput()=='gallery') {
+        if (!$attribute || $this->_storeManager->isSingleStoreMode() || $attribute->getFrontendInput() == 'gallery') {
             return $html;
         }
         if ($attribute->isScopeGlobal()) {

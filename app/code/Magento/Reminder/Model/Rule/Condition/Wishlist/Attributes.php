@@ -17,9 +17,6 @@ class Attributes
     extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Catalog\Model\Resource\Product $productResource
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavEntitySetFactory
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Eav\Model\Config $config
@@ -29,9 +26,6 @@ class Attributes
      * @param array $data
      */
     public function __construct(
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Model\Resource\Product $productResource,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavEntitySetFactory,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Eav\Model\Config $config,
@@ -41,8 +35,7 @@ class Attributes
         array $data = array()
     ) {
         parent::__construct(
-            $eavConfig, $productResource, $eavEntitySetFactory, $backendData, 
-            $context, $config, $product, $productResource, $attrSetCollection, $data
+            $backendData, $context, $config, $product, $productResource, $attrSetCollection, $data
         );
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Attributes');
         $this->setValue(null);

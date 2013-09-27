@@ -2,6 +2,8 @@
 /**
  * \Magento\PubSub\Job\QueueHandler
  *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,9 +11,6 @@
  */
 namespace Magento\PubSub\Job;
 
-/**
- * @magentoDbIsolation enabled
- */
 class QueueHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\ObjectManager */
@@ -51,7 +50,8 @@ class QueueHandlerTest extends \PHPUnit_Framework_TestCase
             ->save();
 
         /** @var \Magento\Webhook\Model\Event $_event */
-        $this->_event = \Mage::getModel('Magento\Webhook\Model\Event')
+        $this->_event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Event')
             ->setTopic('topic')
             ->setBodyData(array('body data'))
             ->save();

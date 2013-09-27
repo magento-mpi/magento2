@@ -10,55 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <rma_setup>
-                <setup>
-                    <module>Magento_Rma</module>
-                    <class>Magento\Rma\Model\Resource\Setup</class>
-                </setup>
-            </rma_setup>
-        </resources>
-        <template>
-            <email>
-                <sales_email_magento_rma_template translate="label" module="Magento_Rma">
-                    <label>New RMA</label>
-                    <file>email/new.html</file>
-                    <type>html</type>
-                </sales_email_magento_rma_template>
-                <sales_email_magento_rma_guest_template translate="label" module="Magento_Rma">
-                    <label>New RMA for Guest</label>
-                    <file>email/new_guest.html</file>
-                    <type>html</type>
-                </sales_email_magento_rma_guest_template>
-                <sales_email_magento_rma_auth_template translate="label" module="Magento_Rma">
-                    <label>RMA Authorization</label>
-                    <file>email/auth.html</file>
-                    <type>html</type>
-                </sales_email_magento_rma_auth_template>
-                <sales_email_magento_rma_auth_guest_template translate="label" module="Magento_Rma">
-                    <label>RMA Authorization for Guest</label>
-                    <file>email/auth_guest.html</file>
-                    <type>html</type>
-                </sales_email_magento_rma_auth_guest_template>
-                <sales_email_magento_rma_comment_template translate="label" module="Magento_Rma">
-                    <label>RMA Admin Comments</label>
-                    <file>email/comment.html</file>
-                    <type>html</type>
-                </sales_email_magento_rma_comment_template>
-                <sales_email_magento_rma_comment_guest_template translate="label" module="Magento_Rma">
-                    <label>RMA Admin Comments for Guest</label>
-                    <file>email/comment_guest.html</file>
-                    <type>html</type>
-                </sales_email_magento_rma_comment_guest_template>
-                <sales_email_magento_rma_customer_comment_template translate="label" module="Magento_Rma">
-                    <label>RMA Customer Comments</label>
-                    <file>email/customer_comment.html</file>
-                    <type>html</type>
-                </sales_email_magento_rma_customer_comment_template>
-            </email>
-        </template>
-    </global>
     <default>
         <sales>
             <magento_rma>

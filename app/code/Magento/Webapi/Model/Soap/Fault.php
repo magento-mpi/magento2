@@ -34,7 +34,11 @@ class Fault extends \RuntimeException
     /** @var string */
     protected $_errorCode;
 
-    /** @var array */
+    /**
+     * Parameters are extracted from exception and can be inserted into 'Detail' node as 'Parameters'.
+     *
+     * @var array
+     */
     protected $_parameters;
 
     /**

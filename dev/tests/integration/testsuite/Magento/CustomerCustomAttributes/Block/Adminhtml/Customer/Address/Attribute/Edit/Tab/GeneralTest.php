@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
-
 /**
- * Test class for \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General
+ * Test class for \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab_General
  * @magentoAppArea adminhtml
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
+
 class GeneralTest
     extends \PHPUnit_Framework_TestCase
 {
@@ -26,18 +26,21 @@ class GeneralTest
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer');
+        $entityType = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
+            ->getEntityType('customer');
         /** @var $model \Magento\Customer\Model\Attribute */
-        $model = \Mage::getModel('Magento\Customer\Model\Attribute');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Attribute');
         $model->setEntityTypeId($entityType->getId());
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('entity_attribute', $model);
 
-        $block = \Mage::app()->getLayout()->createBlock(
-            'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General'
-        );
-        $prepareFormMethod = new \ReflectionMethod(
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock(
+                'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General'
+            );
+        $prepareFormMethod = new ReflectionMethod(
             'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General',
             '_prepareForm');
         $prepareFormMethod->setAccessible(true);

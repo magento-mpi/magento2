@@ -1,7 +1,4 @@
 <?php
-
-namespace Magento\Widget\Model\Config;
-
 /**
  * \Magento\Widget\Model\Config\Data
  *
@@ -13,6 +10,8 @@ namespace Magento\Widget\Model\Config;
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  * @magentoAppArea adminhtml
  */
+namespace Magento\Widget\Model\Config;
+
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -60,10 +59,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Magento\Core\Model\Config\Modules\Reader', array(
-                'dirs' => $dirs,
                 'moduleList' => $modulesList
             )
         );
+        $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
 
         /** @var \Magento\Widget\Model\Config\FileResolver $fileResolver */
         $fileResolver = $objectManager->create(

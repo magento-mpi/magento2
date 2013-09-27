@@ -11,7 +11,6 @@
 /**
  * Adminhtml summary rating stars
  */
-
 namespace Magento\Adminhtml\Block\Review\Rating;
 
 class Summary extends \Magento\Adminhtml\Block\Template
@@ -26,17 +25,33 @@ class Summary extends \Magento\Adminhtml\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory
+     */
+    protected $_votesFactory;
+
+    /**
+     * @var \Magento\Rating\Model\RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @param \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory
+     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
+        \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_votesFactory = $votesFactory;
+        $this->_ratingFactory = $ratingFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -51,8 +66,7 @@ class Summary extends \Magento\Adminhtml\Block\Template
     public function getRating()
     {
         if (!$this->getRatingCollection()) {
-            $ratingCollection = \Mage::getModel('Magento\Rating\Model\Rating\Option\Vote')
-                ->getResourceCollection()
+            $ratingCollection = $this->_votesFactory->create()
                 ->setReviewFilter($this->getReviewId())
                 ->addRatingInfo()
                 ->load();
@@ -64,7 +78,7 @@ class Summary extends \Magento\Adminhtml\Block\Template
     public function getRatingSummary()
     {
         if (!$this->getRatingSummaryCache()) {
-            $this->setRatingSummaryCache(\Mage::getModel('Magento\Rating\Model\Rating')
+            $this->setRatingSummaryCache($this->_ratingFactory->create()
                 ->getReviewSummary($this->getReviewId()));
         }
 

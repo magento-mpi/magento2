@@ -147,8 +147,8 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Object $object
-     * @return \Magento\Review\Model\Resource\Review
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -416,7 +416,7 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
         $resource = $this->_ratingOptions;
         if ($ratingIds && $entityPkValue && $resource) {
             foreach ($ratingIds as $ratingId) {
-                $resource->aggregateEntityByRatingId(
+                $this->_ratingOption->aggregateEntityByRatingId(
                     $ratingId, $entityPkValue
                 );
             }

@@ -15,7 +15,7 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle_Option_Search;
 
 class Grid
     extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -28,6 +28,12 @@ class Grid
     protected $_bundleData = null;
 
     /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Bundle\Helper\Data $bundleData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -36,6 +42,7 @@ class Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Bundle\Helper\Data $bundleData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -44,6 +51,7 @@ class Grid
         array $data = array()
     ) {
         $this->_bundleData = $bundleData;
+        $this->_productFactory = $productFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -91,7 +99,7 @@ class Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+        $collection = $this->_productFactory->create()->getCollection()
             ->setOrder('id')
             ->setStore($this->getStore())
             ->addAttributeToSelect('name')
@@ -188,7 +196,7 @@ class Grid
 
     public function getStore()
     {
-        return \Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**

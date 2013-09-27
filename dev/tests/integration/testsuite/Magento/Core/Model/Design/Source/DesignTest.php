@@ -20,7 +20,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Core\Model\Design\Source\Design');
 
         /** @var $expectedCollection \Magento\Core\Model\Theme\Collection */
-        $expectedCollection = \Mage::getModel('Magento\Core\Model\Resource\Theme\Collection');
+        $expectedCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
         $expectedCollection->addFilter('area', 'frontend');
 
         $expectedItemsCount = count($expectedCollection);

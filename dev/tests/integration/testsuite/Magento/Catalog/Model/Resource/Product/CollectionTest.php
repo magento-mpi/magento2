@@ -24,7 +24,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Resource\Product\Collection');
     }
 
     /**

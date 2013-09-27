@@ -34,13 +34,6 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_request;
 
     /**
-     * Resource configuration
-     *
-     * @var \Magento\Core\Model\Config\Resource
-     */
-    protected $_resourceConfig;
-
-    /**
      * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
@@ -55,19 +48,16 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Model\Dir $dirs
-     * @param \Magento\Core\Model\Config\Resource $resourceConfig
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Core\Model\Dir $dirs,
-        \Magento\Core\Model\Config\Resource $resourceConfig,
         \Magento\Filesystem $filesystem
     ) {
         $this->_localConfigFile = $dirs->getDir(\Magento\Core\Model\Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
         $this->_dirs = $dirs;
         $this->_request = $request;
-        $this->_resourceConfig = $resourceConfig;
         $this->_filesystem = $filesystem;
     }
 
@@ -154,14 +144,11 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
             $baseSecureUrl = $uri->getUri();
         }
 
-        $connectDefault = $this->_resourceConfig
-                ->getResourceConnectionConfig(\Magento\Core\Model\Resource::DEFAULT_SETUP_RESOURCE);
-
         $data = new \Magento\Object();
-        $data->setDbHost($connectDefault->host)
-            ->setDbName($connectDefault->dbname)
-            ->setDbUser($connectDefault->username)
-            ->setDbModel($connectDefault->model)
+        $data->setDbHost('localhost')
+            ->setDbName('magento')
+            ->setDbUser('')
+            ->setDbModel('mysql4')
             ->setDbPass('')
             ->setSecureBaseUrl($baseSecureUrl)
             ->setUnsecureBaseUrl($baseUrl)
@@ -202,7 +189,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * Find a relative path to a first file located in a directory or its descendants
      *
-     * @param string $dir \Directory to search for a file within
+     * @param string $dir Directory to search for a file within
      * @param string $pattern PCRE pattern a file name has to match
      * @return string|null
      */

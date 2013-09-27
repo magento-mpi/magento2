@@ -21,66 +21,31 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_catalogSetupFactory;
 
     /**
-     * @var \Magento\Enterprise\Model\Resource\Setup\Migration
-     */
-    protected $_entMigrationFactory;
-
-    /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $modulesConfig
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
-     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
      * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config\Resource $resourcesConfig,
-        \Magento\Core\Model\Config $modulesConfig,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
-        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
-        $resourceName
+        $resourceName,
+        $moduleName = 'Magento_Rma',
+        $connectionName = ''
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        $this->_entMigrationFactory = $migrationFactory;
-        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
-            $resource, $modulesReader, $cache, $migrationFactory, $resourceName);
-    }
-
-    /**
-     * Get catalog resource setup model
-     *
-     * @param array $data
-     * @return \Magento\Catalog\Model\Resource\Setup
-     */
-    public function getCatalogResourceSetup(array $data = array())
-    {
-        return $this->_catalogSetupFactory->create($data);
-    }
-
-    /**
-     * Get migration resource setup model
-     *
-     * @param array $data
-     * @return \Magento\Enterprise\Model\Resource\Setup\Migration
-     */
-    public function getMigrationResourceSetup(array $data = array())
-    {
-        return $this->_entMigrationFactory->create($data);
+        parent::__construct($context, $config, $cache, $migrationFactory,
+            $coreData, $resourceName, $moduleName, $connectionName
+        );
     }
 
     /**
@@ -118,7 +83,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
                 'table'                          => 'magento_rma_item_entity',
                 'increment_model'                => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'additional_attribute_table'     => 'magento_rma_item_eav_attribute',
-                'increment_per_store'            => 1,
                 'entity_attribute_collection'    => null,
                 'increment_per_store'            => 1,
                 'attributes'                     => array(
@@ -282,5 +246,14 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         if ($data) {
             $this->getConnection()->insertMultiple($this->getTable('magento_rma_item_form_attribute'), $data);
         }
+    }
+
+    /**
+     * @param array $data
+     * @return \Magento\Catalog\Model\Resource\Setup
+     */
+    public function getCatalogSetup(array $data = array())
+    {
+        return $this->_catalogSetupFactory->create($data);
     }
 }

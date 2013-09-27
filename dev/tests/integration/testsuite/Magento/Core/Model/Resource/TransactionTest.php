@@ -20,12 +20,14 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getResourceModel('Magento\Core\Model\Resource\Transaction');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Transaction');
     }
 
     public function testSaveDelete()
     {
-        $first  = \Mage::getModel('Magento\Core\Model\Store\Group');
+        $first  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store\Group');
         $first->setData(
             array(
                 'website_id'        => 1,
@@ -34,7 +36,8 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
                 'default_store_id'  => 1
             )
         );
-        $second  = \Mage::getModel('Magento\Core\Model\Store\Group');
+        $second  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store\Group');
         $second->setData(
             array(
                 'website_id'        => 1,
@@ -52,10 +55,12 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($first->getId());
         $this->assertNotEmpty($second->getId());
 
-        \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $this->_model->delete();
 
-        $test  = \Mage::getModel('Magento\Core\Model\Store\Group');
+        $test  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store\Group');
         $test->load($first->getId());
         $this->assertEmpty($test->getId());
     }

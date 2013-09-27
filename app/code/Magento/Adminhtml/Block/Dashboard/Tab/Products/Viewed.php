@@ -20,6 +20,30 @@ namespace Magento\Adminhtml\Block\Dashboard\Tab\Products;
 
 class Viewed extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
+    /**
+     * @var \Magento\Reports\Model\Resource\Product\CollectionFactory
+     */
+    protected $_productsFactory;
+
+    /**
+     * @param \Magento\Reports\Model\Resource\Product\CollectionFactory $productsFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reports\Model\Resource\Product\CollectionFactory $productsFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_productsFactory = $productsFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -30,15 +54,15 @@ class Viewed extends \Magento\Adminhtml\Block\Dashboard\Grid
     protected function _prepareCollection()
     {
         if ($this->getParam('website')) {
-            $storeIds = \Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+            $storeIds = $this->_storeManager->getWebsite($this->getParam('website'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else if ($this->getParam('group')) {
-            $storeIds = \Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+            $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else {
             $storeId = (int)$this->getParam('store');
         }
-        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Product\Collection')
+        $collection = $this->_productsFactory->create()
             ->addAttributeToSelect('*')
             ->addViewsCount()
             ->setStoreId($storeId)
@@ -61,7 +85,8 @@ class Viewed extends \Magento\Adminhtml\Block\Dashboard\Grid
             'header'    =>__('Price'),
             'width'     =>'120px',
             'type'      =>'currency',
-            'currency_code' => (string) \Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'currency_code' => (string) $this->_storeManager->getStore((int)$this->getParam('store'))
+                ->getBaseCurrencyCode(),
             'sortable'  => false,
             'index'     =>'price'
         ));

@@ -18,11 +18,13 @@ class ShipmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendEmail()
     {
-        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
-        $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment');
+        $shipment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Shipment');
         $shipment->setOrder($order);
 
         $payment = $order->getPayment();

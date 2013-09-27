@@ -19,7 +19,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_collection = \Mage::getResourceModel('Magento\MultipleWishlist\Model\Resource\Item\Report\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\MultipleWishlist\Model\Resource\Item\Report\Collection');
     }
 
     public function testAddCustomerInfo()

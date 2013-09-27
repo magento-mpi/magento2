@@ -15,14 +15,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Catalog\Model\Attribute\Config\Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\Attribute\Config\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dataStorage;
 
     protected function setUp()
     {
         $this->_dataStorage = $this->getMock(
-            'Magento\Catalog\Model\Attribute\Config\Data', array('getData'), array(), '', false
+            'Magento\Catalog\Model\Attribute\Config\Data', array('get'), array(), '', false
         );
         $this->_model = new \Magento\Catalog\Model\Attribute\Config($this->_dataStorage);
     }
@@ -35,10 +35,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
         $this->_dataStorage
             ->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue(array(
-                'some_group' => $expectedResult,
-            )))
+            ->method('get')
+            ->with('some_group')
+            ->will($this->returnValue($expectedResult))
         ;
         $this->assertSame($expectedResult, $this->_model->getAttributeNames('some_group'));
     }

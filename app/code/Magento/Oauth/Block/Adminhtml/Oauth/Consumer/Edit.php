@@ -2,65 +2,48 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-
 /**
  * OAuth Consumer Edit Block
  *
- * @category   Magento
- * @package    Magento_Oauth
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Oauth\Block\Adminhtml\Oauth\Consumer;
 
-class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
-    /**
-     * Consumer model
-     *
-     * @var \Magento\Oauth\Model\Consumer
-     */
-    protected $_model;
+    /** Key used to store subscription data into the registry */
+    const REGISTRY_KEY_CURRENT_CONSUMER = 'current_consumer';
 
-    /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry = null;
+    /** Keys used to retrieve values from consumer data array */
+    const DATA_ENTITY_ID = 'entity_id';
+
+    /** @var array $_consumerData */
+    protected $_consumerData;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
-    }
-
-    /**
-     * Get consumer model
-     *
-     * @return \Magento\Oauth\Model\Consumer
-     */
-    public function getModel()
-    {
-        if (null === $this->_model) {
-            $this->_model = $this->_coreRegistry->registry('current_consumer');
+        $this->_consumerData = $registry->registry(self::REGISTRY_KEY_CURRENT_CONSUMER);
+        if (!$this->_consumerData
+            || !$this->_consumerData[self::DATA_ENTITY_ID]
+            || !$this->_authorization->isAllowed('Magento_Oauth::consumer_delete')
+        ) {
+            $this->_removeButton('delete');
         }
-        return $this->_model;
     }
 
     /**
@@ -69,12 +52,12 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     protected function _construct()
     {
         parent::_construct();
+        $this->_objectId = 'id';
         $this->_blockGroup = 'Magento_Oauth';
         $this->_controller = 'adminhtml_oauth_consumer';
-        $this->_mode = 'edit';
 
-        $this->_addButton('save_and_continue', array(
-            'label'     => __('Save and Continue Edit'),
+        $this->_addButton('save_and_continue_edit', array(
+            'label' => __('Save and Continue Edit'),
             'class' => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -86,13 +69,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $this->_updateButton('save', 'label', __('Save'));
         $this->_updateButton('save', 'id', 'save_button');
         $this->_updateButton('delete', 'label', __('Delete'));
-
-        if (!$this->getModel()
-            || !$this->getModel()->getId()
-            || !$this->_authorization->isAllowed('Magento_Oauth::consumer_delete')
-        ) {
-            $this->_removeButton('delete');
-        }
     }
 
     /**
@@ -102,10 +78,10 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        if ($this->getModel()->getId()) {
-            return __('Edit Consumer');
+        if ($this->_consumerData[self::DATA_ENTITY_ID]) {
+            return __('Edit Add-On');
         } else {
-            return __('New Consumer');
+            return __('New Add-On');
         }
     }
 }

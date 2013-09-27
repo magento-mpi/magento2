@@ -51,6 +51,18 @@ class Sales extends \Magento\Backend\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Sale\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Sales\Model\Resource\Sale\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -58,15 +70,19 @@ class Sales extends \Magento\Backend\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Sales\Model\Resource\Sale\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
         $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
+        $this->_currencyFactory = $currencyFactory;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
@@ -77,10 +93,10 @@ class Sales extends \Magento\Backend\Block\Template
 
     public function _beforeToHtml()
     {
-        $this->_currency = \Mage::getModel('Magento\Directory\Model\Currency')
+        $this->_currency = $this->_currencyFactory->create()
             ->load($this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE));
 
-        $this->_collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Sale\Collection')
+        $this->_collection = $this->_collectionFactory->create()
             ->setCustomerFilter($this->_coreRegistry->registry('current_customer'))
             ->setOrderStateFilter(\Magento\Sales\Model\Order::STATE_CANCELED, true)
             ->load();
@@ -89,7 +105,7 @@ class Sales extends \Magento\Backend\Block\Template
 
         foreach ($this->_collection as $sale) {
             if (!is_null($sale->getStoreId())) {
-                $store      = \Mage::app()->getStore($sale->getStoreId());
+                $store      = $this->_storeManager->getStore($sale->getStoreId());
                 $websiteId  = $store->getWebsiteId();
                 $groupId    = $store->getGroupId();
                 $storeId    = $store->getId();
@@ -139,7 +155,7 @@ class Sales extends \Magento\Backend\Block\Template
      */
     public function formatCurrency($price, $websiteId = null)
     {
-        return \Mage::app()->getWebsite($websiteId)->getBaseCurrency()->format($price);
+        return $this->_storeManager->getWebsite($websiteId)->getBaseCurrency()->format($price);
     }
 
     /**

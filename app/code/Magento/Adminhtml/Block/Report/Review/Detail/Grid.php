@@ -19,6 +19,30 @@ namespace Magento\Adminhtml\Block\Report\Review\Detail;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * @var \Magento\Reports\Model\Resource\Review\CollectionFactory
+     */
+    protected $_reviewsFactory;
+
+    /**
+     * @param \Magento\Reports\Model\Resource\Review\CollectionFactory $reviewsFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reports\Model\Resource\Review\CollectionFactory $reviewsFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_reviewsFactory = $reviewsFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -28,15 +52,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     protected function _prepareCollection()
     {
-
-        //$collection = \Mage::getModel('Magento\Review\Model\Review')->getProductCollection();
-
-        //$collection->getSelect()
-        //    ->where('rt.entity_pk_value='.(int)$this->getRequest()->getParam('id'));
-
-        //$collection->getEntity()->setStore(0);
-
-        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Review\Collection')
+        $collection = $this->_reviewsFactory->create()
             ->addProductFilter((int)$this->getRequest()->getParam('id'));
 
         $this->setCollection($collection);

@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Report;
 
-class Wishlist extends \Magento\Adminhtml\Block\Template
+class Wishlist extends \Magento\Backend\Block\Template
 {
 
     public $wishlists_count;
@@ -29,6 +29,29 @@ class Wishlist extends \Magento\Adminhtml\Block\Template
 
     protected $_template = 'report/wishlist.phtml';
 
+    /**
+     * Reports wishlist collection factory
+     *
+     * @var \Magento\Reports\Model\Resource\Wishlist\CollectionFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
+     * @param \Magento\Reports\Model\Resource\Wishlist\CollectionFactory $wishlistFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reports\Model\Resource\Wishlist\CollectionFactory $wishlistFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_wishlistFactory = $wishlistFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function _beforeToHtml()
     {
         $this->setChild(
@@ -36,7 +59,7 @@ class Wishlist extends \Magento\Adminhtml\Block\Template
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Wishlist\Grid', 'report.grid')
         );
 
-        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Wishlist\Collection');
+        $collection = $this->_wishlistFactory->create();
 
         list($customerWithWishlist, $wishlistsCount) = $collection->getWishlistCustomerCount();
         $this->setCustomerWithWishlist($customerWithWishlist);

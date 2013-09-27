@@ -19,7 +19,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     protected $_modelParams;
 
     /**
-     * @var \Magento\Core\Model\Store|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -29,7 +29,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store
      */
     protected function _getStoreModel()
     {
@@ -100,7 +100,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());
-        $website = \Mage::app()->getWebsite();
+        $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite();
         $this->_model->setWebsite($website);
         $actualResult = $this->_model->getWebsite();
         $this->assertSame($website, $actualResult);
@@ -109,7 +110,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testSetGetGroup()
     {
         $this->assertFalse($this->_model->getGroup());
-        $storeGroup = \Mage::app()->getGroup();
+        $storeGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getGroup();
         $this->_model->setGroup($storeGroup);
         $actualResult = $this->_model->getGroup();
         $this->assertSame($storeGroup, $actualResult);
@@ -179,7 +181,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testGetBaseUrlInPub()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Mage::PARAM_APP_URIS => array(\Magento\Core\Model\Dir::PUB => '')
+            \Magento\Core\Model\App::PARAM_APP_URIS => array(\Magento\Core\Model\Dir::PUB => '')
         ));
         $this->_model = $this->_getStoreModel();
         $this->_model->load('default');
@@ -295,7 +297,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         );
 
         /* emulate admin store */
-        \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $crud = new \Magento\TestFramework\Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
@@ -323,7 +326,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_model->setData($data);
 
         /* emulate admin store */
-        \Mage::app()->getStore()->setId(\Magento\Core\Model\App::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setId(\Magento\Core\Model\App::ADMIN_STORE_ID);
         $this->_model->save();
     }
 

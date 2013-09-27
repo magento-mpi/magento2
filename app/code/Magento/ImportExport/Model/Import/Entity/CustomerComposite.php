@@ -197,7 +197,7 @@ class CustomerComposite
         if (isset($data['next_customer_id'])) {
             $this->_nextCustomerId = $data['next_customer_id'];
         } else {
-            /** @var $resourceHelper \Magento\ImportExport\Model\Resource\Helper\Mysql4 */
+            /** @var $resourceHelper \Magento\ImportExport\Model\Resource\Helper */
             $resourceHelper = \Mage::getResourceHelper('Magento_ImportExport');
             $this->_nextCustomerId = $resourceHelper->getNextAutoincrement($this->_customerEntity->getEntityTable());
         }
@@ -271,9 +271,9 @@ class CustomerComposite
         if ($rowScope == self::SCOPE_DEFAULT) {
             if ($this->_customerEntity->validateRow($rowData, $rowNumber)) {
                 $this->_currentWebsiteCode
-                    = $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE];
+                    = $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE];
                 $this->_currentEmail = strtolower(
-                    $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]
+                    $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]
                 );
 
                 // Add new customer data into customer storage for address entity instance
@@ -321,11 +321,11 @@ class CustomerComposite
         if (empty($rowData)) {
             return true;
         } else {
-            $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE]
+            $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE]
                 = $this->_currentWebsiteCode;
-            $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_EMAIL]
+            $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL]
                 = $this->_currentEmail;
-            $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID] = null;
+            $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID] = null;
 
             return $this->_addressEntity->validateRow($rowData, $rowNumber);
         }
@@ -345,8 +345,8 @@ class CustomerComposite
         );
 
         unset(
-            $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE],
-            $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_STORE]
+            $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE],
+            $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_STORE]
         );
 
         $result = array();
@@ -370,10 +370,10 @@ class CustomerComposite
      */
     protected function _getRowScope(array $rowData)
     {
-        if (!isset($rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL])) {
+        if (!isset($rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL])) {
             return self::SCOPE_ADDRESS;
         }
-        return strlen(trim($rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]))
+        return strlen(trim($rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]))
             ? self::SCOPE_DEFAULT : self::SCOPE_ADDRESS;
     }
 
@@ -490,10 +490,10 @@ class CustomerComposite
     protected function _prepareRowForDb(array $rowData)
     {
         $rowData['_scope'] = $this->_getRowScope($rowData);
-        $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_WEBSITE]
+        $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE]
             = $this->_currentWebsiteCode;
-        $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_EMAIL] = $this->_currentEmail;
-        $rowData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID] = null;
+        $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL] = $this->_currentEmail;
+        $rowData[Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID] = null;
 
         return parent::_prepareRowForDb($rowData);
     }

@@ -9,14 +9,13 @@
  * @license     {license_link}
  */
 
-
-namespace Magento\Backend\Block\Widget\Grid;
-
 /**
  * @magentoDataFixture Magento/Backend/Block/_files/backend_theme.php
  *
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Block\Widget\Grid;
+
 class MassactionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -37,7 +36,8 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
 
         $this->_setFixtureTheme();
 
-        $this->_layout = \Mage::getModel('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
         $this->_layout->getUpdate()->load('layout_test_grid_handle');
         $this->_layout->generateXml();
         $this->_layout->generateElements();
@@ -51,9 +51,9 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
     protected function _setFixtureTheme()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Mage::PARAM_RUN_CODE => 'admin',
-            \Mage::PARAM_RUN_TYPE => 'store',
-            \Mage::PARAM_APP_DIRS => array(
+            \Magento\Core\Model\App::PARAM_RUN_CODE => 'admin',
+            \Magento\Core\Model\App::PARAM_RUN_TYPE => 'store',
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
                 \Magento\Core\Model\Dir::THEMES => __DIR__ . '/../../_files/design'
             ),
         ));
@@ -68,7 +68,8 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
     public function testMassactionDefaultValues()
     {
         /** @var $blockEmpty \Magento\Backend\Block\Widget\Grid\Massaction */
-        $blockEmpty = \Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Massaction');
+        $blockEmpty = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Backend\Block\Widget\Grid\Massaction');
         $this->assertEmpty($blockEmpty->getItems());
         $this->assertEquals(0, $blockEmpty->getCount());
         $this->assertSame('[]', $blockEmpty->getItemsJson());
@@ -171,7 +172,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(
             'Magento\Backend\Block\Widget\Grid\Column',
             $gridMassactionColumn,
-            'Massaction column is not an instance of Magento\Backend\Block\Widget\Column'
+            'Massaction column is not an instance of \Magento\Backend\Block\Widget\Column'
         );
     }
 }

@@ -236,7 +236,7 @@ class Customer
     protected function _getNextEntityId()
     {
         if (!$this->_nextEntityId) {
-            /** @var $resourceHelper \Magento\ImportExport\Model\Resource\Helper\Mysql4 */
+            /** @var $resourceHelper \Magento\ImportExport\Model\Resource\Helper */
             $resourceHelper = \Mage::getResourceHelper('Magento_ImportExport');
             $this->_nextEntityId = $resourceHelper->getNextAutoincrement($this->_entityTable);
         }

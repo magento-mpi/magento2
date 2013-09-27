@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\AdminGws\Model;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\AdminGws\Model;
+
 class BlocksTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     protected function setUp()
@@ -68,8 +68,9 @@ class BlocksTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 
         $this->assertInstanceOf(
             'Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws',
-            \Mage::app()->getLayout()->getBlock('adminhtml.user.role.edit.gws'),
-            'Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws block is not loaded'
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->getBlock('adminhtml.user.role.edit.gws'),
+            'Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws block is not loaded'
         );
 
         $body = $this->getResponse()->getBody();
@@ -90,8 +91,9 @@ class BlocksTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 
         $this->assertInstanceOf(
             'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role',
-            \Mage::app()->getLayout()->getBlock('adminhtml.user.role.grid'),
-            'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role block is not loaded'
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->getBlock('adminhtml.user.role.grid'),
+            'Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
         );
     }
 }

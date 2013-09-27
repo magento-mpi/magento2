@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Newsletter\Queue\Edit;
-
 /**
  * Test class for \Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Newsletter\Queue\Edit;
+
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -30,11 +30,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form');
-        $prepareFormMethod = new \ReflectionMethod(
+        $prepareFormMethod = new ReflectionMethod(
             'Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
 
-        $queue = \Mage::getSingleton('Magento\Newsletter\Model\Queue');
+        $queue = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\Queue');
         $statuses = array(\Magento\Newsletter\Model\Queue::STATUS_NEVER, \Magento\Newsletter\Model\Queue::STATUS_PAUSE);
         foreach ($statuses as $status) {
             $queue->setQueueStatus($status);

@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\ImportExport\Model\Resource\Import;
-
 /**
  * Test Import Data resource model
  *
  * @magentoDataFixture Magento/ImportExport/_files/import_data.php
  */
+namespace Magento\ImportExport\Model\Resource\Import;
+
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,7 +27,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_model = \Mage::getResourceModel('Magento\ImportExport\Model\Resource\Import\Data');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Resource\Import\Data');
     }
 
     /**
@@ -39,7 +40,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $expectedBunches = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\ImportExport\Import\Data');
+            ->registry('_fixture/Magento_ImportExport_Import_Data');
 
         $this->assertEquals($expectedBunches[0]['entity'], $this->_model->getUniqueColumnData('entity'));
     }
@@ -63,7 +64,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $expectedBunches = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\ImportExport\Import\Data');
+            ->registry('_fixture/Magento_ImportExport_Import_Data');
 
         $this->assertEquals($expectedBunches[0]['behavior'], $this->_model->getBehavior());
     }
@@ -77,7 +78,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $expectedBunches = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\ImportExport\Import\Data');
+            ->registry('_fixture/Magento_ImportExport_Import_Data');
 
         $this->assertEquals($expectedBunches[0]['entity'], $this->_model->getEntityTypeCode());
     }

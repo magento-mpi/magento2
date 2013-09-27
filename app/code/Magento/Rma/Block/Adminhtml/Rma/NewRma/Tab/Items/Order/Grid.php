@@ -57,31 +57,31 @@ class Grid
     protected $_productFactory;
 
     /**
+     * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
-        $this->_rmaData = $rmaData;
-        $this->_coreRegistry = $coreRegistry;
         $this->_itemFactory = $itemFactory;
         $this->_productFactory = $productFactory;
+        $this->_rmaData = $rmaData;
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -248,7 +248,7 @@ class Grid
             'header'=> __('Remaining'),
             'type'  => 'text',
             'index' => 'available_qty',
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
+            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
             'filter' => false,
             'sortable' => false,
             'header_css_class'  => 'col-qty',

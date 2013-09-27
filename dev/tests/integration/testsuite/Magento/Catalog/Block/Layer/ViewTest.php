@@ -20,15 +20,16 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFilters()
     {
-        $currentCategory = \Mage::getModel('Magento\Catalog\Model\Category');
+        $currentCategory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $currentCategory->load(3);
 
         /** @var $layer \Magento\Catalog\Model\Layer */
-        $layer = \Mage::getSingleton('Magento\Catalog\Model\Layer');
+        $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Layer');
         $layer->setCurrentCategory($currentCategory);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         /** @var $block \Magento\Catalog\Block\Layer\View */
         $block = $layout->createBlock('Magento\Catalog\Block\Layer\View', 'block');
 

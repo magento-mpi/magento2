@@ -16,7 +16,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     /**
      * @param int|null $orderId
      * @param int|null $incrementId
-     * @param \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject $orderMock
+     * @param \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject $orderMock
      * @dataProvider getLastRealOrderDataProvider
      */
     public function testGetLastRealOrder($orderId, $incrementId, $orderMock)
@@ -28,20 +28,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $orderFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($orderMock));
-        $coreHttp = $this->getMock('Magento\Core\Helper\Http', array(), array(), '', false);
-
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-
-        $validatorMock = $this->getMock('Magento\Core\Model\Session\Validator', array(), array(), '', false);
-
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $context = $helper->getObject('Magento\Core\Model\Session\Context');
         /** @var \Magento\Checkout\Model\Session $session */
         $session = $this->getMock(
             'Magento\Checkout\Model\Session',
             array('init'),
-            array($validatorMock, $logger, $orderFactory, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig),
+            array($context, $orderFactory),
             ''
         );
         $session->setLastRealOrderId($orderId);
@@ -67,14 +60,14 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     /**
      * @param int|null $incrementId
      * @param int|null $orderId
-     * @return \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getOrderMock($incrementId, $orderId)
     {
         /** @var $order \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order */
         $order = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
-            ->setMethods(array('getIncrementId', 'loadByIncrementId'))
+            ->setMethods(array('getIncrementId', 'loadByIncrementId', '__sleep', '__wakeup'))
             ->getMock();
 
         $order->expects($this->once())

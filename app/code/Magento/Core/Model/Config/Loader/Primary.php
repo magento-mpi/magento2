@@ -12,31 +12,24 @@ namespace Magento\Core\Model\Config\Loader;
 class Primary implements \Magento\Core\Model\Config\LoaderInterface
 {
     /**
-     * \Directory registry
+     * Config Directory
      *
-     * @var \Magento\Core\Model\Dir
+     * @var string
      */
-    protected $_dirs;
+    protected $_dir;
 
     /**
-     * Local config loader
+     * Config factory
      *
-     * @var \Magento\Core\Model\Config\Loader\Local
-     */
-    protected $_localLoader;
-
-    /**
      * @var \Magento\Core\Model\Config\BaseFactory
      */
     protected $_prototypeFactory;
 
     /**
-     * @param \Magento\Core\Model\Config\Loader\Local $localLoader
-     * @param $dir
+     * @param string $dir
      */
-    public function __construct(\Magento\Core\Model\Config\Loader\Local $localLoader, $dir)
+    public function __construct($dir)
     {
-        $this->_localLoader = $localLoader;
         $this->_dir = $dir;
     }
 
@@ -59,7 +52,5 @@ class Primary implements \Magento\Core\Model\Config\LoaderInterface
             $baseConfig->loadFile($filename);
             $config->extend($baseConfig);
         }
-        // 2. local configuration
-        $this->_localLoader->load($config);
     }
 }

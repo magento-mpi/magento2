@@ -9,14 +9,13 @@
  * @license     {license_link}
  */
 
-
-namespace Magento\Backend\Block;
-
 /**
  * Test class for \Magento\Backend\Block\Widget
  *
  * @magentoAppArea adminhtml
  */
+namespace Magento\Backend\Block;
+
 class WidgetTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -24,7 +23,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetButtonHtml()
     {
-        $layout = \Mage::getModel(
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
@@ -46,7 +45,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetButtonHtmlForTwoButtonsInOneBlock()
     {
-        $layout = \Mage::getModel(
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );

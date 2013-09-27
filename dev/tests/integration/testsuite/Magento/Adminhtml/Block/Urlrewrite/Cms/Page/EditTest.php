@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
-
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
+
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,7 +28,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function testPrepareLayout($blockAttributes, $expected)
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getModel(
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
@@ -204,13 +204,16 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function prepareLayoutDataProvider()
     {
         /** @var $urlRewrite \Magento\Core\Model\Url\Rewrite */
-        $urlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite');
+        $urlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Url\Rewrite');
         /** @var $cmsPage \Magento\Cms\Model\Page */
-        $cmsPage = \Mage::getModel('Magento\Cms\Model\Page',
+        $cmsPage = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cms\Model\Page',
             array('data' => array('page_id' => 1, 'title' => 'Test CMS Page'))
         );
         /** @var $existingUrlRewrite \Magento\Core\Model\Url\Rewrite */
-        $existingUrlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite',
+        $existingUrlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Url\Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
 

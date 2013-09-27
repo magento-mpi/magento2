@@ -23,7 +23,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Design');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Design');
     }
 
     /**
@@ -43,7 +44,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function getThemeModel()
     {
-        $theme = \Mage::getModel('Magento\Core\Model\Theme');
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme');
         $theme->setData($this->_getThemeData());
         return array(array($theme));
     }

@@ -22,7 +22,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateWithValidData()
     {
         /** @var $validator \Magento\Core\Model\Theme\Validator */
-        $validator = \Mage::getModel('Magento\Core\Model\Theme\Validator');
+        $validator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Validator');
 
         $themeModel = $this->_getThemeModel();
         $themeModel->setData($this->_getThemeValidData());
@@ -36,7 +37,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateWithInvalidData()
     {
         /** @var $validator \Magento\Core\Model\Theme\Validator */
-        $validator = \Mage::getModel('Magento\Core\Model\Theme\Validator');
+        $validator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Validator');
 
         $themeModel = $this->_getThemeModel();
         $themeModel->setData($this->_getThemeInvalidData());
@@ -51,7 +53,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getThemeModel()
     {
-        return \Mage::getModel('Magento\Core\Model\Theme');
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme');
     }
 
     /**

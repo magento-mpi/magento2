@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Block\Adminhtml;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Webapi\Block\Adminhtml;
+
 class FormTestAbstract extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -33,7 +33,7 @@ class FormTestAbstract extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Backend\Model\Url|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Model\Url|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilder;
 
@@ -57,7 +57,7 @@ class FormTestAbstract extends \PHPUnit_Framework_TestCase
         $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
         $this->_block = $this->_blockFactory->createBlock($this->_formClass, array(
-            'context' => \Mage::getModel(
+            'context' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Backend\Block\Template\Context',
                 array('urlBuilder' => $this->_urlBuilder)
             )

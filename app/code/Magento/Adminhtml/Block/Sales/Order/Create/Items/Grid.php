@@ -34,19 +34,47 @@ class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
     protected $_taxData = null;
 
     /**
+     * @var \Magento\Wishlist\Model\WishlistFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
+     * @var \Magento\Adminhtml\Model\Giftmessage\Save
+     */
+    protected $_giftMessageSave;
+
+    /**
+     * @var \Magento\Tax\Model\Config
+     */
+    protected $_taxConfig;
+
+    /**
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave
+     * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Adminhtml\Model\Giftmessage\Save $giftMessageSave,
+        \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Helper\Data $taxData,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_wishlistFactory = $wishlistFactory;
+        $this->_giftMessageSave = $giftMessageSave;
+        $this->_taxConfig = $taxConfig;
         $this->_taxData = $taxData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
     }
 
     protected function _construct()
@@ -128,7 +156,7 @@ class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 
     public function isAllowedForGiftMessage($item)
     {
-        return \Mage::getSingleton('Magento\Adminhtml\Model\Giftmessage\Save')->getIsAllowedQuoteItem($item);
+        return $this->_giftMessageSave->getIsAllowedQuoteItem($item);
     }
 
     /**
@@ -138,8 +166,8 @@ class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
      */
     public function displayTotalsIncludeTax()
     {
-        $res = \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartSubtotalInclTax($this->getStore())
-            || \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartSubtotalBoth($this->getStore());
+        $res = $this->_taxConfig->displayCartSubtotalInclTax($this->getStore())
+            || $this->_taxConfig->displayCartSubtotalBoth($this->getStore());
         return $res;
     }
 
@@ -411,7 +439,7 @@ class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
      */
     public function getCustomerWishlists()
     {
-        return \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection()
+        return $this->_wishlistFactory->create()->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }
 }

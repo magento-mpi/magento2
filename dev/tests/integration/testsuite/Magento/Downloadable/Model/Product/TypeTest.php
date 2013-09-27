@@ -32,9 +32,11 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteTypeSpecificData()
     {
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
-        \Mage::app()->setCurrentStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->setCurrentStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $product->setOrigData();
         $downloadableData = array();
 
@@ -51,7 +53,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
         $product->setDownloadableData($downloadableData);
         $this->_model->deleteTypeSpecificData($product);
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
 
         $links = $this->_model->getLinks($product);

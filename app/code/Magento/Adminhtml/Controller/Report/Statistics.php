@@ -106,18 +106,18 @@ class Statistics extends \Magento\Adminhtml\Controller\Action
     {
         try {
             $collectionsNames = $this->_getCollectionNames();
-            $currentDate = \Mage::app()->getLocale()->date();
+            $currentDate = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')->date();
             $date = $currentDate->subHour(25);
             foreach ($collectionsNames as $collectionName) {
-                \Mage::getResourceModel($collectionName)->aggregate($date);
+                $this->_objectManager->create($collectionName)->aggregate($date);
             }
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addSuccess(__('Recent statistics have been updated.'));
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__('We can\'t refresh recent statistics.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
@@ -140,15 +140,15 @@ class Statistics extends \Magento\Adminhtml\Controller\Action
         try {
             $collectionsNames = $this->_getCollectionNames();
             foreach ($collectionsNames as $collectionName) {
-                \Mage::getResourceModel($collectionName)->aggregate();
+                $this->_objectManager->create($collectionName)->aggregate();
             }
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addSuccess(__('We updated lifetime statistics.'));
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__('We can\'t refresh lifetime statistics.'));
             $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
@@ -185,7 +185,7 @@ class Statistics extends \Magento\Adminhtml\Controller\Action
     protected function _getSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
+            $this->_adminSession = $this->_objectManager->get('Magento\Backend\Model\Auth\Session');
         }
         return $this->_adminSession;
     }

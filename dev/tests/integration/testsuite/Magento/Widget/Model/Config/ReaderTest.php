@@ -1,6 +1,4 @@
 <?php
-
-namespace Magento\Widget\Model\Config;
 /**
  * \Magento\Widget\Model\Config\Reader
  *
@@ -10,6 +8,8 @@ namespace Magento\Widget\Model\Config;
  * @license     {license_link}
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
+namespace Magento\Widget\Model\Config;
+
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -56,10 +56,10 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Magento\Core\Model\Config\Modules\Reader', array(
-                'dirs' => $dirs,
                 'moduleList' => $modulesList
             )
         );
+        $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
 
         /** @var \Magento\Widget\Model\Config\FileResolver $fileResolver */
         $fileResolver = $objectManager->create(

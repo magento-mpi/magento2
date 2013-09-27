@@ -9,24 +9,25 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\System\Account\Edit;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\System\Account\Edit;
+
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareForm()
     {
-        $user = \Mage::getModel('Magento\User\Model\User')
-            ->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User')->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
 
         /** @var $session \Magento\Backend\Model\Auth\Session */
-        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
 
         /** @var \Magento\Adminhtml\Block\System\Account\Edit\Form */
         $block = $layout->createBlock('Magento\Adminhtml\Block\System\Account\Edit\Form');

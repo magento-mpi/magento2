@@ -61,7 +61,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'required' => true,
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->_addStoresFieldset($model, $form);
         }
 
@@ -91,7 +91,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
         $fieldset->setRenderer($renderer);
 
-        foreach (\Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $fieldset->addField("w_{$website->getId()}_label", 'note', array(
                 'label' => $website->getName(),
                 'fieldset_html_class' => 'website',

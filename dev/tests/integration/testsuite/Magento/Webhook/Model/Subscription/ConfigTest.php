@@ -1,5 +1,9 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Subscription\Config
+ *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -10,11 +14,6 @@
  */
 namespace Magento\Webhook\Model\Subscription;
 
-/**
- * \Magento\Webhook\Model\Subscription\Config
- *
- * @magentoDbIsolation enabled
- */
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -78,10 +77,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $this->_objectManager->create(
             'Magento\Core\Model\Config\Modules\Reader', array(
-                'dirs' => $dirs,
                 'moduleList' => $moduleList
             )
         );
+        $moduleReader->setModuleDir('Acme_Subscriber', 'etc', __DIR__ . '/_files/Acme/Subscriber/etc');
 
         $loader = $this->_objectManager->create(
             'Magento\Core\Model\Config\Loader',
@@ -108,6 +107,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testReadingConfig()
     {
+
         /** @var \Magento\Webhook\Model\Resource\Subscription\Collection $subscriberCollection */
         $subscriptionSet = $this->_objectManager->create('Magento\Webhook\Model\Resource\Subscription\Collection');
 

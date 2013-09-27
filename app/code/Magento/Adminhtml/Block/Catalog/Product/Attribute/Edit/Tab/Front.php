@@ -18,8 +18,34 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
 
-class Front extends \Magento\Backend\Block\Widget\Form\Generic
+class Front
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $_yesNo;
+
+    /**
+     * @param \Magento\Backend\Model\Config\Source\Yesno $yesNo
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Model\Config\Source\Yesno $yesNo,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_yesNo = $yesNo;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * @inheritdoc
      * @return $this
@@ -37,7 +63,7 @@ class Front extends \Magento\Backend\Block\Widget\Form\Generic
             ))
         );
 
-        $yesnoSource = \Mage::getModel('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();;
+        $yesnoSource = $this->_yesNo->toOptionArray();
 
         $fieldset = $form->addFieldset(
             'front_fieldset',

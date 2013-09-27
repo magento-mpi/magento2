@@ -18,8 +18,8 @@
 namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
 
 class View
- extends \Magento\Adminhtml\Block\Template
- implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Adminhtml\Block\Template
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected $_customer;
 
@@ -39,6 +39,18 @@ class View
     protected $_modelVisitor;
 
     /**
+     * @var \Magento\Customer\Model\GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @var \Magento\Log\Model\CustomerFactory
+     */
+    protected $_logFactory;
+
+    /**
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Log\Model\CustomerFactory $logFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -46,6 +58,8 @@ class View
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Log\Model\CustomerFactory $logFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -54,6 +68,8 @@ class View
     ) {
         $this->_coreRegistry = $registry;
         $this->_modelVisitor = $modelVisitor;
+        $this->_groupFactory = $groupFactory;
+        $this->_logFactory = $logFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -69,7 +85,7 @@ class View
     {
         $groupId = $this->getCustomer()->getGroupId();
         if ($groupId) {
-            return \Mage::getModel('Magento\Customer\Model\Group')
+            return $this->_groupFactory->create()
                 ->load($groupId)
                 ->getCustomerGroupCode();
         }
@@ -83,7 +99,7 @@ class View
     public function getCustomerLog()
     {
         if (!$this->_customerLog) {
-            $this->_customerLog = \Mage::getModel('Magento\Log\Model\Customer')
+            $this->_customerLog = $this->_logFactory->create()
                 ->loadByCustomer($this->getCustomer()->getId());
         }
         return $this->_customerLog;
@@ -105,7 +121,7 @@ class View
 
     public function getStoreCreateDate()
     {
-        $date = \Mage::app()->getLocale()->storeDate(
+        $date = $this->_locale->storeDate(
             $this->getCustomer()->getStoreId(),
             $this->getCustomer()->getCreatedAtTimestamp(),
             true
@@ -115,8 +131,10 @@ class View
 
     public function getStoreCreateDateTimezone()
     {
-        return \Mage::app()->getStore($this->getCustomer()->getStoreId())
-            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        return $this->_storeConfig->getConfig(
+            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $this->getCustomer()->getStoreId()
+        );
     }
 
     /**
@@ -141,7 +159,7 @@ class View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            $date = \Mage::app()->getLocale()->storeDate(
+            $date = $this->_locale->storeDate(
                 $this->getCustomer()->getStoreId(),
                 $date,
                 true
@@ -153,8 +171,10 @@ class View
 
     public function getStoreLastLoginDateTimezone()
     {
-        return \Mage::app()->getStore($this->getCustomer()->getStoreId())
-            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        return $this->_storeConfig->getConfig(
+            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $this->getCustomer()->getStoreId()
+        );
     }
 
     public function getCurrentStatus()
@@ -181,7 +201,7 @@ class View
 
     public function getCreatedInStore()
     {
-        return \Mage::app()->getStore($this->getCustomer()->getStoreId())->getName();
+        return $this->_storeManager->getStore($this->getCustomer()->getStoreId())->getName();
     }
 
     public function getStoreId()

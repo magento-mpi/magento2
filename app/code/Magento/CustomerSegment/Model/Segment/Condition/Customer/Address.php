@@ -17,12 +17,32 @@ class Address
     extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var \Magento\CustomerSegment\Model\ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Address');
     }
 
@@ -33,14 +53,13 @@ class Address
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\\';
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
-                'label' => __('Conditions Combination')
+                'label' => __('Conditions Combination'),
             ),
-            \Mage::getModel($prefix.'Default')->getNewChildSelectOptions(),
-            \Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Customer_Address_Default')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Customer_Address_Attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }
@@ -78,7 +97,7 @@ class Address
     {
         $resource = $this->getResource();
         $select = $resource->createSelect();
-        $addressEntityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer_address');
+        $addressEntityType = $this->_eavConfig->getEntityType('customer_address');
         $addressTable = $resource->getTable($addressEntityType->getEntityTable());
         $select->from(array('customer_address' => $addressTable), array(new \Zend_Db_Expr(1)));
         $select->where('customer_address.entity_type_id = ?', $addressEntityType->getId());

@@ -27,19 +27,19 @@ class Grid
     protected $_collectionFactory;
 
     /**
+     * @param \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory $collectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
-        \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;

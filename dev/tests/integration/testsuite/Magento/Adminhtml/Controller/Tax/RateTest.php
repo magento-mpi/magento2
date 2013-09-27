@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Controller\Tax;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Controller\Tax;
+
 class RateTest extends \Magento\Backend\Utility\Controller
 {
     /**
@@ -33,7 +33,8 @@ class RateTest extends \Magento\Backend\Utility\Controller
 
         $rateId = $result['tax_calculation_rate_id'];
         /** @var $rate \Magento\Tax\Model\Calculation\Rate */
-        $rate = \Mage::getModel('Magento\Tax\Model\Calculation\Rate')->load($rateId, 'tax_calculation_rate_id');
+        $rate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Tax\Model\Calculation\Rate')->load($rateId, 'tax_calculation_rate_id');
 
         $this->assertEquals($expectedData['zip_is_range'], $rate->getZipIsRange());
         $this->assertEquals($expectedData['zip_from'], $rate->getZipFrom());

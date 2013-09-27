@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
-$installer = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
+$installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
 /** @var $category \Magento\Catalog\Model\Category */
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(3)
     ->setName('Category 1')
     ->setParentId(2) /**/
@@ -26,7 +28,8 @@ $category->setId(3)
     ->setPosition(1)
     ->save();
 
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(4)
     ->setName('Category 1.1')
     ->setParentId(3) /**/
@@ -39,7 +42,8 @@ $category->setId(4)
     ->setPosition(1)
     ->save();
 
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(5)
     ->setName('Category 1.1.1')
     ->setParentId(4) /**/
@@ -53,7 +57,8 @@ $category->setId(5)
     ->setCustomDesign('magento_blank')
     ->save();
 
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(6)
     ->setName('Category 2')
     ->setParentId(2) /**/
@@ -65,7 +70,8 @@ $category->setId(6)
     ->setPosition(2)
     ->save();
 
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(7)
     ->setName('Movable')
     ->setParentId(2) /**/
@@ -77,7 +83,8 @@ $category->setId(7)
     ->setPosition(3)
     ->save();
 
-$category = \Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
 $category->setId(8)
     ->setName('Inactive')
     ->setParentId(2) /**/
@@ -90,7 +97,8 @@ $category->setId(8)
 
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
@@ -108,7 +116,8 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->save();
 
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(2)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))

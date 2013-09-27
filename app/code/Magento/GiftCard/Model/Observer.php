@@ -36,6 +36,70 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
+     * Session
+     *
+     * @var \Magento\Core\Model\Session\AbstractSession
+     */
+    protected $_session;
+
+    /**
+     * Url model
+     *
+     * @var \Magento\Core\Model\UrlInterface
+     */
+    protected $_urlModel;
+
+    /**
+     * Invoice factory
+     *
+     * @var \Magento\Sales\Model\Order\InvoiceFactory
+     */
+    protected $_invoiceFactory;
+
+    /**
+     * Template factory
+     *
+     * @var \Magento\Core\Model\Email\TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * Invoice items collection factory
+     *
+     * @var \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Layout
+     *
+     * @var \Magento\Core\Model\Layout
+     */
+    protected $_layout;
+
+    /**
+     * Locale
+     *
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
+     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Core\Model\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -46,6 +110,14 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @throws \InvalidArgumentException
      */
     public function __construct(
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
+        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Core\Model\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -54,6 +126,14 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_layout = $layout;
+        $this->_locale = $locale;
+        $this->_itemsFactory = $itemsFactory;
+        $this->_templateFactory = $templateFactory;
+        $this->_invoiceFactory = $invoiceFactory;
+        $this->_session = $session;
+        $this->_urlModel = $urlModel;
         $this->_giftCardData = $giftCardData;
         $this->_coreStoreConfig = $coreStoreConfig;
         if (isset($data['email_template_model'])) {
@@ -82,7 +162,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
 
         if ($elem) {
             $elem->setRenderer(
-                \Mage::app()->getLayout()->createBlock('Magento\GiftCard\Block\Adminhtml\Renderer\Amount')
+                $this->_layout->createBlock('Magento\GiftCard\Block\Adminhtml\Renderer\Amount')
             );
         }
     }
@@ -130,16 +210,15 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             ? $options['giftcard_paid_invoice_items']
                             : array();
                         // find invoice for this order item
-                        $invoiceItemCollection = \Mage::getResourceModel(
-                            'Magento\Sales\Model\Resource\Order\Invoice\Item\Collection'
-                        )->addFieldToFilter('order_item_id', $item->getId());
+                        $invoiceItemCollection = $this->_itemsFactory->create()
+                            ->addFieldToFilter('order_item_id', $item->getId());
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
                             $invoiceId = $invoiceItem->getParentId();
                             if (isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
-                                $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
+                                $invoice = $this->_invoiceFactory->create()->load($invoiceId);
                                 $loadedInvoices[$invoiceId] = $invoice;
                             }
                             // check, if this order item has been paid
@@ -175,7 +254,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                     }
 
                     $amount = $item->getBasePrice();
-                    $websiteId = \Mage::app()->getStore($order->getStoreId())->getWebsiteId();
+                    $websiteId = $this->_storeManager->getStore($order->getStoreId())->getWebsiteId();
 
                     $data = new \Magento\Object();
                     $data->setWebsiteId($websiteId)
@@ -210,9 +289,9 @@ class Observer extends \Magento\Core\Model\AbstractModel
                         $codeList = $this->_giftCardData->getEmailGeneratedItemsBlock()
                             ->setCodes($codes)
                             ->setIsRedeemable($isRedeemable)
-                            ->setStore(\Mage::app()->getStore($order->getStoreId()));
-                        $balance = \Mage::app()->getLocale()->currency(
-                            \Mage::app()->getStore($order->getStoreId())->getBaseCurrencyCode()
+                            ->setStore($this->_storeManager->getStore($order->getStoreId()));
+                        $balance = $this->_locale->currency(
+                            $this->_storeManager->getStore($order->getStoreId())->getBaseCurrencyCode()
                         )->toCurrency($amount);
 
                         $templateData = array(
@@ -229,7 +308,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             'is_redeemable'          => $isRedeemable,
                         );
 
-                        $email = $this->_emailTemplateModel ?: \Mage::getModel('Magento\Core\Model\Email\Template');
+                        $email = $this->_emailTemplateModel ?: $this->_templateFactory->create();
                         $email->setDesignConfig(array(
                             'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                             'store' => $item->getOrder()->getStoreId(),
@@ -254,10 +333,10 @@ class Observer extends \Magento\Core\Model\AbstractModel
                     $item->save();
                 }
                 if ($hasFailedCodes) {
-                    $url = \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('adminhtml/giftcardaccount');
+                    $url = $this->_urlModel->getUrl('adminhtml/giftcardaccount');
                     $message = __('Some gift card accounts were not created properly. You can create gift card accounts manually <a href="%1">here</a>.', $url);
 
-                    \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($message);
+                    $this->_session->addError($message);
                 }
             }
         }

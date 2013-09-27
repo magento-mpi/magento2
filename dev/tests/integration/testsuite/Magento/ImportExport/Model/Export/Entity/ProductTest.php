@@ -50,7 +50,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_model = \Mage::getModel('Magento\ImportExport\Model\Export\Entity\Product');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Entity\Product');
     }
 
     /**
@@ -58,7 +59,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testExport()
     {
-        $this->_model->setWriter(\Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $this->assertNotEmpty($this->_model->export());
     }
 

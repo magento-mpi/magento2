@@ -39,18 +39,28 @@ class Config extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      *
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreData = $coreData;
+        $this->_storeManager = $storeManager;
         parent::__construct($data);
     }
 
@@ -173,7 +183,7 @@ class Config extends \Magento\Object
      */
     public function isValidDefaultCurrencyCode($storeId = null)
     {
-        return \Mage::app()->getStore($storeId)->getDefaultCurrencyCode() == $this->getTargetCurrency($storeId);
+        return $this->_storeManager->getStore($storeId)->getDefaultCurrencyCode() == $this->getTargetCurrency($storeId);
     }
 
     /**

@@ -249,7 +249,7 @@ abstract class EntityAbstract
         $this->_dataSourceModel     = isset($data['data_source_model']) ? $data['data_source_model']
             : \Magento\ImportExport\Model\Import::getDataSourceModel();
         $this->_connection          = isset($data['connection']) ? $data['connection']
-            : \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('write');
+            : \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
         $this->_jsonHelper          =  $coreData;
         $this->_stringHelper        =  $coreString;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']

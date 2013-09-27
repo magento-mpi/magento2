@@ -19,10 +19,12 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     public function testCollectTotalsWithVirtual()
     {
-        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
 
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(21);
         $quote->addProduct($product);
         $quote->collectTotals();

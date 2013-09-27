@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <importexport_setup>
-                <setup>
-                    <module>Magento_ImportExport</module>
-                    <class>Magento\ImportExport\Model\Resource\Setup</class>
-                </setup>
-            </importexport_setup>
-        </resources>
-    </global>
     <default>
         <general>
             <file>

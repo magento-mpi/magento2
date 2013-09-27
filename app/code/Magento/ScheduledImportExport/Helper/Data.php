@@ -42,6 +42,7 @@ class Data extends \Magento\ImportExport\Helper\Data
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\File\Size $fileSize
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption $encryptor
      */
     public function __construct(
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
@@ -51,11 +52,12 @@ class Data extends \Magento\ImportExport\Helper\Data
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
         \Magento\File\Size $fileSize,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $fileSize, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $fileSize, $coreStoreConfig, $encryptor);
     }
 
     /**

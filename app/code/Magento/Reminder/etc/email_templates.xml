@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template id="magento_reminder_email_template" label="Promotion Notification/Reminder" file="promotion.html" type="html"/>
+</config>

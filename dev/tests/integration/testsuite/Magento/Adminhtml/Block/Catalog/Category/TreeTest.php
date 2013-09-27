@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\Catalog\Category;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\Catalog\Category;
+
 class TreeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Adminhtml\Block\Catalog\Category\Tree */
@@ -22,7 +22,8 @@ class TreeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = \Mage::getModel('Magento\Adminhtml\Block\Catalog\Category\Tree');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Adminhtml\Block\Catalog\Category\Tree');
     }
 
     public function testGetSuggestedCategoriesJson()

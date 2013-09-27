@@ -1,4 +1,6 @@
 <?php
+use Zend\Soap\Wsdl;
+
 /**
  * WSDL generator.
  *
@@ -8,7 +10,6 @@
  * @license     {license_link}
  */
 namespace Magento\Webapi\Model\Soap\Wsdl;
-use Zend\Soap\Wsdl;
 
 class Generator
 {
@@ -111,19 +112,18 @@ class Generator
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
         $wsdl->addSchemaTypeSection();
 
-        foreach ($services as $serviceId => $serviceData) {
-            $portTypeName = $this->getPortTypeName($serviceId);
-            $bindingName = $this->getBindingName($serviceId);
+        foreach ($services as $serviceClass => $serviceData) {
+            $portTypeName = $this->getPortTypeName($serviceClass);
+            $bindingName = $this->getBindingName($serviceClass);
             $portType = $wsdl->addPortType($portTypeName);
-            $binding = $wsdl->addBinding($bindingName, \Zend\Soap\Wsdl::TYPES_NS . ':' . $portTypeName);
+            $binding = $wsdl->addBinding($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName);
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
-            $portName = $this->getPortName($serviceId);
-            $serviceName = $this->getServiceName($serviceId);
-            $wsdl->addService($serviceName, $portName, \Zend\Soap\Wsdl::TYPES_NS
-                . ':' . $bindingName, $endPointUrl, SOAP_1_2);
+            $portName = $this->getPortName($serviceClass);
+            $serviceName = $this->getServiceName($serviceClass);
+            $wsdl->addService($serviceName, $portName, Wsdl::TYPES_NS . ':' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($serviceData['methods'] as $methodName => $methodData) {
-                $operationName = $this->getOperationName($serviceId, $methodName);
+                $operationName = $this->getOperationName($serviceClass, $methodName);
                 $inputBinding = array('use' => 'literal');
                 $inputMessageName = $this->_createOperationInput($wsdl, $operationName, $methodData);
 
@@ -180,7 +180,7 @@ class Generator
                 ) {
                     $response += $this->getComplexTypeNodes($serviceName, $referencedTypeName, $domDocument);
                     /** Add target namespace to the referenced type name */
-                    $referencedType->value = \Zend\Soap\Wsdl::TYPES_NS . ':' . $prefixedRefTypeName;
+                    $referencedType->value = Wsdl::TYPES_NS . ':' . $prefixedRefTypeName;
                 }
             }
             $complexTypeNode->setAttribute(
@@ -220,7 +220,7 @@ class Generator
         $inputMessageName = $this->getInputMessageName($operationName);
         $elementData = array(
             'name' => $inputMessageName,
-            'type' => \Zend\Soap\Wsdl::TYPES_NS . ':' . $inputMessageName
+            'type' => Wsdl::TYPES_NS . ':' . $inputMessageName
         );
         if (isset($methodData['interface']['inputComplexTypes'])) {
             foreach ($methodData['interface']['inputComplexTypes'] as $complexTypeNode) {
@@ -234,11 +234,11 @@ class Generator
             $inputMessageName,
             array(
                 'messageParameters' => array(
-                    'element' => \Zend\Soap\Wsdl::TYPES_NS . ':' . $inputMessageName
+                    'element' => Wsdl::TYPES_NS . ':' . $inputMessageName
                 )
             )
         );
-        return \Zend\Soap\Wsdl::TYPES_NS . ':' . $inputMessageName;
+        return Wsdl::TYPES_NS . ':' . $inputMessageName;
     }
 
     /**
@@ -255,7 +255,7 @@ class Generator
         $wsdl->addElement(
             array(
                 'name' => $outputMessageName,
-                'type' => \Zend\Soap\Wsdl::TYPES_NS . ':' . $outputMessageName
+                'type' => Wsdl::TYPES_NS . ':' . $outputMessageName
             )
         );
         if (isset($methodData['interface']['outputComplexTypes'])) {
@@ -267,11 +267,11 @@ class Generator
             $outputMessageName,
             array(
                 'messageParameters' => array(
-                    'element' => \Zend\Soap\Wsdl::TYPES_NS . ':' . $outputMessageName
+                    'element' => Wsdl::TYPES_NS . ':' . $outputMessageName
                 )
             )
         );
-        return \Zend\Soap\Wsdl::TYPES_NS . ':' . $outputMessageName;
+        return Wsdl::TYPES_NS . ':' . $outputMessageName;
     }
 
     /**
@@ -406,9 +406,9 @@ class Generator
         /** $requestedServices is expected to contain exactly one item */
         $serviceData = reset($requestedServices);
         $serviceDataTypes = array('methods' => array());
-        $serviceClass = $serviceData[\Magento\Webapi\Model\Soap\Config::KEY_CLASS];
+        $serviceClass = $serviceData[Magento_Webapi_Model_Soap_Config::KEY_CLASS];
         foreach ($serviceData['methods'] as $operationData) {
-            $serviceMethod = $operationData[\Magento\Webapi\Model\Soap\Config::KEY_METHOD];
+            $serviceMethod = $operationData[Magento_Webapi_Model_Soap_Config::KEY_METHOD];
             /** @var $payloadSchemaDom \DOMDocument */
             $payloadSchemaDom = $this->_apiConfig->getServiceSchemaDOM($serviceClass);
             $operationName = $this->getOperationName($serviceName, $serviceMethod);
@@ -417,7 +417,7 @@ class Generator
                 $this->getXsdRequestTypeName($serviceMethod),
                 $payloadSchemaDom);
             if (empty($inputComplexTypes)) {
-                if ($operationData[\Magento\Webapi\Model\Soap\Config::KEY_IS_REQUIRED]) {
+                if ($operationData[Magento_Webapi_Model_Soap_Config::KEY_IS_REQUIRED]) {
                     throw new \LogicException(
                         sprintf('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
                             $serviceMethod, $serviceName, $inputParameterName)

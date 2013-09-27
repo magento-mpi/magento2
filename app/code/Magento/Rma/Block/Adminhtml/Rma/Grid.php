@@ -35,12 +35,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param array $data
      */
     public function __construct(
+        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
+        \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
-        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
-        \Magento\Rma\Model\RmaFactory $rmaFactory,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;

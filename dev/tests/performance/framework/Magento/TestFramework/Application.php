@@ -18,7 +18,7 @@ class Application
     /**
      * Configuration object
      *
-     * @param Magento_Config
+     * @param \Magento\Config
      */
     protected $_config;
 
@@ -98,21 +98,9 @@ class Application
     {
         $this->_shell->execute('php -f %s -- --uninstall', array($this->_installerScript));
 
-        $this->_cleanupMage();
         $this->_isInstalled = false;
         $this->_fixtures = array();
 
-        return $this;
-    }
-
-    /**
-     * Clean the application, so next time it will load itself again (i.e. after uninstall)
-     *
-     * @return \Magento\TestFramework\Application
-     */
-    protected function _cleanupMage()
-    {
-        \Mage::reset();
         return $this;
     }
 

@@ -73,7 +73,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     protected function _composeXml(\Magento\Core\Model\Theme $theme)
     {
         /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
-        $layoutUpdate = \Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+        $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
         return $layoutUpdate->getFileLayoutUpdatesXml();
     }
 
@@ -120,7 +121,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function areasAndThemesDataProvider()
     {
         $result = array();
-        $themeCollection = \Mage::getModel('Magento\Core\Model\Theme')->getCollection();
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme')->getCollection();
         /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themeCollection as $theme) {
             $result[] = array($theme);
@@ -175,11 +177,14 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function pageTypesDeclarationDataProvider()
     {
         /** @var $themeUpdates \Magento\Core\Model\Layout\File\Source\Theme */
-        $themeUpdates = \Mage::getModel('Magento\Core\Model\Layout\File\Source\Theme');
+        $themeUpdates = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\File\Source\Theme');
         /** @var $themeUpdatesOverride \Magento\Core\Model\Layout\File\Source\Override\Theme */
-        $themeUpdatesOverride = \Mage::getModel('Magento\Core\Model\Layout\File\Source\Override\Theme');
+        $themeUpdatesOverride = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\File\Source\Override\Theme');
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
-        $themeCollection = \Mage::getModel('Magento\Core\Model\Theme\Collection');
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Collection');
         $themeCollection->addDefaultPattern('*');
         /** @var $themeLayouts \Magento\Core\Model\Layout\File[] */
         $themeLayouts = array();
@@ -262,7 +267,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         if (!isset(self::$_cachedFiles[$cacheKey])) {
             /* @var $fileList \Magento\Core\Model\Layout\File[] */
-            $fileList = \Mage::getModel($sourceClass)->getFiles($theme);
+            $fileList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create($sourceClass)->getFiles($theme);
             $files = array();
             foreach ($fileList as $file) {
                 $files[$file->getModule() . '/' . $file->getName()] = true;
@@ -278,7 +284,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function overrideBaseFilesDataProvider()
     {
         return $this->_retrieveFilesForEveryTheme(
-            \Mage::getModel('Magento\Core\Model\Layout\File\Source\Override\Base')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\File\Source\Override\Base')
         );
     }
 
@@ -288,7 +295,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     public function overrideThemeFilesDataProvider()
     {
         return $this->_retrieveFilesForEveryTheme(
-            \Mage::getModel('Magento\Core\Model\Layout\File\Source\Override\Theme')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\File\Source\Override\Theme')
         );
     }
 
@@ -303,7 +311,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $result = array();
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
-        $themeCollection = \Mage::getModel('Magento\Core\Model\Theme\Collection');
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Theme\Collection');
         $themeCollection->addDefaultPattern('*');
         /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themeCollection as $theme) {

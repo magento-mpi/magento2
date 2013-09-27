@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 /**
  * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Sku.
  * @magentoAppArea adminhtml
  */
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
 class SkuTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,7 +23,8 @@ class SkuTest extends \PHPUnit_Framework_TestCase
     public function testGenerateUniqueSkuExistingProduct()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setId(null);
         $this->assertEquals('simple', $product->getSku());
@@ -89,7 +90,8 @@ class SkuTest extends \PHPUnit_Framework_TestCase
     protected function _getProduct()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
             ->setId(1)
             ->setAttributeSetId(4)

@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
-
 /**
  * @magentoAppIsolation enabled
  * @magentoAppArea adminhtml
  */
+namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
+
 class StoreTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -28,7 +28,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $registryData = array(
             'store_type' => 'store',
-            'store_data' => \Mage::getModel('Magento\Core\Model\Store'),
+            'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->create('Magento\Core\Model\Store'),
             'store_action' => 'add'
         );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
@@ -38,7 +39,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         }
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = $objectManager->get('Magento\Core\Model\Layout');
 
         $this->_block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Edit\Form\Store');
 

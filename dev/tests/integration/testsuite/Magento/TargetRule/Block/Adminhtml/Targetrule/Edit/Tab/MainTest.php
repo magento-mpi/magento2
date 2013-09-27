@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
-
 /**
  * Test class for \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
+
 class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -29,12 +29,12 @@ class MainTest extends \PHPUnit_Framework_TestCase
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $objectManager->get('Magento\Core\Model\Registry')
-            ->register('current_target_rule', \Mage::getModel('Magento\TargetRule\Model\Rule'));
+            ->register('current_target_rule', \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\TargetRule\Model\Rule'));
 
-        $block = \Mage::app()->getLayout()->createBlock(
-            'Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main'
-        );
-        $prepareFormMethod = new \ReflectionMethod(
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main');
+        $prepareFormMethod = new ReflectionMethod(
             'Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

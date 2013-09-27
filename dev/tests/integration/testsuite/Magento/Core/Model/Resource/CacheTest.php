@@ -18,16 +18,27 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_resourceMock;
+
     protected function setUp()
     {
-        $this->_model = \Mage::getResourceModel('Magento\Core\Model\Resource\Cache');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Resource\Cache');
     }
 
-    /**
-     * @magentoConfigFixture global/resources/db/table_prefix prefix_
-     */
+
     public function testGetTable()
     {
+        $this->_resourceMock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource', array('tablePrefix' => 'prefix_')
+        );
+
+        $this->_model =Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Cache', array('resource' => $this->_resourceMock)
+        );
         $this->assertEquals('prefix_core_cache_option', $this->_model->getTable('core_cache_option'));
         $this->assertEquals('prefix_core_cache_option', $this->_model->getTable(array('core_cache', 'option')));
     }

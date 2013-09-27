@@ -117,7 +117,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             ->from($this->getTable('magento_giftregistry_person'), array('entity_id'))
             ->group('entity_id');
 
-        /** @var \Magento\Core\Model\Resource\Helper\Mysql4 $helper */
+        /** @var \Magento\Core\Model\Resource\Helper $helper */
         $helper = \Mage::getResourceHelper('Magento_Core');
         $helper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
 

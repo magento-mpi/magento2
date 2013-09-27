@@ -23,6 +23,31 @@ namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
 class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
 {
     /**
+     * @var \Magento\Cms\Model\PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_pageFactory = $pageFactory;
+        parent::__construct($rewriteFactory, $adminhtmlData, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare layout for URL rewrite creating for CMS page
      */
     protected function _prepareLayoutFeatures()
@@ -51,7 +76,7 @@ class Edit extends \Magento\Adminhtml\Block\Urlrewrite\Edit
     private function _getCmsPage()
     {
         if (!$this->hasData('cms_page')) {
-            $this->setCmsPage(\Mage::getModel('Magento\Cms\Model\Page'));
+            $this->setCmsPage($this->_pageFactory->create());
         }
         return $this->getCmsPage();
     }

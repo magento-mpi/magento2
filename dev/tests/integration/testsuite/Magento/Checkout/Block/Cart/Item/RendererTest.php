@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Block\Cart\Item;
-
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_with_image.php
  */
+namespace Magento\Checkout\Block\Cart\Item;
+
 class RendererTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,11 +23,15 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Checkout\Block\Cart\Item\Renderer');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Checkout\Block\Cart\Item\Renderer');
         /** @var $item \Magento\Sales\Model\Quote\Item */
-        $item = \Mage::getModel('Magento\Sales\Model\Quote\Item');
-        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        $item = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote\Item');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $item->setProduct($product);
         $this->_block->setItem($item);

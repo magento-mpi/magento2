@@ -19,7 +19,7 @@
  */
 namespace Magento\Webapi\Model\Acl;
 
-class User extends \Magento\Core\Model\AbstractModel implements \Magento\Oauth\Model\ConsumerInterface
+class User extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Prefix of model events names.
@@ -60,6 +60,16 @@ class User extends \Magento\Core\Model\AbstractModel implements \Magento\Oauth\M
 
     /**
      * Get consumer key.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->getData('key');
+    }
+
+    /**
+     * Get consumer secret.
      *
      * @return string
      */

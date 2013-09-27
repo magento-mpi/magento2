@@ -21,10 +21,12 @@ class BlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        $cmsBlock = \Mage::getModel('Magento\Cms\Model\Block');
+        $cmsBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Cms\Model\Block');
         $cmsBlock->load('fixture_block', 'identifier');
         /** @var $block \Magento\Cms\Block\Widget\Block */
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Cms\Block\Widget\Block');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Cms\Block\Widget\Block');
         $block->setBlockId($cmsBlock->getId());
         $block->toHtml();
         $result = $block->getText();

@@ -27,18 +27,34 @@ class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Sales\Model\QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    /**
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_itemsFactory = $itemsFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -56,10 +72,10 @@ class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
 
         // add shopping cart block of each website
         foreach ($this->_coreRegistry->registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
-            $website = \Mage::app()->getWebsite($websiteId);
+            $website = $this->_storeManager->getWebsite($websiteId);
 
             // count cart items
-            $cartItemsCount = \Mage::getModel('Magento\Sales\Model\Quote')
+            $cartItemsCount = $this->_quoteFactory->create()
                 ->setWebsite($website)->loadByCustomer($customer)
                 ->getItemsCollection(false)
                 ->addFieldToFilter('parent_item_id', array('null' => true))
@@ -79,7 +95,7 @@ class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
         }
 
         // count wishlist items
-        $wishlistCount = \Mage::getModel('Magento\Wishlist\Model\Item')->getCollection()
+        $wishlistCount = $this->_itemsFactory->create()
             ->addCustomerIdFilter($customer->getId())
             ->addStoreData()
             ->getSize();

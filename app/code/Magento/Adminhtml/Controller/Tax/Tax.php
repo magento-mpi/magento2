@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Controller\Tax;
 
-class Tax extends \Magento\Adminhtml\Controller\Action
+class ClassTax extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Save Tax Class via AJAX
@@ -31,7 +31,7 @@ class Tax extends \Magento\Adminhtml\Controller\Action
                 'class_type' => $this->_processClassType((string)$this->getRequest()->getPost('class_type')),
                 'class_name' => $this->_processClassName((string)$this->getRequest()->getPost('class_name'))
             );
-            $class = \Mage::getModel('Magento\Tax\Model\ClassModel')
+            $class = $this->_objectManager->create('Magento\Tax\Model\ClassModel')
                 ->setData($classData)
                 ->save();
             $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
@@ -101,7 +101,7 @@ class Tax extends \Magento\Adminhtml\Controller\Action
             \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT
         );
         if (!in_array($classType, $validClassTypes)) {
-            \Mage::throwException(__('Invalid type of tax class specified.'));
+            throw new \Magento\Core\Exception(__('Invalid type of tax class specified.'));
         }
         return $classType;
     }
@@ -117,7 +117,7 @@ class Tax extends \Magento\Adminhtml\Controller\Action
     {
         $className = trim($this->_objectManager->get('Magento\Tax\Helper\Data')->escapeHtml($className));
         if ($className == '') {
-            \Mage::throwException(__('Invalid name of tax class specified.'));
+            throw new \Magento\Core\Exception(__('Invalid name of tax class specified.'));
         }
         return $className;
     }

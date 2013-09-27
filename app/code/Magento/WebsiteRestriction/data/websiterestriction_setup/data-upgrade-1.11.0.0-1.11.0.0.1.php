@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/** @var $installer \Magento\WebsiteRestriction\Model\Resource\Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 

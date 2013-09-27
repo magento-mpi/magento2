@@ -40,7 +40,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstrac
                     ->get('Magento\Core\Model\View\FileSystem')
                     ->getFilename($file, $params);
                 $this->assertFileExists($templateFilename);
-            } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
+            } catch (PHPUnit_Framework_ExpectationFailedException $e) {
                 $invalidTemplates[] = "File \"$templateFilename\" does not exist." . PHP_EOL
                     . "Parameters: {$area}/{$themeId} {$module}::{$file}" . PHP_EOL
                     . 'Layout update: ' . $xml;
@@ -57,7 +57,8 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstrac
         $themes = $this->_getDesignThemes();
         foreach ($themes as $theme) {
             /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
-            $layoutUpdate = \Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+            $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
             $layoutTemplates = $this->_getLayoutTemplates($layoutUpdate->getFileLayoutUpdatesXml());
             foreach ($layoutTemplates as $templateData) {
                 $templates[] = array_merge(array($theme->getArea(), $theme->getId()), $templateData);

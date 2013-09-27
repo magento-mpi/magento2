@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Banner\Model\Resource\Salesrule;
-
 /**
  * @magentoDataFixture Magento/Banner/_files/banner_enabled_40_to_50_percent_off.php
  * @magentoDataFixture Magento/Banner/_files/banner_disabled_40_percent_off.php
  */
+namespace Magento\Banner\Model\Resource\Salesrule;
+
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -21,7 +21,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Salesrule\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Resource\Salesrule\Collection');
     }
 
     protected function tearDown()
@@ -32,7 +33,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testGetItems()
     {
         /** @var \Magento\Banner\Model\Banner $banner */
-        $banner = \Mage::getModel('Magento\Banner\Model\Banner');
+        $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Banner\Model\Banner');
         $banner->load('Get from 40% to 50% Off on Large Orders', 'name');
 
         $this->assertCount(1, $this->_collection->getItems());
@@ -42,7 +44,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddRuleIdsFilter()
     {
         /** @var \Magento\SalesRule\Model\Rule $rule */
-        $rule = \Mage::getModel('Magento\SalesRule\Model\Rule');
+        $rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\SalesRule\Model\Rule');
         $rule->load('40% Off on Large Orders', 'name');
 
         $this->_collection->addRuleIdsFilter(array($rule->getId()));

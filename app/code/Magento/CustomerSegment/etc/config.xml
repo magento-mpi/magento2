@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <customersegment_setup>
-                <setup>
-                    <module>Magento_CustomerSegment</module>
-                    <class>Magento\CustomerSegment\Model\Resource\Setup</class>
-                </setup>
-            </customersegment_setup>
-        </resources>
-    </global>
     <default>
         <customer>
             <magento_customersegment>

@@ -18,7 +18,8 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateConditionSql($field, $operator, $value, $expected)
     {
-        $segment = \Mage::getResourceModel('Magento\CustomerSegment\Model\Resource\Segment');
+        $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CustomerSegment\Model\Resource\Segment');
         $result = $segment->createConditionSql($field, $operator, $value);
         $this->assertEquals($expected, $result);
     }

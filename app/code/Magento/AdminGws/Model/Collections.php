@@ -19,17 +19,33 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager = null;
+    
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $_backendAuthSession;
 
     /**
+     * @var \Magento\AdminGws\Model\Resource\CollectionsFactory
+     */
+    protected $_collectionsFactory;
+
+    /**
+     * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
+        \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\AdminGws\Model\Role $role,
         \Magento\Core\Model\StoreManager $storeManager
     ) {
-        parent::__construct($role);
+        $this->_collectionsFactory = $collectionsFactory;
+        $this->_backendAuthSession = $backendAuthSession;
         $this->_storeManager = $storeManager;
+        parent::__construct($role);
     }
 
     /**
@@ -274,7 +290,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function limitAdminPermissionRoles($collection)
     {
-        $limited = \Mage::getResourceModel('Magento\AdminGws\Model\Resource\Collections')
+        $limited = $this->_collectionsFactory->create()
             ->getRolesOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),
@@ -291,7 +307,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function limitAdminPermissionUsers($collection)
     {
-        $limited = \Mage::getResourceModel('Magento\AdminGws\Model\Resource\Collections')
+        $limited = $this->_collectionsFactory->create()
             ->getUsersOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),
@@ -332,10 +348,8 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _initRssAdminRole()
     {
-        /* @var $session \Magento\Backend\Model\Auth\Session */
-        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         /* @var $adminUser \Magento\User\Model\User */
-        $adminUser = $session->getUser();
+        $adminUser = $this->_backendAuthSession->getUser();
         if ($adminUser) {
             $this->_role->setAdminRole($adminUser->getRole());
         }

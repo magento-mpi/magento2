@@ -126,7 +126,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * CatalogSearch resource helper
      *
-     * @var \Magento\CatalogSearch\Model\Resource\Helper\Mysql4
+     * @var \Magento\CatalogSearch\Model\Resource\Helper
      */
     protected $_resourceHelper;
 
@@ -144,7 +144,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogSearch\Model\Resource\Helper\Mysql4 $resourceHelper
+     * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
         \Magento\Core\Model\Resource $resource,
@@ -158,7 +158,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\CatalogSearch\Model\Resource\Helper\Mysql4 $resourceHelper
+        \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
     ) {
         $this->_catalogProductType = $catalogProductType;
         $this->_eavConfig = $eavConfig;

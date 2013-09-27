@@ -11,7 +11,6 @@
 /**
  * Custom Variable Edit Container
  */
-
 namespace Magento\Adminhtml\Block\System\Variable;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
@@ -92,7 +91,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     public function getFormHtml()
     {
         $formHtml = parent::getFormHtml();
-        if (!\Mage::app()->isSingleStoreMode() && $this->getVariable()->getId()) {
+        if (!$this->_storeManager->isSingleStoreMode() && $this->getVariable()->getId()) {
             $storeSwitcher = $this->getLayout()
                 ->createBlock('Magento\Backend\Block\Store\Switcher')->toHtml();
             $formHtml = $storeSwitcher.$formHtml;

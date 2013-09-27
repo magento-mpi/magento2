@@ -22,6 +22,55 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_selectedProducts = array();
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Category
+     */
+    protected $_resourceCategory;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product
+     */
+    protected $_resourceProduct;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory
+     * @param \Magento\Catalog\Model\Resource\Category $resourceCategory
+     * @param \Magento\Catalog\Model\Resource\Product $resourceProduct
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory,
+        \Magento\Catalog\Model\Resource\Category $resourceCategory,
+        \Magento\Catalog\Model\Resource\Product $resourceProduct,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_collectionFactory = $collectionFactory;
+        $this->_resourceCategory = $resourceCategory;
+        $this->_resourceProduct = $resourceProduct;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block construction, prepare grid params
      */
     protected function _construct()
@@ -61,12 +110,16 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
             $categoryId = isset($value[2]) ? $value[2] : false;
             $label = '';
             if ($categoryId) {
-                $label = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')
-                    ->getAttributeRawValue($categoryId, 'name', \Mage::app()->getStore()) . '/';
+                $label = $this->_resourceCategory->getAttributeRawValue(
+                    $categoryId,
+                    'name',
+                    $this->_storeManager->getStore()
+                ) . '/';
             }
             if ($productId) {
-                $label .= \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product')
-                    ->getAttributeRawValue($productId, 'name', \Mage::app()->getStore());
+                $label .= $this->_resourceProduct->getAttributeRawValue(
+                    $productId, 'name', $this->_storeManager->getStore()
+                );
             }
             $chooser->setLabel($label);
         }
@@ -167,12 +220,12 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
+        $collection = $this->_collectionFactory->create()
             ->setStoreId(0)
             ->addAttributeToSelect('name');
 
         if ($categoryId = $this->getCategoryId()) {
-            $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
+            $category = $this->_categoryFactory->create()->load($categoryId);
             if ($category->getId()) {
                 // $collection->addCategoryFilter($category);
                 $productIds = $category->getProductsPosition();

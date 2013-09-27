@@ -14,4 +14,11 @@
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
         </param>
     </type>
+    <type name="Magento\Core\Model\Db\Updater">
+        <param name="resourceList">
+            <value>
+                <websiterestriction_setup>Magento\WebsiteRestriction\Model\Resource\Setup</websiterestriction_setup>
+            </value>
+        </param>
+    </type>
 </config>

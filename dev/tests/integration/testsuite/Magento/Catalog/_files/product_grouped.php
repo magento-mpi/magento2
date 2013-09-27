@@ -10,7 +10,8 @@ require __DIR__ . '/product_simple_duplicated.php';
 require __DIR__ . '/product_virtual.php';
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = \Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Product');
 $product->isObjectNew(true);
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED)
     ->setId(9)

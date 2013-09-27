@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
-
-namespace Magento\Banner\Block\Adminhtml\Permission;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\Banner\Block\Adminhtml\Permission;
+
 class MonitorTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,7 +26,7 @@ class MonitorTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareLayout($blockType, $blockName, $tabsType, $tabsName)
     {
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $layout->addBlock($blockType, $blockName);

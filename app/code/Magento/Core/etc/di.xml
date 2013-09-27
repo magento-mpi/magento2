@@ -9,7 +9,7 @@
 -->
 <config>
     <preference for="Magento\Acl\CacheInterface" type="Magento\Core\Model\Acl\Cache" />
-    <preference for="Magento\AuthorizationInterface" type="Magento\Authorization" />
+    <preference for="Magento_AuthorizationInterface" type="Magento_Authorization" />
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Authorization\RoleLocator\DefaultRoleLocator" />
     <preference for="Magento\Core\Model\Session\AbstractSession" type="Magento\Core\Model\Session" />
@@ -26,6 +26,7 @@
     <preference for="Magento\Config\ConverterInterface" type="Magento\Config\Converter\Dom"/>
     <preference for="Magento\Phrase\RendererInterface" type="Magento\Phrase\Renderer\Composite" />
     <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
+    <preference for="Magento\Core\Model\Module\ResourceResolverInterface" type="Magento\Core\Model\Module\ResourceResolver" />
     <type name="Magento\Data\Structure" shared="false" />
     <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cache">
@@ -229,7 +230,7 @@
                     <sortOrder>20</sortOrder>
                 </standard>
                 <default>
-                    <instance>Magento\Core\Controller\Varien\Router\DefaultRouter</instance>
+                    <instance>Magento\Core\Controller\Varien\Router\Default</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>100</sortOrder>
                 </default>
@@ -308,6 +309,32 @@
     <type name="Magento\Core\Model\Locale\Hierarchy\Config">
         <param name="reader">
             <instance type="Magento\Core\Model\Locale\Hierarchy\Config\Reader" />
+        </param>
+    </type>
+    <type name="Magento\Core\Helper\Data">
+        <param name="encryptor">
+            <instance type="Magento\Core\Model\Encryption" />
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Resource\Setup\Migration">
+        <param name="confPathToMapFile">
+            <value>app/etc/aliases_to_classes_map.json</value>
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Encryption">
+        <param name="cryptKey">
+            <value type="argument">Magento\Core\Model\Encryption::PARAM_CRYPT_KEY</value>
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Session\Context">
+        <param name="saveMethod">
+            <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_METHOD</value>
+        </param>
+        <param name="savePath">
+            <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_PATH</value>
+        </param>
+        <param name="cacheLimiter">
+            <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_CACHE_LIMITER</value>
         </param>
     </type>
 </config>

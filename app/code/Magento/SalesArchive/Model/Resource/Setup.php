@@ -52,37 +52,28 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     );
 
     /**
-     * @var \Magento\SalesArchive\Model\Resource\Helper\Mysql4
+     * @var \Magento\SalesArchive\Model\Resource\Helper
      */
     protected $_salesHelper;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param \Magento\SalesArchive\Model\Resource\Helper\Mysql4 $salesHelper
-     * @param $resourceName
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\SalesArchive\Model\Resource\Helper $salesHelper
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config\Resource $resourcesConfig,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
-        \Magento\SalesArchive\Model\Resource\Helper\Mysql4 $salesHelper,
-        $resourceName
+        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\SalesArchive\Model\Resource\Helper $salesHelper,
+        $resourceName,
+        $moduleName = "Magento_SalesArchive",
+        $connectionName = ''
     ) {
         $this->_salesHelper = $salesHelper;
-        parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
-        );
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
+
 
     /**
      * Run each time after applying of all updates,

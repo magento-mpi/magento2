@@ -14,7 +14,7 @@ namespace Magento\Core\Controller\Varien;
 class ActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Controller\Varien\Action|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Varien\Action|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
@@ -158,7 +158,10 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('Test', 'Controller', 'Action', array('test_controller_action'),
-                array('STORE_' . \Mage::app()->getStore()->getCode())
+                array(
+                    'STORE_' . \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                        ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getCode()
+                )
             ),
             array('catalog', 'product', 'gallery', array('catalog_product_gallery'),
                 array('default', 'catalog_product_view')
@@ -314,7 +317,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $design = $this->_objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
         $this->_objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
 
-        \Mage::app()->loadArea($expectedArea);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadArea($expectedArea);
         /** @var $controller \Magento\Core\Controller\Varien\Action */
         $context = $this->_objectManager->create($context, array(
             'response' => $this->_objectManager->get('Magento\TestFramework\Response')
@@ -325,7 +329,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $design = $this->_objectManager->get('Magento\Core\Model\View\DesignInterface');
 
         $this->assertEquals($expectedArea, $design->getArea());
-        $this->assertEquals($expectedStore, \Mage::app()->getStore()->getCode());
+        $this->assertEquals($expectedStore, \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getCode());
         if ($expectedDesign) {
             $this->assertEquals($expectedDesign, $design->getDesignTheme()->getThemePath());
         }

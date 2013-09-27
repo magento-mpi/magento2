@@ -35,8 +35,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model       = \Mage::getModel('Magento\Core\Model\App');
-        $this->_mageModel   = \Mage::app();
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\App');
+        $this->_mageModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
     }
 
     public function testGetCookie()
@@ -73,7 +73,8 @@ class AppTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetCurrentStore()
     {
-        $store = \Mage::getModel('Magento\Core\Model\Store');
+        $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Store');
         $this->_model->setCurrentStore($store);
         $this->assertSame($store, $this->_model->getStore());
     }
@@ -214,7 +215,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Magento\Core\Controller\Request\Http', $this->_model->getRequest());
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');

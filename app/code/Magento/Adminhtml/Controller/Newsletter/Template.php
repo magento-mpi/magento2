@@ -106,7 +106,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
     {
         $this->_setTitle();
 
-        $model = \Mage::getModel('Magento\Newsletter\Model\Template');
+        $model = $this->_objectManager->create('Magento\Newsletter\Model\Template');
         $id = $this->getRequest()->getParam('id');
         if ($id) {
             $model->load($id);
@@ -163,7 +163,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
         if (!$request->isPost()) {
             $this->getResponse()->setRedirect($this->getUrl('*/newsletter_template'));
         }
-        $template = \Mage::getModel('Magento\Newsletter\Model\Template');
+        $template = $this->_objectManager->create('Magento\Newsletter\Model\Template');
 
         $id = (int)$request->getParam('id');
         if ($id) {
@@ -178,7 +178,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
                 ->setTemplateSenderName($request->getParam('sender_name'))
                 ->setTemplateText($request->getParam('text'))
                 ->setTemplateStyles($request->getParam('styles'))
-                ->setModifiedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
+                ->setModifiedAt($this->_objectManager->get('Magento\Core\Model\Date')->gmtDate());
 
             if (!$template->getId()) {
                 $template->setTemplateType(\Magento\Newsletter\Model\Template::TYPE_HTML);
@@ -218,7 +218,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
      */
     public function deleteAction()
     {
-        $template = \Mage::getModel('Magento\Newsletter\Model\Template')
+        $template = $this->_objectManager->create('Magento\Newsletter\Model\Template')
             ->load($this->getRequest()->getParam('id'));
         if ($template->getId()) {
             try {
@@ -252,7 +252,8 @@ class Template extends \Magento\Adminhtml\Controller\Action
         }
 
         // set default value for selected store
-        $data['preview_store_id'] = \Mage::app()->getDefaultStoreView()->getId();
+        $data['preview_store_id'] = $this->_objectManager->get('Magento\Core\Model\StoreManager')
+            ->getDefaultStoreView()->getId();
 
         $this->getLayout()->getBlock('preview_form')->setFormData($data);
         $this->renderLayout();

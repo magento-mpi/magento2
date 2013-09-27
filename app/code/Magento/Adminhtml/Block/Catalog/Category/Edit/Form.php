@@ -86,7 +86,7 @@ class Form extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         $params = array();
 //        $params = array('section'=>'catalog');
         if ($storeId) {
-            $store = \Mage::app()->getStore($storeId);
+            $store = $this->_storeManager->getStore($storeId);
             $params['website'] = $store->getWebsite()->getCode();
             $params['store']   = $store->getCode();
         }
@@ -215,6 +215,6 @@ class Form extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 
     public function isAjax()
     {
-        return \Mage::app()->getRequest()->isXmlHttpRequest() || \Mage::app()->getRequest()->getParam('isAjax');
+        return $this->_request->isXmlHttpRequest() || $this->_request->getParam('isAjax');
     }
 }

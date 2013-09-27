@@ -87,7 +87,8 @@ class ConfigFixture
                 $objectManager->get('Magento\Core\Model\Config\Primary')->setNode($configPath, $value);
             }
         } else {
-            \Mage::app()->getStore($storeCode)->setConfig($configPath, $value);
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+                ->getStore($storeCode)->setConfig($configPath, $value);
         }
     }
 
@@ -96,7 +97,7 @@ class ConfigFixture
      *
      * @param \PHPUnit_Framework_TestCase $test
      */
-    protected function _assignConfigData(\PHPUnit_Framework_TestCase $test)
+    protected function _assignConfigData(PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
         if (!isset($annotations['method']['magentoConfigFixture'])) {
@@ -150,7 +151,7 @@ class ConfigFixture
      *
      * @param \PHPUnit_Framework_TestCase $test
      */
-    public function startTest(\PHPUnit_Framework_TestCase $test)
+    public function startTest(PHPUnit_Framework_TestCase $test)
     {
         $this->_currentTest = $test;
         $this->_assignConfigData($test);
@@ -163,7 +164,7 @@ class ConfigFixture
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function endTest(\PHPUnit_Framework_TestCase $test)
+    public function endTest(PHPUnit_Framework_TestCase $test)
     {
         $this->_currentTest = null;
         $this->_restoreConfigData();

@@ -15,8 +15,6 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options;
 
 class Option extends \Magento\Adminhtml\Block\Widget
 {
-    protected $_product;
-
     protected $_productInstance;
 
     protected $_values;
@@ -38,6 +36,24 @@ class Option extends \Magento\Adminhtml\Block\Widget
     protected $_productOptionConfig;
 
     /**
+     * @var \Magento\Catalog\Model\Product
+     */
+    protected $_product;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Source\Yesno
+     */
+    protected $_configYesNo;
+
+    /**
+     * @var \Magento\Catalog\Model\Config\Source\Product\Options\Type
+     */
+    protected $_optionType;
+
+    /**
+     * @param \Magento\Backend\Model\Config\Source\Yesno $configYesNo
+     * @param \Magento\Catalog\Model\Config\Source\Product\Options\Type $optionType
+     * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -45,12 +61,18 @@ class Option extends \Magento\Adminhtml\Block\Widget
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Model\Config\Source\Yesno $configYesNo,
+        \Magento\Catalog\Model\Config\Source\Product\Options\Type $optionType,
+        \Magento\Catalog\Model\Product $product,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig,
         array $data = array()
     ) {
+        $this->_optionType = $optionType;
+        $this->_configYesNo = $configYesNo;
+        $this->_product = $product;
         $this->_productOptionConfig = $productOptionConfig;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
@@ -90,7 +112,7 @@ class Option extends \Magento\Adminhtml\Block\Widget
             if ($product) {
                 $this->_productInstance = $product;
             } else {
-                $this->_productInstance = \Mage::getSingleton('Magento\Catalog\Model\Product');
+                $this->_productInstance = $this->_product;
             }
         }
 
@@ -158,7 +180,7 @@ class Option extends \Magento\Adminhtml\Block\Widget
                 'class' => 'select select-product-option-type required-option-select',
             ))
             ->setName($this->getFieldName() . '[${id}][type]')
-            ->setOptions(\Mage::getSingleton('Magento\Catalog\Model\Config\Source\Product\Options\Type')->toOptionArray());
+            ->setOptions($this->_optionType->toOptionArray());
 
         return $select->getHtml();
     }
@@ -171,7 +193,7 @@ class Option extends \Magento\Adminhtml\Block\Widget
                 'class' => 'select'
             ))
             ->setName($this->getFieldName() . '[${id}][is_require]')
-            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
+            ->setOptions($this->_configYesNo->toOptionArray());
 
         return $select->getHtml();
     }
@@ -216,7 +238,7 @@ class Option extends \Magento\Adminhtml\Block\Widget
         if (!$this->_values || $this->getIgnoreCaching()) {
             $showPrice = $this->getCanReadPrice();
             $values = array();
-            $scope = (int)\Mage::app()->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
+            $scope = (int)$this->_storeManager->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
             foreach ($optionsArr as $option) {
                 /* @var $option \Magento\Catalog\Model\Product\Option */
 

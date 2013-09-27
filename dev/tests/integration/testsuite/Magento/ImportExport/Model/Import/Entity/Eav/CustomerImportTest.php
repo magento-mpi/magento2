@@ -27,7 +27,8 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_model = \Mage::getModel('Magento\ImportExport\Model\Import\Entity\Eav\Customer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\ImportExport\Model\Import\Entity\Eav\Customer');
     }
 
     /**
@@ -48,7 +49,8 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customersCollection \Magento\Customer\Model\Resource\Customer\Collection */
-        $customersCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+        $customersCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Customer\Collection');
         $customersCollection->addAttributeToSelect('firstname', 'inner')
             ->addAttributeToSelect('lastname', 'inner');
 
@@ -77,7 +79,7 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $existingCustomer = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\ImportExport\Customer');
+            ->registry('_fixture/Magento_ImportExport_Customer');
 
         $updatedCustomer = $customers[$existingCustomer->getId()];
 
@@ -110,11 +112,13 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteData()
     {
-        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customerCollection \Magento\Customer\Model\Resource\Customer\Collection */
-        $customerCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+        $customerCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Customer\Collection');
         $this->assertEquals(3, $customerCollection->count(), 'Count of existing customers are invalid');
 
         $this->_model->setParameters(

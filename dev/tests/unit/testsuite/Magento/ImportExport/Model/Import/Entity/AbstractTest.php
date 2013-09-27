@@ -19,7 +19,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Abstract import entity model
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\AbstractEntity|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\Entity\AbstractEntity|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -27,8 +27,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_model = $this->getMockForAbstractClass(
-            'Magento\ImportExport\Model\Import\Entity\AbstractEntity', array(),
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEntity', array(),
             '', false, true, true, array('_saveValidatedBunches')
         );
     }
@@ -43,7 +42,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Create mock for data helper and push it to registry
      *
-     * @return \Magento\ImportExport\Helper\Data|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createDataHelperMock()
     {
@@ -53,7 +52,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $coreRegisterMock = $this->getMock('Magento\Core\Model\Registry');
         $coreRegisterMock->expects($this->any())
             ->method('registry')
-            ->with('_helper/\Magento\ImportExport\Helper\Data')
+            ->with('_helper/Magento_ImportExport_Helper_Data')
             ->will($this->returnValue($helper));
 
         $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
@@ -62,7 +61,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             ->with('Magento\Core\Model\Registry')
             ->will($this->returnValue($coreRegisterMock));
 
-        \Mage::reset();
         \Magento\Core\Model\ObjectManager::setInstance($objectManagerMock);
 
         return $helper;
@@ -72,11 +70,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      * Create source adapter mock and set it into model object which tested in this class
      *
      * @param array $columns value which will be returned by method getColNames()
-     * @return \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\SourceAbstract|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createSourceAdapterMock(array $columns)
     {
-        /** @var $source \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $source \Magento\ImportExport\Model\Import\SourceAbstract|\PHPUnit_Framework_MockObject_MockObject */
         $source = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\SourceAbstract', array(), '', false,
             true, true, array('getColNames')
         );

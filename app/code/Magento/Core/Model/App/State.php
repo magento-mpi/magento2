@@ -19,6 +19,27 @@ class State
      */
     private $_appMode;
 
+    /**
+     * Is downloader flag
+     *
+     * @var bool
+     */
+    protected  $_isDownloader = false;
+
+    /**
+     * Update mode flag
+     *
+     * @var bool
+     */
+    protected  $_updateMode = false;
+
+    /**
+     * Application install date
+     *
+     * @var string
+     */
+    protected $_installDate;
+
     /**#@+
      * Application modes
      */
@@ -27,12 +48,16 @@ class State
     const MODE_DEFAULT         = 'default';
     /**#@-*/
 
+    const PARAM_INSTALL_DATE   = 'install.date';
+
     /**
+     * @param string $installDate
      * @param string $mode
      * @throws \Magento\Core\Exception
      */
-    public function __construct($mode = self::MODE_DEFAULT)
+    public function __construct($installDate, $mode = self::MODE_DEFAULT)
     {
+        $this->_installDate = strtotime((string)$installDate);
         switch ($mode) {
             case self::MODE_DEVELOPER:
             case self::MODE_PRODUCTION:
@@ -51,7 +76,7 @@ class State
      */
     public function isInstalled()
     {
-        return \Mage::isInstalled();
+        return (bool) $this->_installDate;
     }
 
     /**
@@ -71,7 +96,7 @@ class State
      */
     public function setUpdateMode($value)
     {
-        \Mage::setUpdateMode($value);
+        $this->_updateMode = $value;
     }
 
     /**
@@ -81,7 +106,7 @@ class State
      */
     public function getUpdateMode()
     {
-        return \Mage::getUpdateMode();
+        return $this->_updateMode;
     }
 
     /**
@@ -91,26 +116,16 @@ class State
      */
     public function setIsDownloader($flag = true)
     {
-        \Mage::setIsDownloader($flag);
+        $this->_isDownloader = $flag;
     }
 
     /**
-     * Set is serializable flag
+     * Set install date
      *
-     * @param bool $value
+     * @param string $date
      */
-    public function setIsSerializable($value = true)
+    public function setInstallDate($date)
     {
-        \Mage::setIsSerializable($value);
-    }
-
-    /**
-     * Get is serializable flag
-     *
-     * @return bool
-     */
-    public function getIsSerializable()
-    {
-        return \Mage::getIsSerializable();
+        $this->_installDate = $date;
     }
 }

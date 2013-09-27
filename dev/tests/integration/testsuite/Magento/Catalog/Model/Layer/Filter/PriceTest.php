@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Layer\Filter;
-
 /**
  * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
+namespace Magento\Catalog\Model\Layer\Filter;
+
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,11 +25,14 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $category = \Mage::getModel('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
         $category->load(4);
-        $this->_model = \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Price');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Price');
         $this->_model->setData(array(
-            'layer' => \Mage::getModel('Magento\Catalog\Model\Layer', array(
+            'layer' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer', array(
                 'data' => array('current_category' => $category)
             )),
         ));
@@ -79,13 +82,14 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function testApplyNothing()
     {
         $this->assertEmpty($this->_model->getData('price_range'));
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
         $this->_model->apply(
             $request,
-            \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertEmpty($this->_model->getData('price_range'));
@@ -94,12 +98,16 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function testApplyInvalid()
     {
         $this->assertEmpty($this->_model->getData('price_range'));
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', 'non-numeric');
-        $this->_model->apply($request, \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
+        $this->_model->apply(
+            $request,
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
+        );
 
         $this->assertEmpty($this->_model->getData('price_range'));
     }
@@ -109,12 +117,16 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplyManual()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', '10-20');
-        $this->_model->apply($request, \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
+        $this->_model->apply(
+            $request,
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+                ->createBlock('Magento\Core\Block\Text')
+        );
 
         $this->assertEquals(array(10, 20), $this->_model->getData('interval'));
     }

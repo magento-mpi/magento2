@@ -17,6 +17,13 @@ interface Factory
     public function setObjectManager(\Magento\ObjectManager $objectManager);
 
     /**
+     * Set application arguments
+     *
+     * @param array $array
+     */
+    public function setArguments($array);
+
+    /**
      * Create instance with call time arguments
      *
      * @param string $requestedType

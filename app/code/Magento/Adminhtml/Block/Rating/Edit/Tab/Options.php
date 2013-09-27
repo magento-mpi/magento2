@@ -12,6 +12,34 @@ namespace Magento\Adminhtml\Block\Rating\Edit\Tab;
 
 class Options extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * Rating option factory
+     *
+     * @var \Magento\Rating\Model\Rating\OptionFactory
+     */
+    protected $_optionFactory;
+
+    /**
+     * @param \Magento\Rating\Model\Rating\OptionFactory $optionFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rating\Model\Rating\OptionFactory $optionFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_optionFactory = $optionFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
@@ -20,7 +48,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset = $form->addFieldset('options_form', array('legend'=>__('Assigned Options')));
 
         if ($this->_coreRegistry->registry('rating_data')) {
-            $collection = \Mage::getModel('Magento\Rating\Model\Rating\Option')
+            $collection = $this->_optionFactory->create()
                 ->getResourceCollection()
                 ->addRatingFilter($this->_coreRegistry->registry('rating_data')->getId())
                 ->load();

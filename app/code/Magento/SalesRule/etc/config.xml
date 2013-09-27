@@ -10,38 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <salesrule_setup>
-                <setup>
-                    <module>Magento_SalesRule</module>
-                    <class>Magento\SalesRule\Model\Resource\Setup</class>
-                </setup>
-            </salesrule_setup>
-        </resources>
-        <sales>
-            <quote>
-                <totals>
-                    <freeshipping>
-                        <class>Magento\SalesRule\Model\Quote\Freeshipping</class>
-                        <after>subtotal</after>
-                        <before>tax_subtotal,shipping</before>
-                    </freeshipping>
-                    <discount>
-                        <class>Magento\SalesRule\Model\Quote\Discount</class>
-                        <after>subtotal,shipping</after>
-                        <before>grand_total</before>
-                    </discount>
-                </totals>
-                <nominal_totals>
-                    <nominal_discount>
-                        <class>Magento\SalesRule\Model\Quote\Nominal\Discount</class>
-                        <sort_order>550</sort_order>
-                    </nominal_discount>
-                </nominal_totals>
-            </quote>
-        </sales>
-    </global>
     <default>
         <promo>
             <auto_generated_coupon_codes>

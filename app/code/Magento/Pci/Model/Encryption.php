@@ -29,17 +29,23 @@ class Encryption extends \Magento\Core\Model\Encryption
     protected $_cipher = self::CIPHER_LATEST;
 
     protected $_keyVersion;
+
     protected $_keys = array();
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Config $config
+     * @param string $cryptKey
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\Config $config)
-    {
-        parent::__construct($objectManager, $config);
+    public function __construct(
+        \Magento\ObjectManager $objectManager,
+        $cryptKey
+    ) {
+        parent::__construct(
+            $objectManager,
+            $cryptKey
+        );
         // load all possible keys
-        $this->_keys = preg_split('/\s+/s', trim((string)$config->getNode('global/crypt/key')));
+        $this->_keys = preg_split('/\s+/s', trim($cryptKey));
         $this->_keyVersion = count($this->_keys) - 1;
     }
 

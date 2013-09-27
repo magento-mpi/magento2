@@ -16,12 +16,13 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
     public function testToHtmlChildrenInitialized()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
         $block = $layout->createBlock('Magento\Sales\Block\Order\Totals', 'block');
-        $block->setOrder(\Mage::getModel('Magento\Sales\Model\Order'))
+        $block->setOrder(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order'))
             ->setTemplate('order/totals.phtml');
 
-        $context = \Mage::getSingleton('Magento\Core\Block\Context');
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Block\Context');
         $childOne = $this->getMock('Magento\Core\Block\Text', array('initTotals'), array($context));
         $childOne->expects($this->once())
             ->method('initTotals');

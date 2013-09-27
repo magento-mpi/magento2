@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Page\Asset;
-
 /**
  * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
  */
+namespace Magento\Core\Model\Page\Asset;
+
 class MergedTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -43,7 +43,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Mage::PARAM_APP_DIRS => array(
+            \Magento\Core\Model\App::PARAM_APP_DIRS => array(
                 \Magento\Core\Model\Dir::THEMES => realpath(__DIR__ . '/../../_files/design')
             )
         ));
@@ -69,10 +69,12 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     {
         $assets = array();
         foreach ($files as $file) {
-            $assets[] = \Mage::getModel('Magento\Core\Model\Page\Asset\ViewFile',
+            $assets[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Page\Asset\ViewFile',
                 array('file' => $file, 'contentType' => $contentType));
         }
-        $model = \Mage::getModel('Magento\Core\Model\Page\Asset\Merged', array('assets' => $assets));
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Page\Asset\Merged', array('assets' => $assets));
         return $model;
     }
 

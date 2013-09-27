@@ -42,7 +42,7 @@ class Session extends \Magento\Core\Helper\Data
      *
      * @var \Magento\Persistent\Helper\Data
      */
-    protected $_persistentData = null;
+    protected $_persistentData;
 
     /**
      * Persistent session factory
@@ -66,17 +66,18 @@ class Session extends \Magento\Core\Helper\Data
     protected $_checkoutSession;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Persistent\Helper\Data $persistentData
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\Event\Manager        $eventManager
+     * @param \Magento\Core\Helper\Http                $coreHttp
+     * @param \Magento\Core\Helper\Context             $context
+     * @param \Magento\Core\Model\Config               $config
+     * @param \Magento\Core\Model\Store\Config         $coreStoreConfig
+     * @param \Magento\Core\Model\Encryption           $encryptor
+     * @param \Magento\Persistent\Helper\Data          $persistentData
+     * @param \Magento\Checkout\Model\Session          $checkoutSession
+     * @param \Magento\Customer\Model\CustomerFactory  $customerFactory
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -84,6 +85,7 @@ class Session extends \Magento\Core\Helper\Data
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Encryption $encryptor,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -93,7 +95,8 @@ class Session extends \Magento\Core\Helper\Data
         $this->_checkoutSession = $checkoutSession;
         $this->_customerFactory = $customerFactory;
         $this->_sessionFactory = $sessionFactory;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     /**

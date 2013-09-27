@@ -53,7 +53,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
     protected function _createModelForVerification($mode, $isExist, &$actualCreatedDirs, &$actualVerifiedDirs)
     {
         $dirs = new \Magento\Core\Model\Dir('base_dir');
-        $appState = new \Magento\Core\Model\App\State($mode);
+        $appState = new \Magento\Core\Model\App\State(time(), $mode);
 
         $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->any())
@@ -131,15 +131,15 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
     public function testCreateAndVerifyDirectoriesCreateException()
     {
         // Plan
-        $this->setExpectedException('Magento\BootstrapException',
+        $this->setExpectedException('Magento_BootstrapException',
             'Cannot create or verify write access: base_dir/var/log, base_dir/var/session');
 
         $dirs = new \Magento\Core\Model\Dir('base_dir');
-        $appState = new \Magento\Core\Model\App\State();
+        $appState = new \Magento\Core\Model\App\State(time());
 
         $callback = function ($dir) {
             if (($dir == 'base_dir/var/log') || ($dir == 'base_dir/var/session')) {
-                throw new \Magento\Filesystem\FilesystemException();
+                throw new \Magento\Filesystem\Exception();
             }
         };
         $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
@@ -159,11 +159,11 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
     public function testCreateAndVerifyDirectoriesWritableException()
     {
         // Plan
-        $this->setExpectedException('Magento\BootstrapException',
+        $this->setExpectedException('Magento_BootstrapException',
             'Cannot create or verify write access: base_dir/var/log, base_dir/var/session');
 
         $dirs = new \Magento\Core\Model\Dir('base_dir');
-        $appState = new \Magento\Core\Model\App\State();
+        $appState = new \Magento\Core\Model\App\State(time());
 
         $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->any())

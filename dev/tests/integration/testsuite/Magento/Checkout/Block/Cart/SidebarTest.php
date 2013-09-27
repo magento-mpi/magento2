@@ -16,7 +16,8 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Checkout\Block\Cart\Sidebar');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+            ->createBlock('Magento\Checkout\Block\Cart\Sidebar');
     }
 
     public function testGetCacheKeyInfo()
@@ -26,7 +27,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             'default',
             $this->_block->getTemplateFile(),
             'template' => null,
-            'item_renders' => 'default|Magento\Checkout\Block\Cart\Item\Renderer|cart/item/default.phtml',
+            'item_renders' => 'default|\Magento\Checkout\Block\Cart\Item\Renderer|cart/item/default.phtml',
         ), $this->_block->getCacheKeyInfo());
     }
 }

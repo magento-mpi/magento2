@@ -29,10 +29,13 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_inlineParser = \Mage::getModel('Magento\Core\Model\Translate\InlineParser');
+        $this->_inlineParser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Translate\InlineParser');
         /* Called getConfig as workaround for setConfig bug */
-        \Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        \Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
     }
 
     /**
@@ -45,10 +48,12 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
             $inputArray[0]['perstore'] = $isPerStore;
         }
         /** @var $inline \Magento\Core\Model\Translate\Inline */
-        $inline = \Mage::getModel('Magento\Core\Model\Translate\Inline');
+        $inline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Translate\Inline');
         $this->_inlineParser->processAjaxPost($inputArray, $inline);
 
-        $model = \Mage::getModel('Magento\Core\Model\Translate\String');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Translate\String');
         $model->load($originalText);
         try {
             $this->assertEquals($translatedText, $model->getTranslate());
@@ -78,7 +83,7 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($isJsonProperty->getValue($this->_inlineParser));
 
-        $setIsJsonMethod = new \ReflectionMethod($this->_inlineParser, 'setIsJson');
+        $setIsJsonMethod = new ReflectionMethod($this->_inlineParser, 'setIsJson');
         $setIsJsonMethod->setAccessible(true);
         $setIsJsonMethod->invoke($this->_inlineParser, true);
 

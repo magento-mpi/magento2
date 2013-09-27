@@ -36,7 +36,7 @@ class CurlClient
      */
     public function get($resourcePath, $data = array(), $headers = array())
     {
-        $url = $this->_constructResourceUrl($resourcePath);
+        $url = $this->constructResourceUrl($resourcePath);
         if (!empty($data)) {
             $url .= '?' . http_build_query($data);
         }
@@ -83,7 +83,7 @@ class CurlClient
      */
     public function delete($resourcePath, $headers = array())
     {
-        $url = $this->_constructResourceUrl($resourcePath);
+        $url = $this->constructResourceUrl($resourcePath);
 
         $curlOpts = array();
         $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE;
@@ -106,7 +106,7 @@ class CurlClient
      */
     protected function _postOrPut($resourcePath, $data, $put = false, $headers = array())
     {
-        $url = $this->_constructResourceUrl($resourcePath);
+        $url = $this->constructResourceUrl($resourcePath);
 
         // json encode data
         $jsonData = $this->_jsonEncode($data);
@@ -117,7 +117,7 @@ class CurlClient
         $headers[] = 'Content-Length: ' . strlen($jsonData);
         $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
 
-        $resp = $this->_invokeApi($url, $curlOpts);
+        $resp = $this->_invokeApi($url, $curlOpts, $headers);
         $respArray = $this->_jsonDecode($resp["body"]);
 
         return $respArray;
@@ -128,7 +128,7 @@ class CurlClient
      * @return string resource URL
      * @throws \Exception
      */
-    protected function _constructResourceUrl($resourcePath)
+    public function constructResourceUrl($resourcePath)
     {
         return rtrim(TESTS_BASE_URL, '/') . self::REST_BASE_PATH . ltrim($resourcePath, '/');
     }
@@ -136,7 +136,7 @@ class CurlClient
     /**
      * Makes the REST api call using passed $curl object
      *
-     * @param string URL
+     * @param string $url
      * @param array $additionalCurlOpts cURL Options
      * @param array $headers
      * @return array

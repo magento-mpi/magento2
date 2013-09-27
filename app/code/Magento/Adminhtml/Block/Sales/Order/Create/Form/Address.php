@@ -35,21 +35,41 @@ class Address
     protected $_adminhtmlAddresses = null;
 
     /**
+     * @var \Magento\Customer\Model\AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @var \Magento\Customer\Model\FormFactory
+     */
+    protected $_customerFormFactory;
+
+    /**
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\FormFactory $customerFormFactory
      * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
      * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Model\FormFactory $customerFormFactory,
         \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
         \Magento\Data\Form\Factory $formFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Adminhtml\Model\Sales\Order\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
+        $this->_addressFactory = $addressFactory;
+        $this->_customerFormFactory = $customerFormFactory;
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($formFactory, $sessionQuote, $orderCreate, $coreData, $context, $data);
     }
 
     /**
@@ -80,7 +100,7 @@ class Address
     protected function _getAddressForm()
     {
         if (is_null($this->_addressForm)) {
-            $this->_addressForm = \Mage::getModel('Magento\Customer\Model\Form')
+            $this->_addressForm = $this->_customerFormFactory->create()
                 ->setFormCode('adminhtml_customer_address')
                 ->setStore($this->getStore());
         }
@@ -124,7 +144,7 @@ class Address
         ));
 
         /* @var $addressModel \Magento\Customer\Model\Address */
-        $addressModel = \Mage::getModel('Magento\Customer\Model\Address');
+        $addressModel = $this->_addressFactory->create();
 
         $addressForm = $this->_getAddressForm()
             ->setEntity($addressModel);

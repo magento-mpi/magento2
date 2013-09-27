@@ -11,7 +11,7 @@
 namespace Magento\GiftCard\Block\Adminhtml\Renderer;
 
 class Amount
- extends \Magento\Adminhtml\Block\Widget
+ extends \Magento\Backend\Block\Widget
  implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_element = null;
@@ -27,17 +27,37 @@ class Amount
     protected $_coreRegistry = null;
 
     /**
+     * Store manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Directory helper
+     *
+     * @var \Magento\Directory\Helper\Data
+     */
+    protected $_directoryHelper;
+
+    /**
+     * @param \Magento\Directory\Helper\Data $directoryHelper
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Directory\Helper\Data $directoryHelper,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_directoryHelper = $directoryHelper;
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -85,7 +105,7 @@ class Amount
 
     public function isMultiWebsites()
     {
-        return !\Mage::app()->hasSingleStore();
+        return !$this->_storeManager->hasSingleStore();
     }
 
     public function getWebsites()
@@ -96,19 +116,19 @@ class Amount
         $websites = array();
         $websites[0] = array(
             'name'      => __('All Websites'),
-            'currency'  => \Mage::app()->getBaseCurrencyCode()
+            'currency'  => $this->_directoryHelper->getBaseCurrencyCode()
         );
 
-        if (!\Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
+        if (!$this->_storeManager->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             $storeId = $this->getProduct()->getStoreId();
             if ($storeId) {
-                $website = \Mage::app()->getStore($storeId)->getWebsite();
+                $website = $this->_storeManager->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'      => $website->getName(),
                     'currency'  => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
-                foreach (\Mage::app()->getWebsites() as $website) {
+                foreach ($this->_storeManager->getWebsites() as $website) {
                     if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
                         continue;
                     }

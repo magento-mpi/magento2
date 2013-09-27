@@ -11,7 +11,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testAddProductFilter()
     {
-        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Resource\Item\Option\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftRegistry\Model\Resource\Item\Option\Collection');
         $select = $collection->getSelect();
         $this->assertSame(array(), $select->getPart(\Zend_Db_Select::WHERE));
 
@@ -26,7 +27,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testAddProductFilterZero()
     {
-        $collection = \Mage::getModel('Magento\GiftRegistry\Model\Resource\Item\Option\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\GiftRegistry\Model\Resource\Item\Option\Collection');
         $collection->addProductFilter(0);
         $this->assertSame(array(), $collection->getSelect()->getPart(\Zend_Db_Select::WHERE));
         foreach ($collection as $item) {

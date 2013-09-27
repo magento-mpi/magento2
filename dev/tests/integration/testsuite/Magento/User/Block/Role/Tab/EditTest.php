@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Block\Role\Tab;
-
 /**
  * @magentoAppArea adminhtml
  */
+namespace Magento\User\Block\Role\Tab;
+
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,9 +23,11 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $roleAdmin = \Mage::getModel('Magento\User\Model\Role');
+        $roleAdmin = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\Role');
         $roleAdmin->load(\Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME, 'role_name');
-        \Mage::app()->getRequest()->setParam('rid', $roleAdmin->getId());
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Controller\Request\Http')
+            ->setParam('rid', $roleAdmin->getId());
 
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\User\Block\Role\Tab\Edit');

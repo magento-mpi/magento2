@@ -26,32 +26,23 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_indexerConfig;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig
-     * @param $resourceName
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Model\Config\Resource $resourcesConfig,
-        \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\Resource\Setup\Context $context,
         \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig,
-        $resourceName
+        $resourceName,
+        $moduleName = 'Magento_Index',
+        $connectionName = ''
     ) {
-        parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
-        );
         $this->_indexerConfig = $indexerConfig;
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
+
 
     /**
      * Apply Index module DB updates and sync indexes declaration

@@ -17,24 +17,23 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_totals = null;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Sales\Model\Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * Constructor
-     *
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
         parent::__construct(
@@ -43,7 +42,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
             $context,
             $data
         );
-        $this->_coreConfig = $coreConfig;
+        $this->_salesConfig = $salesConfig;
     }
 
     public function getTotals()
@@ -65,10 +64,11 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         $blockName = $code . '_total_renderer';
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
-            $block = $this->_defaultRenderer;
-            $config = $this->_coreConfig->getNode("global/sales/quote/totals/{$code}/renderer");
-            if ($config) {
-                $block = (string) $config;
+            $renderer = $this->_salesConfig->getTotalsRenderer('quote', 'totals', $code, 'frontend');
+            if (!empty($renderer)) {
+                $block = $renderer;
+            } else {
+                $block = $this->_defaultRenderer;
             }
 
             $block = $this->getLayout()->createBlock($block, $blockName);

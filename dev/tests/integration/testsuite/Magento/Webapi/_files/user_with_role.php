@@ -9,13 +9,15 @@
  * @license     {license_link}
  */
 /** @var \Magento\Webapi\Model\Acl\Role $role */
-$role = \Mage::getModel('Magento\Webapi\Model\Acl\Role');
+$role = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Webapi\Model\Acl\Role');
 $role->setData(array(
     'role_name' => 'Test role'
 ));
 $role->save();
 /** @var \Magento\Webapi\Model\Acl\User $user */
-$user = \Mage::getModel('Magento\Webapi\Model\Acl\User');
+$user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Webapi\Model\Acl\User');
 $user->setData(array(
     'api_key' => 'test_username',
     'secret' => '123123qa',

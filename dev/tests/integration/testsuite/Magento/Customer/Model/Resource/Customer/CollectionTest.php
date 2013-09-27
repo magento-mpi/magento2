@@ -19,7 +19,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Customer\Collection');
     }
 
     public function testAddNameToSelect()

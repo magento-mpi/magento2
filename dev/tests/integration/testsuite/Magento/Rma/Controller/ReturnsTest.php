@@ -11,7 +11,7 @@
 
 namespace Magento\Rma\Controller;
 
-class ReturnsTest extends \Magento\TestFramework\TestCase\ControllerAbstract
+class ReturnTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -22,7 +22,8 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     {
         parent::setUp();
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        $this->_customerSession = \Mage::getModel('Magento\Customer\Model\Session', array($logger));
+        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Session', array($logger));
         $this->_customerSession->login('customer@example.com', 'password');
     }
 
@@ -42,7 +43,8 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function testIsResponseContain($uri, $content)
     {
         /** @var $rma \Magento\Rma\Model\Rma */
-        $rma = \Mage::getModel('Magento\Rma\Model\Rma');
+        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Rma\Model\Rma');
         $rma->load(1, 'increment_id');
         $rma->setCustomerId($this->_customerSession->getCustomerId());
         $rma->save();
@@ -56,8 +58,8 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function isResponseContainDataProvider()
     {
         return array(
-            array('rma/returns/addlabel', '<td>CarrierTitle</td>'),
-            array('rma/returns/dellabel', '<td>CarrierTitle</td>'),
+            array('rma/return/addlabel', '<td>CarrierTitle</td>'),
+            array('rma/return/dellabel', '<td>CarrierTitle</td>'),
         );
     }
 }
