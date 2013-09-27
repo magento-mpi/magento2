@@ -30,6 +30,22 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
     protected $_coreStoreConfig;
 
     /**
+     * Config
+     *
+     * @var Magento_GoogleShopping_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_GoogleShopping_Helper_Data $gsData
      * @param Magento_GoogleShopping_Helper_Product $gsProduct
@@ -37,11 +53,14 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_GoogleShopping_Model_Config $config
      * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Tax_Helper_Data $taxData,
         Magento_GoogleShopping_Helper_Data $gsData,
         Magento_GoogleShopping_Helper_Product $gsProduct,
@@ -49,13 +68,17 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_GoogleShopping_Model_Config $config,
         Magento_GoogleShopping_Model_Resource_Attribute $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_config = $config;
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($gsData, $gsProduct, $gsPrice, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($productFactory, $gsData, $gsProduct, $gsPrice, $context, $registry, $resource,
+            $resourceCollection, $data);
     }
 
     /**
@@ -67,13 +90,13 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
      */
     public function convertAttribute($product, $entry)
     {
-        $product->setWebsiteId(Mage::app()->getStore($product->getStoreId())->getWebsiteId());
+        $product->setWebsiteId($this->_storeManager->getStore($product->getStoreId())->getWebsiteId());
         $product->setCustomerGroupId(
             $this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $product->getStoreId())
         );
 
-        $store = Mage::app()->getStore($product->getStoreId());
-        $targetCountry = Mage::getSingleton('Magento_GoogleShopping_Model_Config')->getTargetCountry($product->getStoreId());
+        $store = $this->_storeManager->getStore($product->getStoreId());
+        $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $isSalePriceAllowed = ($targetCountry == 'US');
 
         // get tax settings
@@ -156,7 +179,7 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
      */
     protected function _setAttributePrice($entry, $product, $targetCountry, $value, $name = 'price')
     {
-        $store = Mage::app()->getStore($product->getStoreId());
+        $store = $this->_storeManager->getStore($product->getStoreId());
         $price = $store->convertPrice($value);
         return $this->_setAttribute($entry,
             $name,

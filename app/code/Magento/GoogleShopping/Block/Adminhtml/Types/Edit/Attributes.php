@@ -22,6 +22,40 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     protected $_template = 'types/edit/attributes.phtml';
 
     /**
+     * Config
+     *
+     * @var Magento_GoogleShopping_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Attribute factory
+     *
+     * @var Magento_GoogleShopping_Model_AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @param Magento_GoogleShopping_Model_Config $config
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_GoogleShopping_Model_AttributeFactory $attributeFactory
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GoogleShopping_Model_Config $config,
+        Magento_Core_Helper_Data $coreData,
+        Magento_GoogleShopping_Model_AttributeFactory $attributeFactory,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_config = $config;
+        $this->_attributeFactory = $attributeFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
+    /**
      * Preparing global layout
      *
      * @return Magento_Core_Block_Abstract
@@ -72,8 +106,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     {
         $options[] = array('label' => __('Custom attribute, no mapping'));
 
-        $attributesTree = Mage::getSingleton('Magento_GoogleShopping_Model_Config')
-            ->getAttributesByCountry($this->getTargetCountry());
+        $attributesTree = $this->_config->getAttributesByCountry($this->getTargetCountry());
 
         foreach ($attributesTree as $destination => $attributes) {
             $options[] = array(
@@ -145,7 +178,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function _getAttributes($setId, $escapeJsQuotes = false)
     {
-        $attributes = Mage::getModel('Magento_GoogleShopping_Model_Attribute')->getAllowedAttributes($setId);
+        $attributes = $this->_attributeFactory->create()->getAllowedAttributes($setId);
         $result = array();
 
         foreach ($attributes as $attribute) {

@@ -28,17 +28,67 @@ class Magento_GoogleShopping_Model_MassOperations
     protected $_gleShoppingCategory = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Item factory
+     *
+     * @var Magento_GoogleShopping_Model_Service_ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * Product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Inbox factory
+     *
+     * @var Magento_AdminNotification_Model_InboxFactory
+     */
+    protected $_inboxFactory;
+
+    /**
+     * Collection factory
+     *
+     * @var Magento_GoogleShopping_Model_Resource_Item_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $collectionFactory
+     * @param Magento_GoogleShopping_Model_Service_ItemFactory $itemFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_AdminNotification_Model_InboxFactory $inboxFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_GoogleShopping_Helper_Data $gleShoppingData
      * @param Magento_GoogleShopping_Helper_Category $gleShoppingCategory
      * @param array $data
      */
     public function __construct(
+        Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $collectionFactory,
+        Magento_GoogleShopping_Model_Service_ItemFactory $itemFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_AdminNotification_Model_InboxFactory $inboxFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Logger $logger,
         Magento_GoogleShopping_Helper_Data $gleShoppingData,
         Magento_GoogleShopping_Helper_Category $gleShoppingCategory,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_itemFactory = $itemFactory;
+        $this->_productFactory = $productFactory;
+        $this->_inboxFactory = $inboxFactory;
+        $this->_storeManager = $storeManager;
         $this->_gleShoppingData = $gleShoppingData;
         $this->_gleShoppingCategory = $gleShoppingCategory;
         $this->_logger = $logger;
@@ -101,14 +151,10 @@ class Magento_GoogleShopping_Model_MassOperations
                     break;
                 }
                 try {
-                    $product = Mage::getModel('Magento_Catalog_Model_Product')
-                        ->setStoreId($storeId)
-                        ->load($productId);
+                    $product = $this->_productFactory->create()->setStoreId($storeId)->load($productId);
 
                     if ($product->getId()) {
-                        Mage::getModel('Magento_GoogleShopping_Model_Item')
-                            ->insertItem($product)
-                            ->save();
+                        $this->_itemFactory->create()->insertItem($product)->save();
                         // The product was added successfully
                         $totalAdded++;
                     }
@@ -119,7 +165,7 @@ class Magento_GoogleShopping_Model_MassOperations
                 } catch (Zend_Db_Statement_Exception $e) {
                     $message = $e->getMessage();
                     if ($e->getCode() == self::ERROR_CODE_SQL_UNIQUE_INDEX) {
-                        $message = __("The Google Content item for product '%1' (in '%2' store) already exists.", $product->getName(), Mage::app()->getStore($product->getStoreId())->getName());
+                        $message = __("The Google Content item for product '%1' (in '%2' store) already exists.", $product->getName(), $this->_storeManager->getStore($product->getStoreId())->getName());
                     }
                     $errors[] = $message;
                 } catch (Magento_Core_Exception $e) {
@@ -301,21 +347,10 @@ class Magento_GoogleShopping_Model_MassOperations
         if ($items instanceof Magento_GoogleShopping_Model_Resource_Item_Collection) {
             $itemsCollection = $items;
         } else if (is_array($items)) {
-            $itemsCollection = Mage::getResourceModel('Magento_GoogleShopping_Model_Resource_Item_Collection')
-                ->addFieldToFilter('item_id', $items);
+            $itemsCollection = $this->_collectionFactory->create()->addFieldToFilter('item_id', $items);
         }
 
         return $itemsCollection;
-    }
-
-    /**
-     * Retrieve adminhtml session model object
-     *
-     * @return Magento_Adminhtml_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
     }
 
     /**
@@ -325,7 +360,7 @@ class Magento_GoogleShopping_Model_MassOperations
      */
     protected function _getNotifier()
     {
-        return Mage::getModel('Magento_AdminNotification_Model_Inbox');
+        return $this->_inboxFactory->create();
     }
 
     /**

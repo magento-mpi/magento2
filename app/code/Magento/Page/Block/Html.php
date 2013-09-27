@@ -20,13 +20,42 @@ class Magento_Page_Block_Html extends Magento_Core_Block_Template
     protected $_urls = array();
     protected $_title = '';
 
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
 
         $this->_urls = array(
-            'base'      => Mage::getBaseUrl('web'),
-            'baseSecure'=> Mage::getBaseUrl('web', true),
+            'base'      => $this->_storeManager->getStore()->getBaseUrl('web'),
+            'baseSecure'=> $this->_storeManager->getStore()->getBaseUrl('web', true),
             'current'   => $this->_request->getRequestUri()
         );
 
@@ -123,7 +152,7 @@ class Magento_Page_Block_Html extends Magento_Core_Block_Template
     public function getLang()
     {
         if (!$this->hasData('lang')) {
-            $this->setData('lang', substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2));
+            $this->setData('lang', substr($this->_locale->getLocaleCode(), 0, 2));
         }
         return $this->getData('lang');
     }

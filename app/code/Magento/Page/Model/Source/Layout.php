@@ -17,6 +17,19 @@
  */
 class Magento_Page_Model_Source_Layout implements Magento_Core_Model_Option_ArrayInterface
 {
+    /**
+     * @var Magento_Page_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Page_Model_Config $config
+     */
+    public function __construct(
+        Magento_Page_Model_Config $config
+    ) {
+        $this->_config = $config;
+    }
 
     /**
      * Page layout options
@@ -40,7 +53,7 @@ class Magento_Page_Model_Source_Layout implements Magento_Core_Model_Option_Arra
     {
         if ($this->_options === null) {
             $this->_options = array();
-            foreach (Mage::getSingleton('Magento_Page_Model_Config')->getPageLayouts() as $layout) {
+            foreach ($this->_config->getPageLayouts() as $layout) {
                 $this->_options[$layout->getCode()] = $layout->getLabel();
                 if ($layout->getIsDefault()) {
                     $this->_defaultValue = $layout->getCode();

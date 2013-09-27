@@ -67,6 +67,24 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     protected $_fileStorageDatabase = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDatabase
      * @param Magento_Core_Helper_Data $coreData
      * @param \Magento_Core_Block_Template_Context $context
@@ -77,6 +95,9 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Helper_File_Storage_Database $fileStorageDatabase,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
@@ -92,6 +113,9 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $page->getAssets();
+        $this->_storeManager = $storeManager;
+        $this->_dir = $dir;
+        $this->_locale = $locale;
     }
 
     /**
@@ -372,8 +396,8 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     {
         $folderName = Magento_Backend_Model_Config_Backend_Image_Favicon::UPLOAD_DIR;
         $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
-        $faviconFile = Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
-        $absolutePath = Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
+        $faviconFile = $this->_storeManager->getStore()->getBaseUrl('media') . $folderName . '/' . $storeConfig;
+        $absolutePath = $this->_dir->getDir('media') . '/' . $folderName . '/' . $storeConfig;
 
         if (!is_null($storeConfig) && $this->_isFile($absolutePath)) {
             $url = $faviconFile;
@@ -404,6 +428,6 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     public function getLocale()
     {
-        return substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2);
+        return substr($this->_locale->getLocaleCode(), 0, 2);
     }
 }
