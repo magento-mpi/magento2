@@ -76,7 +76,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     }
 
     /**
-     * @return \Magento_Backend_Helper_Data
+     * @return \Magento\Backend\Helper\Data
      */
     public function getHelper()
     {
@@ -84,7 +84,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     }
 
     /**
-     * @return \Magento_Backend_Model_Session
+     * @return \Magento\Backend\Model\Session
      */
     public function getSession()
     {
@@ -100,7 +100,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     }
 
     /**
-     * @return \Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function getTranslator()
     {
