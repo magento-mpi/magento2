@@ -71,7 +71,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_UrlFactory $urlFactory
      * @param Magento_Core_Model_Cookie $coreCookie
@@ -88,7 +88,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_UrlFactory $urlFactory,
         Magento_Core_Model_Cookie $coreCookie,

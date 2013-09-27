@@ -199,7 +199,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -248,7 +248,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      * @param Magento_Customer_Model_Address_Config $addressConfig
      * @param Magento_Directory_Model_RegionFactory $regionFactory
      * @param Magento_Directory_Model_CountryFactory $countryFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Customer_Model_AddressFactory $addressFactory
      * @param Magento_Sales_Model_Quote_Address_ItemFactory $addressItemFactory
      * @param Magento_Sales_Model_Resource_Quote_Address_Item_CollectionFactory $itemCollFactory
@@ -274,7 +274,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
         Magento_Customer_Model_Address_Config $addressConfig,
         Magento_Directory_Model_RegionFactory $regionFactory,
         Magento_Directory_Model_CountryFactory $countryFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Customer_Model_AddressFactory $addressFactory,
         Magento_Sales_Model_Quote_Address_ItemFactory $addressItemFactory,
         Magento_Sales_Model_Resource_Quote_Address_Item_CollectionFactory $itemCollFactory,

@@ -97,7 +97,7 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -120,14 +120,14 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {

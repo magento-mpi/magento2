@@ -49,7 +49,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -68,7 +68,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
      *
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Sales_Model_Quote_Address_TotalFactory $totalFactory
@@ -78,7 +78,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     public function __construct(
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Sales_Model_Quote_Address_TotalFactory $totalFactory,

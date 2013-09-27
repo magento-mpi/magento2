@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Persistent Shopping Cart Data Helper
- *
- * @category   Magento
- * @package    Magento_Persistent
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
 {
@@ -37,21 +32,21 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      *
      * @var Magento_Persistent_Helper_Session
      */
-    protected $_persistentSession = null;
+    protected $_persistentSession;
 
     /**
      * Checkout data
      *
      * @var Magento_Checkout_Helper_Data
      */
-    protected $_checkoutData = null;
+    protected $_checkoutData;
 
     /**
      * Core url
      *
      * @var Magento_Core_Helper_Url
      */
-    protected $_coreUrl = null;
+    protected $_coreUrl;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -61,7 +56,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -71,7 +66,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Persistent Shopping Cart Data Helper
  */
@@ -40,7 +39,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
      *
      * @var Magento_Persistent_Helper_Data
      */
-    protected $_persistentData = null;
+    protected $_persistentData;
 
     /**
      * Persistent session factory
@@ -70,7 +69,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Persistent_Helper_Data $persistentData
      * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
@@ -81,7 +80,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Persistent_Helper_Data $persistentData,
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Customer_Model_CustomerFactory $customerFactory,

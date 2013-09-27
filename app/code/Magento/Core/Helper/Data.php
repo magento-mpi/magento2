@@ -10,8 +10,6 @@
 
 /**
  * Core data helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
 {
@@ -99,7 +97,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -108,14 +106,14 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;

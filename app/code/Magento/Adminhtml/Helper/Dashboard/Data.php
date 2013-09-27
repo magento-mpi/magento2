@@ -10,12 +10,7 @@
 
 /**
  * Data helper for dashboard
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
 {
     protected $_locale = null;

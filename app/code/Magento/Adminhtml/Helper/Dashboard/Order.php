@@ -10,10 +10,6 @@
 
 /**
  * Adminhtml dashboard helper for orders
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_Dashboard_Abstract
 {

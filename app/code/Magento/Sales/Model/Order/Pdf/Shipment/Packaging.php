@@ -28,7 +28,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
      *
      * @var Magento_Usa_Helper_Data
      */
-    protected $_usaData = null;
+    protected $_usaData;
 
     /**
      * @var Magento_Core_Model_Layout
@@ -40,7 +40,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Dir $coreDir
      * @param Magento_Shipping_Model_Config $shippingConfig
@@ -59,7 +59,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Dir $coreDir,
         Magento_Shipping_Model_Config $shippingConfig,
@@ -72,7 +72,11 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
         array $data = array()
     ) {
         $this->_usaData = $usaData;
-        parent::__construct($paymentData, $coreData, $coreString, $data);
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+        $this->_layout = $layout;
+        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $coreConfig, $coreDir,
+            $shippingConfig, $translate, $pdfTotalFactory, $pdfItemsFactory, $data);
     }
 
     /**
@@ -143,7 +147,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
         $packages = $packaging->getPackages();
 
         $packageNum = 1;
-        foreach ($packages as $packageId => $package) {
+        foreach ($packages as $package) {
             $page->setFillColor(new Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
             $page->drawRectangle(25, $this->y + 15, 190, $this->y - 35);
             $page->drawRectangle(190, $this->y + 15, 350, $this->y - 35);
@@ -202,9 +206,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
                 } else {
                     $contentsValue = $packaging->getContentTypeByCode($params->getContentType());
                 }
-                $contentsText = __('Contents')
-                    . ' : '
-                    . $contentsValue;
+                $contentsText = __('Contents') . ' : ' . $contentsValue;
                 $page->drawText($contentsText, 355, $this->y , 'UTF-8');
             }
 

@@ -27,7 +27,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment extends Magento_Sales_Model_Order_P
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Dir $coreDir
      * @param Magento_Shipping_Model_Config $shippingConfig
@@ -44,7 +44,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment extends Magento_Sales_Model_Order_P
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Dir $coreDir,
         Magento_Shipping_Model_Config $shippingConfig,

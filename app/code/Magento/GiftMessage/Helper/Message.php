@@ -68,7 +68,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      */
     public function __construct(
         Magento_GiftMessage_Model_MessageFactory $giftMessageFactory,
@@ -79,7 +79,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
     ) {
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;

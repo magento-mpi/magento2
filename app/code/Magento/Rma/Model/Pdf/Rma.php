@@ -45,11 +45,6 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
     protected $_storeManager;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Rma_Helper_Eav $rmaEav
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Payment_Helper_Data $paymentData
@@ -57,8 +52,16 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_ConfigInterface $coreConfig
+     * @param Magento_Core_Model_Dir $coreDir
+     * @param Magento_Shipping_Model_Config $shippingConfig
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Sales_Model_Order_Pdf_TotalFactory $pdfTotalFactory
+     * @param Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Rma_Helper_Eav $rmaEav,
@@ -68,14 +71,21 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_ConfigInterface $coreConfig,
+        Magento_Core_Model_Dir $coreDir,
+        Magento_Shipping_Model_Config $shippingConfig,
+        Magento_Core_Model_Translate $translate,
+        Magento_Sales_Model_Order_Pdf_TotalFactory $pdfTotalFactory,
+        Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
-        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $coreConfig);
+        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $coreConfig, $coreDir,
+            $shippingConfig, $translate, $pdfTotalFactory, $pdfItemsFactory, $data);
     }
 
     /**

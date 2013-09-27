@@ -34,14 +34,14 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Dir $dirs
@@ -51,7 +51,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_Config $config,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Dir $dirs

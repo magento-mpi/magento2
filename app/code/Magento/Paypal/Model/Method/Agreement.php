@@ -48,11 +48,6 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     protected $_storeManager;
 
     /**
-     * @var Magento_Sales_Model_Billing_AgreementFactory
-     */
-    protected $_agreementFactory;
-
-    /**
      * @var Magento_Core_Model_UrlInterface
      */
     protected $_urlBuilder;
@@ -65,7 +60,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Paypal_Model_Method_ProTypeFactory $proTypeFactory
@@ -79,7 +74,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -89,7 +84,6 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        $this->_agreementFactory = $agreementFactory;
         $this->_urlBuilder = $urlBuilder;
         $this->_cartFactory = $cartFactory;
         parent::__construct(
