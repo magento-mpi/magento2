@@ -13,4 +13,9 @@
             <value>frontend</value>
         </param>
     </type>
+    <type name="Magento_Authorizenet_Model_Directpost">
+        <param name="session">
+            <instance type="Magento_Checkout_Model_Session" />
+        </param>
+    </type>
 </config>

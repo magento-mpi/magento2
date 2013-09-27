@@ -54,7 +54,7 @@ class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_F
      */
     public function getAdminCancelUrl()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
+        return $this->_urlBuilder->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
     }
 
     /**
