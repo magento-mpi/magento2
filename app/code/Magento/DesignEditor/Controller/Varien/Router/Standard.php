@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\DesignEditor\Controller\Varien\Router;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Standard extends \Magento\Core\Controller\Varien\Router\Base
 {
     /**

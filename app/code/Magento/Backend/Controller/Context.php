@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\Backend\Controller;
 /**
  * Controller context
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Backend\Controller;
-
 class Context extends \Magento\Core\Controller\Varien\Action\Context
 {
     /**
