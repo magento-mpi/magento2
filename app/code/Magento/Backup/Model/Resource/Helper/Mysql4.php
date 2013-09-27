@@ -19,6 +19,23 @@ class Magento_Backup_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Res
     protected $_foreignKeys    = array();
 
     /**
+     * Core Date
+     *
+     * @var Magento_Core_Model_Date
+     */
+    protected $_coreDate = null;
+
+    /**
+     * @param Magento_Core_Model_Date $coreDate
+     * @param string $modulePrefix
+     */
+    public function __construct(Magento_Core_Model_Date $coreDate, $modulePrefix)
+    {
+        parent::__construct($modulePrefix);
+        $this->_coreDate = $coreDate;
+    }
+
+    /**
      * Retrieve SQL fragment for drop table
      *
      * @param string $tableName
@@ -184,7 +201,7 @@ class Magento_Backup_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Res
             . "/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n"
             . "/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n"
             . "/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;\n"
-            . "\n-- Dump completed on " . Mage::getSingleton('Magento_Core_Model_Date')->gmtDate() . " GMT";
+            . "\n-- Dump completed on " . $this->_coreDate->gmtDate() . " GMT";
 
         return $footer;
     }

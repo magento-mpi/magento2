@@ -23,11 +23,12 @@ class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_Te
     {
         $connectionMock = $this->getMock('Magento_DB_Adapter_Interface');
         $resourceMock = $this->getMock('Magento_Core_Model_Resource', array('createConnection'), array(), '', false);
+        $resourceFactoryMock = $this->getMock('Magento_Core_Model_ResourceFactory', array(), array(), '', false);
         $resourceMock->expects($this->once())->method('createConnection')->will($this->returnValue($connectionMock));
 
         $connectionMock->expects($this->once())->method('fetchPairs')->will($this->returnValue($supportedEngines));
 
-        $installer = new Magento_Install_Model_Installer_Db_Mysql4($resourceMock);
+        $installer = new Magento_Install_Model_Installer_Db_Mysql4($resourceMock, $resourceFactoryMock);
         $this->assertEquals($expectedResult, $installer->supportEngine());
     }
 
@@ -54,7 +55,8 @@ class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_Te
     public function testGetRequiredExtensions($config, $dbExtensions, $expectedResult)
     {
         $resourceMock = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false);
-        $installer = new Magento_Install_Model_Installer_Db_Mysql4($resourceMock, $dbExtensions);
+        $resourceFactoryMock = $this->getMock('Magento_Core_Model_ResourceFactory', array(), array(), '', false);
+        $installer = new Magento_Install_Model_Installer_Db_Mysql4($resourceMock, $resourceFactoryMock, $dbExtensions);
         $installer->setConfig($config);
         $this->assertEquals($expectedResult, $installer->getRequiredExtensions());
     }

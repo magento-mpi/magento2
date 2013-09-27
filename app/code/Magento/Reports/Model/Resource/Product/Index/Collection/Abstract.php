@@ -27,6 +27,45 @@ abstract class Magento_Reports_Model_Resource_Product_Index_Collection_Abstract
     protected $_customerId = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Log_Model_Visitor
+     */
+    protected $_logVisitor;
+
+    /**
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Log_Model_Visitor $logVisitor
+     */
+    public function __construct(
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Log_Model_Visitor $logVisitor
+    ) {
+        parent::__construct(
+            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+        );
+        $this->_customerSession = $customerSession;
+        $this->_logVisitor = $logVisitor;
+    }
+
+    /**
      * Retrieve Product Index table name
      *
      */
@@ -94,12 +133,12 @@ abstract class Magento_Reports_Model_Resource_Product_Index_Collection_Abstract
     {
         $condition = array();
 
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            $condition['customer_id'] = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        if ($this->_customerSession->isLoggedIn()) {
+            $condition['customer_id'] = $this->_customerSession->getCustomerId();
         } elseif ($this->_customerId) {
             $condition['customer_id'] = $this->_customerId;
         } else {
-            $condition['visitor_id'] = Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
+            $condition['visitor_id'] = $this->_logVisitor->getId();
         }
 
         return $condition;

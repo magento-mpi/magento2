@@ -23,28 +23,48 @@ class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Customer data
      *
      * @var Magento_Customer_Helper_Data
      */
-    protected $_customerData = null;
+    protected $_customerData;
+
+    /**
+     * Invitation Status
+     *
+     * @var Magento_Invitation_Model_Source_Invitation_Status
+     */
+    protected $_invitationStatus;
+
+    /**
+     * Url builder
+     *
+     * @var Magento_Core_Model_Url
+     */
+    protected $_urlBuilder;
 
     /**
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Invitation_Model_Source_Invitation_Status $invitationStatus
+     * @param Magento_Core_Model_Url $urlBuilder
      */
     public function __construct(
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Invitation_Model_Source_Invitation_Status $invitationStatus,
+        Magento_Core_Model_Url $urlBuilder
     ) {
+        parent::__construct($context);
         $this->_customerData = $customerData;
         $this->_coreData = $coreData;
-        parent::__construct($context);
+        $this->_invitationStatus = $invitationStatus;
+        $this->_urlBuilder = $urlBuilder;
     }
 
     /**
@@ -55,8 +75,7 @@ class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getInvitationStatusText($invitation)
     {
-        return Mage::getSingleton('Magento_Invitation_Model_Source_Invitation_Status')
-            ->getOptionText($invitation->getStatus());
+        return $this->_invitationStatus->getOptionText($invitation->getStatus());
     }
 
     /**
@@ -67,7 +86,7 @@ class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getInvitationUrl($invitation)
     {
-        return Mage::getModel('Magento_Core_Model_Url')->setStore($invitation->getStoreId())
+        return $this->_urlBuilder->setStore($invitation->getStoreId())
             ->getUrl('magento_invitation/customer_account/create', array(
                 'invitation' => $this->_coreData->urlEncode($invitation->getInvitationCode()),
                 '_store_to_url' => true,

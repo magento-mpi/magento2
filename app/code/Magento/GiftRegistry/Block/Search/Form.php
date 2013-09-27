@@ -19,6 +19,43 @@ class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
     protected $_formData = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var Magento_GiftRegistry_Model_TypeFactory
+     */
+    protected $typeFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_GiftRegistry_Model_TypeFactory $typeFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->customerSession = $customerSession;
+        $this->typeFactory = $typeFactory;
+        $this->storeManager = $storeManager;
+    }
+
+    /**
      * Retrieve form header
      *
      * @return string
@@ -37,7 +74,7 @@ class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')->getRegistrySearchData();
+            $this->_formData = $this->customerSession->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -52,8 +89,8 @@ class Magento_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
      */
     public function getTypesCollection()
     {
-        return Mage::getModel('Magento_GiftRegistry_Model_Type')->getCollection()
-            ->addStoreData(Mage::app()->getStore()->getId());
+        return $this->typeFactory->create()->getCollection()
+            ->addStoreData($this->storeManager->getStore()->getId());
     }
 
     /**

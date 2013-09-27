@@ -46,6 +46,11 @@ class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model
      * @param Magento_Catalog_Helper_Product_Compare $productCompare
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Log_Model_Visitor $logVisitor
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Session_Generic $reportSession
+     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -54,12 +59,20 @@ class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model
         Magento_Catalog_Helper_Product_Compare $productCompare,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Log_Model_Visitor $logVisitor,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Session_Generic $reportSession,
+        Magento_Catalog_Model_Product_Visibility $productVisibility,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        parent::__construct(
+            $context, $registry, $storeManager, $logVisitor, $customerSession,
+            $reportSession, $productVisibility, $resource, $resourceCollection, $data
+        );
         $this->_productCompare = $productCompare;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

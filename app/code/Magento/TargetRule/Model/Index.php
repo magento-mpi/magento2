@@ -93,7 +93,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     protected $_ruleCollectionFactory;
 
     /**
-     * @param Magento_TargetRule_Model_Resource_Rule_CollectionFactory $ruleCollectionFactory
+     * @param Magento_TargetRule_Model_Resource_Rule_CollectionFactory $ruleFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Index_Model_Indexer $indexer
@@ -108,7 +108,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_TargetRule_Model_Resource_Rule_CollectionFactory $ruleCollectionFactory,
+        Magento_TargetRule_Model_Resource_Rule_CollectionFactory $ruleFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Index_Model_Indexer $indexer,
@@ -120,7 +120,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_ruleCollectionFactory = $ruleCollectionFactory;
+        $this->_ruleCollectionFactory = $ruleFactory;
         $this->_storeManger = $storeManager;
         $this->_locale = $locale;
         $this->_indexer = $indexer;

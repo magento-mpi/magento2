@@ -14,6 +14,27 @@
 abstract class Magento_Reminder_Model_Condition_Combine_Abstract extends Magento_Rule_Model_Condition_Combine
 {
     /**
+     * Rule Resource
+     *
+     * @var Magento_Reminder_Model_Resource_Rule
+     */
+    protected $_ruleResource;
+
+    /**
+     * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_ruleResource = $ruleResource;
+    }
+
+    /**
      * Customize default operator input by type mapper for some types
      *
      * @return array
@@ -55,7 +76,7 @@ abstract class Magento_Reminder_Model_Condition_Combine_Abstract extends Magento
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('Magento_Reminder_Model_Resource_Rule');
+        return $this->_ruleResource;
     }
 
     /**

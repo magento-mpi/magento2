@@ -17,6 +17,16 @@
 abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento_Directory_Block_Data
 {
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var Magento_GiftRegistry_Model_Attribute_Config
+     */
+    protected $attributeConfig;
+
+    /**
      * Registry Entity object
      *
      * @var Magento_GiftRegistry_Model_Entity
@@ -52,6 +62,16 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $locale;
+
+    /**
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Helper_Data $coreData
@@ -59,6 +79,10 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
      * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -69,18 +93,21 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
         Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct(
-            $configCacheType,
-            $coreData,
-            $context,
-            $storeManager,
-            $regionCollFactory,
-            $countryCollFactory,
-            $data
+            $configCacheType, $coreData, $context, $storeManager,
+            $regionCollFactory, $countryCollFactory, $data
         );
+
+        $this->_coreRegistry = $coreRegistry;
+        $this->customerSession = $customerSession;
+        $this->attributeConfig = $attributeConfig;
+        $this->storeManager = $storeManager;
+        $this->locale = $locale;
     }
 
     /**
@@ -147,7 +174,7 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
      */
     public function isAttributeStatic($code)
     {
-        $types = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config')->getStaticTypesCodes();
+        $types = $this->attributeConfig->getStaticTypesCodes();
         if (in_array($code, $types)) {
             return true;
         }
@@ -161,7 +188,7 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
      */
     public function getAttributeGroups()
     {
-        return Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config')->getAttributeGroups();
+        return $this->attributeConfig->getAttributeGroups();
     }
 
     /**
@@ -173,7 +200,7 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
     public function getGroupLabel($groupId)
     {
         if ($this->_groups === null) {
-            $this->_groups = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config')->getAttributeGroups();
+            $this->_groups = $this->attributeConfig->getAttributeGroups();
         }
         if (is_array($this->_groups) && (!empty($this->_groups[$groupId]))
             && is_array($this->_groups[$groupId]) && !empty($this->_groups[$groupId]['label'])) {
@@ -208,7 +235,7 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
             ->setValue($this->formatDate($value, $formatType))
             ->setClass($class . ' product-custom-option datetime-picker input-text validate-date')
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat(Mage::app()->getLocale()->getDateFormat($formatType));
+            ->setDateFormat($this->locale->getDateFormat($formatType));
         return $calendar->getHtml();
     }
 
@@ -355,22 +382,22 @@ abstract class Magento_GiftRegistry_Block_Customer_Edit_Abstract extends Magento
                     $element .= $this->_getInputTextHtml($name, $id, $value, $class);
                     break;
 
-               case 'date' :
-                   $format = (isset($data['date_format'])) ? $data['date_format'] : '';
-                   $element = $this->getCalendarDateHtml($name, $id, $value, $format, $class);
-                   break;
+                case 'date' :
+                    $format = (isset($data['date_format'])) ? $data['date_format'] : '';
+                    $element = $this->getCalendarDateHtml($name, $id, $value, $format, $class);
+                    break;
 
-               case 'select' :
-                   $options = $this->_convertGroupArray($data['options']);
-                   if (empty($value)) {
-                       $value = (isset($data['default'])) ? $data['default'] : '';
-                   }
-                   $element = $this->getSelectHtml($options, $name, $id, $value, $class);
-                   break;
+                case 'select' :
+                    $options = $this->_convertGroupArray($data['options']);
+                    if (empty($value)) {
+                        $value = (isset($data['default'])) ? $data['default'] : '';
+                    }
+                    $element = $this->getSelectHtml($options, $name, $id, $value, $class);
+                    break;
 
-               default :
-                   $element = $this->_getInputTextHtml($name, $id, $value, $class);
-                   break;
+                default :
+                    $element = $this->_getInputTextHtml($name, $id, $value, $class);
+                    break;
             }
         }
         return $element;

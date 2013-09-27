@@ -31,17 +31,31 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
     protected $_logger;
 
     /**
-     * Constructor
-     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Reports_Model_FlagFactory
+     */
+    protected $_reportsFlagFactory;
+
+    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Reports_Model_FlagFactory $reportsFlagFactory
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Reports_Model_FlagFactory $reportsFlagFactory
     ) {
-        $this->_logger = $logger;
         parent::__construct($resource);
+        $this->_logger = $logger;
+        $this->_locale = $locale;
+        $this->_reportsFlagFactory = $reportsFlagFactory;
     }
 
     /**
@@ -52,7 +66,7 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
     protected function _getFlag()
     {
         if ($this->_flag === null) {
-            $this->_flag = Mage::getModel('Magento_Reports_Model_Flag');
+            $this->_flag = $this->_reportsFlagFactory->create();
         }
         return $this->_flag;
     }
@@ -358,7 +372,7 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
         }
 
         $periods = $this->_getTZOffsetTransitions(
-            Mage::app()->getLocale()->storeDate($store)->toString(Zend_Date::TIMEZONE_NAME), $from, $to
+            $this->_locale->storeDate($store)->toString(Zend_Date::TIMEZONE_NAME), $from, $to
         );
         if (empty($periods)) {
             return $column;
@@ -440,7 +454,7 @@ abstract class Magento_Reports_Model_Resource_Report_Abstract extends Magento_Co
      */
     protected function _getStoreTimezoneUtcOffset($store = null)
     {
-        return Mage::app()->getLocale()->storeDate($store)->toString(Zend_Date::GMT_DIFF_SEP);
+        return $this->_locale->storeDate($store)->toString(Zend_Date::GMT_DIFF_SEP);
     }
 
     /**

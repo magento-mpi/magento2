@@ -20,19 +20,41 @@ class Magento_Reminder_Model_Rule_Condition_Cart
     protected $_dateModel;
 
     /**
+     * Core resource helper
+     *
+     * @var Magento_Reminder_Model_Resource_HelperFactory
+     */
+    protected $_resHelperFactory;
+
+    /**
+     * Cart Combine Factory
+     *
+     * @var Magento_Reminder_Model_Rule_Condition_Cart_CombineFactory
+     */
+    protected $_combineFactory;
+
+    /**
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
      * @param Magento_Core_Model_Date $dateModel
+     * @param Magento_Reminder_Model_Resource_HelperFactory $resHelperFactory
+     * @param Magento_Reminder_Model_Rule_Condition_Cart_CombineFactory $combineFactory
      * @param array $data
      */
     public function __construct(
         Magento_Rule_Model_Condition_Context $context,
+        Magento_Reminder_Model_Resource_Rule $ruleResource,
         Magento_Core_Model_Date $dateModel,
+        Magento_Reminder_Model_Resource_HelperFactory $resHelperFactory,
+        Magento_Reminder_Model_Rule_Condition_Cart_CombineFactory $combineFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $ruleResource, $data);
         $this->_dateModel = $dateModel;
         $this->setType('Magento_Reminder_Model_Rule_Condition_Cart');
         $this->setValue(null);
+        $this->_resHelperFactory = $resHelperFactory;
+        $this->_combineFactory = $combineFactory;
     }
 
     /**
@@ -42,7 +64,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('Magento_Reminder_Model_Rule_Condition_Cart_Combine')->getNewChildSelectOptions();
+        return $this->_combineFactory->create()->getNewChildSelectOptions();
     }
 
     /**
@@ -99,7 +121,8 @@ class Magento_Reminder_Model_Rule_Condition_Cart
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . __('Shopping cart is not empty and abandoned %1 %2 days and %3 of these conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . __('Shopping cart is not empty and abandoned %1 %2 days and %3 of these conditions match:',
+                $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -109,12 +132,15 @@ class Magento_Reminder_Model_Rule_Condition_Cart
      * @param   int|Zend_Db_Expr $customer
      * @param   int|Zend_Db_Expr $website
      * @return  Magento_DB_Select
+     * @throws Magento_Core_Exception
      */
     protected function _prepareConditionsSql($customer, $website)
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 0) {
-            Mage::throwException(__('The root shopping cart condition should have a days value of 0 or greater.'));
+            throw new Magento_Core_Exception(
+                __('The root shopping cart condition should have a days value of 0 or greater.')
+            );
         }
 
         $table = $this->getResource()->getTable('sales_flat_quote');
@@ -126,9 +152,10 @@ class Magento_Reminder_Model_Rule_Condition_Cart
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
-        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper */
-        $resourceHelper = Mage::getResourceHelper('Magento_Core');
-        $daysDiffSql = $resourceHelper->getDateDiff(
+
+        /** @var $helper Magento_Core_Model_Resource_Helper_Mysql4 */
+        $helper = $this->_resHelperFactory->create();
+        $daysDiffSql = $helper->getDateDiff(
             'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
         );
         if ($operator == '=') {
@@ -137,7 +164,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
         } else {
             if ($operator == '>=' && $conditionValue == 0) {
                 $currentTime = $this->_dateModel->gmtDate();
-                $daysDiffSql = $resourceHelper->getDateDiff(
+                $daysDiffSql = $helper->getDateDiff(
                     'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
                 );
             }

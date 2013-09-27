@@ -23,23 +23,27 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
     protected $_elementFactory;
 
     /**
-     * @param Magento_Data_Form_Element_Factory $elementFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Banner_Model_Resource_Banner_CollectionFactory $bannerColFactory
+     * @param Magento_Banner_Model_Config $bannerConfig
+     * @param Magento_Data_Form_Element_Factory $elementFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Element_Factory $elementFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Banner_Model_Resource_Banner_CollectionFactory $bannerColFactory,
+        Magento_Banner_Model_Config $bannerConfig,
+        Magento_Data_Form_Element_Factory $elementFactory,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $bannerColFactory, $bannerConfig, $data);
         $this->_elementFactory = $elementFactory;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     /**

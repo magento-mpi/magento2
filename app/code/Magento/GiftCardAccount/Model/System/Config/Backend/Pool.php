@@ -10,6 +10,37 @@
 
 class Magento_GiftCardAccount_Model_System_Config_Backend_Pool extends Magento_Core_Model_Config_Value
 {
+    /**
+     * Gift card account pool
+     *
+     * @var Magento_GiftCardAccount_Model_Pool
+     */
+    protected $_giftCardAccountPool = null;
+
+    /**
+     * @param Magento_GiftCardAccount_Model_Pool $giftCardAccountPool
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftCardAccount_Model_Pool $giftCardAccountPool,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_giftCardAccountPool = $giftCardAccountPool;
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+    }
+
     protected function _beforeSave()
     {
         if ($this->isValueChanged()) {
@@ -24,11 +55,16 @@ class Magento_GiftCardAccount_Model_System_Config_Backend_Pool extends Magento_C
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::getModel('Magento_GiftCardAccount_Model_Pool')->cleanupFree();
+            $this->_giftCardAccountPool->cleanupFree();
         }
         parent::_afterSave();
     }
 
+    /**
+     * Check Max Length
+     *
+     * @throws Magento_Core_Exception
+     */
     protected function _checkMaxLength()
     {
         $groups = $this->getGroups();
@@ -51,13 +87,13 @@ class Magento_GiftCardAccount_Model_System_Config_Backend_Pool extends Magento_C
         if (isset($fields['code_split']['value'])) {
             $v = (int)$fields['code_split']['value'];
             if ($v > 0 && $v < $codeLen) {
-                $sep = Mage::getModel('Magento_GiftCardAccount_Model_Pool')->getCodeSeparator();
+                $sep = $this->_giftCardAccountPool->getCodeSeparator();
                 $len += (ceil($codeLen / $v) * strlen($sep)) - 1;
             }
         }
 
         if ($len > 255) {
-            Mage::throwException(__('Maximum generated code length is 255. Please correct your settings.'));
+            throw new Magento_Core_Exception(__('Maximum generated code length is 255. Please correct your settings.'));
         }
     }
 }

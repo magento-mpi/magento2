@@ -15,14 +15,16 @@ class Magento_Reminder_Model_Rule_Condition_Combine
     extends Magento_Reminder_Model_Condition_Combine_Abstract
 {
     /**
-     * Initialize model
-     *
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        array $data = array()
+    ) {
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento_Reminder_Model_Rule_Condition_Combine');
     }
 

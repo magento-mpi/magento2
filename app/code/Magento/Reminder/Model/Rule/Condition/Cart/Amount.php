@@ -21,11 +21,16 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Amount
 
     /**
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        array $data = array()
+    )
     {
-        parent::__construct($context, $data);
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Amount');
         $this->setValue(null);
     }
@@ -73,6 +78,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Amount
      * @param $customer
      * @param int | Zend_Db_Expr $website
      * @return Magento_DB_Select
+     * @throws Magento_Core_Exception
      */
     public function getConditionsSql($customer, $website)
     {
@@ -90,7 +96,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Amount
                 $field = 'quote.base_grand_total';
                 break;
             default:
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Unknown quote total specified')
                 );
         }

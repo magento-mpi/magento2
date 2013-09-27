@@ -12,6 +12,31 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Init form fields
      *
      * @return Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
@@ -41,7 +66,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
             'name'      => 'recipient_name',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'name'     => 'recipient_store',
                 'label'    => __('Send Email from the Following Store View'),
@@ -65,7 +90,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
     protected function _getStoreIdScript()
     {
         $websiteStores = array();
-        foreach (Mage::app()->getWebsites() as $websiteId => $website) {
+        foreach ($this->_storeManager->getWebsites() as $websiteId => $website) {
             $websiteStores[$websiteId] = array();
             foreach ($website->getGroups() as $groupId => $group) {
                 $websiteStores[$websiteId][$groupId] = array(

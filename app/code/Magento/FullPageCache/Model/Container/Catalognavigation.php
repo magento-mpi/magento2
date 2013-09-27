@@ -14,6 +14,27 @@
 class Magento_FullPageCache_Model_Container_Catalognavigation extends Magento_FullPageCache_Model_Container_Abstract
 {
     /**
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_FullPageCache_Model_Cache $fpcCache,
+        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_FullPageCache_Helper_Url $urlHelper,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Layout $layout,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory
+    ) {
+        parent::__construct(
+            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+        );
+        $this->_categoryFactory = $categoryFactory;
+    }
+
+    /**
      * @return string
      */
     protected function _getBlockCacheId()
@@ -108,7 +129,7 @@ class Magento_FullPageCache_Model_Container_Catalognavigation extends Magento_Fu
 
         $categoryId = $this->_getCategoryId();
         if (!$this->_coreRegistry->registry('current_category') && $categoryId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = $this->_categoryFactory->create()->load($categoryId);
             $this->_coreRegistry->register('current_category', $category);
         }
 

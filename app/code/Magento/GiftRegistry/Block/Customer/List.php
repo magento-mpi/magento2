@@ -18,6 +18,51 @@ class Magento_GiftRegistry_Block_Customer_List
     extends Magento_Customer_Block_Account_Dashboard
 {
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var Magento_GiftRegistry_Model_EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var Magento_GiftRegistry_Model_TypeFactory
+     */
+    protected $typeFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
+     * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_GiftRegistry_Model_EntityFactory $entityFactory,
+        Magento_GiftRegistry_Model_TypeFactory $typeFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->customerSession = $customerSession;
+        $this->entityFactory = $entityFactory;
+        $this->typeFactory = $typeFactory;
+        $this->storeManager = $storeManager;
+    }
+
+    /**
      * Instantiate pagination
      *
      * @return Magento_GiftRegistry_Block_Customer_List
@@ -38,8 +83,8 @@ class Magento_GiftRegistry_Block_Customer_List
     public function getEntityCollection()
     {
         if (!$this->hasEntityCollection()) {
-            $this->setData('entity_collection', Mage::getModel('Magento_GiftRegistry_Model_Entity')->getCollection()
-                ->filterByCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
+            $this->setData('entity_collection', $this->entityFactory->create()->getCollection()
+                ->filterByCustomerId($this->customerSession->getCustomerId())
             );
         }
         return $this->_getData('entity_collection');
@@ -52,8 +97,8 @@ class Magento_GiftRegistry_Block_Customer_List
      */
     public function canAddNewEntity()
     {
-        $collection = Mage::getModel('Magento_GiftRegistry_Model_Type')->getCollection()
-            ->addStoreData(Mage::app()->getStore()->getId())
+        $collection = $this->typeFactory->create()->getCollection()
+            ->addStoreData($this->storeManager->getStore()->getId())
             ->applyListedFilter();
 
         return (bool)$collection->getSize();

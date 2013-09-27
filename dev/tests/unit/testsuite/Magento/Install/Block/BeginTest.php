@@ -21,12 +21,16 @@ class Magento_Install_Block_BeginTest extends PHPUnit_Framework_TestCase
      * @param string|null $fileName
      * @return Magento_Install_Block_Begin
      */
-    public function getBlockModel($contextFileSystem, $fileName = null)
+    protected function _getBlockModel($contextFileSystem, $fileName = null)
     {
         $helper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $context = $this->getMock('Magento_Core_Block_Template_Context', array(), array(), '', false);
         $context->expects($this->once())->method('getFileSystem')->will($this->returnValue($contextFileSystem));
-        $block = new Magento_Install_Block_Begin($helper, $context, array(), $fileName);
+        $installer = $this->getMock('Magento_Install_Model_Installer', array(), array(), '', false);
+        $wizard = $this->getMock('Magento_Install_Model_Wizard', array(), array(), '', false);
+        $session = $this->getMock('Magento_Install_Model_Session', array(), array(),
+            'Magento_Core_Model_Session_Generic', false);
+        $block = new Magento_Install_Block_Begin($helper, $context, $installer, $wizard, $session, $fileName, array());
         return $block;
     }
 
@@ -44,7 +48,7 @@ class Magento_Install_Block_BeginTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo(BP . DS . $fileName))
             ->will($this->returnValue($expectedTxt));
 
-        $block = $this->getBlockModel($fileSystem, $fileName);
+        $block = $this->_getBlockModel($fileSystem, $fileName);
         $this->assertEquals($expectedTxt, $block->getLicenseHtml());
     }
 
@@ -60,7 +64,7 @@ class Magento_Install_Block_BeginTest extends PHPUnit_Framework_TestCase
         $fileSystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $fileSystem->expects($this->never())->method('read');
 
-        $block = $this->getBlockModel($fileSystem, $fileName);
+        $block = $this->_getBlockModel($fileSystem, $fileName);
         $this->assertEquals('', $block->getLicenseHtml());
     }
 

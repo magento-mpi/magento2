@@ -17,6 +17,9 @@
         <param name="eulaFile">
             <value>LICENSE.html</value>
         </param>
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
     </type>
     <type name="Magento_Install_Model_Installer_Db">
         <param name="dbConfig">
@@ -55,6 +58,56 @@
         </param>
         <param name="cacheId">
             <value>install_wizard_config</value>
+        </param>
+    </type>
+    <type name="Magento_Install_Block_Abstract">
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
+    </type>
+    <type name="Magento_Install_Block_Config">
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
+    </type>
+    <type name="Magento_Install_Block_End">
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
+    </type>
+    <type name="Magento_Install_Block_Locale">
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
+    </type>
+    <type name="Magento_Install_Block_Db_Main">
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
+    </type>
+    <type name="Magento_Install_Block_Db_Type">
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
+    </type>
+    <type name="Magento_Install_Controller_Wizard">
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
+    </type>
+    <type name="Magento_Install_Model_Installer">
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
+    </type>
+    <type name="Magento_Install_Model_Observer">
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
+    </type>
+    <type name="Magento_Install_Model_Installer_Pear">
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
         </param>
     </type>
 </config>

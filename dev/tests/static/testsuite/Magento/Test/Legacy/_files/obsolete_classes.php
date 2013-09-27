@@ -627,6 +627,8 @@ return array(
         'Magento_Reports_Model_Resource_Report_Product_Viewed_Collection'),
     array('Mage_Reports_Model_Resource_Refunded_Collection'),
     array('Mage_Reports_Model_Resource_Shipping_Collection'),
+    array('Mage_Reports_Model_Report'),
+    array('Mage_Reports_Model_Test'),
     array('Mage_Rss_Model_Observer'),
     array('Mage_Rss_Model_Session', 'Magento_Backend_Model_Auth and Magento_Backend_Model_Auth_Session'),
     array('Mage_Sales_Block_Order_Details'),

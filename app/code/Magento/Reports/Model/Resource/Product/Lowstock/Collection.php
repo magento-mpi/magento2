@@ -19,13 +19,6 @@
 class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento_Reports_Model_Resource_Product_Collection
 {
     /**
-     * CatalogInventory Stock Item Resource instance
-     *
-     * @var Magento_CatalogInventory_Model_Resource_Stock_Item
-     */
-    protected $_inventoryItemResource      = null;
-
-    /**
      * Flag about is joined CatalogInventory Stock Item
      *
      * @var bool
@@ -47,6 +40,11 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
     protected $_inventoryData = null;
 
     /**
+     * @var Magento_CatalogInventory_Model_Resource_Stock_Item
+     */
+    protected $_itemResource;
+
+    /**
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -56,6 +54,9 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Catalog_Model_Resource_Product $product
+     * @param Magento_Reports_Model_Event_TypeFactory $eventTypeFactory
+     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param Magento_CatalogInventory_Model_Resource_Stock_Item $itemResource
      */
     public function __construct(
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
@@ -66,28 +67,18 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Catalog_Model_Resource_Product $product
+        Magento_Catalog_Model_Resource_Product $product,
+        Magento_Reports_Model_Event_TypeFactory $eventTypeFactory,
+        Magento_Catalog_Model_Product_Type $productType,
+        Magento_CatalogInventory_Model_Resource_Stock_Item $itemResource
     ) {
-        $this->_inventoryData = $catalogInventoryData;
         parent::__construct(
             $catalogProductFlat, $catalogData, $eventManager, $logger,
-            $fetchStrategy, $coreStoreConfig, $entityFactory, $product
+            $fetchStrategy, $coreStoreConfig, $entityFactory, $product,
+            $eventTypeFactory, $productType
         );
-    }
-
-    /**
-     * Retrieve CatalogInventory Stock Item Resource instance
-     *
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item
-     */
-    protected function _getInventoryItemResource()
-    {
-        if ($this->_inventoryItemResource === null) {
-            $this->_inventoryItemResource = Mage::getResourceSingleton(
-                    'Magento_CatalogInventory_Model_Resource_Stock_Item'
-                );
-        }
-        return $this->_inventoryItemResource;
+        $this->_inventoryData = $catalogInventoryData;
+        $this->_itemResource = $itemResource;
     }
 
     /**
@@ -97,7 +88,7 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
      */
     protected function _getInventoryItemTable()
     {
-        return $this->_getInventoryItemResource()->getMainTable();
+        return $this->_itemResource->getMainTable();
     }
 
     /**
@@ -107,7 +98,7 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
      */
     protected function _getInventoryItemIdField()
     {
-        return $this->_getInventoryItemResource()->getIdFieldName();
+        return $this->_itemResource->getIdFieldName();
     }
 
     /**
@@ -204,9 +195,7 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
     public function filterByProductType($typeFilter)
     {
         if (!is_string($typeFilter) && !is_array($typeFilter)) {
-            Mage::throwException(
-                __('The product type filter specified is incorrect.')
-            );
+            new Magento_Core_Exception(__('The product type filter specified is incorrect.'));
         }
         $this->addAttributeToFilter('type_id', $typeFilter);
         return $this;

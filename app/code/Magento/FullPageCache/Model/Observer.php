@@ -120,6 +120,51 @@ class Magento_FullPageCache_Model_Observer
     protected $_typeList;
 
     /**
+     * @var Magento_Catalog_Model_Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var Magento_FullPageCache_Model_Container_PlaceholderFactory
+     */
+    protected $_fpcPlacehldrFactory;
+
+    /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_coreSession;
+
+    /**
+     * @var Magento_Reports_Model_Resource_Product_Index_Viewed_CollectionFactory
+     */
+    protected $_reportsFactory;
+
+    /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_application;
+
+    /**
+     * @var Magento_FullPageCache_Model_ValidatorFactory
+     */
+    protected $_fpcValidatorFactory;
+
+    /**
+     * @var Magento_Reports_Model_Product_Index_ViewedFactory
+     */
+    protected $_viewedIdxFactory;
+
+    /**
+     * @var Magento_FullPageCache_Model_Container_WishlistsFactory
+     */
+    protected $_fpcWishlistsFactory;
+
+    /**
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Catalog_Helper_Product_Compare $ctlgProdCompare
@@ -135,6 +180,15 @@ class Magento_FullPageCache_Model_Observer
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Cache_TypeListInterface $typeList
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Session $coreSession
+     * @param Magento_FullPageCache_Model_Container_PlaceholderFactory $fpcPlacehldrFactory
+     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
+     * @param Magento_Catalog_Model_Session $catalogSession
+     * @param Magento_Reports_Model_Resource_Product_Index_Viewed_CollectionFactory $reportsFactory
+     * @param Magento_Core_Model_App $application
+     * @param Magento_FullPageCache_Model_ValidatorFactory $fpcValidatorFactory
+     * @param Magento_Reports_Model_Product_Index_ViewedFactory $viewedIdxFactory
+     * @param Magento_FullPageCache_Model_Container_WishlistsFactory $fpcWishlistsFactory
      */
     public function __construct(
         Magento_Core_Helper_Url $coreUrl,
@@ -151,7 +205,16 @@ class Magento_FullPageCache_Model_Observer
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Cache_TypeListInterface $typeList,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Session $coreSession,
+        Magento_FullPageCache_Model_Container_PlaceholderFactory $fpcPlacehldrFactory,
+        Magento_Catalog_Model_Product_Visibility $productVisibility,
+        Magento_Catalog_Model_Session $catalogSession,
+        Magento_Reports_Model_Resource_Product_Index_Viewed_CollectionFactory $reportsFactory,
+        Magento_Core_Model_App $application,
+        Magento_FullPageCache_Model_ValidatorFactory $fpcValidatorFactory,
+        Magento_Reports_Model_Product_Index_ViewedFactory $viewedIdxFactory,
+        Magento_FullPageCache_Model_Container_WishlistsFactory $fpcWishlistsFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreUrl = $coreUrl;
@@ -169,6 +232,15 @@ class Magento_FullPageCache_Model_Observer
         $this->_isEnabled = $this->_cacheState->isEnabled('full_page');
         $this->_logger = $logger;
         $this->_typeList = $typeList;
+        $this->_coreSession = $coreSession;
+        $this->_fpcPlacehldrFactory = $fpcPlacehldrFactory;
+        $this->_productVisibility = $productVisibility;
+        $this->_catalogSession = $catalogSession;
+        $this->_reportsFactory = $reportsFactory;
+        $this->_application = $application;
+        $this->_fpcValidatorFactory = $fpcValidatorFactory;
+        $this->_viewedIdxFactory = $viewedIdxFactory;
+        $this->_fpcWishlistsFactory = $fpcWishlistsFactory;
     }
 
     /**
@@ -219,9 +291,9 @@ class Magento_FullPageCache_Model_Observer
          */
         if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
             $this->_cacheState->setEnabled(Magento_Core_Block_Abstract::CACHE_GROUP, false); // disable blocks cache
-            Mage::getSingleton('Magento_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
+            $this->_catalogSession->setParamsMemorizeDisabled(true);
         } else {
-            Mage::getSingleton('Magento_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
+            $this->_catalogSession->setParamsMemorizeDisabled(false);
         }
         $this->_cookie->updateCustomerCookies();
         return $this;
@@ -323,7 +395,9 @@ class Magento_FullPageCache_Model_Observer
             return $this;
         }
         $object = $observer->getEvent()->getObject();
-        $object = Mage::getModel('Magento_FullPageCache_Model_Validator')->checkDataChange($object);
+        $object = $this->_fpcValidatorFactory
+            ->create()
+            ->checkDataChange($object);
         return $this;
     }
 
@@ -339,7 +413,10 @@ class Magento_FullPageCache_Model_Observer
             return $this;
         }
         $object = $observer->getEvent()->getObject();
-        $object = Mage::getModel('Magento_FullPageCache_Model_Validator')->checkDataDelete($object);
+
+        $object = $this->_fpcValidatorFactory
+            ->create()
+            ->checkDataDelete($object);
         return $this;
     }
 
@@ -489,20 +566,23 @@ class Magento_FullPageCache_Model_Observer
             $productIds = $this->_cookie->get(Magento_FullPageCache_Model_Container_Viewedproducts::COOKIE_NAME);
             if ($productIds) {
                 $productIds = explode(',', $productIds);
-                Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')->registerIds($productIds);
+                $this->_viewedIdxFactory->create()->registerIds($productIds);
             }
         } catch (Exception $e) {
             $this->_logger->logException($e);
         }
 
         // renew customer viewed product ids cookie
-        $countLimit = $this->_coreStoreConfig->getConfig(Magento_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Index_Viewed_Collection')
+        $countLimit = $this->_coreStoreConfig->getConfig(
+            Magento_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
+        );
+        $collection = $this->_reportsFactory
+            ->create()
             ->addIndexFilter()
             ->setAddedAtOrder()
             ->setPageSize($countLimit)
             ->setCurPage(1)
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+            ->setVisibility($this->_productVisibility->getVisibleInSiteIds());
 
         $productIds = $collection->load()->getLoadedIds();
         $productIds = implode(',', $productIds);
@@ -586,12 +666,10 @@ class Magento_FullPageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $placeholder = Mage::getSingleton('Magento_FullPageCache_Model_Container_PlaceholderFactory')
+        $placeholder = $this->_fpcPlacehldrFactory
             ->create('WISHLISTS');
 
-        $blockContainer = Mage::getModel(
-            'Magento_FullPageCache_Model_Container_Wishlists', array('placeholder' => $placeholder)
-        );
+        $blockContainer = $this->_fpcWishlistsFactory->create(array('placeholder' => $placeholder));
         $this->_fpcCache->remove($blockContainer->getCacheId());
 
         return $this;
@@ -657,8 +735,10 @@ class Magento_FullPageCache_Model_Observer
     public function registerDesignExceptionsChange(Magento_Event_Observer $observer)
     {
         $object = $observer->getDataObject();
-        $this->_fpcCache->save($object->getValue(), Magento_FullPageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY,
-                array(Magento_FullPageCache_Model_Processor::CACHE_TAG));
+        $this->_fpcCache->save(
+            $object->getValue(), Magento_FullPageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY,
+            array(Magento_FullPageCache_Model_Processor::CACHE_TAG)
+        );
         return $this;
     }
 
@@ -696,9 +776,9 @@ class Magento_FullPageCache_Model_Observer
             return $this;
         }
         $url = $transport->getUrl();
-        $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
+        $httpHost = $this->_application->getFrontController()->getRequest()->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
-        if ($httpHost != $urlHost && Mage::getSingleton('Magento_Core_Model_Session')->getMessages()->count() > 0) {
+        if ($httpHost != $urlHost && $this->_coreSession->getMessages()->count() > 0) {
             $transport->setUrl(
                 $this->_coreUrl->addRequestParam($url, array(
                     Magento_FullPageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM => null

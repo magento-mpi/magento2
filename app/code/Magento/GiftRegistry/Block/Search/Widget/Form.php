@@ -19,9 +19,36 @@ class Magento_GiftRegistry_Block_Search_Widget_Form
     implements Magento_Widget_Block_Interface
 {
     /**
+     * @var Magento_GiftRegistry_Model_Source_Search
+     */
+    protected $sourceSearch;
+
+    /**
      * Search form select options
      */
     protected $_selectOptions;
+
+    /**
+     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_GiftRegistry_Model_Source_Search $sourceSearch
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GiftRegistry_Helper_Data $giftRegistryData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_GiftRegistry_Model_TypeFactory $typeFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_GiftRegistry_Model_Source_Search $sourceSearch,
+        array $data = array()
+    ) {
+        parent::__construct($giftRegistryData, $coreData, $context, $typeFactory, $storeManager, $data);
+        $this->sourceSearch = $sourceSearch;
+    }
 
     /**
      * Make form types getter always return array
@@ -130,7 +157,7 @@ class Magento_GiftRegistry_Block_Search_Widget_Form
     public function getSearchFormOptions()
     {
         if (is_null($this->_selectOptions)) {
-            $allForms = Mage::getSingleton('Magento_GiftRegistry_Model_Source_Search')->getTypes();
+            $allForms = $this->sourceSearch->getTypes();
             $useForms = $this->_getFormTypes();
             $codeAll = Magento_GiftRegistry_Model_Source_Search::SEARCH_ALL_FORM;
 

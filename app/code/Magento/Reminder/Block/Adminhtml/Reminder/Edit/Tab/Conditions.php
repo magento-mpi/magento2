@@ -15,6 +15,34 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * Fieldset block
+     *
+     * @var Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset
+     */
+    protected $_fieldsetBlock;
+
+    /**
+     * Conditions block
+     *
+     * @var Magento_Rule_Block_Conditions
+     */
+    protected $_conditionsBlock;
+
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset $fieldsetBlock,
+        Magento_Rule_Block_Conditions $conditionsBlock,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_fieldsetBlock = $fieldsetBlock;
+        $this->_conditionsBlock = $conditionsBlock;
+    }
+
+    /**
      * Prepare conditions form
      *
      * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
@@ -25,7 +53,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 
-        $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer = $this->_fieldsetBlock
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/reminder/newConditionHtml/form/rule_conditions_fieldset'));
         $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
@@ -36,7 +64,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
+        ))->setRule($model)->setRenderer($this->_conditionsBlock);
 
         $form->setValues($model->getData());
         $this->setForm($form);

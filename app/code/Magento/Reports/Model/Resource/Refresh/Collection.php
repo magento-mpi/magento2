@@ -18,6 +18,32 @@
  */
 class Magento_Reports_Model_Resource_Refresh_Collection extends Magento_Data_Collection
 {
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Reports_Model_FlagFactory
+     */
+    protected $_reportsFlagFactory;
+
+    /**
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Reports_Model_FlagFactory $reportsFlagFactory
+     */
+    public function __construct(
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Reports_Model_FlagFactory $reportsFlagFactory
+    ) {
+        parent::__construct($entityFactory);
+        $this->_locale = $locale;
+        $this->_reportsFlagFactory = $reportsFlagFactory;
+    }
+
     /**
      * Get if updated
      *
@@ -26,9 +52,12 @@ class Magento_Reports_Model_Resource_Refresh_Collection extends Magento_Data_Col
      */
     protected function _getUpdatedAt($reportCode)
     {
-        $flag = Mage::getModel('Magento_Reports_Model_Flag')->setReportFlagCode($reportCode)->loadSelf();
+        $flag = $this->_reportsFlagFactory
+            ->create()
+            ->setReportFlagCode($reportCode)
+            ->loadSelf();
         return ($flag->hasData())
-            ? Mage::app()->getLocale()
+            ? $this->_locale
                 ->storeDate(0, new Zend_Date($flag->getLastUpdate(), Magento_Date::DATETIME_INTERNAL_FORMAT), true)
             : '';
     }

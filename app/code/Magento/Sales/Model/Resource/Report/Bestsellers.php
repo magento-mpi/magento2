@@ -30,19 +30,24 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
     /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Reports_Model_FlagFactory $reportsFlagFactory
      * @param Magento_Catalog_Model_Resource_Product $productResource
      * @param Magento_Sales_Model_Resource_Helper_Mysql4 $salesResourceHelper
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Reports_Model_FlagFactory $reportsFlagFactory,
         Magento_Catalog_Model_Resource_Product $productResource,
         Magento_Sales_Model_Resource_Helper_Mysql4 $salesResourceHelper
     ) {
-        parent::__construct($logger, $resource);
+        parent::__construct($logger, $resource, $locale, $reportsFlagFactory);
         $this->_productResource = $productResource;
         $this->_salesResourceHelper = $salesResourceHelper;
     }
+
 
     /**
      * Model initialization

@@ -27,12 +27,30 @@
 class Magento_Invitation_Model_Invitation_History extends Magento_Core_Model_Abstract
 {
     /**
-     * Initialize model
+     * Invitation Status
      *
-     * @return void
+     * @var Magento_Invitation_Model_Source_Invitation_Status
      */
-    protected function _construct()
-    {
+    protected $_invitationStatus;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Invitation_Model_Source_Invitation_Status $invitationStatus
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Invitation_Model_Source_Invitation_Status $invitationStatus,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_invitationStatus = $invitationStatus;
         $this->_init('Magento_Invitation_Model_Resource_Invitation_History');
     }
 
@@ -43,9 +61,7 @@ class Magento_Invitation_Model_Invitation_History extends Magento_Core_Model_Abs
      */
     public function getStatusText()
     {
-        return Mage::getSingleton('Magento_Invitation_Model_Source_Invitation_Status')->getOptionText(
-            $this->getStatus()
-        );
+        return $this->_invitationStatus->getOptionText($this->getStatus());
     }
 
     /**

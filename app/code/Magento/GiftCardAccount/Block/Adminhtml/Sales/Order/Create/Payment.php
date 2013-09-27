@@ -18,19 +18,27 @@ class Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment extends
     protected $_giftCardAccountData = null;
 
     /**
+     * @var Magento_Adminhtml_Model_Sales_Order_Create
+     */
+    protected $_orderCreate = null;
+
+    /**
      * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
      * @param array $data
      */
     public function __construct(
         Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
         array $data = array()
     ) {
-        $this->_giftCardAccountData = $giftCardAccountData;
         parent::__construct($coreData, $context, $data);
+        $this->_giftCardAccountData = $giftCardAccountData;
+        $this->_orderCreate = $orderCreate;
     }
 
     /**
@@ -40,13 +48,13 @@ class Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment extends
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
+        return $this->_orderCreate;
     }
 
     public function getGiftCards()
     {
         $result = array();
-        $quote = $this->_getOrderCreateModel()->getQuote();
+        $quote = $this->_orderCreate->getQuote();
         $cards = $this->_giftCardAccountData->getCards($quote);
         foreach ($cards as $card) {
             $result[] = $card['c'];
@@ -69,8 +77,11 @@ class Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment extends
 
     public function isFullyPaid()
     {
-        $quote = $this->_getOrderCreateModel()->getQuote();
-        if (!$quote->getGiftCardsAmount() || $quote->getBaseGrandTotal() > 0 || $quote->getCustomerBalanceAmountUsed() > 0) {
+        $quote = $this->_orderCreate->getQuote();
+        if (!$quote->getGiftCardsAmount()
+            || $quote->getBaseGrandTotal() > 0
+            || $quote->getCustomerBalanceAmountUsed() > 0
+        ) {
             return false;
         }
 
