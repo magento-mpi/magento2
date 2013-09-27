@@ -10,10 +10,6 @@
 
 /**
  * User-attributes block for RMA Item  in Admin RMA edit
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Widget_Form_Generic
 {
@@ -22,14 +18,26 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Wi
      *
      * @var Magento_Rma_Helper_Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
 
     /**
+     * @var Magento_Rma_Model_Item_FormFactory
+     */
+    protected $_itemFormFactory;
+
+    /**
+     * @var Magento_Sales_Model_Order_ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
+     * @param Magento_Sales_Model_Order_ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
@@ -38,9 +46,13 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Wi
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
+        Magento_Sales_Model_Order_ItemFactory $itemFactory,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
+        $this->_itemFormFactory = $itemFormFactory;
+        $this->_itemFactory = $itemFactory;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -63,8 +75,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Wi
             $this->_populateItemWithProductData($item);
         }
 
-        /* @var $customerForm Magento_Customer_Model_Form */
-        $customerForm = Mage::getModel('Magento_Rma_Model_Item_Form');
+        /* @var $customerForm Magento_Rma_Model_Item_Form */
+        $customerForm = $this->_itemFormFactory->create();
         $customerForm->setEntity($item)
             ->setFormCode('default')
             ->initDefaultValues();
@@ -154,7 +166,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Wi
     protected function _populateItemWithProductData($item)
     {
         if ($this->getProductId()) {
-            $orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')->load($this->getProductId());
+            /** @var $orderItem Magento_Sales_Model_Order_Item */
+            $orderItem = $this->_itemFactory->create()->load($this->getProductId());
             if ($orderItem && $orderItem->getId()) {
                 $item->setProductAdminName($this->_rmaData->getAdminProductName($orderItem));
             }

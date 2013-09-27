@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 /** @var Magento_Newsletter_Model_Template $template */
-$template = Mage::getModel('Magento_Newsletter_Model_Template');
+$template = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Newsletter_Model_Template');
 
 $templateData = array(
     'template_code'=>'some_unique_code',

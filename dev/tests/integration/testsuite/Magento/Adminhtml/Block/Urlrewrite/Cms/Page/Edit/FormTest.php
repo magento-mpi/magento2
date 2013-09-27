@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
     protected function _getFormInstance($args = array())
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form */
         $block = $layout->createBlock(
             'Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', 'block', array('data' => $args)

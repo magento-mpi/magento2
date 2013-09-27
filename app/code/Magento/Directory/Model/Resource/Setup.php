@@ -23,15 +23,15 @@ class Magento_Directory_Model_Resource_Setup extends Magento_Core_Model_Resource
     protected $_directoryData;
 
     /**
-     * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_Directory_Helper_Data $directoryData
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Directory_Helper_Data $directoryData,
         $resourceName,
         $moduleName = 'Magento_Directory',
         $connectionName = ''

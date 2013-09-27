@@ -15,6 +15,9 @@
         <param name="schemaLocator">
             <instance type="Magento_Widget_Model_Config_SchemaLocator" />
         </param>
+        <param name="fileResolver">
+            <instance type="Magento_Widget_Model_Config_FileResolver" />
+        </param>
     </type>
     <type name="Magento_Widget_Model_Config_Data">
         <param name='reader'>
@@ -35,7 +38,7 @@
     <type name="Magento_Core_Model_Db_Updater">
         <param name="resourceList">
             <value>
-                <widget_setup>Magento_Widget_Model_Resource_Setup</widget_setup>
+                <widget_setup>Magento_Core_Model_Resource_Setup_Generic</widget_setup>
             </value>
         </param>
     </type>

@@ -50,6 +50,30 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
     );
 
     /**
+     * @var Magento_SalesArchive_Model_Resource_Helper
+     */
+    protected $_salesHelper;
+
+    /**
+     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_SalesArchive_Model_Resource_Helper $salesHelper
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_SalesArchive_Model_Resource_Helper $salesHelper,
+        $resourceName,
+        $moduleName = "Magento_SalesArchive",
+        $connectionName = ''
+    ) {
+        $this->_salesHelper = $salesHelper;
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
+    }
+
+
+    /**
      * Run each time after applying of all updates,
      * if setup model setted  $_callAfterApplyAllUpdates flag to true
      *
@@ -181,9 +205,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
-        $helper = Mage::getResourceHelper('Magento_SalesArchive');
-        $helper->changeColumnPosition($table, $column, $after, $first);
-
+        $this->_salesHelper->changeColumnPosition($table, $column, $after, $first);
         return $this;
     }
 

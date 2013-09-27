@@ -25,8 +25,6 @@ mkdir(TESTS_TEMP_DIR);
 
 Magento_Phrase::setRenderer(new Magento_Phrase_Renderer_Placeholder());
 
-Mage::setIsSerializable(false);
-
 function tool_autoloader($className)
 {
     if (strpos($className, 'Magento\\Tools\\') === false) {

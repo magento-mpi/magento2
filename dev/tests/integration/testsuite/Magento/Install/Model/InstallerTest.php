@@ -28,7 +28,8 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_tmpDir = Mage::getBaseDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
+        self::$_tmpDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+            ->getDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
         self::$_tmpConfigFile = self::$_tmpDir . DIRECTORY_SEPARATOR . 'local.xml';
         mkdir(self::$_tmpDir);
     }
@@ -40,7 +41,8 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Install_Model_Installer');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Install_Model_Installer');
     }
 
     /**
@@ -76,7 +78,8 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User');
         $user->loadByUsername($userName);
         $this->assertEmpty($user->getId());
 
@@ -167,10 +170,12 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
         $this->_model->finish();
 
         /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getModel('Magento_Core_Model_Cache_StateInterface');
+        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Cache_StateInterface');
 
         /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
+        $cacheTypeList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Cache_TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
         foreach ($types as $type) {
             $this->assertTrue(

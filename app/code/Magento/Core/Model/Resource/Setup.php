@@ -1,15 +1,11 @@
 <?php
 /**
+ * Resource Setup Model
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Resource Setup Model
  */
 class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_SetupInterface
 {

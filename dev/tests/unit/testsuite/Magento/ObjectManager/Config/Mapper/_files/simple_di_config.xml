@@ -13,7 +13,7 @@
     <preference for="Magento_Core_Model_AppInterface" type="Magento_Core_Model_App_Proxy" />
     <type name="Magento_Core_Model_App_State">
         <param name="mode">
-            <value type="argument">Mage::PARAM_MODE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_MODE</value>
         </param>
     </type>
     <type name="Magento_Core_Model_Config_Modules">
@@ -45,7 +45,7 @@
             </value>
         </param>
     </type>
-    <type name="Varien_Data_Collection_Db_FetchStrategy_Cache">
+    <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cacheIdPrefix"><value><![CDATA[collection_]]></value></param>
         <param name="cacheLifetime"><value>86400</value></param>
         <param name="cacheTags">

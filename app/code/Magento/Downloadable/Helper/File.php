@@ -63,7 +63,7 @@ class Magento_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
                         $baseTmpPath, $basePath, $file[0]['file']
                     );
                 } catch (Exception $e) {
-                    Mage::throwException(__('Something went wrong while saving the file(s).'));
+                    throw new Magento_Core_Exception(__('Something went wrong while saving the file(s).'));
                 }
             }
             return $fileName;

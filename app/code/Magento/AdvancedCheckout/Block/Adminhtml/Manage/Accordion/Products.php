@@ -29,6 +29,20 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     protected $_productFactory;
 
     /**
+     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Stock_Status
+     */
+    protected $_catalogStockStatus;
+
+    /**
+     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -39,6 +53,9 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
      * @param array $data
      */
     public function __construct(
+        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -49,6 +66,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
         array $data = array()
     ) {
         parent::__construct(
+            $collectionFactory,
             $coreData,
             $context,
             $storeManager,
@@ -56,6 +74,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
             $coreRegistry,
             $data
         );
+        $this->_catalogStockStatus = $catalogStockStatus;
+        $this->_catalogConfig = $catalogConfig;
         $this->_coreConfig = $coreConfig;
         $this->_productFactory = $productFactory;
     }
@@ -91,7 +111,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+            $attributes = $this->_catalogConfig->getProductAttributes();
             $collection = $this->_productFactory->create()->getCollection()
                 ->setStore($this->_getStore())
                 ->addAttributeToSelect($attributes)
@@ -103,7 +123,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
                     )
                 )->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
                 ->addStoreFilter($this->_getStore());
-            Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
+            $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->getData('items_collection');

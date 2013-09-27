@@ -24,15 +24,15 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
     protected $_indexerConfig;
 
     /**
-     * @param Magento_Index_Model_Indexer_ConfigInterface $indexerConfig
      * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_Index_Model_Indexer_ConfigInterface $indexerConfig
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Index_Model_Indexer_ConfigInterface $indexerConfig,
         Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Index_Model_Indexer_ConfigInterface $indexerConfig,
         $resourceName,
         $moduleName = 'Magento_Index',
         $connectionName = ''

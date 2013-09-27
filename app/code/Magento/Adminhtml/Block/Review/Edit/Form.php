@@ -21,6 +21,24 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
     protected $_reviewData = null;
 
     /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
@@ -29,6 +47,9 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Review_Helper_Data $reviewData,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
@@ -37,14 +58,17 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
+        $this->_customerFactory = $customerFactory;
+        $this->_productFactory = $productFactory;
+        $this->_systemStore = $systemStore;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     protected function _prepareForm()
     {
         $review = $this->_coreRegistry->registry('review_data');
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($review->getEntityPkValue());
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($review->getCustomerId());
+        $product = $this->_productFactory->create()->load($review->getEntityPkValue());
+        $customer = $this->_customerFactory->create()->load($review->getCustomerId());
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create(array(
@@ -111,12 +135,12 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->hasSingleStore()) {
+        if (!$this->_storeManager->hasSingleStore()) {
             $field = $fieldset->addField('select_stores', 'multiselect', array(
                 'label'     => __('Visible In'),
                 'required'  => true,
                 'name'      => 'stores[]',
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values'    => $this->_systemStore->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
@@ -125,9 +149,9 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
         } else {
             $fieldset->addField('select_stores', 'hidden', array(
                 'name'      => 'stores[]',
-                'value'     => Mage::app()->getStore(true)->getId()
+                'value'     => $this->_storeManager->getStore(true)->getId()
             ));
-            $review->setSelectStores(Mage::app()->getStore(true)->getId());
+            $review->setSelectStores($this->_storeManager->getStore(true)->getId());
         }
 
         $fieldset->addField('nickname', 'text', array(

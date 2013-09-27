@@ -38,18 +38,18 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
         //print '@@';
         if ( $post = $this->getRequest()->getPost() ) {
             try {
-                $model = Mage::getModel('Magento_Poll_Model_Poll_Answer');
+                $model = $this->_objectManager->create('Magento_Poll_Model_Poll_Answer');
                 $model->setData($post)
                     ->setId($this->getRequest()->getParam('id'))
                     ->save();
 
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(
                     __('The answer has been saved.'));
                 $this->_redirect('*/poll/edit',
                                  array('id' => $this->getRequest()->getParam('poll_id'), 'tab' => 'answers_section'));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
                 if( trim($data['answer_title']) == '' ) {
                     throw new Exception(__('Invalid Answer'));
                 }
-                $model = Mage::getModel('Magento_Poll_Model_Poll_Answer');
+                $model = $this->_objectManager->create('Magento_Poll_Model_Poll_Answer');
                 $model->setData($data)
                     ->save();
             } catch (Exception $e) {
@@ -93,7 +93,7 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
 
         if ( $id = $this->getRequest()->getParam('id') ) {
             try {
-                $model = Mage::getModel('Magento_Poll_Model_Poll_Answer');
+                $model = $this->_objectManager->create('Magento_Poll_Model_Poll_Answer');
                 $model->setId(Zend_Json::decode($id))
                     ->delete();
             } catch (Exception $e) {

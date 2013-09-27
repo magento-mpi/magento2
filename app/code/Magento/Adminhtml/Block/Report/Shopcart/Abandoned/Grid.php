@@ -17,6 +17,30 @@
  */
 class Magento_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Magento_Adminhtml_Block_Report_Grid_Shopcart
 {
+    /**
+     * @var Magento_Reports_Model_Resource_Quote_CollectionFactory
+     */
+    protected $_quotesFactory;
+
+    /**
+     * @param Magento_Reports_Model_Resource_Quote_CollectionFactory $quotesFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reports_Model_Resource_Quote_CollectionFactory $quotesFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_quotesFactory = $quotesFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -27,7 +51,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Magento_Adm
     protected function _prepareCollection()
     {
         /** @var $collection Magento_Reports_Model_Resource_Quote_Collection */
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Quote_Collection');
+        $collection = $this->_quotesFactory->create();
 
         $filter = $this->getParam($this->getVarNameFilter(), array());
         if ($filter) {
@@ -95,9 +119,9 @@ class Magento_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Magento_Adm
         ));
 
         if ($this->getRequest()->getParam('website')) {
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
         } else if ($this->getRequest()->getParam('group')) {
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = $this->_storeManager->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         } else if ($this->getRequest()->getParam('store')) {
             $storeIds = array((int)$this->getRequest()->getParam('store'));
         } else {

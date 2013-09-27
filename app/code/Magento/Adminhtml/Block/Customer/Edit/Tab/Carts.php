@@ -51,7 +51,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Carts extends Magento_Backend_Bl
             $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Cart',
                 $blockName, array('data' => array('website_id' => $websiteId)));
             if ($isShared) {
-                $block->setCartHeader(__('Shopping Cart from %1', Mage::app()->getWebsite($websiteId)->getName()));
+                $websiteName = $this->_storeManager->getWebsite($websiteId)->getName();
+                $block->setCartHeader(__('Shopping Cart from %1', $websiteName));
             }
             $this->setChild($blockName, $block);
         }

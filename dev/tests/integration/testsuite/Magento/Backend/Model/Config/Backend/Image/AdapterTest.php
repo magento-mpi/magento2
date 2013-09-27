@@ -19,7 +19,8 @@ class Magento_Backend_Model_Config_Backend_Image_AdapterTest extends PHPUnit_Fra
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Magento_Backend_Model_Config_Backend_Image_Adapter');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Config_Backend_Image_Adapter');
     }
 
     /**

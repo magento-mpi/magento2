@@ -129,20 +129,20 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     protected $_filesystem;
 
     /**
+     * @param Magento_Core_Model_Resource_Setup_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Data $helper
-     * @param Magento_Core_Model_Resource_Setup_Context $context
      * @param Magento_Core_Model_Dir $dir
      * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
+        Magento_Core_Model_Resource_Setup_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Data $helper,
-        Magento_Core_Model_Resource_Setup_Context $context,
         Magento_Core_Model_Dir $dir,
         $resourceName,
         $moduleName = 'Magento_Core',

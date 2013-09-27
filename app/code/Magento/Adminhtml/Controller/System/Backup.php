@@ -117,7 +117,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             }
 
             if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
-                $backupManager->setRootDir(Mage::getBaseDir())
+                $backupManager->setRootDir($this->_objectManager->get('Magento_Core_Model_Dir')->getDir())
                     ->addIgnorePaths($helper->getBackupIgnorePaths());
             }
 
@@ -158,7 +158,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
     public function downloadAction()
     {
         /* @var $backup Magento_Backup_Model_Backup */
-        $backup = Mage::getModel('Magento_Backup_Model_Backup')->loadByTimeAndType(
+        $backup = $this->_objectManager->create('Magento_Backup_Model_Backup')->loadByTimeAndType(
             $this->getRequest()->getParam('time'),
             $this->getRequest()->getParam('type')
         );
@@ -198,7 +198,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
         try {
             /* @var $backup Magento_Backup_Model_Backup */
-            $backup = Mage::getModel('Magento_Backup_Model_Backup')->loadByTimeAndType(
+            $backup = $this->_objectManager->create('Magento_Backup_Model_Backup')->loadByTimeAndType(
                 $this->getRequest()->getParam('time'),
                 $this->getRequest()->getParam('type')
             );
@@ -218,11 +218,11 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
                 ->setTime($backup->getTime())
                 ->setBackupsDir($helper->getBackupsDir())
                 ->setName($backup->getName(), false)
-                ->setResourceModel(Mage::getResourceModel('Magento_Backup_Model_Resource_Db'));
+                ->setResourceModel($this->_objectManager->create('Magento_Backup_Model_Resource_Db'));
 
             $this->_coreRegistry->register('backup_manager', $backupManager);
 
-            $passwordValid = Mage::getModel('Magento_Backup_Model_Backup')->validateUserPassword(
+            $passwordValid = $this->_objectManager->create('Magento_Backup_Model_Backup')->validateUserPassword(
                 $this->getRequest()->getParam('password')
             );
 
@@ -248,7 +248,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
             if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
 
-                $backupManager->setRootDir(Mage::getBaseDir())
+                $backupManager->setRootDir($this->_objectManager->get('Magento_Core_Model_Dir')->getDir())
                     ->addIgnorePaths($helper->getRollbackIgnorePaths());
 
                 if ($this->getRequest()->getParam('use_ftp', false)) {
@@ -310,7 +310,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         }
 
         /** @var $backupModel Magento_Backup_Model_Backup */
-        $backupModel = Mage::getModel('Magento_Backup_Model_Backup');
+        $backupModel = $this->_objectManager->create('Magento_Backup_Model_Backup');
         $resultData = new Magento_Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());

@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry Search Results List" type="page" parent="magento_giftregistry_search_index">
     <update handle="page_calendar"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_GiftRegistry_Block_Search_Form" name="giftregistry.search.form" template="search/form.phtml"/>
         <block class="Magento_GiftRegistry_Block_Search_Results" name="giftregistry.search.results" template="search/results.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

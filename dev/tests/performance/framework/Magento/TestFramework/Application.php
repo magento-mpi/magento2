@@ -96,21 +96,9 @@ class Magento_TestFramework_Application
     {
         $this->_shell->execute('php -f %s -- --uninstall', array($this->_installerScript));
 
-        $this->_cleanupMage();
         $this->_isInstalled = false;
         $this->_fixtures = array();
 
-        return $this;
-    }
-
-    /**
-     * Clean the application, so next time it will load itself again (i.e. after uninstall)
-     *
-     * @return Magento_TestFramework_Application
-     */
-    protected function _cleanupMage()
-    {
-        Mage::reset();
         return $this;
     }
 

@@ -35,7 +35,8 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_RevisionTest extends Mag
      */
     public function testDropAction()
     {
-        $storeId = Mage::app()->getAnyStoreView(); // fixture design_change
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getAnyStoreView(); // fixture design_change
         $this->getRequest()->setParam('preview_selected_store', $storeId);
 
         /** @var $page Magento_Cms_Model_Page */

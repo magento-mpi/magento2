@@ -10,13 +10,42 @@
 
 /**
  * RMA Grid
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
+    /**
+     * @var Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Magento_Rma_Model_RmaFactory
+     */
+    protected $_rmaFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
+     * @param Magento_Rma_Model_RmaFactory $rmaFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
+        Magento_Rma_Model_RmaFactory $rmaFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_rmaFactory = $rmaFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     /**
      * Initialize grid
      */
@@ -48,7 +77,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Adminhtml_Block_Widge
     protected function _beforePrepareCollection()
     {
         if (!$this->getCollection()) {
-            $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection');
+            /** @var $collection Magento_Rma_Model_Resource_Rma_Grid_Collection */
+            $collection = $this->_collectionFactory->create();
             $this->setCollection($collection);
         }
         return $this;
@@ -101,12 +131,13 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Adminhtml_Block_Widge
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
-
+        /** @var $rmaModel Magento_Rma_Model_Rma */
+        $rmaModel = $this->_rmaFactory->create();
         $this->addColumn('status', array(
             'header'  => __('Status'),
             'index'   => 'status',
             'type'    => 'options',
-            'options' => Mage::getModel('Magento_Rma_Model_Rma')->getAllStatuses(),
+            'options' => $rmaModel->getAllStatuses(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

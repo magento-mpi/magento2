@@ -18,7 +18,8 @@ class Magento_User_Model_Resource_Role_Grid_CollectionTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_User_Model_Resource_Role_Grid_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_Resource_Role_Grid_Collection');
     }
 
     public function testGetItems()

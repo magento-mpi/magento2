@@ -11,7 +11,7 @@
     <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_Updater" />
     <type name="Magento_Core_Model_Config_Loader_Local">
         <param name="customFile">
-            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_FILE</value>
         </param>
         <param name="customConfig">
             <instance shared="true" type="Magento_Core_Model_Config_Storage_Modules" />
@@ -30,7 +30,7 @@
     </type>
     <virtualType name="Magento_Core_Model_Config_Loader_LocalVirtual" type="Magento_Core_Model_Config_Loader_Local" shared="false">
         <param name="customFile">
-            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_FILE</value>
         </param>
         <param name="customConfig">
             <instance type="Magento_Core_Model_Config_Storage_Modules" />
@@ -47,7 +47,7 @@
         <plugin name="one" type="somePluginOne" sortOrder="10" />
         <plugin name="two" type="somePluginTwo"/>
     </virtualType>
-    <type name="Varien_Data_Collection_Db_FetchStrategy_Cache">
+    <type name="Magento_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cacheIdPrefix"><value><![CDATA[collection_]]></value></param>
         <param name="cacheLifetime"><value>86400</value></param>
         <param name="cacheTags">

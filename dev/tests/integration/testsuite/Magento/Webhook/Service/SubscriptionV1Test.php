@@ -40,7 +40,8 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
             'secret'    => 'secret',
         );
         /** @var Magento_Webhook_Model_Webapi_User_Factory $webapiUserFactory */
-        $webapiUserFactory = Mage::getModel('Magento_Webhook_Model_Webapi_User_Factory');
+        $webapiUserFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Webapi_User_Factory');
         $this->_apiUserId = $webapiUserFactory->createUser($userContext, array('webhook/create'));
 
         $this->_subscriptionData = array(
@@ -56,7 +57,8 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     protected function tearDown()
     {
         /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Mage::getModel('Magento_Webapi_Model_Acl_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Acl_User');
         $user->load($this->_apiUserId);
         $user->delete();
     }
@@ -64,7 +66,8 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     public function testCreate()
     {
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $resultData = $service->create($this->_subscriptionData);
 
         // verify
@@ -81,7 +84,8 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
         unset($this->_subscriptionData[self::KEY_API_USER_ID]);
 
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $resultData = $service->create($this->_subscriptionData);
 
         $this->assertTrue($resultData['subscription_id'] > 0);
@@ -95,7 +99,8 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     {
         $this->_subscriptionData[self::KEY_TOPICS] = array('invalid/topic', 'also/invalid/topic');
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $resultData = $service->create($this->_subscriptionData);
 
         $this->assertTrue($resultData['subscription_id'] > 0);
@@ -104,12 +109,14 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     public function testGet()
     {
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->save();
 
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $resultData = $service->get($subscription->getId());
 
         $this->assertEquals($subscription->getId(), $resultData['subscription_id']);
@@ -123,24 +130,28 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     public function testGetNotFound()
     {
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $service->get(0);
     }
 
     public function testGetAll()
     {
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $first = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $first = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $first->setData($this->_subscriptionData);
         $first->save();
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $second = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $second = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $second->setData($this->_subscriptionData);
         $second->save();
 
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $subscriptions = $service->getAll($this->_apiUserId);
 
         $this->assertEquals($first->getId(), $subscriptions[0]['subscription_id']);
@@ -151,14 +162,16 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     {
         $newUrl = self::VALUE_ENDPOINT_URL . '/plus/this';
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->save();
         $subscriptionData = $subscription->getData();
         $subscriptionData[self::KEY_ENDPOINT_URL] = $newUrl;
 
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $resultData = $service->update($subscriptionData);
 
         $this->assertEquals($subscription->getId(), $resultData['subscription_id']);
@@ -169,12 +182,14 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     public function testDelete()
     {
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->save();
 
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $resultData = $service->delete($subscription->getId());
 
         $this->assertEquals($subscription->getId(), $resultData['subscription_id']);
@@ -182,7 +197,8 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
         $this->assertEquals(self::VALUE_NAME, $resultData[self::KEY_NAME]);
 
 
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->load($resultData['subscription_id']);
         $this->assertEquals(0, $subscription->getId());
     }
@@ -190,14 +206,16 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     public function testActivate()
     {
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->save();
         // verify initial state
         $this->assertEquals(Magento_Webhook_Model_Subscription::STATUS_INACTIVE, $subscription->getStatus());
 
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $subscriptionData = $service->activate($subscription->getId());
 
         // verify change
@@ -209,7 +227,8 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     public function testDeactivate()
     {
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE);
         $subscription->save();
@@ -217,7 +236,8 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
         $this->assertEquals(Magento_Webhook_Model_Subscription::STATUS_ACTIVE, $subscription->getStatus());
 
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $subscriptionData = $service->deactivate($subscription->getId());
 
         // verify change
@@ -229,7 +249,8 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     public function testRevoke()
     {
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setData($this->_subscriptionData);
         $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE);
         $subscription->save();
@@ -237,7 +258,8 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
         $this->assertEquals(Magento_Webhook_Model_Subscription::STATUS_ACTIVE, $subscription->getStatus());
 
         /** @var Magento_Webhook_Service_SubscriptionV1 $service */
-        $service = Mage::getModel('Magento_Webhook_Service_SubscriptionV1');
+        $service = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Service_SubscriptionV1');
         $subscriptionData = $service->revoke($subscription->getId());
 
         // verify change

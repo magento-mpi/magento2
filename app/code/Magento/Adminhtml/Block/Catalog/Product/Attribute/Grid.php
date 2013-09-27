@@ -18,13 +18,38 @@
 class Magento_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
 {
     /**
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Prepare product attributes grid collection object
      *
      * @return Magento_Adminhtml_Block_Catalog_Product_Attribute_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
+        $collection = $this->_collectionFactory->create()
             ->addVisibleFilter();
         $this->setCollection($collection);
 

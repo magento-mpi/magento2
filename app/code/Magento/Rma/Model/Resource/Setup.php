@@ -8,16 +8,42 @@
  * @license     {license_link}
  */
 
-
 /**
  * Rma resource setup model
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
 {
+    /**
+     * @var Magento_Catalog_Model_Resource_SetupFactory
+     */
+    protected $_catalogSetupFactory;
+
+    /**
+     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
+        $resourceName,
+        $moduleName = 'Magento_Rma',
+        $connectionName = ''
+    ) {
+        $this->_catalogSetupFactory = $catalogSetupFactory;
+        parent::__construct(
+            $context, $cache, $migrationFactory, $coreData, $resourceName, $moduleName, $connectionName
+        );
+    }
+
     /**
      * Prepare RMA item attribute values to save in additional table
      *
@@ -216,5 +242,14 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
         if ($data) {
             $this->getConnection()->insertMultiple($this->getTable('magento_rma_item_form_attribute'), $data);
         }
+    }
+
+    /**
+     * @param array $data
+     * @return Magento_Catalog_Model_Resource_Setup
+     */
+    public function getCatalogSetup(array $data = array())
+    {
+        return $this->_catalogSetupFactory->create($data);
     }
 }

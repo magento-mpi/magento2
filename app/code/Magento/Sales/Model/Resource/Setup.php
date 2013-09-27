@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Setup Model of Sales Module
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
 {
@@ -24,33 +19,32 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     protected $_coreData;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Core_Model_Resource_Setup_MigrationFactory
      */
-    protected $_config;
+    protected $_migrationFactory;
 
     /**
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param Magento_Core_Helper_Data $coreData
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Config $config,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Core_Helper_Data $coreData,
         $resourceName,
         $moduleName = 'Magento_Sales',
         $connectionName = ''
     ) {
-        $this->_config = $config;
+        $this->_migrationFactory = $migrationFactory;
         $this->_coreData = $coreData;
-        parent::__construct($cache, $context, $resourceName, $moduleName, $connectionName);
+        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
     }
-
 
     /**
      * List of entities converted from EAV to flat data structure
@@ -246,6 +240,8 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     }
 
     /**
+     * Get Core Helper
+     *
      * @return Magento_Core_Helper_Data
      */
     public function getCoreData()
@@ -261,5 +257,16 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     public function getConfigModel()
     {
         return $this->_config;
+    }
+
+    /**
+     * Get migration instance
+     *
+     * @param array $data
+     * @return Magento_Core_Model_Resource_Setup_Migration
+     */
+    public function getMigrationSetup(array $data = array())
+    {
+        return $this->_migrationFactory->create($data);
     }
 }

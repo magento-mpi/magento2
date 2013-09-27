@@ -15,16 +15,20 @@
  */
 
 /** @var $connection Magento_TestFramework_Db_Adapter_TransactionInterface */
-$connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('core_write');
+$connection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource')
+    ->getConnection('core_write');
 $connection->commitTransparentTransaction();
 
-$entityType = Mage::getModel('Magento_Eav_Model_Config')->getEntityType('customer_address');
+$entityType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Eav_Model_Config')->getEntityType('customer_address');
 /** @var $entityType Magento_Eav_Model_Entity_Type */
 
-$attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
+$attributeSet = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Eav_Model_Entity_Attribute_Set');
 /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
 
-$attribute = Mage::getModel('Magento_Customer_Model_Attribute',
+$attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Customer_Model_Attribute',
     array(
         'data' => array(
             'frontend_input'     => 'text',
@@ -46,7 +50,8 @@ $attribute->setAttributeCode('fixture_address_attribute');
 $attribute->save();
 
 $addressData = include(__DIR__ . '/../../../Magento/Sales/_files/address_data.php');
-$billingAddress = Mage::getModel('Magento_Sales_Model_Order_Address', array('data' => $addressData));
+$billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Sales_Model_Order_Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 $billingAddress->setData($attribute->getAttributeCode(), 'fixture_attribute_custom_value');
 $billingAddress->save();

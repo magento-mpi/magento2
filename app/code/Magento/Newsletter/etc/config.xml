@@ -30,9 +30,6 @@
                 </newsletter_subscription_un_email_template>
             </email>
         </template>
-        <newsletter>
-            <tempate_filter>Magento_Newsletter_Model_Template_Filter</tempate_filter>
-        </newsletter>
     </global>
     <default>
         <newsletter>

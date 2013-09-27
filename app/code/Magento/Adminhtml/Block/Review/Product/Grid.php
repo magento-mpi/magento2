@@ -17,6 +17,49 @@
  */
 class Magento_Adminhtml_Block_Review_Product_Grid extends Magento_Adminhtml_Block_Catalog_Product_Grid
 {
+    /**
+     * @var Magento_Core_Model_Resource_Website_CollectionFactory
+     */
+    protected $_websitesFactory;
+
+    /**
+     * @param Magento_Core_Model_Resource_Website_CollectionFactory $websitesFactory
+     * @param Magento_Core_Model_WebsiteFactory $websiteFactory
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setsFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Product_Type $type
+     * @param Magento_Catalog_Model_Product_Status $status
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_Website_CollectionFactory $websitesFactory,
+        Magento_Core_Model_WebsiteFactory $websiteFactory,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setsFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Product_Type $type,
+        Magento_Catalog_Model_Product_Status $status,
+        Magento_Catalog_Model_Product_Visibility $visibility,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_websitesFactory = $websitesFactory;
+        parent::__construct(
+            $websiteFactory, $setsFactory, $productFactory, $type, $status, $visibility, $catalogData, $coreData,
+            $context, $storeManager, $urlModel, $data
+        );
+    }
 
     protected function _construct()
     {
@@ -70,13 +113,13 @@ class Magento_Adminhtml_Block_Review_Product_Grid extends Magento_Adminhtml_Bloc
                 'index'     => 'status',
                 'type'      => 'options',
                 'source'    => 'Magento_Catalog_Model_Product_Status',
-                'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
+                'options'   => $this->_status->getOptionArray(),
         ));
 
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
                     'header'=> __('Websites'),
@@ -84,7 +127,7 @@ class Magento_Adminhtml_Block_Review_Product_Grid extends Magento_Adminhtml_Bloc
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => Mage::getModel('Magento_Core_Model_Website')->getCollection()->toOptionHash(),
+                    'options'   => $this->_websitesFactory->create()->toOptionHash(),
             ));
         }
     }

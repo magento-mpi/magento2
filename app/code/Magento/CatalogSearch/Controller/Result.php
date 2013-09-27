@@ -14,13 +14,44 @@
 class Magento_CatalogSearch_Controller_Result extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog session
+     *
+     * @var Magento_Catalog_Model_Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Catalog_Model_Session $catalogSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Catalog_Model_Session $catalogSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        $this->_catalogSession = $catalogSession;
+        $this->_storeManager = $storeManager;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve catalog session
      *
      * @return Magento_Catalog_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Session');
+        return $this->_catalogSession;
     }
     /**
      * Display search result
@@ -30,7 +61,7 @@ class Magento_CatalogSearch_Controller_Result extends Magento_Core_Controller_Fr
         $query = $this->_objectManager->get('Magento_CatalogSearch_Helper_Data')->getQuery();
         /* @var $query Magento_CatalogSearch_Model_Query */
 
-        $query->setStoreId(Mage::app()->getStore()->getId());
+        $query->setStoreId($this->_storeManager->getStore()->getId());
 
         if ($query->getQueryText() != '') {
             if ($this->_objectManager->get('Magento_CatalogSearch_Helper_Data')->isMinQueryLength()) {

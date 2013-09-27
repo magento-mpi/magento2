@@ -13,7 +13,8 @@ class Magento_Paypal_Model_Report_SettlementTest extends PHPUnit_Framework_TestC
     public function testFetchAndSave()
     {
         /** @var $model Magento_Paypal_Model_Report_Settlement; */
-        $model = Mage::getModel('Magento_Paypal_Model_Report_Settlement');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Paypal_Model_Report_Settlement');
         $connection = $this->getMock('Magento_Io_Sftp', array('rawls', 'read'), array(), '', false);
         $filename = 'STL-00000000.00.abc.CSV';
         $connection->expects($this->once())->method('rawls')->will($this->returnValue(array($filename => array())));

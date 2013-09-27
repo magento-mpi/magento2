@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer Account Logout Success" type="page" parent="customer_account">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Core_Block_Template" name="customer_logout" template="Magento_Customer::logout.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

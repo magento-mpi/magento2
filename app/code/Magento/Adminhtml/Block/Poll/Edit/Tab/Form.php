@@ -14,6 +14,45 @@
 
 class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_adminhtmlSession;
+
+    /**
+     * @param Magento_Backend_Model_Session $adminhtmlSession
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Model_Session $adminhtmlSession,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_storeManager = $context->getStoreManager();
+        $this->_systemStore = $systemStore;
+        $this->_adminhtmlSession = $adminhtmlSession;
+    }
+
     protected function _prepareForm()
     {
         /** @var Magento_Data_Form $form */
@@ -43,12 +82,12 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Backend_Block_W
             ),
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('store_ids', 'multiselect', array(
                 'label'     => __('Visible In'),
                 'required'  => true,
                 'name'      => 'store_ids[]',
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values'    => $this->_systemStore->getStoreValuesForForm(),
                 'value'     => $this->_coreRegistry->registry('poll_data')->getStoreIds()
             ));
             $renderer = $this->getLayout()
@@ -57,15 +96,15 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Backend_Block_W
         } else {
             $fieldset->addField('store_ids', 'hidden', array(
                 'name'      => 'store_ids[]',
-                'value'     => Mage::app()->getStore(true)->getId()
+                'value'     => $this->_storeManager->getStore(true)->getId()
             ));
-            $this->_coreRegistry->registry('poll_data')->setStoreIds(Mage::app()->getStore(true)->getId());
+            $this->_coreRegistry->registry('poll_data')->setStoreIds($this->_storeManager->getStore(true)->getId());
         }
 
 
-        if (Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPollData()) {
-            $form->setValues(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPollData());
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPollData(null);
+        if ($this->_adminhtmlSession->getPollData()) {
+            $form->setValues($this->_adminhtmlSession->getPollData());
+            $this->_adminhtmlSession->setPollData(null);
         } elseif($this->_coreRegistry->registry('poll_data')) {
             $form->setValues($this->_coreRegistry->registry('poll_data')->getData());
 

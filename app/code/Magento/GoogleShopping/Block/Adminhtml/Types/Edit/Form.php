@@ -12,7 +12,7 @@
  * Adminhtml Google Content types mapping form block
  */
 
-class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Backend_Block_Widget_Form
+class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * @var Magento_GoogleShopping_Helper_Category|null
@@ -37,6 +37,38 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
     protected $_coreRegistry = null;
 
     /**
+     * Config
+     *
+     * @var Magento_GoogleShopping_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * EAV attribute set collection factory
+     *
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory
+     */
+    protected $_eavCollectionFactory;
+
+    /**
+     * Type collection factory
+     *
+     * @var Magento_GoogleShopping_Model_Resource_Type_CollectionFactory
+     */
+    protected $_typeCollectionFactory;
+
+    /**
+     * @param Magento_GoogleShopping_Model_Resource_Type_CollectionFactory $typeCollectionFactory
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavCollectionFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_GoogleShopping_Model_Config $config
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Data_Form_Element_Factory $elementFactory
      * @param Magento_GoogleShopping_Helper_Category $googleShoppingCategory
@@ -46,6 +78,10 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
      * @param array $data
      */
     public function __construct(
+        Magento_GoogleShopping_Model_Resource_Type_CollectionFactory $typeCollectionFactory,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavCollectionFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_GoogleShopping_Model_Config $config,
         Magento_Data_Form_Factory $formFactory,
         Magento_Data_Form_Element_Factory $elementFactory,
         Magento_GoogleShopping_Helper_Category $googleShoppingCategory,
@@ -54,11 +90,15 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_typeCollectionFactory = $typeCollectionFactory;
+        $this->_eavCollectionFactory = $eavCollectionFactory;
+        $this->_productFactory = $productFactory;
+        $this->_config = $config;
         $this->_coreRegistry = $registry;
         $this->_googleShoppingCategory = $googleShoppingCategory;
         $this->_elementFactory = $elementFactory;
         $this->_formFactory = $formFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -167,7 +207,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
      */
     protected function _getCountriesArray()
     {
-        $_allowed = Mage::getSingleton('Magento_GoogleShopping_Model_Config')->getAllowedCountries();
+        $_allowed = $this->_config->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[$iso] = $info['name'];
@@ -183,16 +223,13 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
      */
     protected function _getAttributeSetsArray($targetCountry)
     {
-        $entityType = Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getEntityType();
-        $collection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter($entityType->getId());
+        $entityType = $this->_productFactory->create()->getResource()->getEntityType();
+        $collection = $this->_eavCollectionFactory->create()->setEntityTypeFilter($entityType->getId());
 
         $ids = array();
         $itemType = $this->getItemType();
         if (!($itemType instanceof Magento_Object && $itemType->getId())) {
-            $typesCollection = Mage::getResourceModel('Magento_GoogleShopping_Model_Resource_Type_Collection')
-                ->addCountryFilter($targetCountry)
-                ->load();
+            $typesCollection = $this->_typeCollectionFactory->create()->addCountryFilter($targetCountry)->load();
             foreach ($typesCollection as $type) {
                 $ids[] = $type->getAttributeSetId();
             }

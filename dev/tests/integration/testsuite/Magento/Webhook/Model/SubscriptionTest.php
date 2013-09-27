@@ -78,7 +78,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
 
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $this->assertEmpty($subscription->getTopics(),
             "New subscription shouldn't be subscribed on any hooks.");
 
@@ -102,7 +103,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testHasTopic()
     {
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setTopics(array(self::HOOK_IN_CONFIG))
             ->save();
 
@@ -114,7 +116,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
         //setup
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_INACTIVE)
             ->save();
 
@@ -131,7 +134,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
         //setup
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
             ->save();
 
@@ -148,7 +152,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
         //setup
         /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription');
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription');
         $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
             ->save();
 

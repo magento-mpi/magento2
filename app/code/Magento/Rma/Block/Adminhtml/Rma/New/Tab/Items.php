@@ -23,13 +23,18 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Backend_Bloc
      *
      * @var Magento_Rma_Helper_Eav
      */
-    protected $_rmaEav = null;
+    protected $_rmaEav;
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Rma_Model_Item_FormFactory
+     */
+    protected $_itemFormFactory;
 
     /**
      * @param Magento_Rma_Helper_Eav $rmaEav
@@ -37,6 +42,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Backend_Bloc
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
      * @param array $data
      */
     public function __construct(
@@ -45,10 +51,12 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Backend_Bloc
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaEav = $rmaEav;
+        $this->_itemFormFactory = $itemFormFactory;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -140,8 +148,9 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Backend_Bloc
             'class' => 'validate-greater-than-zero'
         ));
 
-        $reasonOtherAttribute =
-            Mage::getModel('Magento_Rma_Model_Item_Form')->setFormCode('default')->getAttribute('reason_other');
+        /** @var $itemForm Magento_Rma_Model_Item_Form */
+        $itemForm = $this->_itemFormFactory->create();
+        $reasonOtherAttribute = $itemForm->setFormCode('default')->getAttribute('reason_other');
 
         $fieldset->addField('reason_other', 'text', array(
             'label'     => $reasonOtherAttribute->getStoreLabel(),

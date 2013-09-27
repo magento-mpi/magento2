@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 /** @var $address Magento_Sales_Model_Order_Address */
-$address = Mage::getModel('Magento_Sales_Model_Order_Address');
+$address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Sales_Model_Order_Address');
 $address->setRegion('CA')
     ->setPostcode('90210')
     ->setFirstname('a_unique_firstname')

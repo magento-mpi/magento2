@@ -26,8 +26,11 @@ class Magento_Service_ResourceNotFoundException extends Magento_Service_Exceptio
         $parameters = array(),
         $resourceId = null
     ) {
-        if (!$message && $resourceId) {
-            $message = "Resource with ID '{$resourceId}' not found.";
+        if ($resourceId) {
+            $parameters = array_merge($parameters, array('resource_id' => $resourceId));
+            if (!$message) {
+                $message = "Resource with ID '{$resourceId}' not found.";
+            }
         }
         parent::__construct($message, $code, $previous, $parameters);
     }

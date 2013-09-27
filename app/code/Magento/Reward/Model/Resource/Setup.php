@@ -26,6 +26,37 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     protected $_currentEntityTypeId;
 
     /**
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Cms_Model_PageFactory $pageFactory,
+        $resourceName,
+        $moduleName = 'Magento_Reward',
+        $connectionName = ''
+    ) {
+        $this->_pageFactory = $pageFactory;
+        parent::__construct(
+            $context, $cache, $migrationFactory, $coreData, $resourceName, $moduleName, $connectionName
+        );
+    }
+
+    /**
      * Add attribute to an entity type
      * If attribute is system will add to all existing attribute sets
      *
@@ -38,6 +69,14 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     {
         $this->_currentEntityTypeId = $entityTypeId;
         return parent::addAttribute($entityTypeId, $code, $attr);
+    }
+
+    /**
+     * @return Magento_Cms_Model_Page
+     */
+    public function getPage()
+    {
+        return $this->_pageFactory->create();
     }
 
     /**

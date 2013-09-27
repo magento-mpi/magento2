@@ -21,7 +21,7 @@ class Magento_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testCleanJs($area, $designMode, $expectedAssets)
     {
-        $layout = Mage::app()->getLayout();
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $headBlock Magento_Page_Block_Html_Head */
         $headBlock = $layout->createBlock('Magento_Page_Block_Html_Head', 'head');
         $headBlock->setData('vde_design_mode', $designMode);

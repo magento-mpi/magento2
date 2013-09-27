@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_AdvancedCheckout_Helper_Data">
+        <param name="session">
+            <instance type="Magento_Backend_Model_Session_Proxy"/>
+        </param>
+    </type>
+</config>

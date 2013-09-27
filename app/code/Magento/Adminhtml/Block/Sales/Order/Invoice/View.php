@@ -32,17 +32,25 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View extends Magento_Adminhtml
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @param Magento_Backend_Model_Auth_Session $backendSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Auth_Session $backendSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_backendSession = $backendSession;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -52,7 +60,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View extends Magento_Adminhtml
         $this->_objectId    = 'invoice_id';
         $this->_controller  = 'sales_order_invoice';
         $this->_mode        = 'view';
-        $this->_session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $this->_session = $this->_backendSession;
 
         parent::_construct();
 

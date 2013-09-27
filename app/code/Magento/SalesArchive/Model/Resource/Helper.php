@@ -19,6 +19,14 @@
 class Magento_SalesArchive_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
 {
     /**
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'SalesArchive')
+    {
+        parent::__construct($modulePrefix);
+    }
+
+    /**
      * Change columns position
      *
      * @param string $table
@@ -41,7 +49,7 @@ class Magento_SalesArchive_Model_Resource_Helper extends Magento_Core_Model_Reso
         }
 
         if (!$this->_getWriteAdapter()->isTableExists($table)) {
-            Mage::throwException(__("We can't find the table."));
+            throw new Magento_Core_Exception(__("We can't find the table."));
         }
 
         $columns = array();
@@ -52,9 +60,9 @@ class Magento_SalesArchive_Model_Resource_Helper extends Magento_Core_Model_Reso
         }
 
         if (!isset($columns[$column])) {
-            Mage::throwException(__('Column not found'));
+            throw new Magento_Core_Exception(__('Column not found'));
         } elseif ($after && !isset($columns[$after])) {
-            Mage::throwException(__('Positioning column not found'));
+            throw new Magento_Core_Exception(__('Positioning column not found'));
         }
 
         if ($after) {

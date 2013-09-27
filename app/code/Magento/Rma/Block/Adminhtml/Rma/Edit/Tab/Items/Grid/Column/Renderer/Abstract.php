@@ -10,14 +10,29 @@
 
 /**
  * Grid column widget for rendering action grid cells depending on item status
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstract
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
+    /**
+     * @var Magento_Rma_Model_Item_Status
+     */
+    protected $_itemStatus;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Rma_Model_Item_Status $itemStatus
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Rma_Model_Item_Status $itemStatus,
+        array $data = array()
+    ) {
+        $this->_itemStatus = $itemStatus;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Renders column
      *
@@ -28,11 +43,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstra
      */
     public function render(Magento_Object $row)
     {
-        $statusManager = Mage::getSingleton('Magento_Rma_Model_Item_Status');
-        $statusManager->setStatus($row->getStatus());
-        $this->setStatusManager($statusManager);
+        $this->_itemStatus->setStatus($row->getStatus());
+        $this->setStatusManager($this->_itemStatus);
 
-        if ($statusManager->getAttributeIsEditable($this->getColumn()->getIndex())) {
+        if ($this->_itemStatus->getAttributeIsEditable($this->getColumn()->getIndex())) {
             return $this->_getEditableView($row);
         } else {
             return $this->_getNonEditableView($row);

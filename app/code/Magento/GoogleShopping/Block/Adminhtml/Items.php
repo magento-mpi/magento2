@@ -21,6 +21,30 @@ class Magento_GoogleShopping_Block_Adminhtml_Items extends Magento_Adminhtml_Blo
     protected $_template = 'items.phtml';
 
     /**
+     * Flag factory
+     *
+     * @var Magento_GoogleShopping_Model_FlagFactory
+     */
+    protected $_flagFactory;
+
+    /**
+     * @param Magento_GoogleShopping_Model_FlagFactory $flagFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GoogleShopping_Model_FlagFactory $flagFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_flagFactory = $flagFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
+    /**
      * Preparing layout
      *
      * @return Magento_GoogleShopping_Block_Adminhtml_Items
@@ -74,7 +98,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items extends Magento_Adminhtml_Blo
      */
     public function isProcessRunning()
     {
-        $flag = Mage::getModel('Magento_GoogleShopping_Model_Flag')->loadSelf();
+        $flag = $this->_flagFactory->create()->loadSelf();
         return $flag->isLocked();
     }
 

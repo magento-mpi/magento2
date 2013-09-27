@@ -10,12 +10,7 @@
 
 /**
  * Admin RMA create order grid block
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
@@ -37,16 +32,22 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
      *
      * @var Magento_Rma_Helper_Eav
      */
-    protected $_rmaEav = null;
+    protected $_rmaEav;
 
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * @var Magento_Rma_Model_Item_Status
+     */
+    protected $_itemStatus;
+
+    /**
+     * @param Magento_Rma_Model_Item_Status $itemStatus
      * @param Magento_Rma_Helper_Eav $rmaEav
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -56,6 +57,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Item_Status $itemStatus,
         Magento_Rma_Helper_Eav $rmaEav,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -66,6 +68,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
+        $this->_itemStatus = $itemStatus;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -130,13 +133,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
      */
     protected function _prepareColumns()
     {
-        $statusManager = Mage::getSingleton('Magento_Rma_Model_Item_Status');
         $rma = $this->_coreRegistry->registry('current_rma');
         if ($rma
             && (($rma->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED)
                 || ($rma->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED))
         ) {
-            $statusManager->setOrderIsClosed();
+            $this->_itemStatus->setOrderIsClosed();
         }
 
         $this->addColumn('product_admin_name', array(
@@ -362,8 +364,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
      */
     public function setAllFieldsEditable()
     {
-        Mage::getSingleton('Magento_Rma_Model_Item_Status')->setAllEditable();
+        $this->_itemStatus->setAllEditable();
         return $this;
     }
-
 }

@@ -24,23 +24,23 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
     protected $_customerAddress;
 
     /**
-     * @param Magento_Customer_Helper_Address $customerAddress
-     * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Customer_Helper_Address $customerAddress
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Customer_Helper_Address $customerAddress,
-        Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Customer_Helper_Address $customerAddress,
         $resourceName,
         $moduleName = 'Magento_Checkout',
         $connectionName = ''
     ) {
         $this->_customerAddress = $customerAddress;
-        parent::__construct($cache, $context, $resourceName, $moduleName, $connectionName);
+        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
     }
 
 

@@ -16,15 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
     /**
      * Eav data
      *
@@ -33,30 +27,31 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
     protected $_eavData = null;
 
     /**
-     * @var Magento_Data_Form_Factory
+     * @var Magento_Backend_Model_Config_Source_Yesno
      */
-    protected $_formFactory;
+    protected $_yesNo;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Backend_Model_Config_Source_Yesno $yesNo
      * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
+        Magento_Backend_Model_Config_Source_Yesno $yesNo,
         Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        $this->_formFactory = $formFactory;
+        $this->_yesNo = $yesNo;
         $this->_eavData = $eavData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
@@ -82,7 +77,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             )
         );
 
-        $yesno = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesno = $this->_yesNo->toOptionArray();
 
         $validateClass = sprintf(
             'validate-code validate-length maximum-length-%d',
@@ -126,7 +121,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             )
         );
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField(
             'default_value_date',
             'date',
@@ -183,7 +178,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             }
         }
 
-        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = $this->_yesNo->toOptionArray();
 
         $scopes = array(
             Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>__('Store View'),

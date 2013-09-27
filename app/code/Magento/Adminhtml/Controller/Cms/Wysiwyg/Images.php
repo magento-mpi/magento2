@@ -39,7 +39,7 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
     /**
      * Init storage
      *
-     * @return Magento_Adminhtml_Cms_Page_Wysiwyg_ImagesController
+     * @return Magento_Adminhtml_Controller_Cms_Wysiwyg_Images
      */
     protected function _initAction()
     {
@@ -206,7 +206,7 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
     public function getStorage()
     {
         if (!$this->_coreRegistry->registry('storage')) {
-            $storage = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
+            $storage = $this->_objectManager->create('Magento_Cms_Model_Wysiwyg_Images_Storage');
             $this->_coreRegistry->register('storage', $storage);
         }
         return $this->_coreRegistry->registry('storage');
@@ -215,7 +215,7 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
     /**
      * Save current path in session
      *
-     * @return Magento_Adminhtml_Cms_Page_Wysiwyg_ImagesController
+     * @return Magento_Adminhtml_Controller_Cms_Wysiwyg_Images
      */
     protected function _saveSessionCurrentPath()
     {

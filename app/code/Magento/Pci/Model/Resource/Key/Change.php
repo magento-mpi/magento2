@@ -37,18 +37,34 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * @var Magento_Backend_Model_Config_Structure
+     */
+    protected $_structure;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Backend_Model_Config_Structure $structure
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Resource $resource,
-        Magento_Filesystem $filesystem
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Dir $dir,
+        Magento_Backend_Model_Config_Structure $structure
     ) {
         $this->_coreData = $coreData;
+        $this->_dir = $dir;
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
+        $this->_structure = $structure;
     }
 
     /**
@@ -98,9 +114,9 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
      */
     public function changeEncryptionKey($key = null)
     {
-        $this->_filesystem->setWorkingDirectory(Mage::getBaseDir('etc'));
+        $this->_filesystem->setWorkingDirectory($this->_dir->getDir(Magento_Core_Model_Dir::CONFIG));
         // prepare new key, encryptor and new file contents
-        $file = Mage::getBaseDir('etc') . DS . 'local.xml';
+        $file = $this->_dir->getDir(Magento_Core_Model_Dir::CONFIG) . DS . 'local.xml';
 
         if (!$this->_filesystem->isWritable($file)) {
             throw new Exception(__('File %1 is not writeable.', $file));
@@ -139,7 +155,7 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
     {
         // look for encrypted node entries in all system.xml files
         /** @var Magento_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
+        $configStructure = $this->_structure;
         $paths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
             'Magento_Backend_Model_Config_Backend_Encrypted'

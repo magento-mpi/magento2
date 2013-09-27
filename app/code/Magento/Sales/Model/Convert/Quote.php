@@ -10,14 +10,9 @@
 
 /**
  * Quote data convert model
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Convert_Quote extends Magento_Object
 {
-
     /**
      * Core data
      *
@@ -33,30 +28,63 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Sales_Model_Order_AddressFactory
+     */
+    protected $_orderAddressFactory;
+
+    /**
+     * @var Magento_Sales_Model_Order_PaymentFactory
+     */
+    protected $_orderPaymentFactory;
+
+    /**
+     * @var Magento_Sales_Model_Order_ItemFactory
+     */
+    protected $_orderItemFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Sales_Model_Order_AddressFactory $orderAddressFactory
+     * @param Magento_Sales_Model_Order_PaymentFactory $orderPaymentFactory
+     * @param Magento_Sales_Model_Order_ItemFactory $orderItemFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Sales_Model_Order_AddressFactory $orderAddressFactory,
+        Magento_Sales_Model_Order_PaymentFactory $orderPaymentFactory,
+        Magento_Sales_Model_Order_ItemFactory $orderItemFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
+        $this->_orderFactory = $orderFactory;
+        $this->_orderAddressFactory = $orderAddressFactory;
+        $this->_orderPaymentFactory = $orderPaymentFactory;
+        $this->_orderItemFactory = $orderItemFactory;
         parent::__construct($data);
     }
 
     /**
      * Convert quote model to order model
      *
-     * @param   Magento_Sales_Model_Quote $quote
-     * @return  Magento_Sales_Model_Order
+     * @param Magento_Sales_Model_Quote $quote
+     * @param null|Magento_Sales_Model_Order $order
+     * @return Magento_Sales_Model_Order
      */
-    public function toOrder(Magento_Sales_Model_Quote $quote, $order=null)
+    public function toOrder(Magento_Sales_Model_Quote $quote, $order = null)
     {
         if (!($order instanceof Magento_Sales_Model_Order)) {
-            $order = Mage::getModel('Magento_Sales_Model_Order');
+            $order = $this->_orderFactory->create();
         }
         /* @var $order Magento_Sales_Model_Order */
 
@@ -67,17 +95,18 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             ->setCustomer($quote->getCustomer());
 
         $this->_coreData->copyFieldsetToTarget('sales_convert_quote', 'to_order', $quote, $order);
-        $this->_eventManager->dispatch('sales_convert_quote_to_order', array('order'=>$order, 'quote'=>$quote));
+        $this->_eventManager->dispatch('sales_convert_quote_to_order', array('order' => $order, 'quote' => $quote));
         return $order;
     }
 
     /**
      * Convert quote address model to order
      *
-     * @param   Magento_Sales_Model_Quote $quote
+     * @param Magento_Sales_Model_Quote_Address $address
+     * @param null|Magento_Sales_Model_Order $order
      * @return  Magento_Sales_Model_Order
      */
-    public function addressToOrder(Magento_Sales_Model_Quote_Address $address, $order=null)
+    public function addressToOrder(Magento_Sales_Model_Quote_Address $address, $order = null)
     {
         if (!($order instanceof Magento_Sales_Model_Order)) {
             $order = $this->toOrder($address->getQuote());
@@ -90,7 +119,10 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
             $order
         );
 
-        $this->_eventManager->dispatch('sales_convert_quote_address_to_order', array('address'=>$address, 'order'=>$order));
+        $this->_eventManager->dispatch('sales_convert_quote_address_to_order', array(
+            'address' => $address,
+            'order' => $order
+        ));
         return $order;
     }
 
@@ -102,7 +134,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
      */
     public function addressToOrderAddress(Magento_Sales_Model_Quote_Address $address)
     {
-        $orderAddress = Mage::getModel('Magento_Sales_Model_Order_Address')
+        $orderAddress = $this->_orderAddressFactory->create()
             ->setStoreId($address->getStoreId())
             ->setAddressType($address->getAddressType())
             ->setCustomerId($address->getCustomerId())
@@ -129,7 +161,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
      */
     public function paymentToOrderPayment(Magento_Sales_Model_Quote_Payment $payment)
     {
-        $orderPayment = Mage::getModel('Magento_Sales_Model_Order_Payment')
+        $orderPayment = $this->_orderPaymentFactory->create()
             ->setStoreId($payment->getStoreId())
             ->setCustomerPaymentId($payment->getCustomerPaymentId());
 
@@ -151,7 +183,7 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
      */
     public function itemToOrderItem(Magento_Sales_Model_Quote_Item_Abstract $item)
     {
-        $orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')
+        $orderItem = $this->_orderItemFactory->create()
             ->setStoreId($item->getStoreId())
             ->setQuoteItemId($item->getId())
             ->setQuoteParentItemId($item->getParentItemId())
@@ -186,7 +218,6 @@ class Magento_Sales_Model_Convert_Quote extends Magento_Object
                 $orderItem
             );
         }
-
         return $orderItem;
     }
 }

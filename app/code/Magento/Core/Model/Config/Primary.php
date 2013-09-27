@@ -44,8 +44,8 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
         $this->_params = $params;
         $this->_dir = $dir ?: new Magento_Core_Model_Dir(
             $baseDir,
-            $this->getParam(Mage::PARAM_APP_URIS, array()),
-            $this->getParam(Mage::PARAM_APP_DIRS, array())
+            $this->getParam(Magento_Core_Model_App::PARAM_APP_URIS, array()),
+            $this->getParam(Magento_Core_Model_App::PARAM_APP_DIRS, array())
         );
         Magento_Autoload_IncludePath::addIncludePath(array(
             $this->_dir->getDir(Magento_Core_Model_Dir::GENERATION)
@@ -146,7 +146,6 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
                 )
             ),
         ));
-
 
         $dynamicConfigurators = $this->getNode('global/configurators');
         if ($dynamicConfigurators) {

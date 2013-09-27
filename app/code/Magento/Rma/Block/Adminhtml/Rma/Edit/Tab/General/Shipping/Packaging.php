@@ -10,12 +10,7 @@
 
 /**
  * Shipment packaging
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extends Magento_Backend_Block_Template
 {
     /**
@@ -44,7 +39,17 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Usa_Model_Shipping_Carrier_Usps_Source_SizeFactory
+     */
+    protected $_sizeFactory;
 
     /**
      * @param Magento_Usa_Helper_Data $usaData
@@ -52,6 +57,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Usa_Model_Shipping_Carrier_Usps_Source_SizeFactory $sizeFactory
      * @param array $data
      */
     public function __construct(
@@ -60,11 +67,15 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Usa_Model_Shipping_Carrier_Usps_Source_SizeFactory $sizeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_usaData = $usaData;
         $this->_rmaData = $rmaData;
+        $this->_orderFactory = $orderFactory;
+        $this->_sizeFactory = $sizeFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -227,8 +238,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
             $carrier    = $this->_rmaData->getCarrier($carrierCode, $storeId);
             $countryId  = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
 
-            $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
-            $shipperAddress     = $order->getShippingAddress();
+            /** @var $order Magento_Sales_Model_Order */
+            $order = $this->_orderFactory->create()->load($this->getRma()->getOrderId());
+            $shipperAddress = $order->getShippingAddress();
              if ($carrier) {
                 $params = new Magento_Object(array(
                     'method'            => $methodCode,
@@ -269,7 +281,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
      */
     public function getShippingCarrierUspsSourceSize()
     {
-        return Mage::getModel('Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size')->toOptionArray();
+        /** @var $size Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size */
+        $size = $this->_sizeFactory->create();
+        return $size->toOptionArray();
     }
 
     /**

@@ -32,7 +32,7 @@
             <value type="argument">Magento_Core_Model_App_State::PARAM_INSTALL_DATE</value>
         </param>
         <param name="mode">
-            <value type="argument">Mage::PARAM_MODE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_MODE</value>
         </param>
     </type>
     <type name="Magento_Core_Model_Config_ValidationState">
@@ -42,33 +42,33 @@
     </type>
     <type name="Magento_Core_Model_Config_Loader_Local">
         <param name="customFile">
-            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_FILE</value>
         </param>
         <param name="customConfig">
-            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_CONFIG</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
     </type>
     <type name="Magento_Core_Model_Module_Declaration_Reader_Filesystem">
         <param name="allowedModules">
-            <value type="argument">Mage::PARAM_ALLOWED_MODULES</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_ALLOWED_MODULES</value>
         </param>
     </type>
     <type name="Magento_Core_Model_Cache_Frontend_Factory">
         <param name="enforcedOptions">
-            <value type="argument">Mage::PARAM_CACHE_OPTIONS</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_CACHE_OPTIONS</value>
         </param>
     </type>
     <type name="Magento_Core_Model_Cache_State">
         <param name="banAll">
-            <value type="argument">Mage::PARAM_BAN_CACHE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_BAN_CACHE</value>
         </param>
     </type>
     <type name="Magento_Core_Model_StoreManager">
         <param name="scopeCode">
-            <value type="argument">Mage::PARAM_RUN_CODE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_RUN_CODE</value>
         </param>
         <param name="scopeType">
-            <value type="argument">Mage::PARAM_RUN_TYPE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_RUN_TYPE</value>
         </param>
     </type>
     <type name="Magento_Core_Model_Cache">
@@ -167,7 +167,7 @@
             <instance type="Magento_Core_Model_Config_Modules_Reader_Proxy" />
         </param>
         <param name="mode">
-            <value type="argument">Mage::PARAM_MODE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_MODE</value>
         </param>
     </type>
     <type name="Magento_Core_Model_ObjectManager_ConfigCache">

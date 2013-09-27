@@ -33,14 +33,37 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
     protected $_eventObject    = 'order_collection';
 
     /**
+     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     */
+    protected $_coreResourceHelper;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->_coreResourceHelper = $coreResourceHelper;
+    }
+
+    /**
      * Model initialization
-     *
      */
     protected function _construct()
     {
         $this->_init('Magento_Sales_Model_Order', 'Magento_Sales_Model_Resource_Order');
-        $this
-            ->addFilterToMap('entity_id', 'main_table.entity_id')
+        $this->addFilterToMap('entity_id', 'main_table.entity_id')
             ->addFilterToMap('customer_id', 'main_table.customer_id')
             ->addFilterToMap('quote_address_id', 'main_table.quote_address_id');
     }
@@ -135,7 +158,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
                     $shippingAliasName . '.postcode'
                 )
             );
-        Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect());
+        $this->_coreResourceHelper->prepareColumnsList($this->getSelect());
         return $this;
     }
 
@@ -177,7 +200,6 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
         if (is_array($attributes) && !empty($attributes)) {
             $this->_addAddressFields();
 
-            $toFilterData = array();
             foreach ($attributes as $attribute) {
                 $this->addFieldToSearchFilter($this->_attributeToField($attribute['attribute']), $attribute);
             }

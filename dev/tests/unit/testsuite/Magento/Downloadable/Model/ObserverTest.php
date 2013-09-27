@@ -32,9 +32,17 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('jsonEncode'))
             ->disableOriginalConstructor()
             ->getMock();
+        $itemsFactory = $this->getMock('Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory',
+            array(), array(), '', false
+        );
         $this->_model = new Magento_Downloadable_Model_Observer(
             $this->_helperJsonEncode,
-            $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false)
+            $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
+            $this->getMock('Magento_Downloadable_Model_Link_PurchasedFactory', array(), array(), '', false),
+            $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false),
+            $this->getMock('Magento_Downloadable_Model_Link_Purchased_ItemFactory', array(), array(), '', false),
+            $this->getMock('Magento_Checkout_Model_Session', array(), array(), '', false),
+            $itemsFactory
         );
     }
 
@@ -124,7 +132,7 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_setObserverExpectedMethods($currentProduct, $newProduct);
 
-        $callbackJsonEncode = function($arg) {
+        $callbackJsonEncode = function ($arg) {
             return json_encode($arg);
         };
         $this->_helperJsonEncode->expects($this->atLeastOnce())

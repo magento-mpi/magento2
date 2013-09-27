@@ -21,10 +21,10 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
-            if(!Mage::getSingleton('Magento_Customer_Model_Session')->getBeforeUrl()) {
-                Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeUrl($this->_getRefererUrl());
+            if(!$this->_objectManager->get('Magento_Customer_Model_Session')->getBeforeUrl()) {
+                $this->_objectManager->get('Magento_Customer_Model_Session')->setBeforeUrl($this->_getRefererUrl());
             }
         }
     }
@@ -32,13 +32,13 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
     public function testObserverAction()
     {
         $object = new Magento_Object();
-        $observer = Mage::getSingleton('Magento_ProductAlert_Model_Observer');
+        $observer = $this->_objectManager->get('Magento_ProductAlert_Model_Observer');
         $observer->process($object);
     }
 
     public function priceAction()
     {
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
+        $session = $this->_objectManager->get('Magento_Catalog_Model_Session');
         $backUrl    = $this->getRequest()->getParam(Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
@@ -46,7 +46,7 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
             return ;
         }
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+        $product = $this->_objectManager->create('Magento_Catalog_Model_Product')->load($productId);
         if (!$product->getId()) {
             /* @var $product Magento_Catalog_Model_Product */
             $session->addError(__('There are not enough parameters.'));
@@ -59,11 +59,13 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
         }
 
         try {
-            $model  = Mage::getModel('Magento_ProductAlert_Model_Price')
-                ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getId())
+            $model = $this->_objectManager->create('Magento_ProductAlert_Model_Price')
+                ->setCustomerId($this->_objectManager->get('Magento_Customer_Model_Session')->getId())
                 ->setProductId($product->getId())
                 ->setPrice($product->getFinalPrice())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+                ->setWebsiteId(
+                    $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getWebsiteId()
+                );
             $model->save();
             $session->addSuccess(__('You saved the alert subscription.'));
         }
@@ -75,7 +77,7 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
 
     public function stockAction()
     {
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
+        $session = $this->_objectManager->get('Magento_Catalog_Model_Session');
         /* @var $session Magento_Catalog_Model_Session */
         $backUrl    = $this->getRequest()->getParam(Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
@@ -84,7 +86,7 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
             return ;
         }
 
-        if (!$product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId)) {
+        if (!$product = $this->_objectManager->create('Magento_Catalog_Model_Product')->load($productId)) {
             /* @var $product Magento_Catalog_Model_Product */
             $session->addError(__('There are not enough parameters.'));
             $this->_redirectUrl($backUrl);
@@ -92,10 +94,12 @@ class Magento_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_
         }
 
         try {
-            $model = Mage::getModel('Magento_ProductAlert_Model_Stock')
-                ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getId())
+            $model = $this->_objectManager->create('Magento_ProductAlert_Model_Stock')
+                ->setCustomerId($this->_objectManager->get('Magento_Customer_Model_Session')->getId())
                 ->setProductId($product->getId())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+                ->setWebsiteId(
+                    $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getWebsiteId()
+                );
             $model->save();
             $session->addSuccess(__('Alert subscription has been saved.'));
         }

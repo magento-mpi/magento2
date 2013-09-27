@@ -25,6 +25,19 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rma_Model_ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var Magento_Rma_Model_Item_FormFactory
+     */
+    protected $_itemFormFactory;
+
+    /**
+     * @param Magento_Rma_Model_ItemFactory $itemFactory
+     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
+     * @param Magento_Core_Model_Session $coreSession
      * @param Magento_Core_Model_Factory $modelFactory
      * @param Magento_Eav_Model_Form_Factory $formFactory
      * @param Magento_Rma_Helper_Data $rmaData
@@ -35,6 +48,9 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_ItemFactory $itemFactory,
+        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
+        Magento_Core_Model_Session $coreSession,
         Magento_Core_Model_Factory $modelFactory,
         Magento_Eav_Model_Form_Factory $formFactory,
         Magento_Rma_Helper_Data $rmaData,
@@ -44,8 +60,11 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreSession = $coreSession;
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
+        $this->_itemFactory = $itemFactory;
+        $this->_itemFormFactory = $itemFormFactory;
         parent::__construct($modelFactory, $formFactory, $eavConfig, $coreData, $context, $data);
     }
 
@@ -60,14 +79,13 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
         $items = $this->_rmaData->getOrderItems($order);
         $this->setItems($items);
 
-        $session = Mage::getSingleton('Magento_Core_Model_Session');
-        $formData = $session->getRmaFormData(true);
+        $formData = $this->_coreSession->getRmaFormData(true);
         if (!empty($formData)) {
             $data = new Magento_Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
-        $errorKeys = $session->getRmaErrorKeys(true);
+        $errorKeys = $this->_coreSession->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
             $data = new Magento_Object();
             $data->addData($errorKeys);
@@ -94,7 +112,7 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
 
     public function getBackUrl()
     {
-        return Mage::getUrl('sales/order/history');
+        return $this->_urlBuilder->getUrl('sales/order/history');
     }
 
 
@@ -105,11 +123,11 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
      */
     public function getAttributes()
     {
-        /* @var $itemModel */
-        $itemModel = Mage::getModel('Magento_Rma_Model_Item');
+        /* @var $itemModel Magento_Rma_Model_Item */
+        $itemModel = $this->_itemFactory->create();
 
         /* @var $itemForm Magento_Rma_Model_Item_Form */
-        $itemForm = Mage::getModel('Magento_Rma_Model_Item_Form');
+        $itemForm = $this->_itemFormFactory->create();
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);

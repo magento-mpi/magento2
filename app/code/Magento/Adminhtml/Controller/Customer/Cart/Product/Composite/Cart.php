@@ -47,22 +47,22 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
     {
         $customerId = (int) $this->getRequest()->getParam('customer_id');
         if (!$customerId) {
-            Mage::throwException(__('No customer ID defined.'));
+            throw new Magento_Core_Exception(__('No customer ID defined.'));
         }
 
-        $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')
+        $this->_customer = $this->_objectManager->create('Magento_Customer_Model_Customer')
             ->load($customerId);
 
         $quoteItemId = (int) $this->getRequest()->getParam('id');
         $websiteId = (int) $this->getRequest()->getParam('website_id');
 
-        $this->_quote = Mage::getModel('Magento_Sales_Model_Quote')
-            ->setWebsite(Mage::app()->getWebsite($websiteId))
+        $this->_quote = $this->_objectManager->create('Magento_Sales_Model_Quote')
+            ->setWebsite($this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsite($websiteId))
             ->loadByCustomer($this->_customer);
 
         $this->_quoteItem = $this->_quote->getItemById($quoteItemId);
         if (!$this->_quoteItem) {
-            Mage::throwException(__('Please correct the quote items and try again.'));
+            throw new Magento_Core_Exception(__('Please correct the quote items and try again.'));
         }
 
         return $this;
@@ -81,7 +81,7 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
 
             $quoteItem = $this->_quoteItem;
 
-            $optionCollection = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')
+            $optionCollection = $this->_objectManager->create('Magento_Sales_Model_Quote_Item_Option')
                 ->getCollection()
                 ->addItemFilter($quoteItem);
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
@@ -125,7 +125,7 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
         }
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
+        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
 
         return $this;

@@ -32,15 +32,15 @@ class Magento_TargetRule_Model_Resource_Setup extends Magento_Catalog_Model_Reso
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName,
         $moduleName = 'Magento_TargetRule',
         $connectionName = ''
     ) {
         $this->_migrationFactory = $migrationFactory;
-        parent::__construct($cache, $context, $resourceName, $moduleName, $connectionName);
+        parent::__construct($context, $cache, $resourceName, $moduleName, $connectionName);
     }
 
 

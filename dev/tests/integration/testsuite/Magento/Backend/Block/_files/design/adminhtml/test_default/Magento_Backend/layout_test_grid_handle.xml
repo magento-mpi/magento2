@@ -10,7 +10,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Backend_Block_Widget_Grid" name="admin.test.grid" Output="1">
             <arguments>
                 <dataSource type="object">Magento_Data_Collection</dataSource>
@@ -68,5 +68,5 @@
                 </arguments>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

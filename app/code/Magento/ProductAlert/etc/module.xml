@@ -18,7 +18,6 @@
             <module name="Magento_Customer"/>
             <module name="Magento_Core"/>
             <module name="Magento_Tax"/>
-            <module name="Magento_Page" type="soft"/>
         </depends>
     </module>
 </config>

@@ -22,6 +22,7 @@ class Magento_CustomerSegment_Model_Resource_Helper extends Magento_Core_Model_R
      * Get comparison condition for rule condition operator which will be used in SQL query
      *
      * @param string $operator
+     * @throws Magento_Core_Exception
      * @return string
      */
     public function getSqlOperator($operator)
@@ -59,7 +60,7 @@ class Magento_CustomerSegment_Model_Resource_Helper extends Magento_Core_Model_R
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(__('Unknown operator specified.'));
+                throw new Magento_Core_Exception(__('Unknown operator specified.'));
         }
     }
 }

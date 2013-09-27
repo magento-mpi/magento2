@@ -19,6 +19,11 @@ return array(
     '/config/global/helpers/*/class'           => '',
     '/config/global/blocks/*/class'            => '',
     '/config/global/models/*/resourceModel'    => '',
+    '/config/global/page/layouts'              => 'Moved to page_layouts.xml',
+    '/config/global/cms/layouts'               => 'This was never used and is no longer supported',
+    '/config/global/payment/cc/types/*/validator' =>
+        'This configuration was moved to DI configuration of Magento_Centinel_Model_StateFactory',
+    '/config/global/payment'                   => 'Move them to payment.xml.',
     '/config/adminhtml/menu'                   => 'Move them to adminhtml.xml.',
     '/config/adminhtml/acl'                    => 'Move them to adminhtml.xml.',
     '/config/*[self::global|self::adminhtml|self::frontend]/di' => 'This configuration moved to di.xml file',
@@ -76,10 +81,12 @@ return array(
     '/config/*/events/catalog_controller_product_delete' => '',
     '/config//observers/*/args' => 'This was an undocumented and unused feature in event subscribers',
     '/config/default/design/theme' => 'Relocated to /config/<area>/design/theme',
+    '/config/global/theme' => 'Configuration moved to DI file settings',
     '/config/default/web/*/base_js_url' => '/config/default/web/*/base_lib_url',
     '/config/default/web/*/base_skin_url' => '/config/default/web/*/base_static_url',
     '/config/global/cache/types/*/tags' => 'use /config/global/cache/types/*/class node instead',
     '/config/global/disable_local_modules' => '',
+    '/config/global/newsletter/tempate_filter' => 'Use DI configs to setup model for template processing',
     '/config/*/layout' => 'Use convention for layout files placement instead of configuration',
     '/config/frontend/product/collection/attributes'
         => 'Use /config/group[@name="catalog_product"] of catalog_attributes.xml',
@@ -91,9 +98,11 @@ return array(
         => 'Use /config/group[@name="wishlist_item"] of catalog_attributes.xml',
     '/config/global/catalog/product/flat/attribute_nodes'
         => 'Use /config/global/catalog/product/flat/attribute_groups',
+    '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
     '/config/install' => 'Configurations moved to DI file settings',
     '/config/install/design' => 'Configurations moved to DI file settings',
     '/config/adminhtml/design' => 'Configurations moved to DI file settings',
     '/config/frontend/design' => 'Configurations moved to DI file settings',
     '/config/crontab' => 'All cron configurations moved to crontab.xml',
+    '/config/vde' => 'Was moved to di',
 );

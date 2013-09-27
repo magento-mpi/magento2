@@ -10,14 +10,31 @@
 
 /**
  * Grid column widget for rendering action grid cells
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reasonselect
     extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstract
 {
+    /**
+     * @var Magento_Rma_Model_Item_FormFactory
+     */
+    protected $_itemFormFactory;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
+     * @param Magento_Rma_Model_Item_Status $itemStatus
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
+        Magento_Rma_Model_Item_Status $itemStatus,
+        array $data = array()
+    ) {
+        $this->_itemFormFactory = $itemFormFactory;
+        parent::__construct($context, $itemStatus, $data);
+    }
+
     /**
      * Renders column as select when it is editable
      *
@@ -26,10 +43,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reason
      */
     protected function _getEditableView(Magento_Object $row)
     {
-        /** @var $rmaItemAttribute Magento_Rma_Model_Item_Attribute */
-        $rmaItemAttribute = Mage::getModel('Magento_Rma_Model_Item_Form')
-            ->setFormCode('default')
-            ->getAttribute('reason_other');
+        /** @var $itemForm Magento_Rma_Model_Item_Form */
+        $itemForm = $this->_itemFormFactory->create();
+        $rmaItemAttribute = $itemForm->setFormCode('default')->getAttribute('reason_other');
 
         $selectName = 'items[' . $row->getId() . '][' . $this->getColumn()->getId() . ']';
         $html = '<select name="' . $selectName . '" class="action-select reason required-entry">'
@@ -65,10 +81,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reason
      */
     protected function _getNonEditableView(Magento_Object $row)
     {
-        /** @var $rmaItemAttribute Magento_Rma_Model_Item_Attribute */
-        $rmaItemAttribute = Mage::getModel('Magento_Rma_Model_Item_Form')
-            ->setFormCode('default')
-            ->getAttribute('reason_other');
+        /** @var $itemForm Magento_Rma_Model_Item_Form */
+        $itemForm = $this->_itemFormFactory->create();
+        $rmaItemAttribute = $itemForm->setFormCode('default')->getAttribute('reason_other');
         $value = $row->getData($this->getColumn()->getIndex());
 
         if ($value == 0 && $row->getReasonOther() != '') {

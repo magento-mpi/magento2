@@ -28,22 +28,27 @@ class Magento_Logging_Model_ProcessorTest extends Magento_TestFramework_TestCase
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
-        Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $collection = Mage::getModel('Magento_Logging_Model_Event')->getCollection();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Logging_Model_Event')->getCollection();
         $eventCountBefore = count($collection);
 
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+            ->turnOffSecretKey();
 
-        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        $this->_auth = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth');
         $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME,
             Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
 
         $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
         $this->getRequest()->setPost(
-            array_merge($post, array('form_key' => Mage::getSingleton('Magento_Core_Model_Session')->getFormKey()))
+            array_merge($post, array('form_key' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Session')->getFormKey()))
         );
         $this->dispatch($url);
-        $collection = Mage::getModel('Magento_Logging_Model_Event')->getCollection();
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Logging_Model_Event')->getCollection();
 
         // Number 2 means we have "login" event logged first and then the tested one.
         $eventCountAfter = $eventCountBefore + 2;

@@ -59,7 +59,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         $this->_title(__('Product Templates'));
 
         $this->_setTypeId();
-        $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+        $attributeSet = $this->_objectManager->create('Magento_Eav_Model_Entity_Attribute_Set')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$attributeSet->getId()) {
@@ -109,7 +109,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         $isNewSet       = $this->getRequest()->getParam('gotoEdit', false) == '1';
 
         /* @var $model Magento_Eav_Model_Entity_Attribute_Set */
-        $model  = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+        $model  = $this->_objectManager->create('Magento_Eav_Model_Entity_Attribute_Set')
             ->setEntityTypeId($entityTypeId);
 
         /** @var $helper Magento_Adminhtml_Helper_Data */
@@ -125,7 +125,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                     $model->load($attributeSetId);
                 }
                 if (!$model->getId()) {
-                    Mage::throwException(__('This attribute set no longer exists.'));
+                    throw new Magento_Core_Exception(__('This attribute set no longer exists.'));
                 }
                 $data = $this->_objectManager->get('Magento_Core_Helper_Data')
                     ->jsonDecode($this->getRequest()->getPost('data'));
@@ -206,7 +206,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
     {
         $setId = $this->getRequest()->getParam('id');
         try {
-            Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+            $this->_objectManager->create('Magento_Eav_Model_Entity_Attribute_Set')
                 ->setId($setId)
                 ->delete();
 
@@ -225,7 +225,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
     protected function _setTypeId()
     {
         $this->_coreRegistry->register('entityType',
-            Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId());
+            $this->_objectManager->create('Magento_Catalog_Model_Product')->getResource()->getTypeId());
     }
 
     protected function _isAllowed()

@@ -152,7 +152,7 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
             } catch (Magento_Core_Exception $e) {
                 $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
-                $session->addException($e,
+                $this->_session->addException($e,
                     __("We couldn't remove the messages because of an error."));
             }
         }

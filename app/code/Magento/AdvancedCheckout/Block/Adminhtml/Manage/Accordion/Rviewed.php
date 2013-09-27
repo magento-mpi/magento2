@@ -39,9 +39,22 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
     protected $_productFactory;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Stock_Status
+     */
+    protected $_catalogStockStatus;
+
+    /**
+     * @param Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
+     * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
@@ -50,9 +63,12 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Data_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
@@ -61,7 +77,9 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        $this->_catalogStockStatus = $catalogStockStatus;
+        $this->_catalogConfig = $catalogConfig;
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_productFactory = $productFactory;
         $this->_eventFactory = $eventFactory;
     }
@@ -99,7 +117,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
 
             $productCollection = parent::getItemsCollection();
             if ($productIds) {
-                $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+                $attributes = $this->_catalogConfig->getProductAttributes();
                 $productCollection = $this->_productFactory->create()->getCollection()
                     ->setStoreId($this->_getStore()->getId())
                     ->addStoreFilter($this->_getStore()->getId())
@@ -107,8 +125,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
                     ->addIdFilter($productIds)
                     ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
 
-                Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
-                    ->addIsInStockFilterToCollection($productCollection);
+                $this->_catalogStockStatus->addIsInStockFilterToCollection($productCollection);
                 $productCollection = $this->_adminhtmlSales
                     ->applySalableProductTypesFilter($productCollection);
                 $productCollection->addOptionsToResult();

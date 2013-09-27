@@ -22,7 +22,8 @@ class Magento_Search_Model_Adminhtml_System_Config_Source_EngineTest extends PHP
     protected function setUp()
     {
         parent::setUp();
-        $this->_model= Mage::getModel('Magento_Search_Model_Adminhtml_System_Config_Source_Engine');
+        $this->_model= Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Search_Model_Adminhtml_System_Config_Source_Engine');
     }
 
     public function testToOptionArray()

@@ -121,7 +121,7 @@ class Magento_TestFramework_Event_Transaction
     protected function _getAdapter($connectionName = 'core_write')
     {
         /** @var $resource Magento_Core_Model_Resource */
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');
         return $resource->getConnection($connectionName);
     }
 

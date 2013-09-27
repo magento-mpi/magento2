@@ -16,7 +16,8 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Resource');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource');
     }
 
     public function testGetTableName()
@@ -25,8 +26,9 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
         $tableSuffix = 'suffix';
         $tableNameOrig = 'core_website';
 
-        $this->_model = Mage::getModel('Magento_Core_Model_Resource', array('tablePrefix' => 'prefix_'));
-
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource', array('tablePrefix' => 'prefix_')); 
+        
         $tableName = $this->_model->getTableName(array($tableNameOrig, $tableSuffix));
         $this->assertContains($tablePrefix, $tableName);
         $this->assertContains($tableSuffix, $tableName);

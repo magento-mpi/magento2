@@ -25,10 +25,13 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $design = $objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
         $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
 
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $collection = Mage::getModel('Magento_Core_Model_Resource_Theme_Collection');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Theme_Collection');
         $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
-        Mage::app()->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
 
         $subscriberOne = $this->getMock('Zend_Mail', array('send', 'setBodyHTML'), array('utf-8'));
         $subscriberOne->expects($this->any())->method('send');
@@ -41,8 +44,11 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         );
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $filter = $objectManager->get('Magento_Newsletter_Model_Template_Filter');
+
         $emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
-            array('_getMail', '_getLogoUrl', '__wakeup'),
+            array('_getMail', '_getLogoUrl', '__wakeup', 'setTemplateFilter'),
             array(
                 $objectManager->get('Magento_Core_Model_Context'),
                 $objectManager->get('Magento_Core_Model_Registry'),
@@ -54,6 +60,9 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
                 $objectManager->get('Magento_Core_Model_Config')
             )
         );
+        $emailTemplate->expects($this->once())
+            ->method('setTemplateFilter')
+            ->with($filter);
 
         $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
         $coreStoreConfig = new ReflectionProperty($emailTemplate, '_coreStoreConfig');
@@ -64,8 +73,12 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             $subscriberOne, $subscriberTwo
         ));
 
-        $queue = Mage::getModel('Magento_Newsletter_Model_Queue',
-            array('data' => array('email_template' => $emailTemplate))
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_Newsletter_Model_Queue',
+            array(
+                'filter' => $filter,
+                'data' => array('email_template' => $emailTemplate)
+            )
         );
         $queue->load('Subject', 'newsletter_subject'); // fixture
         $queue->sendPerSubscriber();
@@ -77,7 +90,8 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
      */
     public function testSendPerSubscriberProblem()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $mail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $brokenMail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $errorMsg = md5(microtime());
@@ -103,11 +117,13 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($template, $storeConfig);
 
-        $queue = Mage::getModel('Magento_Newsletter_Model_Queue',
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Newsletter_Model_Queue',
             array('data' => array('email_template' => $template))
         );
         $queue->load('Subject', 'newsletter_subject'); // fixture
-        $problem = Mage::getModel('Magento_Newsletter_Model_Problem');
+        $problem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Newsletter_Model_Problem');
         $problem->load($queue->getId(), 'queue_id');
         $this->assertEmpty($problem->getId());
 

@@ -18,7 +18,8 @@ class Magento_Adminhtml_Block_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'Magento_Backend_Block_Template',
-            Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Template')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+                ->createBlock('Magento_Adminhtml_Block_Template')
         );
     }
 }

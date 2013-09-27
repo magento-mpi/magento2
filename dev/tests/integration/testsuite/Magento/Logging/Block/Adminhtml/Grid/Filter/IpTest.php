@@ -22,7 +22,8 @@ class Magento_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Framewo
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Logging_Block_Adminhtml_Grid_Filter_Ip');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Logging_Block_Adminhtml_Grid_Filter_Ip');
     }
 
     public function testGetCondition()

@@ -17,8 +17,14 @@ class Magento_Rma_Block_Order_Link extends Magento_Sales_Block_Order_Link
     protected $_rmaHelper;
 
     /**
+     * @var Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
      * Constructor
-     *
+     * 
+     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Rma_Helper_Data $rmaHelper
      * @param Magento_Core_Model_Registry $registry
@@ -26,12 +32,14 @@ class Magento_Rma_Block_Order_Link extends Magento_Sales_Block_Order_Link
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
         Magento_Core_Block_Template_Context $context,
         Magento_Rma_Helper_Data $rmaHelper,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_rmaHelper = $rmaHelper;
         parent::__construct($context, $registry, $coreData, $data);
     }
@@ -55,8 +63,9 @@ class Magento_Rma_Block_Order_Link extends Magento_Sales_Block_Order_Link
     protected function _isRmaAviable()
     {
         if ($this->_rmaHelper->isEnabled()) {
-            $returns = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
-                ->addFieldToSelect('*')
+            /** @var $collection Magento_Rma_Model_Resource_Rma_Grid_Collection */
+            $collection = $this->_collectionFactory->create();
+            $returns = $collection->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', $this->_registry->registry('current_order')->getId())
                 ->count();
 

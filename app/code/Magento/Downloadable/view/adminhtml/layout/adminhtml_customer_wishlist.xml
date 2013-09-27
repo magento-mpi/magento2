@@ -8,11 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer.wishlist.edit.tab">
+    <referenceBlock name="customer.wishlist.edit.tab">
         <arguments>
             <argument name="product_configuration_helpers" xsi:type="array">
                 <item name="downloadable" xsi:type="string">Magento_Downloadable_Helper_Catalog_Product_Configuration</item>
             </argument>
         </arguments>
-    </reference>
+    </referenceBlock>
 </layout>

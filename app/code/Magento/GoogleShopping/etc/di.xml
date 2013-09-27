@@ -8,6 +8,16 @@
  */
 -->
 <config>
+    <virtualType name="Magento_GoogleShopping_Model_Resource_Helper" type="Magento_Core_Model_Resource_Helper_Mysql4">
+        <param name="modulePrefix">
+            <value>Core</value>
+        </param>
+    </virtualType>
+    <type name="Magento_GoogleShopping_Model_Resource_Item_Collection">
+        <param name="resourceHelper">
+            <instance type="Magento_GoogleShopping_Model_Resource_Helper" />
+        </param>
+    </type>
     <type name="Magento_Core_Model_Db_Updater">
         <param name="resourceList">
             <value>

@@ -12,7 +12,8 @@
 require __DIR__ . '/../../../Magento/GiftCard/_files/gift_card.php';
 
 /** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Product');
 $product->load(1);
 
 $requestInfo = new Magento_Object(array(
@@ -27,7 +28,8 @@ $requestInfo = new Magento_Object(array(
 ));
 
 /** @var $cart Magento_Checkout_Model_Cart */
-$cart = Mage::getModel('Magento_Checkout_Model_Cart');
+$cart = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Checkout_Model_Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 

@@ -52,9 +52,10 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
      *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
-    public function __construct(Magento_Core_Model_Store_Config $coreStoreConfig)
-    {
-        $this->_coreStoreConfig = $coreStoreConfig;    
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**

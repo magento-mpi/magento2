@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product Image Gallery Popup" type="page" parent="catalog_product_view">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">popup.phtml</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Catalog_Block_Product_Gallery" name="catalog_product_gallery" template="product/gallery.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

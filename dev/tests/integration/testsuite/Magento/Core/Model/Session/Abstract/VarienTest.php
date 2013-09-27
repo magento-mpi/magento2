@@ -43,7 +43,8 @@ class Magento_Core_Model_Session_Abstract_VarienTest extends PHPUnit_Framework_T
         /**
          * @var Magento_Core_Model_Session_Abstract_Varien
          */
-        $model = Mage::getModel('Magento_Core_Model_Session_Abstract');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Session_Abstract');
         //There is no any possibility to determine whether session already started or not in php before 5.4
         $model->setSkipEmptySessionCheck(true);
         $model->start();

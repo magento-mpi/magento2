@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_sales_order_grid_block"/>
-    <reference name="sales.order.grid">
+    <referenceBlock name="sales.order.grid">
         <arguments>
             <argument name="id" xsi:type="string">sales_order_grid_archive</argument>
             <argument name="dataSource" xsi:type="object">Magento_SalesArchive_Model_Resource_Order_Collection</argument>
@@ -17,7 +17,7 @@
             <argument name="grid_url" xsi:type="url" path="*/*/ordersgrid"/>
             <argument name="rssList" xsi:type="string">null</argument>
         </arguments>
-        <reference name="sales.order.grid.massaction">
+        <referenceBlock name="sales.order.grid.massaction">
             <arguments>
                 <argument name="options" xsi:type="array">
                     <updater>Magento_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater</updater>
@@ -51,14 +51,14 @@
                     </item>
                 </argument>
             </arguments>
-        </reference>
-        <reference name="sales.order.grid.columnSet">
+        </referenceBlock>
+        <referenceBlock name="sales.order.grid.columnSet">
             <arguments>
                 <argument name="id" xsi:type="string">sales_order_grid_archive</argument>
                 <argument name="rowUrl" xsi:type="array">
                     <item name="generatorClass" xsi:type="string">Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator</item>
                 </argument>
             </arguments>
-        </reference>
-    </reference>
+        </referenceBlock>
+    </referenceBlock>
 </layout>

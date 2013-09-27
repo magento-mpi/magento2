@@ -18,7 +18,8 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Controller_Request_Http');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Controller_Request_Http');
     }
 
     public function testGetOriginalPathInfo()

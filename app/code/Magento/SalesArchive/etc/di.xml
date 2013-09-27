@@ -13,6 +13,14 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
+    <type name="Magento_SalesArchive_Model_Observer">
+        <param name="config">
+            <instance type="Magento_SalesArchive_Model_Config_Proxy" />
+        </param>
+        <param name="backendData">
+            <instance type="Magento_Backend_Helper_Data_Proxy" />
+        </param>
+    </type>
     <type name="Magento_Core_Model_Db_Updater">
         <param name="resourceList">
             <value>

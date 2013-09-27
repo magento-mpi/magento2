@@ -5,6 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+
+/**
+ * Catalog Product Flat Indexer Resource Model
+ */
 class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_Model_Resource_Abstract
 {
     /**
@@ -120,7 +125,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param $maxIndexCount
+     * @param int $maxIndexCount
      * @param array $flatAttributeGroups
      */
     public function __construct(

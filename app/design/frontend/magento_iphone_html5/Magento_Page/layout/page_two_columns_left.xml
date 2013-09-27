@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

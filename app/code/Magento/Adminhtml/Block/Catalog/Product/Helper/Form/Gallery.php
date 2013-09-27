@@ -18,6 +18,36 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magento_Data_Form_Element_Abstract
 {
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Data_Form_Element_Factory $factoryElement
+     * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param array $attributes
+     */
+    public function __construct(
+        Magento_Core_Model_Layout $layout,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Data_Form_Element_Factory $factoryElement,
+        Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        $attributes = array()
+    ) {
+        $this->_layout = $layout;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+    }
 
     public function getElementHtml()
     {
@@ -34,9 +64,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     {
 
         /* @var $content Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
-        $content = Mage::app()->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content');
-
+        $content = $this->_layout->createBlock('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content');
         $content->setId($this->getHtmlId() . '_content')->setElement($this);
         $galleryJs = $content->getJsObjectName();
         $content->getUploader()->getConfig()->setMegiaGallery($galleryJs);
@@ -97,7 +125,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     public function getScopeLabel($attribute)
     {
         $html = '';
-        if (Mage::app()->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return $html;
         }
 

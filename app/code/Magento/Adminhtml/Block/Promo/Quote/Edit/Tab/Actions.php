@@ -13,6 +13,49 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Backend_Block_Widget_Form_Renderer_Fieldset
+     */
+    protected $_rendererFieldset;
+
+    /**
+     * @var Magento_Rule_Block_Actions
+     */
+    protected $_ruleActions;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_sourceYesno;
+
+    /**
+     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
+     * @param Magento_Rule_Block_Actions $ruleActions
+     * @param Magento_Backend_Block_Widget_Form_Renderer_Fieldset $rendererFieldset
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
+        Magento_Rule_Block_Actions $ruleActions,
+        Magento_Backend_Block_Widget_Form_Renderer_Fieldset $rendererFieldset,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rendererFieldset = $rendererFieldset;
+        $this->_ruleActions = $ruleActions;
+        $this->_sourceYesno = $sourceYesno;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare content for tab
      *
      * @return string
@@ -97,7 +140,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             'label'     => __('Apply to Shipping Amount'),
             'title'     => __('Apply to Shipping Amount'),
             'name'      => 'apply_to_shipping',
-            'values'    => Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray(),
+            'values'    => $this->_sourceYesno->toOptionArray(),
         ));
 
         $fieldset->addField('simple_free_shipping', 'select', array(
@@ -121,7 +164,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             ),
         ));
 
-        $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer = $this->_rendererFieldset
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
 
@@ -135,7 +178,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             'label' => __('Apply To'),
             'title' => __('Apply To'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Actions'));
+        ))->setRule($model)->setRenderer($this->_ruleActions);
 
         $this->_eventManager->dispatch('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
 

@@ -31,8 +31,6 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
     protected $_keys = array();
 
     /**
-     * Constructor
-     *
      * @param Magento_ObjectManager $objectManager
      * @param string $cryptKey
      */
@@ -60,9 +58,11 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
      */
     public function validateCipher($version)
     {
+        $types = array(self::CIPHER_BLOWFISH, self::CIPHER_RIJNDAEL_128, self::CIPHER_RIJNDAEL_256);
+
         $version = (int)$version;
-        if (!in_array($version, array(self::CIPHER_BLOWFISH, self::CIPHER_RIJNDAEL_128, self::CIPHER_RIJNDAEL_256), true)) {
-            Mage::throwException('Not supported cipher version');
+        if (!in_array($version, $types, true)) {
+            throw new Magento_Core_Exception(__('Not supported cipher version'));
         }
         return $version;
     }

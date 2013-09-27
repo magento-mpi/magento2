@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="admin_roles_load_after">
+        <observer name="observer_name" instance="Some_Test_Value" method="addDataAfterRoleLoad" disabled="false" shared="true"/>
+    </event>
+    <event name="admin_roles_save_before">
+        <observer name="second_name" instance="Some_Test_Value_Two" method="setDataBeforeRoleSave" />
+    </event>
+</config>

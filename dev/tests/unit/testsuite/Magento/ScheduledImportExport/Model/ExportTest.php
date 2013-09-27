@@ -46,9 +46,10 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
             ->will($this->returnCallback(array($this, 'getDateCallback')));
 
         $this->_model = new Magento_ScheduledImportExport_Model_Export(
+            $dateModelMock,
             $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
             $this->_exportConfigMock,
-            array('date_model' => $dateModelMock)
+            array()
         );
     }
 

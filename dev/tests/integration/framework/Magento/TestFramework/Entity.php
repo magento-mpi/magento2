@@ -46,7 +46,7 @@ class Magento_TestFramework_Entity
     protected function _getEmptyModel()
     {
         $modelClass = get_class($this->_model);
-        return Mage::getModel($modelClass);
+        return Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($modelClass);
     }
 
     protected function _testCreate()

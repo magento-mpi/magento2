@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_user_role_grid_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_User_Block_Role" name="adminhtml.user.role.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

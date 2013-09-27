@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.notification.container">
+    <referenceBlock name="adminhtml.notification.container">
         <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.notification.container.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">notificationGrid</argument>
@@ -73,5 +73,5 @@
                 </arguments>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

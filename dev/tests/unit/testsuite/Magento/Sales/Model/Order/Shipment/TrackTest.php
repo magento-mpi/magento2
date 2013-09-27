@@ -19,7 +19,13 @@ class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_Sales_Model_Order_Shipment_Track');
+        $arguments = array(
+            'shipmentFactory' => $this->getMock(
+                'Magento_Sales_Model_Order_ShipmentFactory', array(), array(), '', false
+            )
+        );
+
+        $this->_model = $objectManagerHelper->getObject('Magento_Sales_Model_Order_Shipment_Track', $arguments);
     }
 
     public function testAddData()

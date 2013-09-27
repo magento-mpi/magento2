@@ -201,12 +201,20 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public function testGetStoreIds()
     {
         $this->_model->load(3); /* id from fixture */
-        $this->assertContains(Mage::app()->getStore()->getId(), $this->_model->getStoreIds());
+        $this->assertContains(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId(),
+            $this->_model->getStoreIds()
+        );
     }
 
     public function testSetGetStoreId()
     {
-        $this->assertEquals(Mage::app()->getStore()->getId(), $this->_model->getStoreId());
+        $this->assertEquals(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId(),
+            $this->_model->getStoreId()
+        );
         $this->_model->setStoreId(1000);
         $this->assertEquals(1000, $this->_model->getStoreId());
     }
@@ -218,7 +226,8 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public function testSetStoreIdWithNonNumericValue()
     {
         /** @var $store Magento_Core_Model_Store */
-        $store = Mage::getModel('Magento_Core_Model_Store');
+        $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Store');
         $store->load('fixturestore');
 
         $this->assertNotEquals($this->_model->getStoreId(), $store->getId());

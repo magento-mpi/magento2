@@ -25,7 +25,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('Magento_ImportExport_Model_Import_Entity_Eav_Customer');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Import_Entity_Eav_Customer');
     }
 
     /**
@@ -46,7 +47,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
         $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customersCollection Magento_Customer_Model_Resource_Customer_Collection */
-        $customersCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        $customersCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Customer_Collection');
         $customersCollection->addAttributeToSelect('firstname', 'inner')
             ->addAttributeToSelect('lastname', 'inner');
 
@@ -108,11 +110,13 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
      */
     public function testDeleteData()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customerCollection Magento_Customer_Model_Resource_Customer_Collection */
-        $customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        $customerCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Customer_Collection');
         $this->assertEquals(3, $customerCollection->count(), 'Count of existing customers are invalid');
 
         $this->_model->setParameters(

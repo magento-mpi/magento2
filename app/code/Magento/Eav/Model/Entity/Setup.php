@@ -56,15 +56,15 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
     protected $_defaultAttributeSetName = 'Default';
 
     /**
-     * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_Core_Model_CacheInterface $cache
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Core_Model_CacheInterface $cache,
         $resourceName,
         $moduleName = 'Magento_Eav',
         $connectionName = ''

@@ -186,7 +186,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         list($customerId, $addressId) = $this->_addTestAddress($this->_entityAdapter);
 
         // check DB
-        $testAddress = Mage::getModel('Magento_Customer_Model_Address');
+        $testAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Address');
         $testAddress->load($addressId);
         $this->assertEquals($addressId, $testAddress->getId(), 'Incorrect address ID.');
         $this->assertEquals($customerId, $testAddress->getParentId(), 'Incorrect address customer ID.');
@@ -209,9 +210,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $customerId = $customer->getId();
 
         /** @var $addressModel Magento_Customer_Model_Address */
-        $addressModel = Mage::getModel('Magento_Customer_Model_Address');
-        $tableName    = $addressModel->getResource()->getEntityTable();
-        $addressId    = Mage::getResourceHelper('Magento_ImportExport')->getNextAutoincrement($tableName);
+        $addressModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Address');
+        $tableName = $addressModel->getResource()->getEntityTable();
+        $addressId = $objectManager->get('Magento_Core_Model_Resource_HelperPool')->get('Magento_ImportExport')
+            ->getNextAutoincrement($tableName);
 
         $entityData = array(
             'entity_id'      => $addressId,
@@ -266,7 +269,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // check DB
         /** @var $testAddress Magento_Customer_Model_Address */
-        $testAddress = Mage::getModel('Magento_Customer_Model_Address');
+        $testAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Address');
         $testAddress->load($addressId);
         $this->assertEquals($addressId, $testAddress->getId(), 'Incorrect address ID.');
         $this->assertEquals($attributeValue, $testAddress->getData($attributeName), 'There is no attribute value.');
@@ -327,7 +331,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // check DB
         /** @var $testCustomer Magento_Customer_Model_Customer */
-        $testCustomer = Mage::getModel('Magento_Customer_Model_Customer');
+        $testCustomer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Customer');
         $testCustomer->load($customerId);
         $this->assertEquals($customerId, $testCustomer->getId(), 'Customer must exists.');
         $this->assertNotNull($testCustomer->getDefaultBillingAddress(), 'Default billing address must exists.');
@@ -377,7 +382,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         }
 
         // get addresses
-        $addressCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Collection');
+        $addressCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Address_Collection');
         $addressCollection->addAttributeToSelect($requiredAttributes);
         $addresses = array();
         /** @var $address Magento_Customer_Model_Address */
@@ -410,7 +416,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // are default billing/shipping addresses have new value
         /** @var $customer Magento_Customer_Model_Customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Customer');
         $customer->setWebsiteId(0);
         $customer->loadByEmail('BetsyParker@example.com');
         $defaultsData = $this->_updateData['default'];
@@ -454,7 +461,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // get addresses
         /** @var $addressCollection Magento_Customer_Model_Resource_Address_Collection */
-        $addressCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Collection');
+        $addressCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Address_Collection');
         $addressCollection->addAttributeToSelect($keyAttribute);
         $addresses = array();
         /** @var $address Magento_Customer_Model_Address */

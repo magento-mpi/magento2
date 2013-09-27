@@ -19,6 +19,13 @@
 class Magento_Reports_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
     implements Magento_Reports_Model_Resource_HelperInterface
 {
+    /**
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'reports')
+    {
+        parent::__construct($modulePrefix);
+    }
 
     /**
      * Merge Index data

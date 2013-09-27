@@ -55,7 +55,8 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
         ));
         $rule->save();
 
-        $this->_user = Mage::getModel('Magento_Webapi_Model_Acl_User')
+        $this->_user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Acl_User')
             ->setData(array(
             'api_key' => 'webhook_test_username',
             'secret' => 'webhook_test_secret',
