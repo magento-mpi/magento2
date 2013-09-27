@@ -24,6 +24,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
 
     /**
      * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -31,13 +32,14 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
      */
     public function __construct(
         Magento_Sales_Helper_Data $salesData,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($productFactory, $coreData, $context, $registry, $data);
     }
 
     /**
@@ -183,8 +185,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
             if ($this->_canReturnToStock) {
                 $canReturnToStock = false;
                 foreach ($this->getCreditmemo()->getAllItems() as $item) {
-                    $product = Mage::getModel('Magento_Catalog_Model_Product')
-                        ->load($item->getOrderItem()->getProductId());
+                    $product = $this->_productFactory->create()->load($item->getOrderItem()->getProductId());
                     if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                         $item->setCanReturnToStock($canReturnToStock = true);
                     } else {

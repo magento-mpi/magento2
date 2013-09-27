@@ -15,7 +15,8 @@ class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_AbstractTest extends PH
     {
         $this->assertInstanceOf(
             'Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract',
-            Mage::app()->getLayout()->createBlock('Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+                ->createBlock('Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract')
         );
     }
 }

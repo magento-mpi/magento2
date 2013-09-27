@@ -104,18 +104,18 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
     {
         try {
             $collectionsNames = $this->_getCollectionNames();
-            $currentDate = Mage::app()->getLocale()->date();
+            $currentDate = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getLocale()->date();
             $date = $currentDate->subHour(25);
             foreach ($collectionsNames as $collectionName) {
-                Mage::getResourceModel($collectionName)->aggregate($date);
+                $this->_objectManager->create($collectionName)->aggregate($date);
             }
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->addSuccess(__('Recent statistics have been updated.'));
         } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->addError(__('We can\'t refresh recent statistics.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
@@ -138,15 +138,15 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
         try {
             $collectionsNames = $this->_getCollectionNames();
             foreach ($collectionsNames as $collectionName) {
-                Mage::getResourceModel($collectionName)->aggregate();
+                $this->_objectManager->create($collectionName)->aggregate();
             }
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->addSuccess(__('We updated lifetime statistics.'));
         } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->addError(__('We can\'t refresh lifetime statistics.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
@@ -183,7 +183,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
     protected function _getSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+            $this->_adminSession = $this->_objectManager->get('Magento_Backend_Model_Auth_Session');
         }
         return $this->_adminSession;
     }

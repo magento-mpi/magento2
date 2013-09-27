@@ -64,6 +64,12 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;
 
+    /** @var  PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_StoreManager */
+    protected $_storeManagerMock;
+
+    /** @var  PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_LocaleInterface */
+    protected $_localeMock;
+
     protected function setUp()
     {
         // These mocks are accessed via context
@@ -81,7 +87,9 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
         $this->_filesystemMock      = $this->_makeMock('Magento_Filesystem');
         $this->_cacheMock           = $this->_makeMock('Magento_Core_Model_CacheInterface');
         $this->_storeConfigMock     = $this->_makeMock('Magento_Core_Model_Store_Config');
+        $this->_storeManagerMock    = $this->_makeMock('Magento_Core_Model_StoreManager');
         $this->_helperFactoryMock   = $this->_makeMock('Magento_Core_Model_Factory_Helper');
+        $this->_localeMock          = $this->_makeMock('Magento_Core_Model_LocaleInterface');
         $viewUrlMock                = $this->_makeMock('Magento_Core_Model_View_Url');
         $viewConfigMock             = $this->_makeMock('Magento_Core_Model_View_Config');
         $viewFileSystemMock         = $this->_makeMock('Magento_Core_Model_View_FileSystem');
@@ -96,6 +104,8 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
             ->will($this->returnCallback(array($this, 'translateCallback')));
 
         $this->_context = new Magento_Backend_Block_Template_Context(
+            $this->_storeManagerMock,
+            $this->_localeMock,
             $this->_requestMock,
             $this->_layoutMock,
             $this->_eventManagerMock,

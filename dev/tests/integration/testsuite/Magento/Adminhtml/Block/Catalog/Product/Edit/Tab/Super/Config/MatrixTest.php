@@ -23,16 +23,21 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')
-            ->register('current_product', Mage::getModel('Magento_Catalog_Model_Product')->load(1));
-        Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text', 'head');
+            ->register('current_product', Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product')->load(1));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Core_Block_Text', 'head');
         /** @var $usedAttribute Magento_Catalog_Model_Entity_Attribute */
-        $usedAttribute = Mage::getSingleton('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
-            Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('catalog_product')->getId(),
-            'test_configurable'
-        );
+        $usedAttribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')->
+                    getEntityType('catalog_product')->getId(),
+                'test_configurable'
+            );
         $attributeOptions = $usedAttribute->getSource()->getAllOptions(false);
         /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix */
-        $block = Mage::app()->getLayout()->createBlock(preg_replace('/Test$/', '', __CLASS__));
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock(preg_replace('/Test$/', '', __CLASS__));
 
         $variations = $block->getVariations();
         foreach ($variations as &$variation) {

@@ -574,29 +574,6 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     }
 
     /**
-     * Calculate and apply special price
-     *
-     * @param float  $finalPrice
-     * @param float  $specialPrice
-     * @param string $specialPriceFrom
-     * @param string $specialPriceTo
-     * @param mixed  $store
-     * @return float
-     */
-    public static function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
-         $store = null)
-    {
-        if (!is_null($specialPrice) && $specialPrice != false) {
-            if (Mage::app()->getLocale()->isStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
-                $specialPrice   = Mage::app()->getStore()->roundPrice($finalPrice * $specialPrice / 100);
-                $finalPrice     = min($finalPrice, $specialPrice);
-            }
-        }
-
-        return $finalPrice;
-    }
-
-    /**
      * Check is group price value fixed or percent of original price
      *
      * @return bool

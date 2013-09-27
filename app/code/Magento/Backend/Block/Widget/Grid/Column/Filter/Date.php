@@ -173,7 +173,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Date
             $dateObj->set($date, Zend_Date::DATE_SHORT, $locale);
 
             //convert store date to default date in UTC timezone without DST
-            $dateObj->setTimezone(Mage::DEFAULT_TIMEZONE);
+            $dateObj->setTimezone(Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE);
 
             return $dateObj;
         } catch (Exception $e) {

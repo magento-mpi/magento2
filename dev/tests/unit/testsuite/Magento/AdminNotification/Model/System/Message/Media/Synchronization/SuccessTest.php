@@ -30,7 +30,10 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
     protected function setUp()
     {
         $this->_syncFlagMock = $this->getMock(
-            'Magento_Core_Model_File_Storage_Flag', array('getState', 'getFlagData', 'setState'), array(), '', false
+            'Magento_Core_Model_File_Storage_Flag', array('getState', 'getFlagData', 'setState', '__sleep', '__wakeup'),
+            array(),
+            '',
+            false
         );
 
         $this->_fileStorage = $this->getMock('Magento_Core_Model_File_Storage_Flag', array(), array(), '', false);

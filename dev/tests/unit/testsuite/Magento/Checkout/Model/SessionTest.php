@@ -88,7 +88,7 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
         /** @var $order PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Model_Order */
         $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
-            ->setMethods(array('getIncrementId', 'loadByIncrementId'))
+            ->setMethods(array('getIncrementId', 'loadByIncrementId', '__sleep', '__wakeup'))
             ->getMock();
 
         $order->expects($this->once())

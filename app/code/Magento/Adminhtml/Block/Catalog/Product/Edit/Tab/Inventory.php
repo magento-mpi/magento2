@@ -39,6 +39,18 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_CatalogInventory_Model_Source_Stock
+     */
+    protected $_stock;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Source_Backorders
+     */
+    protected $_backorders;
+
+    /**
+     * @param Magento_CatalogInventory_Model_Source_Backorders $backorders
+     * @param Magento_CatalogInventory_Model_Source_Stock $stock
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Helper_Data $coreData
@@ -47,6 +59,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogInventory_Model_Source_Backorders $backorders,
+        Magento_CatalogInventory_Model_Source_Stock $stock,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Helper_Data $coreData,
@@ -54,6 +68,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_stock = $stock;
+        $this->_backorders = $backorders;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
@@ -63,7 +79,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     public function getBackordersOption()
     {
         if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-            return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Backorders')->toOptionArray();
+            return $this->_backorders->toOptionArray();
         }
 
         return array();
@@ -77,7 +93,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     public function getStockOption()
     {
         if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-            return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Stock')->toOptionArray();
+            return $this->_stock->toOptionArray();
         }
 
         return array();

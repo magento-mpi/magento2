@@ -53,12 +53,12 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
         try {
             if ($attributesData) {
-                $dateFormat = Mage::app()->getLocale()
+                $dateFormat = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getLocale()
                     ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
+                    $attribute = $this->_objectManager->get('Magento_Eav_Model_Config')
                         ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
@@ -91,11 +91,11 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                     }
                 }
 
-                Mage::getSingleton('Magento_Catalog_Model_Product_Action')
+                $this->_objectManager->get('Magento_Catalog_Model_Product_Action')
                     ->updateAttributes($this->_getHelper()->getProductIds(), $attributesData, $storeId);
             }
             if ($inventoryData) {
-                $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+                $stockItem = $this->_objectManager->create('Magento_CatalogInventory_Model_Stock_Item');
                 $stockItem->setProcessIndexEvents(false);
                 $stockItemSaved = false;
 
@@ -118,7 +118,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                 }
 
                 if ($stockItemSaved) {
-                    Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
+                    $this->_objectManager->get('Magento_Index_Model_Indexer')->indexEvents(
                         Magento_CatalogInventory_Model_Stock_Item::ENTITY,
                         Magento_Index_Model_Event::TYPE_SAVE
                     );
@@ -127,7 +127,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
             if ($websiteAddData || $websiteRemoveData) {
                 /* @var $actionModel Magento_Catalog_Model_Product_Action */
-                $actionModel = Mage::getSingleton('Magento_Catalog_Model_Product_Action');
+                $actionModel = $this->_objectManager->get('Magento_Catalog_Model_Product_Action');
                 $productIds  = $this->_getHelper()->getProductIds();
 
                 if ($websiteRemoveData) {
@@ -173,7 +173,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
         $productIds = $this->_getHelper()->getProductIds();
         if (!is_array($productIds)) {
             $error = __('Please select products for attributes update.');
-        } else if (!Mage::getModel('Magento_Catalog_Model_Product')->isProductsHasSku($productIds)) {
+        } else if (!$this->_objectManager->create('Magento_Catalog_Model_Product')->isProductsHasSku($productIds)) {
             $error = __('Please make sure to define SKU values for all processed products.');
         }
 
@@ -213,12 +213,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
         try {
             if ($attributesData) {
-                $dateFormat = Mage::app()->getLocale()
-                    ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
-                $storeId    = $this->_getHelper()->getSelectedStoreId();
-
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
+                    $attribute = $this->_objectManager->get('Magento_Eav_Model_Config')
                         ->getAttribute('catalog_product', $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);

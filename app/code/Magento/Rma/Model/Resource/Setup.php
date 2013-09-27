@@ -19,11 +19,8 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     protected $_catalogSetupFactory;
 
     /**
-     * @var Magento_Enterprise_Model_Resource_Setup_Migration
-     */
-    protected $_entMigrationFactory;
-
-    /**
+     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -46,6 +43,8 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -85,17 +84,6 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
             $migrationFactory,
             $coreData
         );
-    }
-
-    /**
-     * Get catalog resource setup model
-     *
-     * @param array $data
-     * @return Magento_Catalog_Model_Resource_Setup
-     */
-    public function getCatalogResourceSetup(array $data = array())
-    {
-        return $this->_catalogSetupFactory->create($data);
     }
 
     /**
@@ -297,5 +285,14 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
         if ($data) {
             $this->getConnection()->insertMultiple($this->getTable('magento_rma_item_form_attribute'), $data);
         }
+    }
+
+    /**
+     * @param array $data
+     * @return Magento_Catalog_Model_Resource_Setup
+     */
+    public function getCatalogSetup(array $data = array())
+    {
+        return $this->_catalogSetupFactory->create($data);
     }
 }

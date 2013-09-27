@@ -18,11 +18,21 @@ class Magento_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attrib
     protected $_coreData = null;
 
     /**
+     * Eav entity attribute factory
+     *
+     * @var Magento_Eav_Model_Resource_Entity_AttributeFactory
+     */
+    protected $_eavAttributeFactory;
+
+    /**
+     * @param Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttributeFactory
      * @param Magento_Core_Helper_Data $coreData
      */
     public function __construct(
+        Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttributeFactory,
         Magento_Core_Helper_Data $coreData
     ) {
+        $this->_eavAttributeFactory = $eavAttributeFactory;
         $this->_coreData = $coreData;
     }
 
@@ -107,7 +117,6 @@ class Magento_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attrib
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
-            ->getFlatUpdateSelect($this->getAttribute(), $store);
+        return $this->_eavAttributeFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

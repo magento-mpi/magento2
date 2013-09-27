@@ -49,6 +49,18 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Directory_Model_CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Sale_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Sales_Model_Resource_Sale_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
@@ -56,15 +68,19 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
      * @param array $data
      */
     public function __construct(
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Sales_Model_Resource_Sale_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
         $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
+        $this->_currencyFactory = $currencyFactory;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
@@ -75,10 +91,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
 
     public function _beforeToHtml()
     {
-        $this->_currency = Mage::getModel('Magento_Directory_Model_Currency')
+        $this->_currency = $this->_currencyFactory->create()
             ->load($this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE));
 
-        $this->_collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Sale_Collection')
+        $this->_collection = $this->_collectionFactory->create()
             ->setCustomerFilter($this->_coreRegistry->registry('current_customer'))
             ->setOrderStateFilter(Magento_Sales_Model_Order::STATE_CANCELED, true)
             ->load();
@@ -87,7 +103,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
 
         foreach ($this->_collection as $sale) {
             if (!is_null($sale->getStoreId())) {
-                $store      = Mage::app()->getStore($sale->getStoreId());
+                $store      = $this->_storeManager->getStore($sale->getStoreId());
                 $websiteId  = $store->getWebsiteId();
                 $groupId    = $store->getGroupId();
                 $storeId    = $store->getId();
@@ -137,7 +153,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
      */
     public function formatCurrency($price, $websiteId = null)
     {
-        return Mage::app()->getWebsite($websiteId)->getBaseCurrency()->format($price);
+        return $this->_storeManager->getWebsite($websiteId)->getBaseCurrency()->format($price);
     }
 
     /**

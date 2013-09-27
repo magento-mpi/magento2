@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Websites
 {
     public function getWebsiteCollection()
     {
-        return Mage::app()->getWebsites();
+        return $this->_storeManager->getWebsites();
     }
 
     public function getGroupCollection(Magento_Core_Model_Website $website)

@@ -32,19 +32,39 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
     protected $_coreRegistry = null;
 
     /**
+     * Config
+     *
+     * @var Magento_GoogleShopping_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Log adapter factory
+     *
+     * @var Magento_Core_Model_Log_AdapterFactory
+     */
+    protected $_logAdapterFactory;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_GoogleShopping_Model_Config $config
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_GoogleShopping_Model_Config $config,
         array $data = array()
     ) {
+        $this->_logAdapterFactory = $logAdapterFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_config = $config;
         parent::__construct($data);
     }
 
@@ -77,9 +97,9 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             throw $e;
         } catch (Zend_Gdata_App_HttpException $e) {
-            Mage::throwException($errorMsg . __('Error: %1', $e->getMessage()));
+            throw new Magento_Core_Exception($errorMsg . __('Error: %1', $e->getMessage()));
         } catch (Zend_Gdata_App_AuthException $e) {
-            Mage::throwException($errorMsg . __('Error: %1', $e->getMessage()));
+            throw new Magento_Core_Exception($errorMsg . __('Error: %1', $e->getMessage()));
         }
 
         return $this->_coreRegistry->registry($this->_clientRegistryId);
@@ -110,10 +130,9 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
             $this->_service = $this->_connect($storeId);
 
             if ($this->getConfig()->getIsDebug($storeId)) {
-                $this->_service
-                    ->setLogAdapter(Mage::getModel('Magento_Core_Model_Log_Adapter',
-                    array('fileName' => 'googleshopping.log')), 'log')
-                    ->setDebug(true);
+                $this->_service->setLogAdapter($this->_logAdapterFactory->create(
+                        array('fileName' => 'googleshopping.log')
+                    ), 'log')->setDebug(true);
             }
         }
         return $this->_service;
@@ -138,7 +157,7 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
      */
     public function getConfig()
     {
-        return Mage::getSingleton('Magento_GoogleShopping_Model_Config');
+        return $this->_config;
     }
 
     /**

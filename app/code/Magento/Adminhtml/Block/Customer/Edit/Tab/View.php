@@ -37,6 +37,18 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     protected $_modelVisitor;
 
     /**
+     * @var Magento_Customer_Model_GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @var Magento_Log_Model_CustomerFactory
+     */
+    protected $_logFactory;
+
+    /**
+     * @param Magento_Customer_Model_GroupFactory $groupFactory
+     * @param Magento_Log_Model_CustomerFactory $logFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -44,6 +56,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_GroupFactory $groupFactory,
+        Magento_Log_Model_CustomerFactory $logFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -52,6 +66,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     ) {
         $this->_coreRegistry = $registry;
         $this->_modelVisitor = $modelVisitor;
+        $this->_groupFactory = $groupFactory;
+        $this->_logFactory = $logFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -67,7 +83,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     {
         $groupId = $this->getCustomer()->getGroupId();
         if ($groupId) {
-            return Mage::getModel('Magento_Customer_Model_Group')
+            return $this->_groupFactory->create()
                 ->load($groupId)
                 ->getCustomerGroupCode();
         }
@@ -81,7 +97,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getCustomerLog()
     {
         if (!$this->_customerLog) {
-            $this->_customerLog = Mage::getModel('Magento_Log_Model_Customer')
+            $this->_customerLog = $this->_logFactory->create()
                 ->loadByCustomer($this->getCustomer()->getId());
         }
         return $this->_customerLog;
@@ -103,7 +119,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getStoreCreateDate()
     {
-        $date = Mage::app()->getLocale()->storeDate(
+        $date = $this->_locale->storeDate(
             $this->getCustomer()->getStoreId(),
             $this->getCustomer()->getCreatedAtTimestamp(),
             true
@@ -113,8 +129,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getStoreCreateDateTimezone()
     {
-        return Mage::app()->getStore($this->getCustomer()->getStoreId())
-            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        return $this->_storeConfig->getConfig(
+            Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $this->getCustomer()->getStoreId()
+        );
     }
 
     /**
@@ -139,7 +157,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            $date = Mage::app()->getLocale()->storeDate(
+            $date = $this->_locale->storeDate(
                 $this->getCustomer()->getStoreId(),
                 $date,
                 true
@@ -151,8 +169,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getStoreLastLoginDateTimezone()
     {
-        return Mage::app()->getStore($this->getCustomer()->getStoreId())
-            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        return $this->_storeConfig->getConfig(
+            Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $this->getCustomer()->getStoreId()
+        );
     }
 
     public function getCurrentStatus()
@@ -179,7 +199,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getCreatedInStore()
     {
-        return Mage::app()->getStore($this->getCustomer()->getStoreId())->getName();
+        return $this->_storeManager->getStore($this->getCustomer()->getStoreId())->getName();
     }
 
     public function getStoreId()

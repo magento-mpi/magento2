@@ -11,6 +11,7 @@
 
 require_once __DIR__ . '/../../../../app/bootstrap.php';
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Classes.php';
+require_once __DIR__ . '/../lib/OAuth/bootstrap.php';
 
 $testsBaseDir = dirname(__DIR__);
 $testsTmpDir = "{$testsBaseDir}/tmp";
@@ -20,7 +21,8 @@ $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 Magento_Autoload_IncludePath::addIncludePath(array(
     "{$testsBaseDir}/framework",
     "{$testsBaseDir}/testsuite",
-    "{$integrationTestsDir}/framework"
+    "{$integrationTestsDir}/framework",
+    "{$integrationTestsDir}/lib"
 ));
 
 /* Bootstrap the application */
@@ -30,7 +32,7 @@ $invariantSettings = array(
 $bootstrap = new Magento_TestFramework_Bootstrap(
     new Magento_TestFramework_Bootstrap_Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
     new Magento_TestFramework_Bootstrap_Environment(),
-    new Magento_TestFramework_Bootstrap_DocBlock("{$testsBaseDir}/testsuite"),
+    new Magento_TestFramework_Bootstrap_WebapiDocBlock("{$integrationTestsDir}/testsuite"),
     new Magento_TestFramework_Bootstrap_Profiler(new Magento_Profiler_Driver_Standard()),
     new Magento_Shell(),
     $testsTmpDir

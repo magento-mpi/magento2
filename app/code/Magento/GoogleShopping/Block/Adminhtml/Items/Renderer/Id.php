@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_GoogleShopping_Block_Adminhtml_Items_Renderer_Id
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Renders Google Shopping Item Id
@@ -39,6 +39,9 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Renderer_Id
         }
         $title = __('View Item in Google Content');
 
-        return sprintf('<a href="%s" alt="%s" title="%s" target="_blank">%s</a>', $baseUrl . $itemId, $title, $title, $itemId);
+        return sprintf(
+            '<a href="%s" alt="%s" title="%s" target="_blank">%s</a>',
+            $baseUrl . $itemId, $title, $title, $itemId
+        );
     }
 }

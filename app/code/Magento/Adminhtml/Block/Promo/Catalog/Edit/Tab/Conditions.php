@@ -13,6 +13,39 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * @var Magento_Backend_Block_Widget_Form_Renderer_Fieldset
+     */
+    protected $_rendererFieldset;
+
+    /**
+     * @var Magento_Rule_Block_Conditions
+     */
+    protected $_conditions;
+
+    /**
+     * @param Magento_Rule_Block_Conditions $conditions
+     * @param Magento_Backend_Block_Widget_Form_Renderer_Fieldset $rendererFieldset
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rule_Block_Conditions $conditions,
+        Magento_Backend_Block_Widget_Form_Renderer_Fieldset $rendererFieldset,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rendererFieldset = $rendererFieldset;
+        $this->_conditions = $conditions;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare content for tab
      *
      * @return string
@@ -60,8 +93,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
-            ->setTemplate('promo/fieldset.phtml')
+        $renderer = $this->_rendererFieldset->setTemplate('Magento_Adminhtml::promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_catalog/newConditionHtml/form/rule_conditions_fieldset'));
 
         $fieldset = $form->addFieldset('conditions_fieldset', array(
@@ -73,7 +105,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
             'label' => __('Conditions'),
             'title' => __('Conditions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
+        ))->setRule($model)->setRenderer($this->_conditions);
 
         $form->setValues($model->getData());
         $this->setForm($form);

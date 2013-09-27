@@ -27,7 +27,8 @@ class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Magento_Backen
      */
     public function testLoadBlockActionData()
     {
-        Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create')->addProducts(array(1 => array('qty' => 1)));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Adminhtml_Model_Sales_Order_Create')
+            ->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'data');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/admin/sales_order_create/loadBlock');
@@ -66,7 +67,8 @@ class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Magento_Backen
      */
     public function testLoadBlockActionItems()
     {
-        Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create')->addProducts(array(1 => array('qty' => 1)));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Adminhtml_Model_Sales_Order_Create')
+            ->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'items');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/admin/sales_order_create/loadBlock');
@@ -80,7 +82,8 @@ class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Magento_Backen
     public function testIndexAction()
     {
         /** @var $order Magento_Adminhtml_Model_Sales_Order_Create */
-        $order = Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Adminhtml_Model_Sales_Order_Create');
         $order->addProducts(array(1 => array('qty' => 1)));
         $this->dispatch('backend/admin/sales_order_create/index');
         $html = $this->getResponse()->getBody();

@@ -18,9 +18,56 @@
 class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * @var Magento_Page_Model_Source_Layout
+     */
+    protected $_pageLayout;
+
+    /**
+     * @var Magento_Cms_Model_Page
+     */
+    protected $_cmsPage;
+
+    /**
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @var Magento_Cms_Model_Resource_Page_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Page_Model_Source_Layout $pageLayout
+     * @param Magento_Cms_Model_Page $cmsPage
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param Magento_Cms_Model_Resource_Page_CollectionFactory $collectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Page_Model_Source_Layout $pageLayout,
+        Magento_Cms_Model_Page $cmsPage,
+        Magento_Cms_Model_PageFactory $pageFactory,
+        Magento_Cms_Model_Resource_Page_CollectionFactory $collectionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_pageLayout = $pageLayout;
+        $this->_cmsPage = $cmsPage;
+        $this->_pageFactory = $pageFactory;
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block construction, prepare grid params
-     *
-     * @param array $arguments Object data
      */
     protected function _construct()
     {
@@ -50,7 +97,7 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
 
 
         if ($element->getValue()) {
-            $page = Mage::getModel('Magento_Cms_Model_Page')->load((int)$element->getValue());
+            $page = $this->_pageFactory->create()->load((int)$element->getValue());
             if ($page->getId()) {
                 $chooser->setLabel($page->getTitle());
             }
@@ -88,7 +135,7 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Cms_Model_Page')->getCollection();
+        $collection = $this->_collectionFactory->create();
         /* @var $collection Magento_Cms_Model_Resource_Page_Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);
@@ -128,7 +175,7 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
             'header'    => __('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Page_Model_Source_Layout')->getOptions(),
+            'options'   => $this->_pageLayout->getOptions(),
             'header_css_class'  => 'col-layout',
             'column_css_class'  => 'col-layout'
         ));
@@ -137,7 +184,7 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
             'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => Mage::getModel('Magento_Cms_Model_Page')->getAvailableStatuses(),
+            'options'   => $this->_cmsPage->getAvailableStatuses(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

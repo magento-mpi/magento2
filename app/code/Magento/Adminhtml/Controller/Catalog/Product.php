@@ -59,7 +59,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
         $productId  = (int)$this->getRequest()->getParam('id');
         /** @var $product Magento_Catalog_Model_Product */
-        $product    = Mage::getModel('Magento_Catalog_Model_Product')
+        $product    = $this->_objectManager->create('Magento_Catalog_Model_Product')
             ->setStoreId($this->getRequest()->getParam('store', 0));
 
         $typeId = $this->getRequest()->getParam('type');
@@ -110,7 +110,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
             && $this->getRequest()->getParam('id', false) === false
         ) {
 
-            $configProduct = Mage::getModel('Magento_Catalog_Model_Product')
+            $configProduct = $this->_objectManager->create('Magento_Catalog_Model_Product')
                 ->setStoreId(0)
                 ->load($this->getRequest()->getParam('product'))
                 ->setTypeId($this->getRequest()->getParam('type'));
@@ -134,7 +134,9 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
         $this->_coreRegistry->register('product', $product);
         $this->_coreRegistry->register('current_product', $product);
-        Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->setStoreId($this->getRequest()->getParam('store'));
+        $this->_objectManager->get('Magento_Cms_Model_Wysiwyg_Config')->setStoreId(
+            $this->getRequest()->getParam('store')
+        );
         return $product;
     }
 
@@ -265,7 +267,10 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
 
-        if (!Mage::app()->isSingleStoreMode() && ($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
+        if (
+            !$this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->isSingleStoreMode()
+            && ($switchBlock = $this->getLayout()->getBlock('store_switcher'))
+        ) {
             $switchBlock->setDefaultStoreName(__('Default Values'))
                 ->setWebsiteIds($product->getWebsiteIds())
                 ->setSwitchUrl(
@@ -295,7 +300,8 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     {
         $elementId = $this->getRequest()->getParam('element_id', md5(microtime()));
         $storeId = $this->getRequest()->getParam('store_id', 0);
-        $storeMediaUrl = Mage::app()->getStore($storeId)->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA);
+        $storeMediaUrl = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore($storeId)->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA);
 
         $content = $this->getLayout()->createBlock(
             'Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content',
@@ -553,7 +559,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                 $productData['stock_data']['use_config_manage_stock'] = 0;
             }
             /* @var $product Magento_Catalog_Model_Product */
-            $product = Mage::getModel('Magento_Catalog_Model_Product');
+            $product = $this->_objectManager->create('Magento_Catalog_Model_Product');
             $product->setData('_edit_mode', true);
             $storeId = $this->getRequest()->getParam('store');
             if ($storeId) {
@@ -603,21 +609,6 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                 }
             }
             $product->validate();
-
-            /**
-             * @todo implement full validation process with errors returning which are ignoring now
-             */
-//            if (is_array($errors = $product->validate())) {
-//                foreach ($errors as $code => $error) {
-//                    if ($error === true) {
-//                        Mage::throwException(__('Attribute "%1" is invalid.',
-//                           $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
-//                    }
-//                    else {
-//                        Mage::throwException($error);
-//                    }
-//                }
-//            }
         } catch (Magento_Eav_Model_Entity_Attribute_Exception $e) {
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
@@ -711,8 +702,13 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
             $product->lockAttribute('media');
         }
 
-        if (Mage::app()->hasSingleStore()) {
-            $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
+        if ($this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->hasSingleStore()) {
+            $product->setWebsiteIds(
+                array(
+                    $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')
+                        ->getStore(true)->getWebsite()->getId()
+                )
+            );
         }
 
         /**
@@ -858,7 +854,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                  */
                 if (isset($data['copy_to_stores'])) {
                     foreach ($data['copy_to_stores'] as $storeTo=>$storeFrom) {
-                        Mage::getModel('Magento_Catalog_Model_Product')
+                        $this->_objectManager->create('Magento_Catalog_Model_Product')
                             ->setStoreId($storeFrom)
                             ->load($productId)
                             ->setStoreId($storeTo)
@@ -866,7 +862,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                     }
                 }
 
-                Mage::getModel('Magento_CatalogRule_Model_Rule')->applyAllRulesToProduct($productId);
+                $this->_objectManager->create('Magento_CatalogRule_Model_Rule')->applyAllRulesToProduct($productId);
 
                 $this->_getSession()->addSuccess(__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
@@ -990,7 +986,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
             if (!empty($productIds)) {
                 try {
                     foreach ($productIds as $productId) {
-                        $product = Mage::getSingleton('Magento_Catalog_Model_Product')->load($productId);
+                        $product = $this->_objectManager->get('Magento_Catalog_Model_Product')->load($productId);
                         $product->delete();
                     }
                     $this->_getSession()->addSuccess(
@@ -1016,7 +1012,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
         try {
             $this->_validateMassStatus($productIds, $status);
-            Mage::getSingleton('Magento_Catalog_Model_Product_Action')
+            $this->_objectManager->get('Magento_Catalog_Model_Product_Action')
                 ->updateAttributes($productIds, array('status' => $status), $storeId);
 
             $this->_getSession()->addSuccess(
@@ -1045,7 +1041,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     public function _validateMassStatus(array $productIds, $status)
     {
         if ($status == Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
-            if (!Mage::getModel('Magento_Catalog_Model_Product')->isProductsHasSku($productIds)) {
+            if (!$this->_objectManager->create('Magento_Catalog_Model_Product')->isProductsHasSku($productIds)) {
                 throw new Magento_Core_Exception(
                     __('Please make sure to define SKU values for all processed products.')
                 );
@@ -1070,7 +1066,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
      */
     public function showUpdateResultAction()
     {
-        $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
+        $session = $this->_objectManager->get('Magento_Adminhtml_Model_Session');
         if ($session->hasCompositeProductResult()
             && $session->getCompositeProductResult() instanceof Magento_Object) {
             $this->_objectManager->get('Magento_Adminhtml_Helper_Catalog_Product_Composite')

@@ -14,7 +14,8 @@ class Magento_CustomerCustomAttributes_Block_FormTest extends PHPUnit_Framework_
 
     public function testPrepareLayout()
     {
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout');
         $template = $layout->createBlock('Magento_Core_Block_Text', 'customer_form_template');
         $template->setData('renderers', array('test' => array(
             'block' => 'Magento_Core_Block_Text', 'template' => '1.phtml'
@@ -28,7 +29,8 @@ class Magento_CustomerCustomAttributes_Block_FormTest extends PHPUnit_Framework_
 
     public function testPrepareLayoutNoRenderer()
     {
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout');
         $layout->createBlock('Magento_Core_Block_Text', 'customer_form_template');
         $block = $layout->createBlock('Magento_CustomerCustomAttributes_Block_Form');
         $this->assertEquals('', $block->toHtml());

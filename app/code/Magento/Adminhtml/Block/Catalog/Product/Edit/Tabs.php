@@ -48,6 +48,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
     protected $_adminhtmlCatalog = null;
 
     /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $collectionFactory
      * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -56,6 +62,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
      * @param array $data
      */
     public function __construct(
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $collectionFactory,
         Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
@@ -63,6 +70,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
@@ -85,7 +93,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
         }
 
         if ($setId) {
-            $groupCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection')
+            $groupCollection = $this->_collectionFactory->create()
                 ->setAttributeSetFilter($setId)
                 ->setSortOrder()
                 ->load();
@@ -132,7 +140,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
             }
 
             /* Don't display website tab for single mode */
-            if (!Mage::app()->isSingleStoreMode()) {
+            if (!$this->_storeManager->isSingleStoreMode()) {
                 $this->addTab('websites', array(
                     'label'     => __('Websites'),
                     'content'   => $this->_translateHtml($this->getLayout()

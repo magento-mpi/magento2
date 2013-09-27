@@ -68,21 +68,11 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
     /**
      * Getter
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
-     */
-    protected function _getOrderCreateModel()
-    {
-        return $this->_orderCreate;
-    }
-
-    /**
-     * Getter
-     *
      * @return Magento_Sales_Model_Quote
      */
     public function getQuote()
     {
-        return $this->_getOrderCreateModel()->getQuote();
+        return $this->_orderCreate->getQuote();
     }
 
     /**
@@ -148,6 +138,6 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
      */
     public function useRewardPoints()
     {
-        return (bool)$this->_getOrderCreateModel()->getQuote()->getUseRewardPoints();
+        return (bool)$this->_orderCreate->getQuote()->getUseRewardPoints();
     }
 }

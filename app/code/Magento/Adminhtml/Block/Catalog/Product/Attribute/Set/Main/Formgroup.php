@@ -17,6 +17,31 @@
 class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup
     extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * @var Magento_Eav_Model_Entity_TypeFactory
+     */
+    protected $_typeFactory;
+
+    /**
+     * @param Magento_Eav_Model_Entity_TypeFactory $typeFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Eav_Model_Entity_TypeFactory $typeFactory,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_typeFactory = $typeFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     protected function _prepareForm()
     {
         /** @var Magento_Data_Form $form */
@@ -62,7 +87,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup
     {
         return ( intval($this->getRequest()->getParam('id')) > 0 )
                     ? intval($this->getRequest()->getParam('id'))
-                    : Mage::getModel('Magento_Eav_Model_Entity_Type')
+                    : $this->_typeFactory->create()
                         ->load($this->_coreRegistry->registry('entityType'))
                         ->getDefaultAttributeSetId();
     }

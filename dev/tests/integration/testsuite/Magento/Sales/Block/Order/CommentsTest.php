@@ -18,7 +18,8 @@ class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Sales_Block_Order_Comments');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Sales_Block_Order_Comments');
     }
 
     /**
@@ -40,15 +41,18 @@ class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                Mage::getModel('Magento_Sales_Model_Order_Invoice'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Invoice'),
                 'Magento_Sales_Model_Resource_Order_Invoice_Comment_Collection'
             ),
             array(
-                Mage::getModel('Magento_Sales_Model_Order_Creditmemo'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Creditmemo'),
                 'Magento_Sales_Model_Resource_Order_Creditmemo_Comment_Collection'
             ),
             array(
-                Mage::getModel('Magento_Sales_Model_Order_Shipment'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Shipment'),
                 'Magento_Sales_Model_Resource_Order_Shipment_Comment_Collection'
             )
         );
@@ -59,7 +63,8 @@ class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCommentsWrongEntityException()
     {
-        $entity = Mage::getModel('Magento_Catalog_Model_Product');
+        $entity = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->_block->setEntity($entity);
         $this->_block->getComments();
     }

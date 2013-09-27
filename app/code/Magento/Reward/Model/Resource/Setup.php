@@ -39,11 +39,13 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Resource_Resource $resourceName
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Cms_Model_PageFactory $pageFactory
-     * @param $resourceName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
@@ -54,11 +56,11 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        $resourceName,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        Magento_Cms_Model_PageFactory $pageFactory,
-        $resourceName
+        Magento_Cms_Model_PageFactory $pageFactory
     ) {
         $this->_pageFactory = $pageFactory;
         parent::__construct($logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,

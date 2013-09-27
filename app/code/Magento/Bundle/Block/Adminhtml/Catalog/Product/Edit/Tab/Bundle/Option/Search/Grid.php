@@ -26,6 +26,12 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
     protected $_bundleData = null;
 
     /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Bundle_Helper_Data $bundleData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -34,6 +40,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Bundle_Helper_Data $bundleData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -42,6 +49,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
         array $data = array()
     ) {
         $this->_bundleData = $bundleData;
+        $this->_productFactory = $productFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -89,7 +97,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $collection = $this->_productFactory->create()->getCollection()
             ->setOrder('id')
             ->setStore($this->getStore())
             ->addAttributeToSelect('name')
@@ -186,7 +194,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
 
     public function getStore()
     {
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**

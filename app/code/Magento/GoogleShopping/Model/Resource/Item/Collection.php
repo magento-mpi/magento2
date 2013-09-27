@@ -17,6 +17,43 @@
  */
 class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
+    /**
+     * Config
+     *
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Resource helper
+     *
+     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Config $config,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_resourceHelper = $resourceHelper;
+        $this->_eavConfig = $config;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_GoogleShopping_Model_Item', 'Magento_GoogleShopping_Model_Resource_Item');
@@ -86,8 +123,8 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
      */
     protected function _joinTables()
     {
-        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('catalog_product');
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute($entityType->getEntityTypeId(),'name');
+        $entityType = $this->_eavConfig->getEntityType('catalog_product');
+        $attribute = $this->_eavConfig->getAttribute($entityType->getEntityTypeId(),'name');
 
         $joinConditionDefault =
             sprintf("p_d.attribute_id=%d AND p_d.store_id='0' AND main_table.product_id=p_d.entity_id",
@@ -115,7 +152,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
                 array('types' => $this->getTable('googleshopping_types')),
                 'main_table.type_id=types.type_id'
             );
-        Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect()); // avoid column name collision
+        $this->_resourceHelper->prepareColumnsList($this->getSelect()); // avoid column name collision
 
         return $this;
     }

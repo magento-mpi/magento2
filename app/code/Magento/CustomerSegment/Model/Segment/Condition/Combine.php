@@ -19,14 +19,24 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine
     extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
 {
     /**
-     * Initialize model
-     *
+     * @var Magento_CustomerSegment_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Combine');
     }
 
@@ -42,42 +52,37 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine
                 // Subconditions combo
                 'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Combine',
                 'label' => __('Conditions Combination'),
-                'available_in_guest_mode' => true
+                'available_in_guest_mode' => true,
             ),
             array(
                 // Customer address combo
                 'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Customer_Address',
-                'label' => __('Customer Address')
+                'label' => __('Customer Address'),
             ),
             // Customer attribute group
-            Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Customer')
-                ->getNewChildSelectOptions(),
-
+            $this->_conditionFactory->create('Customer')->getNewChildSelectOptions(),
             // Shopping cart group
-            Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart')
-                ->getNewChildSelectOptions(),
-
+            $this->_conditionFactory->create('Shoppingcart')->getNewChildSelectOptions(),
             array(
                 'value' => array(
                     array(
                         // Product list combo
                         'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_List',
                         'label' => __('Product List'),
-                        'available_in_guest_mode' => true
+                        'available_in_guest_mode' => true,
                     ),
                     array(
                         // Product history combo
                         'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_History',
                         'label' => __('Product History'),
-                        'available_in_guest_mode' => true
+                        'available_in_guest_mode' => true,
                     )
                 ),
                 'label' => __('Products'),
-                'available_in_guest_mode' => true
+                'available_in_guest_mode' => true,
             ),
-
             // Sales group
-            Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Sales')->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Sales')->getNewChildSelectOptions(),
         );
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $this->_prepareConditionAccordingApplyToValue($conditions);
@@ -101,6 +106,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine
      * Prepare Condition According to ApplyTo Value
      *
      * @param array $conditions
+     * @throws Magento_Core_Exception
      * @return array
      */
     protected function _prepareConditionAccordingApplyToValue(array $conditions)
@@ -120,9 +126,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine
                 break;
 
             default:
-                Mage::throwException(
-                    __('Wrong "ApplyTo" type')
-                );
+                throw new Magento_Core_Exception(__('Wrong "ApplyTo" type'));
                 break;
         }
         return $returnedConditions;

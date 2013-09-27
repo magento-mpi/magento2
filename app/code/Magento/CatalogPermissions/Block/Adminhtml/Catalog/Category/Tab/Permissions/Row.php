@@ -39,6 +39,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource_Website_CollectionFactory $websiteCollFactory
      * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
+     * @param Magento_Catalog_Model_Resource_Category_Tree $categoryTree
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -48,6 +49,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource_Website_CollectionFactory $websiteCollFactory,
         Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory,
+        Magento_Catalog_Model_Resource_Category_Tree $categoryTree,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -56,7 +58,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
         $this->_storeManager = $storeManager;
         $this->_websiteCollFactory = $websiteCollFactory;
         $this->_groupCollFactory = $groupCollFactory;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($categoryTree, $coreData, $context, $registry, $data);
     }
 
     protected function _prepareLayout()

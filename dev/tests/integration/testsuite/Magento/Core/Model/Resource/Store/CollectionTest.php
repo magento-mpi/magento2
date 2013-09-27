@@ -18,7 +18,8 @@ class Magento_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Store_Collection');
     }
 
     public function testSetGetLoadDefault()

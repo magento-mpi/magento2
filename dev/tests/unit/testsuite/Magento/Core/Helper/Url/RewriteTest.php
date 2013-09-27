@@ -33,7 +33,6 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
             ->with('Magento_Core_Model_Registry')
             ->will($this->returnValue($coreRegisterMock));
 
-        Mage::reset();
         Magento_Core_Model_ObjectManager::setInstance($objectManagerMock);
     }
 

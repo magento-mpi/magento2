@@ -98,4 +98,5 @@ return array(
     array('_helper', 'Magento_GiftRegistry_Model_Entity'),
     array('_getIndexModel', 'Magento_CatalogPermissions_Model_Observer'),
     array('_getConfig', 'Magento_SalesArchive_Model_Resource_Archive'),
+    array('_getCart', 'Magento_AdvancedCheckout_Model_Cart'),
 );

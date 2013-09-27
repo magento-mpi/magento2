@@ -48,6 +48,9 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
      */
     protected $_eventObject = 'config_data';
 
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
     protected $_storeManager;
 
     /**
@@ -59,7 +62,7 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -68,7 +71,7 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Config $config,
+        Magento_Core_Model_ConfigInterface $config,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()

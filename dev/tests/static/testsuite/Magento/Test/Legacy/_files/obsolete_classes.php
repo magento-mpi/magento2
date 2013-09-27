@@ -957,6 +957,7 @@ return array(
     array('Mage_Sales_Model_Order_Creditmemo_Api'),
     array('Magento_ImportExport_Model_Config'),
     array('Magento_Data_Collection_Factory', 'Magento_Data_CollectionFactory'),
+    array('Magento_Adminhtml_Block_Customer_System_Config_ValidatevatFactory'),
     array('Magento_Customer_Model_Attribute_Data'),
     array('Magento_Eav_Model_Attribute_Data'),
 );

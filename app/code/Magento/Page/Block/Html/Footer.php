@@ -20,6 +20,35 @@ class Magento_Page_Block_Html_Footer extends Magento_Core_Block_Template
 
     protected $_copyright;
 
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->addData(array(
@@ -37,10 +66,10 @@ class Magento_Page_Block_Html_Footer extends Magento_Core_Block_Template
     {
         return array(
             'PAGE_FOOTER',
-            Mage::app()->getStore()->getId(),
-            (int)Mage::app()->getStore()->isCurrentlySecure(),
+            $this->_storeManager->getStore()->getId(),
+            (int)$this->_storeManager->getStore()->isCurrentlySecure(),
             $this->_design->getDesignTheme()->getId(),
-            Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
+            $this->_customerSession->isLoggedIn()
         );
     }
 

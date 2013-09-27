@@ -20,8 +20,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
     protected $_eventCollectionFactory;
 
     /**
-     * Construct
-     *
+     * @param Magento_Catalog_Model_Resource_Category_Tree $categoryTree
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -29,13 +28,14 @@ class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Category_Tree $categoryTree,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($categoryTree, $coreData, $context, $registry, $data);
 
         $this->_eventCollectionFactory = $eventCollectionFactory;
     }

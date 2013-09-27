@@ -12,13 +12,37 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Eav_Model_Entity_Attribute_SetFactory
+     */
+    protected $_setFactory;
+
+    /**
+     * @param Magento_Eav_Model_Entity_Attribute_SetFactory $setFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Eav_Model_Entity_Attribute_SetFactory $setFactory,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_setFactory = $setFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepares attribute set form
      *
      */
     protected function _prepareForm()
     {
-        $data = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
-            ->load($this->getRequest()->getParam('id'));
+        $data = $this->_setFactory->create()->load($this->getRequest()->getParam('id'));
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create();
@@ -38,7 +62,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset
                 'value' => '1'
             ));
 
-            $sets = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+            $sets = $this->_setFactory->create()
                 ->getResourceCollection()
                 ->setEntityTypeFilter($this->_coreRegistry->registry('entityType'))
                 ->load()

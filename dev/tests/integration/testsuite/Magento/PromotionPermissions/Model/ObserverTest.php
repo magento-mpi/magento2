@@ -31,7 +31,7 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
         $objectManager->addSharedInstance($this->_moduleListMock, 'Magento_Core_Model_ModuleList');
         $objectManager->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
     }
 
     /**
@@ -56,7 +56,8 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
             ->will($this->returnValue(true));
         $event = new Magento_Event_Observer();
         $event->setBlock($block);
-        $observer = Mage::getModel('Magento_PromotionPermissions_Model_Observer');
+        $observer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_PromotionPermissions_Model_Observer');
         $observer->adminhtmlBlockHtmlBefore($event);
 
         $this->assertFalse($this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));

@@ -28,17 +28,33 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Eav_Model_Entity_AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @var Magento_Eav_Model_Entity_Attribute_SetFactory
+     */
+    protected $_setFactory;
+
+    /**
+     * @param Magento_Eav_Model_Entity_Attribute_SetFactory $setFactory
+     * @param Magento_Eav_Model_Entity_AttributeFactory $attributeFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Eav_Model_Entity_Attribute_SetFactory $setFactory,
+        Magento_Eav_Model_Entity_AttributeFactory $attributeFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_setFactory = $setFactory;
+        $this->_attributeFactory = $attributeFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -83,7 +99,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
         if ($this->getRequest()->getParam('product_tab') == 'variations') {
             /** @var $attribute Magento_Eav_Model_Entity_Attribute */
             $attribute =
-                Mage::getModel('Magento_Eav_Model_Entity_Attribute')->load($this->getRequest()->getParam('attribute'));
+                $this->_attributeFactory->create()->load($this->getRequest()->getParam('attribute'));
             $result = array(
                 'tab' => $this->getRequest()->getParam('product_tab'),
                 'attribute' => array(
@@ -97,7 +113,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
         $newAttributeSetId = $this->getRequest()->getParam('new_attribute_set_id');
         if ($newAttributeSetId) {
             /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
-            $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')->load($newAttributeSetId);
+            $attributeSet = $this->_setFactory->create()->load($newAttributeSetId);
             $result['set'] = array(
                 'id' => $attributeSet->getId(),
                 'label' => $attributeSet->getAttributeSetName(),

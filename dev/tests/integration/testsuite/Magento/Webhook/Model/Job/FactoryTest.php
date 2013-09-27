@@ -15,10 +15,12 @@ class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Webhook_Model_Job_Factory');
-        $event = Mage::getModel('Magento_Webhook_Model_Event')
+        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Event')
             ->setDataChanges(true)
             ->save();
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription')
+        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Subscription')
             ->setDataChanges(true)
             ->save();
         $job = $factory->create($subscription, $event);

@@ -67,23 +67,43 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      */
     protected $_voteFactory;
 
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource $coreResource
+     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource $resourceModel
+     * @param Magento_Rating_Model_RatingFactory $ratingFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource $resourceModel,
-        Magento_Rating_Model_RatingFactory $ratingFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory,
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Resource $coreResource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
         Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource $resourceModel,
+        Magento_Rating_Model_RatingFactory $ratingFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
     ) {
         $this->_resourceModel = $resourceModel;
         $this->_ratingFactory = $ratingFactory;

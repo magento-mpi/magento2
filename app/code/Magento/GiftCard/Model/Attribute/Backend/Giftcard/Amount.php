@@ -12,13 +12,44 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     extends Magento_Catalog_Model_Product_Attribute_Backend_Price
 {
     /**
-     * Retrieve resource model
+     * Giftcard amount backend resource model
      *
-     * @return Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amounts
+     * @var Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
      */
-    protected function _getResource()
-    {
-        return Mage::getResourceSingleton('Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount');
+    protected $_amountResource;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Directory helper
+     *
+     * @var Magento_Directory_Helper_Data
+     */
+    protected $_directoryHelper;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Directory_Helper_Data $directoryHelper
+     * @param Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount $amountResource
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Directory_Helper_Data $directoryHelper,
+        Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount $amountResource,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Logger $logger
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_directoryHelper = $directoryHelper;
+        $this->_amountResource = $amountResource;
+        parent::__construct($catalogData, $logger);
     }
 
     /**
@@ -43,7 +74,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
             $key1 = implode('-', array($row['website_id'], $row['price']));
 
             if (!empty($dup[$key1])) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Duplicate amount found.')
                 );
             }
@@ -60,11 +91,12 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
      */
     public function afterLoad($object)
     {
-        $data = $this->_getResource()->loadProductData($object, $this->getAttribute());
+        $data = $this->_amountResource->loadProductData($object, $this->getAttribute());
 
         foreach ($data as $i=>$row) {
             if ($data[$i]['website_id'] == 0) {
-                $rate = Mage::app()->getStore()->getBaseCurrency()->getRate(Mage::app()->getBaseCurrencyCode());
+                $rate = $this->_storeManager->getStore()->getBaseCurrency()
+                    ->getRate($this->_directoryHelper->getBaseCurrencyCode());
                 if ($rate) {
                     $data[$i]['website_value'] = $data[$i]['value']/$rate;
                 } else {
@@ -93,7 +125,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
             return $this;
         }
 
-        $this->_getResource()->deleteProductData($object, $this->getAttribute());
+        $this->_amountResource->deleteProductData($object, $this->getAttribute());
         $rows = $object->getData($this->getAttribute()->getName());
 
         if (!is_array($rows)) {
@@ -113,7 +145,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
             $data['value']        = (isset($row['price'])) ? $row['price'] : $row['value'];
             $data['attribute_id'] = $this->getAttribute()->getId();
 
-            $this->_getResource()->insertProductData($object, $data);
+            $this->_amountResource->insertProductData($object, $data);
         }
 
         return $this;
@@ -127,7 +159,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
      */
     public function afterDelete($object)
     {
-        $this->_getResource()->deleteProductData($object, $this->getAttribute());
+        $this->_amountResource->deleteProductData($object, $this->getAttribute());
         return $this;
     }
 
@@ -139,7 +171,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
 /*
     public function getTable()
     {
-        return $this->_getResource()->getMainTable();
+        return $this->_amountResource->getMainTable();
     }
 */
 }

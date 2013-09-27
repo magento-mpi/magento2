@@ -14,8 +14,10 @@ class Magento_Catalog_Model_Product_Type_VirtualTest extends PHPUnit_Framework_T
     public function testIsVirtual()
     {
         /** @var $model Magento_Catalog_Model_Product_Type_Virtual */
-        $model = Mage::getModel('Magento_Catalog_Model_Product_Type_Virtual');
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Type_Virtual');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->assertTrue($model->isVirtual($product));
     }
 }

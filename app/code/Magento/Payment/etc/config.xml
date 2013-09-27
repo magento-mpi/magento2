@@ -18,55 +18,6 @@
                 </setup>
             </payment_setup>
         </resources>
-        <payment>
-            <cc>
-                <types>
-                    <AE>
-                        <code>AE</code>
-                        <name>American Express</name>
-                        <order>0</order>
-                    </AE>
-                    <VI>
-                        <code>VI</code>
-                        <name>Visa</name>
-                        <order>10</order>
-                    </VI>
-                    <MC>
-                        <code>MC</code>
-                        <name>MasterCard</name>
-                        <order>20</order>
-                    </MC>
-                    <DI>
-                        <code>DI</code>
-                        <name>Discover</name>
-                        <order>30</order>
-                    </DI>
-                    <SM>
-                        <code>SM</code>
-                        <name>Maestro/Switch</name>
-                        <order>40</order>
-                    </SM>
-                    <SO>
-                        <code>SO</code>
-                        <name>Solo</name>
-                        <order>45</order>
-                    </SO>
-                    <JCB>
-                        <code>JCB</code>
-                        <name>JCB</name>
-                        <order>50</order>
-                    </JCB>
-                    <OT>
-                        <code>OT</code>
-                        <name>Other</name>
-                        <order>1000</order>
-                    </OT>
-                </types>
-            </cc>
-            <groups>
-                <offline>Offline Payment Methods</offline>
-            </groups>
-        </payment>
     </global>
     <default>
         <payment>

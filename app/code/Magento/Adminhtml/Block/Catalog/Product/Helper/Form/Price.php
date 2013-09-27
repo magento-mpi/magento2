@@ -25,6 +25,18 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_
     protected $_taxData = null;
 
     /**
+     * @var Magneto_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
@@ -32,14 +44,18 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_
      * @param array $attributes
      */
     public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Helper_Data $coreData,
         Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Data_Form_Element_CollectionFactory $factoryCollection,
         Magento_Tax_Helper_Data $taxData,
         array $attributes = array()
     ) {
-        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
         $this->_taxData = $taxData;
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 
     protected function _construct()
@@ -59,12 +75,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_
             if (!($storeId = $attribute->getStoreId())) {
                 $storeId = $this->getForm()->getDataObject()->getStoreId();
             }
-            $store = Mage::app()->getStore($storeId);
-            $html.= '<strong>' . Mage::app()->getLocale()->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
+            $store = $this->_storeManager->getStore($storeId);
+            $html .= '<strong>' . $this->_locale->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
             if ($this->_taxData->priceIncludesTax($store)) {
                 if ($attribute->getAttributeCode()!=='cost') {
                     $addJsObserver = true;
-                    $html.= ' <strong>['.__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';
+                    $html .= ' <strong>[' . __('Inc. Tax') . '<span id="dynamic-tax-'
+                        . $attribute->getAttributeCode() . '"></span>]</strong>';
                 }
             }
         }
@@ -93,6 +110,4 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_
 
         return number_format($value, 2, null, '');
     }
-
 }
-

@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items extends Magento_Adminhtml_B
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(__('Invalid parent block for this block'));
+            throw new Magento_Core_Exception(__('Invalid parent block for this block'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
         parent::_beforeToHtml();

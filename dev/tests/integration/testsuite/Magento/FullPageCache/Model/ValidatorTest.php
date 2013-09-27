@@ -23,7 +23,8 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_FullPageCache_Model_Validator');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_FullPageCache_Model_Validator');
     }
 
     /**

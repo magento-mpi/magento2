@@ -33,7 +33,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     public function testDependenceHtml()
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout', array('area' => 'adminhtml'));
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout', array('area' => 'adminhtml'));
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $block Magento_Backend_Block_System_Config_Form */
@@ -68,7 +69,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
         /** @var $block Magento_Backend_Block_System_Config_FormStub */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_System_Config_FormStub');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Backend_Block_System_Config_FormStub');
         $block->setScope(Magento_Backend_Block_System_Config_Form::SCOPE_WEBSITES);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
@@ -121,7 +123,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
         /** @var $block Magento_Backend_Block_System_Config_FormStub */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_System_Config_FormStub');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Backend_Block_System_Config_FormStub');
         $block->setScope(Magento_Backend_Block_System_Config_Form::SCOPE_DEFAULT);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
@@ -141,12 +144,12 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     public function initFieldsInheritCheckboxDataProvider()
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_BAN_CACHE => true,
+            Magento_Core_Model_App::PARAM_BAN_CACHE => true,
         ));
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        Mage::app()
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
             ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 
         $configMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false);
@@ -161,7 +164,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             )
         ));
         /** @var Magento_Backend_Model_Config_Structure $structure  */
-        $structure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
+        $structure = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Backend_Model_Config_Structure');
 
         /** @var Magento_Backend_Model_Config_Structure_Element_Section $section  */
         $section = $structure->getElement('test_section');
@@ -189,13 +193,20 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
     public function testInitFormAddsFieldsets()
     {
-        Mage::getModel(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Core_Controller_Front_Action',
-            array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
+            array(
+                'request' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Controller_Request_Http'),
+                'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_App')->getResponse()
+            )
         );
-        Mage::app()->getRequest()->setParam('section', 'general');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Controller_Request_Http')
+            ->setParam('section', 'general');
         /** @var $block Magento_Backend_Block_System_Config_Form */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_System_Config_Form');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Backend_Block_System_Config_Form');
         $block->initForm();
         $expectedIds = array(
             'general_country' => array(

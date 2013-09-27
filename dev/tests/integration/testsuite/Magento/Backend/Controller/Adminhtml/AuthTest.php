@@ -37,9 +37,10 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
      */
     protected  function _login()
     {
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+            ->turnOffSecretKey();
 
-        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        $this->_auth = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth');
         $this->_auth->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->_session = $this->_auth->getAuthStorage();
@@ -51,7 +52,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
     protected function _logout()
     {
         $this->_auth->logout();
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')->turnOnSecretKey();
     }
 
     /**
@@ -101,11 +102,13 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
 
         $this->dispatch('backend/admin/index/index');
 
-        $response = Mage::app()->getResponse();
+        $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getResponse();
         $code = $response->getHttpResponseCode();
         $this->assertTrue($code >= 300 && $code < 400, 'Incorrect response code');
 
-        $this->assertTrue(Mage::getSingleton('Magento_Backend_Model_Auth')->isLoggedIn());
+        $this->assertTrue(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth')
+            ->isLoggedIn());
     }
 
     /**

@@ -40,9 +40,6 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
     /**
      * @param Magento_Rule_Block_Editable $editable
      * @param Magento_Catalog_Model_Product_Type $type
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Catalog_Model_Resource_Product $productResource
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavEntitySetFactory
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param Magento_Eav_Model_Config $config
@@ -54,9 +51,6 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
     public function __construct(
         Magento_Rule_Block_Editable $editable,
         Magento_Catalog_Model_Product_Type $type,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Catalog_Model_Resource_Product $productResource,
-        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavEntitySetFactory,
         Magento_Backend_Helper_Data $backendData,
         Magento_Rule_Model_Condition_Context $context,
         Magento_Eav_Model_Config $config,
@@ -68,8 +62,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
         $this->_editable = $editable;
         $this->_type = $type;
         parent::__construct(
-            $eavConfig, $productResource, $eavEntitySetFactory, $backendData, $context, $config, $product, 
-            $productResource, $attrSetCollection, $data
+            $backendData, $context, $config, $product, $productResource, $attrSetCollection, $data
         );
         $this->setType('Magento_TargetRule_Model_Actions_Condition_Product_Attributes');
         $this->setValue(null);

@@ -46,7 +46,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
         $this->_initStoreTypesInRegistry($registryData);
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_System_Store_Edit */
         $block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit', 'block');
         $block->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
@@ -61,15 +61,27 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
     {
         return array(
             array(
-                array('store_type' => 'website', 'store_data' => Mage::getModel('Magento_Core_Model_Website')),
+                array(
+                    'store_type' => 'website',
+                    'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->create('Magento_Core_Model_Website')
+                ),
                 'Magento_Adminhtml_Block_System_Store_Edit_Form_Website'
             ),
             array(
-                array('store_type' => 'group', 'store_data' => Mage::getModel('Magento_Core_Model_Store_Group')),
+                array(
+                    'store_type' => 'group',
+                    'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->create('Magento_Core_Model_Store_Group')
+                ),
                 'Magento_Adminhtml_Block_System_Store_Edit_Form_Group'
             ),
             array(
-                array('store_type' => 'store', 'store_data' => Mage::getModel('Magento_Core_Model_Store')),
+                array(
+                    'store_type' => 'store',
+                    'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->create('Magento_Core_Model_Store')
+                ),
                 'Magento_Adminhtml_Block_System_Store_Edit_Form_Store'
             )
         );
@@ -85,7 +97,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
         $this->_initStoreTypesInRegistry($registryData);
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_System_Store_Edit */
         $block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit', 'block');
         $block->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
@@ -102,7 +114,8 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
             array(
                 array(
                     'store_type' => 'website',
-                    'store_data' => Mage::getModel('Magento_Core_Model_Website'),
+                    'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->create('Magento_Core_Model_Website'),
                     'store_action' => 'add'
                 ),
                 'New Web Site'
@@ -110,7 +123,8 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
             array(
                 array(
                     'store_type' => 'website',
-                    'store_data' => Mage::getModel('Magento_Core_Model_Website'),
+                    'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->create('Magento_Core_Model_Website'),
                     'store_action' => 'edit'
                 ),
                 'Edit Web Site'
@@ -118,7 +132,8 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
             array(
                 array(
                     'store_type' => 'group',
-                    'store_data' => Mage::getModel('Magento_Core_Model_Store_Group'),
+                    'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->create('Magento_Core_Model_Store_Group'),
                     'store_action' => 'add'
                 ),
                 'New Store'
@@ -126,7 +141,8 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
             array(
                 array(
                     'store_type' => 'group',
-                    'store_data' => Mage::getModel('Magento_Core_Model_Store_Group'),
+                    'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->create('Magento_Core_Model_Store_Group'),
                     'store_action' => 'edit'
                 ),
                 'Edit Store'
@@ -134,7 +150,8 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
             array(
                 array(
                     'store_type' => 'store',
-                    'store_data' => Mage::getModel('Magento_Core_Model_Store'),
+                    'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->create('Magento_Core_Model_Store'),
                     'store_action' => 'add'
                 ),
                 'New Store View'
@@ -142,7 +159,8 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
             array(
                 array(
                     'store_type' => 'store',
-                    'store_data' => Mage::getModel('Magento_Core_Model_Store'),
+                    'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->create('Magento_Core_Model_Store'),
                     'store_action' => 'edit'
                 ),
                 'Edit Store View'
