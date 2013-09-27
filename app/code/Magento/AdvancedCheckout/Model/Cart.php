@@ -102,7 +102,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     protected $_customerData = null;
 
     /**
-     * @var Magento_AdvancedCheckout_Helper_Data
+     * @var Magento_AdvancedCheckout_Helper_DataProxy
      */
     protected $_checkoutData = null;
 
@@ -173,7 +173,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
      * @param Magento_Core_Model_Message $coreMessage
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
+     * @param Magento_AdvancedCheckout_Helper_DataProxy $checkoutData
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Catalog_Model_Product_OptionFactory $optionFactory
      * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
@@ -189,7 +189,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
         Magento_Adminhtml_Model_Session_Quote $sessionQuote,
         Magento_Core_Model_Message $coreMessage,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_AdvancedCheckout_Helper_Data $checkoutData,
+        Magento_AdvancedCheckout_Helper_DataProxy $checkoutData,
         Magento_Customer_Helper_Data $customerData,
         Magento_Catalog_Model_Product_OptionFactory $optionFactory,
         Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,

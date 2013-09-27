@@ -61,6 +61,39 @@ class Magento_Reports_Model_Resource_Customer_Collection extends Magento_Custome
     protected $_orderEntityField;
 
     /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Quote_Item_CollectionFactory
+     */
+    protected $_quoteItemFactory;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param Magento_Sales_Model_Resource_Quote_Item_CollectionFactory $quoteItemFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
+        Magento_Sales_Model_Resource_Quote_Item_CollectionFactory $quoteItemFactory
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $fieldsetConfig);
+        $this->_quoteFactory = $quoteFactory;
+        $this->_quoteItemFactory = $quoteItemFactory;
+    }
+
+    /**
      * Add cart info to collection
      *
      * @return Magento_Reports_Model_Resource_Customer_Collection
@@ -68,12 +101,13 @@ class Magento_Reports_Model_Resource_Customer_Collection extends Magento_Custome
     public function addCartInfo()
     {
         foreach ($this->getItems() as $item) {
-            $quote = Mage::getModel('Magento_Sales_Model_Quote')->loadByCustomer($item->getId());
+            $quote = $this->_quoteFactory->create()->loadByCustomer($item->getId());
 
             if ($quote instanceof Magento_Sales_Model_Quote) {
                 $totals = $quote->getTotals();
                 $item->setTotal($totals['subtotal']->getValue());
-                $quoteItems = Mage::getResourceModel('Magento_Sales_Model_Resource_Quote_Item_Collection')
+                $quoteItems = $this->_quoteItemFactory
+                    ->create()
                     ->setQuoteFilter($quote->getId());
                 $quoteItems->load();
                 $item->setItems($quoteItems->count());

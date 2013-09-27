@@ -20,11 +20,11 @@ class Magento_Reports_Block_Product_Compared extends Magento_Reports_Block_Produ
     const XML_PATH_RECENTLY_COMPARED_COUNT  = 'catalog/recently_products/compared_count';
 
     /**
-     * Compared Product Index model name
+     * Compared Product Index type
      *
      * @var string
      */
-    protected $_indexName       = 'Magento_Reports_Model_Product_Index_Compared';
+    protected $_indexType = Magento_Reports_Model_Product_Index_Factory::TYPE_COMPARED;
 
     /**
      * Retrieve page size (count)

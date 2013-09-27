@@ -23,6 +23,39 @@ class Magento_Install_Block_Db_Type extends Magento_Core_Block_Template
     protected $_title;
 
     /**
+     * Install installer config
+     *
+     * @var Magento_Install_Model_Installer_Config
+     */
+    protected $_installerConfig = null;
+
+    /**
+     * Install installer config
+     *
+     * @var Magento_Core_Model_Session_Generic
+     */
+    protected $_session;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Install_Model_Installer_Config $installerConfig
+     * @param Magento_Core_Model_Session_Generic $session
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Install_Model_Installer_Config $installerConfig,
+        Magento_Core_Model_Session_Generic $session,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_installerConfig = $installerConfig;
+        $this->_session = $session;
+    }
+
+    /**
      * Return Db title
      *
      * @return string
@@ -41,9 +74,9 @@ class Magento_Install_Block_Db_Type extends Magento_Core_Block_Template
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
+            $data = $this->_session->getConfigData(true);
             if (empty($data)) {
-                $data = Mage::getModel('Magento_Install_Model_Installer_Config')->getFormData();
+                $data = $this->_installerConfig->getFormData();
             } else {
                 $data = new Magento_Object($data);
             }

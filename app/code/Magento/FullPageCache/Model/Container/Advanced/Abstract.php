@@ -52,12 +52,13 @@ abstract class Magento_FullPageCache_Model_Container_Advanced_Abstract
      * @param array $tags
      * @param null|int $lifetime
      * @return Magento_FullPageCache_Model_Container_Advanced_Abstract
+     * @throws Magento_Core_Exception
      */
     protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {
         $additionalCacheId = $this->_getAdditionalCacheId();
         if (!$additionalCacheId) {
-            Mage::throwException(__('Please enter an additional ID.'));
+            throw new Magento_Core_Exception(__('Please enter an additional ID.'));
         }
 
         $tags[] = Magento_FullPageCache_Model_Processor::CACHE_TAG;
@@ -69,7 +70,7 @@ abstract class Magento_FullPageCache_Model_Container_Advanced_Abstract
         /**
          * Replace all occurrences of session_id with unique marker
          */
-        Magento_FullPageCache_Helper_Url::replaceSid($data);
+        $this->_urlHelper->replaceSid($data);
 
         $result = array();
 

@@ -13,7 +13,53 @@
  */
 class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Block_Form_Element
 {
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $customerSession;
+
+    /**
+     * @var Magento_GiftRegistry_Model_Attribute_Config
+     */
+    protected $attributeConfig;
+
     protected $_attributes = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Directory_Model_Country $country
+     * @param Magento_Directory_Model_RegionFactory $region
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Directory_Model_Country $country,
+        Magento_Directory_Model_RegionFactory $region,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $coreData, $context, $configCacheType, $country,
+            $region, $storeManager, $locale, $data
+        );
+        $this->_coreRegistry = $coreRegistry;
+        $this->customerSession = $customerSession;
+        $this->attributeConfig = $attributeConfig;
+    }
+
     protected $_formData = null;
 
     /**
@@ -22,24 +68,6 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
-
-    /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Registry $coreRegistry,
-        array $data = array()
-    ) {
-        $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $configCacheType, $data);
-    }
 
     /**
      * Get config
@@ -71,7 +99,7 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')->getRegistrySearchData();
+            $this->_formData = $this->customerSession->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -88,7 +116,7 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
     {
         if (is_null($this->_attributes)) {
             $type = $this->_coreRegistry->registry('current_giftregistry_type');
-            $config = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
+            $config = $this->attributeConfig;
             $staticTypes = $config->getStaticTypesCodes();
 
             $attributes = array();

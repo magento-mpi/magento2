@@ -44,17 +44,15 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
         $this->_title(__('Gift Card Accounts'));
 
         if ($this->_showCodePoolStatusMessage) {
-            $usage = Mage::getModel('Magento_GiftCardAccount_Model_Pool')->getPoolUsageInfo();
+            $usage = $this->_objectManager->create('Magento_GiftCardAccount_Model_Pool')->getPoolUsageInfo();
 
-            $function = 'addNotice';
+            $url = $this->_objectManager->get('Magento_Backend_Model_Url')->getUrl('*/*/generate');
+            $notice = __('Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total). Generate new code pool <a href="%4">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url);
             if ($usage->getPercent() == 100) {
-                $function = 'addError';
+                $this->_getSession()->addError($notice);
+            } else {
+                $this->_getSession()->addNotice($notice);
             }
-
-            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/*/generate');
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->$function(
-                __('Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total). Generate new code pool <a href="%4">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url)
-            );
         }
 
         $this->loadLayout();
@@ -81,14 +79,14 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
         $model = $this->_initGca();
 
         if (!$model->getId() && $id) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This gift card account has been deleted.'));
+            $this->_getSession()->addError(__('This gift card account has been deleted.'));
             $this->_redirect('*/*/');
             return;
         }
 
         $this->_title($model->getId() ? $model->getCode() : __('New Account'));
 
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
+        $data = $this->_getSession()->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -120,13 +118,14 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
             $id = $this->getRequest()->getParam('giftcardaccount_id');
             $model = $this->_initGca('giftcardaccount_id');
             if (!$model->getId() && $id) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This gift card account has been deleted.'));
+                $this->_getSession()->addError(__('This gift card account has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             }
 
-            if (Mage::app()->isSingleStoreMode()) {
-                $data['website_id'] = Mage::app()->getStore(true)->getWebsiteId();
+            if ($this->_objectManager->get('Magento_Core_Model_StoreManager')->isSingleStoreMode()) {
+                $data['website_id'] = $this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore(true)
+                    ->getWebsiteId();
             }
 
             if (!empty($data)) {
@@ -155,20 +154,20 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
 
                 if (!is_null($sending)) {
                     if ($sending) {
-                        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the gift card account.'));
+                        $this->_getSession()->addSuccess(__('You saved the gift card account.'));
                     } else {
-                        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('You saved the gift card account, but an email was not sent.'));
+                        $this->_getSession()->addError(__('You saved the gift card account, but an email was not sent.'));
                     }
                 } else {
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the gift card account.'));
+                    $this->_getSession()->addSuccess(__('You saved the gift card account.'));
 
                     if ($status) {
-                        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(__('An email was not sent because the gift card account is not active.'));
+                        $this->_getSession()->addNotice(__('An email was not sent because the gift card account is not active.'));
                     }
                 }
 
                 // clear previously saved data from session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
+                $this->_getSession()->setFormData(false);
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
@@ -181,9 +180,9 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
 
             } catch (Exception $e) {
                 // display error message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_getSession()->addError($e->getMessage());
                 // save data in session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
+                $this->_getSession()->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
@@ -202,25 +201,25 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
         if ($id) {
             try {
                 // init model and delete
-                $model = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount');
+                $model = $this->_objectManager->create('Magento_GiftCardAccount_Model_Giftcardaccount');
                 $model->load($id);
                 $model->delete();
                 // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('This gift card account has been deleted.'));
+                $this->_getSession()->addSuccess(__('This gift card account has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
 
             } catch (Exception $e) {
                 // display error message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_getSession()->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('id' => $id));
                 return;
             }
         }
         // display error message
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't find a gift card account to delete."));
+        $this->_getSession()->addError(__("We couldn't find a gift card account to delete."));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -240,12 +239,12 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
     public function generateAction()
     {
         try {
-            Mage::getModel('Magento_GiftCardAccount_Model_Pool')->generatePool();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('New code pool was generated.'));
+            $this->_objectManager->create('Magento_GiftCardAccount_Model_Pool')->generatePool();
+            $this->_getSession()->addSuccess(__('New code pool was generated.'));
         } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addException($e, __('We were unable to generate a new code pool.'));
+            $this->_getSession()->addException($e, __('We were unable to generate a new code pool.'));
         }
         $this->_redirectReferer('*/*/');
     }
@@ -283,14 +282,14 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
      * Load GCA from request
      *
      * @param string $idFieldName
-     * @return Magento_Core_Model_Abstract
+     * @return Magento_GiftCardAccount_Model_Giftcardaccount
      */
     protected function _initGca($idFieldName = 'id')
     {
         $this->_title(__('Gift Card Accounts'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
-        $model = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount');
+        $model = $this->_objectManager->create('Magento_GiftCardAccount_Model_Giftcardaccount');
         if ($id) {
             $model->load($id);
         }
@@ -333,7 +332,7 @@ class Magento_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Magen
         } else {
             try {
                 foreach ($ids as $id) {
-                    $model = Mage::getSingleton('Magento_GiftCardAccount_Model_Giftcardaccount')->load($id);
+                    $model = $this->_objectManager->create('Magento_GiftCardAccount_Model_Giftcardaccount')->load($id);
                     $model->delete();
                 }
 

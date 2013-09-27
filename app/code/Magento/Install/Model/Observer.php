@@ -14,6 +14,22 @@
 class Magento_Install_Model_Observer
 {
     /**
+     * Install Session
+     *
+     * @var Magento_Core_Model_Session_Generic
+     */
+    protected $_session;
+
+    /**
+     * @param Magento_Core_Model_Session_Generic $session
+     */
+    public function __construct(Magento_Core_Model_Session_Generic $session)
+    {
+        $this->_session = $session;
+    }
+
+
+    /**
      * @param Magento_Event_Observer $observer
      * @return $this
      */
@@ -21,7 +37,7 @@ class Magento_Install_Model_Observer
     {
         $locale = $observer->getEvent()->getLocale();
         if ($locale) {
-            $choosedLocale = Mage::getSingleton('Magento_Install_Model_Session')->getLocale();
+            $choosedLocale = $this->_session->getLocale();
             if ($choosedLocale) {
                 $locale->setLocaleCode($choosedLocale);
             }

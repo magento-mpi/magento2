@@ -30,17 +30,6 @@ class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_Gift
      */
     protected $_giftRegistryData = null;
 
-    /**
-     * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
-     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
-     * @param array $data
-     */
     public function __construct(
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Core_Model_Registry $coreRegistry,
@@ -50,18 +39,15 @@ class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_Gift
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
         Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
-            $coreRegistry,
-            $configCacheType,
-            $coreData,
-            $context,
-            $storeManager,
-            $regionCollFactory,
-            $countryCollFactory,
-            $data
+            $coreRegistry, $configCacheType, $coreData, $context, $storeManager, $regionCollFactory,
+            $countryCollFactory, $customerSession, $attributeConfig, $locale, $data
         );
     }
 

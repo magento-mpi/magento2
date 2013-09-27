@@ -17,6 +17,63 @@
 class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Magento Store
+     *
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_store;
+
+    /**
+     * Customer Group Factory
+     *
+     * @var Magento_Customer_Model_GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * Admin Session
+     *
+     * @var Magento_Adminhtml_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_System_Store $store
+     * @param Magento_Customer_Model_GroupFactory $groupFactory
+     * @param Magento_Adminhtml_Model_Session $session
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_System_Store $store,
+        Magento_Customer_Model_GroupFactory $groupFactory,
+        Magento_Adminhtml_Model_Session $session,
+        array $data = array()
+    ) {
+        parent::__construct($registry,$formFactory,$coreData,$context,$data);
+        $this->_storeManager = $storeManager;
+        $this->_store = $store;
+        $this->_groupFactory = $groupFactory;
+        $this->_session = $session;
+    }
+
+    /**
      * Return invitation form action url
      *
      * @return string
@@ -59,18 +116,19 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Bac
             'name' => 'message'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'label' => __('Send From'),
                 'required' => true,
                 'name' => 'store_id',
-                'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values' => $this->_store->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
 
-        $groups = Mage::getModel('Magento_Customer_Model_Group')->getCollection()
+        $groups = $this->_groupFactory->create()->getCollection()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();
@@ -84,19 +142,9 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Bac
 
         $form->setUseContainer(true);
         $this->setForm($form);
-        $form->setValues($this->_getSession()->getInvitationFormData());
+        $form->setValues($this->_session->getInvitationFormData());
 
         return parent::_prepareForm();
-    }
-
-    /**
-     * Return adminhtml session
-     *
-     * @return Magento_Adminhtml_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
     }
 
 }

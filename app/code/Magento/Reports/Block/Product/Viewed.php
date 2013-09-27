@@ -20,11 +20,11 @@ class Magento_Reports_Block_Product_Viewed extends Magento_Reports_Block_Product
     const XML_PATH_RECENTLY_VIEWED_COUNT    = 'catalog/recently_products/viewed_count';
 
     /**
-     * Viewed Product Index model name
+     * Viewed Product Index type
      *
      * @var string
      */
-    protected $_indexName       = 'Magento_Reports_Model_Product_Index_Viewed';
+    protected $_indexType = Magento_Reports_Model_Product_Index_Factory::TYPE_VIEWED;
 
     /**
      * Retrieve page size (count)

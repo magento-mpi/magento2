@@ -14,16 +14,28 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
     protected $_template = 'edit/tab/info.phtml';
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
 
     /**
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -31,11 +43,15 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
         $this->_storeManager = $storeManager;
+        $this->_systemStore = $systemStore;
+        $this->_locale = $locale;
     }
 
     /**
@@ -97,13 +113,13 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
             $model->setData('is_redeemable', Magento_GiftCardAccount_Model_Giftcardaccount::REDEEMABLE);
         }
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('website_id', 'select', array(
                 'name'      => 'website_id',
                 'label'     => __('Website'),
                 'title'     => __('Website'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(true),
+                'values'    => $this->_systemStore->getWebsiteValuesForForm(true),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
@@ -113,7 +129,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
         $fieldset->addType('price', 'Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Form_Price');
 
         $note = '';
-        if (Mage::app()->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             $currencies = $this->_getCurrency();
             $note = '<b>[' . array_shift($currencies) . ']</b>';
         }
@@ -131,7 +147,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
             'label'  => __('Expiration Date'),
             'title'  => __('Expiration Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'date_format' => Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
         ));
 
         $form->setValues($model->getData());
@@ -148,7 +164,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
     protected function _getCurrency()
     {
         $result = array();
-        $websites = Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteCollection();
+        $websites = $this->_systemStore->getWebsiteCollection();
         foreach ($websites as $id => $website) {
             $result[$id] = $website->getBaseCurrencyCode();
         }

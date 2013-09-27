@@ -15,13 +15,27 @@ class Magento_Reminder_Model_Rule_Condition_Combine_Root
     extends Magento_Reminder_Model_Rule_Condition_Combine
 {
     /**
+     * Config
+     *
+     * @var Magento_Customer_Model_Config_Share
+     */
+    protected $_config;
+
+    /**
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Reminder_Model_Resource_Rule $ruleResource
+     * @param Magento_Customer_Model_Config_Share $config
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_Reminder_Model_Resource_Rule $ruleResource,
+        Magento_Customer_Model_Config_Share $config,
+        array $data = array()
+    ) {
+        parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento_Reminder_Model_Rule_Condition_Combine_Root');
+        $this->_config = $config;
     }
 
     /**
@@ -46,7 +60,7 @@ class Magento_Reminder_Model_Rule_Condition_Combine_Root
         );
 
         if ($customer === null) {
-            if (Mage::getSingleton('Magento_Customer_Model_Config_Share')->isWebsiteScope()) {
+            if ($this->_config->isWebsiteScope()) {
                 $select->where('website_id=?', $website);
             }
         }

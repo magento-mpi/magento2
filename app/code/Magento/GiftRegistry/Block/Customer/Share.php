@@ -40,6 +40,7 @@ class Magento_GiftRegistry_Block_Customer_Share
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
+
         parent::__construct($coreData, $context, $customerSession, $subscriberFactory, $data);
     }
 

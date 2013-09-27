@@ -49,6 +49,16 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
     protected $_selectCountSqlType               = 0;
 
     /**
+     * @var Magento_Reports_Model_Event_TypeFactory
+     */
+    protected $_eventTypeFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -57,6 +67,8 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Catalog_Model_Resource_Product $product
+     * @param Magento_Reports_Model_Event_TypeFactory $eventTypeFactory
+     * @param Magento_Catalog_Model_Product_Type $productType
      */
     public function __construct(
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
@@ -66,7 +78,9 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Catalog_Model_Resource_Product $product
+        Magento_Catalog_Model_Resource_Product $product,
+        Magento_Reports_Model_Event_TypeFactory $eventTypeFactory,
+        Magento_Catalog_Model_Product_Type $productType
     ) {
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
@@ -75,6 +89,8 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
             $catalogData, $catalogProductFlat, $eventManager,
             $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
         );
+        $this->_eventTypeFactory = $eventTypeFactory;
+        $this->_productType = $productType;
     }
     /**
      * Set Type for COUNT SQL Select
@@ -272,7 +288,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
     public function addOrderedQty($from = '', $to = '')
     {
         $adapter              = $this->getConnection();
-        $compositeTypeIds     = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getCompositeTypes();
+        $compositeTypeIds     = $this->_productType->getCompositeTypes();
         $orderTableAliasName  = $adapter->quoteIdentifier('order');
 
         $orderJoinCondition   = array(
@@ -353,7 +369,10 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
         /**
          * Getting event type id for catalog_product_view event
          */
-        foreach (Mage::getModel('Magento_Reports_Model_Event_Type')->getCollection() as $eventType) {
+        $eventTypes = $this->_eventTypeFactory
+            ->create()
+            ->getCollection();
+        foreach ($eventTypes as $eventType) {
             if ($eventType->getEventName() == 'catalog_product_view') {
                 $productViewEvent = (int)$eventType->getId();
                 break;

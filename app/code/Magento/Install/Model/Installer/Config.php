@@ -51,22 +51,35 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
     protected $_filesystem;
 
     /**
+     * Store Manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Install_Model_InstallerProxy $installer
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
+        Magento_Install_Model_InstallerProxy $installer,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_Config_Resource $resourceConfig,
-        Magento_Filesystem $filesystem
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
+        parent::__construct($installer);
         $this->_localConfigFile = $dirs->getDir(Magento_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
         $this->_dirs = $dirs;
         $this->_request = $request;
         $this->_resourceConfig = $resourceConfig;
         $this->_filesystem = $filesystem;
+        $this->_storeManager = $storeManager;
     }
 
     public function setConfigData($data)
@@ -142,7 +155,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
 
     public function getFormData()
     {
-        $uri = Zend_Uri::factory(Mage::getBaseUrl('web'));
+        $uri = Zend_Uri::factory($this->_storeManager->getStore()->getBaseUrl('web'));
 
         $baseUrl = $uri->getUri();
         if ($uri->getScheme() !== 'https') {
@@ -173,6 +186,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
      * Check validity of a base URL
      *
      * @param string $baseUrl
+     * @throws Magento_Core_Exception
      * @throws Exception
      */
     protected function _checkUrl($baseUrl)
@@ -193,7 +207,7 @@ class Magento_Install_Model_Installer_Config extends Magento_Install_Model_Insta
             $this->_getInstaller()->getDataModel()->addError(
                 __('The URL "%1" is invalid.', $baseUrl)
             );
-            Mage::throwException(__('Response from the server is invalid.'));
+            throw new Magento_Core_Exception(__('Response from the server is invalid.'));
         }
     }
 

@@ -16,6 +16,26 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     protected $_typeInstance;
 
+    /**
+     * @var Magento_GiftRegistry_Model_Type
+     */
+    protected $defaultTypeInstance;
+
+    /**
+     * @var Magento_GiftRegistry_Model_Attribute_Config
+     */
+    protected $attributeConfig;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $sourceYesNo;
+
+    /**
+     * Block template
+     *
+     * @var string
+     */
     protected $_template = 'edit/attributes.phtml';
 
     /**
@@ -29,15 +49,25 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesNo
+     * @param Magento_GiftRegistry_Model_Type $defaultTypeInstance
+     * @param Magento_GiftRegistry_Model_Attribute_Config $attributeConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Backend_Model_Config_Source_Yesno $sourceYesNo,
+        Magento_GiftRegistry_Model_Type $defaultTypeInstance,
+        Magento_GiftRegistry_Model_Attribute_Config $attributeConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->sourceYesNo = $sourceYesNo;
+        $this->defaultTypeInstance = $defaultTypeInstance;
+        $this->attributeConfig = $attributeConfig;
+
         parent::__construct($coreData, $context, $data);
     }
 
@@ -102,7 +132,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getConfig()
     {
-        return Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
+        return $this->attributeConfig;
     }
 
     /**
@@ -117,7 +147,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
             if ($type) {
                 $this->_typeInstance = $type;
             } else {
-                $this->_typeInstance = Mage::getSingleton('Magento_GiftRegistry_Model_Type');
+                $this->_typeInstance = $this->defaultTypeInstance;
             }
         }
         return $this->_typeInstance;
@@ -182,7 +212,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_searcheable]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions($this->sourceYesNo->toOptionArray());
 
         return $select->getHtml();
     }
@@ -200,7 +230,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_listed]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions($this->sourceYesNo->toOptionArray());
 
         return $select->getHtml();
     }
@@ -218,7 +248,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_required]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions($this->sourceYesNo->toOptionArray());
 
         return $select->getHtml();
     }

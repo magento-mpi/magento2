@@ -174,10 +174,16 @@ class Magento_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
         return '';
     }
 
+    /**
+     * Processing object before save data
+     *
+     * @return Magento_Core_Model_Abstract
+     * @throws Magento_Core_Exception
+     */
     protected function _beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
-            Mage::throwException(__('Please assign a gift card account.'));
+            throw new Magento_Core_Exception(__('Please assign a gift card account.'));
         }
 
         $this->setAction($this->getGiftcardaccount()->getHistoryAction());
@@ -207,7 +213,7 @@ class Magento_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
             break;
             default:
-                Mage::throwException(__('Unknown history action.'));
+                throw new Magento_Core_Exception(__('Unknown history action.'));
             break;
         }
 

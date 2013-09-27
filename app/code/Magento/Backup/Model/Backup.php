@@ -384,10 +384,9 @@ class Magento_Backup_Model_Backup extends Magento_Object
      */
     public function loadByTimeAndType($timestamp, $type)
     {
-        $backupsCollection = Mage::getSingleton('Magento_Backup_Model_Fs_Collection');
         $backupId = $timestamp . '_' . $type;
 
-        foreach ($backupsCollection as $backup) {
+        foreach ($this->_fsCollection as $backup) {
             if ($backup->getId() == $backupId) {
                 $this->setType($backup->getType())
                     ->setTime($backup->getTime())

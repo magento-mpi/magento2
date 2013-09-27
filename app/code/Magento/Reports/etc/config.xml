@@ -15,6 +15,7 @@
             <reports_setup>
                 <setup>
                     <module>Magento_Reports</module>
+                    <class>Magento_Reports_Model_Resource_Setup</class>
                 </setup>
             </reports_setup>
         </resources>

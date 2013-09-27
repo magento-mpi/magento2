@@ -8,8 +8,13 @@
  * @license     {license_link}
  */
 
+
 /**
  * Reports orders collection
+ *
+ * @category    Magento
+ * @package     Magento_Reports
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Model_Resource_Order_Collection
 {
@@ -35,25 +40,59 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Sales_Model_Config
+     */
+    protected $_salesConfig;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Report_OrderFactory
+     */
+    protected $_reportOrderFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Sales_Model_Config $salesConfig
+     * @param Magento_Sales_Model_Resource_Report_OrderFactory $reportOrderFactory
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Sales_Model_Config $salesConfig,
+        Magento_Sales_Model_Resource_Report_OrderFactory $reportOrderFactory,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
+        parent::__construct(
+            $eventManager, $logger, $fetchStrategy, $entityFactory, $coreResourceHelper, $resource
+        );
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $coreResourceHelper, $resource);
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_salesConfig = $salesConfig;
+        $this->_reportOrderFactory = $reportOrderFactory;
     }
 
     /**
@@ -159,7 +198,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                     sprintf('SUM((%s) * %s)', $expression,
                         $adapter->getIfNullSql('main_table.base_to_global_rate', 0)
                     )
-                 )
+                )
             ));
         } else {
             $this->getSelect()->columns(array(
@@ -179,8 +218,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                 'range' => $tzRangeOffsetExpression,
             ))
             ->where('main_table.state NOT IN (?)', array(
-                Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                Magento_Sales_Model_Order::STATE_NEW)
+                    Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
+                    Magento_Sales_Model_Order::STATE_NEW)
             )
             ->order('range', Zend_Db_Select::SQL_ASC)
             ->group($tzRangeOffsetExpression);
@@ -215,14 +254,14 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             'quantity' => 'SUM(main_table.orders_count)',
             'range' => $rangePeriod2,
         ))
-        ->order('range')
-        ->group($rangePeriod);
+            ->order('range')
+            ->group($rangePeriod);
 
         $this->getSelect()->where(
             $this->_getConditionSql('main_table.period', $this->getDateRange($range, $customStart, $customEnd))
         );
 
-        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
+        $statuses = $this->_salesConfig
             ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
@@ -290,8 +329,9 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     {
         return str_replace(
             '{{attribute}}',
-            Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Order')
-                    ->getStoreTZOffsetQuery($this->getMainTable(), $attribute, $from, $to),
+            $this->_reportOrderFactory
+                ->create()
+                ->getStoreTZOffsetQuery($this->getMainTable(), $attribute, $from, $to),
             $this->_getRangeExpression($range)
         );
     }
@@ -308,7 +348,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     protected function _getTZRangeExpressionForAttribute($range, $attribute, $tzFrom = '+00:00', $tzTo = null)
     {
         if (null == $tzTo) {
-            $tzTo = Mage::app()->getLocale()->storeDate()->toString(Zend_Date::GMT_DIFF_SEP);
+            $tzTo = $this->_locale->storeDate()->toString(Zend_Date::GMT_DIFF_SEP);
         }
         $adapter = $this->getConnection();
         $expression = $this->_getRangeExpression($range);
@@ -329,7 +369,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      */
     public function getDateRange($range, $customStart, $customEnd, $returnObjects = false)
     {
-        $dateEnd   = Mage::app()->getLocale()->date();
+        $dateEnd   = $this->_locale->date();
         $dateStart = clone $dateEnd;
 
         // go to the end of a day
@@ -344,7 +384,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
         switch ($range)
         {
             case '24h':
-                $dateEnd = Mage::app()->getLocale()->date();
+                $dateEnd = $this->_locale->date();
                 $dateEnd->addHour(1);
                 $dateStart = clone $dateEnd;
                 $dateStart->subDay(1);
@@ -460,10 +500,10 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
         $this->getSelect()->columns(array(
             'quantity' => 'COUNT(main_table.entity_id)'
         ))
-        ->where('main_table.state NOT IN (?)', array(
-            Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
-            Magento_Sales_Model_Order::STATE_NEW)
-         );
+            ->where('main_table.state NOT IN (?)', array(
+                    Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
+                    Magento_Sales_Model_Order::STATE_NEW)
+            );
 
         return $this;
     }
@@ -486,7 +526,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             'quantity' => 'SUM(orders_count)',
         ));
 
-        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
+        $statuses = $this->_salesConfig
             ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
@@ -506,7 +546,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      */
     public function calculateSales($isFilter = 0)
     {
-        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
+        $statuses = $this->_salesConfig
             ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
@@ -528,7 +568,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
 
             if (!$isFilter) {
                 $this->addFieldToFilter('store_id',
-                    array('eq' => Mage::app()->getStore(Magento_Core_Model_Store::ADMIN_CODE)->getId())
+                    array('eq' => $this->_storeManager->getStore(Magento_Core_Model_Store::ADMIN_CODE)->getId())
                 );
             }
             $this->getSelect()->where('main_table.order_status NOT IN(?)', $statuses);
@@ -549,8 +589,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                 ))
                 ->where('main_table.status NOT IN(?)', $statuses)
                 ->where('main_table.state NOT IN(?)', array(
-                    Magento_Sales_Model_Order::STATE_NEW,
-                    Magento_Sales_Model_Order::STATE_PENDING_PAYMENT)
+                        Magento_Sales_Model_Order::STATE_NEW,
+                        Magento_Sales_Model_Order::STATE_PENDING_PAYMENT)
                 );
         }
         return $this;
@@ -569,11 +609,11 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             ->addFieldToFilter('created_at', array('from' => $fromDate, 'to' => $toDate))
             ->addFieldToFilter('state', array('neq' => Magento_Sales_Model_Order::STATE_CANCELED))
             ->getSelect()
-                ->columns(array('orders' => 'COUNT(DISTINCT(main_table.entity_id))'))
-                ->group('entity_id');
+            ->columns(array('orders' => 'COUNT(DISTINCT(main_table.entity_id))'))
+            ->group('entity_id');
 
         $this->getSelect()->columns(array(
-            'items' => 'SUM(main_table.total_qty_ordered)')
+                'items' => 'SUM(main_table.total_qty_ordered)')
         );
 
         return $this;
@@ -603,8 +643,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                 'invoiced'  => 'SUM(main_table.base_total_paid)',
                 'refunded'  => 'SUM(main_table.base_total_refunded)',
                 'profit'    => "SUM($baseSubtotalInvoiced) "
-                                . "+ SUM({$baseDiscountRefunded}) - SUM({$baseSubtotalRefunded}) "
-                                . "- SUM({$baseDiscountInvoiced}) - SUM({$baseTotalInvocedCost})"
+                . "+ SUM({$baseDiscountRefunded}) - SUM({$baseSubtotalRefunded}) "
+                . "- SUM({$baseDiscountInvoiced}) - SUM({$baseTotalInvocedCost})"
             ));
         } else {
             $this->getSelect()->columns(array(
@@ -616,10 +656,10 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                 'invoiced'  => 'SUM(main_table.base_total_paid * main_table.base_to_global_rate)',
                 'refunded'  => 'SUM(main_table.base_total_refunded * main_table.base_to_global_rate)',
                 'profit'    => "SUM({$baseSubtotalInvoiced} *  main_table.base_to_global_rate) "
-                                . "+ SUM({$baseDiscountRefunded} * main_table.base_to_global_rate) "
-                                . "- SUM({$baseSubtotalRefunded} * main_table.base_to_global_rate) "
-                                . "- SUM({$baseDiscountInvoiced} * main_table.base_to_global_rate) "
-                                . "- SUM({$baseTotalInvocedCost} * main_table.base_to_global_rate)"
+                . "+ SUM({$baseDiscountRefunded} * main_table.base_to_global_rate) "
+                . "- SUM({$baseSubtotalRefunded} * main_table.base_to_global_rate) "
+                . "- SUM({$baseDiscountInvoiced} * main_table.base_to_global_rate) "
+                . "- SUM({$baseTotalInvocedCost} * main_table.base_to_global_rate)"
             ));
         }
 
