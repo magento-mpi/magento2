@@ -1,3 +1,6 @@
+* Covered XSDs with unit tests;
+* Removed config/global/resources and config/global/resource nodes from config.xml files;
+* Removed empty module setup models. Core resource setup model is used as a default setup model now;
 * Configuration improvements:
   * Introduced scoped configuration model - Magento_Config_Data_Scoped and non-scoped one - Magento_Config_Data;
   * Import/Export configuration was moved from config.xml to import.xml and export.xml files with new format;
