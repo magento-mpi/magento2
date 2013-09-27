@@ -104,7 +104,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      * @expectedExceptionMessage Layout must be loaded only once.
      */
     public function testLoadLayoutThrowsExceptionWhenCalledTwice()
