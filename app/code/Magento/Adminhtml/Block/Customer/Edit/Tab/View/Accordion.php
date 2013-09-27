@@ -30,13 +30,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
     protected $_quoteFactory;
 
     /**
-     * @var Magento_Wishlist_Model_Resource_Item_Collection
+     * @var Magento_Wishlist_Model_Resource_Item_CollectionFactory
      */
-    protected $_itemCollection;
+    protected $_itemsFactory;
 
     /**
      * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Wishlist_Model_Resource_Item_Collection $itemCollection
+     * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemsFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
      */
     public function __construct(
         Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Wishlist_Model_Resource_Item_Collection $itemCollection,
+        Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemsFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
     ) {
         $this->_coreRegistry = $registry;
         $this->_quoteFactory = $quoteFactory;
-        $this->_itemCollection = $itemCollection;
+        $this->_itemsFactory = $itemsFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -93,7 +93,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
         }
 
         // count wishlist items
-        $wishlistCount = $this->_itemCollection->create()
+        $wishlistCount = $this->_itemsFactory->create()
             ->addCustomerIdFilter($customer->getId())
             ->addStoreData()
             ->getSize();
