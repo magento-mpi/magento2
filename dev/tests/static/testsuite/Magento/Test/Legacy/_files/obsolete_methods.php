@@ -862,6 +862,7 @@ return array(
     array('_getSession', 'Magento_Review_Helper_Action_Pager'),
     array('_getOrderCreateModel', 'Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment'),
     array('reset', 'Mage'),
+    array('objects', 'Mage'),
     array('_getProductType', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix'),
     array('_getProductType', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config'),
     array('_getSession', 'Magento_Adminhtml_Model_Sales_Order'),
