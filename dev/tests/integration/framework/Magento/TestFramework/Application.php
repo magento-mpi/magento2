@@ -244,6 +244,9 @@ class Magento_TestFramework_Application
     {
         $this->_resetApp();
         $this->initialize($overriddenParams);
+        /** @var $appState Magento_Core_Model_App_State */
+        $appState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State');
+        $appState->setInstallDate(date('r', strtotime('now')));
     }
 
     /**
@@ -341,6 +344,9 @@ class Magento_TestFramework_Application
 
         /* Switch an application to installed mode */
         $this->initialize();
+        /** @var $appState Magento_Core_Model_App_State */
+        $appState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State');
+        $appState->setInstallDate(date('r', strtotime('now')));
     }
 
     /**
