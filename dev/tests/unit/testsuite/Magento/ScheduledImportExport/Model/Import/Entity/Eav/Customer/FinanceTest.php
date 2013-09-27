@@ -175,14 +175,21 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             ->will($this->returnValue($adminUser));
 
         $this->_model = new Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance(
-            $authSession,
             $coreData,
             $coreString,
+            $coreStoreConfig,
+            $this->getMock('Magento_ImportExport_Model_ImportFactory', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Resource_Helper_Mysql4', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
+            $this->getMock('Magento_Data_CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Resource_Customer_StorageFactory', array(), array(), '', false),
+            $authSession,
             $moduleHelper,
             $customerFactory,
             $balanceFactory,
             $rewardFactory,
-            $coreStoreConfig,
             $dependencies
         );
     }
