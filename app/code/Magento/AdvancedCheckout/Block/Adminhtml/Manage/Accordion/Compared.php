@@ -31,7 +31,7 @@ class Compared
     protected $_adminhtmlSales;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Compare\ListFactory|null
+     * @var \Magento\Catalog\Model\Product\Compare\ListCompareFactory|null
      */
     protected $_compareListFactory;
 
@@ -52,7 +52,7 @@ class Compared
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
+        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
         array $data = array()
     ) {
         parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
