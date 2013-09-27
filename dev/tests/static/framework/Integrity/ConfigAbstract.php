@@ -97,7 +97,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
                 }
             }
             $this->fail('There is a problem with the schema.  A known good XML file failed validation: '
-                        . PHP_EOL . implode(PHP_EOL . PHP_EOL, $errors));
+                . PHP_EOL . implode(PHP_EOL . PHP_EOL, $errors));
         }
     }
 
