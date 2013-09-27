@@ -13,9 +13,11 @@ app/code/Magento/Backend/Block/Template/Context.php
 app/code/Magento/Backend/Block/Widget/Form.php
 app/code/Magento/Backend/Block/Widget/Tabs.php
 app/code/Magento/Backend/Block/Widget/Form/Generic.php
+app/code/Magento/Backend/Controller/Context.php
 app/code/Magento/Backend/Model/Menu/Item.php
 app/code/Magento/Backend/Model/Url/Proxy.php
 app/code/Magento/Backend/view
+app/code/Magento/Banner/Model/Resource/Setup.php
 app/code/Magento/Core/Block/AbstractBlock.php
 app/code/Magento/Core/Model/AbstractModel.php
 app/code/Magento/Core/Model/Config/Element.php
@@ -32,6 +34,7 @@ app/code/Magento/DesignEditor/Block/Adminhtml/Editor/Tools/QuickStyles/Buttons.p
 app/code/Magento/DesignEditor/Block/Adminhtml/Editor/Tools/QuickStyles/Fonts.php
 app/code/Magento/DesignEditor/Block/Adminhtml/Editor/Tools/QuickStyles/Header.php
 app/code/Magento/DesignEditor/Block/Adminhtml/Editor/Tools/QuickStyles/Tips.php
+app/code/Magento/DesignEditor/Controller/Varien/Router/Standard.php
 app/code/Magento/DesignEditor/Model/Editor/Tools/QuickStyles/LogoUploader.php
 app/code/Magento/DesignEditor/view
 app/code/Magento/ImportExport/Model/Import/Entity/Product/Option.php
@@ -39,8 +42,7 @@ app/code/Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit/Tab/Css.php
 app/code/Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit/Tab/General.php
 app/code/Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit/Tab/Js.php
 app/code/Magento/Theme/view
-app/code/Magento/User/Model/User.php
-app/code/Magento/User/view
+app/code/Magento/User/
 app/code/Magento/Webapi/view
 app/code/Magento/Webhook/view
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/TemplateFilesTest.php
@@ -91,6 +93,7 @@ lib/Magento/Cache/Core.php
 lib/Magento/Code/Generator.php
 lib/Magento/Code/Generator/EntityAbstract.php
 lib/Magento/Code/Generator/Io.php
+lib/Magento/Config/Reader/Filesystem.php
 lib/Magento/Connect/Channel/Generator.php
 lib/Magento/Connect/Channel/Parser.php
 lib/Magento/Connect/Channel/VO.php

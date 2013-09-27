@@ -19,7 +19,6 @@ app/code/Magento/Adminhtml/Controller/Report/Customer.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Urlrewrite.php
-app/code/Magento/Backend
 app/code/Magento/Bundle/Model/Plugin
 app/code/Magento/Catalog/Block/Product/Configurable
 app/code/Magento/Catalog/Block/Product/Grouped
@@ -42,7 +41,6 @@ app/code/Magento/Checkout/Block/Cart/Link.php
 app/code/Magento/Checkout/Block/Link.php
 app/code/Magento/Cms/Controller/Router.php
 app/code/Magento/Cms/Model/Template/FilterProvider.php
-app/code/Magento/Core/Block/AbstractBlock.php
 app/code/Magento/Core/Controller/Varien/AbstractAction.php
 app/code/Magento/Core/Controller/Varien/Action/Factory.php
 app/code/Magento/Core/Controller/Varien/Action/Forward.php
@@ -50,7 +48,6 @@ app/code/Magento/Core/Controller/Varien/DispatchableInterface.php
 app/code/Magento/Core/Controller/Varien/Router/AbstractRouter.php
 app/code/Magento/Core/data
 app/code/Magento/Core/Helper/Css.php
-app/code/Magento/Core/Model/AbstractModel.php
 app/code/Magento/Core/Model/Config
 app/code/Magento/Core/Model/Cache
 app/code/Magento/Core/Model/DataService
@@ -62,17 +59,14 @@ app/code/Magento/Core/Model/Dir
 app/code/Magento/Core/Model/Dir.php
 app/code/Magento/Core/Model/EntryPoint
 app/code/Magento/Core/Model/AbstractEntryPoint.php
-app/code/Magento/Core/Model/Layout.php
 app/code/Magento/Core/Model/Layout/Factory.php
 app/code/Magento/Core/Model/Layout/Update.php
 app/code/Magento/Core/Model/Layout/Argument
 app/code/Magento/Core/Model/Locale/Validator.php
 app/code/Magento/Core/Model/LocaleInterface.php
 app/code/Magento/Core/Model/ObjectManager
-app/code/Magento/Core/Model/Observer.php
 app/code/Magento/Core/Model/Page
 app/code/Magento/Core/Model/Page.php
-app/code/Magento/Core/Model/Resource/Setup/Migration.php
 app/code/Magento/Core/Model/Resource/Theme
 app/code/Magento/Core/Model/Resource/Theme.php
 app/code/Magento/Core/Model/Sender.php
@@ -82,7 +76,6 @@ app/code/Magento/Core/Model/TemplateEngine
 app/code/Magento/Core/Model/Theme
 app/code/Magento/Core/Model/Theme.php
 app/code/Magento/Core/Model/ThemeInterface.php
-app/code/Magento/Core/Model/Translate.php
 app/code/Magento/Core/Model/Url/SecurityInfo.php
 app/code/Magento/Core/Model/Url/SecurityInfoInterface.php
 app/code/Magento/Core/Helper/AbstractHelper.php
@@ -99,14 +92,12 @@ app/code/Magento/Customer/Model/Address/Config
 app/code/Magento/Customer/Model/Address/Config.php
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php
 app/code/Magento/Directory/Model/Resource/Region
-app/code/Magento/DesignEditor
 app/code/Magento/Eav/Model/Cache/Type.php
 app/code/Magento/GiftMessage/Model/Plugin
 app/code/Magento/GoogleShopping/Block/SiteVerification.php
 app/code/Magento/Eav/Model/Entity/Attribute/Config
 app/code/Magento/Eav/Model/Entity/Attribute/Config.php
 app/code/Magento/ImportExport/Model/Import/Entity/CustomerComposite.php
-app/code/Magento/ImportExport/Model/Import/Entity/Product/Option.php
 app/code/Magento/ImportExport/Model/Export/Config
 app/code/Magento/ImportExport/Model/Export/Config.php
 app/code/Magento/ImportExport/Model/Export/ConfigInterface.php
@@ -148,7 +139,6 @@ app/code/Magento/Sales/Block/Recurring/Profile/Related/Orders/Grid.php
 app/code/Magento/Sales/Block/Recurring/Profile/View
 app/code/Magento/SalesRule/Model/Plugin
 app/code/Magento/Theme
-app/code/Magento/User
 app/code/Magento/Webapi
 app/code/Magento/Webhook
 app/code/Magento/Wishlist/Block/Link.php
@@ -159,7 +149,6 @@ dev/tests/performance
 dev/tests/static
 dev/tests/unit
 dev/tools
-lib/Magento
 lib/Magento/Convert
 lib/Magento/Date.php
 lib/Magento/Object.php
