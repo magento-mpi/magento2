@@ -277,11 +277,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     protected $_colIteratorFactory;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_ImportExport_Helper_Data $importExportData
-     * @param Magento_ImportExport_Model_ImportFactory $importFactory
-     * @param Magento_Eav_Model_Config $config
+     * @param Magento_ImportExport_Model_Resource_Import_Data $importData
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
      * @param Magento_Core_Model_StoreManagerInterface $_storeManager
@@ -293,11 +289,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Data $coreData,
-        Magento_ImportExport_Helper_Data $importExportData,
-        Magento_ImportExport_Model_ImportFactory $importFactory,
-        Magento_Eav_Model_Config $config,
+        Magento_ImportExport_Model_Resource_Import_Data $importData,
         Magento_Core_Model_Resource $resource,
         Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
         Magento_Core_Model_StoreManagerInterface $_storeManager,
@@ -312,14 +304,10 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         $this->_catalogData = $catalogData;
         $this->_storeManager = $_storeManager;
         $this->_productFactory = $productFactory;
-        $this->_importFactory = $importFactory;
+        $this->_dataSourceModel = $importData;
         $this->_optionColFactory = $optionColFactory;
         $this->_colIteratorFactory = $colIteratorFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
-
-        parent::__construct(
-            $coreString, $coreData, $importExportData, $importFactory, $config, $resource, $resourceHelper
-        );
 
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
@@ -444,8 +432,6 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     {
         if (isset($data['data_source_model'])) {
             $this->_dataSourceModel = $data['data_source_model'];
-        } else {
-            $this->_dataSourceModel = $this->_importFactory->create()->getDataSourceModel();
         }
         if (isset($data['product_model'])) {
             $this->_productModel = $data['product_model'];

@@ -10,10 +10,6 @@
 
 /**
  * Import entity product model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExport_Model_Import_Entity_Abstract
 {
@@ -378,7 +374,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_ImportExport_Helper_Data $importExportData
-     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_ImportExport_Model_Resource_Import_Data $importData
      * @param Magento_Eav_Model_Config $config
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
@@ -401,13 +397,12 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      * @param Magento_CatalogInventory_Model_Resource_Stock_ItemFactory $stockResItemFac
      * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @internal param \Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Data $coreData,
         Magento_ImportExport_Helper_Data $importExportData,
-        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_ImportExport_Model_Resource_Import_Data $importData,
         Magento_Eav_Model_Config $config,
         Magento_Core_Model_Resource $resource,
         Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
@@ -451,7 +446,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         $this->_locale = $locale;
 
         parent::__construct(
-            $coreString, $coreData, $importExportData, $importFactory, $config, $resource, $resourceHelper
+            $coreString, $coreData, $importExportData, $importData, $config, $resource, $resourceHelper
         );
 
         $this->_optionEntity = isset($data['option_entity'])

@@ -206,7 +206,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_ImportExport_Helper_Data $importExportData
-     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_ImportExport_Model_Resource_Import_Data $importData
      * @param Magento_Eav_Model_Config $config
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
@@ -215,7 +215,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
         Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Data $coreData,
         Magento_ImportExport_Helper_Data $importExportData,
-        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_ImportExport_Model_Resource_Import_Data $importData,
         Magento_Eav_Model_Config $config,
         Magento_Core_Model_Resource $resource,
         Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
@@ -228,7 +228,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
         $entityType = $config->getEntityType($this->getEntityTypeCode());
 
         $this->_entityTypeId    = $entityType->getEntityTypeId();
-        $this->_dataSourceModel = $importFactory->create()->getDataSourceModel();
+        $this->_dataSourceModel = $importData;
         $this->_connection      = $resource->getConnection('write');
     }
 
