@@ -131,100 +131,32 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Resource_Setup_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Data $helper
+     * @param Magento_Core_Model_Dir $dir
      * @param $resourceName
      * @param $confPathToMapFile
-     * @param array $data
+     * @param string $moduleName
+     * @param string $connectionName
+     * @param $confPathToMapFile
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Resource_Setup_Context $context,
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Data $helper,
+        Magento_Core_Model_Dir $dir,
         $resourceName,
         $confPathToMapFile,
-        array $data = array()
+        $moduleName = 'Magento_Core',
+        $connectionName = ''
     ) {
         $this->_filesystem = $filesystem;
         $this->_coreHelper = $helper;
-        $this->_confPathToMapFile = $confPathToMapFile;
-        if (!isset($data['resource_config'])
-            || !isset($data['connection_config'])
-            || !isset($data['module_config'])
-            || !isset($data['connection'])
-        ) {
-            parent::__construct(
-                $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
-            );
-        } else {
-            $this->_resourceModel = $resource;
-            $this->_resourceName = $resourceName;
+        $this->_baseDir = $dir->getDir();
+        $this->_pathToMapFile = $confPathToMapFile;
 
-            if (isset($data['connection'])) {
-                $this->_conn = $data['connection'];
-            }
-
-            $this->_initConfigs($data);
-        }
-
-        if (isset($data['base_dir'])) {
-            $this->_baseDir = $data['base_dir'];
-        } else {
-            $this->_baseDir = Mage::getBaseDir();
-        }
-
-        $this->_initAliasesMapConfiguration($data);
-    }
-
-    /**
-     * Init configs
-     *
-     * @param array $data
-     */
-    protected function _initConfigs(array $data = array())
-    {
-        if (isset($data['resource_config'])) {
-            $this->_resourceConfig = $data['resource_config'];
-        }
-
-        if (isset($data['connection_config'])) {
-            $this->_connectionConfig = $data['connection_config'];
-        }
-
-        if (isset($data['module_config'])) {
-            $this->_moduleConfig = $data['module_config'];
-        }
-    }
-
-    /**
-     * Init aliases map configuration
-     *
-     * @param array $data
-     */
-    protected function _initAliasesMapConfiguration(array $data = array())
-    {
-        if (isset($data['path_to_map_file'])) {
-            $this->_pathToMapFile = $data['path_to_map_file'];
-        } else {
-            $this->_pathToMapFile = $this->_confPathToMapFile;
-        }
-
-        if (isset($data['aliases_map'])) {
-            $this->_aliasesMap = $data['aliases_map'];
-        }
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
     /**

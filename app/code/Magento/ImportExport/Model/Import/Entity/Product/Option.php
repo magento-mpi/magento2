@@ -61,7 +61,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Instance of import/export resource helper
      *
-     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     * @var Magento_ImportExport_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -482,7 +482,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
                 $addCustomOptions = function (Magento_Catalog_Model_Product_Option $customOption) use (
                     &$oldCustomOptions,
                     $storeId
-                ) {
+                    ) {
                     $productId = $customOption->getProductId();
                     if (!isset($oldCustomOptions[$productId])) {
                         $oldCustomOptions[$productId] = array();

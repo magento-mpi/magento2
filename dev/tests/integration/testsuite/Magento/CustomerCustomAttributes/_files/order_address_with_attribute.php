@@ -16,7 +16,7 @@
 
 /** @var $connection Magento_TestFramework_Db_Adapter_TransactionInterface */
 $connection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource')
-    ->getConnection('write');
+    ->getConnection('core_write');
 $connection->commitTransparentTransaction();
 
 $entityType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

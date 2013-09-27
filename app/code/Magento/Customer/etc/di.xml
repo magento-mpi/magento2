@@ -31,4 +31,11 @@
             <instance type="Magento_Customer_Model_Config_Share_Proxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <customer_setup>Magento_Customer_Model_Resource_Setup</customer_setup>
+            </value>
+        </param>
+    </type>
 </config>

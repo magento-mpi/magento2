@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <weee_setup>
-                <setup>
-                    <module>Magento_Weee</module>
-                    <class>Magento_Weee_Model_Resource_Setup</class>
-                </setup>
-            </weee_setup>
-        </resources>
-    </global>
     <default>
         <sales>
             <totals_sort>

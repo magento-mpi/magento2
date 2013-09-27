@@ -21,4 +21,11 @@
             <instance type="Magento_Core_Model_TranslateProxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <rma_setup>Magento_Rma_Model_Resource_Setup</rma_setup>
+            </value>
+        </param>
+    </type>
 </config>

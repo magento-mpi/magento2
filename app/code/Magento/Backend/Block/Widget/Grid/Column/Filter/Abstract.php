@@ -22,18 +22,18 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract extends Magento_B
     protected $_column;
 
     /**
-     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     * @var Magento_Core_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
     /**
      * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource_Helper $resourceHelper
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource_Helper $resourceHelper,
         array $data = array()
     ) {
         $this->_resourceHelper = $resourceHelper;

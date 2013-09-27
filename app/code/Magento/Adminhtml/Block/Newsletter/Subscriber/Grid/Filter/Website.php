@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website
      * @param Magento_Core_Model_Resource_Website_CollectionFactory $websitesFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
@@ -45,7 +45,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website
         Magento_Core_Model_Resource_Website_CollectionFactory $websitesFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource_Helper $resourceHelper,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {

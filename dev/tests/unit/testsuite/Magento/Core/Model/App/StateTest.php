@@ -22,7 +22,7 @@ class Magento_Core_Model_App_StateTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructor($mode)
     {
-        $model = new Magento_Core_Model_App_State($mode);
+        $model = new Magento_Core_Model_App_State(time(), $mode);
         $this->assertEquals($mode, $model->getMode());
     }
 
@@ -50,6 +50,6 @@ class Magento_Core_Model_App_StateTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new Magento_Core_Model_App_State("unknown mode");
+        new Magento_Core_Model_App_State(time(), "unknown mode");
     }
 }

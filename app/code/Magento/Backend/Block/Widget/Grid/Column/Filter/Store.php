@@ -22,13 +22,13 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Store
 
     /**
      * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Model_System_Store $systemStore
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource_Helper $resourceHelper,
         Magento_Core_Model_System_Store $systemStore,
         array $data = array()
     ) {

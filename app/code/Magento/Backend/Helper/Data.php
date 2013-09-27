@@ -19,6 +19,8 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     const XML_PATH_BACKEND_AREA_FRONTNAME       = 'default/backend/frontName';
     const BACKEND_AREA_CODE                     = 'adminhtml';
 
+    const PARAM_BACKEND_FRONT_NAME              = 'backend.frontName';
+
     protected $_pageHelpUrl;
 
     /**
@@ -70,6 +72,13 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_auth;
 
     /**
+     * Backend area front name
+     *
+     * @var string
+     */
+    protected $_backendFrontName;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_ConfigInterface $applicationConfig
@@ -78,7 +87,8 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Model_AppProxy $app
      * @param Magento_Backend_Model_UrlProxy $backendUrl
      * @param Magento_Backend_Model_AuthProxy $auth
-     * @param $defaultAreaFrontName
+     * @param string $defaultAreaFrontName
+     * @param string $backendFrontName
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
@@ -89,7 +99,8 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Model_AppProxy $app,
         Magento_Backend_Model_UrlProxy $backendUrl,
         Magento_Backend_Model_AuthProxy $auth,
-        $defaultAreaFrontName
+        $defaultAreaFrontName,
+        $backendFrontName
     ) {
         parent::__construct($context);
         $this->_coreData = $coreData;
@@ -100,6 +111,7 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_app = $app;
         $this->_backendUrl = $backendUrl;
         $this->_auth = $auth;
+        $this->_backendFrontName = $backendFrontName;
     }
 
     public function getPageHelpUrl()
@@ -222,12 +234,11 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if (null === $this->_areaFrontName) {
             $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default');
-            $configAreaFrontName = (string)$this->_primaryConfig->getNode(self::XML_PATH_BACKEND_AREA_FRONTNAME);
 
             if ($isCustomPathUsed) {
                 $this->_areaFrontName = (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH, 'default');
-            } elseif ($configAreaFrontName) {
-                $this->_areaFrontName = $configAreaFrontName;
+            } elseif ($this->_backendFrontName) {
+                $this->_areaFrontName = $this->_backendFrontName;
             } else {
                 $this->_areaFrontName = $this->_defaultAreaFrontName;
             }

@@ -28,14 +28,14 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Date
 
     /**
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource_Helper $resourceHelper
      * @param Magento_Backend_Block_Context $context
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource_Helper $resourceHelper,
         Magento_Backend_Block_Context $context,
         Magento_Core_Model_LocaleInterface $locale,
         array $data = array()

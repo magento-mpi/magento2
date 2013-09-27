@@ -10,6 +10,8 @@
 
 /**
  * Core data helper
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
 {
@@ -96,25 +98,32 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_ConfigInterface
+     * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
+
+    /**
+     * @var boolean
+     */
+    protected $_dbCompatibleMode;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Encryption $encryptor
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_Encryption $encryptor
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Encryption $encryptor,
+        $dbCompatibleMode = true
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
@@ -126,6 +135,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_fieldsetConfig = $context->getFieldsetConfig();
         $this->_encryptor = $encryptor;
         $this->_encryptor->setHelper($this);
+        $this->_dbCompatibleMode = $dbCompatibleMode;
     }
 
     /**
@@ -780,11 +790,7 @@ XML;
      */
     public function useDbCompatibleMode()
     {
-        /** @var $resourceConfig Magento_Core_Model_Config_Resource */
-        $resourceConfig = Mage::getSingleton('Magento_Core_Model_Config_Resource');
-        $connType = (string) $resourceConfig->getResourceConnectionConfig('default_setup')->type;
-        $value = (string) $resourceConfig->getResourceTypeConfig($connType)->compatibleMode;
-        return (bool) $value;
+        return $this->_dbCompatibleMode;
     }
 
     /**

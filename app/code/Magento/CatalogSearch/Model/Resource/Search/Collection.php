@@ -47,7 +47,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     /**
      * Catalog Search resource helper
      *
-     * @var Magento_CatalogSearch_Model_Resource_Helper_Mysql4
+     * @var Magento_CatalogSearch_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -63,7 +63,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
@@ -75,7 +75,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
         Magento_Core_Model_Resource $resource,
-        Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
+        Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
     ) {
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         $this->_resource = $resource;

@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <checkout_setup>
-                <setup>
-                    <module>Magento_Checkout</module>
-                    <class>Magento_Checkout_Model_Resource_Setup</class>
-                </setup>
-            </checkout_setup>
-        </resources>
-    </global>
     <default>
         <checkout>
             <options>

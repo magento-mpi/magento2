@@ -86,4 +86,12 @@ class Magento_TestFramework_ObjectManager extends Magento_Core_Model_ObjectManag
     {
         return self::$_instance = $objectManager;
     }
+
+    /**
+     * @return Magento_ObjectManager_Factory|Magento_ObjectManager_Factory_Factory
+     */
+    public function getFactory()
+    {
+        return $this->_factory;
+    }
 }

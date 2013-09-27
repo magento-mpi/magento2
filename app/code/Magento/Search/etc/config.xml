@@ -21,14 +21,6 @@
             </supported_languages>
         </magento_search>
         -->
-        <resources>
-            <search_setup>
-                <setup>
-                    <module>Magento_Search</module>
-                    <class>Magento_Core_Model_Resource_Setup</class>
-                </setup>
-            </search_setup>
-        </resources>
     </global>
     <default>
         <catalog>

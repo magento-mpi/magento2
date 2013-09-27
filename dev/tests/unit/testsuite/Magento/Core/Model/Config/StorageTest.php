@@ -25,11 +25,6 @@ class Magento_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_resourcesConfigMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_cacheMock;
 
     /**
@@ -46,8 +41,6 @@ class Magento_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
     {
         $this->_configMock = $this->getMock('Magento_Core_Model_ConfigInterface',
             array(), array(), '', false, false);
-        $this->_resourcesConfigMock = $this->getMock('Magento_Core_Model_Config_Resource',
-            array(), array(), '', false, false);
         $this->_cacheMock = $this->getMock('Magento_Core_Model_Config_Cache',
             array(), array(), '', false, false);
         $this->_loaderMock = $this->getMock('Magento_Core_Model_Config_Loader',
@@ -55,7 +48,7 @@ class Magento_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
         $this->_factoryMock = $this->getMock('Magento_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
         $this->_model = new Magento_Core_Model_Config_Storage($this->_cacheMock, $this->_loaderMock,
-            $this->_factoryMock, $this->_resourcesConfigMock);
+            $this->_factoryMock);
     }
 
     public function testGetConfigurationWithData()
@@ -64,9 +57,6 @@ class Magento_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
         $this->_factoryMock->expects($this->never())->method('create');
         $this->_loaderMock->expects($this->never())->method('load');
         $this->_cacheMock->expects($this->never())->method('save');
-        $this->_resourcesConfigMock->expects($this->once())
-            ->method('setConfig')
-            ->with($this->equalTo($this->_configMock));
         $this->_model->getConfiguration();
     }
 
@@ -79,9 +69,6 @@ class Magento_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
         $this->_factoryMock->expects($this->once())->method('create')->will($this->returnValue($mockConfigBase));
         $this->_loaderMock->expects($this->once())->method('load');
         $this->_cacheMock->expects($this->once())->method('save');
-        $this->_resourcesConfigMock->expects($this->once())
-            ->method('setConfig')
-            ->with($this->equalTo($mockConfigBase));
         $this->_model->getConfiguration();
     }
 

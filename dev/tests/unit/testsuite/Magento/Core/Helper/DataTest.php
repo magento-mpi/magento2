@@ -27,7 +27,8 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             $contextMock,
             $coreConfig,
             $coreStoreConfig,
-            $encryptor
+            $encryptor,
+            true
         );
     }
 

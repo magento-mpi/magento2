@@ -15,7 +15,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
     extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     * @var Magento_Core_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -24,7 +24,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
@@ -32,7 +32,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource_Helper $resourceHelper,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_resourceHelper = $resourceHelper;

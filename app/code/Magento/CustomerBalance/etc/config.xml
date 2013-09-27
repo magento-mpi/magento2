@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <customerbalance_setup>
-                <setup>
-                    <module>Magento_CustomerBalance</module>
-                    <class>Magento_CustomerBalance_Model_Resource_Setup</class>
-                </setup>
-            </customerbalance_setup>
-        </resources>
-    </global>
     <default>
         <customer>
             <magento_customerbalance>

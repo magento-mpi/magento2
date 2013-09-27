@@ -15,16 +15,16 @@
 class Magento_Install_Model_Installer_Db_Mysql4 extends Magento_Install_Model_Installer_Db_Abstract
 {
     /**
-     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory $adapterFactory
      * @param Magento_Core_Model_ResourceFactory $resourceFactory
      * @param array $dbExtensions
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Resource_Type_Db_Pdo_MysqlFactory $adapterFactory,
         Magento_Core_Model_ResourceFactory $resourceFactory,
         array $dbExtensions = array()
     ) {
-        parent::__construct($resource, $dbExtensions);
+        parent::__construct($adapterFactory, $dbExtensions);
         $this->_resourceFactory = $resourceFactory;
     }
 
@@ -58,18 +58,16 @@ class Magento_Install_Model_Installer_Db_Mysql4 extends Magento_Install_Model_In
     /**
      * Clean database
      *
-     * @param SimpleXMLElement $config
      * @return Magento_Install_Model_Installer_Db_Abstract
      */
-    public function cleanUpDatabase(SimpleXMLElement $config)
+    public function cleanUpDatabase()
     {
         /** @var $resourceModel Magento_Core_Model_Resource */
-        $resourceModel = $this->_resourceFactory->create();
-        $connection = $resourceModel->getConnection(Magento_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
-        $dbName = $config->dbname;
-
-        $connection->query('DROP DATABASE IF EXISTS ' . $dbName);
-        $connection->query('CREATE DATABASE ' . $dbName);
+        $resourceModel = Mage::getModel('Magento_Core_Model_Resource');
+        $connection = $resourceModel->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_SETUP_RESOURCE);
+        $connectionConfig = $connection->getConfig();
+        $connection->query('DROP DATABASE IF EXISTS ' . $connectionConfig['dbname']);
+        $connection->query('CREATE DATABASE ' . $connectionConfig['dbname']);
 
         return $this;
     }

@@ -20,35 +20,24 @@ class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Res
     protected $_configFactory;
 
     /**
+     * @param Magento_Core_Model_Resource_Setup_Context $context
      * @param Magento_GoogleShopping_Model_ConfigFactory $configFactory
-     * @param Magento_Core_Model_Logger $logger
      * @param Magento_GoogleShopping_Helper_Data $googleShoppingData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $modulesConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param $resourceName
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
+        Magento_Core_Model_Resource_Setup_Context $context,
         Magento_GoogleShopping_Model_ConfigFactory $configFactory,
         Magento_GoogleShopping_Helper_Data $googleShoppingData,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $modulesConfig,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        $resourceName
+        $resourceName,
+        $moduleName = 'Magento_GoogleShopping',
+        $connectionName = ''
     ) {
         $this->_configFactory = $configFactory;
         $this->_googleShoppingData = $googleShoppingData;
-        parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $modulesConfig,
-            $moduleList, $resource, $modulesReader, $resourceName
-        );
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
     /**

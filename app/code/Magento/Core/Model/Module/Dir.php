@@ -34,7 +34,9 @@ class Magento_Core_Model_Module_Dir
      */
     public function getDir($moduleName, $type = '')
     {
-        $result = $this->_applicationDirs->getDir(Magento_Core_Model_Dir::MODULES) . '/' . uc_words($moduleName, '/');
+        $result = $this->_applicationDirs->getDir(Magento_Core_Model_Dir::MODULES)
+            . DIRECTORY_SEPARATOR
+            . uc_words($moduleName, DIRECTORY_SEPARATOR);
         if ($type) {
             if (!in_array($type, array('etc', 'sql', 'data', 'i18n', 'view'))) {
                 throw new InvalidArgumentException("Directory type '$type' is not recognized.");

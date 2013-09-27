@@ -36,14 +36,14 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Price extends Magento_Back
 
     /**
      * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource_Helper $resourceHelper
      * @param Magento_Directory_Model_Currency $currencyModel
      * @param Magento_Directory_Model_Currency_DefaultLocator $currencyLocator
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource_Helper $resourceHelper,
         Magento_Directory_Model_Currency $currencyModel,
         Magento_Directory_Model_Currency_DefaultLocator $currencyLocator,
         array $data = array()

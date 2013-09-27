@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <paypaluk_setup>
-                <setup>
-                    <module>Magento_PaypalUk</module>
-                </setup>
-            </paypaluk_setup>
-        </resources>
-    </global>
     <default>
         <payment>
             <paypaluk_express>

@@ -151,7 +151,7 @@ class Magento_GiftRegistry_Model_Resource_Entity_Collection extends Magento_Core
             ->from($this->getTable('magento_giftregistry_person'), array('entity_id'))
             ->group('entity_id');
 
-        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $helper */
+        /** @var Magento_Core_Model_Resource_Helper $helper */
         $helper = $this->helperFactory->create();
         $helper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
 

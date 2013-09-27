@@ -178,16 +178,22 @@ class Magento_TestFramework_Application
         Mage::$headersSentThrowsException = false;
         $config = new Magento_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Magento_TestFramework_Helper_Bootstrap::getObjectManager()) {
-            $objectManager = new Magento_TestFramework_ObjectManager($config,
-                new Magento_TestFramework_ObjectManager_Config());
+            $objectManager = new Magento_TestFramework_ObjectManager(
+                $config,
+                new Magento_TestFramework_ObjectManager_Config()
+            );
             $primaryLoader = new Magento_Core_Model_ObjectManager_ConfigLoader_Primary($config->getDirectories());
             $this->_primaryConfig = $primaryLoader->load();
-            $objectManager->get('Magento_Core_Model_Resource')
-                ->setResourceConfig($objectManager->get('Magento_Core_Model_Config_Resource'));
         } else {
             $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             Magento_TestFramework_ObjectManager::setInstance($objectManager);
             $config->configure($objectManager);
+
+            $objectManager->getFactory()->setArguments(array_replace(
+                $objectManager->get('Magento_Core_Model_Config_Local')->getParams(),
+                $config->getParams()
+            ));
+
             $objectManager->addSharedInstance($config, 'Magento_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Magento_Core_Model_Dir');
             $objectManager->configure(array(
@@ -196,10 +202,6 @@ class Magento_TestFramework_Application
                 )
             ));
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
-            /** @var $configResource Magento_Core_Model_Config_Resource */
-            $configResource = $objectManager->get('Magento_Core_Model_Config_Resource');
-            $configResource->setConfig($config);
-            $objectManager->get('Magento_Core_Model_Resource')->setResourceConfig($configResource);
             $verification = $objectManager->get('Magento_Core_Model_Dir_Verification');
             $verification->createAndVerifyDirectories();
             $objectManager->configure(
@@ -209,11 +211,15 @@ class Magento_TestFramework_Application
                 'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy' => array(
                     'parameters' => array('canSaveMap' => false)
                 ),
+                'default_setup' => array(
+                    'type' => 'Magento_TestFramework_Db_ConnectionAdapter'
+                ),
+                'preferences' => array(
+                    'Magento_Core_Model_Cookie' => 'Magento_TestFramework_Cookie'
+                ),
             ));
         }
         Magento_TestFramework_Helper_Bootstrap::setObjectManager($objectManager);
-        $objectManager->get('Magento_Core_Model_Resource')
-            ->setResourceConfig($objectManager->get('Magento_Core_Model_Config_Resource'));
         $objectManager->get('Magento_Core_Model_Resource')
             ->setCache($objectManager->get('Magento_Core_Model_CacheInterface'));
 
@@ -305,7 +311,7 @@ class Magento_TestFramework_Application
         }
 
         /* Make sure that local.xml contains an invalid installation date */
-        $installDate = (string)$this->_localXml->global->install->date;
+        $installDate = (string)$this->_localXml->install->date;
         if ($installDate && strtotime($installDate)) {
             throw new Magento_Exception('Local configuration must contain an invalid installation date.');
         }

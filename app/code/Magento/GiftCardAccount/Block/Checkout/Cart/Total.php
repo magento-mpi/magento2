@@ -42,7 +42,7 @@ class Magento_GiftCardAccount_Block_Checkout_Cart_Total extends Magento_Checkout
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
         parent::__construct($catalogData, $coreData, $context, $salesConfig, $customerSession, $checkoutSession,
-            $storeManager, $salesConfig, $data);
+            $storeManager, $data);
     }
 
     public function getQuote()

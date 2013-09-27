@@ -165,4 +165,11 @@
             <instance type="Magento_Catalog_Model_Layer_Proxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <catalog_setup>Magento_Catalog_Model_Resource_Setup</catalog_setup>
+            </value>
+        </param>
+    </type>
 </config>

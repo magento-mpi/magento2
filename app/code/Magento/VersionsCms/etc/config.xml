@@ -8,16 +8,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <versionscms_setup>
-                <setup>
-                    <module>Magento_VersionsCms</module>
-                    <class>Magento_VersionsCms_Model_Resource_Setup</class>
-                </setup>
-            </versionscms_setup>
-        </resources>
-    </global>
     <default>
         <cms>
             <hierarchy>

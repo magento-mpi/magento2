@@ -224,22 +224,28 @@ class Magento_Config_Dom
      * @param string $schemaFileName
      * @param string $errorFormat
      * @return array of errors
+     * @throws Exception
      */
     public static function validateDomDocument(
         DOMDocument $dom, $schemaFileName, $errorFormat = self::ERROR_FORMAT_DEFAULT
     ) {
         libxml_use_internal_errors(true);
-        $result = $dom->schemaValidate($schemaFileName);
-        $errors = array();
-        if (!$result) {
-            $validationErrors = libxml_get_errors();
-            if (count($validationErrors)) {
-                foreach ($validationErrors as $error) {
-                    $errors[] = self::_renderErrorMessage($error, $errorFormat);
+        try {
+            $result = $dom->schemaValidate($schemaFileName);
+            $errors = array();
+            if (!$result) {
+                $validationErrors = libxml_get_errors();
+                if (count($validationErrors)) {
+                    foreach ($validationErrors as $error) {
+                        $errors[] = self::_renderErrorMessage($error, $errorFormat);
+                    }
+                } else {
+                    $errors[] = 'Unknown validation error';
                 }
-            } else {
-                $errors[] = 'Unknown validation error';
             }
+        } catch (Exception $exception) {
+            libxml_use_internal_errors(false);
+            throw $exception;
         }
         libxml_use_internal_errors(false);
         return $errors;

@@ -72,34 +72,24 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_urlFactory;
 
     /**
-     * @param Magento_Core_Model_Session_Validator $validator
+     * @param Magento_Core_Model_Session_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Customer_Model_Config_Share $configShare
-     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Url $coreUrl
-     * @param Magento_Customer_Helper_DataProxy $customerData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Model_Session $session
      * @param Magento_Customer_Model_Resource_CustomerProxy $customerResource
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Core_Model_UrlFactory $urlFactory
      * @param array $data
-     * @param string $sessionName
+     * @param null $sessionName
      */
     public function __construct(
-        Magento_Core_Model_Session_Validator $validator,
+        Magento_Core_Model_Session_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Customer_Model_Config_Share $configShare,
-        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Url $coreUrl,
         Magento_Customer_Helper_DataProxy $customerData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Session $session,
         Magento_Customer_Model_Resource_CustomerProxy $customerResource,
         Magento_Customer_Model_CustomerFactory $customerFactory,
@@ -115,7 +105,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         $this->_customerResource = $customerResource;
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
-        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($context, $data);
         $namespace = 'customer';
         if ($configShare->isWebsiteScope()) {
             $namespace .= '_' . ($storeManager->getWebsite()->getCode());

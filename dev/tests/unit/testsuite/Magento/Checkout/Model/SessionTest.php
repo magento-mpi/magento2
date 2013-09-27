@@ -38,6 +38,7 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
         $constructArguments = $objectManager->getConstructArguments(
             'Magento_Checkout_Model_Session',
             array(
+                 'context' => $this->getMock('Magento_Core_Model_Session_Context', array(), array(), '', false),
                  'orderFactory' => $orderFactory,
                  'messageCollFactory' => $messageCollFactory,
                  'quoteFactory' => $quoteFactory,

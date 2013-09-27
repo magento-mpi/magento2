@@ -19,36 +19,32 @@ class Magento_Tax_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     protected $_setupFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $modulesConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Model_Resource_SetupFactory $setupFactory
-     * @param $resourceName
+     * @param string $resourceName
+     * @param string $moduleName
+     * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $modulesConfig,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Core_Model_Config $config,
         Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Core_Helper_Data $coreData,
         Magento_Catalog_Model_Resource_SetupFactory $setupFactory,
-        $resourceName
-    ) {
+        $resourceName,
+        $moduleName = 'Magento_Tax',
+        $connectionName = ''
+    )
+    {
         $this->_setupFactory = $setupFactory;
-        parent::__construct($migrationFactory, $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig,
-            $moduleList, $resource, $modulesReader, $cache, $resourceName);
+        parent::__construct($context, $config, $cache, $migrationFactory, $coreData,
+            $resourceName, $moduleName, $connectionName
+        );
     }
 
     /**
@@ -60,9 +56,9 @@ class Magento_Tax_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     protected function _loadTableData($table)
     {
         $table = $this->getTable($table);
-        $select = $this->_conn->select();
+        $select = $this->_connection->select();
         $select->from($table);
-        return $this->_conn->fetchAll($select);
+        return $this->_connection->fetchAll($select);
     }
 
     /**

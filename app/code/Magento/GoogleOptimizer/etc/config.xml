@@ -8,15 +8,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <googleoptimizer_setup>
-                <setup>
-                    <module>Magento_GoogleOptimizer</module>
-                </setup>
-            </googleoptimizer_setup>
-        </resources>
-    </global>
     <default>
         <google>
             <optimizer>

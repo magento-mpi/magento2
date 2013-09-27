@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <multiplewishlist_setup>
-                <setup>
-                    <module>Magento_MultipleWishlist</module>
-                    <class>Magento_MultipleWishlist_Model_Resource_Setup</class>
-                </setup>
-            </multiplewishlist_setup>
-        </resources>
-    </global>
     <default>
         <wishlist>
             <general>

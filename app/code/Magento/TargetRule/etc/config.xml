@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <targetrule_setup>
-                <setup>
-                    <module>Magento_TargetRule</module>
-                    <class>Magento_TargetRule_Model_Resource_Setup</class>
-                </setup>
-            </targetrule_setup>
-        </resources>
-    </global>
     <default>
         <catalog>
             <magento_targetrule>

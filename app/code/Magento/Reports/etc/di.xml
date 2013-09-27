@@ -11,4 +11,11 @@
     <type name="Magento_Log_Model_Resource_Log">
         <plugin name="reportLog" type="Magento_Reports_Model_Plugin_Log" />
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <reports_setup>Magento_Reports_Model_Resource_Setup</reports_setup>
+            </value>
+        </param>
+    </type>
 </config>

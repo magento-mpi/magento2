@@ -19,4 +19,16 @@
             </value>
         </param>
     </type>
+    <type name="Magento_Directory_Model_Currency_Import_Factory">
+        <param name="coreConfig">
+            <instance type="Magento_Core_Model_Config_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <directory_setup>Magento_Directory_Model_Resource_Setup</directory_setup>
+            </value>
+        </param>
+    </type>
 </config>

@@ -12,6 +12,30 @@
 class Magento_Logging_Block_Adminhtml_Grid_Filter_Ip extends Magento_Backend_Block_Widget_Grid_Column_Filter_Text
 {
     /**
+     * Core resource helper
+     *
+     * @var Magento_Core_Model_Resource_Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Logging_Model_Resource_Helper $resourceHelper
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Logging_Model_Resource_Helper $resourceHelper,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+
+        $this->_resourceHelper = $resourceHelper;
+    }
+
+    /**
      * Collection condition filter getter
      *
      * @return array

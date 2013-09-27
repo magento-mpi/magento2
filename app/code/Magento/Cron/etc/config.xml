@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <cron_setup>
-                <setup>
-                    <module>Magento_Cron</module>
-                </setup>
-            </cron_setup>
-        </resources>
-    </global>
     <default>
         <system>
             <cron>

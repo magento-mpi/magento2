@@ -27,12 +27,12 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
     /**
      * Resource helper
      *
-     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     * @var Magento_Core_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
     /**
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource_Helper $resourceHelper
      * @param Magento_Eav_Model_Config $config
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
@@ -41,7 +41,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource_Helper $resourceHelper,
         Magento_Eav_Model_Config $config,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,

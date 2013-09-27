@@ -153,7 +153,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
 
-        /** @var $helper Magento_Core_Model_Resource_Helper_Mysql4 */
+        /** @var $helper Magento_Core_Model_Resource_Helper */
         $helper = $this->_resHelperFactory->create();
         $daysDiffSql = $helper->getDateDiff(
             'quote.updated_at', $select->getAdapter()->formatDate($currentTime)

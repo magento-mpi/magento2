@@ -60,7 +60,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
     /**
      * Catalog search data
      *
-     * @var Magento_CatalogSearch_Model_Resource_Helper_Mysql4
+     * @var Magento_CatalogSearch_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -74,7 +74,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      * @param Magento_CatalogSearch_Model_Resource_Advanced $searchResource
      * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $searchResourceCollection
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,    
@@ -84,7 +84,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
         Magento_CatalogSearch_Model_Resource_Advanced $searchResource,
         Magento_CatalogSearch_Model_Resource_Advanced_Collection $searchResourceCollection,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
+        Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
     ) {
         $this->_catalogSearchAdvancedCollFactory = $catalogSearchAdvancedCollFactory;
         $this->_catalogSearchFulltextCollFactory = $catalogSearchFulltextCollFactory;

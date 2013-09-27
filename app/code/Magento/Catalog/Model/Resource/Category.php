@@ -64,6 +64,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
         Magento_Core_Model_Event_Manager $eventManager
     ) {
         $this->_eventManager = $eventManager;
+        /** @var Magento_Core_Model_Resource $resource */
         $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $this->setType(Magento_Catalog_Model_Category::ENTITY)
             ->setConnection(
