@@ -88,7 +88,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Check whether specified classes or module names correspond to a file according PSR-0 standard
+     * Check whether specified classes or module names correspond to a file according PSR-1 Standard.
      *
      * Suppressing "unused variable" because of the "catch" block
      *

@@ -21,7 +21,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     public function testToHtml()
     {
-        /** @var \Magento\AdvancedCheckout\Helper\Data|PHPUnit_Framework_MockObject_MockObject $customerHelper */
+        /** @var \Magento\AdvancedCheckout\Helper\Data|\PHPUnit_Framework_MockObject_MockObject $customerHelper */
         $customerHelper = $this->getMockBuilder('Magento\AdvancedCheckout\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
