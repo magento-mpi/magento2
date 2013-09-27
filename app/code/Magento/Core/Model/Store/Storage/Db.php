@@ -527,7 +527,7 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
             // load method will load website by code if given ID is not a numeric value
             $website->load($websiteId);
             if (!$website->hasWebsiteId()) {
-                throw Mage::exception('Magento_Core', 'Invalid website id/code requested.');
+                throw new Magento_Core_Exception('Invalid website id/code requested.');
             }
             $this->_websites[$website->getWebsiteId()] = $website;
             $this->_websites[$website->getCode()] = $website;
@@ -579,7 +579,7 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
             if (is_numeric($groupId)) {
                 $group->load($groupId);
                 if (!$group->hasGroupId()) {
-                    throw Mage::exception('Magento_Core', 'Invalid store group id requested.');
+                    throw new Magento_Core_Exception('Invalid store group id requested.');
                 }
             }
             $this->_groups[$group->getGroupId()] = $group;

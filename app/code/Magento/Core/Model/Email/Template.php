@@ -610,8 +610,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         }
 
         if (!$this->getId()) {
-            throw Mage::exception('Magento_Core',
-                __('Invalid transactional email code: %1', $templateId));
+            throw new Magento_Core_Exception(__('Invalid transactional email code: %1', $templateId));
         }
 
         if (!is_array($sender)) {
