@@ -25,6 +25,8 @@ class Magento_Backend_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Url_Proxy $url
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Session_Validator $validator,
@@ -43,8 +45,10 @@ class Magento_Backend_Model_Session extends Magento_Core_Model_Session_Abstract
         Magento_Core_Model_Url_Proxy $url,
         array $data = array()
     ) {
-        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory, $message, $cookie,
-            $request, $appState, $storeManager, $dir, $url, $data);
+        parent::__construct(
+            $validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory,
+            $message, $cookie, $request, $appState, $storeManager, $dir, $url, $data
+        );
         $this->init('adminhtml');
     }
 }

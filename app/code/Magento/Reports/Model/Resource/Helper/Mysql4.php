@@ -20,11 +20,14 @@ class Magento_Reports_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Re
     implements Magento_Reports_Model_Resource_Helper_Interface
 {
     /**
+     * @param Magento_Core_Model_Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct($modulePrefix = 'reports')
-    {
-        parent::__construct($modulePrefix);
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        $modulePrefix = 'reports'
+    ) {
+        parent::__construct($resource, $modulePrefix);
     }
 
     /**

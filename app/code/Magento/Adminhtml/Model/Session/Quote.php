@@ -63,6 +63,8 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Url_Proxy $url
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Session_Validator $validator,
@@ -81,8 +83,10 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
         Magento_Core_Model_Url_Proxy $url,
         array $data = array()
     ) {
-        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory, $message, $cookie,
-            $request, $appState, $storeManager, $dir, $url, $data);
+        parent::__construct(
+            $validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory,
+            $message, $cookie, $request, $appState, $storeManager, $dir, $url, $data
+        );
         $this->init('adminhtml_quote');
         if (Mage::app()->hasSingleStore()) {
             $this->setStoreId(Mage::app()->getStore(true)->getId());
