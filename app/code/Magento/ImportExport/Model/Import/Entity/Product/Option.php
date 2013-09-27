@@ -277,39 +277,50 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     protected $_colIteratorFactory;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_ImportExport_Helper_Data $importExportData
      * @param Magento_ImportExport_Model_ImportFactory $importFactory
-     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Config $config
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
      * @param Magento_Core_Model_StoreManagerInterface $_storeManager
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Catalog_Model_Resource_Product_Option_CollectionFactory $optionColFactory
      * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $colIteratorFactory
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Data $coreData,
+        Magento_ImportExport_Helper_Data $importExportData,
         Magento_ImportExport_Model_ImportFactory $importFactory,
-        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Config $config,
         Magento_Core_Model_Resource $resource,
+        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
         Magento_Core_Model_StoreManagerInterface $_storeManager,
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Catalog_Model_Resource_Product_Option_CollectionFactory $optionColFactory,
         Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $colIteratorFactory,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        $this->_catalogData = $catalogData;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_importFactory = $importFactory;
         $this->_resource = $resource;
+        $this->_catalogData = $catalogData;
         $this->_storeManager = $_storeManager;
         $this->_productFactory = $productFactory;
+        $this->_importFactory = $importFactory;
         $this->_optionColFactory = $optionColFactory;
         $this->_colIteratorFactory = $colIteratorFactory;
+        $this->_coreStoreConfig = $coreStoreConfig;
+
+        parent::__construct(
+            $coreString, $coreData, $importExportData, $importFactory, $config, $resource, $resourceHelper
+        );
+
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
