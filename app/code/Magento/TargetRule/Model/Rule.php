@@ -229,11 +229,11 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         if ($withEmpty) {
             $result[''] = __('-- Please Select --');
         }
-        $result[Magento_TargetRule_Model_Rule::RELATED_PRODUCTS]
+        $result[\Magento\TargetRule\Model\Rule::RELATED_PRODUCTS]
             = __('Related Products');
-        $result[Magento_TargetRule_Model_Rule::UP_SELLS]
+        $result[\Magento\TargetRule\Model\Rule::UP_SELLS]
             = __('Up-sells');
-        $result[Magento_TargetRule_Model_Rule::CROSS_SELLS]
+        $result[\Magento\TargetRule\Model\Rule::CROSS_SELLS]
             = __('Cross-sells');
 
         return $result;
