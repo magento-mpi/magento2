@@ -10,10 +10,6 @@
 
 /**
  * Customer session model
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
 {
@@ -87,7 +83,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Session $session
-     * @param Magento_Customer_Model_Resource_Customer $customerResource
+     * @param Magento_Customer_Model_Resource_CustomerProxy $customerResource
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Core_Model_UrlFactory $urlFactory
      * @param array $data
@@ -105,7 +101,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Session $session,
-        Magento_Customer_Model_Resource_Customer $customerResource,
+        Magento_Customer_Model_Resource_CustomerProxy $customerResource,
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Core_Model_UrlFactory $urlFactory,
         array $data = array(),

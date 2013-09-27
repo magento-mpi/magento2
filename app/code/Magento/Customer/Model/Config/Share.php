@@ -51,7 +51,7 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Customer_Model_Resource_Customer $customerResource
+     * @param Magento_Customer_Model_Resource_CustomerProxy $customerResource
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -62,7 +62,7 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Customer_Model_Resource_Customer $customerResource,
+        Magento_Customer_Model_Resource_CustomerProxy $customerResource,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
