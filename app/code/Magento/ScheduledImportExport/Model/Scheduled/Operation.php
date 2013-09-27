@@ -59,7 +59,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Cron callback config
      */
-    const CRON_MODEL = 'Magento_ScheduledImportExport_Model_Observer::processScheduledOperation';
+    const CRON_MODEL = 'Magento\ScheduledImportExport\Model\Observer::processScheduledOperation';
 
     /**
      * Cron job name prefix

@@ -110,7 +110,7 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
     {
         $this->_parserMock = $this->getMock(
             'Magento\Backend\Model\Widget\Grid\Parser',
-            array('parseExpression', 'isOperation'), array(), '', false, false, false
+            array('parseExpression', 'isOperation')
         );
 
         $columnsValueMap = array(
