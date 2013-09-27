@@ -17,7 +17,7 @@
  */
 namespace Magento\Oauth;
 
-class \Exception extends \Magento\Webapi\Exception
+class Exception extends \Magento\Webapi\Exception
 {
     /**
      * @param string $message

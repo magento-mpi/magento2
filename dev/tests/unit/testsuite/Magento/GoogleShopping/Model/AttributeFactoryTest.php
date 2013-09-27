@@ -58,7 +58,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
         $objectManager = $this->_createObjectManager();
         $objectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento\GoogleShopping\Model\Attribute\' . $expected))
+            ->with($this->equalTo('Magento\GoogleShopping\Model\Attribute\\' . $expected))
             ->will($this->returnValue($this->_createDefaultAttribute()));
         $attributeFactory = new \Magento\GoogleShopping\Model\AttributeFactory($objectManager, $this->_createGsData());
         $attribute = $attributeFactory->createAttribute($name);
