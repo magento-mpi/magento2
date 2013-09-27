@@ -32,7 +32,9 @@ class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
     {
         $this->_parser = new \Magento\Tools\I18n\Code\Parser\Adapter\Js();
         $this->_utilityFiles = \Magento\TestFramework\Utility\Files::init();
-        $this->_phraseCollector = new PhraseCollector(new Tokenizer());
+        $this->_phraseCollector = new \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector(
+            new \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer()
+        );
     }
 
     public function testGetPhrasesAdminhtml()
