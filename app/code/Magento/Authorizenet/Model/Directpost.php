@@ -59,7 +59,7 @@ class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Author
      * Construct
      *
      * @param Magento_Paygate_Model_Authorizenet_CardsFactory $cardsFactory
-     * @param Magento_Paygate_Model_Authorizenet_RequestFactory $requestFactory
+     * @param Magento_Paygate_Model_Authorizenet_RequestFactory $parentRequestFactory
      * @param Magento_Paygate_Model_Authorizenet_ResultFactory $resultFactory
      * @param Magento_Sales_Model_OrderFactory $orderFactory
      * @param Magento_Core_Model_Session_Abstract $session
@@ -81,7 +81,7 @@ class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Author
      */
     public function __construct(
         Magento_Paygate_Model_Authorizenet_CardsFactory $cardsFactory,
-        Magento_Paygate_Model_Authorizenet_RequestFactory $requestFactory,
+        Magento_Paygate_Model_Authorizenet_RequestFactory $parentRequestFactory,
         Magento_Paygate_Model_Authorizenet_ResultFactory $resultFactory,
         Magento_Sales_Model_OrderFactory $orderFactory,
         Magento_Core_Model_Session_Abstract $session,
@@ -101,7 +101,7 @@ class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Author
         Magento_Authorizenet_Model_Directpost_Response $response,
         array $data = array()
     ) {
-        parent::__construct($cardsFactory, $requestFactory, $resultFactory, $orderFactory, $session,
+        parent::__construct($cardsFactory, $parentRequestFactory, $resultFactory, $orderFactory, $session,
             $logger, $eventManager, $paygateData, $moduleList, $coreStoreConfig, $paymentData,
             $logAdapterFactory, $locale, $centinelService, $data);
         $this->_storeManager = $storeManager;
