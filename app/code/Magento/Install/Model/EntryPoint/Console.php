@@ -48,13 +48,13 @@ class Console extends \Magento\Core\Model\EntryPointAbstract
      */
     protected function _buildInitParams(array $args)
     {
-        if (!empty($args[Magento_Install_Model_Installer_Console::OPTION_URIS])) {
-            $args[Magento_Core_Model_App::PARAM_APP_URIS] =
-                unserialize(base64_decode($args[Magento_Install_Model_Installer_Console::OPTION_URIS]));
+        if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_URIS])) {
+            $args[\Magento\Core\Model\App::PARAM_APP_URIS] =
+                unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_URIS]));
         }
-        if (!empty($args[Magento_Install_Model_Installer_Console::OPTION_DIRS])) {
-            $args[Magento_Core_Model_App::PARAM_APP_DIRS] =
-                unserialize(base64_decode($args[Magento_Install_Model_Installer_Console::OPTION_DIRS]));
+        if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS])) {
+            $args[\Magento\Core\Model\App::PARAM_APP_DIRS] =
+                unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS]));
         }
         return $args;
     }

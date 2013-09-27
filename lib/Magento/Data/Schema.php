@@ -25,6 +25,6 @@ class Schema extends \Magento\Object
     public function extract($rawData)
     {
         $elements = $rawData;
-        return new \Magento\Data\Array($elements);
+        return new \Magento\Data\DataArray($elements);
     }
 }

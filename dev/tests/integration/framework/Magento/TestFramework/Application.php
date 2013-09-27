@@ -176,7 +176,7 @@ class Application
     public function initialize($overriddenParams = array())
     {
         $overriddenParams['base_dir'] = BP;
-        $overriddenParams[Magento_Core_Model_App::PARAM_MODE] = $this->_appMode;
+        $overriddenParams[\Magento\Core\Model\App::PARAM_MODE] = $this->_appMode;
         \Mage::$headersSentThrowsException = false;
         $config = new \Magento\Core\Model\Config\Primary(BP, $this->_customizeParams($overriddenParams));
         if (!\Magento\TestFramework\Helper\Bootstrap::getObjectManager()) {
