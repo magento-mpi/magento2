@@ -54,7 +54,7 @@ $pattern = array(
 );
 $generator = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, $customersNumber);
 /** @var \Magento\ImportExport\Model\Import $import */
-$import = Mage::getModel(
+$import = \Mage::getModel(
     'Magento\ImportExport\Model\Import',
     array('data' => array('entity' => 'customer_composite', 'behavior' => 'append'))
 );
