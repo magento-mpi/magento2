@@ -43,7 +43,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->with('Magento_Indexer')
             ->will($this->returnValue($this->_indexerMock));
 
-        $this->assertInstanceOf('Magento\Index\Model\Indexer\AbstractIndexer', $this->_model->create('Magento_Indexer'));
+        $this->assertInstanceOf('Magento\Index\Model\Indexer\AbstractIndexer',
+            $this->_model->create('Magento_Indexer')
+        );
     }
 
     /**

@@ -171,8 +171,8 @@ class TestsuiteTest extends \PHPUnit_Framework_TestCase
 
     public function testOnScenarioFailure()
     {
-        $scenario = new \Magento\TestFramework\Performance\Scenario('Scenario with Error', 'scenario_error.jmx', array(),
-            array(), array());
+        $scenario = new \Magento\TestFramework\Performance\Scenario('Scenario with Error', 'scenario_error.jmx',
+            array(), array(), array());
         $scenarioOneFailure = $this->throwException(
             new \Magento\TestFramework\Performance\Scenario\FailureException($scenario)
         );

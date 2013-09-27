@@ -249,7 +249,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
-            $arguments = $objectManagerHelper->getConstructArguments('Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
+            $arguments = $objectManagerHelper
+                ->getConstructArguments('Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
@@ -494,7 +495,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -506,7 +508,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -523,7 +526,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -535,7 +539,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -583,7 +588,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),
@@ -595,7 +601,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                             array(
                                 array(
                                     1,
-                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL
+                                    \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::
+                                    COLUMN_EMAIL
                                 )
                             )
                         ),

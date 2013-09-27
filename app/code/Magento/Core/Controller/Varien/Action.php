@@ -208,7 +208,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
      * @param   bool $generateBlocks
      * @param   bool $generateXml
      * @return  $this
-     * @throws  RuntimeException
+     * @throws  \RuntimeException
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
