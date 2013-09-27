@@ -159,13 +159,12 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
             ->will($this->returnValue($moduleListMock));
 
         $setupModel = new Magento_Core_Model_Resource_Setup_Migration(
+            $contextMock,
             $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false),
             $this->getMock('Magento_Filesystem', array(), array(), '', false),
             $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
-            $contextMock,
             $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false),
-            'core_setup',
-            $this->_getModelDependencies()
+            'core_setup'
         );
 
         $setupModel->appendClassAliasReplace('tableName', 'fieldName', 'entityType', 'fieldContentType',
