@@ -215,6 +215,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
      * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionColFactory
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Customer_Model_Resource_Address_CollectionFactory $addressColFactory
+     * @param Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory $attributesFactory
      * @param array $data
      */
     public function __construct(
@@ -232,14 +233,17 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
         Magento_Directory_Model_Resource_Region_CollectionFactory $regionColFactory,
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Customer_Model_Resource_Address_CollectionFactory $addressColFactory,
+        Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory $attributesFactory,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_addressFactory = $addressFactory;
+        $this->_eavConfig = $eavConfig;
+        $this->_resourceHelper = $resourceHelper;
 
         if (!isset($data['attribute_collection'])) {
             /** @var $attributeCollection Magento_Customer_Model_Resource_Address_Attribute_Collection */
-            $attributeCollection = $collectionFactory->create();
+            $attributeCollection = $attributesFactory->create();
             $attributeCollection->addSystemHiddenFilter()
                 ->addExcludeHiddenFrontendFilter();
             $data['attribute_collection'] = $attributeCollection;

@@ -25,10 +25,13 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
 
         /** @var Magento_TestFramework_ObjectManager  $objectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_ImportExport_Model_Export_EntityAbstract', array($storeConfig)
+            'Magento_ImportExport_Model_Export_EntityAbstract', array(
+                $objectManager->get('Magento_Core_Model_Store_Config'),
+                $objectManager->get('Magento_Core_Model_App'),
+                $objectManager->get('Magento_ImportExport_Model_Export_Factory'),
+                $objectManager->get('Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory'),
+            )
         );
     }
 
@@ -74,7 +77,8 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
     public function testFilterAttributeCollection()
     {
         /** @var $model Stub_Magento_ImportExport_Model_Export_EntityAbstract */
-        $model = $this->getMockForAbstractClass('Stub_Magento_ImportExport_Model_Export_EntityAbstract');
+//        $model = $this->getMockForAbstractClass('Stub_Magento_ImportExport_Model_Export_EntityAbstract');
+        $model = $this->_model;
         $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Customer_Model_Resource_Attribute_Collection');
         $collection = $model->filterAttributeCollection($collection);

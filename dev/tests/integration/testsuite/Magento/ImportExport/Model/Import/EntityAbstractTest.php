@@ -26,13 +26,14 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
         $expected = $source->current();
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $coreData = $objectManager->get('Magento_Core_Helper_Data');
-        $coreString = $objectManager->get('Magento_Core_Helper_String');
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
-        
         /** @var $model Magento_ImportExport_Model_Import_EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_EntityAbstract', array(
-            $coreData, $coreString, $storeConfig
+            $objectManager->get('Magento_Core_Helper_Data'),
+            $objectManager->get('Magento_Core_Helper_String'),
+            $objectManager->get('Magento_Core_Model_Store_Config'),
+            $objectManager->get('Magento_ImportExport_Model_ImportFactory'),
+            $objectManager->get('Magento_ImportExport_Model_Resource_Helper_Mysql4'),
+            $objectManager->get('Magento_Core_Model_Resource'),
         ));
         $model->expects($this->any())
             ->method('validateRow')
@@ -47,7 +48,8 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
         $method->setAccessible(true);
         $method->invoke($model);
 
-        $dataSourceModel = Magento_ImportExport_Model_Import::getDataSourceModel();
+        /** @var $dataSourceModel Magento_ImportExport_Model_Resource_Import_Data */
+        $dataSourceModel = $objectManager->get('Magento_ImportExport_Model_Resource_Import_Data');
         $this->assertCount(1, $dataSourceModel->getIterator());
 
         $bunch = $dataSourceModel->getNextBunch();

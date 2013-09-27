@@ -88,8 +88,9 @@ abstract class Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
 
     /**
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $prodAttrColFac
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac
      * @param array $params
+     * @throws Magento_Core_Exception
      */
     public function __construct(
         Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac,

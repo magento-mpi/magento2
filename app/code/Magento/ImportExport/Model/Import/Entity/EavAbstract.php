@@ -10,10 +10,6 @@
 
 /**
  * Import EAV entity abstract model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     extends Magento_ImportExport_Model_Import_EntityAbstract
