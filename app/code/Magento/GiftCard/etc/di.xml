@@ -11,7 +11,7 @@
     <type name="Magento_Sales_Model_Convert_Quote">
         <plugin name="append_gift_card_data_to_order" type="Magento_GiftCard_Model_Plugin_QuoteItem"/>
     </type>
-    <virtualType name="Magento_GiftCard_Model_Resource_Helper" type="Magento_Eav_Model_Resource_Helper_Mysql4">
+    <virtualType name="Magento_GiftCard_Model_Resource_Helper" type="Magento_Eav_Model_Resource_Helper">
         <param name="modulePrefix">
             <value>Eav</value>
         </param>

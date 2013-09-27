@@ -9,7 +9,7 @@
 /**
  * Resource helper class
  */
-class Magento_Logging_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper
+class Magento_Logging_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
 {
     /**
      * Construct
