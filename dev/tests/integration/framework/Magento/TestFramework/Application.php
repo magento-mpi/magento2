@@ -188,6 +188,12 @@ class Magento_TestFramework_Application
             $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             Magento_TestFramework_ObjectManager::setInstance($objectManager);
             $config->configure($objectManager);
+
+            $objectManager->getFactory()->setArguments(array_replace(
+                $objectManager->get('Magento_Core_Model_Config_Local')->getParams(),
+                $config->getParams()
+            ));
+
             $objectManager->addSharedInstance($config, 'Magento_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Magento_Core_Model_Dir');
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
@@ -244,9 +250,6 @@ class Magento_TestFramework_Application
     {
         $this->_resetApp();
         $this->initialize($overriddenParams);
-        /** @var $appState Magento_Core_Model_App_State */
-        $appState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State');
-        $appState->setInstallDate(date('r', strtotime('now')));
     }
 
     /**
@@ -344,9 +347,6 @@ class Magento_TestFramework_Application
 
         /* Switch an application to installed mode */
         $this->initialize();
-        /** @var $appState Magento_Core_Model_App_State */
-        $appState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State');
-        $appState->setInstallDate(date('r', strtotime('now')));
     }
 
     /**
