@@ -22,20 +22,18 @@
     <db>
         <table_prefix><![CDATA[]]></table_prefix>
     </db>
-    <resource name="default_setup">
-        <connection>
-            <host><![CDATA[localhost]]></host>
-            <username><![CDATA[root]]></username>
-            <password><![CDATA[]]></password>
-            <!--Web API tests require database with minimal set of fixtures, not empty one-->
-            <dbName><![CDATA[magento2]]></dbName>
-            <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
-            <model><![CDATA[mysql4]]></model>
-            <type><![CDATA[pdo_mysql]]></type>
-            <pdoType><![CDATA[]]></pdoType>
-            <active>1</active>
-        </connection>
-    </resource>
+    <resource name="default_setup" connection="default"/>
+    <connection name="default">
+        <host><![CDATA[localhost]]></host>
+        <username><![CDATA[root]]></username>
+        <password><![CDATA[]]></password>
+        <!--Web API tests require database with minimal set of fixtures, not empty one-->
+        <dbName><![CDATA[magento2]]></dbName>
+        <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
+        <model><![CDATA[mysql4]]></model>
+        <adapter>Magento_TestFramework_Db_ConnectionAdapter</adapter>
+        <active>1</active>
+    </connection>
     <session_save><![CDATA[files]]></session_save>
     <connection>
         <type name="pdo_mysql">
