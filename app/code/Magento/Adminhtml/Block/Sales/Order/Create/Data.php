@@ -18,6 +18,31 @@
 class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
 {
     /**
+     * @var Magento_Directory_Model_CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_currencyFactory = $currencyFactory;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve avilable currency codes
      *
      * @return unknown
@@ -27,12 +52,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_
         $dirtyCodes = $this->getStore()->getAvailableCurrencyCodes();
         $codes = array();
         if (is_array($dirtyCodes) && count($dirtyCodes)) {
-            $rates = Mage::getModel('Magento_Directory_Model_Currency')->getCurrencyRates(
-                Mage::app()->getStore()->getBaseCurrency(),
+            $rates = $this->_currencyFactory->create()->getCurrencyRates(
+                $this->_storeManager->getStore()->getBaseCurrency(),
                 $dirtyCodes
             );
             foreach ($dirtyCodes as $code) {
-                if (isset($rates[$code]) || $code == Mage::app()->getStore()->getBaseCurrencyCode()) {
+                if (isset($rates[$code]) || $code == $this->_storeManager->getStore()->getBaseCurrencyCode()) {
                     $codes[] = $code;
                 }
             }
@@ -48,7 +73,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_
      */
     public function getCurrencyName($code)
     {
-        return Mage::app()->getLocale()->currency($code)->getName();
+        return $this->_locale->getLocale()->currency($code)->getName();
     }
 
     /**
@@ -59,7 +84,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_
      */
     public function getCurrencySymbol($code)
     {
-        $currency = Mage::app()->getLocale()->currency($code);
+        $currency = $this->_locale->getLocale()->currency($code);
         return $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
     }
 

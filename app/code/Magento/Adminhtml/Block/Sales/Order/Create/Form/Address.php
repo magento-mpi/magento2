@@ -33,6 +33,18 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     protected $_adminhtmlAddresses = null;
 
     /**
+     * @var Magento_Customer_Model_AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @var Magento_Customer_Model_FormFactory
+     */
+    protected $_customerFormFactory;
+
+    /**
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param Magento_Customer_Model_FormFactory $customerFormFactory
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
@@ -42,6 +54,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        Magento_Customer_Model_FormFactory $customerFormFactory,
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
         Magento_Data_Form_Factory $formFactory,
         Magento_Adminhtml_Model_Session_Quote $sessionQuote,
@@ -50,6 +64,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_addressFactory = $addressFactory;
+        $this->_customerFormFactory = $customerFormFactory;
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
         parent::__construct($formFactory, $sessionQuote, $orderCreate, $coreData, $context, $data);
     }
@@ -82,7 +98,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     protected function _getAddressForm()
     {
         if (is_null($this->_addressForm)) {
-            $this->_addressForm = Mage::getModel('Magento_Customer_Model_Form')
+            $this->_addressForm = $this->_customerFormFactory->create()
                 ->setFormCode('adminhtml_customer_address')
                 ->setStore($this->getStore());
         }
@@ -126,7 +142,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
         ));
 
         /* @var $addressModel Magento_Customer_Model_Address */
-        $addressModel = Mage::getModel('Magento_Customer_Model_Address');
+        $addressModel = $this->_addressFactory->create();
 
         $addressForm = $this->_getAddressForm()
             ->setEntity($addressModel);

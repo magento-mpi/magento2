@@ -28,6 +28,8 @@ class Magento_Adminhtml_Block_Sales_Order_Address_Form
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param Magento_Customer_Model_FormFactory $customerFormFactory
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
@@ -36,8 +38,12 @@ class Magento_Adminhtml_Block_Sales_Order_Address_Form
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        Magento_Customer_Model_FormFactory $customerFormFactory,
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
         Magento_Data_Form_Factory $formFactory,
         Magento_Adminhtml_Model_Session_Quote $sessionQuote,
@@ -48,7 +54,10 @@ class Magento_Adminhtml_Block_Sales_Order_Address_Form
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($adminhtmlAddresses, $formFactory, $sessionQuote, $orderCreate, $coreData, $context, $data);
+        parent::__construct(
+            $addressFactory, $customerFormFactory, $adminhtmlAddresses, $formFactory,
+            $sessionQuote, $orderCreate, $coreData, $context, $data
+        );
     }
 
     /**

@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default extends Magento_
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        return $this->_sessionQuote;
     }
 
     /**

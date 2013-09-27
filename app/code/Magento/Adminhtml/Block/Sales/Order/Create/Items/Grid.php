@@ -32,6 +32,24 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     protected $_taxData = null;
 
     /**
+     * @var Magento_Wishlist_Model_WishlistFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
+     * @var Magento_Adminhtml_Model_Giftmessage_Save
+     */
+    protected $_giftMessageSave;
+
+    /**
+     * @var Magento_Tax_Model_Config
+     */
+    protected $_taxConfig;
+
+    /**
+     * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
+     * @param Magento_Adminhtml_Model_Giftmessage_Save $giftMessageSave
+     * @param Magento_Tax_Model_Config $taxConfig
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
      * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
@@ -40,6 +58,9 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
      * @param array $data
      */
     public function __construct(
+        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
+        Magento_Adminhtml_Model_Giftmessage_Save $giftMessageSave,
+        Magento_Tax_Model_Config $taxConfig,
         Magento_Tax_Helper_Data $taxData,
         Magento_Adminhtml_Model_Session_Quote $sessionQuote,
         Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
@@ -47,6 +68,9 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_wishlistFactory = $wishlistFactory;
+        $this->_giftMessageSave = $giftMessageSave;
+        $this->_taxConfig = $taxConfig;
         $this->_taxData = $taxData;
         parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
     }
@@ -130,7 +154,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
 
     public function isAllowedForGiftMessage($item)
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Giftmessage_Save')->getIsAllowedQuoteItem($item);
+        return $this->_giftMessageSave->getIsAllowedQuoteItem($item);
     }
 
     /**
@@ -140,8 +164,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
      */
     public function displayTotalsIncludeTax()
     {
-        $res = Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalInclTax($this->getStore())
-            || Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth($this->getStore());
+        $res = $this->_taxConfig->displayCartSubtotalInclTax($this->getStore())
+            || $this->_taxConfig->displayCartSubtotalBoth($this->getStore());
         return $res;
     }
 
@@ -413,7 +437,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
      */
     public function getCustomerWishlists()
     {
-        return Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection()
+        return $this->_wishlistFactory->create()->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }
 }
