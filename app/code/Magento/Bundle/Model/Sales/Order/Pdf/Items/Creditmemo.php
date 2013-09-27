@@ -92,7 +92,7 @@ class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractIte
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => $this->_coreString->str_split($attributes['option_label'], 38, true, true),
+                        'text'  => $this->_coreString->strSplit($attributes['option_label'], 38, true, true),
                         'feed'  => $x
                     );
 
@@ -116,7 +116,7 @@ class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractIte
             }
 
             $line[] = array(
-                'text'  => $this->_coreString->str_split($name, 35, true, true),
+                'text'  => $this->_coreString->strSplit($name, 35, true, true),
                 'feed'  => $feed
             );
 
@@ -125,7 +125,7 @@ class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractIte
             // draw SKUs
             if (!$_item->getOrderItem()->getParentItem()) {
                 $text = array();
-                foreach ($this->_coreString->str_split($item->getSku(), 17) as $part) {
+                foreach ($this->_coreString->strSplit($item->getSku(), 17) as $part) {
                     $text[] = $part;
                 }
                 $line[] = array(
@@ -205,7 +205,7 @@ class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractIte
                 foreach ($options['options'] as $option) {
                     $lines = array();
                     $lines[][] = array(
-                        'text'  => $this->_coreString->str_split(strip_tags($option['label']), 40, true, true),
+                        'text'  => $this->_coreString->strSplit(strip_tags($option['label']), 40, true, true),
                         'font'  => 'italic',
                         'feed'  => $leftBound
                     );
@@ -217,7 +217,7 @@ class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractIte
                             : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach ($this->_coreString->str_split($value, 30, true, true) as $_value) {
+                            foreach ($this->_coreString->strSplit($value, 30, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }

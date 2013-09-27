@@ -91,7 +91,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => $this->_coreString->str_split($attributes['option_label'], 60, true, true),
+                        'text'  => $this->_coreString->strSplit($attributes['option_label'], 60, true, true),
                         'feed'  => 60
                     );
 
@@ -134,7 +134,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 $name = $_item->getName();
             }
             $text = array();
-            foreach ($stringHelper->str_split($name, 60, true, true) as $part) {
+            foreach ($stringHelper->strSplit($name, 60, true, true) as $part) {
                 $text[] = $part;
             }
             $line[] = array(
@@ -144,7 +144,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
 
             // draw SKUs
             $text = array();
-            foreach ($this->_coreString->str_split($_item->getSku(), 25) as $part) {
+            foreach ($this->_coreString->strSplit($_item->getSku(), 25) as $part) {
                 $text[] = $part;
             }
             $line[] = array(
@@ -162,7 +162,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 foreach ($options['options'] as $option) {
                     $lines = array();
                     $lines[][] = array(
-                        'text'  => $stringHelper->str_split(strip_tags($option['label']), 70, true, true),
+                        'text'  => $stringHelper->strSplit(strip_tags($option['label']), 70, true, true),
                         'font'  => 'italic',
                         'feed'  => 60
                     );
@@ -174,7 +174,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                             : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach ($stringHelper->str_split($value, 50, true, true) as $_value) {
+                            foreach ($stringHelper->strSplit($value, 50, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }
