@@ -741,16 +741,17 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     /**
      * Validate email template code
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Model_Email_Template
      */
     protected function _beforeSave()
     {
         $code = $this->getTemplateCode();
         if (empty($code)) {
-            Mage::throwException(__('The template Name must not be empty.'));
+            throw new Magento_Core_Exception(__('The template Name must not be empty.'));
         }
         if ($this->_getResource()->checkCodeUsage($this)) {
-            Mage::throwException(__('Duplicate Of Template Name'));
+            throw new Magento_Core_Exception(__('Duplicate Of Template Name'));
         }
         return parent::_beforeSave();
     }

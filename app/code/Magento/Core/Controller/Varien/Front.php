@@ -193,6 +193,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     /**
      * Dispatch user request
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Controller_Varien_Front
      */
     public function dispatch()
@@ -226,7 +227,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         }
         Magento_Profiler::stop('routers_match');
         if ($routingCycleCounter > 100) {
-            Mage::throwException('Front controller reached 100 router match iterations');
+            throw new Magento_Core_Exception('Front controller reached 100 router match iterations');
         }
         // This event gives possibility to launch something before sending output (allow cookie setting)
         $this->_eventManager->dispatch('controller_front_send_response_before', array('front' => $this));

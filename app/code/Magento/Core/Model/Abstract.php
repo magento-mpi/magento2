@@ -213,12 +213,13 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     /**
      * Get resource instance
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _getResource()
     {
         if (empty($this->_resourceName) && empty($this->_resource)) {
-            Mage::throwException(__('Resource is not set.'));
+            throw new Magento_Core_Exception(__('Resource is not set.'));
         }
 
         return $this->_resource ?: Mage::getResourceSingleton($this->_resourceName);
@@ -237,12 +238,13 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     /**
      * Get collection instance
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollection) && empty($this->_collectionName)) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Model collection resource name is not defined.')
             );
         }
@@ -619,7 +621,7 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
             return;
         }
         if (!Mage::app()->getStore()->isAdmin()) {
-            Mage::throwException(__('Cannot complete this operation from non-admin area.'));
+            throw new Magento_Core_Exception(__('Cannot complete this operation from non-admin area.'));
         }
     }
 

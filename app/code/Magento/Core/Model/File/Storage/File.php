@@ -259,6 +259,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
      *
      * @param  array|Magento_Core_Model_File_Storage_Database $file
      * @param  bool $overwrite
+     * @throws Magento_Core_Exception
      * @return bool|int
      */
     public function saveFile($file, $overwrite = true)
@@ -275,10 +276,12 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
                     ->saveFile($filename, $file['content'], $overwrite);
             } catch (Exception $e) {
                 $this->_logger->logException($e);
-                Mage::throwException(__('Unable to save file "%1" at "%2"', $file['filename'], $file['directory']));
+                throw new Magento_Core_Exception(
+                    __('Unable to save file "%1" at "%2"', $file['filename'], $file['directory'])
+                );
             }
         } else {
-            Mage::throwException(__('Wrong file info format'));
+            throw new Magento_Core_Exception(__('Wrong file info format'));
         }
 
         return false;

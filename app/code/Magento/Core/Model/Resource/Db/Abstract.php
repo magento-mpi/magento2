@@ -219,12 +219,13 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     /**
      * Get primary key field name
      *
+     * @throws Magento_Core_Exception
      * @return string
      */
     public function getIdFieldName()
     {
         if (empty($this->_idFieldName)) {
-            Mage::throwException(__('Empty identifier field name'));
+            throw new Magento_Core_Exception(__('Empty identifier field name'));
         }
         return $this->_idFieldName;
     }
@@ -233,12 +234,13 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
      * Returns main table name - extracted from "module/table" style and
      * validated by db adapter
      *
+     * @throws Magento_Core_Exception
      * @return string
      */
     public function getMainTable()
     {
         if (empty($this->_mainTable)) {
-            Mage::throwException(__('Empty main table name'));
+            throw new Magento_Core_Exception(__('Empty main table name'));
         }
         return $this->getTable($this->_mainTable);
     }
@@ -609,7 +611,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
             } else {
                 $error = __('%1 already exist.', implode(', ', $existent));
             }
-            Mage::throwException($error);
+            throw new Magento_Core_Exception($error);
         }
         return $this;
     }

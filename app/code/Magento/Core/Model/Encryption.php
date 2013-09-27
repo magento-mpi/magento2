@@ -104,8 +104,8 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
      *
      * @param string $password
      * @param string $hash
+     * @throws Magento_Core_Exception
      * @return bool
-     * @throws Exception
      */
     public function validateHash($password, $hash)
     {
@@ -116,7 +116,7 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
             case 2:
                 return $this->hash($hashArr[1] . $password) === $hashArr[0];
         }
-        Mage::throwException('Invalid hash.');
+        throw new Magento_Core_Exception('Invalid hash.');
     }
 
     /**

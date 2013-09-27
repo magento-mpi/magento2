@@ -48,9 +48,10 @@ class Magento_Core_Model_Resource_Design extends Magento_Core_Model_Resource_Db_
             $object->setDateTo(null);
         }
 
-        if (!is_null($object->getDateFrom()) && !is_null($object->getDateTo())
-                && Magento_Date::toTimestamp($object->getDateFrom()) > Magento_Date::toTimestamp($object->getDateTo())) {
-            Mage::throwException(__('Start date cannot be greater than end date.'));
+        if (!is_null($object->getDateFrom())
+            && !is_null($object->getDateTo())
+            && Magento_Date::toTimestamp($object->getDateFrom()) > Magento_Date::toTimestamp($object->getDateTo())) {
+            throw new Magento_Core_Exception(__('Start date cannot be greater than end date.'));
         }
 
         $check = $this->_checkIntersection(
@@ -61,7 +62,7 @@ class Magento_Core_Model_Resource_Design extends Magento_Core_Model_Resource_Db_
         );
 
         if ($check) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Your design change for the specified store intersects with another one, please specify another date range.')
             );
         }

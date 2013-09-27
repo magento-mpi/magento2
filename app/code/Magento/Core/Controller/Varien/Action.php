@@ -686,6 +686,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
      * Initializing layout messages by message storage(s), loading and adding messages to layout messages block
      *
      * @param string|array $messagesStorage
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Controller_Varien_Action
      */
     protected function _initLayoutMessages($messagesStorage)
@@ -701,7 +702,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
                 $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
                 $block->addStorageType($storageName);
             } else {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                      __('Invalid messages storage "%1" for layout messages initialization', (string)$storageName)
                 );
             }
@@ -1060,6 +1061,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
      *                              that case
      * @param string $contentType
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Controller_Varien_Action
      */
     protected function _prepareDownloadResponse(
@@ -1098,7 +1100,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
                 $this->getResponse()->sendHeaders();
 
                 if (!$filesystem->isFile($file)) {
-                    Mage::throwException(__('File not found'));
+                    throw new Magento_Core_Exception(__('File not found'));
                 }
                 $stream = $filesystem->createAndOpenStream($file, 'r');
                 while ($buffer = $stream->read(1024)) {

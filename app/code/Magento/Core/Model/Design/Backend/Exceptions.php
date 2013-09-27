@@ -44,7 +44,8 @@ class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model
     /**
      * Validate value
      *
-     * @throws Magento_Core_Exception if there is no field value, search value is empty or regular expression is not valid
+     * @throws Magento_Core_Exception
+     * if there is no field value, search value is empty or regular expression is not valid
      */
     protected function _beforeSave()
     {
@@ -58,9 +59,7 @@ class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model
             // Validate that all values have come
             foreach (array('search', 'value') as $fieldName) {
                 if (!isset($row[$fieldName])) {
-                    Mage::throwException(
-                        __("Exception does not contain field '{$fieldName}'")
-                    );
+                    throw new Magento_Core_Exception(__("Exception does not contain field '{$fieldName}'"));
                 }
             }
 
@@ -97,7 +96,7 @@ class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model
 
         // Find out - whether user wanted to enter regexp or normal string.
         if ($this->_isRegexp($search)) {
-            Mage::throwException(__('Invalid regular expression: "%1".', $search));
+            throw new Magento_Core_Exception(__('Invalid regular expression: "%1".', $search));
         }
 
         return '/' . preg_quote($search, '/') . '/i';

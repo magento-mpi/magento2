@@ -68,7 +68,7 @@ class Magento_Core_Model_Event_Invoker_InvokerDefault implements Magento_Core_Mo
         if (method_exists($object, $method)) {
             $object->$method($observer);
         } elseif ($this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER) {
-            Mage::throwException('Method "' . $method . '" is not defined in "' . get_class($object) . '"');
+            throw new Magento_Core_Exception('Method "' . $method . '" is not defined in "' . get_class($object) . '"');
         }
         return $this;
     }
