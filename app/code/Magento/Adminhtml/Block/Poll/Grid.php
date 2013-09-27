@@ -17,6 +17,42 @@
  */
 class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Poll_Model_PollFactory
+     */
+    protected $_pollFactory;
+
+    /**
+     * @param Magento_Poll_Model_PollFactory $pollFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Poll_Model_PollFactory $pollFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_locale = $context->getLocale();
+        $this->_storeManager = $storeManager;
+        $this->_pollFactory = $pollFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -29,11 +65,11 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Poll_Model_Poll')->getCollection();
+        $collection = $this->_pollFactory->create()->getCollection();
         $this->setCollection($collection);
         parent::_prepareCollection();
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->getCollection()->addStoreData();
         }
 
@@ -68,7 +104,7 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
             'width'     => '120px',
             'type'      => 'datetime',
             'index'     => 'date_posted',
-            'date_format' => Mage::app()->getLocale()->getDateFormat()
+            'date_format' => $this->_locale->getDateFormat()
         ));
 
         $this->addColumn('date_closed', array(
@@ -78,10 +114,10 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
             'type'      => 'datetime',
             'default'   => '--',
             'index'     => 'date_closed',
-            'date_format' => Mage::app()->getLocale()->getDateFormat()
+            'date_format' => $this->_locale->getDateFormat()
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
                 'header'    => __('Visibility'),
                 'index'     => 'stores',

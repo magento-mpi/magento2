@@ -13,8 +13,6 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Magento_Adminhtml_Block_Widget
 {
-    protected $_product;
-
     protected $_productInstance;
 
     protected $_values;
@@ -36,6 +34,24 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     protected $_productOptionConfig;
 
     /**
+     * @var Magento_Catalog_Model_Product
+     */
+    protected $_product;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_configYesNo;
+
+    /**
+     * @var Magento_Catalog_Model_Config_Source_Product_Options_Type
+     */
+    protected $_optionType;
+
+    /**
+     * @param Magento_Backend_Model_Config_Source_Yesno $configYesNo
+     * @param Magento_Catalog_Model_Config_Source_Product_Options_Type $optionType
+     * @param Magento_Catalog_Model_Product $product
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -43,12 +59,18 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Config_Source_Yesno $configYesNo,
+        Magento_Catalog_Model_Config_Source_Product_Options_Type $optionType,
+        Magento_Catalog_Model_Product $product,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Catalog_Model_ProductOptions_ConfigInterface $productOptionConfig,
         array $data = array()
     ) {
+        $this->_optionType = $optionType;
+        $this->_configYesNo = $configYesNo;
+        $this->_product = $product;
         $this->_productOptionConfig = $productOptionConfig;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
@@ -88,7 +110,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
             if ($product) {
                 $this->_productInstance = $product;
             } else {
-                $this->_productInstance = Mage::getSingleton('Magento_Catalog_Model_Product');
+                $this->_productInstance = $this->_product;
             }
         }
 
@@ -156,7 +178,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                 'class' => 'select select-product-option-type required-option-select',
             ))
             ->setName($this->getFieldName() . '[${id}][type]')
-            ->setOptions(Mage::getSingleton('Magento_Catalog_Model_Config_Source_Product_Options_Type')->toOptionArray());
+            ->setOptions($this->_optionType->toOptionArray());
 
         return $select->getHtml();
     }
@@ -169,7 +191,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                 'class' => 'select'
             ))
             ->setName($this->getFieldName() . '[${id}][is_require]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions($this->_configYesNo->toOptionArray());
 
         return $select->getHtml();
     }
@@ -214,7 +236,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
         if (!$this->_values || $this->getIgnoreCaching()) {
             $showPrice = $this->getCanReadPrice();
             $values = array();
-            $scope = (int)Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+            $scope = (int)$this->_storeManager->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
             foreach ($optionsArr as $option) {
                 /* @var $option Magento_Catalog_Model_Product_Option */
 

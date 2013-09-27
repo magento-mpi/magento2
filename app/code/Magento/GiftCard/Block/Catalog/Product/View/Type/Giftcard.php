@@ -10,6 +10,45 @@
 
 class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_Catalog_Block_Product_View_Abstract
 {
+    /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
     public function getAmountSettingsJson($product)
     {
         $result = array('min'=>0, 'max'=>0);
@@ -52,7 +91,7 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
     {
         $result = array();
         foreach ($product->getGiftcardAmounts() as $amount) {
-            $result[] = Mage::app()->getStore()->roundPrice($amount['website_value']);
+            $result[] = $this->_storeManager->getStore()->roundPrice($amount['website_value']);
         }
         sort($result);
         return $result;
@@ -60,7 +99,7 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
 
     public function getCurrentCurrency()
     {
-        return Mage::app()->getStore()->getCurrentCurrencyCode();
+        return $this->_storeManager->getStore()->getCurrentCurrencyCode();
     }
 
     public function isMessageAvailable($product)
@@ -82,8 +121,8 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
 
     public function getCustomerName()
     {
-        $firstName = (string)Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getFirstname();
-        $lastName  = (string)Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getLastname();
+        $firstName = (string)$this->_customerSession->getCustomer()->getFirstname();
+        $lastName  = (string)$this->_customerSession->getCustomer()->getLastname();
 
         if ($firstName && $lastName) {
             return $firstName . ' ' . $lastName;
@@ -94,7 +133,7 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
 
     public function getCustomerEmail()
     {
-        return (string) Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getEmail();
+        return (string)$this->_customerSession->getCustomer()->getEmail();
     }
 
     public function getMessageMaxLength()

@@ -52,8 +52,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Js extends Magento_Adminhtml_
     {
         $product = $this->getProduct();
         if ($product) {
-            return Mage::app()->getStore($product->getStoreId());
+            return $this->_storeManager->getStore($product->getStoreId());
         }
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 }

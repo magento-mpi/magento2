@@ -14,8 +14,32 @@
 class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Tax_Model_Calculation_RateFactory
+     */
+    protected $_rateFactory;
+
+    /**
+     * @param Magento_Tax_Model_Calculation_RateFactory $rateFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Model_Calculation_RateFactory $rateFactory,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_rateFactory = $rateFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Init class
-     *
      */
     protected function _construct()
     {
@@ -45,7 +69,7 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
             'legend' => __('Tax Rule Information')
         ));
 
-        $rates = Mage::getModel('Magento_Tax_Model_Calculation_Rate')
+        $rates = $this->_rateFactory->create()
             ->getCollection()
             ->toOptionArray();
 
@@ -183,7 +207,7 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
             'add_button_caption' => __('Add New Tax Class'),
             'submit_data' => array(
                 'class_type' => $classType,
-                'form_key' => Mage::getSingleton('Magento_Core_Model_Session')->getFormKey(),
+                'form_key' => $this->_session->getFormKey(),
             ),
             'entity_id_name' => 'class_id',
             'entity_value_name' => 'class_name',

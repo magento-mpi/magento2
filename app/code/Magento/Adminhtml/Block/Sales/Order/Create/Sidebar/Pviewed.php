@@ -18,6 +18,41 @@
 
 class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
 {
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Reports_Model_EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * @param Magento_Reports_Model_EventFactory $eventFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reports_Model_EventFactory $eventFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        $this->_eventFactory = $eventFactory;
+        $this->_productFactory = $productFactory;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $coreConfig, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -40,12 +75,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento
         $productCollection = $this->getData('item_collection');
         if (is_null($productCollection)) {
             $stores = array();
-            $website = Mage::app()->getStore($this->getStoreId())->getWebsite();
+            $website = $this->_storeManager->getStore($this->getStoreId())->getWebsite();
             foreach ($website->getStores() as $store) {
                 $stores[] = $store->getId();
             }
 
-            $collection = Mage::getModel('Magento_Reports_Model_Event')
+            $collection = $this->_eventFactory->create()
                 ->getCollection()
                 ->addStoreFilter($stores)
                 ->addRecentlyFiler(Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
@@ -56,7 +91,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento
 
             $productCollection = null;
             if ($productIds) {
-                $productCollection = Mage::getModel('Magento_Catalog_Model_Product')
+                $productCollection = $this->_productFactory->create()
                     ->getCollection()
                     ->setStoreId($this->getQuote()->getStoreId())
                     ->addStoreFilter($this->getQuote()->getStoreId())

@@ -23,6 +23,7 @@ class Magento_GoogleShopping_Model_Attribute_ImageLink extends Magento_GoogleSho
     protected $_catalogProduct = null;
 
     /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_GoogleShopping_Helper_Data $gsData
      * @param Magento_GoogleShopping_Helper_Product $gsProduct
@@ -34,6 +35,7 @@ class Magento_GoogleShopping_Model_Attribute_ImageLink extends Magento_GoogleSho
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_GoogleShopping_Helper_Data $gsData,
         Magento_GoogleShopping_Helper_Product $gsProduct,
@@ -45,7 +47,8 @@ class Magento_GoogleShopping_Model_Attribute_ImageLink extends Magento_GoogleSho
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($gsData, $gsProduct, $gsPrice, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($productFactory, $gsData, $gsProduct, $gsPrice, $context, $registry, $resource,
+            $resourceCollection, $data);
     }
 
     /**

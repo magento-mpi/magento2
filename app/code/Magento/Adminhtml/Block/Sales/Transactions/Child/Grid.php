@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Child_Grid extends Magento_Admi
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection');
+        $collection = $this->_collectionFactory->create();
         $collection->addParentIdFilter($this->_coreRegistry->registry('current_transaction')->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();

@@ -61,7 +61,7 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = (int)$this->getRequest()->getParam('store', 0);
         /* @var $emailVariable Magento_Core_Model_Variable */
-        $variable = Mage::getModel('Magento_Core_Model_Variable');
+        $variable = $this->_objectManager->create('Magento_Core_Model_Variable');
         if ($variableId) {
             $variable->setStoreId($storeId)
                 ->load($variableId);
@@ -183,8 +183,8 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
      */
     public function wysiwygPluginAction()
     {
-        $customVariables = Mage::getModel('Magento_Core_Model_Variable')->getVariablesOptionArray(true);
-        $storeContactVariabls = Mage::getModel('Magento_Core_Model_Source_Email_Variables')->toOptionArray(true);
+        $customVariables = $this->_objectManager->create('Magento_Core_Model_Variable')->getVariablesOptionArray(true);
+        $storeContactVariabls = $this->_objectManager->create('Magento_Core_Model_Source_Email_Variables')->toOptionArray(true);
         $variables = array($storeContactVariabls, $customVariables);
         $this->getResponse()->setBody(Zend_Json::encode($variables));
     }

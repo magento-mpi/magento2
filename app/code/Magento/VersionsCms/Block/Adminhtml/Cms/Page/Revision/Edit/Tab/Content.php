@@ -28,6 +28,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
     /**
      * @param Magento_VersionsCms_Helper_Data $cmsData
+     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -38,6 +39,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
      */
     public function __construct(
         Magento_VersionsCms_Helper_Data $cmsData,
+        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Magento_Backend_Block_Template_Context $context,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
@@ -48,7 +50,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
     ) {
         $this->_cmsData = $cmsData;
         $this->_backendAuthSession = $backendAuthSession;
-        parent::__construct($context, $formFactory, $coreData, $eventManager, $coreRegistry, $data);
+        parent::__construct($wysiwygConfig, $context, $formFactory, $coreData, $eventManager, $coreRegistry, $data);
     }
 
     /**

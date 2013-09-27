@@ -84,7 +84,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
         $params = array();
 //        $params = array('section'=>'catalog');
         if ($storeId) {
-            $store = Mage::app()->getStore($storeId);
+            $store = $this->_storeManager->getStore($storeId);
             $params['website'] = $store->getWebsite()->getCode();
             $params['store']   = $store->getCode();
         }
@@ -213,6 +213,6 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
 
     public function isAjax()
     {
-        return Mage::app()->getRequest()->isXmlHttpRequest() || Mage::app()->getRequest()->getParam('isAjax');
+        return $this->_request->isXmlHttpRequest() || $this->_request->getParam('isAjax');
     }
 }

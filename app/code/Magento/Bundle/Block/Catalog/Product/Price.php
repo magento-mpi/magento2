@@ -23,6 +23,12 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
     protected $_storeManager;
 
     /**
+     * @var Magento_Tax_Model_Calculation
+     */
+    protected $_taxCalc;
+
+    /**
+     * @param Magento_Tax_Model_Calculation $taxCalc
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Helper_Data $coreData
@@ -32,6 +38,7 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
      * @param array $data
      */
     public function __construct(
+        Magento_Tax_Model_Calculation $taxCalc,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Helper_Data $coreData,
@@ -42,17 +49,18 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
     ) {
         parent::__construct($catalogData, $taxData, $coreData, $context, $registry, $data);
         $this->_storeManager = $storeManager;
+        $this->_taxCalc = $taxCalc;
     }
 
     public function isRatesGraterThenZero()
     {
-        $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(false, false, false);
+        $_request = $this->_taxCalc->getRateRequest(false, false, false);
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $defaultTax = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($_request);
+        $defaultTax = $this->_taxCalc->getRate($_request);
 
-        $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest();
+        $_request = $this->_taxCalc->getRateRequest();
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $currentTax = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($_request);
+        $currentTax = $this->_taxCalc->getRate($_request);
 
         return (floatval($defaultTax) > 0 || floatval($currentTax) > 0);
     }

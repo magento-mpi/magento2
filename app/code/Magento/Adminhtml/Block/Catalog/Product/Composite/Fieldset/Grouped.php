@@ -15,6 +15,41 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
     extends Magento_Catalog_Block_Product_View_Type_Grouped
 {
     /**
+     * @var Magento_Tax_Model_Calculation
+     */
+    protected $_taxCalculation;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManger;
+
+    /**
+     * @param Magento_Tax_Model_Calculation $taxCalculation
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Tax_Model_Calculation $taxCalculation,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxCalculation = $taxCalculation;
+        $this->_storeManger = $storeManager;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Redefine default price block
      * Set current customer to tax calculation
      */
@@ -25,9 +60,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
         $this->_block = 'Magento_Adminhtml_Block_Catalog_Product_Price';
         $this->_useLinkForAsLowAs = false;
 
-        $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
-            $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
+        if (!$this->_taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $this->_taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }
     }
 
@@ -43,7 +77,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
         }
         $product = $this->getData('product');
         if (is_null($product->getTypeInstance()->getStoreFilter($product))) {
-            $product->getTypeInstance()->setStoreFilter(Mage::app()->getStore($product->getStoreId()), $product);
+            $product->getTypeInstance()->setStoreFilter(
+                $this->_storeManger->getStore($product->getStoreId()),
+                $product
+            );
         }
 
         return $product;

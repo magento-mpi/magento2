@@ -18,6 +18,39 @@
 class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var Magento_Tax_Model_Class_Source_Customer
+     */
+    protected $_taxCustomer;
+
+    /**
+     * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_Tax_Model_Class_Source_Customer $taxCustomer
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Model_Session $backendSession,
+        Magento_Tax_Model_Class_Source_Customer $taxCustomer,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_taxCustomer = $taxCustomer;
+        $this->_backendSession = $backendSession;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare form for render
      */
     protected function _prepareLayout()
@@ -56,7 +89,7 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Backend_B
                 'title' => __('Tax Class'),
                 'class' => 'required-entry',
                 'required' => true,
-                'values' => Mage::getSingleton('Magento_Tax_Model_Class_Source_Customer')->toOptionArray()
+                'values' => $this->_taxCustomer->toOptionArray()
             )
         );
 
@@ -70,9 +103,9 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Backend_B
             );
         }
 
-        if ( Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCustomerGroupData() ) {
-            $form->addValues(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCustomerGroupData());
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setCustomerGroupData(null);
+        if ( $this->_backendSession->getCustomerGroupData() ) {
+            $form->addValues($this->_backendSession->getCustomerGroupData());
+            $this->_backendSession->setCustomerGroupData(null);
         } else {
             $form->addValues($customerGroup->getData());
         }

@@ -48,7 +48,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->_entityTypeId = Mage::getModel('Magento_Eav_Model_Entity')
+        $this->_entityTypeId = $this->_objectManager->create('Magento_Eav_Model_Entity')
             ->setType(Magento_Catalog_Model_Product::ENTITY)
             ->getTypeId();
     }
@@ -92,13 +92,13 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
     {
         $id = $this->getRequest()->getParam('attribute_id');
         /** @var $model Magento_Catalog_Model_Resource_Eav_Attribute */
-        $model = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute')
+        $model = $this->_objectManager->create('Magento_Catalog_Model_Resource_Eav_Attribute')
             ->setEntityTypeId($this->_entityTypeId);
         if ($id) {
             $model->load($id);
 
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(
                     __('This attribute no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -106,7 +106,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
 
             // entity type check
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(
                     __('This attribute cannot be edited.'));
                 $this->_redirect('*/*/');
                 return;
@@ -114,7 +114,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
         }
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getAttributeData(true);
+        $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getAttributeData(true);
         if (! empty($data)) {
             $model->addData($data);
         }
@@ -150,7 +150,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
         $frontendLabel = $this->getRequest()->getParam('frontend_label');
         $attributeCode = $attributeCode ?: $this->generateCode($frontendLabel[0]);
         $attributeId = $this->getRequest()->getParam('attribute_id');
-        $attribute = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute')
+        $attribute = $this->_objectManager->create('Magento_Catalog_Model_Resource_Eav_Attribute')
             ->loadByCode($this->_entityTypeId, $attributeCode);
 
         if ($attribute->getId() && !$attributeId) {
@@ -213,12 +213,12 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
         $data = $this->getRequest()->getPost();
         if ($data) {
             /** @var $session Magento_Backend_Model_Auth_Session */
-            $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
+            $session = $this->_objectManager->get('Magento_Adminhtml_Model_Session');
 
             $isNewAttributeSet = false;
             if (!empty($data['new_attribute_set_name'])) {
                 /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
-                $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
+                $attributeSet = $this->_objectManager->create('Magento_Eav_Model_Entity_Attribute_Set');
                 $name = $this->_objectManager->get('Magento_Adminhtml_Helper_Data')
                     ->stripTags($data['new_attribute_set_name']);
                 $name = trim($name);
@@ -248,7 +248,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
 
             $redirectBack   = $this->getRequest()->getParam('back', false);
             /* @var $model Magento_Catalog_Model_Resource_Eav_Attribute */
-            $model = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+            $model = $this->_objectManager->create('Magento_Catalog_Model_Resource_Eav_Attribute');
             /* @var $helper Magento_Catalog_Helper_Product */
             $helper = $this->_objectManager->get('Magento_Catalog_Helper_Product');
 
@@ -273,7 +273,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
             //validate frontend_input
             if (isset($data['frontend_input'])) {
                 /** @var $inputType Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator */
-                $inputType = Mage::getModel('Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator');
+                $inputType = $this->_objectManager->create('Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator');
                 if (!$inputType->isValid($data['frontend_input'])) {
                     foreach ($inputType->getMessages() as $message) {
                         $session->addError($message);
@@ -344,7 +344,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
                 $attributeSetId = $isNewAttributeSet ? $attributeSet->getId() : $this->getRequest()->getParam('set');
                 $groupCollection = $isNewAttributeSet
                     ? $attributeSet->getGroups()
-                    : Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection')
+                    : $this->_objectManager->create('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection')
                         ->setAttributeSetFilter($attributeSetId)
                         ->load();
                 foreach ($groupCollection as $group) {
@@ -394,12 +394,12 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
     {
         $id = $this->getRequest()->getParam('attribute_id');
         if ($id) {
-            $model = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+            $model = $this->_objectManager->create('Magento_Catalog_Model_Resource_Eav_Attribute');
 
             // entity type check
             $model->load($id);
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(
                     __('This attribute cannot be deleted.'));
                 $this->_redirect('*/*/');
                 return;
@@ -407,17 +407,17 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
 
             try {
                 $model->delete();
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(
                     __('The product attribute has been deleted.'));
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
                 return;
             }
         }
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(
             __('We can\'t find an attribute to delete.'));
         $this->_redirect('*/*/');
     }

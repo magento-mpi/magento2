@@ -27,12 +27,20 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View
     protected $_coreData = null;
 
     /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory
+     */
+    protected $_entityAttribute;
+
+    /**
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $entityAttribute
      * @param Magento_Core_Helper_Data $coreData
      */
     public function __construct(
+        Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $entityAttribute,
         Magento_Core_Helper_Data $coreData
     ) {
         $this->_coreData = $coreData;
+        $this->_entityAttribute = $entityAttribute;
     }
 
     /**
@@ -108,7 +116,7 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
+        return $this->_entityAttribute->create()
             ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

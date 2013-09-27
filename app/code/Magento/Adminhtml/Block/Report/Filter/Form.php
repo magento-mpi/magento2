@@ -115,7 +115,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Backend_Block_W
         $form->setHtmlIdPrefix($htmlIdPrefix);
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Filter')));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('store_ids', 'hidden', array(
             'name'  => 'store_ids'

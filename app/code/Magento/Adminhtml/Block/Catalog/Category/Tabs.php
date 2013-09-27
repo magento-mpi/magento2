@@ -37,6 +37,12 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
     protected $_adminhtmlCatalog = null;
 
     /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $collectionFactory
      * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -45,6 +51,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
      * @param array $data
      */
     public function __construct(
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $collectionFactory,
         Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -52,6 +59,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $registry;
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         parent::__construct($coreData, $context, $authSession, $data);
@@ -111,7 +119,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
 
         $attributeSetId     = $this->getCategory()->getDefaultAttributeSetId();
         /** @var $groupCollection Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection */
-        $groupCollection    = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection')
+        $groupCollection = $this->_collectionFactory->create()
             ->setAttributeSetFilter($attributeSetId)
             ->setSortOrder()
             ->load();

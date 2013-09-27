@@ -23,17 +23,33 @@ class Magento_Adminhtml_Block_Review_Rating_Summary extends Magento_Adminhtml_Bl
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory
+     */
+    protected $_votesFactory;
+
+    /**
+     * @var Magento_Rating_Model_RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @param Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory $votesFactory
+     * @param Magento_Rating_Model_RatingFactory $ratingFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory $votesFactory,
+        Magento_Rating_Model_RatingFactory $ratingFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_votesFactory = $votesFactory;
+        $this->_ratingFactory = $ratingFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -48,8 +64,7 @@ class Magento_Adminhtml_Block_Review_Rating_Summary extends Magento_Adminhtml_Bl
     public function getRating()
     {
         if (!$this->getRatingCollection()) {
-            $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
-                ->getResourceCollection()
+            $ratingCollection = $this->_votesFactory->create()
                 ->setReviewFilter($this->getReviewId())
                 ->addRatingInfo()
                 ->load();
@@ -61,7 +76,7 @@ class Magento_Adminhtml_Block_Review_Rating_Summary extends Magento_Adminhtml_Bl
     public function getRatingSummary()
     {
         if (!$this->getRatingSummaryCache()) {
-            $this->setRatingSummaryCache(Mage::getModel('Magento_Rating_Model_Rating')
+            $this->setRatingSummaryCache($this->_ratingFactory->create()
                 ->getReviewSummary($this->getReviewId()));
         }
 

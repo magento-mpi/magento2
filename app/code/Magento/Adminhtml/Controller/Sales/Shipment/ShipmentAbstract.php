@@ -53,36 +53,39 @@ class Magento_Adminhtml_Controller_Sales_Shipment_ShipmentAbstract extends Magen
         }
     }
 
-    public function pdfshipmentsAction(){
+    public function pdfshipmentsAction()
+    {
         $shipmentIds = $this->getRequest()->getPost('shipment_ids');
         if (!empty($shipmentIds)) {
-            $shipments = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Shipment_Collection')
+            $shipments = $this->_objectManager->create('Magento_Sales_Model_Resource_Order_Shipment_Collection')
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('entity_id', array('in' => $shipmentIds))
                 ->load();
-            if (!isset($pdf)){
-                $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
+            if (!isset($pdf)) {
+                $pdf = $this->_objectManager->create('Magento_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
             } else {
-                $pages = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
+                $pages = $this->_objectManager->create('Magento_Sales_Model_Order_Pdf_Shipment')->getPdf($shipments);
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
-
-            return $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+            $date = $this->_objectManager->get('Magento_Core_Model_Date')->date('Y-m-d_H-i-s');
+            return $this->_prepareDownloadResponse('packingslip' . $date . '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }
 
-
     public function printAction()
     {
         /** @see Magento_Adminhtml_Controller_Sales_Order_Invoice */
-        if ($shipmentId = $this->getRequest()->getParam('invoice_id')) { // invoice_id o_0
-            if ($shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->load($shipmentId)) {
-                $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment')->getPdf(array($shipment));
-                $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+        $shipmentId = $this->getRequest()->getParam('invoice_id');
+        if ($shipmentId) { // invoice_id o_0
+            $shipment = $this->_objectManager->create('Magento_Sales_Model_Order_Shipment')->load($shipmentId);
+            if ($shipment) {
+                $pdf = $this->_objectManager->create('Magento_Sales_Model_Order_Pdf_Shipment')
+                    ->getPdf(array($shipment));
+                $date = $this->_objectManager->get('Magento_Core_Model_Date')->date('Y-m-d_H-i-s');
+                $this->_prepareDownloadResponse('packingslip' . $date . '.pdf', $pdf->render(), 'application/pdf');
             }
-        }
-        else {
+        } else {
             $this->_forward('noRoute');
         }
     }

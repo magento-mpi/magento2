@@ -32,6 +32,18 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
     protected $_moduleManager = null;
 
     /**
+     * @var Magento_Cms_Model_Wysiwyg_Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
+     * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
@@ -40,6 +52,8 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
      * @param array $attributes
      */
     public function __construct(
+        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
+        Magento_Core_Model_Layout $layout,
         Magento_Core_Helper_Data $coreData,
         Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Data_Form_Element_CollectionFactory $factoryCollection,
@@ -47,6 +61,8 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
         Magento_Backend_Helper_Data $backendData,
         array $attributes = array()
     ) {
+        $this->_wysiwygConfig = $wysiwygConfig;
+        $this->_layout = $layout;
         $this->_moduleManager = $moduleManager;
         $this->_backendData = $backendData;
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
@@ -62,8 +78,7 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
         $html = parent::getAfterElementHtml();
         if ($this->getIsWysiwygEnabled()) {
             $disabled = ($this->getDisabled() || $this->getReadonly());
-            $html .= Mage::app()->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
+            $html .= $this->_layout->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
                     'label'   => __('WYSIWYG Editor'),
                     'type'    => 'button',
                     'disabled' => $disabled,
@@ -106,7 +121,7 @@ HTML;
     public function getIsWysiwygEnabled()
     {
         if ($this->_moduleManager->isEnabled('Magento_Cms')) {
-            return (bool)(Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()
+            return (bool)($this->_wysiwygConfig->isEnabled()
                 && $this->getEntityAttribute()->getIsWysiwygEnabled());
         }
 

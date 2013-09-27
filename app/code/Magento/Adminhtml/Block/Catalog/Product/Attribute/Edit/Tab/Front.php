@@ -20,6 +20,31 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_yesNo;
+
+    /**
+     * @param Magento_Backend_Model_Config_Source_Yesno $yesNo
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Model_Config_Source_Yesno $yesNo,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_yesNo = $yesNo;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * @inheritdoc
      * @return $this
      */
@@ -36,7 +61,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front
             ))
         );
 
-        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();;
+        $yesnoSource = $this->_yesNo->toOptionArray();
 
         $fieldset = $form->addFieldset(
             'front_fieldset',

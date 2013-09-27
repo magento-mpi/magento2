@@ -25,7 +25,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
     {
         $data = $this->getRequest()->getParam('creditmemo');
         if (!$data) {
-            $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
+            $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getFormData(true);
         }
 
         if (isset($data['items'])) {
@@ -71,7 +71,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
     {
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')
+            $invoice = $this->_objectManager->create('Magento_Sales_Model_Order_Invoice')
                 ->load($invoiceId)
                 ->setOrder($order);
             if ($invoice->getId()) {
@@ -164,7 +164,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
      */
     protected function _saveCreditmemo($creditmemo)
     {
-        $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
+        $transactionSave = $this->_objectManager->create('Magento_Core_Model_Resource_Transaction')
             ->addObject($creditmemo)
             ->addObject($creditmemo->getOrder());
         if ($creditmemo->getInvoice()) {
@@ -221,7 +221,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
                 $this->_title(__("New Memo"));
             }
 
-            if ($comment = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCommentText(true)) {
+            if ($comment = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getCommentText(true)) {
                 $creditmemo->setCommentText($comment);
             }
 
@@ -384,7 +384,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo
             );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                Mage::throwException(__('The Comment Text field cannot be empty.'));
+                throw new Magento_Core_Exception(__('The Comment Text field cannot be empty.'));
             }
             $creditmemo = $this->_initCreditmemo();
             $comment = $creditmemo->addComment(

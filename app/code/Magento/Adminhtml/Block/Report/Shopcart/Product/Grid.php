@@ -17,6 +17,30 @@
  */
 class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Adminhtml_Block_Report_Grid_Shopcart
 {
+    /**
+     * @var Magento_Reports_Model_Resource_Quote_CollectionFactory
+     */
+    protected $_quotesFactory;
+
+    /**
+     * @param Magento_Reports_Model_Resource_Quote_CollectionFactory $quotesFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reports_Model_Resource_Quote_CollectionFactory $quotesFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_quotesFactory = $quotesFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -27,7 +51,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Admin
     protected function _prepareCollection()
     {
         /** @var $collection Magento_Reports_Model_Resource_Quote_Collection */
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Quote_Collection');
+        $collection = $this->_quotesFactory->create();
         $collection->prepareForProductsInCarts()
             ->setSelectCountSqlType(Magento_Reports_Model_Resource_Quote_Collection::SELECT_COUNT_SQL_TYPE_CART);
         $this->setCollection($collection);

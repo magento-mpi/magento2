@@ -28,7 +28,7 @@ class Magento_Adminhtml_Controller_Json extends Magento_Adminhtml_Controller_Act
 
         $countryId = $this->getRequest()->getParam('parent');
         if (!empty($countryId)) {
-            $arrRegions = Mage::getResourceModel('Magento_Directory_Model_Resource_Region_Collection')
+            $arrRegions = $this->_objectManager->create('Magento_Directory_Model_Resource_Region_Collection')
                 ->addCountryFilter($countryId)
                 ->load()
                 ->toOptionArray();

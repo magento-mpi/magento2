@@ -21,6 +21,16 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
     protected $_authorization;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
@@ -30,6 +40,8 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_storeManager = $context->getStoreManager();
+        $this->_locale = $context->getLocale();
         $this->_authorization = $context->getAuthorization();
         parent::__construct($coreData, $context, $data);
     }
