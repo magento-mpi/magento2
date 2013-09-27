@@ -1,4 +1,3 @@
-* Vde segment was moved from config.xml to di.xml
 * Configuration improvements:
   * Introduced scoped configuration model - Magento_Config_Data_Scoped and non-scoped one - Magento_Config_Data;
   * Import/Export configuration was moved from config.xml to import.xml and export.xml files with new format;
@@ -23,7 +22,7 @@
   * /config/global/theme node was removed from the config.xml and related data was moved to di.xml
   * /config/global/payment node was removed from config.xml and related data was moved to payment.xml and di.xml
   * Removed "translate" node from configuration XML files
-  * Improved Install, Category, Product, Customer, Wishlist configuration segments:
+  * Improved Install, Category, Product, Customer, Wishlist, PDF, VDE, Currency, Email Template configuration segments:
     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
     * New configuration files are validated with XSD
     * Format of the configuration changed to make possible its validation

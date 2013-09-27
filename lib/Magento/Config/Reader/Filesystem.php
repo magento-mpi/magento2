@@ -135,12 +135,12 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
                 if (is_null($domDocument)) {
                     $class = $this->_domDocumentClass;
                     $domDocument = new $class(
-                        file_get_contents($file),
+                        $this->_readFileContents($file),
                         $this->_idAttributes,
                         $this->_perFileSchema
                     );
                 } else {
-                    $domDocument->merge(file_get_contents($file));
+                    $domDocument->merge($this->_readFileContents($file));
                 }
             } catch (Magento_Config_Dom_ValidationException $e) {
                 throw new Magento_Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
@@ -159,5 +159,17 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
             $output = $this->_converter->convert($domDocument->getDom());
         }
         return $output;
+    }
+
+    /**
+     * Retrieve contents of a file. To be overridden by descendants to perform contents post processing, if needed.
+     *
+     * @param string $filename
+     * @return string
+     * @todo Use Magento_Filesystem
+     */
+    protected function _readFileContents($filename)
+    {
+        return file_get_contents($filename);
     }
 }

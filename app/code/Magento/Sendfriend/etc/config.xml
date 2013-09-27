@@ -19,15 +19,6 @@
                 </setup>
             </sendfriend_setup>
         </resources>
-        <template>
-            <email>
-                <sendfriend_email_template translate="label" module="Magento_Sendfriend">
-                    <label>Send Product Link to Friend</label>
-                    <file>email/product_share.html</file>
-                    <type>html</type>
-                </sendfriend_email_template>
-            </email>
-        </template>
     </global>
     <default>
         <sendfriend>

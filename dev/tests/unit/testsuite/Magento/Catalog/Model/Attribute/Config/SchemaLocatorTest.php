@@ -7,9 +7,6 @@
  */
 class Magento_Catalog_Model_Attribute_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
 {
-    const FIXTURE_XSD_DIR   = 'fixture_dir';
-    const FIXTURE_XSD_FILE  = 'fixture_dir/catalog_attributes.xsd';
-
     /**
      * @var Magento_Catalog_Model_Attribute_Config_SchemaLocator
      */
@@ -28,22 +25,24 @@ class Magento_Catalog_Model_Attribute_Config_SchemaLocatorTest extends PHPUnit_F
         $this->_moduleReader
             ->expects($this->once())
             ->method('getModuleDir')->with('etc', 'Magento_Catalog')
-            ->will($this->returnValue(self::FIXTURE_XSD_DIR))
+            ->will($this->returnValue('fixture_dir'))
         ;
         $this->_model = new Magento_Catalog_Model_Attribute_Config_SchemaLocator($this->_moduleReader);
     }
 
     public function testGetSchema()
     {
-        $this->assertEquals(self::FIXTURE_XSD_FILE, $this->_model->getSchema());
+        $actualResult = $this->_model->getSchema();
+        $this->assertEquals('fixture_dir/catalog_attributes.xsd', $actualResult);
         // Makes sure the value is calculated only once
-        $this->assertEquals(self::FIXTURE_XSD_FILE, $this->_model->getSchema());
+        $this->assertEquals($actualResult, $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()
     {
-        $this->assertEquals(self::FIXTURE_XSD_FILE, $this->_model->getPerFileSchema());
+        $actualResult = $this->_model->getPerFileSchema();
+        $this->assertEquals('fixture_dir/catalog_attributes.xsd', $actualResult);
         // Makes sure the value is calculated only once
-        $this->assertEquals(self::FIXTURE_XSD_FILE, $this->_model->getPerFileSchema());
+        $this->assertEquals($actualResult, $this->_model->getPerFileSchema());
     }
 }

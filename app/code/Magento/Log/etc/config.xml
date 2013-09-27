@@ -25,15 +25,6 @@
                 </setup>
             </log_setup>
         </resources>
-        <template>
-            <email>
-                <system_log_error_email_template translate="label" module="Magento_Log">
-                    <label>Log Cleanup Warnings</label>
-                    <file>email/cleanup_warning.html</file>
-                    <type>text</type>
-                </system_log_error_email_template>
-            </email>
-        </template>
     </global>
     <default>
         <log>

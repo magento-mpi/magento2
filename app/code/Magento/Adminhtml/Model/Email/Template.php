@@ -19,12 +19,16 @@
 class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Template
 {
     /**
+     * @var Magento_Core_Model_Config
+     */
+    private $_coreConfig;
+    
+    /**
      * @var Magento_Backend_Model_Config_Structure
      */
-    protected $_structure;
+    private $_structure;
 
     /**
-     * @param Magento_Backend_Model_Config_Structure $structure
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Filesystem $filesystem
@@ -32,13 +36,14 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Email_Template_Config $emailConfig
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Backend_Model_Config_Structure $structure
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Backend_Model_Config_Structure $structure,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Filesystem $filesystem,
@@ -46,13 +51,16 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Email_Template_Config $emailConfig,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Backend_Model_Config_Structure $structure,
         array $data = array()
     ) {
-        $this->_structure = $structure;
         parent::__construct(
-            $context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $coreStoreConfig, $coreConfig, $data
+            $context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $coreStoreConfig, $emailConfig, $data
         );
+        $this->_coreConfig = $coreConfig;
+        $this->_structure = $structure;
     }
 
     /**

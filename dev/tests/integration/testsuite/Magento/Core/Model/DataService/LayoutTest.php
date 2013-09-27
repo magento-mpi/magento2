@@ -35,22 +35,9 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
     protected function _loadServiceCallsConfig()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Dir $dirs */
-        $dirs = $objectManager->create(
-            'Magento_Core_Model_Dir',
-            array(
-                'baseDir' => BP,
-                'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/LayoutTest')
-            )
-        );
-
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = $objectManager->create(
-            'Magento_Core_Model_Config_Modules_Reader',
-            array(
-                'dirs' => $dirs,
-            )
-        );
+        $moduleReader = $objectManager->create('Magento_Core_Model_Config_Modules_Reader');
+        $moduleReader->setModuleDir('Magento_Catalog', 'etc', __DIR__ . '/LayoutTest/Magento/Catalog/etc');
 
         /** @var Magento_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
         $dsCfgReaderFactory = $objectManager->create(
