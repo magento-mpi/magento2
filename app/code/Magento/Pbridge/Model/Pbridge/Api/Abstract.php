@@ -57,6 +57,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig

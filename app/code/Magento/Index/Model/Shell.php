@@ -33,14 +33,16 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
      * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Filesystem $filesystem
      * @param string $entryPoint
+     * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
         Magento_Index_Model_Indexer $indexer,
         Magento_Filesystem $filesystem,
-        $entryPoint
+        $entryPoint,
+        Magento_Core_Model_Dir $dir
     ) {
         $this->_indexer = $indexer;
-        parent::__construct($filesystem, $entryPoint);
+        parent::__construct($filesystem, $entryPoint, $dir);
     }
 
     /**

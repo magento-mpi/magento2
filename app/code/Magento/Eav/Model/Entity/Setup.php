@@ -29,11 +29,6 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
     protected $_attrGrCollFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Setup_MigrationFactory
-     */
-    protected $_migrationFactory;
-
-    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -66,9 +61,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName,
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
     ) {
         parent::__construct(
             $logger,
@@ -86,7 +79,6 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         );
         $this->_cache = $cache;
         $this->_attrGrCollFactory = $attrGrCollFactory;
-        $this->_migrationFactory = $migrationFactory;
     }
 
     /**

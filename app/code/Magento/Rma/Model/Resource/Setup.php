@@ -59,7 +59,6 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
         $resourceName,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
         Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory
@@ -81,7 +80,6 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
             $resourceName,
             $cache,
             $attrGrCollFactory,
-            $migrationFactory,
             $coreData
         );
     }

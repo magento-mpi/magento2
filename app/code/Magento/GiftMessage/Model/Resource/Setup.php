@@ -34,11 +34,8 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
      * @param $resourceName
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
@@ -56,7 +53,6 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
         $resourceName,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
     ) {
@@ -76,7 +72,6 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
             $resourceName,
             $cache,
             $attrGrCollFactory,
-            $migrationFactory,
             $coreData
         );
     }

@@ -38,9 +38,6 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
      * @param $resourceName
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param Magento_Customer_Helper_Address $customerAddress
-     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -57,9 +54,7 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName,
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        Magento_Customer_Helper_Address $customerAddress
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
     ) {
         parent::__construct(
             $logger,
@@ -75,8 +70,7 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
             $migrationFactory,
             $resourceName,
             $cache,
-            $attrGrCollFactory,
-            $migrationFactory
+            $attrGrCollFactory
         );
         $this->_customerAddress = $customerAddress;
     }

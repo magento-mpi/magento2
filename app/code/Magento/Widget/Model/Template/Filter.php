@@ -23,11 +23,6 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
     protected $_widgetResource;
 
     /**
-     * @var Magento_Core_Model_Layout
-     */
-    protected $_layout;
-
-    /**
      * @var Magento_Widget_Model_Widget
      */
     protected $_widget;
@@ -36,23 +31,39 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_VariableFactory $coreVariableFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Layout $layout
      * @param Magento_Widget_Model_Resource_Widget $widgetResource
      * @param Magento_Widget_Model_Widget $widget
      * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Model_LayoutFactory $layoutFactory
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_Url $viewUrl,
-        Magento_Widget_Model_Resource_Widget $widgetResource,
-        Magento_Widget_Model_Widget $widget,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_VariableFactory $coreVariableFactory,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_LayoutFactory $layoutFactory,
+        Magento_Widget_Model_Resource_Widget $widgetResource,
+        Magento_Widget_Model_Widget $widget
     ) {
         $this->_widgetResource = $widgetResource;
         $this->_widget = $widget;
-        $this->_layout = $layout;
-        parent::__construct($logger, $coreData, $viewUrl, $coreStoreConfig);
+        parent::__construct(
+            $logger,
+            $coreData,
+            $viewUrl,
+            $coreStoreConfig,
+            $coreVariableFactory,
+            $storeManager,
+            $layout,
+            $layoutFactory
+        );
     }
 
     /**

@@ -34,8 +34,8 @@ class Magento_Rule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Rule_Model_Condition_Combine $conditions
-     * @param Magento_Rule_Model_Action_Collection $actions
+     * @param Magento_Rule_Model_Condition_CombineFactory $conditionsFactory
+     * @param Magento_Rule_Model_Action_CollectionFactory $actionsFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data

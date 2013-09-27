@@ -33,6 +33,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     protected $_storeManager = null;
 
     /**
+     * @param Magento_AdminGws_Helper_Data $adminGwsData
      * @param Magento_AdminGws_Model_Role $role
      * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
      * @param Magento_Core_Model_StoreManager $storeManager

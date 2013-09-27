@@ -133,7 +133,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
      */
     public function getAttributeObject()
     {
-        return $this->_eavConfig->getAttribute('catalog_product', $this->getAttribute());
+        return $this->_config->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**

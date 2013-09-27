@@ -26,6 +26,11 @@ class Magento_Sales_Helper_Reorder extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Locale_Proxy $locale
+     * @param Magento_Core_Model_Date_Proxy $dateModel
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_Config_Resource $configResource
      * @param Magento_Customer_Model_Session $customerSession
      */
     public function __construct(
@@ -34,10 +39,26 @@ class Magento_Sales_Helper_Reorder extends Magento_Core_Helper_Data
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Locale_Proxy $locale,
+        Magento_Core_Model_Date_Proxy $dateModel,
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_Config_Resource $configResource,
         Magento_Customer_Model_Session $customerSession
     ) {
         $this->_customerSession = $customerSession;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct(
+            $eventManager,
+            $coreHttp,
+            $context,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $configResource
+        );
     }
 
     /**

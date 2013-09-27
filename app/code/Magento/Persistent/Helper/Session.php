@@ -67,10 +67,19 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
      * Construct
      *
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Persistent_Helper_Data $persistentData
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Persistent_Helper_Data $persistentData
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Persistent_Model_SessionFactory $sessionFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Locale_Proxy $locale
+     * @param Magento_Core_Model_Date_Proxy $dateModel
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_Config_Resource $configResource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,

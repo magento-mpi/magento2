@@ -54,7 +54,6 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
         $resourceName,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Cms_Model_BlockFactory $modelBlockFactory
     ) {
@@ -74,7 +73,6 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
             $resourceName,
             $cache,
             $attrGrCollFactory,
-            $migrationFactory,
             $coreData
         );
     }

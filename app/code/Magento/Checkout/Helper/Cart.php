@@ -50,7 +50,6 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context);
         parent::__construct($context, $storeManager);
     }
 
