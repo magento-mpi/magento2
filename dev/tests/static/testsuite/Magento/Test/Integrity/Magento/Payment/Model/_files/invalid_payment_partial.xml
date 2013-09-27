@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<payment>
+    <credit_cards>
+        <type order="0">
+            <label>ABC Credit Card Company</label>
+        </type>
+        <type order="10">
+            <label>ABC Credit Card Company</label>
+        </type>
+    </credit_cards>
+    <groups>
+        <group>
+            <label>Other Payment Methods</label>
+        </group>
+    </groups>
+</payment>
