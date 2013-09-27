@@ -9,11 +9,16 @@
 -->
 <config>
     <type name="Magento_Rma_Helper_Data">
-        <param name="app">
-            <instance type="Magento_Core_Model_AppProxy" />
+        <param name="customerSession">
+            <instance type="Magento_Customer_Model_SessionProxy" />
         </param>
-        <param name="storeConfig">
-            <instance type="Magento_Core_Model_Store_ConfigProxy" />
+        <param name="authSession">
+            <instance type="Magento_Backend_Model_Auth_SessionProxy" />
+        </param>
+    </type>
+    <type name="Magento_Rma_Model_Rma_Status_History">
+        <param name="translate">
+            <instance type="Magento_Core_Model_TranslateProxy" />
         </param>
     </type>
 </config>

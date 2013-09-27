@@ -98,7 +98,6 @@ class Magento_Webapi_Model_Config
         return $this->_reader;
     }
 
-
     /**
      * Return services loaded from cache if enabled or from files merged previously
      *

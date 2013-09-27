@@ -10,11 +10,6 @@
 
 /**
  * Configuration class for totals
- *
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Total_Config_Base extends Magento_Sales_Model_Config_Ordered
 {
@@ -40,18 +35,42 @@ class Magento_Sales_Model_Order_Total_Config_Base extends Magento_Sales_Model_Co
     protected $_totalsConfigNode = 'totals';
 
     /**
+     * @var Magento_Sales_Model_Order_TotalFactory
+     */
+    protected $_orderTotalFactory;
+
+    /**
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Sales_Model_Order_TotalFactory $orderTotalFactory
+     * @param null $sourceData
+     */
+    public function __construct(
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Logger $logger,
+        Magento_Sales_Model_Order_TotalFactory $orderTotalFactory,
+        $sourceData = null
+    ) {
+        parent::__construct($configCacheType, $logger, $sourceData);
+        $this->_orderTotalFactory = $orderTotalFactory;
+    }
+
+    /**
      * Init model class by configuration
      *
      * @param string $class
      * @param string $totalCode
      * @param array $totalConfig
      * @return Magento_Sales_Model_Order_Total_Abstract
+     * @throws Magento_Core_Exception
      */
     protected function _initModelInstance($class, $totalCode, $totalConfig)
     {
-        $model = Mage::getModel($class);
+        $model = $this->_orderTotalFactory->create($class);
         if (!$model instanceof Magento_Sales_Model_Order_Total_Abstract) {
-            Mage::throwException(__('The total model should be extended from Magento_Sales_Model_Order_Total_Abstract.'));
+            throw new Magento_Core_Exception(
+                __('The total model should be extended from Magento_Sales_Model_Order_Total_Abstract.')
+            );
         }
 
         $model->setCode($totalCode);

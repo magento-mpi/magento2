@@ -18,7 +18,8 @@ class Magento_Catalog_Model_Product_Type_Configurable_AttributeTest extends PHPU
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Type_Configurable_Attribute');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Type_Configurable_Attribute');
     }
 
     public function testAddPrice()

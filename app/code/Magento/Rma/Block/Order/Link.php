@@ -23,24 +23,24 @@ class Magento_Rma_Block_Order_Link extends Magento_Sales_Block_Order_Link
 
     /**
      * Constructor
-     *
+     * 
+     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Rma_Helper_Data $rmaHelper
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
         Magento_Core_Block_Template_Context $context,
         Magento_Rma_Helper_Data $rmaHelper,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Helper_Data $coreData,
-        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
         array $data = array()
     ) {
-        $this->_rmaHelper = $rmaHelper;
         $this->_collectionFactory = $collectionFactory;
+        $this->_rmaHelper = $rmaHelper;
         parent::__construct($context, $registry, $coreData, $data);
     }
 

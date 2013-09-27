@@ -21,31 +21,33 @@ class Magento_Centinel_Model_StateFactory
     protected $_objectManager;
 
     /**
-     * Config
+     * State class map
      *
-     * @var Magento_Centinel_Model_Config
+     * @var array
      */
-    protected $_config;
+    protected $_stateClassMap;
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Magento_Centinel_Model_Config $config
+     * @param array $stateClassMap - key stands for card type, value define the validator class
      */
-    public function __construct(Magento_ObjectManager $objectManager, Magento_Centinel_Model_Config $config)
+    public function __construct(Magento_ObjectManager $objectManager, array $stateClassMap = array())
     {
         $this->_objectManager = $objectManager;
-        $this->_config = $config;
+        $this->_stateClassMap = $stateClassMap;
     }
 
     /**
      * Create state object
      *
      * @param string $cardType
-     * @return Magento_Centinel_Model_StateAbstract|bool
+     * @return Magento_Centinel_Model_StateAbstract|false
      */
     public function createState($cardType)
     {
-        $stateClass = $this->_config->getStateModelClass($cardType);
-        return $stateClass ? $this->_objectManager->create($stateClass) : false;
+        if (!isset($this->_stateClassMap[$cardType])) {
+            return false;
+        }
+        return $this->_objectManager->create($this->_stateClassMap[$cardType]);
     }
 }

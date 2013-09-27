@@ -47,14 +47,13 @@ class Magento_Pci_Controller_Adminhtml_Locks extends Magento_Adminhtml_Controlle
             // unlock users
             $userIds = $this->getRequest()->getPost('unlock');
             if ($userIds && is_array($userIds)) {
-                $affectedUsers = Mage::getResourceSingleton('Magento_Pci_Model_Resource_Admin_User')
-                    ->unlock($userIds);
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                $affectedUsers = $this->_objectManager->get('Magento_Pci_Model_Resource_Admin_User')->unlock($userIds);
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                         ->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
             }
         }
         catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
     }

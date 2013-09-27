@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_Oauth" version="1.0.0.0" active="true">
+    <module name="Magento_Oauth" version="1.0.0.1" active="true">
         <sequence>
             <module name="Magento_Core"/>
             <module name="Magento_User"/>
@@ -18,7 +18,7 @@
             <module name="Magento_Customer"/>
             <module name="Magento_Adminhtml"/>
             <module name="Magento_Backend"/>
-            <module name="Magento_Page"/>
+            <module name="Magento_Webapi"/>
         </depends>
     </module>
 </config>

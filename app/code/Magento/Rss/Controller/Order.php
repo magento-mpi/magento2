@@ -10,12 +10,7 @@
 
 /**
  * Customer reviews controller
- *
- * @category   Magento
- * @package    Magento_Rss
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
 {
     /**

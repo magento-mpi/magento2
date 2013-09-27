@@ -17,38 +17,44 @@
  */
 class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Filter
 {
-    /** @var  Magento_Widget_Model_Widget */
-    protected $_widget;
-
-    /** @var  Magento_Widget_Model_Resource_Widget */
+    /**
+     * @var Magento_Widget_Model_Resource_Widget
+     */
     protected $_widgetResource;
 
-    /** @var  Magento_Core_Model_App */
-    protected $_coreApp;
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * @var Magento_Widget_Model_Widget
+     */
+    protected $_widget;
 
     /**
      * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Widget_Model_Widget $widget
-     * @param Magento_Widget_Model_Resource_Widget $widgetResource
-     * @param Magento_Core_Model_App $coreApp
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Widget_Model_Resource_Widget $widgetResource
+     * @param Magento_Widget_Model_Widget $widget
+     * @param Magento_Core_Model_Layout $layout
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
-        Magento_Widget_Model_Widget $widget,
-        Magento_Widget_Model_Resource_Widget $widgetResource,
-        Magento_Core_Model_App $coreApp,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_Url $viewUrl,
+        Magento_Widget_Model_Resource_Widget $widgetResource,
+        Magento_Widget_Model_Widget $widget,
+        Magento_Core_Model_Layout $layout,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
-        $this->_widget = $widget;
         $this->_widgetResource = $widgetResource;
-        $this->_coreApp = $coreApp;
+        $this->_widget = $widget;
+        $this->_layout = $layout;
         parent::__construct($logger, $coreData, $viewUrl, $coreStoreConfig);
     }
+
     /**
      * Generate widget
      *
@@ -69,9 +75,9 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
         if (!empty($params['type'])) {
             $type = $params['type'];
         } elseif (!empty($params['id'])) {
-            $preconfigured = $this->_widgetResource->loadPreconfiguredWidget($params['id']);
-            $type = $preconfigured['widget_type'];
-            $params = $preconfigured['parameters'];
+            $preConfigured = $this->_widgetResource->loadPreconfiguredWidget($params['id']);
+            $type = $preConfigured['widget_type'];
+            $params = $preConfigured['parameters'];
         } else {
             return '';
         }
@@ -82,11 +88,8 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
             return '';
         }
         
-        /**
-         * define widget block and check the type is instance of Widget Interface
-         * @var Magento_Core_Block_Abstract $widget
-         */
-        $widget = $this->_coreApp->getLayout()->createBlock($type, $name, array('data' => $params));
+        // define widget block and check the type is instance of Widget Interface
+        $widget = $this->_layout->createBlock($type, $name, array('data' => $params));
         if (!$widget instanceof Magento_Widget_Block_Interface) {
             return '';
         }

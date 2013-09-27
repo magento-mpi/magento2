@@ -10,8 +10,6 @@
 
 /**
  * Billing agreements controller
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Controller_Billing_Agreement extends Magento_Core_Controller_Front_Action
 {
@@ -88,14 +86,17 @@ class Magento_Sales_Controller_Billing_Agreement extends Magento_Core_Controller
      */
     public function startWizardAction()
     {
-        $agreement = Mage::getModel('Magento_Sales_Model_Billing_Agreement');
+        $agreement = $this->_objectManager->create('Magento_Sales_Model_Billing_Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         if ($paymentCode) {
             try {
-                $agreement->setStoreId(Mage::app()->getStore()->getId())
+                $agreement
+                    ->setStoreId($this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore()->getId())
                     ->setMethodCode($paymentCode)
-                    ->setReturnUrl(Mage::getUrl('*/*/returnWizard', array('payment_method' => $paymentCode)))
-                    ->setCancelUrl(Mage::getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode)));
+                    ->setReturnUrl($this->_objectManager->create('Magento_Core_Model_Url')
+                        ->getUrl('*/*/returnWizard', array('payment_method' => $paymentCode)))
+                    ->setCancelUrl($this->_objectManager->create('Magento_Core_Model_Url')
+                        ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode)));
 
                 $this->_redirectUrl($agreement->initToken());
                 return $this;
@@ -115,15 +116,16 @@ class Magento_Sales_Controller_Billing_Agreement extends Magento_Core_Controller
      */
     public function returnWizardAction()
     {
-        $agreement = Mage::getModel('Magento_Sales_Model_Billing_Agreement');
+        $agreement = $this->_objectManager->create('Magento_Sales_Model_Billing_Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         $token = $this->getRequest()->getParam('token');
         if ($token && $paymentCode) {
             try {
-                $agreement->setStoreId(Mage::app()->getStore()->getId())
+                $agreement
+                    ->setStoreId($this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore()->getId())
                     ->setToken($token)
                     ->setMethodCode($paymentCode)
-                    ->setCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer())
+                    ->setCustomer($this->_objectManager->get('Magento_Customer_Model_Session')->getCustomer())
                     ->place();
                 $this->_getSession()->addSuccess(
                     __('The billing agreement "%1" has been created.', $agreement->getReferenceId())
@@ -160,7 +162,9 @@ class Magento_Sales_Controller_Billing_Agreement extends Magento_Core_Controller
         if ($agreement && $agreement->canCancel()) {
             try {
                 $agreement->cancel();
-                $this->_getSession()->addNotice(__('The billing agreement "%1" has been canceled.', $agreement->getReferenceId()));
+                $this->_getSession()->addNotice(
+                    __('The billing agreement "%1" has been canceled.', $agreement->getReferenceId())
+                );
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
@@ -180,7 +184,8 @@ class Magento_Sales_Controller_Billing_Agreement extends Magento_Core_Controller
     {
         $agreementId = $this->getRequest()->getParam('agreement');
         if ($agreementId) {
-            $billingAgreement = Mage::getModel('Magento_Sales_Model_Billing_Agreement')->load($agreementId);
+            $billingAgreement = $this->_objectManager->create('Magento_Sales_Model_Billing_Agreement')
+                ->load($agreementId);
             if (!$billingAgreement->getAgreementId()) {
                 $this->_getSession()->addError(__('Please specify the correct billing agreement ID and try again.'));
                 $this->_redirect('*/*/');
@@ -198,6 +203,6 @@ class Magento_Sales_Controller_Billing_Agreement extends Magento_Core_Controller
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return $this->_objectManager->get('Magento_Customer_Model_Session');
     }
 }

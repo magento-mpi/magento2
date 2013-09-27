@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$mediaDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+$mediaDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->get('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
 $dir = $mediaDir . '/m/a';
 if (!is_dir($dir)) {
     mkdir($dir, 0777, true);

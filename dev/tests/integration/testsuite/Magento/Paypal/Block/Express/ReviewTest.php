@@ -16,9 +16,11 @@ class Magento_Paypal_Block_Express_ReviewTest extends PHPUnit_Framework_TestCase
 {
     public function testRenderAddress()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_Paypal_Block_Express_Review');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Paypal_Block_Express_Review');
         $addressData = include(__DIR__ . '/../../../Sales/_files/address_data.php');
-        $address = Mage::getModel('Magento_Sales_Model_Quote_Address', array('data' => $addressData));
+        $address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Quote_Address', array('data' => $addressData));
         $address->setAddressType('billing');
         $this->assertContains('Los Angeles', $block->renderAddress($address));
     }

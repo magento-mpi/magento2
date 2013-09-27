@@ -79,7 +79,7 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
         $this->_title(__('Reward Exchange Rates'));
 
         $rateId = $this->getRequest()->getParam('rate_id', 0);
-        $rate = Mage::getModel('Magento_Reward_Model_Reward_Rate');
+        $rate = $this->_objectManager->create('Magento_Reward_Model_Reward_Rate');
         if ($rateId) {
             $rate->load($rateId);
         }
@@ -139,8 +139,8 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
             try {
                 $rate->save();
                 $this->_getSession()->addSuccess(__('You saved the rate.'));
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            } catch (Exception $exception) {
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($exception);
                 $this->_getSession()->addError(__('We cannot save Rate.'));
                 return $this->_redirect('*/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }
@@ -178,8 +178,10 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
         $response = new Magento_Object(array('error' => false));
         $post     = $this->getRequest()->getParam('rate');
         $message  = null;
-        if (Mage::app()->isSingleStoreMode()) {
-            $post['website_id'] = Mage::app()->getStore(true)->getWebsiteId();
+        /** @var Magento_Core_Model_StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface');
+        if ($storeManager->isSingleStoreMode()) {
+            $post['website_id'] = $storeManager->getStore(true)->getWebsiteId();
         }
 
         if (!isset($post['customer_group_id'])

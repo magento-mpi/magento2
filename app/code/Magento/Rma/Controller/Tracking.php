@@ -18,22 +18,14 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
     protected $_coreRegistry;
 
     /**
-     * @var Magento_Customer_Model_Session
-     */
-    protected $_customerSession;
-
-    /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Customer_Model_Session $customerSession
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Customer_Model_Session $customerSession
+        Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
 
@@ -91,7 +83,7 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
      */
     protected function _canViewRma($rma)
     {
-        if (!$this->_customerSession->isLoggedIn()) {
+        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->isLoggedIn()) {
             $currentOrder = $this->_coreRegistry->registry('current_order');
             if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
                 return true;
@@ -110,7 +102,7 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!$this->_customerSession->isLoggedIn()
+        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->isLoggedIn()
             && !$this->_objectManager->get('Magento_Sales_Helper_Guest')->loadValidOrder()
         ) {
             return;

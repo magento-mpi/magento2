@@ -14,12 +14,13 @@ class Magento_Sales_Block_Order_TotalsTest extends PHPUnit_Framework_TestCase
     public function testToHtmlChildrenInitialized()
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $block = $layout->createBlock('Magento_Sales_Block_Order_Totals', 'block');
-        $block->setOrder(Mage::getModel('Magento_Sales_Model_Order'))
+        $block->setOrder(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order'))
             ->setTemplate('order/totals.phtml');
 
-        $context = Mage::getSingleton('Magento_Core_Block_Context');
+        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Block_Context');
         $childOne = $this->getMock('Magento_Core_Block_Text', array('initTotals'), array($context));
         $childOne->expects($this->once())
             ->method('initTotals');

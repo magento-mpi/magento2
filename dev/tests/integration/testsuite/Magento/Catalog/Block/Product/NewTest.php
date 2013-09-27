@@ -23,8 +23,10 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_New');
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Catalog_Block_Product_New');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
     }
 
     public function testGetCacheKeyInfo()
@@ -38,7 +40,11 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('CATALOG_PRODUCT_NEW', $info[0]);
 
         $this->assertSame(1, array_shift($keys));
-        $this->assertEquals(Mage::app()->getStore()->getId(), $info[1]);
+        $this->assertEquals(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId(),
+            $info[1]
+        );
 
         $this->assertSame(2, array_shift($keys));
 
@@ -49,7 +55,8 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($themeModel->getId() ?: null, $info[2]);
 
         $this->assertSame(3, array_shift($keys));
-        $this->assertEquals(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(), $info[3]);
+        $this->assertEquals(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Customer_Model_Session')->getCustomerGroupId(), $info[3]);
 
         $this->assertSame('template', array_shift($keys));
 
@@ -75,7 +82,8 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
 
         $this->_block->setProductsCount(5);
         $this->_block->setTemplate('product/widget/new/content/new_list.phtml');
-        $this->_block->setLayout(Mage::getSingleton('Magento_Core_Model_Layout'));
+        $this->_block->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Layout'));
 
         $html = $this->_block->toHtml();
         $this->assertNotEmpty($html);

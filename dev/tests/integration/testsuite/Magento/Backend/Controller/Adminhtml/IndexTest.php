@@ -26,8 +26,9 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramewo
      */
     protected  function _login()
     {
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
-        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+            ->turnOffSecretKey();
+        $this->_auth = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth');
         $this->_auth->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
     }
@@ -38,7 +39,7 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramewo
     protected function _logout()
     {
         $this->_auth->logout();
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')->turnOnSecretKey();
     }
 
     /**

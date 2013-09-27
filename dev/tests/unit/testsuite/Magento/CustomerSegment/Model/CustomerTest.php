@@ -41,7 +41,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
         $storeManager = $this->getMockForAbstractClass(
             'Magento_Core_Model_StoreManagerInterface', array('getWebsite'), '', false
         );
-        $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($website));
+        $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
 
         $this->_customerSession = $this->getMock(
             'Magento_Customer_Model_Session', array('getCustomer'), array(), '', false
@@ -54,6 +54,11 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
         );
 
         $this->_model = new Magento_CustomerSegment_Model_Customer(
+            $this->getMock('Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory',
+                array('create'), array(), '', false),
+            $this->getMock('Magento_Customer_Model_Resource_Customer', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_Config_Share', array(), array(), '', false),
+            $this->getMock('Magento_Log_Model_Visitor', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
             $this->_registry,

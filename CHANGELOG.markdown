@@ -28,6 +28,7 @@
   * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
   * /config/global/page/layouts node was removed from the config.xml and related data was moved into page_layouts.xml
   * /config/global/theme node was removed from the config.xml and related data was moved to di.xml
+  * /config/global/payment node was removed from config.xml and related data was moved to payment.xml and di.xml
   * Improved Install, Category, Product, Customer, Wishlist configuration segments:
     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
     * New configuration files are validated with XSD
@@ -103,6 +104,7 @@
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
+  * Implemented a 2-legged OAuth 1.0a based authentication mechanism for both REST and SOAP API calls
 * XML Validation
   * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
   * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
@@ -144,6 +146,17 @@
   * Eliminated Mage:: static methods in Magento_Usa
   * Eliminated Mage:: static methods in Magento_ProductAlert
   * Eliminated Mage:: static methods in Magento_Directory
+  * Eliminated Mage:: static methods in Magento_SalesRule
+  * Eliminated Mage:: static methods in Magento_Sales
+  * Eliminated Mage:: static methods in Magento_Rule
+  * Eliminated Mage:: static methods in Magento_Rss
+  * Eliminated Mage:: static methods in Magento_Review
+  * Eliminated Mage:: static methods in Magento_Widget
+  * Eliminated Mage:: static methods in Magento_Directory
+  * Eliminated Mage:: static methods in Magento_Sitemap
+  * Eliminated Mage:: static methods in Magento_Theme
+  * Eliminated Mage:: static methods in Magento_Rating
+  * Eliminated Mage:: static methods in Magento_Downloadable
   * Eliminated Mage:: static methods in Centinel, Connect, Contacts, GiftMessage, GoogleAnalytics
   * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
   * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module

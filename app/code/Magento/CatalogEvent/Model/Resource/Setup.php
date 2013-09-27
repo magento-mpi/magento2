@@ -31,8 +31,11 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Cms_Model_BlockFactory $modelBlockFactory
      * @param string $resourceName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -42,13 +45,13 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Cms_Model_BlockFactory $modelBlockFactory,
         $resourceName
     ) {
         $this->_blockFactory = $modelBlockFactory;
-        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $config, $moduleList,
-            $resource, $modulesReader, $cache, $migrationFactory, $resourceName);
+        parent::__construct(
+            $migrationFactory, $logger, $coreData, $eventManager, $resourcesConfig, $config, $moduleList,
+            $resource, $modulesReader, $cache, $resourceName);
     }
 
     /**

@@ -20,6 +20,8 @@ class Magento_Reward_Model_Resource_Reward_History_Grid_Collection
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Locale $locale
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Reward_Helper_Data $helper
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
@@ -28,11 +30,21 @@ class Magento_Reward_Model_Resource_Reward_History_Grid_Collection
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Locale $locale,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Reward_Helper_Data $helper,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_helper = $helper;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct(
+            $eventManager,
+            $logger,
+            $fetchStrategy,
+            $entityFactory,
+            $locale,
+            $customerFactory,
+            $resource
+        );
     }
 
     /**

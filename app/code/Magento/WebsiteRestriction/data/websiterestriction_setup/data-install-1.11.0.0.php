@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+/** @var Magento_WebsiteRestriction_Model_Resource_Setup $this */
+
 $cmsPages = array(
     array(
         'title' => '503 Service Unavailable',
@@ -40,5 +42,5 @@ $cmsPages = array(
  * Insert default and system pages
  */
 foreach ($cmsPages as $data) {
-    Mage::getModel('Magento_Cms_Model_Page')->setData($data)->save();
+    $this->getPage()->setData($data)->save();
 }

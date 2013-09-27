@@ -23,27 +23,27 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
+     * @param Magento_Rma_Model_RmaFactory $rmaFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory
-     * @param Magento_Rma_Model_RmaFactory $rmaFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
+        Magento_Rma_Model_RmaFactory $rmaFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $collectionFactory,
-        Magento_Rma_Model_RmaFactory $rmaFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $collectionFactory, $rmaFactory, $data);
+        parent::__construct($collectionFactory, $rmaFactory, $coreData, $context, $storeManager, $urlModel, $data);
     }
 
     public function _construct()
@@ -69,8 +69,8 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
         }
         if ($orderId) {
             /** @var $collection Magento_Rma_Model_Resource_Rma_Grid_Collection */
-            $collection = $this->_collectionFactory->create();
-            $collection->addFieldToFilter('order_id', $orderId);
+            $collection = $this->_collectionFactory->create()
+                ->addFieldToFilter('order_id', $orderId);
             $this->setCollection($collection);
         }
         return $this;

@@ -21,7 +21,8 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_CatalogEvent_Model_Resource_Event_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_CatalogEvent_Model_Resource_Event_Collection');
     }
 
     /**
