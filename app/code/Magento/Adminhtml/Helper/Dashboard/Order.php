@@ -43,8 +43,8 @@ class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Locale $locale,
-        Magento_Core_Model_Date $dateModel,
+        Magento_Core_Model_Locale_Proxy $locale,
+        Magento_Core_Model_Date_Proxy $dateModel,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_Config_Resource $configResource
     ) {

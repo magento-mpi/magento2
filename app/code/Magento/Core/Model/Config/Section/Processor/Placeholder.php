@@ -17,7 +17,7 @@ class Magento_Core_Model_Config_Section_Processor_Placeholder
     /**
      * @param Magento_Core_Controller_Request_Http $request
      */
-    public function __construct(Magento_Core_Controller_Request_Http $request)
+    public function __construct(Magento_Core_Controller_Request_Http_Proxy $request)
     {
         $this->_request = $request;
     }

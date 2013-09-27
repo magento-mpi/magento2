@@ -63,8 +63,8 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $storeManager, $locale, $dateModel, $appState,
-            $configResource);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $storeManager, $locale,
+            $dateModel, $appState, $configResource, $fileSize);
     }
 
     /**
