@@ -18,7 +18,7 @@ class SkinFilesTest extends \PHPUnit_Framework_TestCase
     public function testWidgetPlaceholderImages($skinImage)
     {
         $this->assertFileExists(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Core\Model\View\FileSystem')->getViewFile(
                     $skinImage,
                     array('area' => 'adminhtml')
