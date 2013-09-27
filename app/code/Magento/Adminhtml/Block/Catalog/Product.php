@@ -19,9 +19,14 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
 {
     protected $_template = 'catalog/product.phtml';
 
-
+    /**
+     * @var Magento_Catalog_Model_Product_TypeFactory
+     */
     protected $_typeFactory;
 
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
     protected $_productFactory;
 
     /**
@@ -39,6 +44,7 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
+        $this->_typeFactory = $typeFactory;
 
         parent::__construct($coreData, $context, $data);
     }
