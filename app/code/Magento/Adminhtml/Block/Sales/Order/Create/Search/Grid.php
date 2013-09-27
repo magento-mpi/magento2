@@ -17,15 +17,30 @@
  */
 class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
-
     /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @var Magento_Adminhtml_Model_Session_Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -34,6 +49,9 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -41,8 +59,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_productFactory = $productFactory;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_sessionQuote = $sessionQuote;
         $this->_coreConfig = $coreConfig;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
     protected function _construct()
@@ -65,7 +86,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
      */
     public function getStore()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getStore();
+        return $this->_sessionQuote->getStore();
     }
 
     /**
@@ -74,7 +95,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
+        return $this->_sessionQuote->getQuote();
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -105,9 +126,9 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
      */
     protected function _prepareCollection()
     {
-        $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+        $attributes = $this->_catalogConfig->getProductAttributes();
         /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection();
+        $collection = $this->_productFactory->create()->getCollection();
         $collection
             ->setStore($this->getStore())
             ->addAttributeToSelect($attributes)

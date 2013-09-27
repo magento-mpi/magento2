@@ -27,6 +27,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
     protected $_eavData = null;
 
     /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_yesNo;
+
+    /**
+     * @param Magento_Backend_Model_Config_Source_Yesno $yesNo
      * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
@@ -35,6 +41,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Config_Source_Yesno $yesNo,
         Magento_Eav_Helper_Data $eavData,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
@@ -42,6 +49,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_yesNo = $yesNo;
         $this->_eavData = $eavData;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -69,7 +77,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
             )
         );
 
-        $yesno = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesno = $this->_yesNo->toOptionArray();
 
         $validateClass = sprintf(
             'validate-code validate-length maximum-length-%d',
@@ -113,7 +121,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
             )
         );
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField(
             'default_value_date',
             'date',
@@ -170,7 +178,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
             }
         }
 
-        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = $this->_yesNo->toOptionArray();
 
         $scopes = array(
             Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>__('Store View'),

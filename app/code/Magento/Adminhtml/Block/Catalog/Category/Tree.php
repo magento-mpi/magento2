@@ -22,6 +22,37 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
 
     protected $_template = 'catalog/category/tree.phtml';
 
+    /**
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var Magento_Core_Model_Resource_HelperPool
+     */
+    protected $_helperPool;
+
+    public function __construct(
+        Magento_Core_Model_Resource_HelperPool $helperPool,
+        Magento_Backend_Model_Auth_Session $backendSession,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Catalog_Model_Resource_Category_Tree $categoryTree,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_helperPool = $helperPool;
+        $this->_backendSession = $backendSession;
+        $this->_categoryFactory = $categoryFactory;
+        parent::__construct($categoryTree, $coreData, $context, $registry, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -72,7 +103,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
         $collection = $this->getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection();
+            $collection = $this->_categoryFactory->create()->getCollection();
 
             /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */
             $collection->addAttributeToSelect('name')
@@ -97,10 +128,10 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
 
         /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */
-        $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection();
+        $collection = $this->_categoryFactory->create()->getCollection();
 
         $matchingNamesCollection = clone $collection;
-        $escapedNamePart = Mage::getResourceHelper('Magento_Core')->addLikeEscape($namePart, array('position' => 'any'));
+        $escapedNamePart = $this->_helperPool->get('Magento_Core')->addLikeEscape($namePart, array('position' => 'any'));
         $matchingNamesCollection->addAttributeToFilter('name', array('like' => $escapedNamePart))
             ->addAttributeToFilter('entity_id', array('neq' => Magento_Catalog_Model_Category::TREE_ROOT_ID))
             ->addAttributeToSelect('path')
@@ -168,7 +199,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     {
         $params = array('_current'=>true, 'id'=>null,'store'=>null);
         if (
-            (is_null($expanded) && Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getIsTreeWasExpanded())
+            (is_null($expanded) && $this->_backendSession->getIsTreeWasExpanded())
             || $expanded == true) {
             $params['expand_all'] = true;
         }
@@ -190,7 +221,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
 
     public function getIsWasExpanded()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getIsTreeWasExpanded();
+        return $this->_backendSession->getIsTreeWasExpanded();
     }
 
     public function getMoveUrl()
@@ -227,8 +258,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
             return '';
         }
 
-        $categories = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category_Tree')
-            ->setStoreId($this->getStore()->getId())->loadBreadcrumbsArray($path);
+        $categories = $this->_categoryTree->setStoreId($this->getStore()->getId())
+            ->loadBreadcrumbsArray($path);
         if (empty($categories)) {
             return '';
         }
@@ -261,9 +292,6 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         $item = array();
         $item['text'] = $this->buildNodeName($node);
 
-        /* $rootForStores = Mage::getModel('Magento_Core_Model_Store')
-            ->getCollection()
-            ->loadByCategoryIds(array($node->getEntityId())); */
         $rootForStores = in_array($node->getEntityId(), $this->getRootIds());
 
         $item['id']  = $node->getId();

@@ -79,13 +79,17 @@ class Magento_Adminhtml_Block_Dashboard_Bar extends Magento_Adminhtml_Block_Dash
     {
         if (is_null($this->_currentCurrencyCode)) {
             if ($this->getRequest()->getParam('store')) {
-                $this->_currentCurrencyCode = Mage::app()->getStore($this->getRequest()->getParam('store'))->getBaseCurrency();
-            } else if ($this->getRequest()->getParam('website')){
-                $this->_currentCurrencyCode = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getBaseCurrency();
-            } else if ($this->getRequest()->getParam('group')){
-                $this->_currentCurrencyCode =  Mage::app()->getGroup($this->getRequest()->getParam('group'))->getWebsite()->getBaseCurrency();
+                $this->_currentCurrencyCode = $this->_storeManager->getStore($this->getRequest()->getParam('store'))
+                    ->getBaseCurrency();
+            } elseif ($this->getRequest()->getParam('website')) {
+                $this->_currentCurrencyCode = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))
+                    ->getBaseCurrency();
+            } elseif ($this->getRequest()->getParam('group')) {
+                $this->_currentCurrencyCode =  $this->_storeManager->getGroup($this->getRequest()->getParam('group'))
+                    ->getWebsite()
+                    ->getBaseCurrency();
             } else {
-                $this->_currentCurrencyCode = Mage::app()->getStore()->getBaseCurrency();
+                $this->_currentCurrencyCode = $this->_storeManager->getStore()->getBaseCurrency();
             }
         }
 

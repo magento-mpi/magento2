@@ -23,6 +23,31 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit
     extends Magento_Adminhtml_Block_Urlrewrite_Edit
 {
     /**
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
+     * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
+        Magento_Backend_Helper_Data $adminhtmlData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_categoryFactory = $categoryFactory;
+        parent::__construct($rewriteFactory, $adminhtmlData, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare layout for URL rewrite creating for category
      */
     protected function _prepareLayoutFeatures()
@@ -51,7 +76,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit
     private function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(Mage::getModel('Magento_Catalog_Model_Category'));
+            $this->setCategory($this->_categoryFactory->create());
         }
         return $this->getCategory();
     }

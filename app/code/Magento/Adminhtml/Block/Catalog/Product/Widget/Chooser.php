@@ -20,6 +20,44 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
     protected $_selectedProducts = array();
 
     /**
+     * @var Magento_Catalog_Model_Resource_Category
+     */
+    protected $_resourceCategory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product
+     */
+    protected $_resourceProduct;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    public function __construct(
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $collectionFactory,
+        Magento_Catalog_Model_Resource_Category $resourceCategory,
+        Magento_Catalog_Model_Resource_Product $resourceProduct,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_collectionFactory = $collectionFactory;
+        $this->_resourceCategory = $resourceCategory;
+        $this->_resourceProduct = $resourceProduct;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block construction, prepare grid params
      */
     protected function _construct()
@@ -59,12 +97,16 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
             $categoryId = isset($value[2]) ? $value[2] : false;
             $label = '';
             if ($categoryId) {
-                $label = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category')
-                    ->getAttributeRawValue($categoryId, 'name', Mage::app()->getStore()) . '/';
+                $label = $this->_resourceCategory->getAttributeRawValue(
+                    $categoryId,
+                    'name',
+                    $this->_storeManager->getStore()
+                ) . '/';
             }
             if ($productId) {
-                $label .= Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product')
-                    ->getAttributeRawValue($productId, 'name', Mage::app()->getStore());
+                $label .= $this->_resourceProduct->getAttributeRawValue(
+                    $productId, 'name', $this->_storeManager->getStore()
+                );
             }
             $chooser->setLabel($label);
         }
@@ -165,12 +207,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
     protected function _prepareCollection()
     {
         /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+        $collection = $this->_collectionFactory->create()
             ->setStoreId(0)
             ->addAttributeToSelect('name');
 
         if ($categoryId = $this->getCategoryId()) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = $this->_categoryFactory->create()->load($categoryId);
             if ($category->getId()) {
                 // $collection->addCategoryFilter($category);
                 $productIds = $category->getProductsPosition();

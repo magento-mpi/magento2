@@ -25,17 +25,33 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search extends
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource_HelperPool
+     */
+    protected $_helperPool;
+
+    /**
+     * @param Magento_Core_Model_Resource_HelperPool $helperPool
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Resource_HelperPool $helperPool,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_helperPool = $helperPool;
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -73,10 +89,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search extends
      */
     public function getSuggestedAttributes($labelPart, $templateId = null)
     {
-        $escapedLabelPart = Mage::getResourceHelper('Magento_Core')
+        $escapedLabelPart = $this->_helperPool->get('Magento_Core')
             ->addLikeEscape($labelPart, array('position' => 'any'));
         /** @var $collection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
+        $collection = $this->_collectionFactory->create()
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart));
 
         $collection->setExcludeSetFilter($templateId ?: $this->getRequest()->getParam('template_id'))->setPageSize(20);

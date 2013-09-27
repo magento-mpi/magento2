@@ -25,6 +25,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
     protected $_catalogData = null;
 
     /**
+     * @var Magento_Cms_Model_Wysiwyg_Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -33,6 +39,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
      * @param array $data
      */
     public function __construct(
+        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Magento_Data_Form_Factory $formFactory,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
@@ -40,6 +47,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_wysiwygConfig = $wysiwygConfig;
         $this->_catalogData = $catalogData;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -51,7 +59,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
     {
         parent::_prepareLayout();
         if ($this->_catalogData->isModuleEnabled('Magento_Cms')
-            && Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()
+            && $this->_wysiwygConfig->isEnabled()
         ) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }

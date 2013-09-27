@@ -129,13 +129,17 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
 
     /**
+     * @var Magneto_ObjectMnaager
+     */
+    protected $_objectManager;
+
+    /**
+     * @param Magneto_ObjectMnaager $objectManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Registry $coreRegistry
@@ -145,6 +149,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * @param array $data
      */
     public function __construct(
+        Magneto_ObjectMnaager $objectManager,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Registry $coreRegistry,
@@ -153,6 +158,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
+        $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
@@ -329,7 +335,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 if ($qty > 0) {
                     $item = $this->initFromOrderItem($orderItem, $qty);
                     if (is_string($item)) {
-                        Mage::throwException($item);
+                        throw new Magento_Core_Exception($item);
                     }
                 }
             }
@@ -435,7 +441,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             return $this;
         }
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product')
+        $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
             ->setStoreId($this->getSession()->getStoreId())
             ->load($orderItem->getProductId());
 
@@ -484,7 +490,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
 
         if ($this->getSession()->getCustomer()->getId()) {
-            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer(
+            $this->_wishlist = $this->_objectManager->create('Magento_Wishlist_Model_Wishlist')->loadByCustomer(
                 $this->getSession()->getCustomer(), true
             );
             $this->_wishlist->setStore($this->getSession()->getStore())
@@ -507,7 +513,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             return $this->_cart;
         }
 
-        $this->_cart = Mage::getModel('Magento_Sales_Model_Quote');
+        $this->_cart = $this->_objectManager->create('Magento_Sales_Model_Quote');
 
         if ($this->getSession()->getCustomer()->getId()) {
             $this->_cart->setStore($this->getSession()->getStore())
@@ -533,7 +539,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
 
         if ($this->getSession()->getCustomer()->getId()) {
-            $this->_compareList = Mage::getModel('Magento_Catalog_Model_Product_Compare_List');
+            $this->_compareList = $this->_objectManager->create('Magento_Catalog_Model_Product_Compare_List');
         } else {
             $this->_compareList = false;
         }
@@ -569,7 +575,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $info->setOptions($this->_prepareOptionsForRequest($item))
                         ->setQty($qty);
 
-                    $product = Mage::getModel('Magento_Catalog_Model_Product')
+                    $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
                         ->setStoreId($this->getQuote()->getStoreId())
                         ->load($item->getProduct()->getId());
 
@@ -577,7 +583,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $newItem = $this->getQuote()->addProduct($product, $info);
 
                     if (is_string($newItem)) {
-                        Mage::throwException($newItem);
+                        throw new Magento_Core_Exception($newItem);
                     }
                     $product->unsSkipCheckRequiredOption();
                     $newItem->checkData();
@@ -587,7 +593,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $cart = $this->getCustomerCart();
                     if ($cart && is_null($item->getOptionByCode('additional_options'))) {
                         //options and info buy request
-                        $product = Mage::getModel('Magento_Catalog_Model_Product')
+                        $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
                             ->setStoreId($this->getQuote()->getStoreId())
                             ->load($item->getProduct()->getId());
 
@@ -608,7 +614,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
                         $cartItem = $cart->addProduct($product, $info);
                         if (is_string($cartItem)) {
-                            Mage::throwException($cartItem);
+                            throw new Magento_Core_Exception($cartItem);
                         }
                         $cartItem->setPrice($item->getProduct()->getPrice());
                         $this->_needCollectCart = true;
@@ -618,12 +624,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 case 'wishlist':
                     $wishlist = null;
                     if (!isset($moveTo[1])) {
-                        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer(
+                        $wishlist = $this->_objectManager->create('Magento_Wishlist_Model_Wishlist')->loadByCustomer(
                             $this->getSession()->getCustomer(),
                             true
                         );
                     } else {
-                        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->load($moveTo[1]);
+                        $wishlist = $this->_objectManager->create('Magento_Wishlist_Model_Wishlist')->load($moveTo[1]);
                         if (!$wishlist->getId()
                             || $wishlist->getCustomerId() != $this->getSession()->getCustomerId()
                         ) {
@@ -631,7 +637,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                         }
                     }
                     if (!$wishlist) {
-                        Mage::throwException(__('We couldn\'t find this wish list.'));
+                        throw new Magento_Core_Exception(__('We couldn\'t find this wish list.'));
                     }
                     $wishlist->setStore($this->getSession()->getStore())
                         ->setSharedStoreIds($this->getSession()->getStore()->getWebsite()->getStoreIds());
@@ -670,10 +676,10 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         if (isset($data['add_order_item'])) {
             foreach ($data['add_order_item'] as $orderItemId => $value) {
                 /* @var $orderItem Magento_Sales_Model_Order_Item */
-                $orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')->load($orderItemId);
+                $orderItem = $this->_objectManager->create('Magento_Sales_Model_Order_Item')->load($orderItemId);
                 $item = $this->initFromOrderItem($orderItem);
                 if (is_string($item)) {
-                    Mage::throwException($item);
+                    throw new Magento_Core_Exception($item);
                 }
             }
         }
@@ -688,7 +694,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
         if (isset($data['add_wishlist_item'])) {
             foreach ($data['add_wishlist_item'] as $itemId => $qty) {
-                $item = Mage::getModel('Magento_Wishlist_Model_Item')
+                $item = $this->_objectManager->create('Magento_Wishlist_Model_Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 if ($item->getId()) {
                     $this->addProduct($item->getProduct(), $item->getBuyRequest()->toArray());
@@ -735,12 +741,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             case 'wishlist':
                 $wishlist = $this->getCustomerWishlist();
                 if ($wishlist) {
-                    $item = Mage::getModel('Magento_Wishlist_Model_Item')->load($itemId);
+                    $item = $this->_objectManager->create('Magento_Wishlist_Model_Item')->load($itemId);
                     $item->delete();
                 }
                 break;
             case 'compared':
-                Mage::getModel('Magento_Catalog_Model_Product_Compare_Item')
+                $this->_objectManager->create('Magento_Catalog_Model_Product_Compare_Item')
                     ->load($itemId)
                     ->delete();
                 break;
@@ -779,12 +785,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
         if (!($product instanceof Magento_Catalog_Model_Product)) {
             $productId = $product;
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
+            $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
                 ->setStore($this->getSession()->getStore())
                 ->setStoreId($this->getSession()->getStoreId())
                 ->load($product);
             if (!$product->getId()) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('We could not add a product to cart by the ID "%1".', $productId)
                 );
             }
@@ -812,7 +818,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 );
             }
             if (is_string($item)) {
-                Mage::throwException($item);
+                throw new Magento_Core_Exception($item);
             }
         }
         $item->checkData();
@@ -912,7 +918,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      */
     protected function _parseOptions(Magento_Sales_Model_Quote_Item $item, $additionalOptions)
     {
-        $productOptions = Mage::getSingleton('Magento_Catalog_Model_Product_Option_Type_Default')
+        $productOptions = $this->_objectManager->get('Magento_Catalog_Model_Product_Option_Type_Default')
             ->setProduct($item->getProduct())
             ->getProductOptions();
 
@@ -923,13 +929,13 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             if (strlen(trim($_additionalOption))) {
                 try {
                     if (strpos($_additionalOption, ':') === false) {
-                        Mage::throwException(
+                        throw new Magento_Core_Exception(
                             __('There is an error in one of the option rows.')
                         );
                     }
                     list($label,$value) = explode(':', $_additionalOption, 2);
                 } catch (Exception $e) {
-                    Mage::throwException(__('There is an error in one of the option rows.'));
+                    throw new Magento_Core_Exception(__('There is an error in one of the option rows.'));
                 }
                 $label = trim($label);
                 $value = trim($value);
@@ -941,7 +947,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $optionId = $productOptions[$label]['option_id'];
                     $option = $item->getProduct()->getOptionById($optionId);
 
-                    $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')
+                    $group = $this->_objectManager->get('Magento_Catalog_Model_Product_Option')
                         ->groupFactory($option->getType())
                         ->setOption($option)
                         ->setProduct($item->getProduct());
@@ -1038,7 +1044,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 $option = $item->getProduct()->getOptionById($optionId);
                 $optionValue = $item->getOptionByCode('option_'.$optionId)->getValue();
 
-                $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')->groupFactory($option->getType())
+                $group = $this->_objectManager->get('Magento_Catalog_Model_Product_Option')
+                    ->groupFactory($option->getType())
                     ->setOption($option)
                     ->setQuoteItem($item);
 
@@ -1050,7 +1057,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
     protected function _parseCustomPrice($price)
     {
-        $price = Mage::app()->getLocale()->getNumber($price);
+        $price = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getLocale()->getNumber($price);
         $price = $price > 0 ? $price : 0;
         return $price;
     }
@@ -1073,7 +1080,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected function _getCustomerForm()
     {
         if (is_null($this->_customerForm)) {
-            $this->_customerForm = Mage::getModel('Magento_Customer_Model_Form')
+            $this->_customerForm = $this->_objectManager->create('Magento_Customer_Model_Form')
                 ->setFormCode('adminhtml_checkout')
                 ->ignoreInvisible(false);
         }
@@ -1088,7 +1095,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected function _getCustomerAddressForm()
     {
         if (is_null($this->_customerAddressForm)) {
-            $this->_customerAddressForm = Mage::getModel('Magento_Customer_Model_Form')
+            $this->_customerAddressForm = $this->_objectManager->create('Magento_Customer_Model_Form')
                 ->setFormCode('adminhtml_customer_address')
                 ->ignoreInvisible(false);
         }
@@ -1107,7 +1114,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     {
         $addressForm    = $this->_getCustomerAddressForm()
             ->setEntity($address)
-            ->setEntityType(Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer_address'))
+            ->setEntityType($this->_objectManager->get('Magento_Eav_Model_Config')->getEntityType('customer_address'))
             ->setIsAjaxRequest(!$this->getIsValidate());
 
         // prepare request
@@ -1148,7 +1155,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         if (is_array($address)) {
             $address['save_in_address_book'] = isset($address['save_in_address_book'])
                 && !empty($address['save_in_address_book']);
-            $shippingAddress = Mage::getModel('Magento_Sales_Model_Quote_Address')
+            $shippingAddress = $this->_objectManager->create('Magento_Sales_Model_Quote_Address')
                 ->setData($address)
                 ->setAddressType(Magento_Sales_Model_Quote_Address::TYPE_SHIPPING);
             if (!$this->getQuote()->isVirtual()) {
@@ -1193,7 +1200,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     {
         if (is_array($address)) {
             $address['save_in_address_book'] = isset($address['save_in_address_book']) ? 1 : 0;
-            $billingAddress = Mage::getModel('Magento_Sales_Model_Quote_Address')
+            $billingAddress = $this->_objectManager->create('Magento_Sales_Model_Quote_Address')
                 ->setData($address)
                 ->setAddressType(Magento_Sales_Model_Quote_Address::TYPE_BILLING);
             $this->_setQuoteAddress($billingAddress, $address);
@@ -1281,7 +1288,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
 
         if (isset($data['customer_group_id'])) {
-            $groupModel = Mage::getModel('Magento_Customer_Model_Group')->load($data['customer_group_id']);
+            $groupModel = $this->_objectManager->create('Magento_Customer_Model_Group')->load($data['customer_group_id']);
             $data['customer_tax_class_id'] = $groupModel->getTaxClassId();
             $this->setRecollect(true);
         }
@@ -1545,7 +1552,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $this->_prepareQuoteItems();
 
         /** @var $service Magento_Sales_Model_Service_Quote */
-        $service = Mage::getModel('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
+        $service = $this->_objectManager->create('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
             $originalId = $oldOrder->getOriginalIncrementId();
@@ -1599,11 +1606,11 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     {
         $customerId = $this->getSession()->getCustomerId();
         if (is_null($customerId)) {
-            Mage::throwException(__('Please select a customer.'));
+            throw new Magento_Core_Exception(__('Please select a customer.'));
         }
 
         if (!$this->getSession()->getStore()->getId()) {
-            Mage::throwException(__('Please select a store.'));
+            throw new Magento_Core_Exception(__('Please select a store.'));
         }
         $items = $this->getQuote()->getAllItems();
 
@@ -1647,7 +1654,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             foreach ($this->_errors as $error) {
                 $this->getSession()->addError($error);
             }
-            Mage::throwException('');
+            throw new Magento_Core_Exception('');
         }
         return $this;
     }

@@ -19,6 +19,31 @@
 class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Cms_Model_Wysiwyg_Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_wysiwygConfig = $wysiwygConfig;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve Category object
      *
      * @return Magento_Catalog_Model_Category
@@ -44,7 +69,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ba
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()) {
+        if ($this->_wysiwygConfig->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }

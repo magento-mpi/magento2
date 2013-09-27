@@ -19,6 +19,30 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
 {
     protected $_template = 'catalog/product.phtml';
 
+
+    protected $_typeFactory;
+
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Product_TypeFactory $typeFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Product_TypeFactory $typeFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Prepare button and grid
      *
@@ -52,7 +76,7 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
     {
         $splitButtonOptions = array();
 
-        foreach (Mage::getModel('Magento_Catalog_Model_Product_Type')->getOptionArray() as $key => $label) {
+        foreach ($this->_typeFactory->create()->getOptionArray() as $key => $label) {
             $splitButtonOptions[$key] = array(
                 'label'     => $label,
                 'onclick'   => "setLocation('" . $this->_getProductCreateUrl($key) . "')",
@@ -72,7 +96,7 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
     protected function _getProductCreateUrl($type)
     {
         return $this->getUrl('*/*/new', array(
-            'set'   => Mage::getModel('Magento_Catalog_Model_Product')->getDefaultAttributeSetId(),
+            'set'   => $this->_productFactory->create()->getDefaultAttributeSetId(),
             'type'  => $type
         ));
     }
@@ -94,6 +118,6 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
      */
     public function isSingleStoreMode()
     {
-        return Mage::app()->isSingleStoreMode();
+        return $this->_storeManager->isSingleStoreMode();
     }
 }

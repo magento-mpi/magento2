@@ -32,12 +32,19 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backe
     protected $_coreData = null;
 
     /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -64,7 +71,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backe
         $products = $this->_coreRegistry->registry('import_option_products');
         if (is_array($products)) {
             foreach ($products as $productId) {
-                $product = Mage::getModel('Magento_Catalog_Model_Product')->load((int)$productId);
+                $product = $this->_productFactory->create()->load((int)$productId);
                 if (!$product->getId()) {
                     continue;
                 }

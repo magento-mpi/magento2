@@ -25,6 +25,49 @@
 class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Adminhtml_Block_Urlrewrite_Edit_Form
 {
     /**
+     * @var Magento_Catalog_Model_Url
+     */
+    protected $_catalogUrl;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Catalog_Model_Url $catalogUrl
+     * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Catalog_Model_Url $catalogUrl,
+        Magento_Backend_Helper_Data $adminhtmlData,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_catalogUrl = $catalogUrl;
+        parent::__construct($adminhtmlData, $registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Form post init
      *
      * @param Magento_Data_Form $form
@@ -62,15 +105,13 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
             }
 
             if ($product || $category) {
-                /** @var $catalogUrlModel Magento_Catalog_Model_Url */
-                $catalogUrlModel = Mage::getSingleton('Magento_Catalog_Model_Url');
-                $idPath->setValue($catalogUrlModel->generatePath('id', $product, $category));
+                $idPath->setValue($this->_catalogUrl->generatePath('id', $product, $category));
 
                 $sessionData = $this->_getSessionData();
                 if (!isset($sessionData['request_path'])) {
-                    $requestPath->setValue($catalogUrlModel->generatePath('request', $product, $category, ''));
+                    $requestPath->setValue($this->_catalogUrl->generatePath('request', $product, $category, ''));
                 }
-                $targetPath->setValue($catalogUrlModel->generatePath('target', $product, $category));
+                $targetPath->setValue($this->_catalogUrl->generatePath('target', $product, $category));
                 $disablePaths = true;
             }
         } else {
@@ -136,7 +177,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
     protected function _getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setProduct(Mage::getModel('Magento_Catalog_Model_Product'));
+            $this->setProduct($this->_productFactory->create());
         }
         return $this->getProduct();
     }
@@ -149,7 +190,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
     protected function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(Mage::getModel('Magento_Catalog_Model_Category'));
+            $this->setCategory($this->_categoryFactory->create());
         }
         return $this->getCategory();
     }

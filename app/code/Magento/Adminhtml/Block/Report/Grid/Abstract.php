@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Backend_Block_Widget_Grid_Extended
 {
     protected $_resourceCollectionName  = '';
     protected $_currentCurrencyCode     = null;
@@ -24,6 +24,22 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
     protected $_reportsData = null;
 
     /**
+     * Reports grouped collection factory
+     *
+     * @var Magento_Reports_Model_Grouped_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * Resource collection factory
+     *
+     * @var Magento_Adminhtml_Model_Resource_CollectionFactory
+     */
+    protected $_resourceFactory;
+
+    /**
+     * @param Magento_Adminhtml_Model_Resource_CollectionFactory $resourceFactory
+     * @param Magento_Reports_Model_Grouped_CollectionFactory $collectionFactory
      * @param Magento_Reports_Helper_Data $reportsData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -32,6 +48,8 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
      * @param array $data
      */
     public function __construct(
+        Magento_Adminhtml_Model_Resource_CollectionFactory $resourceFactory,
+        Magento_Reports_Model_Grouped_CollectionFactory $collectionFactory,
         Magento_Reports_Helper_Data $reportsData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -39,6 +57,8 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
+        $this->_resourceFactory = $resourceFactory;
+        $this->_collectionFactory = $collectionFactory;
         $this->_reportsData = $reportsData;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -63,7 +83,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
     public function getCollection()
     {
         if (is_null($this->_collection)) {
-            $this->setCollection(Mage::getModel('Magento_Reports_Model_Grouped_Collection'));
+            $this->setCollection($this->_collectionFactory->create());
         }
         return $this->_collection;
     }
@@ -134,7 +154,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
             $storeIds = array();
         }
         // By default storeIds array contains only allowed stores
-        $allowedStoreIds = array_keys(Mage::app()->getStores());
+        $allowedStoreIds = array_keys($this->_storeManager->getStores());
         // And then array_intersect with post data for prevent unauthorized stores reports
         $storeIds = array_intersect($allowedStoreIds, $storeIds);
         // If selected all websites or unauthorized stores use only allowed
@@ -166,7 +186,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
             }
         }
 
-        $resourceCollection = Mage::getResourceModel($this->getResourceCollectionName())
+        $resourceCollection = $this->_resourceFactory->createCollection($this->getResourceCollectionName())
             ->setPeriod($filterData->getData('period_type'))
             ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
             ->addStoreFilter($storeIds)
@@ -194,7 +214,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
         }
 
         if ($this->getCountTotals()) {
-            $totalsCollection = Mage::getResourceModel($this->getResourceCollectionName())
+            $totalsCollection = $this->_resourceFactory->createCollection($this->getResourceCollectionName())
                 ->setPeriod($filterData->getData('period_type'))
                 ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
                 ->addStoreFilter($storeIds)
@@ -220,7 +240,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
     {
         if (!$this->getTotals()) {
             $filterData = $this->getFilterData();
-            $totalsCollection = Mage::getResourceModel($this->getResourceCollectionName())
+            $totalsCollection = $this->_resourceFactory->createCollection($this->getResourceCollectionName())
                 ->setPeriod($filterData->getData('period_type'))
                 ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
                 ->addStoreFilter($this->_getStoreIds())
@@ -244,7 +264,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
     public function getSubTotals()
     {
         $filterData = $this->getFilterData();
-        $subTotalsCollection = Mage::getResourceModel($this->getResourceCollectionName())
+        $subTotalsCollection = $this->_resourceFactory->createCollection($this->getResourceCollectionName())
             ->setPeriod($filterData->getData('period_type'))
             ->setDateRange($filterData->getData('from', null), $filterData->getData('to', null))
             ->addStoreFilter($this->_getStoreIds())
@@ -268,8 +288,8 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
     {
         if (is_null($this->_currentCurrencyCode)) {
             $this->_currentCurrencyCode = (count($this->_storeIds) > 0)
-                ? Mage::app()->getStore(array_shift($this->_storeIds))->getBaseCurrencyCode()
-                : Mage::app()->getStore()->getBaseCurrencyCode();
+                ? $this->_storeManager->getStore(array_shift($this->_storeIds))->getBaseCurrencyCode()
+                : $this->_storeManager->getStore()->getBaseCurrencyCode();
         }
         return $this->_currentCurrencyCode;
     }
@@ -282,7 +302,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
      */
     public function getRate($toCurrency)
     {
-        return Mage::app()->getStore()->getBaseCurrency()->getRate($toCurrency);
+        return $this->_storeManager->getStore()->getBaseCurrency()->getRate($toCurrency);
     }
 
     /**

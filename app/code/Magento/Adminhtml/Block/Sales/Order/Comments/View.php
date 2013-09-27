@@ -46,7 +46,7 @@ class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtm
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(__('Please correct the parent block for this block.'));
+            throw new Magento_Core_Exception(__('Please correct the parent block for this block.'));
         }
         $this->setEntity($this->getParentBlock()->getSource());
         parent::_beforeToHtml();

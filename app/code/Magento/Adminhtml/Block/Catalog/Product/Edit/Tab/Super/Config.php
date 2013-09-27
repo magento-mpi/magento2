@@ -46,6 +46,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Catalog_Model_Product_Type_Configurable
+     */
+    protected $_configurableType;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Type_Configurable $configurableType
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_LocaleInterface $locale
@@ -55,6 +61,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Product_Type_Configurable $configurableType,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_App $app,
         Magento_Core_Model_LocaleInterface $locale,
@@ -63,6 +70,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_configurableType = $configurableType;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogData = $catalogData;
         $this->_app = $app;
@@ -121,7 +129,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     protected function _getProductType()
     {
-        return Mage::getModel('Magento_Catalog_Model_Product_Type_Configurable');
+        return $this->_configurableType;
     }
 
     /**

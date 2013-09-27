@@ -18,6 +18,27 @@
 class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Magento_Payment_Block_Form_Container
 {
     /**
+     * @var Magento_Adminhtml_Model_Session_Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_sessionQuote = $sessionQuote;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Check payment method model
      *
      * @param Magento_Payment_Model_Method_Abstract|null $method
@@ -74,7 +95,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mag
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
+        return $this->_sessionQuote->getQuote();
     }
 
     /*

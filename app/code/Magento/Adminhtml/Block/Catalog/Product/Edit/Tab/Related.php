@@ -25,14 +25,58 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Magento_A
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Catalog_Model_Product_LinkFactory
+     */
+    protected $_linkFactory;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory]
+     */
+    protected $_setsFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+
+    protected $_type;
+    /**
+     * @var Magento_Catalog_Model_Product_Status
+     */
+    protected $_status;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @param Magento_Catalog_Model_Product_LinkFactory $linkFactory
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setsFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Product_Type $type
+     * @param Magento_Catalog_Model_Product_Status $status
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_Product_LinkFactory $linkFactory,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setsFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Product_Type $type,
+        Magento_Catalog_Model_Product_Status $status,
+        Magento_Catalog_Model_Product_Visibility $visibility,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -40,6 +84,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Magento_A
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_linkFactory = $linkFactory;
+        $this->_setsFactory = $setsFactory;
+        $this->_productFactory = $productFactory;
+        $this->_type = $type;
+        $this->_status = $status;
+        $this->_visibility = $visibility;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -106,7 +156,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Magento_A
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Catalog_Model_Product_Link')->useRelatedLinks()
+        $collection = $this->_linkFactory->create()->useRelatedLinks()
             ->getProductCollection()
             ->setProduct($this->getProduct())
             ->addAttributeToSelect('*');
@@ -171,13 +221,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Magento_A
             'header'    => __('Type'),
             'index'     => 'type_id',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
+            'options'   => $this->_type->getOptionArray(),
             'header_css_class'  => 'col-type',
             'column_css_class'  => 'col-type'
         ));
 
-        $sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
+        $sets = $this->_setsFactory->create()
+            ->setEntityTypeFilter($this->_productFactory->create()->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -194,7 +244,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Magento_A
             'header'    => __('Status'),
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
+            'options'   => $this->_status->getOptionArray(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
@@ -203,7 +253,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Magento_A
             'header'    => __('Visibility'),
             'index'     => 'visibility',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getOptionArray(),
+            'options'   => $this->_visibility->getOptionArray(),
             'header_css_class'  => 'col-visibility',
             'column_css_class'  => 'col-visibility'
         ));

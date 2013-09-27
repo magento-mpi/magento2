@@ -485,6 +485,7 @@ return array(
     array('getSortedElements', 'Magento_Data_Form_Element_Fieldset', 'getElements'),
     array('getStatrupPageUrl'),
     array('getStore', 'Magento_Captcha_Helper_Data'),
+    array('getStore', 'Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku'),
     array('getStoreButtonsHtml', 'Magento_Backend_Block_System_Config_Tabs'),
     array('getStoreCodeFromPath', 'Magento_Core_Controller_Request_Http'),
     array('getStoreCurrency', 'Magento_Sales_Model_Order'),

@@ -24,7 +24,7 @@ class Magento_Adminhtml_Controller_System_Config_System_Storage extends Magento_
      */
     protected function _getSyncSingleton()
     {
-        return Mage::getSingleton('Magento_Core_Model_File_Storage');
+        return $this->_objectManager->get('Magento_Core_Model_File_Storage');
     }
 
     /**

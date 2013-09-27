@@ -27,6 +27,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
     protected $_adminhtmlAddresses = null;
 
     /**
+     * @param Magento_Adminhtml_Model_Customer_Renderer_RegionFactory $regionFactory
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param Magento_Customer_Model_FormFactory $customerFactory
+     * @param Magento_Core_Model_System_Store $systemStore
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Core_Helper_Data $coreData
@@ -35,6 +39,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
      * @param array $data
      */
     public function __construct(
+        Magento_Adminhtml_Model_Customer_Renderer_RegionFactory $regionFactory,
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        Magento_Customer_Model_FormFactory $customerFactory,
+        Magento_Core_Model_System_Store $systemStore,
         Magento_Data_Form_Factory $formFactory,
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
         Magento_Core_Helper_Data $coreData,
@@ -43,6 +51,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
         array $data = array()
     ) {
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
+        $this->_regionFactory = $regionFactory;
+        $this->_addressFactory = $addressFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_systemStore = $systemStore;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -111,10 +123,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
             'legend'    => __("Edit Customer's Address"))
         );
 
-        $addressModel = Mage::getModel('Magento_Customer_Model_Address');
+        $addressModel = $this->_addressFactory->create();
         $addressModel->setCountryId($this->_coreData->getDefaultCountry($customer->getStore()));
         /** @var $addressForm Magento_Customer_Model_Form */
-        $addressForm = Mage::getModel('Magento_Customer_Model_Form');
+        $addressForm = $this->_customerFactory->create();
         $addressForm->setFormCode('adminhtml_customer_address')
             ->setEntity($addressModel)
             ->initDefaultValues();
@@ -134,7 +146,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
         $regionElement = $form->getElement('region');
         $regionElement->setRequired(true);
         if ($regionElement) {
-            $regionElement->setRenderer(Mage::getModel('Magento_Adminhtml_Model_Customer_Renderer_Region'));
+            $regionElement->setRenderer($this->_regionFactory->create());
         }
 
         $regionElement = $form->getElement('region_id');
@@ -158,7 +170,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
 
         $customerStoreId = null;
         if ($customer->getId()) {
-            $customerStoreId = Mage::app()->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
+            $customerStoreId = $this->_storeManager->getWebsite($customer->getWebsiteId())
+                ->getDefaultStore()
+                ->getId();
         }
 
         $prefixElement = $form->getElement('prefix');
@@ -234,12 +248,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
      */
     public function getDefaultCountriesJson()
     {
-        $websites = Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(false, true);
+        $websites = $this->_systemStore->getWebsiteValuesForForm(false, true);
         $result = array();
         foreach ($websites as $website) {
-            $result[$website['value']] = Mage::app()->getWebsite($website['value'])->getConfig(
-                Magento_Core_Helper_Data::XML_PATH_DEFAULT_COUNTRY
-            );
+            $result[$website['value']] = $this->_storeManager->getWebsite($website['value'])
+                ->getConfig(
+                    Magento_Core_Helper_Data::XML_PATH_DEFAULT_COUNTRY
+                );
         }
 
         return $this->_coreData->jsonEncode($result);

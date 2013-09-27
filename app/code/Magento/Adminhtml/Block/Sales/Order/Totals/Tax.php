@@ -33,6 +33,11 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Magento_Tax_Block_S
     protected $_taxOrderFactory;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Tax_Model_Config $taxConfig
@@ -53,6 +58,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Magento_Tax_Block_S
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;
         $this->_taxOrderFactory = $taxOrderFactory;
+        $this->_storeManager = $context->getStoreManager();
         parent::__construct($coreData, $context, $taxConfig, $data);
     }
 
@@ -99,6 +105,6 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Magento_Tax_Block_S
      */
     public function getStore()
     {
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 }
