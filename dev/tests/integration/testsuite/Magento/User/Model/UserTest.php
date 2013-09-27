@@ -72,7 +72,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public static function roleDataFixture()
     {
-        self::$_newRole = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
+        self::$_newRole =
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
         self::$_newRole->setName('admin_role')
             ->setRoleType('G')
             ->setPid('1');
