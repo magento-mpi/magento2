@@ -979,7 +979,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
         // handle transport error
         if ($http->getErrno()) {
-            $this->_logger->logException(new Exception(
+            $this->_logger->logException(new \Exception(
                 sprintf('PayPal NVP CURL connection error #%s: %s', $http->getErrno(), $http->getError())
             ));
             $http->close();
@@ -991,7 +991,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         $http->close();
 
         if (!$this->_validateResponse($methodName, $response)) {
-            $this->_logger->logException(new Exception(__("PayPal response hasn't required fields.")));
+            $this->_logger->logException(new \Exception(__("PayPal response hasn't required fields.")));
             \Mage::throwException(__('Something went wrong while processing your order.'));
         }
 

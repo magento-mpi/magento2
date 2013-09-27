@@ -474,7 +474,7 @@ class Template extends \Magento\Core\Model\Template
     public function send($email, $name = null, array $variables = array())
     {
         if (!$this->isValidForSend()) {
-            $this->_logger->logException(new Exception('This letter cannot be sent.')); // translation is intentionally omitted
+            $this->_logger->logException(new \Exception('This letter cannot be sent.')); // translation is intentionally omitted
             return false;
         }
 

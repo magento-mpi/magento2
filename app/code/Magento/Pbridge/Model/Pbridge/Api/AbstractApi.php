@@ -122,7 +122,7 @@ class AbstractApi extends \Magento\Object
             $this->_debug($debugData);
 
             if ($curlErrorNumber) {
-                $this->_logger->logException(new Exception(
+                $this->_logger->logException(new \Exception(
                     sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
                 ));
 
