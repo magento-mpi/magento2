@@ -46,25 +46,22 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context                 $context
      * @param Magento_PageCache_Model_CacheControlFactory $ccFactory
-     * @param Magento_Core_Model_Cookie $cookie
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param array $cacheControls
+     * @param Magento_Core_Model_Cookie                   $cookie
+     * @param Magento_Core_Model_Store_Config             $coreStoreConfig
      */
     function __construct(
         Magento_Core_Helper_Context $context,
         Magento_PageCache_Model_CacheControlFactory $ccFactory,
         Magento_Core_Model_Cookie $cookie,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        array $cacheControls = array()
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_isNoCacheCookieLocked = (bool)$cookie->get(self::NO_CACHE_LOCK_COOKIE);
         $this->_cookie = $cookie;
         $this->_ccFactory = $ccFactory;
-        $this->_cacheControls = $cacheControls;
     }
 
     /**
@@ -75,16 +72,6 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     public function isEnabled()
     {
         return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_ENABLED);
-    }
-
-    /**
-     * Return all available external cache controls
-     *
-     * @return array
-     */
-    public function getCacheControls()
-    {
-        return $this->_cacheControls;
     }
 
     /**
