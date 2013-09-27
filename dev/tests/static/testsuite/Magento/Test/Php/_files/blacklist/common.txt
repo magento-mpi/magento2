@@ -17,7 +17,6 @@ app/code/Magento/Backend/Controller/Context.php
 app/code/Magento/Backend/Model/Menu/Item.php
 app/code/Magento/Backend/Model/Url/Proxy.php
 app/code/Magento/Backend/view
-app/code/Magento/Banner/Model/Resource/Setup.php
 app/code/Magento/Core/Block/AbstractBlock.php
 app/code/Magento/Core/Model/AbstractModel.php
 app/code/Magento/Core/Model/Config/Element.php

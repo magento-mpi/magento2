@@ -5,7 +5,6 @@ app/code/Magento/AdminGws/Model/Plugin
 app/code/Magento/AdminGws/Model/Config
 app/code/Magento/AdminGws/Model/Config.php
 app/code/Magento/AdminGws/Model/ConfigInterface.php
-app/code/Magento/Banner*
 app/code/Magento/CustomerCustomAttributes/Block/Account
 app/code/Magento/FullPageCache/Model/Cache/Type.php
 app/code/Magento/GiftCard/Model/Plugin
