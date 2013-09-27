@@ -18,13 +18,9 @@
  */
 class Magento_TargetRule_Model_Resource_Setup extends Magento_Catalog_Model_Resource_Setup
 {
-    /**
-     * @var Magento_Enterprise_Model_Resource_Setup_MigrationFactory
-     */
-    protected $_migrationFactory;
 
     /**
-     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -32,11 +28,16 @@ class Magento_TargetRule_Model_Resource_Setup extends Magento_Catalog_Model_Reso
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Resource $resourceResource
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
+     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -44,13 +45,15 @@ class Magento_TargetRule_Model_Resource_Setup extends Magento_Catalog_Model_Reso
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName
     ) {
-        $this->_migrationFactory = $migrationFactory;
         parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $config, $moduleList,
-            $resource, $modulesReader, $cache, $resourceName
+            $cache, $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
+            $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
         );
     }
 

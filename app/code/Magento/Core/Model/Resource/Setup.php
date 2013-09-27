@@ -136,6 +136,8 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
@@ -152,7 +154,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         $resourceName
     ) {
         $this->_config = $config;
-        if(get_class($resourcesConfig) !== "Magento_Core_Model_Config_Resource"){
+        if (get_class($resourcesConfig) !== "Magento_Core_Model_Config_Resource") {
             foreach(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 20) as $a) {
                 var_dump($a['file']);
             }

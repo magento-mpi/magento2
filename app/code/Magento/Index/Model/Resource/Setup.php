@@ -24,6 +24,7 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
     protected $_indexerConfig;
 
     /**
+     * @param Magento_Index_Model_Indexer_ConfigInterface $indexerConfig
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -31,10 +32,16 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Index_Model_Indexer_ConfigInterface $indexerConfig
+     * @param Magento_Core_Model_Resource_Resource $resourceResource
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory
+     * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Index_Model_Indexer_ConfigInterface $indexerConfig,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -42,11 +49,15 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Index_Model_Indexer_ConfigInterface $indexerConfig,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName
     ) {
         parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
+            $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
         );
         $this->_indexerConfig = $indexerConfig;
     }
