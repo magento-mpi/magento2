@@ -62,7 +62,10 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         $categoryResource = self::$_objectManager->create('Magento_Catalog_Model_Resource_Category_Flat');
         /** @var $setupModel Magento_Core_Model_Resource_Setup */
         $setupModel = self::$_objectManager->create('Magento_Core_Model_Resource_Setup',
-            array('resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
+            array(
+                'resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION,
+                'moduleName' => 'Magento_Core',
+            )
         );
         $stores = $application->getStores();
         /** @var $store Magento_Core_Model_Store */
@@ -95,7 +98,10 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         // remove flat tables
         /** @var $setupModel Magento_Core_Model_Resource_Setup */
         $setupModel = self::$_objectManager->create('Magento_Core_Model_Resource_Setup',
-            array('resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
+            array(
+                'resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION,
+                'moduleName' => 'Magento_Core',
+            )
         );
         foreach (self::$_indexerTables as $tableName) {
             if ($setupModel->getConnection()->isTableExists($tableName)) {

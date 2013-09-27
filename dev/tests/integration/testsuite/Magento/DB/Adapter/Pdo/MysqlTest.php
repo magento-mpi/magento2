@@ -112,7 +112,7 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
         if (is_null($this->_dbAdapter)) {
             /** @var $coreResource Magento_Core_Model_Resource */
             $coreResource = Mage::getSingleton('Magento_Core_Model_Resource');
-            $this->_dbAdapter = $coreResource->getConnection(Magento_Core_Model_Resource::DEFAULT_WRITE_RESOURCE);
+            $this->_dbAdapter = $coreResource->getConnection('default_setup');
         }
         return $this->_dbAdapter;
     }
