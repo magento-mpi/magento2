@@ -236,7 +236,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'label' => __('Uses per Customer'),
         ));
 
-        $dateFormat = $this->_storeManager->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),
