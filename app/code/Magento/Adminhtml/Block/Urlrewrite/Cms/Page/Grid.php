@@ -55,7 +55,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
             'index'  => 'identifier'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'                    => __('Store View'),
                 'index'                     => 'store_id',
@@ -71,7 +71,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
             'header'  => __('Status'),
             'index'   => 'is_active',
             'type'    => 'options',
-            'options' => Mage::getSingleton('Magento_Cms_Model_Page')->getAvailableStatuses()
+            'options' => $this->_cmsPage->getAvailableStatuses()
         ));
 
         return $this;

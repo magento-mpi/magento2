@@ -19,6 +19,26 @@
 class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($resource);
+    }
+
+
+    /**
      * Define main table and primary key
      *
      */
@@ -53,7 +73,7 @@ class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends 
         } else {
             if ($storeId = $product->getStoreId()) {
                 $select->where('website_id IN (0, :website_id)');
-                $bind['website_id'] = Mage::app()->getStore($storeId)->getWebsiteId();
+                $bind['website_id'] = $this->_storeManager->getStore($storeId)->getWebsiteId();
             }
         }
         return $read->fetchAll($select, $bind);
@@ -72,7 +92,7 @@ class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends 
 
         if (!$attribute->isScopeGlobal()) {
             if ($storeId = $product->getStoreId()) {
-                $condition['website_id IN (?)'] = array(0, Mage::app()->getStore($storeId)->getWebsiteId());
+                $condition['website_id IN (?)'] = array(0, $this->_storeManager->getStore($storeId)->getWebsiteId());
             }
         }
 

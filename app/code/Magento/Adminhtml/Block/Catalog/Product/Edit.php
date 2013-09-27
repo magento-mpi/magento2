@@ -27,17 +27,25 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Eav_Model_Entity_Attribute_SetFactory
+     */
+    protected $_attributeSetFactory;
+
+    /**
+     * @param Magento_Eav_Model_Entity_Attribute_SetFactory $attributeSetFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Eav_Model_Entity_Attribute_SetFactory $attributeSetFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_attributeSetFactory = $attributeSetFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -199,8 +207,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Backend_Block
     public function getAttributeSetName()
     {
         if ($setId = $this->getProduct()->getAttributeSetId()) {
-            $set = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
-                ->load($setId);
+            $set = $this->_attributeSetFactory->create()->load($setId);
             return $set->getAttributeSetName();
         }
         return '';

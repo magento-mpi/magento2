@@ -415,7 +415,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
                 if (isset($pathData['scope']) && isset($pathData['scope_id'])) {
                     switch ($pathData['scope']) {
                         case 'stores':
-                            $store = Mage::app()->getStore($pathData['scope_id']);
+                            $store = $this->_storeManager->getStore($pathData['scope_id']);
                             if ($store) {
                                 $urlParams['website'] = $store->getWebsite()->getCode();
                                 $urlParams['store'] = $store->getCode();
@@ -423,7 +423,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
                             }
                             break;
                         case 'websites':
-                            $website = Mage::app()->getWebsite($pathData['scope_id']);
+                            $website = $this->_storeManager->getWebsite($pathData['scope_id']);
                             if ($website) {
                                 $urlParams['website'] = $website->getCode();
                                 $scopeLabel = $website->getName();

@@ -25,14 +25,19 @@ class Magento_GoogleShopping_Model_Attribute_Link extends Magento_GoogleShopping
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_GoogleShopping_Helper_Data $gsData
+     * @param Magento_GoogleShopping_Helper_Product $gsProduct
+     * @param Magento_GoogleShopping_Helper_Price $gsPrice
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_GoogleShopping_Helper_Data $gsData,
         Magento_GoogleShopping_Helper_Product $gsProduct,
         Magento_GoogleShopping_Helper_Price $gsPrice,
@@ -44,7 +49,8 @@ class Magento_GoogleShopping_Model_Attribute_Link extends Magento_GoogleShopping
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($gsData, $gsProduct, $gsPrice, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($productFactory, $gsData, $gsProduct, $gsPrice, $context, $registry, $resource,
+            $resourceCollection, $data);
     }
 
     /**

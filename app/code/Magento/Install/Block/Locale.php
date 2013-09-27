@@ -101,7 +101,7 @@ class Magento_Install_Block_Locale extends Magento_Install_Block_Abstract
         $timezone = Mage::getSingleton('Magento_Install_Model_Session')->getTimezone()
             ? Mage::getSingleton('Magento_Install_Model_Session')->getTimezone()
             : Mage::app()->getLocale()->getTimezone();
-        if ($timezone == Mage::DEFAULT_TIMEZONE) {
+        if ($timezone == Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE) {
             $timezone = 'America/Los_Angeles';
         }
         return $timezone;

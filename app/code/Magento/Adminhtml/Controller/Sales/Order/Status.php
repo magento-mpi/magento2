@@ -45,7 +45,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
     {
         $statusCode = $this->getRequest()->getParam('status');
         if ($statusCode) {
-            $status = Mage::getModel('Magento_Sales_Model_Order_Status')->load($statusCode);
+            $status = $this->_objectManager->create('Magento_Sales_Model_Order_Status')->load($statusCode);
         } else {
             $status = false;
         }
@@ -68,7 +68,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
     {
         $data = $this->_getSession()->getFormData(true);
         if ($data) {
-            $status = Mage::getModel('Magento_Sales_Model_Order_Status')
+            $status = $this->_objectManager->create('Magento_Sales_Model_Order_Status')
                 ->setData($data);
             $this->_coreRegistry->register('current_status', $status);
         }
@@ -120,7 +120,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
                 $label = $helper->stripTags($label);
             }
 
-            $status = Mage::getModel('Magento_Sales_Model_Order_Status')
+            $status = $this->_objectManager->create('Magento_Sales_Model_Order_Status')
                     ->load($statusCode);
             // check if status exist
             if ($isNew && $status->getStatus()) {

@@ -35,6 +35,18 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Bundle_Model_Source_Option_Selection_Price_Type
+     */
+    protected $_priceType;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_yesno;
+
+    /**
+     * @param Magento_Backend_Model_Config_Source_Yesno $yesno
+     * @param Magento_Bundle_Model_Source_Option_Selection_Price_Type $priceType
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -42,6 +54,8 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Config_Source_Yesno $yesno,
+        Magento_Bundle_Model_Source_Option_Selection_Price_Type $priceType,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -50,6 +64,8 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
     ) {
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
+        $this->_priceType = $priceType;
+        $this->_yesno = $yesno;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -121,7 +137,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
                 'class' => 'select select-product-option-type required-option-select'
             ))
             ->setName($this->getFieldName() . '[{{parentIndex}}][{{index}}][selection_price_type]')
-            ->setOptions(Mage::getSingleton('Magento_Bundle_Model_Source_Option_Selection_Price_Type')->toOptionArray());
+            ->setOptions($this->_priceType->toOptionArray());
         if ($this->getCanEditPrice() === false) {
             $select->setExtraParams('disabled="disabled"');
         }
@@ -141,7 +157,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{parentIndex}}][{{index}}][selection_can_change_qty]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions($this->_yesno->toOptionArray());
 
         return $select->getHtml();
     }

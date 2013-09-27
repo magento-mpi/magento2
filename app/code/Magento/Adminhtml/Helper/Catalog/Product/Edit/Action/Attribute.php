@@ -40,6 +40,51 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
     protected $_excludedAttributes = array('url_key');
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productsFactory;
+
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Backend_Model_Session $session
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productsFactory
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_ConfigInterface $applicationConfig
+     * @param Magento_Core_Model_Config_Primary $primaryConfig
+     * @param Magento_Core_Model_RouterList $routerList
+     * @param $defaultAreaFrontName
+     */
+    public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Backend_Model_Session $session,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productsFactory,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_ConfigInterface $applicationConfig,
+        Magento_Core_Model_Config_Primary $primaryConfig,
+        Magento_Core_Model_RouterList $routerList,
+        $defaultAreaFrontName
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_session = $session;
+        $this->_productsFactory = $productsFactory;
+        parent::__construct(
+            $context, $coreData, $applicationConfig, $primaryConfig, $routerList, $defaultAreaFrontName
+        );
+    }
+
+    /**
      * Return product collection with selected product filter
      * Product collection didn't load
      *
@@ -54,7 +99,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
                 $productsIds = array(0);
             }
 
-            $this->_products = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+            $this->_products = $this->_productsFactory->create()
                 ->setStoreId($this->getSelectedStoreId())
                 ->addIdFilter($productsIds);
         }
@@ -69,13 +114,11 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
      */
     public function getProductIds()
     {
-        $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
-
         if ($this->_getRequest()->isPost() && $this->_getRequest()->getActionName() == 'edit') {
-            $session->setProductIds($this->_getRequest()->getParam('product', null));
+            $this->_session->setProductIds($this->_getRequest()->getParam('product', null));
         }
 
-        return $session->getProductIds();
+        return $this->_session->getProductIds();
     }
 
     /**
@@ -106,8 +149,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes  = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getEntityType(Magento_Catalog_Model_Product::ENTITY)
+            $this->_attributes  = $this->_eavConfig->getEntityType(Magento_Catalog_Model_Product::ENTITY)
                 ->getAttributeCollection()
                 ->addIsNotUniqueFilter()
                 ->setInAllAttributeSetsFilter($this->getProductsSetIds());

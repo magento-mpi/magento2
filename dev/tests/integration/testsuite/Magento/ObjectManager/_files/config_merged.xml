@@ -12,7 +12,7 @@
     <preference for="Magento_Core_Model_Db_UpdaterInterfaceTwo" type="Magento_Core_Model_Db_UpdaterTwo"/>
     <type name="Magento_Core_Model_Config_Loader_Local" shared="false">
         <param name="customFile">
-            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_CONFIG</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
         <param name="customConfig">
             <instance shared="false" type="Magento_Core_Model_Config_Storage_Modules" />
@@ -36,7 +36,7 @@
     </type>
     <virtualType name="Magento_Core_Model_Config_Loader_LocalVirtual" type="Magento_Core_Model_Config_Loader_Local" shared="true">
         <param name="customFile">
-            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_FILE</value>
         </param>
         <param name="customConfig">
             <instance type="Magento_Core_Model_Config_Storage_Modules" />

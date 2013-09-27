@@ -134,7 +134,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
      */
     public function getTimezone()
     {
-        return Mage::DEFAULT_TIMEZONE;
+        return Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE;
     }
 
     /**
@@ -502,7 +502,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
     {
         $dateObj = $this->storeDate($store, $date, $includeTime);
         $dateObj->set($date, $format);
-        $dateObj->setTimezone(Mage::DEFAULT_TIMEZONE);
+        $dateObj->setTimezone(Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE);
         return $dateObj;
     }
 

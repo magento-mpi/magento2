@@ -19,6 +19,47 @@
 class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Cms_Model_Wysiwyg_Config
+     */
+    protected $_wysiwygConfig;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Newsletter_Model_QueueFactory
+     */
+    protected $_queueFactory;
+
+    /**
+     * @param Magento_Newsletter_Model_QueueFactory $queueFactory
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Newsletter_Model_QueueFactory $queueFactory,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_wysiwygConfig = $wysiwygConfig;
+        $this->_systemStore = $systemStore;
+        $this->_queueFactory = $queueFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare form for newsletter queue editing.
      * Form can be run from newsletter template grid by option "Queue newsletter"
      * or from  newsletter queue grid by edit option.
@@ -29,7 +70,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend
     protected function _prepareForm()
     {
         /* @var $queue Magento_Newsletter_Model_Queue */
-        $queue = Mage::getSingleton('Magento_Newsletter_Model_Queue');
+        $queue = $this->_queueFactory->create();
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create();
@@ -39,8 +80,8 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend
             'class'    =>  'fieldset-wide'
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
-        $timeFormat = Mage::app()->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $timeFormat = $this->_locale->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
 
         if ($queue->getQueueStatus() == Magento_Newsletter_Model_Queue::STATUS_NEVER) {
             $fieldset->addField('date', 'date', array(
@@ -51,23 +92,22 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend
                 'image'     =>    $this->getViewFileUrl('images/grid-cal.gif')
             ));
 
-            if (!Mage::app()->hasSingleStore()) {
+            if (!$this->_storeManager->hasSingleStore()) {
                 $fieldset->addField('stores', 'multiselect', array(
                     'name'          => 'stores[]',
                     'label'         => __('Subscribers From'),
                     'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
-                    'values'        => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                    'values'        => $this->_systemStore->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
-            }
-            else {
+            } else {
                 $fieldset->addField('stores', 'hidden', array(
                     'name'      => 'stores[]',
-                    'value'     => Mage::app()->getStore(true)->getId()
+                    'value'     => $this->_storeManager->getStore(true)->getId()
                 ));
             }
         } else {
-            $fieldset->addField('date','date',array(
+            $fieldset->addField('date', 'date', array(
                 'name'      => 'start_at',
                 'disabled'  => 'true',
                 'style'     => 'width:38%;',
@@ -77,26 +117,26 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend
                 'image'     => $this->getViewFileUrl('images/grid-cal.gif')
             ));
 
-            if (!Mage::app()->hasSingleStore()) {
+            if (!$this->_storeManager->hasSingleStore()) {
                 $fieldset->addField('stores', 'multiselect', array(
                     'name'          => 'stores[]',
                     'label'         => __('Subscribers From'),
                     'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
                     'required'      => true,
-                    'values'        => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                    'values'        => $this->_systemStore->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             } else {
                 $fieldset->addField('stores', 'hidden', array(
                     'name'      => 'stores[]',
-                    'value'     => Mage::app()->getStore(true)->getId()
+                    'value'     => $this->_storeManager->getStore(true)->getId()
                 ));
             }
         }
 
         if ($queue->getQueueStartAt()) {
             $form->getElement('date')->setValue(
-                Mage::app()->getLocale()->date($queue->getQueueStartAt(), Magento_Date::DATETIME_INTERNAL_FORMAT)
+                $this->_locale->date($queue->getQueueStartAt(), Magento_Date::DATETIME_INTERNAL_FORMAT)
             );
         }
 
@@ -131,8 +171,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Backend
         ));
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')
-            ->getConfig(array('widget_filters' => $widgetFilters));
+        $wysiwygConfig = $this->_wysiwygConfig->getConfig(array('widget_filters' => $widgetFilters));
 
         if ($queue->isNew()) {
             $fieldset->addField('text', 'editor', array(

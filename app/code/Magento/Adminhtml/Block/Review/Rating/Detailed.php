@@ -25,17 +25,33 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rating_Model_Resource_Rating_CollectionFactory
+     */
+    protected $_ratingsFactory;
+
+    /**
+     * @var Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory
+     */
+    protected $_votesFactory;
+
+    /**
+     * @param Magento_Rating_Model_Resource_Rating_CollectionFactory $ratingsFactory
+     * @param Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory $votesFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Rating_Model_Resource_Rating_CollectionFactory $ratingsFactory,
+        Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory $votesFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_ratingsFactory = $ratingsFactory;
+        $this->_votesFactory = $votesFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -57,8 +73,7 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
 
                 $stores = array_diff($stores, array(0));
 
-                $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating')
-                    ->getResourceCollection()
+                $ratingCollection = $this->_ratingsFactory->create()
                     ->addEntityFilter('product')
                     ->setStoreFilter($stores)
                     ->setActiveFilter(true)
@@ -66,32 +81,29 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
                     ->load()
                     ->addOptionToItems();
 
-                $this->_voteCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
-                    ->getResourceCollection()
+                $this->_voteCollection = $this->_votesFactory->create()
                     ->setReviewFilter($this->getReviewId())
                     ->addOptionInfo()
                     ->load()
                     ->addRatingOptions();
 
             } elseif (!$this->getIsIndependentMode()) {
-                $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating')
-                    ->getResourceCollection()
+                $ratingCollection = $this->_ratingsFactory->create()
                     ->addEntityFilter('product')
                     ->setStoreFilter(null)
                     ->setPositionOrder()
                     ->load()
                     ->addOptionToItems();
             } else {
-                $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating')
-                    ->getResourceCollection()
+                $stores = $this->getRequest()->getParam('select_stores') ?: $this->getRequest()->getParam('stores');
+                $ratingCollection = $this->_ratingsFactory->create()
                     ->addEntityFilter('product')
-                    ->setStoreFilter($this->getRequest()->getParam('select_stores') ? $this->getRequest()->getParam('select_stores') : $this->getRequest()->getParam('stores'))
+                    ->setStoreFilter($stores)
                     ->setPositionOrder()
                     ->load()
                     ->addOptionToItems();
-                if(intval($this->getRequest()->getParam('id'))){
-                    $this->_voteCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
-                        ->getResourceCollection()
+                if (intval($this->getRequest()->getParam('id'))) {
+                    $this->_voteCollection = $this->_votesFactory->create()
                         ->setReviewFilter(intval($this->getRequest()->getParam('id')))
                         ->addOptionInfo()
                         ->load()

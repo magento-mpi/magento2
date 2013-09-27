@@ -29,7 +29,13 @@ class Magento_GiftRegistry_Model_Item_OptionTest extends PHPUnit_Framework_TestC
 
     public function setProductDataProvider()
     {
-        $product = $this->getMock('Magento_Catalog_Model_Product', array('getId'), array(), '', false);
+        $product = $this->getMock(
+            'Magento_Catalog_Model_Product',
+            array('getId', '__sleep', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $product->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(3));

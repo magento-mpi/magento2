@@ -16,6 +16,41 @@
 class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
 {
     /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_Customer_Model_FormFactory
+     */
+    protected $_customerFormFactory;
+
+    /**
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Customer_Model_FormFactory $customerFormFactory
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Customer_Model_FormFactory $customerFormFactory,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerFactory = $customerFactory;
+        $this->_customerFormFactory = $customerFormFactory;
+        parent::__construct($formFactory, $sessionQuote, $orderCreate, $coreData, $context, $data);
+    }
+
+    /**
      * Return Header CSS Class
      *
      * @return string
@@ -43,10 +78,10 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Account extends Magento_Ad
     protected function _prepareForm()
     {
         /* @var $customerModel Magento_Customer_Model_Customer */
-        $customerModel = Mage::getModel('Magento_Customer_Model_Customer');
+        $customerModel = $this->_customerFactory->create();
 
         /* @var $customerForm Magento_Customer_Model_Form */
-        $customerForm   = Mage::getModel('Magento_Customer_Model_Form');
+        $customerForm   = $this->_customerFormFactory->create();
         $customerForm->setFormCode('adminhtml_checkout')
             ->setStore($this->getStore())
             ->setEntity($customerModel);

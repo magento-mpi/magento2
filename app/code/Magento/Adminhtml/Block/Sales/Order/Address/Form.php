@@ -28,23 +28,36 @@ class Magento_Adminhtml_Block_Sales_Order_Address_Form
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param Magento_Customer_Model_FormFactory $customerFormFactory
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        Magento_Customer_Model_FormFactory $customerFormFactory,
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
         Magento_Data_Form_Factory $formFactory,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($adminhtmlAddresses, $formFactory, $coreData, $context, $data);
+        parent::__construct(
+            $addressFactory, $customerFormFactory, $adminhtmlAddresses, $formFactory,
+            $sessionQuote, $orderCreate, $coreData, $context, $data
+        );
     }
 
     /**

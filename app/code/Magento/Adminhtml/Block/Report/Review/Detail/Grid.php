@@ -17,6 +17,30 @@
  */
 class Magento_Adminhtml_Block_Report_Review_Detail_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * @var Magento_Reports_Model_Resource_Review_CollectionFactory
+     */
+    protected $_reviewsFactory;
+
+    /**
+     * @param Magento_Reports_Model_Resource_Review_CollectionFactory $reviewsFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reports_Model_Resource_Review_CollectionFactory $reviewsFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_reviewsFactory = $reviewsFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -26,15 +50,7 @@ class Magento_Adminhtml_Block_Report_Review_Detail_Grid extends Magento_Adminhtm
 
     protected function _prepareCollection()
     {
-
-        //$collection = Mage::getModel('Magento_Review_Model_Review')->getProductCollection();
-
-        //$collection->getSelect()
-        //    ->where('rt.entity_pk_value='.(int)$this->getRequest()->getParam('id'));
-
-        //$collection->getEntity()->setStore(0);
-
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Review_Collection')
+        $collection = $this->_reviewsFactory->create()
             ->addProductFilter((int)$this->getRequest()->getParam('id'));
 
         $this->setCollection($collection);

@@ -32,15 +32,39 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
     protected $_catalogProduct = null;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_customerFactory = $customerFactory;
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogProduct = $catalogProduct;
         parent::__construct($context);
@@ -115,19 +139,19 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
     {
         try {
             if (!$configureResult->getOk()) {
-                Mage::throwException($configureResult->getMessage());
+                throw new Magento_Core_Exception($configureResult->getMessage());
             };
 
             $currentStoreId = (int) $configureResult->getCurrentStoreId();
             if (!$currentStoreId) {
-                $currentStoreId = Mage::app()->getStore()->getId();
+                $currentStoreId = $this->_storeManager->getStore()->getId();
             }
 
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
+            $product = $this->_productFactory->create()
                 ->setStoreId($currentStoreId)
                 ->load($configureResult->getProductId());
             if (!$product->getId()) {
-                Mage::throwException(__('The product is not loaded.'));
+                throw new Magento_Core_Exception(__('The product is not loaded.'));
             }
             $this->_coreRegistry->register('current_product', $product);
             $this->_coreRegistry->register('product', $product);
@@ -137,8 +161,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
             if (!$currentCustomer) {
                 $currentCustomerId = (int) $configureResult->getCurrentCustomerId();
                 if ($currentCustomerId) {
-                    $currentCustomer = Mage::getModel('Magento_Customer_Model_Customer')
-                        ->load($currentCustomerId);
+                    $currentCustomer = $this->_customerFactory->create()->load($currentCustomerId);
                 }
             }
             if ($currentCustomer) {

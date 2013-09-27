@@ -22,14 +22,34 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
 {
     protected $_template = 'catalog/product/helper/gallery.phtml';
 
+    /**
+     * @var Magento_Catalog_Model_Product_Media_Config
+     */
+    protected $_mediaConfig;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Product_Media_Config $mediaConfig,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_mediaConfig = $mediaConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->addChild('uploader', 'Magento_Adminhtml_Block_Media_Uploader');
 
         $this->getUploader()->getConfig()
             ->setUrl(
-                Mage::getModel('Magento_Backend_Model_Url')
-                    ->addSessionParam()
+                $this->_urlBuilder->addSessionParam()
                     ->getUrl('adminhtml/catalog_product_gallery/upload')
             )
             ->setFileField('image')
@@ -87,8 +107,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
             $value = $this->getElement()->getValue();
             if (is_array($value['images']) && count($value['images']) > 0) {
                 foreach ($value['images'] as &$image) {
-                    $image['url'] = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')
-                        ->getMediaUrl($image['file']);
+                    $image['url'] = $this->_mediaConfig->getMediaUrl($image['file']);
                 }
                 return $this->_coreData->jsonEncode($value['images']);
             }

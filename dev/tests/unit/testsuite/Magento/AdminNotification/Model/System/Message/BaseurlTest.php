@@ -53,7 +53,7 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
             array(), '', false
         );
         $this->_configDataMock = $this->getMock('Magento_Core_Model_Config_Value',
-            array('getScope', 'getScopeId', 'getCollection'),
+            array('getScope', 'getScopeId', 'getCollection', '__sleep', '__wakeup'),
             array(), '', false
         );
         $this->_dataCollectionMock = $this->getMock('Magento_Core_Model_Resource_Config_Data_Collection',

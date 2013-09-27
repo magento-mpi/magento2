@@ -15,8 +15,35 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Backend_Block_Widget_Grid_Extended
 {
+    /**
+     * Collection factory
+     *
+     * @var Magento_GoogleShopping_Model_Resource_Item_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $collectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $collectionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -31,8 +58,8 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtm
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_GoogleShopping_Model_Resource_Item_Collection');
-        $store = $this->_getStore();
+        $collection = $this->_collectionFactory->create();
+        $store = $this->_storeManager->getStore($this->getRequest()->getParam('store'));
         $collection->addStoreFilter($store->getId());
         $this->setCollection($collection);
         parent::_prepareCollection();
@@ -97,15 +124,5 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtm
     public function getGridUrl()
     {
         return $this->getUrl('*/*/grid', array('_current'=>true));
-    }
-
-    /**
-     * Get store model by request param
-     *
-     * @return Magento_Core_Model_Store
-     */
-    protected function _getStore()
-    {
-        return Mage::app()->getStore($this->getRequest()->getParam('store'));
     }
 }

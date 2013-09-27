@@ -22,6 +22,11 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
      * @var Magento_Core_Model_Config
      */
     private $_coreConfig;
+    
+    /**
+     * @var Magento_Backend_Model_Config_Structure
+     */
+    private $_structure;
 
     /**
      * @param Magento_Core_Model_Context $context
@@ -33,7 +38,10 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Email_Template_Config $emailConfig
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Backend_Model_Config_Structure $structure
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Context $context,
@@ -45,12 +53,14 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Email_Template_Config $emailConfig,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Backend_Model_Config_Structure $structure,
         array $data = array()
     ) {
         parent::__construct(
             $context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $coreStoreConfig, $emailConfig, $data
         );
         $this->_coreConfig = $coreConfig;
+        $this->_structure = $structure;
     }
 
     /**
@@ -109,9 +119,7 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
             return array();
         }
 
-        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
-        $templatePaths = $configStructure
+        $templatePaths = $this->_structure
             ->getFieldPathsByAttribute('source_model', 'Magento_Backend_Model_Config_Source_Email_Template');
 
         if (!count($templatePaths)) {

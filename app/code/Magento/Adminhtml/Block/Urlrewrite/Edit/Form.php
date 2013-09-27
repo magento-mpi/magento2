@@ -50,14 +50,51 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
     protected $_adminhtmlData = null;
 
     /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Core_Model_Url_RewriteFactory
+     */
+    protected $_rewriteFactory;
+
+    /**
+     * @var Magento_Core_Model_Source_Urlrewrite_OptionsFactory
+     */
+    protected $_optionFactory;
+
+    /**
+     * @var Magento_Core_Model_Source_Urlrewrite_TypesFactory
+     */
+    protected $_typesFactory;
+
+    /**
+     * @param Magento_Core_Model_Source_Urlrewrite_TypesFactory $typesFactory
+     * @param Magento_Core_Model_Source_Urlrewrite_OptionsFactory $optionFactory
+     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Backend_Model_Session $backendSession
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Source_Urlrewrite_TypesFactory $typesFactory,
+        Magento_Core_Model_Source_Urlrewrite_OptionsFactory $optionFactory,
+        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Backend_Model_Session $backendSession,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
@@ -65,6 +102,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_typesFactory = $typesFactory;
+        $this->_optionFactory = $optionFactory;
+        $this->_rewriteFactory = $rewriteFactory;
+        $this->_systemStore = $systemStore;
+        $this->_backendSession = $backendSession;
         $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -134,7 +176,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
         ));
 
         /** @var $typesModel Magento_Core_Model_Source_Urlrewrite_Types */
-        $typesModel = Mage::getModel('Magento_Core_Model_Source_Urlrewrite_Types');
+        $typesModel = $this->_typesFactory->create();
         $fieldset->addField('is_system', 'select', array(
             'label'    => __('Type'),
             'title'    => __('Type'),
@@ -172,7 +214,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
         ));
 
         /** @var $optionsModel Magento_Core_Model_Source_Urlrewrite_Options */
-        $optionsModel = Mage::getModel('Magento_Core_Model_Source_Urlrewrite_Options');
+        $optionsModel = $this->_optionFactory->create();
         $fieldset->addField('options', 'select', array(
             'label'   => __('Redirect'),
             'title'   => __('Redirect'),
@@ -207,10 +249,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
     protected function _prepareStoreElement($fieldset)
     {
         // get store switcher or a hidden field with it's id
-        if (Mage::app()->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'  => 'store_id',
-                'value' => Mage::app()->getStore(true)->getId()
+                'value' => $this->_storeManager->getStore(true)->getId()
             ), 'id_path');
         } else {
             /** @var $renderer Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element */
@@ -252,7 +294,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
     protected function _getSessionData()
     {
         if (is_null($this->_sessionData)) {
-            $this->_sessionData = Mage::getModel('Magento_Adminhtml_Model_Session')->getData('urlrewrite_data', true);
+            $this->_sessionData = $this->_backendSession->getData('urlrewrite_data', true);
         }
         return $this->_sessionData;
     }
@@ -265,7 +307,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
     protected function _getModel()
     {
         if (!$this->hasData('url_rewrite')) {
-            $this->setUrlRewrite(Mage::getModel('Magento_Core_Model_Url_Rewrite'));
+            $this->setUrlRewrite($this->_rewriteFactory->create());
         }
         return $this->getUrlRewrite();
     }
@@ -278,7 +320,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Backend_Block
     protected function _getAllStores()
     {
         if (is_null($this->_allStores)) {
-            $this->_allStores = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm();
+            $this->_allStores = $this->_systemStore->getStoreValuesForForm();
         }
 
         return $this->_allStores;

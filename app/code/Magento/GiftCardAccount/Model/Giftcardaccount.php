@@ -112,7 +112,7 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
 
         if (!$this->getId()) {
             $now = Mage::app()->getLocale()->date()
-                ->setTimezone(Mage::DEFAULT_TIMEZONE)
+                ->setTimezone(Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE)
                 ->toString(Magento_Date::DATE_INTERNAL_FORMAT);
 
             $this->setDateCreated($now);
