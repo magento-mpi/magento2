@@ -24,13 +24,6 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Backend_Block
     protected $_reportsData = null;
 
     /**
-     * Store manager
-     *
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Reports grouped collection factory
      *
      * @var Magento_Reports_Model_Grouped_CollectionFactory
@@ -47,7 +40,6 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Backend_Block
     /**
      * @param Magento_Adminhtml_Model_Resource_CollectionFactory $resourceFactory
      * @param Magento_Reports_Model_Grouped_CollectionFactory $collectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Reports_Helper_Data $reportsData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -58,7 +50,6 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Backend_Block
     public function __construct(
         Magento_Adminhtml_Model_Resource_CollectionFactory $resourceFactory,
         Magento_Reports_Model_Grouped_CollectionFactory $collectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Reports_Helper_Data $reportsData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -68,7 +59,6 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Backend_Block
     ) {
         $this->_resourceFactory = $resourceFactory;
         $this->_collectionFactory = $collectionFactory;
-        $this->_storeManager = $storeManager;
         $this->_reportsData = $reportsData;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }

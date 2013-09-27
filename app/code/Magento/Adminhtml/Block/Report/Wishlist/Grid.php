@@ -17,6 +17,30 @@
  */
 class Magento_Adminhtml_Block_Report_Wishlist_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * @var Magento_Reports_Model_Resource_Wishlist_Product_CollectionFactory
+     */
+    protected $_productsFactory;
+
+    /**
+     * @param Magento_Reports_Model_Resource_Wishlist_Product_CollectionFactory $productsFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reports_Model_Resource_Wishlist_Product_CollectionFactory $productsFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_productsFactory = $productsFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -29,7 +53,7 @@ class Magento_Adminhtml_Block_Report_Wishlist_Grid extends Magento_Adminhtml_Blo
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Wishlist_Product_Collection')
+        $collection = $this->_productsFactory->create()
             ->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('name')
             ->addWishlistCount();
