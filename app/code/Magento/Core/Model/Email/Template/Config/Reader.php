@@ -49,7 +49,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
         $result = parent::_readFileContents($filename);
         $moduleName = $this->_moduleDirResolver->getModuleName($filename);
         if (!$moduleName) {
-            throw new UnexpectedValueException("Unable to determine a module, file '$filename' belongs to.");
+            throw new \UnexpectedValueException("Unable to determine a module, file '$filename' belongs to.");
         }
         $result = str_replace('<template ', '<template module="' . $moduleName . '" ', $result);
         return $result;

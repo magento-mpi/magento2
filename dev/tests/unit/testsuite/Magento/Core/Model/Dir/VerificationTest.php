@@ -131,7 +131,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
     public function testCreateAndVerifyDirectoriesCreateException()
     {
         // Plan
-        $this->setExpectedException('Magento_BootstrapException',
+        $this->setExpectedException('Magento\BootstrapException',
             'Cannot create or verify write access: base_dir/var/log, base_dir/var/session');
 
         $dirs = new \Magento\Core\Model\Dir('base_dir');
@@ -159,7 +159,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
     public function testCreateAndVerifyDirectoriesWritableException()
     {
         // Plan
-        $this->setExpectedException('Magento_BootstrapException',
+        $this->setExpectedException('Magento\BootstrapException',
             'Cannot create or verify write access: base_dir/var/log, base_dir/var/session');
 
         $dirs = new \Magento\Core\Model\Dir('base_dir');
