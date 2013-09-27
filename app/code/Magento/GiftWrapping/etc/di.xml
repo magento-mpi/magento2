@@ -16,7 +16,7 @@
     <type name="Magento_Core_Model_Db_Updater">
         <param name="resourceList">
             <value>
-                <giftwrapping_setup>Magento_Sales_Model_Resource_Setup</giftwrapping_setup>
+                <giftwrapping_setup>Magento_GiftWrapping_Model_Resource_Setup</giftwrapping_setup>
             </value>
         </param>
     </type>

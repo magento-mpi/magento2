@@ -41,7 +41,7 @@
     <type name="Magento_Core_Model_Db_Updater">
         <param name="resourceList">
             <value>
-                <customersegment_setup>Magento_Eav_Model_Entity_Setup</customersegment_setup>
+                <customersegment_setup>Magento_CustomerSegment_Model_Resource_Setup</customersegment_setup>
             </value>
         </param>
     </type>
