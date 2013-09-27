@@ -53,11 +53,11 @@ class Handler
     {
         $requestedServices = $this->_request->getRequestedServices();
         $serviceMethodInfo = $this->_apiConfig->getServiceMethodInfo($operation, $requestedServices);
-        $serviceClass = $serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_CLASS];
-        $serviceMethod = $serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_METHOD];
+        $serviceClass = $serviceMethodInfo[\Magento\Webapi\Model\Soap\Config::KEY_CLASS];
+        $serviceMethod = $serviceMethodInfo[\Magento\Webapi\Model\Soap\Config::KEY_METHOD];
 
         // check if the operation is a secure operation & whether the request was made in HTTPS
-        if ($serviceMethodInfo[Magento_Webapi_Model_Soap_Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
+        if ($serviceMethodInfo[\Magento\Webapi\Model\Soap\Config::KEY_IS_SECURE] && !$this->_request->isSecure()) {
             throw new \Magento\Webapi\Exception(__("Operation allowed only in HTTPS"));
         }
 

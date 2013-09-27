@@ -207,7 +207,7 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         try {
             $this->ping();
             $response = $this->_client->search(
-                $searchConditions, $offset, $limit, $searchParams, Apache_Solr_Service::METHOD_POST
+                $searchConditions, $offset, $limit, $searchParams, \Apache_Solr_Service::METHOD_POST
             );
             $data = json_decode($response->getRawResponse());
 

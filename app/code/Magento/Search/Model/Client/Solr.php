@@ -13,7 +13,7 @@
  */
 namespace Magento\Search\Model\Client;
 
-class Solr extends Apache_Solr_Service
+class Solr extends \Apache_Solr_Service
 {
     /**
      * Store user login, that needed in authentication with solr server
@@ -125,7 +125,7 @@ class Solr extends Apache_Solr_Service
     }
 
     /**
-     * Alias to Apache_Solr_Service::deleteByMultipleIds() method
+     * Alias to \Apache_Solr_Service::deleteByMultipleIds() method
      *
      * @param array $ids Expected to be utf-8 encoded strings
      * @param boolean $fromPending
