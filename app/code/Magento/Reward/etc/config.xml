@@ -19,20 +19,6 @@
                 </setup>
             </reward_setup>
         </resources>
-        <template>
-            <email>
-                <magento_reward_notification_balance_update_template translate="label" module="Magento_Reward">
-                    <label>Balance Update</label>
-                    <file>email/balance_update.html</file>
-                    <type>html</type>
-                </magento_reward_notification_balance_update_template>
-                <magento_reward_notification_expiry_warning_template translate="label" module="Magento_Reward">
-                    <label>Points Expiry Warning</label>
-                    <file>email/expiry_warning.html</file>
-                    <type>html</type>
-                </magento_reward_notification_expiry_warning_template>
-            </email>
-        </template>
         <sales>
             <quote>
                 <totals>
@@ -62,18 +48,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <pdf>
-            <totals>
-                <reward translate="title">
-                    <title>Reward Points</title>
-                    <source_field>reward_currency_amount</source_field>
-                    <font_size>7</font_size>
-                    <display_zero>0</display_zero>
-                    <sort_order>650</sort_order>
-                    <amount_prefix>-</amount_prefix>
-                </reward>
-            </totals>
-        </pdf>
     </global>
     <default>
         <magento_reward>

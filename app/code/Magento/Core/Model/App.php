@@ -15,6 +15,76 @@
  */
 class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
 {
+    /**#@+
+     * Product edition labels
+     */
+    const EDITION_COMMUNITY    = 'Community';
+    const EDITION_ENTERPRISE   = 'Enterprise';
+    /**#@-*/
+
+    /**
+     * Current Magento edition.
+     *
+     * @var string
+     * @static
+     */
+    protected $_currentEdition = self::EDITION_COMMUNITY;
+
+    /**
+     * Magento version
+     */
+    const VERSION = '2.0.0.0-dev43';
+
+    /**
+     * Custom application dirs
+     */
+    const PARAM_APP_DIRS = 'app_dirs';
+
+    /**
+     * Custom application uris
+     */
+    const PARAM_APP_URIS = 'app_uris';
+
+    /**
+     * Custom local configuration file name
+     */
+    const PARAM_CUSTOM_LOCAL_FILE = 'custom_local_xml';
+
+    /**
+     * Custom local configuration
+     */
+    const PARAM_CUSTOM_LOCAL_CONFIG = 'custom_local_config';
+
+    /**
+     * Application run code
+     */
+    const PARAM_MODE = 'MAGE_MODE';
+
+    /**
+     * Application run code
+     */
+    const PARAM_RUN_CODE = 'MAGE_RUN_CODE';
+
+    /**
+     * Application run type (store|website)
+     */
+    const PARAM_RUN_TYPE = 'MAGE_RUN_TYPE';
+
+    /**
+     * Disallow cache
+     */
+    const PARAM_BAN_CACHE = 'global_ban_use_cache';
+
+    /**
+     * Allowed modules
+     */
+    const PARAM_ALLOWED_MODULES = 'allowed_modules';
+
+    /**
+     * Caching params
+     */
+    const PARAM_CACHE_OPTIONS = 'cache_options';
+
     /**
      * Application loaded areas array
      *
@@ -785,5 +855,59 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     public function getAnyStoreView()
     {
         return $this->_storeManager->getAnyStoreView();
+    }
+
+    /**
+     * Get current Magento edition
+     *
+     * @static
+     * @return string
+     */
+    public function getEdition()
+    {
+        return $this->_currentEdition;
+    }
+
+    /**
+     * Set edition
+     *
+     * @param string $edition
+     */
+    public function setEdition($edition)
+    {
+        $this->_currentEdition = $edition;
+    }
+
+
+    /**
+     * Gets the current Magento version string
+     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        $info = $this->getVersionInfo();
+        return trim("{$info['major']}.{$info['minor']}.{$info['revision']}"
+            . ($info['patch'] != '' ? ".{$info['patch']}" : "")
+            . "-{$info['stability']}{$info['number']}", '.-');
+    }
+
+    /**
+     * Gets the detailed Magento version information
+     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
+     *
+     * @return array
+     */
+    public function getVersionInfo()
+    {
+        return array(
+            'major'     => '2',
+            'minor'     => '0',
+            'revision'  => '0',
+            'patch'     => '0',
+            'stability' => 'dev',
+            'number'    => '45',
+        );
     }
 }

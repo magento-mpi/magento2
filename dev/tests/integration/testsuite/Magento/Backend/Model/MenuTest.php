@@ -24,8 +24,10 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_model = Mage::getModel('Magento_Backend_Model_Auth');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Auth');
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
     }
@@ -33,9 +35,11 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     public function testMenuItemManipulation()
     {
         /* @var $menu Magento_Backend_Model_Menu */
-        $menu = Mage::getSingleton('Magento_Backend_Model_Menu_Config')->getMenu();
+        $menu = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Menu_Config')
+            ->getMenu();
         /* @var $itemFactory Magento_Backend_Model_Menu_Item_Factory */
-        $itemFactory = Mage::getModel('Magento_Backend_Model_Menu_Item_Factory');
+        $itemFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Menu_Item_Factory');
 
         // Add new item in top level
         $menu->add($itemFactory->create(array(

@@ -26,8 +26,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
     protected $_categoryFactory;
 
     /**
-     * Construct
-     *
+     * @param Magento_Catalog_Model_Resource_Category_Tree $categoryTree
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -35,13 +34,14 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Category_Tree $categoryTree,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($categoryTree, $coreData, $context, $registry, $data);
 
         $this->_categoryFactory = $categoryFactory;
     }

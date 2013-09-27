@@ -18,7 +18,8 @@ class Magento_Customer_Block_Widget_GenderTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Customer_Block_Widget_Gender');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Customer_Block_Widget_Gender');
     }
 
     public function testGetGenderOptions()

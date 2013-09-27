@@ -116,7 +116,7 @@ class Magento_TestFramework_Application
 
         $generationDir = "$installDir/generation";
         $this->_initParams = array(
-            Mage::PARAM_APP_DIRS => array(
+            Magento_Core_Model_App::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
                 Magento_Core_Model_Dir::VAR_DIR     => $installDir,
                 Magento_Core_Model_Dir::MEDIA       => "$installDir/media",
@@ -124,7 +124,7 @@ class Magento_TestFramework_Application
                 Magento_Core_Model_Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
                 Magento_Core_Model_Dir::GENERATION => $generationDir,
             ),
-            Mage::PARAM_MODE => $appMode
+            Magento_Core_Model_App::PARAM_MODE => $appMode
         );
     }
 
@@ -173,8 +173,8 @@ class Magento_TestFramework_Application
      */
     public function initialize($overriddenParams = array())
     {
-        $overriddenParams[Mage::PARAM_BASEDIR] = BP;
-        $overriddenParams[Mage::PARAM_MODE] = $this->_appMode;
+        $overriddenParams['base_dir'] = BP;
+        $overriddenParams[Magento_Core_Model_App::PARAM_MODE] = $this->_appMode;
         Mage::$headersSentThrowsException = false;
         $config = new Magento_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Magento_TestFramework_Helper_Bootstrap::getObjectManager()) {
@@ -190,6 +190,11 @@ class Magento_TestFramework_Application
             $config->configure($objectManager);
             $objectManager->addSharedInstance($config, 'Magento_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Magento_Core_Model_Dir');
+            $objectManager->configure(array(
+                'preferences' => array(
+                    'Magento_Core_Model_Cookie' => 'Magento_TestFramework_Cookie'
+                )
+            ));
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
             /** @var $configResource Magento_Core_Model_Config_Resource */
             $configResource = $objectManager->get('Magento_Core_Model_Config_Resource');
@@ -366,7 +371,6 @@ class Magento_TestFramework_Application
         $resource = $objectManager->get('Magento_Core_Model_Registry')
             ->registry('_singleton/Magento_Core_Model_Resource');
 
-        Mage::reset();
         Magento_Data_Form::setElementRenderer(null);
         Magento_Data_Form::setFieldsetRenderer(null);
         Magento_Data_Form::setFieldsetElementRenderer(null);
@@ -413,7 +417,7 @@ class Magento_TestFramework_Application
     protected function _createAdminUser($adminUserName, $adminPassword, $adminRoleName)
     {
         /** @var $user Magento_User_Model_User */
-        $user = mage::getModel('Magento_User_Model_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_User');
         $user->setData(array(
             'firstname' => 'firstname',
             'lastname'  => 'lastname',
@@ -425,11 +429,11 @@ class Magento_TestFramework_Application
         $user->save();
 
         /** @var $roleAdmin Magento_User_Model_Role */
-        $roleAdmin = Mage::getModel('Magento_User_Model_Role');
+        $roleAdmin = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_Role');
         $roleAdmin->load($adminRoleName, 'role_name');
 
         /** @var $roleUser Magento_User_Model_Role */
-        $roleUser = Mage::getModel('Magento_User_Model_Role');
+        $roleUser = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_Role');
         $roleUser->setData(array(
             'parent_id'  => $roleAdmin->getId(),
             'tree_level' => $roleAdmin->getTreeLevel() + 1,
@@ -459,9 +463,10 @@ class Magento_TestFramework_Application
     {
         $this->_appArea = $area;
         if ($area == Magento_TestFramework_Application::DEFAULT_APP_AREA) {
-            Mage::app()->loadAreaPart($area, Magento_Core_Model_App_Area::PART_CONFIG);
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+                ->loadAreaPart($area, Magento_Core_Model_App_Area::PART_CONFIG);
         } else {
-            Mage::app()->loadArea($area);
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->loadArea($area);
         }
     }
 }

@@ -41,7 +41,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     protected function setUp()
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_DIRS => array(
+            Magento_Core_Model_App::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../../_files/design')
             )
         ));
@@ -67,10 +67,12 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     {
         $assets = array();
         foreach ($files as $file) {
-            $assets[] = Mage::getModel('Magento_Core_Model_Page_Asset_ViewFile',
+            $assets[] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Page_Asset_ViewFile',
                 array('file' => $file, 'contentType' => $contentType));
         }
-        $model = Mage::getModel('Magento_Core_Model_Page_Asset_Merged', array('assets' => $assets));
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Page_Asset_Merged', array('assets' => $assets));
         return $model;
     }
 

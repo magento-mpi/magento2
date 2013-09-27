@@ -2,89 +2,194 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Core
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Magento_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
 {
+    protected $_xmlData;
+
+    /** @var Magento_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject */
+    protected $_config;
+
+    /** @var Magento_Core_Model_Resource_Setup|PHPUnit_Framework_MockObject_MockObject */
+    protected $_resourceSetup;
+
+    /** @var Magento_Core_Model_Resource_SetupFactory|PHPUnit_Framework_MockObject_MockObject */
+    protected $_factory;
+
+    /** @var Magento_Core_Model_App_State|PHPUnit_Framework_MockObject_MockObject */
+    protected $_app;
+
     /**
-     * Automatic updates must be enabled/disabled according to config flags
-     *
-     * @dataProvider updateSchemeAndDataConfigDataProvider
+     * Initialize required data
      */
-    public function testUpdateSchemeAndDataConfig($configXml, $appMode, $expectedUpdates)
+    protected function setUp()
     {
-        // Configuration
-        $configuration = new Magento_Simplexml_Config($configXml);
+        $this->_xmlData =
+        "<?xml version=\"1.0\"?>
+        <config>
+            <global>
+                <resources>
+                    <fixture_module_setup>
+                        <setup>
+                            <class>Magento_Core_Model_Resource_Setup</class>
+                        </setup>
+                    </fixture_module_setup>
+                </resources>
+            </global>
+        </config>";
+        $this->_config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_resourceSetup = $this->getMock('Magento_Core_Model_Resource_Setup', array(), array(), '', false);
+        $this->_factory = $this->getMock('Magento_Core_Model_Resource_SetupFactory', array(), array(), '', false);
+        $this->_app = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+    }
 
-        $map = array(
-            array('global/resources', $configuration->getNode('global/resources')),
-            array(
-                'global/skip_process_modules_updates_ignore_dev_mode',
-                $configuration->getNode('global/skip_process_modules_updates_ignore_dev_mode')
-            ),
-            array(
-                'global/skip_process_modules_updates',
-                $configuration->getNode('global/skip_process_modules_updates')
-            ),
-        );
-        $configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $configMock->expects($this->any())
+    /**
+     * Test case with running update scripts
+     */
+    public function testUpdateScheme()
+    {
+        $configElement = new Magento_Core_Model_Config_Element($this->_xmlData);
+        $configuration = new Magento_Simplexml_Config($configElement);
+
+        $this->_config->expects($this->any())
             ->method('getNode')
-            ->will($this->returnValueMap($map));
+            ->will($this->returnValue($configuration->getNode('global/resources')));
 
-        // Data updates model
-        $updateCalls = $expectedUpdates ? 1 : 0;
-        $setupModel = $this->getMock('Magento_Core_Model_Resource_Setup', array(), array(), '', false);
-        $setupModel->expects($this->exactly($updateCalls))
+        $this->_resourceSetup->expects($this->once())
             ->method('applyUpdates');
-        $setupModel->expects($this->exactly($updateCalls))
-            ->method('applyDataUpdates');
+        $this->_resourceSetup->expects($this->once())
+            ->method('getCallAfterApplyAllUpdates')
+            ->will($this->returnValue(true));
+        $this->_resourceSetup->expects($this->once())
+            ->method('afterApplyAllUpdates');
 
-        $factory = $this->getMock('Magento_Core_Model_Resource_SetupFactory', array(), array(), '', false);
-        $factory->expects($this->any())
+        $this->_factory->expects($this->once())
             ->method('create')
-            ->will($this->returnValue($setupModel));
+            ->with(
+                $this->equalTo('Magento_Core_Model_Resource_Setup'),
+                $this->equalTo(array('resourceName' => 'fixture_module_setup'))
+            )
+            ->will($this->returnValue($this->_resourceSetup));
 
-        // Application state
-        $appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
-        $appState->expects($this->any())
+        $this->_app->expects($this->at(0))
             ->method('isInstalled')
             ->will($this->returnValue(true));
-        $appState->expects($this->any())
-            ->method('getMode')
-            ->will($this->returnValue($appMode));
-        $updater = new Magento_Core_Model_Db_Updater($configMock, $factory, $appState);
+        $this->_app->expects($this->at(1))
+            ->method('setUpdateMode')
+            ->with($this->equalTo(true));
+        $this->_app->expects($this->at(2))
+            ->method('setUpdateMode')
+            ->with($this->equalTo(false));
 
-        // Run and verify
+        $updater = new Magento_Core_Model_Db_Updater(
+            $this->_config,
+            $this->_factory,
+            $this->_app,
+            false
+        );
+
         $updater->updateScheme();
+    }
+
+    /**
+     * Skip update scripts
+     */
+    public function testUpdateSchemaSkip()
+    {
+        $this->_app->expects($this->at(0))
+            ->method('isInstalled')
+            ->will($this->returnValue(true));
+        $this->_config->expects($this->never())
+            ->method('getNode');
+
+        $updater = new Magento_Core_Model_Db_Updater(
+            $this->_config,
+            $this->_factory,
+            $this->_app,
+            true
+        );
+        $updater->updateScheme();
+    }
+
+    /**
+     * Update schema and update data
+     */
+    public function testUpdateData()
+    {
+        $xml =
+            "<?xml version=\"1.0\"?>
+            <config>
+                <global>
+                    <resources>
+                        <fixture_module_setup>
+                        </fixture_module_setup>
+                    </resources>
+                </global>
+            </config>";
+        $configElement = new Magento_Core_Model_Config_Element($xml);
+        $configuration = new Magento_Simplexml_Config($configElement);
+
+        $this->_config->expects($this->at(0))
+            ->method('getNode')
+            ->with($this->equalTo('global/resources'))
+            ->will($this->returnValue($configuration->getNode('global/resources')));
+
+        $this->_app->expects($this->at(0))
+            ->method('isInstalled')
+            ->will($this->returnValue(true));
+        $this->_app->expects($this->at(1))
+            ->method('setUpdateMode');
+
+        $updater = new Magento_Core_Model_Db_Updater(
+            $this->_config,
+            $this->_factory,
+            $this->_app,
+            false
+        );
+
+        $updater->updateScheme();
+
+        $configElement = new Magento_Core_Model_Config_Element($this->_xmlData);
+        $configuration = new Magento_Simplexml_Config($configElement);
+
+        $this->_config->expects($this->at(0))
+            ->method('getNode')
+            ->with($this->equalTo('global/resources'))
+            ->will($this->returnValue($configuration->getNode('global/resources')));
+
+        $this->_factory->expects($this->once())
+            ->method('create')
+            ->with(
+                $this->equalTo('Magento_Core_Model_Resource_Setup'),
+                $this->equalTo(array('resourceName' => 'fixture_module_setup'))
+            )
+            ->will($this->returnValue($this->_resourceSetup));
+        $this->_resourceSetup->expects($this->once())
+            ->method('applyDataUpdates');
+
         $updater->updateData();
     }
 
-    public static function updateSchemeAndDataConfigDataProvider()
+    /**
+     * Not update data
+     */
+    public function testUpdateDataNotUpdated()
     {
-        $fixturePath = __DIR__ . '/_files/';
-        return array(
-            'updates (default config)' => array(
-                file_get_contents($fixturePath . 'config.xml'),
-                Magento_Core_Model_App_State::MODE_DEVELOPER,
-                true
-            ),
-            'no updates when skipped' => array(
-                file_get_contents($fixturePath . 'config_skip_updates.xml'),
-                Magento_Core_Model_App_State::MODE_DEFAULT,
-                false
-            ),
-            'updates when skipped, if in dev mode' => array(
-                file_get_contents($fixturePath . 'config_skip_updates.xml'),
-                Magento_Core_Model_App_State::MODE_DEVELOPER,
-                true
-            ),
-            'skipped updates, even in dev mode' => array(
-                file_get_contents($fixturePath . 'config_skip_updates_even_in_dev_mode.xml'),
-                Magento_Core_Model_App_State::MODE_DEVELOPER,
-                false
-            )
+        $updater = new Magento_Core_Model_Db_Updater(
+            $this->_config,
+            $this->_factory,
+            $this->_app,
+            false
         );
+        $this->_config->expects($this->never())
+            ->method('getNode');
+
+        $updater->updateData();
     }
 }

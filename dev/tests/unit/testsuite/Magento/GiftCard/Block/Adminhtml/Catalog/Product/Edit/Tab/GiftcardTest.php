@@ -44,7 +44,12 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest ext
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $block = $objectManagerHelper->getObject(
             'Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard',
-            array('context' => $contextMock, 'storeManager' => $storeManagerMock)
+            array(
+                'context' => $contextMock,
+                'storeManager' => $storeManagerMock,
+                'templateOptions' => $this->getMockBuilder('Magento_Backend_Model_Config_Source_Email_TemplateFactory')
+                    ->getMock()
+            )
         );
 
 

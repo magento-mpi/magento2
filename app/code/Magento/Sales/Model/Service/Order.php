@@ -28,14 +28,23 @@ class Magento_Sales_Model_Service_Order
     protected $_convertor;
 
     /**
-     * Class constructor
-     *
-     * @param Magento_Sales_Model_Order $order
+     * @var Magento_Tax_Model_Config
      */
-    public function __construct(Magento_Sales_Model_Order $order)
-    {
-        $this->_order       = $order;
-        $this->_convertor   = Mage::getModel('Magento_Sales_Model_Convert_Order');
+    protected $_taxConfig;
+
+    /**
+     * @param Magento_Sales_Model_Order $order
+     * @param Magento_Sales_Model_Convert_OrderFactory $convertOrderFactory
+     * @param Magento_Tax_Model_Config $taxConfig
+     */
+    public function __construct(
+        Magento_Sales_Model_Order $order,
+        Magento_Sales_Model_Convert_OrderFactory $convertOrderFactory,
+        Magento_Tax_Model_Config $taxConfig
+    ) {
+        $this->_order = $order;
+        $this->_convertor = $convertOrderFactory->create();
+        $this->_taxConfig = $taxConfig;
     }
 
     /**
@@ -78,7 +87,7 @@ class Magento_Sales_Model_Service_Order
             $item = $this->_convertor->itemToInvoiceItem($orderItem);
             if ($orderItem->isDummy()) {
                 $qty = $orderItem->getQtyOrdered() ? $orderItem->getQtyOrdered() : 1;
-            } else if (!empty($qtys)) {
+            } elseif (!empty($qtys)) {
                 if (isset($qtys[$orderItem->getId()])) {
                     $qty = (float) $qtys[$orderItem->getId()];
                 }
@@ -196,6 +205,7 @@ class Magento_Sales_Model_Service_Order
     /**
      * Prepare order creditmemo based on invoice items and requested requested params
      *
+     * @param object $invoice
      * @param array $data
      * @return Magento_Sales_Model_Order_Creditmemo
      */
@@ -244,7 +254,7 @@ class Magento_Sales_Model_Service_Order
                 $qty = 1;
             } else {
                 if (isset($qtys[$orderItem->getId()])) {
-                    $qty = (float) $qtys[$orderItem->getId()];
+                    $qty = (float)$qtys[$orderItem->getId()];
                 } elseif (!count($qtys)) {
                     $qty = $orderItem->getQtyToRefund();
                 } else {
@@ -264,11 +274,11 @@ class Magento_Sales_Model_Service_Order
         $this->_initCreditmemoData($creditmemo, $data);
         if (!isset($data['shipping_amount'])) {
             $order = $invoice->getOrder();
-            $isShippingInclTax = Mage::getSingleton('Magento_Tax_Model_Config')->displaySalesShippingInclTax($order->getStoreId());
+            $isShippingInclTax = $this->_taxConfig->displaySalesShippingInclTax($order->getStoreId());
             if ($isShippingInclTax) {
                 $baseAllowedAmount = $order->getBaseShippingInclTax()
-                        - $order->getBaseShippingRefunded()
-                        - $order->getBaseShippingTaxRefunded();
+                    - $order->getBaseShippingRefunded()
+                    - $order->getBaseShippingTaxRefunded();
             } else {
                 $baseAllowedAmount = $order->getBaseShippingAmount() - $order->getBaseShippingRefunded();
                 $baseAllowedAmount = min($baseAllowedAmount, $invoice->getBaseShippingAmount());
@@ -309,7 +319,7 @@ class Magento_Sales_Model_Service_Order
      * @param array $qtys
      * @return bool
      */
-    protected function _canInvoiceItem($item, $qtys=array())
+    protected function _canInvoiceItem($item, $qtys = array())
     {
         if ($item->getLockedDoInvoice()) {
             return false;
@@ -383,7 +393,7 @@ class Magento_Sales_Model_Service_Order
                 }
             }
         } else {
-            return $item->getQtyToShip()>0;
+            return $item->getQtyToShip() > 0;
         }
     }
 

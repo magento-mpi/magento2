@@ -18,6 +18,9 @@ class Magento_Install_IndexTest extends Magento_TestFramework_TestCase_Controlle
          * Make sure that preDispatch() didn't cleanup var directory (by asserting presence of anything there),
          * because in integration testing environment the application is considered "installed"
          */
-        $this->assertFileExists(Mage::getBaseDir(Magento_Core_Model_Dir::TMP));
+        $this->assertFileExists(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+                ->getDir(Magento_Core_Model_Dir::TMP)
+        );
     }
 }

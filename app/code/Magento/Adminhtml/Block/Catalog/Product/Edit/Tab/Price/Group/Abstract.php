@@ -55,6 +55,18 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Directory_Helper_Data
+     */
+    protected $_directoryHelper;
+
+    /**
+     * @var Magento_Customer_Model_GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @param Magento_Customer_Model_GroupFactory $groupFactory
+     * @param Magento_Directory_Helper_Data $directoryHelper
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -62,12 +74,16 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_GroupFactory $groupFactory,
+        Magento_Directory_Helper_Data $directoryHelper,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_groupFactory = $groupFactory;
+        $this->_directoryHelper = $directoryHelper;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
@@ -163,7 +179,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
             if (!$this->_catalogData->isModuleEnabled('Magento_Customer')) {
                 return array();
             }
-            $collection = Mage::getModel('Magento_Customer_Model_Group')->getCollection();
+            $collection = $this->_groupFactory->create()->getCollection();
             $this->_customerGroups = $this->_getInitialCustomerGroups();
 
             foreach ($collection as $item) {
@@ -206,7 +222,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
      */
     public function isMultiWebsites()
     {
-        return !Mage::app()->isSingleStoreMode();
+        return !$this->_storeManager->isSingleStoreMode();
     }
 
     /**
@@ -223,20 +239,20 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
         $this->_websites = array(
             0 => array(
                 'name' => __('All Websites'),
-                'currency' => Mage::app()->getBaseCurrencyCode()
+                'currency' => $this->_directoryHelper->getBaseCurrencyCode()
             )
         );
 
         if (!$this->isScopeGlobal() && $this->getProduct()->getStoreId()) {
             /** @var $website Magento_Core_Model_Website */
-            $website = Mage::app()->getStore($this->getProduct()->getStoreId())->getWebsite();
+            $website = $this->_storeManager->getStore($this->getProduct()->getStoreId())->getWebsite();
 
             $this->_websites[$website->getId()] = array(
                 'name' => $website->getName(),
                 'currency' => $website->getBaseCurrencyCode()
             );
         } elseif (!$this->isScopeGlobal()) {
-            $websites = Mage::app()->getWebsites(false);
+            $websites = $this->_storeManager->getWebsites(false);
             $productWebsiteIds  = $this->getProduct()->getWebsiteIds();
             foreach ($websites as $website) {
                 /** @var $website Magento_Core_Model_Website */
@@ -271,7 +287,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
     public function getDefaultWebsite()
     {
         if ($this->isShowWebsiteColumn() && !$this->isAllowChangeWebsite()) {
-            return Mage::app()->getStore($this->getProduct()->getStoreId())->getWebsiteId();
+            return $this->_storeManager->getStore($this->getProduct()->getStoreId())->getWebsiteId();
         }
         return 0;
     }
@@ -343,7 +359,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
      */
     public function isShowWebsiteColumn()
     {
-        if ($this->isScopeGlobal() || Mage::app()->isSingleStoreMode()) {
+        if ($this->isScopeGlobal() || $this->_storeManager->isSingleStoreMode()) {
             return false;
         }
         return true;

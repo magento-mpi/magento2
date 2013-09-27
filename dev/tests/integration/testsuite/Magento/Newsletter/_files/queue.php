@@ -12,14 +12,18 @@
 require __DIR__ . '/template.php';
 require __DIR__ . '/subscribers.php';
 
-$template = Mage::getModel('Magento_Newsletter_Model_Template');
+$template = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Newsletter_Model_Template');
 $template->load('fixture_tpl', 'template_code');
 $templateId = $template->getId();
 
-$currentStore = Mage::app()->getStore()->getId();
-$otherStore = Mage::app()->getStore('fixturestore')->getId();
+$currentStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
+$otherStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->get('Magento_Core_Model_StoreManagerInterface')->getStore('fixturestore')->getId();
 
-$queue = Mage::getModel('Magento_Newsletter_Model_Queue');
+$queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Newsletter_Model_Queue');
 $queue->setTemplateId($templateId)
     ->setNewsletterText('{{view url="images/logo.gif"}}')
     ->setNewsletterSubject('Subject')

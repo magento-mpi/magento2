@@ -75,10 +75,10 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
         $moduleReader = $this->_objectManager->create(
             'Magento_Core_Model_Config_Modules_Reader', array(
-                'dirs' => $dirs,
                 'moduleList' => $moduleList
             )
         );
+        $moduleReader->setModuleDir('Acme_Subscriber', 'etc', __DIR__ . '/_files/Acme/Subscriber/etc');
 
         $loader = $this->_objectManager->create(
             'Magento_Core_Model_Config_Loader',

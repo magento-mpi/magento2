@@ -18,6 +18,28 @@
  */
 class Magento_Adminhtml_Block_Sales_Items_Column_Default extends Magento_Adminhtml_Block_Template
 {
+    /**
+     * @var Magento_Catalog_Model_Product_OptionFactory
+     */
+    protected $_optionFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Product_OptionFactory $optionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Product_OptionFactory $optionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_optionFactory = $optionFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
     public function getItem()
     {
         if ($this->_getData('item') instanceof Magento_Sales_Model_Order_Item) {
@@ -56,7 +78,7 @@ class Magento_Adminhtml_Block_Sales_Items_Column_Default extends Magento_Adminht
         $_default = $optionInfo['value'];
         if (isset($optionInfo['option_type'])) {
             try {
-                $group = Mage::getModel('Magento_Catalog_Model_Product_Option')->groupFactory($optionInfo['option_type']);
+                $group = $this->_optionFactory->create()->groupFactory($optionInfo['option_type']);
                 return $group->getCustomizedView($optionInfo);
             } catch (Exception $e) {
                 return $_default;

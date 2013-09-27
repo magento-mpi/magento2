@@ -31,6 +31,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     protected $_dataCollectionFactory;
 
     /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
      * @param Magento_Data_CollectionFactory $dataCollectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -40,6 +46,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
         Magento_Data_CollectionFactory $dataCollectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -50,6 +57,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     ) {
         $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_quoteFactory = $quoteFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -75,9 +83,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     protected function _prepareCollection()
     {
         $customer = $this->_coreRegistry->registry('current_customer');
-        $storeIds = Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
+        $storeIds = $this->_storeManager->getWebsite($this->getWebsiteId())->getStoreIds();
 
-        $quote = Mage::getModel('Magento_Sales_Model_Quote')
+        $quote = $this->_quoteFactory->create()
             ->setSharedStoreIds($storeIds)
             ->loadByCustomer($customer);
 

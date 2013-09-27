@@ -23,16 +23,50 @@ class Magento_CustomerSegment_Model_Observer
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_configSourceYesno;
+
+    /**
+     * @var Magento_CustomerSegment_Model_Customer
+     */
+    protected $_customer;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Store list manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_CustomerSegment_Model_Customer $customer
+     * @param Magento_Backend_Model_Config_Source_Yesno $configSourceYesno
      * @param Magento_CustomerSegment_Helper_Data $segmentHelper
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_CustomerSegment_Model_Customer $customer,
+        Magento_Backend_Model_Config_Source_Yesno $configSourceYesno,
         Magento_CustomerSegment_Helper_Data $segmentHelper,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
+        $this->_customer = $customer;
+        $this->_configSourceYesno = $configSourceYesno;
         $this->_coreRegistry = $coreRegistry;
         $this->_segmentHelper = $segmentHelper;
     }
@@ -61,23 +95,18 @@ class Magento_CustomerSegment_Model_Observer
      */
     public function processCustomerEvent(Magento_Event_Observer $observer)
     {
-        $eventName = $observer->getEvent()->getName();
         $customer  = $observer->getEvent()->getCustomer();
         $dataObject= $observer->getEvent()->getDataObject();
-        $customerId= false;
 
+        $customerId= false;
         if ($customer) {
             $customerId = $customer->getId();
         }
         if (!$customerId && $dataObject) {
             $customerId = $dataObject->getCustomerId();
         }
-
         if ($customerId) {
-            Mage::getSingleton('Magento_CustomerSegment_Model_Customer')->processCustomerEvent(
-                $eventName,
-                $customerId
-            );
+            $this->_customer->processCustomerEvent($observer->getEvent()->getName(), $customerId);
         }
     }
 
@@ -89,16 +118,15 @@ class Magento_CustomerSegment_Model_Observer
      */
     public function processEvent(Magento_Event_Observer $observer)
     {
-        $eventName = $observer->getEvent()->getName();
         $customer = $this->_coreRegistry->registry('segment_customer');
 
         // For visitors use customer instance from customer session
         if (!$customer) {
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $customer = $this->_customerSession->getCustomer();
         }
 
-        $website = Mage::app()->getStore()->getWebsite();
-        Mage::getSingleton('Magento_CustomerSegment_Model_Customer')->processEvent($eventName, $customer, $website);
+        $this->_customer->processEvent($observer->getEvent()->getName(), $customer,
+            $this->_storeManager->getStore()->getWebsite());
     }
 
     /**
@@ -114,7 +142,7 @@ class Magento_CustomerSegment_Model_Observer
         $customer = $quote->getCustomer();
         if ($customer && $customer->getId()) {
             $website = $quote->getStore()->getWebsite();
-            Mage::getSingleton('Magento_CustomerSegment_Model_Customer')->processCustomer($customer, $website);
+            $this->_customer->processCustomer($customer, $website);
         }
     }
 
@@ -131,7 +159,7 @@ class Magento_CustomerSegment_Model_Observer
             'name'      => 'is_used_for_customer_segment',
             'label'     => __('Use in Customer Segment'),
             'title'     => __('Use in Customer Segment'),
-            'values'    => Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray(),
+            'values'    => $this->_configSourceYesno->toOptionArray(),
         ));
     }
 

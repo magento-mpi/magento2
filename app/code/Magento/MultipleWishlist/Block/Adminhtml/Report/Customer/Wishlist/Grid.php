@@ -37,7 +37,7 @@ class Magento_MultipleWishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
     protected function _getStoreIds()
     {
         $storeIdsStr = $this->getRequest()->getParam('store_ids');
-        $allowedStoreIds = array_keys(Mage::app()->getStores());
+        $allowedStoreIds = array_keys($this->_storeManager->getStores());
         if (strlen($storeIdsStr)) {
             $storeIds = explode(',', $storeIdsStr);
             $storeIds = array_intersect($allowedStoreIds, $storeIds);

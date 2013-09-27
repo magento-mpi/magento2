@@ -22,7 +22,8 @@ class Magento_Catalog_Model_Resource_Product_CollectionTest extends PHPUnit_Fram
      */
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Resource_Product_Collection');
     }
 
     /**

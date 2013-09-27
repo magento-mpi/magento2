@@ -10,12 +10,7 @@
 
 /**
  * Sales order details block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items_Abstract
 {
     /**
@@ -81,7 +76,8 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
 
     protected function _prepareLayout()
     {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
         $this->setChild(
@@ -90,16 +86,25 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
         );
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return $this->getUrl('*/*/history');
     }
 
+    /**
+     * @return string
+     */
     public function getPrintUrl()
     {
-        return Mage::getUrl('*/*/print');
+        return $this->getUrl('*/*/print');
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentInfoHtml()
     {
         return $this->getChildHtml('payment_info');
@@ -171,7 +176,7 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
     public function getBillingAddressFormattedHtml($order)
     {
         $billingAddress = $order->getBillingAddress();
-        if(!($billingAddress instanceof Magento_Sales_Model_Order_Address)) {
+        if (!($billingAddress instanceof Magento_Sales_Model_Order_Address)) {
             return '';
         }
         return $billingAddress->format('html');

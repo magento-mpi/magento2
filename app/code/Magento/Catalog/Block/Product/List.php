@@ -169,7 +169,7 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
                 return $block;
             }
         }
-        $block = $this->getLayout()->createBlock($this->_defaultToolbarBlock, microtime());
+        $block = $this->getLayout()->createBlock($this->_defaultToolbarBlock, uniqid(microtime()));
         return $block;
     }
 

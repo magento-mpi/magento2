@@ -17,8 +17,10 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
 {
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Image_AdapterFactory');
-        $this->_config = Mage::getModel('Magento_Core_Model_Store_Config');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Image_AdapterFactory');
+        $this->_config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Store_Config');
     }
 
     /**

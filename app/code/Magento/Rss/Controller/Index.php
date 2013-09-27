@@ -25,11 +25,28 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
     protected $_customer;
 
     /**
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_storeConfig;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Store_Config $storeConfig
+    ) {
+        $this->_storeConfig = $storeConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Index action
      */
     public function indexAction()
     {
-        if ($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('rss/config/active')) {
+        if ($this->_storeConfig->getConfig('rss/config/active')) {
             $this->loadLayout();
             $this->renderLayout();
         } else {
@@ -57,7 +74,7 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
      */
     public function wishlistAction()
     {
-        if ($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('rss/wishlist/active')) {
+        if ($this->_storeConfig->getConfig('rss/wishlist/active')) {
             $wishlist = $this->_getWishlist();
             if ($wishlist && ($wishlist->getVisibility()
                 || $this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)
@@ -80,7 +97,7 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+            $this->_wishlist = $this->_objectManager->create('Magento_Wishlist_Model_Wishlist');
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
@@ -101,18 +118,16 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
     protected function _getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer');
-
+            $this->_customer = $this->_objectManager->create('Magento_Customer_Model_Customer');
             $params = $this->_objectManager->get('Magento_Core_Helper_Data')
                 ->urlDecode($this->getRequest()->getParam('data'));
-            $data   = explode(',', $params);
+            $data = explode(',', $params);
             $customerId    = abs(intval($data[0]));
             if ($customerId
                 && ($customerId == $this->_objectManager->get('Magento_Customer_Model_Session')->getCustomerId()) ) {
                 $this->_customer->load($customerId);
             }
         }
-
         return $this->_customer;
     }
 }

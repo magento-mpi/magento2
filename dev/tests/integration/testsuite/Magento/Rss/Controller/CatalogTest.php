@@ -92,7 +92,8 @@ class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_
     public function testNotifyStockAction()
     {
         // workaround: trigger updating "low stock date", because RSS collection requires it to be not null
-        Mage::getResourceSingleton('Magento_CatalogInventory_Model_Resource_Stock')->updateLowStockDate();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_CatalogInventory_Model_Resource_Stock')
+            ->updateLowStockDate();
         $this->_loginAdmin();
         $this->dispatch('rss/catalog/notifystock');
 
@@ -123,7 +124,11 @@ class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_
      */
     public function testCategoryAction()
     {
-        $this->getRequest()->setParam('cid', Mage::app()->getStore()->getRootCategoryId());
+        $this->getRequest()->setParam(
+            'cid',
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getRootCategoryId()
+        );
         $this->dispatch('rss/catalog/category');
         $this->assertStringMatchesFormat(
             '%A<link>http://localhost/index.php/catalog/category/view/%A/id/2/</link>%A',

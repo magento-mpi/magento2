@@ -16,14 +16,15 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
     public function testGetColumnValues()
     {
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(9);
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
 
         /** @var Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection $collection */
-        $collection = Mage::getResourceModel(
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection'
         );
 

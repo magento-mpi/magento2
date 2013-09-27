@@ -12,7 +12,8 @@
 require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
-$wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+$wishlist = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Wishlist_Model_Wishlist');
 $wishlist->loadByCustomer($customer->getId(), true);
 $item = $wishlist->addNewItem($product, new Magento_Object(array(
 //    'product' => '1',

@@ -30,14 +30,14 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->_model = $this->getMockBuilder('Magento_Core_Model_Email_Template')
             ->setMethods(array('_getMail'))
             ->setConstructorArgs(array(
-                Mage::getSingleton('Magento_Core_Model_Context'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Context'),
                 $objectManager->get('Magento_Core_Model_Registry'),
                 $objectManager->create('Magento_Filesystem'),
                 $objectManager->create('Magento_Core_Model_View_Url'),
                 $objectManager->create('Magento_Core_Model_View_FileSystem'),
                 $objectManager->get('Magento_Core_Model_View_DesignInterface'),
                 $objectManager->create('Magento_Core_Model_Store_Config'),
-                $objectManager->create('Magento_Core_Model_Config')
+                $objectManager->get('Magento_Core_Model_Email_Template_Config'),
             ))
             ->getMock();
         $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));
@@ -58,9 +58,14 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $filter = $this->_model->getTemplateFilter();
         $this->assertSame($filter, $this->_model->getTemplateFilter());
-        $this->assertEquals(Mage::app()->getStore()->getId(), $filter->getStoreId());
+        $this->assertEquals(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId(),
+            $filter->getStoreId()
+        );
 
-        $filter = Mage::getModel('Magento_Core_Model_Email_Template_Filter');
+        $filter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Email_Template_Filter');
         $this->_model->setTemplateFilter($filter);
         $this->assertSame($filter, $this->_model->getTemplateFilter());
     }
@@ -75,31 +80,22 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_model->getTemplateStyles());
     }
 
-    public function testDefaultTemplateAsOptionsArray()
-    {
-        $options = $this->_model->getDefaultTemplatesAsOptionsArray();
-        $this->assertInternalType('array', $options);
-        $this->assertNotEmpty($options);
-        foreach ($options as $option) {
-            $this->assertArrayHasKey('value', $option);
-            $this->assertArrayHasKey('label', $option);
-            $this->assertArrayHasKey('group', $option);
-        }
-    }
-
     /**
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Core/_files/store.php
      */
     public function testGetProcessedTemplate()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_setBlankThemeForFixtureStore();
         $expectedViewUrl = 'static/frontend/magento_blank/en_US/Magento_Page/favicon.ico';
         $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(array(
-            'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
+            'area' => 'frontend',
+            'store' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_StoreManagerInterface')->getStore('fixturestore')->getId()
         ));
         $this->assertStringEndsWith($expectedViewUrl, $this->_model->getProcessedTemplate());
     }
@@ -110,10 +106,11 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
      */
     protected function _setBlankThemeForFixtureStore()
     {
-        $theme = Mage::getModel('Magento_Core_Model_Theme');
+        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme');
         $theme->load('magento_blank', 'theme_path');
-        Mage::app()->getStore('fixturestore')
-            ->setConfig(Magento_Core_Model_View_Design::XML_PATH_THEME_ID, $theme->getId());
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore('fixturestore')->setConfig(Magento_Core_Model_View_Design::XML_PATH_THEME_ID, $theme->getId());
     }
 
     /**
@@ -122,7 +119,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplateDesignChange()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
         $this->assertStringEndsWith(
             'static/frontend/magento_blank/en_US/Magento_Page/favicon.ico',
@@ -136,13 +134,16 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplateSubject()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_setBlankThemeForFixtureStore();
         $expectedViewUrl = 'static/frontend/magento_blank/en_US/Magento_Page/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Magento_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(array(
-            'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
+            'area' => 'frontend',
+            'store' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_StoreManagerInterface')->getStore('fixturestore')->getId()
         ));
         $this->assertStringEndsWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
     }
@@ -155,7 +156,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testSend()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_mail->expects($this->exactly(2))->method('send');
         $this->_mail->expects($this->once())->method('addBcc')->with('bcc@example.com');
         $this->_mail->expects($this->once())->method('setReturnPath')->with('return@example.com');
@@ -175,7 +177,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
 
     public function testSendMultipleRecipients()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_mail->expects($this->at(0))->method('addTo')->with('one@example.com', '=?utf-8?B?TmFtZSBPbmU=?=');
         $this->_mail->expects($this->at(1))->method('addTo')->with('two@example.com', '=?utf-8?B?dHdv?=');
         $this->assertTrue($this->_model->send(array('one@example.com', 'two@example.com'), array('Name One')));
@@ -193,7 +196,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
 
     public function testSendTransactional()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_model->sendTransactional('customer_create_account_email_template',
             array('name' => 'Sender Name', 'email' => 'sender@example.com'), 'recipient@example.com', 'Recipient Name'
         );
@@ -202,11 +206,12 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException UnexpectedValueException
+     * @expectedExceptionMessage Email template 'wrong_id' is not defined
      */
     public function testSendTransactionalWrongId()
     {
-        $this->_model->sendTransactional('wrong_id' . uniqid(),
+        $this->_model->sendTransactional('wrong_id',
             array('name' => 'Sender Name', 'email' => 'sender@example.com'), 'recipient@example.com', 'Recipient Name'
         );
     }

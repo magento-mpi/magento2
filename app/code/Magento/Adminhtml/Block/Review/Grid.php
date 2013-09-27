@@ -45,6 +45,18 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Review_Model_Resource_Review_Product_CollectionFactory
+     */
+    protected $_productsFactory;
+
+    /**
+     * @var Magento_Review_Model_ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @param Magento_Review_Model_ReviewFactory $reviewFactory
+     * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $productsFactory
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Review_Helper_Action_Pager $reviewActionPager
      * @param Magento_Core_Helper_Data $coreData
@@ -55,6 +67,8 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
      * @param array $data
      */
     public function __construct(
+        Magento_Review_Model_ReviewFactory $reviewFactory,
+        Magento_Review_Model_Resource_Review_Product_CollectionFactory $productsFactory,
         Magento_Review_Helper_Data $reviewData,
         Magento_Review_Helper_Action_Pager $reviewActionPager,
         Magento_Core_Helper_Data $coreData,
@@ -64,9 +78,11 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_productsFactory = $productsFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_reviewData = $reviewData;
         $this->_reviewActionPager = $reviewActionPager;
+        $this->_reviewFactory = $reviewFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -103,9 +119,9 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     protected function _prepareCollection()
     {
         /** @var $model Magento_Review_Model_Review */
-        $model = Mage::getModel('Magento_Review_Model_Review');
+        $model = $this->_reviewFactory->create();
         /** @var $collection Magento_Review_Model_Resource_Review_Product_Collection */
-        $collection = $model->getProductCollection();
+        $collection = $this->_productsFactory->create();
 
         if ($this->getProductId() || $this->getRequest()->getParam('productId', false)) {
             $productId = $this->getProductId();
@@ -207,7 +223,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
                 'header'    => __('Visibility'),
                 'index'     => 'stores',

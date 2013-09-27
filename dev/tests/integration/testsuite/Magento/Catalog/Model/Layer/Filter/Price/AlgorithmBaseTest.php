@@ -39,9 +39,12 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
-        $this->_layer = Mage::getModel('Magento_Catalog_Model_Layer');
-        $this->_filter = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
+        $this->_layer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer');
+        $this->_filter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Price');
         $this->_filter
             ->setLayer($this->_layer)
             ->setAttributeModel(new Magento_Object(array('attribute_code' => 'price')));

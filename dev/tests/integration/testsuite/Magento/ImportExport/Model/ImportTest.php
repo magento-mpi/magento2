@@ -62,8 +62,9 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_importConfig = Mage::getModel('Magento_ImportExport_Model_Import_Config');
-        $this->_model = Mage::getModel(
+        $this->_importConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Import_Config');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_ImportExport_Model_Import',
             array(
                 'importConfig' => $this->_importConfig,
@@ -77,7 +78,8 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     public function testImportSource()
     {
         /** @var $customersCollection Magento_Customer_Model_Resource_Customer_Collection */
-        $customersCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        $customersCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Customer_Collection');
 
         $existCustomersCount = count($customersCollection->load());
 

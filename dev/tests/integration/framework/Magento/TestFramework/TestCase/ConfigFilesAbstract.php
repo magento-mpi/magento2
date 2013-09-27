@@ -39,10 +39,21 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
             $this->_fileResolverMock = $this->getMockBuilder('Magento_Core_Model_Config_FileResolver_Primary')
                 ->disableOriginalConstructor()->getMock();
 
-            $this->_reader = $this->_objectManager->create($this->_getReaderClassName(), array(
-                'configFiles' => $xmlFiles, 'fileResolver' => $this->_fileResolverMock));
+            /* Enable Validation regardles of MAGE_MODE */
+            $validateStateMock = $this->getMockBuilder('Magento_Config_ValidationStateInterface')
+                ->disableOriginalConstructor()->getMock();
+            $validateStateMock->expects($this->any())
+                ->method('isValidated')
+                ->will($this->returnValue(true));
 
-            /** @var $dirs Magento_Core_Model_Dir */
+            $this->_reader = $this->_objectManager->create($this->_getReaderClassName(),
+                array(
+                    'configFiles' => $xmlFiles,
+                    'fileResolver' => $this->_fileResolverMock,
+                    'validationState' => $validateStateMock
+                )
+            );
+
             $dirs = $this->_objectManager->get('Magento_Core_Model_Dir');
             $modulesDir = $dirs->getDir(Magento_Core_Model_Dir::MODULES);
             $this->_schemaFile = $modulesDir . $this->_getXsdPath();
@@ -118,7 +129,10 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
      */
     public function getXmlConfigFiles()
     {
-        return glob(Mage::getBaseDir('app') . $this->_getConfigFilePathGlob());
+        return glob(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('app')
+                . $this->_getConfigFilePathGlob()
+        );
     }
 
     /**

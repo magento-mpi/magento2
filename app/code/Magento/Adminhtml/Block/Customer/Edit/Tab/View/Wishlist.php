@@ -25,6 +25,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Wishlist_Model_Resource_Item_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -33,6 +39,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
      * @param array $data
      */
     public function __construct(
+        Magento_Wishlist_Model_Resource_Item_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -41,6 +48,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -66,7 +74,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
+        $collection = $this->_collectionFactory->create()
             ->addCustomerIdFilter($this->_coreRegistry->registry('current_customer')->getId())
             ->addDaysInWishlist()
             ->addStoreData()
@@ -97,7 +105,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
             'renderer'  => 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store', array(
                 'header'    => __('Add Locale'),
                 'index'     => 'store_id',

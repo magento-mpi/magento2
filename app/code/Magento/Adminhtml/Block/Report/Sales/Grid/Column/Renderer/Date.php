@@ -20,6 +20,25 @@ class Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date
     extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Date
 {
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve date format
      *
      * @return string
@@ -30,7 +49,7 @@ class Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date
         if (!$format) {
             if (is_null(self::$_format)) {
                 try {
-                    $localeCode = Mage::app()->getLocale()->getLocaleCode();
+                    $localeCode = $this->_locale->getLocaleCode();
                     $localeData = new Zend_Locale_Data;
                     switch ($this->getColumn()->getPeriodType()) {
                         case 'month' :
@@ -42,7 +61,7 @@ class Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date
                             break;
 
                         default:
-                            self::$_format = Mage::app()->getLocale()->getDateFormat(
+                            self::$_format = $this->_locale->getDateFormat(
                                 Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
                             );
                             break;
@@ -81,13 +100,13 @@ class Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date
             $format = $this->_getFormat();
             try {
                 $data = ($this->getColumn()->getGmtoffset())
-                    ? Mage::app()->getLocale()->date($data, $dateFormat)->toString($format)
-                    : Mage::getSingleton('Magento_Core_Model_LocaleInterface')->date($data, Zend_Date::ISO_8601, null, false)->toString($format);
+                    ? $this->_locale->date($data, $dateFormat)->toString($format)
+                    : $this->_locale->date($data, Zend_Date::ISO_8601, null, false)->toString($format);
             }
             catch (Exception $e) {
                 $data = ($this->getColumn()->getTimezone())
-                    ? Mage::app()->getLocale()->date($data, $dateFormat)->toString($format)
-                    : Mage::getSingleton('Magento_Core_Model_LocaleInterface')->date($data, $dateFormat, null, false)->toString($format);
+                    ? $this->_locale->date($data, $dateFormat)->toString($format)
+                    : $this->_locale->date($data, $dateFormat, null, false)->toString($format);
             }
             return $data;
         }

@@ -23,15 +23,31 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     protected $_gsData = null;
 
     /**
+     * Date
+     *
+     * @var Magento_Core_Model_Date|null
+     */
+    protected $_date;
+
+    /**
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_GoogleShopping_Model_Config $config
      * @param Magento_GoogleShopping_Helper_Data $gsData
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_GoogleShopping_Model_Config $config,
         Magento_GoogleShopping_Helper_Data $gsData,
         array $data = array()
     ) {
+        $this->_date = $date;
         $this->_gsData = $gsData;
-        parent::__construct($data);
+        parent::__construct($logAdapterFactory, $coreRegistry, $config, $data);
     }
 
     /**
@@ -121,7 +137,7 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
      */
     public function convertContentDateToTimestamp($gContentDate)
     {
-        return Mage::getSingleton('Magento_Core_Model_Date')->date(null, $gContentDate);
+        return $this->_date->date(null, $gContentDate);
     }
 
     /**

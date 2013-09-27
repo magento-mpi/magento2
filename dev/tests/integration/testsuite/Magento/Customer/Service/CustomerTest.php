@@ -38,13 +38,20 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $previousStoreId = Mage::app()->getStore();
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
+        $previousStoreId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->setCurrentStore(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')
+                    ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+            );
         if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
             $this->_createdCustomer->getAddressesCollection()->delete();
             $this->_createdCustomer->delete();
         }
-        Mage::app()->setCurrentStore($previousStoreId);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->setCurrentStore($previousStoreId);
 
         $this->_model = null;
     }
@@ -294,7 +301,8 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate($customerData)
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $expected = $this->_customerFactory->create()
             ->load(1);
 
@@ -349,7 +357,8 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateExceptions($customerData, $exceptionName, $exceptionMessage = '')
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->setExpectedException($exceptionName, $exceptionMessage);
         $this->_model->update(1, $customerData);
     }
@@ -499,7 +508,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         ));
 
         $callbackCount = 0;
-        $callback = function($actualCustomer, $actualData, $actualAddresses) use ($customer, $customerData,
+        $callback = function ($actualCustomer, $actualData, $actualAddresses) use ($customer, $customerData,
             $addressData, &$callbackCount
         ) {
             $callbackCount++;

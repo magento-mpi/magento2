@@ -23,7 +23,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(__('Invalid parent block for this block'));
+            throw new Magento_Core_Exception(__('Invalid parent block for this block'));
         }
         parent::_beforeToHtml();
     }
@@ -49,14 +49,14 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
     }
 
     /**
-     * Retrieve formated price
+     * Retrieve formatted price
      *
      * @param   decimal $value
      * @return  string
      */
     public function formatPrice($value)
     {
-        $store = Mage::app()->getStore($this->_getRecurringProfile()->getStore());
+        $store = $this->_storeManager->getStore($this->_getRecurringProfile()->getStore());
         return $store->formatPrice($value);
     }
 }

@@ -23,7 +23,8 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $cacheTypeList Magento_Core_Model_Cache_TypeListInterface */
-        $cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
+        $cacheTypeList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Cache_TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
 
         /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
@@ -70,10 +71,10 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
         $moduleReader = $this->_objectManager->create(
             'Magento_Core_Model_Config_Modules_Reader', array(
-                'dirs' => $dirs,
                 'moduleList' => $modulesList
             )
         );
+        $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/Magento/Test/etc');
 
         /** @var Magento_Core_Model_Config_FileResolver $fileResolver */
         $fileResolver = $this->_objectManager->create(

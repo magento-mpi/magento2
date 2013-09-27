@@ -13,7 +13,7 @@
     <preference for="Magento_Core_Model_AppInterface" type="Magento_Core_Model_App_Proxy" />
     <type name="Magento_Core_Model_App_State">
         <param name="mode">
-            <value type="argument">Mage::PARAM_MODE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_MODE</value>
         </param>
     </type>
     <type name="Magento_Core_Model_Config_Modules">

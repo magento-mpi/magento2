@@ -11,9 +11,4 @@
  */
 -->
 <config>
-    <global>
-        <configurators>
-            <integration_tests>Magento_Test_ObjectManager_Configurator</integration_tests>
-        </configurators>
-    </global>
 </config>

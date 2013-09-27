@@ -17,14 +17,17 @@ class Magento_TestFramework_Helper_Eav
      */
     public static function setIncrementIdPrefix($entityType, $prefix)
     {
-        $website = Mage::app()->getWebsite();
+        $website = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getWebsite();
         $storeId = $website->getDefaultStore()->getId();
-        $entityTypeModel = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode($entityType);
+        $entityTypeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Eav_Model_Entity_Type')->loadByCode($entityType);
         /** @var Magento_Eav_Model_Entity_Store $entityStore */
-        $entityStore = Mage::getModel('Magento_Eav_Model_Entity_Store')->loadByEntityStore(
-            $entityTypeModel->getId(),
-            $storeId
-        );
+        $entityStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Eav_Model_Entity_Store')->loadByEntityStore(
+                $entityTypeModel->getId(),
+                $storeId
+            );
         $entityStore->setEntityTypeId($entityTypeModel->getId());
         $entityStore->setStoreId($storeId);
         $entityStore->setIncrementPrefix($prefix);

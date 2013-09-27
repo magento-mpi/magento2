@@ -22,7 +22,8 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_GridTest extends PHPUnit_Framewor
      */
     protected function _createBlock($reportType = null)
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Sales_Tax_Grid');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Adminhtml_Block_Report_Sales_Tax_Grid');
 
         $filterData = new Magento_Object();
         if ($reportType) {

@@ -29,9 +29,7 @@ class Magento_Tax_Model_Sales_Pdf_Tax extends Magento_Sales_Model_Order_Pdf_Tota
             return array();
         }
 
-        $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
         $totals = array();
-
         if ($config->displaySalesFullSummary($store)) {
            $totals = $this->getFullTaxInfo();
         }
@@ -40,6 +38,4 @@ class Magento_Tax_Model_Sales_Pdf_Tax extends Magento_Sales_Model_Order_Pdf_Tota
 
         return $totals;
     }
-
-
 }

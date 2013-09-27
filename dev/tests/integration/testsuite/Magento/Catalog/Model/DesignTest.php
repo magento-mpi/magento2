@@ -21,7 +21,8 @@ class Magento_Catalog_Model_DesignTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Design');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Design');
     }
 
     /**
@@ -41,7 +42,8 @@ class Magento_Catalog_Model_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function getThemeModel()
     {
-        $theme = Mage::getModel('Magento_Core_Model_Theme');
+        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme');
         $theme->setData($this->_getThemeData());
         return array(array($theme));
     }

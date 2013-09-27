@@ -39,10 +39,12 @@ class Magento_Test_Integrity_Magento_Widget_TemplateFilesTest extends PHPUnit_Fr
     {
         $result = array();
         /** @var $model Magento_Widget_Model_Widget */
-        $model = Mage::getModel('Magento_Widget_Model_Widget');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget');
         foreach ($model->getWidgetsArray() as $row) {
             /** @var $instance Magento_Widget_Model_Widget_Instance */
-            $instance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+            $instance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget_Instance');
             $config = $instance->setType($row['type'])->getWidgetConfigAsArray();
             $class = $row['type'];
             if (is_subclass_of($class, 'Magento_Core_Block_Template')) {

@@ -53,20 +53,28 @@ class Magento_AdminGws_Model_Role extends Magento_Object
     protected $_exclusiveAccessToCategory = array();
 
     /**
-     * @var Magento_Core_Model_StoreManager|null
+     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
      */
-    protected $_storeManager = null;
+    protected $_categoryCollFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
 
     /**
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollFactory,
         array $data = array()
     ) {
-        parent::__construct($data);
+        $this->_categoryCollFactory = $categoryCollFactory;
         $this->_storeManager = $storeManager;
+        parent::__construct($data);
     }
 
     /**
@@ -282,7 +290,7 @@ class Magento_AdminGws_Model_Role extends Magento_Object
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
 
-            $categories = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection')
+            $categories = $this->_categoryCollFactory->create()
                 ->addIdFilter($categoryIds);
             foreach ($categories  as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();

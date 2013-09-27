@@ -68,17 +68,29 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
+     * Query factory
+     *
+     * @var Magento_CatalogSearch_Model_QueryFactory
+     */
+    protected $_queryFactory;
+
+    /**
+     * Construct
+     * 
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_CatalogSearch_Model_QueryFactory $queryFactory
     ) {
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_queryFactory = $queryFactory;
         parent::__construct($context);
     }
 
@@ -100,8 +112,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     public function getQuery()
     {
         if (!$this->_query) {
-            $this->_query = Mage::getModel('Magento_CatalogSearch_Model_Query')
-                ->loadByQuery($this->getQueryText());
+            $this->_query = $this->_queryFactory->create()->loadByQuery($this->getQueryText());
             if (!$this->_query->getId()) {
                 $this->_query->setQueryText($this->getQueryText());
             }
@@ -179,7 +190,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     {
         return $this->_getUrl('catalogsearch/result', array(
             '_query' => array(self::QUERY_VAR_NAME => $query),
-            '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+            '_secure' => $this->_request->isSecure()
         ));
     }
 
@@ -191,7 +202,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     public function getSuggestUrl()
     {
         return $this->_getUrl('catalogsearch/ajax/suggest', array(
-            '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+            '_secure' => $this->_request->isSecure()
         ));
     }
 

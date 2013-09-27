@@ -18,13 +18,17 @@ class Magento_Catalog_Model_Resource_Eav_AttributeTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->_model= Mage::getResourceModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+        $this->_model= Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Resource_Eav_Attribute');
     }
 
     public function testCRUD()
     {
         $this->_model->setAttributeCode('test')
-            ->setEntityTypeId(Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('catalog_product')->getId())
+            ->setEntityTypeId(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+                    ->getEntityType('catalog_product')->getId()
+            )
             ->setFrontendLabel('test');
         $crud = new Magento_TestFramework_Entity($this->_model, array('frontend_label' => uniqid()));
         $crud->testCrud();

@@ -15,6 +15,31 @@
  */
 class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * @var Magento_Sales_Model_Resource_Order_Collection_Factory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
 
     /**
      * Initialization
@@ -44,7 +69,7 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel($this->_getCollectionClass());
+        $collection = $this->_collectionFactory->create($this->_getCollectionClass());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

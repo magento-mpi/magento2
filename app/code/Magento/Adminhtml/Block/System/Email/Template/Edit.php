@@ -34,16 +34,16 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected $_configStructure;
 
     /**
+     * @var Magento_Core_Model_Email_Template_Config
+     */
+    private $_emailConfig;
+
+    /**
      * Template file
      *
      * @var string
      */
     protected $_template = 'system/email/template/edit.phtml';
-
-    /**
-     * @var Magento_Core_Model_Email_Template
-     */
-    protected $_templateModel;
     
     /**
      * @param Magento_Core_Helper_Data $coreData
@@ -51,7 +51,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Model_Menu_Config $menuConfig
      * @param Magento_Backend_Model_Config_Structure $configStructure
-     * @param Magento_Core_Model_Email_Template $templateModel
+     * @param Magento_Core_Model_Email_Template_Config $emailConfig
      * @param array $data
      */
     public function __construct(
@@ -60,13 +60,13 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         Magento_Core_Model_Registry $registry,
         Magento_Backend_Model_Menu_Config $menuConfig,
         Magento_Backend_Model_Config_Structure $configStructure,
-        Magento_Core_Model_Email_Template $templateModel,
+        Magento_Core_Model_Email_Template_Config $emailConfig,
         array $data = array()
     ) {
         $this->_registryManager = $registry;
         $this->_menuConfig = $menuConfig;
         $this->_configStructure = $configStructure;
-        $this->_templateModel = $templateModel;
+        $this->_emailConfig = $emailConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -183,13 +183,34 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected function _beforeToHtml()
     {
         $groupedOptions = array();
-        foreach ($this->_templateModel->getDefaultTemplatesAsOptionsArray() as $option) {
+        foreach ($this->_getDefaultTemplatesAsOptionsArray() as $option) {
             $groupedOptions[$option['group']][] = $option;
         }
         ksort($groupedOptions);
         $this->setData('template_options', $groupedOptions);
 
         return parent::_beforeToHtml();
+    }
+
+    /**
+     * Get default templates as options array
+     *
+     * @return array
+     */
+    protected function _getDefaultTemplatesAsOptionsArray()
+    {
+        $options = array(array('value' => '', 'label' => '', 'group' => ''));
+        foreach ($this->_emailConfig->getAvailableTemplates() as $templateId) {
+            $options[] = array(
+                'value' => $templateId,
+                'label' => $this->_emailConfig->getTemplateLabel($templateId),
+                'group' => $this->_emailConfig->getTemplateModule($templateId),
+            );
+        }
+        uasort($options, function (array $firstElement, array $secondElement) {
+            return strcmp($firstElement['label'], $secondElement['label']);
+        });
+        return $options;
     }
 
     public function getBackButtonHtml()
@@ -394,7 +415,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
                 if (isset($pathData['scope']) && isset($pathData['scope_id'])) {
                     switch ($pathData['scope']) {
                         case 'stores':
-                            $store = Mage::app()->getStore($pathData['scope_id']);
+                            $store = $this->_storeManager->getStore($pathData['scope_id']);
                             if ($store) {
                                 $urlParams['website'] = $store->getWebsite()->getCode();
                                 $urlParams['store'] = $store->getCode();
@@ -402,7 +423,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
                             }
                             break;
                         case 'websites':
-                            $website = Mage::app()->getWebsite($pathData['scope_id']);
+                            $website = $this->_storeManager->getWebsite($pathData['scope_id']);
                             if ($website) {
                                 $urlParams['website'] = $website->getCode();
                                 $scopeLabel = $website->getName();

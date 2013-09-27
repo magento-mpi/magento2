@@ -19,6 +19,27 @@
 class Magento_CatalogSearch_Model_Resource_Query extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Date
+     *
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Date $date
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Date $date
+    ) {
+        $this->_date = $date;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init resource data
      */
     protected function _construct()
@@ -96,7 +117,7 @@ class Magento_CatalogSearch_Model_Resource_Query extends Magento_Core_Model_Reso
      */
     public function _beforeSave(Magento_Core_Model_Abstract $object)
     {
-        $object->setUpdatedAt($this->formatDate(Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp()));
+        $object->setUpdatedAt($this->formatDate($this->_date->gmtTimestamp()));
         return $this;
     }
 }

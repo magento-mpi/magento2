@@ -25,6 +25,11 @@ class Magento_Cms_Model_Config_Source_Page implements Magento_Core_Model_Option_
         $this->_pageCollectionFactory = $pageCollectionFactory;
     }
 
+    /**
+     * To option array
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         if (!$this->_options) {

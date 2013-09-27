@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template id="template_one" label="Template One" file="one.html" type="html"/>
+    <template id="template_two" label="Template Two" file="two.html" type="html"/>
+</config>

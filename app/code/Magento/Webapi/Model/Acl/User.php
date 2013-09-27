@@ -17,7 +17,7 @@
  * @method Magento_Webapi_Model_Acl_User setCompanyName() setCompanyName(string $companyName)
  * @method string getCompanyName() getCompanyName()
  */
-class Magento_Webapi_Model_Acl_User extends Magento_Core_Model_Abstract implements Magento_Oauth_Model_ConsumerInterface
+class Magento_Webapi_Model_Acl_User extends Magento_Core_Model_Abstract
 {
     /**
      * Prefix of model events names.
@@ -58,6 +58,16 @@ class Magento_Webapi_Model_Acl_User extends Magento_Core_Model_Abstract implemen
 
     /**
      * Get consumer key.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->getData('key');
+    }
+
+    /**
+     * Get consumer secret.
      *
      * @return string
      */

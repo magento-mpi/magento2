@@ -30,7 +30,6 @@ class Magento_Catalog_Model_Attribute_Config
      */
     public function getAttributeNames($groupName)
     {
-        $data = $this->_dataStorage->getData();
-        return isset($data[$groupName]) ? $data[$groupName] : array();
+        return $this->_dataStorage->get($groupName, array());
     }
 }

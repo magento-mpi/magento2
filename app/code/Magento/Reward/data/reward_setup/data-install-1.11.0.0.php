@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+/** @var Magento_Reward_Model_Resource_Setup $this */
 
 $cmsPage = array(
     'title'           => 'Reward Points',
@@ -16,7 +17,7 @@ $cmsPage = array(
     'content_heading' => 'Reward Points',
     'is_active'       => 1,
     'stores'          => array(0),
-    'content' => '<p>The Reward Points Program allows you to earn points for certain actions you take on the site. Points are awarded based on making purchases and customer actions such as submitting reviews.</p>
+    'content'         => '<p>The Reward Points Program allows you to earn points for certain actions you take on the site. Points are awarded based on making purchases and customer actions such as submitting reviews.</p>
 
 <h2>Benefits of Reward Points for Registered Customers</h2>
 <p>Once you register you will be able to earn and accrue reward points, which are then redeemable at time of purchase towards the cost of your order. Rewards are an added bonus to your shopping experience on the site and just one of the ways we thank you for being a loyal customer.</p>
@@ -55,4 +56,4 @@ $cmsPage = array(
 ',
 );
 
-Mage::getModel('Magento_Cms_Model_Page')->setData($cmsPage)->save();
+$this->getPage()->setData($cmsPage)->save();

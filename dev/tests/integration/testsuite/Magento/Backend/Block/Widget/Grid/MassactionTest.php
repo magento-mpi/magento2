@@ -34,7 +34,8 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
 
         $this->_setFixtureTheme();
 
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout', array('area' => 'adminhtml'));
+        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout', array('area' => 'adminhtml'));
         $this->_layout->getUpdate()->load('layout_test_grid_handle');
         $this->_layout->generateXml();
         $this->_layout->generateElements();
@@ -48,9 +49,9 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
     protected function _setFixtureTheme()
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_RUN_CODE => 'admin',
-            Mage::PARAM_RUN_TYPE => 'store',
-            Mage::PARAM_APP_DIRS => array(
+            Magento_Core_Model_App::PARAM_RUN_CODE => 'admin',
+            Magento_Core_Model_App::PARAM_RUN_TYPE => 'store',
+            Magento_Core_Model_App::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => __DIR__ . '/../../_files/design'
             ),
         ));
@@ -65,7 +66,8 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
     public function testMassactionDefaultValues()
     {
         /** @var $blockEmpty Magento_Backend_Block_Widget_Grid_Massaction */
-        $blockEmpty = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_Widget_Grid_Massaction');
+        $blockEmpty = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Backend_Block_Widget_Grid_Massaction');
         $this->assertEmpty($blockEmpty->getItems());
         $this->assertEquals(0, $blockEmpty->getCount());
         $this->assertSame('[]', $blockEmpty->getItemsJson());
