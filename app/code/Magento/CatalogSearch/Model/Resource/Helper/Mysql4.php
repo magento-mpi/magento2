@@ -21,11 +21,14 @@ class Magento_CatalogSearch_Model_Resource_Helper_Mysql4 extends Magento_Eav_Mod
     /**
      * Construct
      *
+     * @param Magento_Core_Model_Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct($modulePrefix = 'Magento_CatalogSearch')
-    {
-        parent::__construct($modulePrefix);
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        $modulePrefix = 'Magento_CatalogSearch'
+    ) {
+        parent::__construct($resource, $modulePrefix);
     }
 
     /**
