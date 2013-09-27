@@ -30,13 +30,13 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
     protected $_ratingsFactory;
 
     /**
-     * @var Magento_Rating_Model_Resource_Rating_Option_Vote_Collection
+     * @var Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory
      */
     protected $_votesFactory;
 
     /**
      * @param Magento_Rating_Model_Resource_Rating_CollectionFactory $ratingsFactory
-     * @param Magento_Rating_Model_Resource_Rating_Option_Vote_Collection $votesFactory
+     * @param Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory $votesFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
      */
     public function __construct(
         Magento_Rating_Model_Resource_Rating_CollectionFactory $ratingsFactory,
-        Magento_Rating_Model_Resource_Rating_Option_Vote_Collection $votesFactory,
+        Magento_Rating_Model_Resource_Rating_Option_Vote_CollectionFactory $votesFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
