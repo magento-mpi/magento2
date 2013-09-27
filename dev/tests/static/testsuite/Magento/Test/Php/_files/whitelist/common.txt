@@ -19,7 +19,6 @@ app/code/Magento/Adminhtml/Controller/Report/Customer.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Urlrewrite.php
-app/code/Magento/Adminhtml/Model/Resource/CollectionFactory.php
 app/code/Magento/Backend
 app/code/Magento/Bundle/Model/Plugin
 app/code/Magento/Catalog/Block/Product/Configurable

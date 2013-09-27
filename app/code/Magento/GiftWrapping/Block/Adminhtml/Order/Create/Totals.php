@@ -43,7 +43,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($sessionQuote, $orderCreate, $salesData, $coreData, $context, $coreConfig, $data);
+        parent::__construct($salesData, $sessionQuote, $orderCreate, $coreData, $context, $coreConfig, $data);
     }
 
     /**
