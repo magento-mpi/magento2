@@ -29,16 +29,23 @@ class Magento_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
         $context->expects($this->any())->method('getApp')->will($this->returnValue($this->_getAppMock($mockConfig)));
 
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        /** @var Magento_Rma_Helper_Data $model */
         $model = $objectManager->getObject(
             'Magento_Rma_Helper_Data',
             array(
-                'context' => $context,
-                'storeConfig' => $storeConfigMock,
+                'context'        => $context,
+                'storeConfig'    => $storeConfigMock,
                 'countryFactory' => $this->_getCountryFactoryMock($mockConfig),
-                'regionFactory' => $this->_getRegionFactoryMock($mockConfig),
+                'regionFactory'  => $this->_getRegionFactoryMock($mockConfig),
+                'itemFactory'    => $this->getMock('Magento_Rma_Model_Resource_ItemFactory', array(), array(), '',
+                    false
+                ),
+                'addressFactory' => $this->getMock('Magento_Sales_Model_Quote_AddressFactory', array(), array(), '',
+                    false
+                ),
             )
         );
-        $this->assertEquals($model->getReturnAddressData(), $expectedResult);
+        $this->assertEquals($model->getReturnAddressData($mockConfig['store_id']), $expectedResult);
     }
 
     /**
@@ -89,7 +96,7 @@ class Magento_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $regionMock = $this->getMock(
             'Magento_Directory_Model_Region',
-            array('load', 'getCode', 'getName'),
+            array('load', 'getCode', 'getName', '__wakeup'),
             array(),
             '',
             false
