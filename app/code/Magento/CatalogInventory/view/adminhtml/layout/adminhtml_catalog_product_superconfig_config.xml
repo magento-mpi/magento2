@@ -23,7 +23,7 @@
                     <argument name="id" xsi:type="string">inventory_in_stock</argument>
                     <argument name="filter" xsi:type="string">0</argument>
                     <argument name="sortable" xsi:type="string">1</argument>
-                    <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory</argument>
+                    <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Grid\Renderer\Inventory</argument>
                 </arguments>
             </block>
             <block class="Magento\Backend\Block\Widget\Grid\Column" as="qty" after="admin.product.edit.tab.super.config.grid.sku">
