@@ -10,10 +10,6 @@
 
 /**
  * Sales Order Shipment PDF model
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Model_Order_Pdf_Abstract
 {
@@ -22,35 +18,65 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
      *
      * @var Magento_Usa_Helper_Data
      */
-    protected $_usaData;
+    protected $_usaData = null;
 
     /**
-     * @param Magento_Usa_Helper_Data $usaData
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Model_Dir $dirs
+     * @param Magento_Core_Model_Dir $coreDir
+     * @param Magento_Shipping_Model_Config $shippingConfig
      * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
-     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory
+     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $pdfTotalFactory
+     * @param Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory
+     * @param Magento_Usa_Helper_Data $usaData
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Layout $layout
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Usa_Helper_Data $usaData,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_Translate $translate,
-        Magento_Core_Model_Dir $dirs,
+        Magento_Core_Model_Dir $coreDir,
+        Magento_Shipping_Model_Config $shippingConfig,
         Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
-        Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory,
+        Magento_Sales_Model_Order_Pdf_Total_Factory $pdfTotalFactory,
+        Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory,
+        Magento_Usa_Helper_Data $usaData,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Layout $layout,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
-        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $dirs, $pdfConfig,
-            $totalFactory, $data);
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+        $this->_layout = $layout;
+        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $coreDir,
+            $shippingConfig, $pdfConfig, $pdfTotalFactory, $pdfItemsFactory, $data);
     }
 
     /**
@@ -69,8 +95,8 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
         $page = $this->newPage();
 
         if ($shipment->getStoreId()) {
-            Mage::app()->getLocale()->emulate($shipment->getStoreId());
-            Mage::app()->setCurrentStore($shipment->getStoreId());
+            $this->_locale->emulate($shipment->getStoreId());
+            $this->_storeManager->setCurrentStore($shipment->getStoreId());
         }
 
         $this->_setFontRegular($page);
@@ -82,7 +108,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
         $this->_afterGetPdf();
 
         if ($shipment->getStoreId()) {
-            Mage::app()->getLocale()->revert();
+            $this->_locale->revert();
         }
         return $pdf;
     }
@@ -116,7 +142,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
         if ($this->getPackageShippingBlock()) {
             $packaging = $this->getPackageShippingBlock();
         } else {
-            $packaging = Mage::getBlockSingleton('Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging');
+            $packaging = $this->_layout->getBlockSingleton('Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging');
         }
         $packages = $packaging->getPackages();
 

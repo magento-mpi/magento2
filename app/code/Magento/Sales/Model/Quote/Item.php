@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Quote Item Model
  *
@@ -113,10 +112,6 @@
  * @method null|bool getHasConfigurationUnavailableError()
  * @method Magento_Sales_Model_Quote_Item setHasConfigurationUnavailableError(bool $value)
  * @method Magento_Sales_Model_Quote_Item unsHasConfigurationUnavailableError()
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abstract
 {
@@ -185,26 +180,46 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Sales_Model_Quote_Item_OptionFactory
+     */
+    protected $_itemOptionFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Sales_Model_Status_ListFactory $statusListFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Sales_Model_Quote_Item_OptionFactory $itemOptionFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Sales_Model_Status_ListFactory $statusListFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Sales_Model_Quote_Item_OptionFactory $itemOptionFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_errorInfos = $statusListFactory->create();
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_locale = $locale;
+        $this->_itemOptionFactory = $itemOptionFactory;
+        parent::__construct($context, $registry, $productFactory, $resource, $resourceCollection, $data);
     }
 
 
@@ -279,7 +294,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
      */
     protected function _prepareQty($qty)
     {
-        $qty = Mage::app()->getLocale()->getNumber($qty);
+        $qty = $this->_locale->getNumber($qty);
         $qty = ($qty > 0) ? $qty : 1;
         return $qty;
     }
@@ -318,7 +333,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
         $oldQty = $this->_getData('qty');
         $this->setData('qty', $qty);
 
-        $this->_eventManager->dispatch('sales_quote_item_qty_set_after', array('item'=>$this));
+        $this->_eventManager->dispatch('sales_quote_item_qty_set_after', array('item' => $this));
 
         if ($this->getQuote() && $this->getQuote()->getIgnoreOldQty()) {
             return $this;
@@ -398,8 +413,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
             ->setWeight($this->getProduct()->getWeight())
             ->setTaxClassId($product->getTaxClassId())
             ->setBaseCost($product->getCost())
-            ->setIsRecurring($product->getIsRecurring())
-        ;
+            ->setIsRecurring($product->getIsRecurring());
 
         if ($product->getStockItem()) {
             $this->setIsQtyDecimal($product->getStockItem()->getIsQtyDecimal());
@@ -410,12 +424,6 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
             'quote_item'=>$this
         ));
 
-
-//        if ($options = $product->getCustomOptions()) {
-//            foreach ($options as $option) {
-//                $this->addOption($option);
-//            }
-//        }
         return $this;
     }
 
@@ -447,10 +455,10 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
         $itemOptions    = $this->getOptionsByCode();
         $productOptions = $product->getCustomOptions();
 
-        if(!$this->compareOptions($itemOptions, $productOptions)){
+        if (!$this->compareOptions($itemOptions, $productOptions)) {
             return false;
         }
-        if(!$this->compareOptions($productOptions, $itemOptions)){
+        if (!$this->compareOptions($productOptions, $itemOptions)) {
             return false;
         }
         return true;
@@ -469,12 +477,13 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
     {
         foreach ($options1 as $option) {
             $code = $option->getCode();
-            if (in_array($code, $this->_notRepresentOptions )) {
+            if (in_array($code, $this->_notRepresentOptions)) {
                 continue;
             }
-            if ( !isset($options2[$code])
+            if (!isset($options2[$code])
                 || ($options2[$code]->getValue() === null)
-                || $options2[$code]->getValue() != $option->getValue()) {
+                || $options2[$code]->getValue() != $option->getValue()
+            ) {
                 return false;
             }
         }
@@ -496,7 +505,8 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
             if (in_array($option->getCode(), $this->_notRepresentOptions)) {
                 continue;
             }
-            if ($itemOption = $item->getOptionByCode($option->getCode())) {
+            $itemOption = $item->getOptionByCode($option->getCode());
+            if ($itemOption) {
                 $itemOptionValue = $itemOption->getValue();
                 $optionValue     = $option->getValue();
 
@@ -516,8 +526,7 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
                 if ($itemOptionValue != $optionValue) {
                     return false;
                 }
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -531,10 +540,12 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
      */
     public function getProductType()
     {
-        if ($option = $this->getOptionByCode('product_type')) {
+        $option = $this->getOptionByCode('product_type');
+        if ($option) {
             return $option->getValue();
         }
-        if ($product = $this->getProduct()) {
+        $product = $this->getProduct();
+        if ($product) {
             return $product->getTypeId();
         }
         return $this->_getData('product_type');
@@ -556,11 +567,12 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
      * @param array $arrAttributes
      * @return array
      */
-    public function toArray(array $arrAttributes=array())
+    public function toArray(array $arrAttributes = array())
     {
         $data = parent::toArray($arrAttributes);
 
-        if ($product = $this->getProduct()) {
+        $product = $this->getProduct();
+        if ($product) {
             $data['product'] = $product->toArray();
         }
         return $data;
@@ -605,29 +617,27 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
      *
      * @param   Magento_Sales_Model_Quote_Item_Option|Magento_Object $option
      * @return  Magento_Sales_Model_Quote_Item
+     * @throws Magento_Core_Exception
      */
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->setData($option)
+            $option = $this->_itemOptionFactory->create()->setData($option)
                 ->setItem($this);
-        }
-        elseif (($option instanceof Magento_Object) && !($option instanceof Magento_Sales_Model_Quote_Item_Option)) {
-            $option = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->setData($option->getData())
+        } elseif (($option instanceof Magento_Object) && !($option instanceof Magento_Sales_Model_Quote_Item_Option)) {
+            $option = $this->_itemOptionFactory->create()->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
-        }
-        elseif($option instanceof Magento_Sales_Model_Quote_Item_Option) {
+        } elseif ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
             $option->setItem($this);
-        }
-        else {
-            Mage::throwException(__('We found an invalid item option format.'));
+        } else {
+            throw new Magento_Core_Exception(__('We found an invalid item option format.'));
         }
 
-        if ($exOption = $this->getOptionByCode($option->getCode())) {
+        $exOption = $this->getOptionByCode($option->getCode());
+        if ($exOption) {
             $exOption->addData($option->getData());
-        }
-        else {
+        } else {
             $this->_addOptionCode($option);
             $this->_options[] = $option;
         }
@@ -678,14 +688,14 @@ class Magento_Sales_Model_Quote_Item extends Magento_Sales_Model_Quote_Item_Abst
      *
      * @param   Magento_Sales_Model_Quote_Item_Option $option
      * @return  Magento_Sales_Model_Quote_Item
+     * @throws Magento_Core_Exception
      */
     protected function _addOptionCode($option)
     {
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
-        }
-        else {
-            Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
+        } else {
+            throw new Magento_Core_Exception(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }

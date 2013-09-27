@@ -44,17 +44,41 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     */
+    protected $_orderCollectionFactory;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Sales_Model_Order_Config
+     */
+    protected $_orderConfig;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $orderCollectionFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Sales_Model_Order_Config $orderConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Sales_Model_Resource_Order_CollectionFactory $orderCollectionFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Sales_Model_Order_Config $orderConfig,
         array $data = array()
     ) {
+        $this->_orderCollectionFactory = $orderCollectionFactory;
+        $this->_customerSession = $customerSession;
+        $this->_orderConfig = $orderConfig;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -67,12 +91,12 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     public function getRelatedOrders()
     {
         if (is_null($this->_relatedOrders)) {
-            $this->_relatedOrders = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+            $this->_relatedOrders = $this->_orderCollectionFactory->create()
                 ->addFieldToSelect('*')
-                ->addFieldToFilter('customer_id', Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getId())
+                ->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId())
                 ->addFieldToFilter(
                     'state',
-                    array('in' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getVisibleOnFrontStates())
+                    array('in' => $this->_orderConfig->getVisibleOnFrontStates())
                 )
                 ->addBillingAgreementsFilter($this->_billingAgreementInstance->getAgreementId())
                 ->setOrder('created_at', 'desc');
@@ -113,6 +137,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
                 break;
             default:
                 $value = ($order->getData($key)) ? $order->getData($key) : __('N/A');
+                break;
         }
         return ($escape) ? $this->escapeHtml($value) : $value;
     }
@@ -177,7 +202,9 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
             $createdAt = $this->_billingAgreementInstance->getCreatedAt();
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
-                ($createdAt) ? $this->helper('Magento_Core_Helper_Data')->formatDate($createdAt, 'short', true) : __('N/A')
+                ($createdAt)
+                    ? $this->helper('Magento_Core_Helper_Data')->formatDate($createdAt, 'short', true)
+                    : __('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(

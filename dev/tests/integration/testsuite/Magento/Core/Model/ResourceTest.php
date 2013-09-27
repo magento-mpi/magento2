@@ -16,7 +16,8 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Resource');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource');
     }
 
     /**
@@ -39,8 +40,8 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testProfilerInit()
     {
-        $connReadConfig = Mage::getSingleton('Magento_Core_Model_Config_Resource')
-            ->getResourceConnectionConfig('core_read');
+        $connReadConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Config_Resource')->getResourceConnectionConfig('core_read');
         $profilerConfig = $connReadConfig->addChild('profiler');
         $profilerConfig->addChild('class', 'Magento_Core_Model_Resource_Db_Profiler');
         $profilerConfig->addChild('enabled', 'true');

@@ -29,7 +29,9 @@ class Magento_Sales_Model_Order_Pdf_AbstractTest extends PHPUnit_Framework_TestC
         $coreString = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $translate = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false);
-        $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $coreDir = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $shippingConfig = $this->getMock('Magento_Shipping_Model_Config', array(), array(), '', false);
+        $pdfItemsFactory = $this->getMock('Magento_Sales_Model_Order_Pdf_ItemsFactory', array(), array(), '', false);
 
         // Setup config file totals
         $configTotals = array(
@@ -80,15 +82,16 @@ class Magento_Sales_Model_Order_Pdf_AbstractTest extends PHPUnit_Framework_TestC
             array(null, array(), $total1),
             array('custom_class', array(), $total2),
         );
-        $totalFactory = $this->getMock('Magento_Sales_Model_Order_Pdf_Total_Factory', array(), array(), '', false);
-        $totalFactory->expects($this->exactly(2))
+        $pdfTotalFactory = $this->getMock('Magento_Sales_Model_Order_Pdf_Total_Factory', array(), array(), '', false);
+        $pdfTotalFactory->expects($this->exactly(2))
             ->method('create')
             ->will($this->returnValueMap($valueMap));
 
         // Test model
         /** @var Magento_Sales_Model_Order_Pdf_Abstract|PHPUnit_Framework_MockObject_MockObject $model */
         $model = $this->getMockForAbstractClass('Magento_Sales_Model_Order_Pdf_Abstract',
-            array($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $dirs, $pdfConfig, $totalFactory),
+            array($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $coreDir, $shippingConfig,
+                $pdfConfig, $pdfTotalFactory, $pdfItemsFactory),
             '', true, false, true, array('drawLineBlocks')
         );
         $model->expects($this->once())

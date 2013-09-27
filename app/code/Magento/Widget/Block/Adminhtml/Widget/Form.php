@@ -24,19 +24,19 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Backend_Block_W
     protected $_widgetFactory;
 
     /**
-     * @param Magento_Widget_Model_WidgetFactory $widgetFactory
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Widget_Model_WidgetFactory $widgetFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Widget_Model_WidgetFactory $widgetFactory,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Widget_Model_WidgetFactory $widgetFactory,
         array $data = array()
     ) {
         $this->_widgetFactory = $widgetFactory;

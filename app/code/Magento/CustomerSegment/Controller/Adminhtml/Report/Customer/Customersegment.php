@@ -23,23 +23,31 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
      *
      * @var Magento_Backend_Model_Auth_Session
      */
-    protected $_adminSession = null;
+    protected $_adminSession;
 
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * @var Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -82,8 +90,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
         }
 
         /* @var $segment Magento_CustomerSegment_Model_Segment */
-        $segment = Mage::getModel('Magento_CustomerSegment_Model_Segment');
-
+        $segment = $this->_objectManager->create('Magento_CustomerSegment_Model_Segment');
         if ($segmentId) {
             $segment->load($segmentId);
         }
@@ -93,9 +100,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
         }
         if (!$segment->getId() && !$segment->getMassactionIds()) {
             if ($outputMessage) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
-                    __('You requested the wrong customer segment.')
-                );
+                $this->_session->addError(__('You requested the wrong customer segment.'));
             }
             return false;
         }
@@ -143,13 +148,14 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
         $this->_title(__('Customer Segment Report'));
 
         if ($this->_initSegment()) {
-
             // Add help Notice to Combined Report
             if ($this->_getAdminSession()->getMassactionIds()) {
-                $collection = Mage::getResourceModel('Magento_CustomerSegment_Model_Resource_Segment_Collection')
+                $collection = $this->_collectionFactory->create()
                     ->addFieldToFilter(
                         'segment_id',
-                        array('in' => $this->_getAdminSession()->getMassactionIds())
+                        array(
+                            'in' => $this->_getAdminSession()->getMassactionIds(),
+                        )
                     );
 
                 $segments = array();
@@ -158,10 +164,9 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
                 }
                 /* @translation __('Viewing combined "%1" report from segments: %2') */
                 if ($segments) {
-                    $viewModeLabel = $this->_objectManager->get('Magento_CustomerSegment_Helper_Data')->getViewModeLabel(
-                        $this->_getAdminSession()->getViewMode()
-                    );
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(
+                    $viewModeLabel = $this->_objectManager->get('Magento_CustomerSegment_Helper_Data')
+                        ->getViewModeLabel($this->_getAdminSession()->getViewMode());
+                    $this->_session->addNotice(
                         __('Viewing combined "%1" report from segments: %2.', $viewModeLabel, implode(', ', $segments))
                     );
                 }
@@ -187,13 +192,11 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
                 if ($segment->getApplyTo() != Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
                     $segment->matchCustomers();
                 }
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
-                    __('Customer Segment data has been refreshed.')
-                );
+                $this->_session->addSuccess(__('Customer Segment data has been refreshed.'));
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return;
             } catch (Magento_Core_Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_session->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/detail', array('_current' => true));
@@ -256,7 +259,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
     protected function _getAdminSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = Mage::getModel('Magento_Backend_Model_Auth_Session');
+            $this->_adminSession = $this->_objectManager->create('Magento_Backend_Model_Auth_Session');
         }
         return $this->_adminSession;
     }

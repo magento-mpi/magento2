@@ -26,12 +26,17 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
     }
 
     public function testGetStoreId()
     {
-        $this->assertEquals(Mage::app()->getStore()->getId(), $this->_model->getStoreId());
+        $this->assertEquals(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId(),
+            $this->_model->getStoreId()
+        );
         $this->_model->setData('store_id', 999);
         $this->assertEquals(999, $this->_model->getStoreId());
     }
@@ -86,7 +91,8 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         // none
         /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel('Magento_Catalog_Model_Product');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->assertEquals(array(), $model->getCategoryIds());
 
         // fixture
@@ -116,7 +122,8 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         // set
         /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel('Magento_Catalog_Model_Product',
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product',
             array('data' => array('website_ids' => array(1, 2)))
         );
         $this->assertEquals(array(1, 2), $model->getWebsiteIds());
@@ -130,7 +137,8 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         // set
         /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel('Magento_Catalog_Model_Product',
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product',
             array('data' => array('store_ids' => array(1, 2)))
         );
         $this->assertEquals(array(1, 2), $model->getStoreIds());
@@ -237,7 +245,8 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
         $this->assertEquals('test', $this->_model->getUrlPath());
 
         /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $category->setUrlPath('category');
         $this->assertEquals('category/test', $this->_model->getUrlPath($category));
     }
@@ -252,7 +261,8 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
         $this->assertEquals(array(), $this->_model->getOptions());
 
         $optionId = uniqid();
-        $option = Mage::getModel('Magento_Catalog_Model_Product_Option',
+        $option = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Option',
             array('data' => array('key' => 'value'))
         );
         $option->setId($optionId);

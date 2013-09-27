@@ -44,7 +44,7 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         if (!$this->_objectManager->get('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
@@ -130,7 +130,7 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return $this->_objectManager->get('Magento_Customer_Model_Session');
     }
 
     /**
@@ -150,9 +150,10 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
      */
     protected function _getReward()
     {
-        $reward = Mage::getModel('Magento_Reward_Model_Reward')
+        $reward = $this->_objectManager->create('Magento_Reward_Model_Reward')
             ->setCustomer($this->_getCustomer())
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+            ->setWebsiteId($this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getWebsiteId())
             ->loadByCustomer();
         return $reward;
     }

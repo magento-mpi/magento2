@@ -19,6 +19,47 @@
 class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Reward_Model_Source_WebsiteFactory
+     */
+    protected $_websitesFactory;
+
+    /**
+     * @var Magento_Reward_Model_Source_Customer_GroupsFactory
+     */
+    protected $_groupsFactory;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Reward_Model_Source_WebsiteFactory $websitesFactory
+     * @param Magento_Reward_Model_Source_Customer_GroupsFactory $groupsFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Reward_Model_Source_WebsiteFactory $websitesFactory,
+        Magento_Reward_Model_Source_Customer_GroupsFactory $groupsFactory,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_websitesFactory = $websitesFactory;
+        $this->_groupsFactory = $groupsFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Getter
      *
      * @return Magento_Reward_Model_Reward_Rate
@@ -48,12 +89,12 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Backe
             'legend' => __('Reward Exchange Rate Information')
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('website_id', 'select', array(
                 'name'   => 'website_id',
                 'title'  => __('Website'),
                 'label'  => __('Website'),
-                'values' => Mage::getModel('Magento_Reward_Model_Source_Website')->toOptionArray(),
+                'values' => $this->_websitesFactory->create()->toOptionArray(),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
@@ -64,7 +105,7 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Backe
             'name'   => 'customer_group_id',
             'title'  => __('Customer Group'),
             'label'  => __('Customer Group'),
-            'values' => Mage::getModel('Magento_Reward_Model_Source_Customer_Groups')->toOptionArray()
+            'values' => $this->_groupsFactory->create()->toOptionArray()
         ));
 
         $fieldset->addField('direction', 'select', array(

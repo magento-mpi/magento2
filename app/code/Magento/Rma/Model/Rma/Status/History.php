@@ -44,27 +44,27 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
     protected $_date;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Rma_Model_RmaFactory $rmaFactory
      * @param Magento_Rma_Model_Config $rmaConfig
-     * @param Magento_Core_Model_Translate_Proxy $translate
+     * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
      * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Rma_Model_RmaFactory $rmaFactory,
         Magento_Rma_Model_Config $rmaConfig,
-        Magento_Core_Model_Translate_Proxy $translate,
+        Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Email_TemplateFactory $templateFactory,
         Magento_Core_Model_Date $date,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -122,7 +122,6 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
      */
     public function sendCommentEmail()
     {
-        $configRmaEmail = $this->_rmaConfig;
         $order = $this->getRma()->getOrder();
         if ($order->getCustomerIsGuest()) {
             $customerName = $order->getBillingAddress()->getName();
@@ -136,7 +135,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
             )
         );
 
-        return $this->_sendCommentEmail($configRmaEmail->getRootCommentEmail(), $sendTo, true);
+        return $this->_sendCommentEmail($this->_rmaConfig->getRootCommentEmail(), $sendTo, true);
     }
 
     /**

@@ -18,7 +18,8 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Url');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Url');
     }
 
     public function testParseUrl()
@@ -95,7 +96,8 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isSecure());
         $this->_model->setSecureIsForced(1);
         $this->assertTrue(is_bool($this->_model->isSecure()));
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         $this->assertFalse($this->_model->isSecure());
     }
 
@@ -103,7 +105,8 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Magento_Core_Model_Store', $this->_model->getStore());
 
-        $store = Mage::getModel('Magento_Core_Model_Store');
+        $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Store');
         $this->_model->setStore($store);
         $this->assertSame($store, $this->_model->getStore());
     }
@@ -583,7 +586,8 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testSessionUrlVar()
     {
-        $sessionId = Mage::getSingleton('Magento_Core_Model_Session')->getEncryptedSessionId();
+        $sessionId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Session')
+            ->getEncryptedSessionId();
         $sessionUrl = $this->_model->sessionUrlVar('<a href="http://example.com/?___SID=U">www.example.com</a>');
         $this->assertEquals('<a href="http://example.com/?SID=' . $sessionId . '">www.example.com</a>',
             $sessionUrl

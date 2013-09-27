@@ -56,7 +56,8 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $payment->void(new Magento_Object);
         $order->save();
 
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->canVoidPayment());
     }

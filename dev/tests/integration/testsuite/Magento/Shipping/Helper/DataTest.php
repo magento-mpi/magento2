@@ -32,16 +32,57 @@ class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTrackingPopupUrlBySalesModel($modelName, $getIdMethod, $entityId, $code, $expected)
     {
-        $model = $this->getMock($modelName, array($getIdMethod, 'getProtectCode'), array(), '', false);
-        $model->expects($this->any())
-            ->method($getIdMethod)
-            ->will($this->returnValue($entityId));
-        $model->expects($this->any())
-            ->method('getProtectCode')
-            ->will($this->returnValue($code));
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $constructArgs = array();
+        if ('Magento_Sales_Model_Order_Shipment' == $modelName) {
+            $orderFactory = $this->_getMockOrderFactory($code);
+            $constructArgs['orderFactory'] = $orderFactory;
+        } elseif ('Magento_Sales_Model_Order_Shipment_Track' == $modelName) {
+            $shipmentFactory = $this->_getMockShipmentFactory($code);
+            $constructArgs['shipmentFactory'] = $shipmentFactory;
+        }
+
+        $model = $objectManager->create($modelName, $constructArgs);
+        $model->$getIdMethod($entityId);
+
+        if ('Magento_Sales_Model_Order' == $modelName) {
+            $model->setProtectCode($code);
+        }
 
         $actual = $this->_helper->getTrackingPopupUrlBySalesModel($model);
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @param $code
+     * @return Magento_Sales_Model_OrderFactory
+     */
+    protected function _getMockOrderFactory($code)
+    {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $order = $objectManager->create('Magento_Sales_Model_Order');
+        $order->setProtectCode($code);
+        $orderFactory = $this->getMock('Magento_Sales_Model_OrderFactory', array('create'), array(), '', false);
+        $orderFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($order));
+        return $orderFactory;
+    }
+
+    /**
+     * @param $code
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _getMockShipmentFactory($code)
+    {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $orderFactory = $this->_getMockOrderFactory($code);
+        $shipmentArgs = array('orderFactory' => $orderFactory);
+
+        $shipment = $objectManager->create('Magento_Sales_Model_Order_Shipment', $shipmentArgs);
+        $shipmentFactory = $this->getMock(
+            'Magento_Sales_Model_Order_ShipmentFactory', array('create'), array(), '', false
+        );
+        $shipmentFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($shipment));
+        return $shipmentFactory;
     }
 
     /**
@@ -52,21 +93,21 @@ class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 'Magento_Sales_Model_Order',
-                'getId',
+                'setId',
                 42,
                 'abc',
                 'http://localhost/index.php/shipping/tracking/popup/hash/b3JkZXJfaWQ6NDI6YWJj/'
             ),
             array(
                 'Magento_Sales_Model_Order_Shipment',
-                'getId',
+                'setId',
                 42,
                 'abc',
                 'http://localhost/index.php/shipping/tracking/popup/hash/c2hpcF9pZDo0MjphYmM,/'
             ),
             array(
                 'Magento_Sales_Model_Order_Shipment_Track',
-                'getEntityId',
+                'setEntityId',
                 42,
                 'abc',
                 'http://localhost/index.php/shipping/tracking/popup/hash/dHJhY2tfaWQ6NDI6YWJj/'

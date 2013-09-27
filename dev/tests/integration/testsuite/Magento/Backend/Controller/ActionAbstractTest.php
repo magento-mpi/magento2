@@ -50,7 +50,8 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
             'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
         ));
 
-        $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/system_account/index');
+        $url = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+            ->getUrl('adminhtml/system_account/index');
         $this->getRequest()->setPost($postLogin);
         $this->dispatch($url);
 
@@ -69,7 +70,8 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
     public function testAclInNodes($blockName, $resource, $isLimitedAccess)
     {
         /** @var $noticeInbox Magento_AdminNotification_Model_Inbox */
-        $noticeInbox = Mage::getModel('Magento_AdminNotification_Model_Inbox');
+        $noticeInbox = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_AdminNotification_Model_Inbox');
         if (!$noticeInbox->loadLatestNotice()->getId()) {
             $noticeInbox->addCritical('Test notice', 'Test description');
         }
@@ -78,14 +80,14 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
 
         /** @var $acl Magento_Acl */
-        $acl = Mage::getSingleton('Magento_Acl_Builder')->getAcl();
+        $acl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Acl_Builder')->getAcl();
         if ($isLimitedAccess) {
             $acl->deny(null, $resource);
         }
 
         $this->dispatch('backend/admin/dashboard');
 
-        $layout = Mage::app()->getLayout();
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $actualBlocks = $layout->getAllBlocks();
 
         $this->assertNotEmpty($actualBlocks);

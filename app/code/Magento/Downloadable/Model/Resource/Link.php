@@ -23,21 +23,41 @@ class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resour
      *
      * @var Magento_Catalog_Helper_Data
      */
-    protected $_catalogData = null;
+    protected $_catalogData;
 
     /**
-     * Class constructor
-     *
-     *
-     *
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_Directory_Model_CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_App $app,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_catalogData = $catalogData;
+        $this->_app = $app;
+        $this->_currencyFactory = $currencyFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($resource);
     }
 
@@ -134,12 +154,12 @@ class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resour
                 if ($linkObject->getWebsiteId() == 0 && $_isNew && !$this->_catalogData->isPriceGlobal()) {
                     $websiteIds = $linkObject->getProductWebsiteIds();
                     foreach ($websiteIds as $websiteId) {
-                        $baseCurrency = Mage::app()->getBaseCurrencyCode();
-                        $websiteCurrency = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+                        $baseCurrency = $this->_app->getBaseCurrencyCode();
+                        $websiteCurrency = $this->_storeManager->getWebsite($websiteId)->getBaseCurrencyCode();
                         if ($websiteCurrency == $baseCurrency) {
                             continue;
                         }
-                        $rate = Mage::getModel('Magento_Directory_Model_Currency')->load($baseCurrency)->getRate($websiteCurrency);
+                        $rate = $this->_createCurrency()->load($baseCurrency)->getRate($websiteCurrency);
                         if (!$rate) {
                             $rate = 1;
                         }
@@ -213,5 +233,13 @@ class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resour
         );
 
         return $adapter->fetchCol($select, $bind);
+    }
+
+    /**
+     * @return Magento_Directory_Model_Currency
+     */
+    protected function _createCurrency()
+    {
+        return $this->_currencyFactory->create();
     }
 }

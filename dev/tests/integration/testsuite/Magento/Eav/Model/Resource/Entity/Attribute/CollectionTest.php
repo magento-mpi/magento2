@@ -18,7 +18,8 @@ class Magento_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Collection');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Eav_Model_Resource_Entity_Attribute_Collection');
     }
 
     /**
@@ -42,7 +43,8 @@ class Magento_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit
 
     public function testSetAttributeGroupFilter()
     {
-        $collection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Eav_Model_Resource_Entity_Attribute_Collection');
         $groupsPresent = $this->_getGroups($collection);
         $includeGroupId = current($groupsPresent);
 

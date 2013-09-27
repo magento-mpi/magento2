@@ -20,11 +20,13 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUnit_F
     protected function setUp()
     {
         parent::setUp();
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         if (!$objectManager->get('Magento_Core_Model_Registry')->registry('current_reward_rate')) {
-            $rate = Mage::getModel('Magento_Reward_Model_Reward_Rate');
+            $rate = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Reward_Model_Reward_Rate');
             $objectManager->get('Magento_Core_Model_Registry')->register('current_reward_rate', $rate);
         }
 

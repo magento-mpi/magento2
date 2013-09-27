@@ -22,7 +22,8 @@ class Magento_Adminhtml_Block_Dashboard_GraphTest extends PHPUnit_Framework_Test
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Dashboard_Graph');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Adminhtml_Block_Dashboard_Graph');
         $this->_block->setDataHelperName('Magento_Adminhtml_Helper_Dashboard_Order');
     }
 

@@ -18,13 +18,15 @@ class Magento_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        Mage::app()->cleanCache(array(Magento_Core_Model_Design::CACHE_TAG));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->
+            cleanCache(array(Magento_Core_Model_Design::CACHE_TAG));
     }
 
     protected function setUp()
     {
         /** @var $_model Magento_Core_Model_App_Area */
-        $this->_model = Mage::getModel('Magento_Core_Model_App_Area', array('areaCode' => 'frontend'));
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_App_Area', array('areaCode' => 'frontend'));
     }
 
     /**
@@ -92,7 +94,8 @@ class Magento_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     public function testDetectDesignNonFrontend()
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
-        $model = Mage::getModel('Magento_Core_Model_App_Area', array('areaCode' => 'install'));
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_App_Area', array('areaCode' => 'install'));
         $model->detectDesign(new Zend_Controller_Request_Http);
         $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_View_DesignInterface');

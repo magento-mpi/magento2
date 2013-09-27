@@ -20,14 +20,16 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
-     * @var Magento_Core_Model_System_Store
-     */
-    protected $_systemStore;
-
-    /**
-     * @var Magento_Core_Model_StoreManager
+     * Store list manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_store;
 
     /**
      * @var Magento_Core_Model_Theme_LabelFactory
@@ -35,27 +37,27 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
     protected $_themeLabelFactory;
 
     /**
-     * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_System_Store $store
+     * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_System_Store $store,
+        Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
-        $this->_systemStore = $systemStore;
         $this->_storeManager = $storeManager;
+        $this->_store = $store;
         $this->_themeLabelFactory = $themeLabelFactory;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -185,7 +187,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
                 'label'     => __('Assign to Store Views'),
                 'title'     => __('Assign to Store Views'),
                 'required'  => true,
-                'values'    => $this->_systemStore->getStoreValuesForForm(false, true),
+                'values'    => $this->_store->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');

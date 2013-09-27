@@ -18,11 +18,17 @@
 class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_Block_Product_Abstract
 {
     /**
+     * @var Magento_Tax_Model_Calculation
+     */
+    protected $_calculationModel;
+
+    /**
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Tax_Model_Calculation $calculationModel
      * @param array $data
      */
     public function __construct(
@@ -31,8 +37,10 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Tax_Model_Calculation $calculationModel,
         array $data = array()
     ) {
+        $this->_calculationModel = $calculationModel;
         parent::__construct($registry, $taxData, $catalogData, $coreData, $context, $data);
     }
 
@@ -86,7 +94,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
             return '';
         }
 
-        $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
+        $taxCalculation = $this->_calculationModel;
         if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
             $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }

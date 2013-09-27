@@ -25,13 +25,21 @@ class Magento_Sales_Model_Order_Pdf_InvoiceTest extends PHPUnit_Framework_TestCa
         $coreHelperStringMock = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false, false);
         $storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false, false);
         $translateMock = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false, false);
-        $dirsMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
-        $dirsMock->expects($this->once())
+        $coreDirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
+        $coreDirMock->expects($this->once())
             ->method('getDir')
             ->will($this->returnValue(BP));
+        $shippingConfigMock = $this->getMock('Magento_Shipping_Model_Config', array(), array(), '', false,
+            false);
         $this->_pdfConfigMock =
             $this->getMock('Magento_Sales_Model_Order_Pdf_Config', array(), array(), '', false, false);
-        $totalFactory = $this->getMock('Magento_Sales_Model_Order_Pdf_Total_Factory', array(), array(), '', false,
+        $totalFactoryMock = $this->getMock('Magento_Sales_Model_Order_Pdf_Total_Factory', array(), array(), '', false,
+            false);
+        $pdfItemsFactoryMock = $this->getMock('Magento_Sales_Model_Order_Pdf_ItemsFactory', array(), array(), '', false,
+            false);
+        $localeMock = $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false,
+            false);
+        $storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false,
             false);
 
         $this->_model = new Magento_Sales_Model_Order_Pdf_Invoice(
@@ -40,9 +48,13 @@ class Magento_Sales_Model_Order_Pdf_InvoiceTest extends PHPUnit_Framework_TestCa
             $coreHelperStringMock,
             $storeConfigMock,
             $translateMock,
-            $dirsMock,
+            $coreDirMock,
+            $shippingConfigMock,
             $this->_pdfConfigMock,
-            $totalFactory,
+            $totalFactoryMock,
+            $pdfItemsFactoryMock,
+            $localeMock,
+            $storeManagerMock,
             array()
         );
     }

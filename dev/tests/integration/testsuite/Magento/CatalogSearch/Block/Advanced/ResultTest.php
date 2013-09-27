@@ -23,7 +23,7 @@ class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Magento_CatalogSearch_Block_Advanced_Result', 'block');
     }
 
@@ -44,7 +44,8 @@ class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_
             ->method('getAvailableSortByOptions')
             ->will($this->returnValue($sortOptions));
         $category->setId(100500); // Any id - just for layer navigation
-        Mage::getSingleton('Magento_Catalog_Model_Layer')->setCurrentCategory($category);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Layer')
+            ->setCurrentCategory($category);
 
         $childBlock = $this->_layout->addBlock('Magento_Core_Block_Text', 'search_result_list', 'block');
 

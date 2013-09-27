@@ -26,16 +26,24 @@ class Magento_SalesRule_Model_Quote_Discount extends Magento_Sales_Model_Quote_A
     protected $_eventManager = null;
 
     /**
-     * @param Magento_SalesRule_Model_Validator $ruleValidator
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_SalesRule_Model_Validator $validator
      */
     public function __construct(
-        Magento_SalesRule_Model_Validator $ruleValidator,
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_SalesRule_Model_Validator $validator
     ) {
-        $this->_calculator = $ruleValidator;
         $this->_eventManager = $eventManager;
         $this->setCode('discount');
+        $this->_calculator = $validator;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -48,7 +56,7 @@ class Magento_SalesRule_Model_Quote_Discount extends Magento_Sales_Model_Quote_A
     {
         parent::collect($address);
         $quote = $address->getQuote();
-        $store = Mage::app()->getStore($quote->getStoreId());
+        $store = $this->_storeManager->getStore($quote->getStoreId());
         $this->_calculator->reset($address);
 
         $items = $this->_getAddressItems($address);

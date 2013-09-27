@@ -11,6 +11,25 @@
 class Magento_CustomerSegment_Model_Condition_Abstract extends Magento_Rule_Model_Condition_Abstract
 {
     /**
+     * @var Magento_CustomerSegment_Model_Resource_Segment
+     */
+    protected $_resourceSegment;
+
+    /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
+     * @param Magento_Rule_Model_Condition_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_resourceSegment = $resourceSegment;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get array of event names where segment with such conditions combine can be matched
      *
      * @return array
@@ -60,7 +79,7 @@ class Magento_CustomerSegment_Model_Condition_Abstract extends Magento_Rule_Mode
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('Magento_CustomerSegment_Model_Resource_Segment');
+        return $this->_resourceSegment;
     }
 
     /**

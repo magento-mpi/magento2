@@ -32,9 +32,12 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testChangeDesign()
     {
-        $design = Mage::getModel('Magento_Core_Model_View_DesignInterface');
-        $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
-        $designChange = Mage::getModel('Magento_Core_Model_Design');
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_DesignInterface');
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
+        $designChange = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
         $designChange->loadChange($storeId)->changeDesign($design);
         $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
@@ -54,7 +57,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_model->getId());
 
         try {
-            $model =  Mage::getModel('Magento_Core_Model_Design');
+            $model =  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
             $model->loadChange(1);
             $this->assertEquals($this->_model->getId(), $model->getId());
 
@@ -73,7 +77,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
             throw $e;
         }
 
-        $model =  Mage::getModel('Magento_Core_Model_Design');
+        $model =  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
         $model->loadChange(1);
         $this->assertEmpty($model->getId());
     }
@@ -96,14 +101,17 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
     public function testLoadChangeCache()
     {
         $date = Magento_Date::now(true);
-        $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
 
         $cacheId = 'design_change_' . md5($storeId . $date);
 
-        $design = Mage::getModel('Magento_Core_Model_Design');
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
         $design->loadChange($storeId, $date);
 
-        $cachedDesign = Mage::app()->loadCache($cacheId);
+        $cachedDesign = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->loadCache($cacheId);
         $cachedDesign = unserialize($cachedDesign);
 
         $this->assertInternalType('array', $cachedDesign);
@@ -112,10 +120,12 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
 
         $design->setDesign('magento_demo')->save();
 
-        $design = Mage::getModel('Magento_Core_Model_Design');
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
         $design->loadChange($storeId, $date);
 
-        $cachedDesign = Mage::app()->loadCache($cacheId);
+        $cachedDesign = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->loadCache($cacheId);
         $cachedDesign = unserialize($cachedDesign);
 
         $this->assertTrue(is_array($cachedDesign));
@@ -145,7 +155,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
             $expectedDesign = "{$storeCode}_yesterday_design";
         }
 
-        $store = Mage::app()->getStore($storeCode);
+        $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore($storeCode);
         $store->setConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
         $storeId = $store->getId();
 
@@ -155,7 +166,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
             ->method('storeTimeStamp')
             ->with($storeId)
             ->will($this->returnValue($storeDatetime)); // store time must stay unchanged during test execution
-        $design = Mage::getModel('Magento_Core_Model_Design', array('locale' => $locale));
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design', array('locale' => $locale));
         $design->loadChange($storeId);
         $actualDesign = $design->getDesign();
 

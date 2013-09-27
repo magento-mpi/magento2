@@ -21,7 +21,8 @@ class Magento_User_Model_RoleTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_User_Model_Role');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_Role');
     }
 
     public function testGetUsersCollection()

@@ -38,7 +38,8 @@ class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest e
     public function testTemplateReference($templateId)
     {
         /** @var Magento_Core_Model_Email_Template_Config $emailConfig */
-        $emailConfig = Mage::getModel('Magento_Core_Model_Email_Template_Config');
+        $emailConfig =  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Email_Template_Config');
         $templateFilename = $emailConfig->getTemplateFilename($templateId);
         $this->assertFileExists($templateFilename, 'Email template file, specified in the configuration, must exist');
     }
@@ -50,7 +51,8 @@ class Magento_Test_Integrity_Modular_Magento_Core_EmailTemplateConfigFilesTest e
     {
         $data = array();
         /** @var Magento_Core_Model_Email_Template_Config $emailConfig */
-        $emailConfig = Mage::getModel('Magento_Core_Model_Email_Template_Config');
+        $emailConfig =  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Email_Template_Config');
         foreach ($emailConfig->getAvailableTemplates() as $templateId) {
             $data[$templateId] = array($templateId);
         }

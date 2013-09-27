@@ -17,6 +17,22 @@
  */
 class Magento_Downloadable_Controller_Customer extends Magento_Core_Controller_Front_Action
 {
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Customer_Model_Session $customerSession
+    ) {
+        $this->_customerSession = $customerSession;
+        parent::__construct($context);
+    }
 
     /**
      * Check customer authentication
@@ -24,10 +40,9 @@ class Magento_Downloadable_Controller_Customer extends Magento_Core_Controller_F
     public function preDispatch()
     {
         parent::preDispatch();
-        $action = $this->getRequest()->getActionName();
         $loginUrl = $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl();
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this, $loginUrl)) {
+        if (!$this->_customerSession->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }

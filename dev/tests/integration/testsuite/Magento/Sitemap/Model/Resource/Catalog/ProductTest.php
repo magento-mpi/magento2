@@ -26,7 +26,8 @@ class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framewo
      */
     public function testGetCollectionNone()
     {
-        $model = Mage::getResourceModel('Magento_Sitemap_Model_Resource_Catalog_Product');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sitemap_Model_Resource_Catalog_Product');
         $products = $model->getCollection(Magento_Core_Model_AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
@@ -51,7 +52,8 @@ class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framewo
      */
     public function testGetCollectionAll()
     {
-        $model = Mage::getResourceModel('Magento_Sitemap_Model_Resource_Catalog_Product');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sitemap_Model_Resource_Catalog_Product');
         $products = $model->getCollection(Magento_Core_Model_AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
@@ -102,7 +104,8 @@ class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framewo
      */
     public function testGetCollectionBase()
     {
-        $model = Mage::getResourceModel('Magento_Sitemap_Model_Resource_Catalog_Product');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sitemap_Model_Resource_Catalog_Product');
         $products = $model->getCollection(Magento_Core_Model_AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));

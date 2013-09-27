@@ -15,12 +15,24 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart
     extends Magento_CustomerSegment_Model_Condition_Abstract
 {
     /**
+     * @var Magento_CustomerSegment_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart');
         $this->setValue(null);
     }
@@ -32,12 +44,11 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_';
         return array(
             'value' => array(
-                Mage::getModel($prefix . 'Amount')->getNewChildSelectOptions(),
-                Mage::getModel($prefix . 'Itemsquantity')->getNewChildSelectOptions(),
-                Mage::getModel($prefix . 'Productsquantity')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Shoppingcart_Amount')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Shoppingcart_Itemsquantity')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Shoppingcart_Productsquantity')->getNewChildSelectOptions(),
             ),
             'label' => __('Shopping Cart'),
             'available_in_guest_mode' => true,

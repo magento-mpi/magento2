@@ -60,7 +60,7 @@ abstract class Zend_Pdf_FileParserDataSource
   /**** Public Interface ****/
 
 
-  /* Abstract Methods */
+    /* Abstract Methods */
 
     /**
      * Returns the specified number of raw bytes from the data source at the

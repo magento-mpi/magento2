@@ -21,7 +21,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Frame
     public function testPrepareGrid()
     {
         /** @var Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid $gridBlock */
-        $gridBlock = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
+        $gridBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
         $gridBlock->toHtml();
 
         foreach (array('title', 'identifier', 'is_active') as $key) {
@@ -48,7 +49,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Frame
     public function testPrepareGridForMultipleStores()
     {
         /** @var Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid $gridBlock */
-        $gridBlock = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
+        $gridBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
         $gridBlock->toHtml();
         $this->assertInstanceOf('Magento_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn('store_id'),
             'When there is more than one store column with key "store_id" should be present');

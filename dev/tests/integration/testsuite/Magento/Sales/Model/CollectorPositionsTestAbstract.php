@@ -70,7 +70,8 @@ abstract class Magento_Sales_Model_CollectorPositionsTestAbstract extends PHPUni
             default:
                 throw new InvalidArgumentException('Unknown config type: ' . $configType);
         }
-        $config = Mage::getModel($configClass);
+        $config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create($configClass);
         return $config->$methodGetCollectors();
     }
 

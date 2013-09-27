@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * @method Magento_Sales_Model_Resource_Order_Creditmemo_Comment _getResource()
  * @method Magento_Sales_Model_Resource_Order_Creditmemo_Comment getResource()
@@ -22,10 +21,6 @@
  * @method Magento_Sales_Model_Order_Creditmemo_Comment setComment(string $value)
  * @method string getCreatedAt()
  * @method Magento_Sales_Model_Order_Creditmemo_Comment setCreatedAt(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Creditmemo_Comment extends Magento_Sales_Model_Abstract
 {
@@ -35,6 +30,35 @@ class Magento_Sales_Model_Order_Creditmemo_Comment extends Magento_Sales_Model_A
      * @var Magento_Sales_Model_Order_Creditmemo
      */
     protected $_creditmemo;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_LocaleInterface $coreLocale
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $coreLocale,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context, $registry, $coreLocale, $resource, $resourceCollection, $data
+        );
+        $this->_storeManager = $storeManager;
+    }
 
     /**
      * Initialize resource model
@@ -76,7 +100,7 @@ class Magento_Sales_Model_Order_Creditmemo_Comment extends Magento_Sales_Model_A
         if ($this->getCreditmemo()) {
             return $this->getCreditmemo()->getStore();
         }
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**
