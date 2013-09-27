@@ -41,7 +41,7 @@
                 <name_in_layout>catalog.compare.list</name_in_layout>
                 <class>Magento\PersistentHistory\Model\Observer</class>
                 <method>emulateCompareProductsListBlock</method>
-                <block_type>Magento\Catalog\Block\Product\Compare\List</block_type>
+                <block_type>Magento\Catalog\Block\Product\Compare\ListCompare</block_type>
             </reference>
         </blocks>
     </instances>
