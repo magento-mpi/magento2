@@ -134,12 +134,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected $_coreConfig;
 
     /**
-     * @var Magneto_ObjectMnaager
+     * @var Magento_ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magneto_ObjectMnaager $objectManager
+     * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Registry $coreRegistry
@@ -149,7 +149,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * @param array $data
      */
     public function __construct(
-        Magneto_ObjectMnaager $objectManager,
+        Magento_ObjectManager $objectManager,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Registry $coreRegistry,
