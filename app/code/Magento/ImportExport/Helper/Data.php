@@ -36,6 +36,7 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
      * @param Magento_Core_Model_Config $config
      * @param Magento_File_Size $fileSize
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_Encryption $encryptor
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -43,10 +44,11 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_File_Size $fileSize,
-        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_Core_Model_Encryption $encryptor
     ) {
         $this->_fileSize = $fileSize;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     /**

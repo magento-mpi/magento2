@@ -16,26 +16,26 @@ class Magento_Backend_Model_Auth
     /**
      * @var Magento_Backend_Model_Auth_StorageInterface
      */
-    protected $_authStorage = null;
+    protected $_authStorage;
 
     /**
      * @var Magento_Backend_Model_Auth_Credential_StorageInterface
      */
-    protected $_credentialStorage = null;
+    protected $_credentialStorage;
 
     /**
      * Backend data
      *
      * @var Magento_Backend_Helper_Data
      */
-    protected $_backendData = null;
+    protected $_backendData;
 
     /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * @var Magento_Core_Model_Config
@@ -118,13 +118,14 @@ class Magento_Backend_Model_Auth
     protected function _initCredentialStorage()
     {
         $areaConfig = $this->_coreConfig->getAreaConfig($this->_backendData->getAreaCode());
-        $storage = $this->_modelFactory->create($areaConfig['auth']['credential_storage']);
 
-        if ($storage instanceof Magento_Backend_Model_Auth_Credential_StorageInterface) {
-            $this->_credentialStorage = $storage;
-            return;
+        if (isset($areaConfig['auth_credential_storage'])) {
+            $storage = $this->_modelFactory->create($areaConfig['auth_credential_storage']);
+            if ($storage instanceof Magento_Backend_Model_Auth_Credential_StorageInterface) {
+                $this->_credentialStorage = $storage;
+                return;
+            }
         }
-
         self::throwException(
             __('There are no authentication credential storage.')
         );

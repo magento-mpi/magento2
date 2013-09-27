@@ -31,6 +31,7 @@ class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Encryption $encryptor
      */
     public function __construct(
         Magento_Reports_Model_Resource_Order_Collection $orderCollection,
@@ -39,11 +40,12 @@ class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Encryption $encryptor
     ) {
         $this->_orderCollection = $orderCollection;
         $this->_storeManger = $storeManager;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     protected function _initCollection()

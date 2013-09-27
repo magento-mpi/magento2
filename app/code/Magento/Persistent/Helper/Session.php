@@ -63,17 +63,18 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     protected $_checkoutSession;
 
     /**
-     * Construct
-     *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_Encryption $encryptor
      * @param Magento_Persistent_Helper_Data $persistentData
      * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Persistent_Model_SessionFactory $sessionFactory
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -81,6 +82,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_Core_Model_Encryption $encryptor,
         Magento_Persistent_Helper_Data $persistentData,
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Customer_Model_CustomerFactory $customerFactory,
@@ -90,7 +92,8 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
         $this->_checkoutSession = $checkoutSession;
         $this->_customerFactory = $customerFactory;
         $this->_sessionFactory = $sessionFactory;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     /**

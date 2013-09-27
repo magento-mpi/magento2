@@ -37,6 +37,7 @@ return array(
     array('Magento_Logging_Model_Resource_Helper_Oracle'),
     array('Magento_Reminder_Model_Resource_Helper_Oracle'),
     array('Magento_SalesArchive_Model_Resource_Helper_Oracle'),
+    array('Magento_Search_Model_ObjectManager_Configurator'),
     array('Varien_Db_Statement_Pdo_Mssql'),
     array('Varien_Db_Adapter_Pdo_Mssql'),
     array('Mage_Backup_Model_Resource_Helper_Mssql'),

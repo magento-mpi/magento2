@@ -28,7 +28,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var Magento_Customer_Model_Session
@@ -66,12 +66,13 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
     protected $_orderFactory;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_Encryption $encryptor
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_UrlFactory $urlFactory
      * @param Magento_Core_Model_Cookie $coreCookie
@@ -83,12 +84,13 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_Core_Model_Encryption $encryptor,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_UrlFactory $urlFactory,
         Magento_Core_Model_Cookie $coreCookie,
@@ -105,7 +107,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         $this->_storeManager = $storeManager;
         $this->_coreSession = $coreSession;
         $this->_orderFactory = $orderFactory;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     /**
