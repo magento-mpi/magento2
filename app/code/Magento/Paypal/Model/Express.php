@@ -635,9 +635,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
             $orderValidPeriod = abs(intval($this->getConfigData('order_valid_period')));
 
-            $dateCompass = new DateTime($orderTransaction->getCreatedAt());
+            $dateCompass = new \DateTime($orderTransaction->getCreatedAt());
             $dateCompass->modify('+' . $orderValidPeriod . ' days');
-            $currentDate = new DateTime();
+            $currentDate = new \DateTime();
 
             if ($currentDate > $dateCompass || $orderValidPeriod == 0) {
                 return false;
@@ -683,7 +683,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
             return true;
         }
 
-        $transactionClosingDate = new DateTime($transaction->getCreatedAt(), new \DateTimeZone('GMT'));
+        $transactionClosingDate = new \DateTime($transaction->getCreatedAt(), new \DateTimeZone('GMT'));
         $transactionClosingDate->setTimezone(new \DateTimeZone('US/Pacific'));
         /**
          * 11:49:00 PayPal transactions closing time
@@ -691,7 +691,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         $transactionClosingDate->setTime(11, 49, 00);
         $transactionClosingDate->modify('+' . $period . ' days');
 
-        $currentTime = new DateTime(null, new \DateTimeZone('US/Pacific'));
+        $currentTime = new \DateTime(null, new \DateTimeZone('US/Pacific'));
 
         if ($currentTime > $transactionClosingDate) {
             return true;

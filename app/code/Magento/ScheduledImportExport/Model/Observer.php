@@ -135,7 +135,7 @@ class Observer
                 throw new \Magento\Core\Exception(__('The directory "%1" is not writable.', $logPath));
             }
             $saveTime = (int) $this->_coreStoreConfig->getConfig(self::SAVE_LOG_TIME_PATH) + 1;
-            $dateCompass = new DateTime('-' . $saveTime . ' days');
+            $dateCompass = new \DateTime('-' . $saveTime . ' days');
 
             foreach ($this->_getDirectoryList($logPath) as $directory) {
                 $separator = str_replace('\\', '\\\\', DS);
@@ -143,7 +143,7 @@ class Observer
                     continue;
                 }
 
-                $direcotryDate = new DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3]);
+                $direcotryDate = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3]);
                 if ($forceRun || $direcotryDate < $dateCompass) {
                     $fs = new \Magento\Io\File();
                     if (!$fs->rmdirRecursive($directory, true)) {
