@@ -11,15 +11,6 @@
 -->
 <config>
     <global>
-        <template>
-            <email>
-                <checkout_payment_failed_template translate="label" module="Magento_Checkout">
-                    <label>Payment Failed</label>
-                    <file>email/failed_payment.html</file>
-                    <type>html</type>
-                </checkout_payment_failed_template>
-            </email>
-        </template>
         <sales>
             <quote>
                 <totals>

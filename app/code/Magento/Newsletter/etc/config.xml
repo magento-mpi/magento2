@@ -10,27 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <template>
-            <email>
-                <newsletter_subscription_confirm_email_template translate="label" module="Magento_Newsletter">
-                    <label>Subscription Confirmation</label>
-                    <file>email/subscr_confirm.html</file>
-                    <type>html</type>
-                </newsletter_subscription_confirm_email_template>
-                <newsletter_subscription_success_email_template translate="label" module="Magento_Newsletter">
-                    <label>Subscription Success</label>
-                    <file>email/subscr_success.html</file>
-                    <type>html</type>
-                </newsletter_subscription_success_email_template>
-                <newsletter_subscription_un_email_template translate="label" module="Magento_Newsletter">
-                    <label>Unsubscription Success</label>
-                    <file>email/unsub_success.html</file>
-                    <type>html</type>
-                </newsletter_subscription_un_email_template>
-            </email>
-        </template>
-    </global>
     <default>
         <newsletter>
             <subscription>

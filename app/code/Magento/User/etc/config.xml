@@ -16,20 +16,6 @@
                 </auth>
             </adminhtml>
         </areas>
-        <template>
-            <email>
-                <admin_emails_forgot_email_template translate="label" module="Magento_User">
-                    <label>Forgot Admin Password</label>
-                    <file>email/password_reset_confirmation.html</file>
-                    <type>html</type>
-                </admin_emails_forgot_email_template>
-                <admin_emails_reset_password_template translate="label" module="Magento_User">
-                    <label>Reset Password</label>
-                    <file>email/password_reset.html</file>
-                    <type>html</type>
-                </admin_emails_reset_password_template>
-            </email>
-        </template>
     </global>
     <default>
         <admin>

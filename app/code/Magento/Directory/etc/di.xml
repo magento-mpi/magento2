@@ -9,6 +9,16 @@
 -->
 <config>
     <type name="Magento_Directory_Model_Resource_Country_Collection" shared="false" />
+    <type name="Magento_Directory_Model_Currency_Import_Config">
+        <param name="servicesConfig">
+            <value>
+                <webservicex>
+                    <label>Webservicex</label>
+                    <class>Magento_Directory_Model_Currency_Import_Webservicex</class>
+                </webservicex>
+            </value>
+        </param>
+    </type>
     <type name="Magento_Directory_Model_Currency_Import_Factory">
         <param name="coreConfig">
             <instance type="Magento_Core_Model_Config_Proxy" />

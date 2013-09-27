@@ -33,6 +33,7 @@ return array(
     array('_currency', 'Magento_GoogleCheckout_Model_Api_Xml_Checkout'),
     array('_currencyNameTable'),
     array('_customEtcDir', 'Magento_Core_Model_Config'),
+    array('_defaultTemplates', 'Magento_Core_Model_Email_Template'),
     array('_designProductSettingsApplied'),
     array('_dirs', 'Magento_Core_Model_Resource'),
     array('_distroServerVars'),

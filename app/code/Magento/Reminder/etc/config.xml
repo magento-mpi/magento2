@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <template>
-            <email>
-                <magento_reminder_email_template translate="label" module="Magento_Reminder">
-                    <label>Promotion Notification/Reminder</label>
-                    <file>email/promotion.html</file>
-                    <type>html</type>
-                </magento_reminder_email_template>
-            </email>
-        </template>
-    </global>
     <default>
         <promo>
             <magento_reminder>
