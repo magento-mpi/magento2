@@ -71,11 +71,11 @@
     <xs:simpleType name="instanceType">
         <xs:annotation>
             <xs:documentation>
-                Instance name can contain only [a-zA-Z_].
+                Instance name can contain only [a-zA-Z_\\\\].
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[a-zA-Z_]+" />
+            <xs:pattern value="[a-zA-Z_\\\\]+" />
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
