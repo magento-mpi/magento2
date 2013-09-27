@@ -1,6 +1,6 @@
 <?php
 /**
- * Services must throw this exception when encountering an unautorization operation
+ * Services must throw this exception when encountering an unauthorized operation
  *
  * {license_notice}
  *
@@ -28,8 +28,11 @@ class Magento_Service_AuthorizationException extends Magento_Service_Exception
         $userId = null,
         $resourceId = null
     ) {
-        if (!$message && $userId && $resourceId) {
-            $message = "User with ID '{$userId}' is not authorized to access resource with ID '{$resourceId}'.";
+        if ($userId && $resourceId) {
+            $parameters = array_merge($parameters, array('user_id' => $userId, 'resource_id' => $resourceId));
+            if (!$message) {
+                $message = "User with ID '{$userId}' is not authorized to access resource with ID '{$resourceId}'.";
+            }
         }
         parent::__construct($message, $code, $previous, $parameters);
     }

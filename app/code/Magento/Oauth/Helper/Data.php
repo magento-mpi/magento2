@@ -2,304 +2,274 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Oauth
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 /**
- * OAuth Helper
- *
- * @category    Magento
- * @package     Magento_Oauth
- * @author      Magento Core Team <core@magentocommerce.com>
+ * OAuth View Helper for Controllers
  */
 class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
 {
-    /**#@+
-     * Endpoint types with appropriate routes
-     */
-    const ENDPOINT_AUTHORIZE_CUSTOMER        = 'oauth/authorize';
-    const ENDPOINT_AUTHORIZE_ADMIN           = 'adminhtml/oauth_authorize';
-    const ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE = 'oauth/authorize/simple';
-    const ENDPOINT_AUTHORIZE_ADMIN_SIMPLE    = 'adminhtml/oauth_authorize/simple';
-    const ENDPOINT_INITIATE                  = 'oauth/initiate';
-    const ENDPOINT_TOKEN                     = 'oauth/token';
-    /**#@-*/
 
     /**#@+
-     * Cleanup xpath config settings
+     * HTTP Response Codes
      */
-    const XML_PATH_CLEANUP_PROBABILITY       = 'oauth/cleanup/cleanup_probability';
-    const XML_PATH_CLEANUP_EXPIRATION_PERIOD = 'oauth/cleanup/expiration_period';
+    const HTTP_OK = 200;
+    const HTTP_BAD_REQUEST = 400;
+    const HTTP_UNAUTHORIZED = 401;
+    const HTTP_METHOD_NOT_ALLOWED = 405;
+    const HTTP_INTERNAL_ERROR = 500;
     /**#@-*/
 
-    /**#@+ Email template */
-    const XML_PATH_EMAIL_TEMPLATE = 'oauth/email/template';
-    const XML_PATH_EMAIL_IDENTITY = 'oauth/email/identity';
-    /**#@-*/
-
     /**
-     * Cleanup expiration period in minutes
-     */
-    const CLEANUP_EXPIRATION_PERIOD_DEFAULT = 120;
-
-    /**
-     * Query parameter as a sign that user rejects
-     */
-    const QUERY_PARAM_REJECTED = 'rejected';
-
-    /**
-     * Available endpoints list
+     * Error code to error messages pairs
      *
      * @var array
      */
-    protected $_endpoints = array(
-        self::ENDPOINT_AUTHORIZE_CUSTOMER,
-        self::ENDPOINT_AUTHORIZE_ADMIN,
-        self::ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE,
-        self::ENDPOINT_AUTHORIZE_ADMIN_SIMPLE,
-        self::ENDPOINT_INITIATE,
-        self::ENDPOINT_TOKEN
+    protected $_errors = array(
+        Magento_Oauth_Service_OauthV1Interface::ERR_VERSION_REJECTED => 'version_rejected',
+        Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_ABSENT => 'parameter_absent',
+        Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_REJECTED => 'parameter_rejected',
+        Magento_Oauth_Service_OauthV1Interface::ERR_TIMESTAMP_REFUSED => 'timestamp_refused',
+        Magento_Oauth_Service_OauthV1Interface::ERR_NONCE_USED => 'nonce_used',
+        Magento_Oauth_Service_OauthV1Interface::ERR_SIGNATURE_METHOD_REJECTED => 'signature_method_rejected',
+        Magento_Oauth_Service_OauthV1Interface::ERR_SIGNATURE_INVALID => 'signature_invalid',
+        Magento_Oauth_Service_OauthV1Interface::ERR_CONSUMER_KEY_REJECTED => 'consumer_key_rejected',
+        Magento_Oauth_Service_OauthV1Interface::ERR_CONSUMER_KEY_INVALID => 'consumer_key_invalid',
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_USED => 'token_used',
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_EXPIRED => 'token_expired',
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_REVOKED => 'token_revoked',
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_REJECTED => 'token_rejected',
+        Magento_Oauth_Service_OauthV1Interface::ERR_VERIFIER_INVALID => 'verifier_invalid',
+        Magento_Oauth_Service_OauthV1Interface::ERR_PERMISSION_UNKNOWN => 'permission_unknown',
+        Magento_Oauth_Service_OauthV1Interface::ERR_PERMISSION_DENIED => 'permission_denied',
+        Magento_Oauth_Service_OauthV1Interface::ERR_METHOD_NOT_ALLOWED => 'method_not_allowed'
     );
 
     /**
-     * Core data
+     * Error code to HTTP error code
      *
-     * @var Magento_Core_Helper_Data
+     * @var array
      */
-    protected $_coreData = null;
+    protected $_errorsToHttpCode = array(
+        Magento_Oauth_Service_OauthV1Interface::ERR_VERSION_REJECTED => self::HTTP_BAD_REQUEST,
+        Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_ABSENT => self::HTTP_BAD_REQUEST,
+        Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_REJECTED => self::HTTP_BAD_REQUEST,
+        Magento_Oauth_Service_OauthV1Interface::ERR_TIMESTAMP_REFUSED => self::HTTP_BAD_REQUEST,
+        Magento_Oauth_Service_OauthV1Interface::ERR_NONCE_USED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_SIGNATURE_METHOD_REJECTED => self::HTTP_BAD_REQUEST,
+        Magento_Oauth_Service_OauthV1Interface::ERR_SIGNATURE_INVALID => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_CONSUMER_KEY_REJECTED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_CONSUMER_KEY_INVALID => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_USED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_EXPIRED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_REVOKED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_REJECTED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_VERIFIER_INVALID => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_PERMISSION_UNKNOWN => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_PERMISSION_DENIED => self::HTTP_UNAUTHORIZED
+    );
+
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Helper_Context $context
     ) {
-        $this->_coreData = $coreData;
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
+
     /**
-     * Generate random string for token or secret or verifier
+     * Process HTTP request object and prepare for token validation
      *
-     * @param int $length String length
-     * @return string
+     * @param Zend_Controller_Request_Http $httpRequest
+     * @param array $bodyParams array of key value body parameters
+     * @return array
      */
-    protected function _generateRandomString($length)
+    public function prepareServiceRequest($httpRequest, $bodyParams = array())
     {
-        return $this->_coreData->getRandomString(
-            $length, Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS
-        );
+        //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
+        $requestUrl = $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
+            $httpRequest->getRequestUri();
+
+        $serviceRequest = array();
+        $serviceRequest['request_url'] = $requestUrl;
+        $serviceRequest['http_method'] = $httpRequest->getMethod();
+
+        $oauthParams = $this->_processRequest($httpRequest->getHeader('Authorization'),
+                                              $httpRequest->getHeader(Zend_Http_Client::CONTENT_TYPE),
+                                              $httpRequest->getRawBody(),
+                                              $requestUrl);
+        //Use body parameters only for POST and PUT
+        $bodyParams = is_array($bodyParams) && ($httpRequest->getMethod() == 'POST' ||
+            $httpRequest->getMethod() == 'PUT') ? $bodyParams : array();
+        return array_merge($serviceRequest, $oauthParams, $bodyParams);
     }
 
     /**
-     * Generate random string for token
+     * Process oauth related protocol information and return as an array
      *
-     * @return string
+     * @param $authHeaderValue
+     * @param $contentTypeHeader
+     * @param $requestBodyString
+     * @param $requestUrl
+     * @return array
+     * merged array of oauth protocols and request parameters. eg :
+     * <pre>
+     * array (
+     *         'oauth_version' => '1.0',
+     *         'oauth_signature_method' => 'HMAC-SHA1',
+     *         'oauth_nonce' => 'rI7PSWxTZRHWU3R',
+     *         'oauth_timestamp' => '1377183099',
+     *         'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
+     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'',
+     *         'request_url' => 'http://magento.ll/oauth/token/access',
+     *         'http_method' => 'POST'
+     * )
+     * </pre>
      */
-    public function generateToken()
+    protected function _processRequest($authHeaderValue, $contentTypeHeader, $requestBodyString, $requestUrl)
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_TOKEN);
-    }
+        $protocolParams = array();
 
-    /**
-     * Generate random string for token secret
-     *
-     * @return string
-     */
-    public function generateTokenSecret()
-    {
-        return $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_SECRET);
-    }
+        $this->_processHeader($authHeaderValue, $protocolParams);
 
-    /**
-     * Generate random string for verifier
-     *
-     * @return string
-     */
-    public function generateVerifier()
-    {
-        return $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_VERIFIER);
-    }
+        if ($contentTypeHeader && 0 === strpos($contentTypeHeader, Zend_Http_Client::ENC_URLENCODED)) {
+            $protocolParamsNotSet = !$protocolParams;
 
-    /**
-     * Generate random string for consumer key
-     *
-     * @return string
-     */
-    public function generateConsumerKey()
-    {
-        return $this->_generateRandomString(Magento_Oauth_Model_Consumer::KEY_LENGTH);
-    }
+            parse_str($requestBodyString, $protocolBodyParams);
 
-    /**
-     * Generate random string for consumer secret
-     *
-     * @return string
-     */
-    public function generateConsumerSecret()
-    {
-        return $this->_generateRandomString(Magento_Oauth_Model_Consumer::SECRET_LENGTH);
-    }
-
-    /**
-     * Return complete callback URL or boolean FALSE if no callback provided
-     *
-     * @param Magento_Oauth_Model_Token $token Token object
-     * @param bool $rejected OPTIONAL Add user reject sign
-     * @return bool|string
-     */
-    public function getFullCallbackUrl(Magento_Oauth_Model_Token $token, $rejected = false)
-    {
-        $callbackUrl = $token->getCallbackUrl();
-
-        if (Magento_Oauth_Model_Server::CALLBACK_ESTABLISHED == $callbackUrl) {
-            return false;
-        }
-        if ($rejected) {
-            /** @var $consumer Magento_Oauth_Model_Consumer */
-            $consumer = Mage::getModel('Magento_Oauth_Model_Consumer')->load($token->getConsumerId());
-
-            if ($consumer->getId() && $consumer->getRejectedCallbackUrl()) {
-                $callbackUrl = $consumer->getRejectedCallbackUrl();
+            foreach ($protocolBodyParams as $bodyParamName => $bodyParamValue) {
+                if (!$this->_isProtocolParameter($bodyParamName)) {
+                    $protocolParams[$bodyParamName] = $bodyParamValue;
+                } elseif ($protocolParamsNotSet) {
+                    $protocolParams[$bodyParamName] = $bodyParamValue;
+                }
             }
-        } elseif (!$token->getAuthorized()) {
-            Mage::throwException('Token is not authorized');
         }
-        $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
-        $callbackUrl .= 'oauth_token=' . $token->getToken() . '&';
-        $callbackUrl .= $rejected ? self::QUERY_PARAM_REJECTED . '=1' : 'oauth_verifier=' . $token->getVerifier();
+        $protocolParamsNotSet = !$protocolParams;
 
-        return $callbackUrl;
+        $queryString = Zend_Uri_Http::fromString($requestUrl)->getQuery();
+        $this->_extractQueryStringParams($protocolParams, $queryString);
+
+        if ($protocolParamsNotSet) {
+            $this->_fetchProtocolParamsFromQuery($protocolParams, $queryString);
+        }
+
+        // Combine request and header parameters
+        return $protocolParams;
     }
 
     /**
-     * Retrieve URL of specified endpoint.
+     * Retrieve protocol parameters from query string
      *
-     * @param string $type Endpoint type (one of ENDPOINT_ constants)
-     * @return string
-     * @throws Exception    Exception when endpoint not found
+     * @param $protocolParams
+     * @param $queryString
      */
-    public function getProtocolEndpointUrl($type)
+    protected function _fetchProtocolParamsFromQuery(&$protocolParams, $queryString)
     {
-        if (!in_array($type, $this->_endpoints)) {
-            throw new Exception('Invalid endpoint type passed.');
+        foreach ($queryString as $queryParamName => $queryParamValue) {
+            if ($this->_isProtocolParameter($queryParamName)) {
+                $protocolParams[$queryParamName] = $queryParamValue;
+            }
         }
-        return rtrim(Mage::getUrl($type), '/');
     }
 
     /**
-     * Calculate cleanup possibility for data with lifetime property
+     * Check if attribute is oAuth related
      *
+     * @param string $attrName
      * @return bool
      */
-    public function isCleanupProbability()
+    protected function _isProtocolParameter($attrName)
     {
-        // Safe get cleanup probability value from system configuration
-        $configValue = (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_CLEANUP_PROBABILITY);
-        return $configValue > 0 ? 1 == mt_rand(1, $configValue) : false;
+        return (bool)preg_match('/oauth_[a-z_-]+/', $attrName);
     }
 
     /**
-     * Get cleanup expiration period value from system configuration in minutes
+     * Process header parameters for Oauth
      *
-     * @return int
+     * @param $authHeaderValue
+     * @param $protocolParams
      */
-    public function getCleanupExpirationPeriod()
+    protected function _processHeader($authHeaderValue, &$protocolParams)
     {
-        $minutes = (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
-        return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
-    }
+        if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
+            $authHeaderValue = substr($authHeaderValue, 6); // ignore 'OAuth ' at the beginning
 
-    /**
-     * Send Email to Token owner
-     *
-     * @param string $userEmail
-     * @param string $userName
-     * @param string $applicationName
-     * @param string $status
-     */
-    public function sendNotificationOnTokenStatusChange($userEmail, $userName, $applicationName, $status)
-    {
-        /* @var $mailTemplate Magento_Core_Model_Email_Template */
-        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+            foreach (explode(',', $authHeaderValue) as $paramStr) {
+                $nameAndValue = explode('=', trim($paramStr), 2);
 
-        $mailTemplate->sendTransactional(
-            $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE),
-            $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY),
-            $userEmail,
-            $userName,
-            array(
-                'name'              => $userName,
-                'email'             => $userEmail,
-                'applicationName'   => $applicationName,
-                'status'            => $status,
-
-            )
-        );
-    }
-
-    /**
-     * Is current authorize page is simple
-     *
-     * @return boolean
-     */
-    protected function _getIsSimple()
-    {
-        $simple = false;
-        if (stristr($this->_getRequest()->getActionName(), 'simple')
-            || !is_null($this->_getRequest()->getParam('simple', null))
-        ) {
-            $simple = true;
+                if (count($nameAndValue) < 2) {
+                    continue;
+                }
+                if ($this->_isProtocolParameter($nameAndValue[0])) {
+                    $protocolParams[rawurldecode($nameAndValue[0])] = rawurldecode(trim($nameAndValue[1], '"'));
+                }
+            }
         }
-
-        return $simple;
     }
 
     /**
-     * Get authorize endpoint url
+     * Process query string for Oauth
      *
-     * @param string $userType
-     * @throws Exception
+     * @param $protocolParams
+     * @param $queryString
+     */
+    protected function _extractQueryStringParams(&$protocolParams, $queryString)
+    {
+        if ($queryString) {
+            foreach (explode('&', $queryString) as $paramToValue) {
+                $paramData = explode('=', $paramToValue);
+
+                if (2 === count($paramData) && !$this->_isProtocolParameter($paramData[0])) {
+                    $protocolParams[rawurldecode($paramData[0])] = rawurldecode($paramData[1]);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Create response string for problem during request and set HTTP error code
+     *
+     * @param Exception $exception
+     * @param Zend_Controller_Response_Http $response OPTIONAL If NULL - will use internal getter
      * @return string
      */
-    public function getAuthorizeUrl($userType)
-    {
-        $simple = $this->_getIsSimple();
+    public function prepareErrorResponse(
+        Exception $exception,
+        Zend_Controller_Response_Http $response = null
+    ) {
+        $errorMap = $this->_errors;
+        $errorsToHttpCode = $this->_errorsToHttpCode;
 
-        if (Magento_Oauth_Model_Token::USER_TYPE_CUSTOMER == $userType) {
-            if ($simple) {
-                $route = self::ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE;
+        $eMsg = $exception->getMessage();
+
+        if ($exception instanceof Magento_Oauth_Exception) {
+            $eCode = $exception->getCode();
+
+            if (isset($errorMap[$eCode])) {
+                $errorMsg = $errorMap[$eCode];
+                $responseCode = $errorsToHttpCode[$eCode];
             } else {
-                $route = self::ENDPOINT_AUTHORIZE_CUSTOMER;
+                $errorMsg = 'unknown_problem&code=' . $eCode;
+                $responseCode = self::HTTP_INTERNAL_ERROR;
             }
-        } elseif (Magento_Oauth_Model_Token::USER_TYPE_ADMIN == $userType) {
-            if ($simple) {
-                $route = self::ENDPOINT_AUTHORIZE_ADMIN_SIMPLE;
-            } else {
-                $route = self::ENDPOINT_AUTHORIZE_ADMIN;
+            if (Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_ABSENT == $eCode) {
+                $errorMsg .= '&oauth_parameters_absent=' . $eMsg;
+            } elseif ($eMsg) {
+                $errorMsg .= '&message=' . $eMsg;
             }
         } else {
-            throw new Exception('Invalid user type.');
+            $errorMsg = 'internal_error&message=' . ($eMsg ? $eMsg : 'empty_message');
+            $responseCode = self::HTTP_INTERNAL_ERROR;
         }
 
-        return $this->_getUrl($route, array('_query' => array('oauth_token' => $this->getOauthToken())));
-    }
-
-    /**
-     * Retrieve oauth_token param from request
-     *
-     * @return string|null
-     */
-    public function getOauthToken()
-    {
-        return $this->_getRequest()->getParam('oauth_token', null);
+        $response->setHttpResponseCode($responseCode);
+        return array('oauth_problem' => $errorMsg);
     }
 }

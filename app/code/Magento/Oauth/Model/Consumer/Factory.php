@@ -25,11 +25,13 @@ class Magento_Oauth_Model_Consumer_Factory
     /**
      * Create consumer model.
      *
-     * @param array $arguments
+     * @param array $data
      * @return Magento_Oauth_Model_Consumer
      */
-    public function create(array $arguments = array())
+    public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento_Oauth_Model_Consumer', $arguments);
+        $consumer = $this->_objectManager->create('Magento_Oauth_Model_Consumer', array());
+        $consumer->setData($data);
+        return $consumer;
     }
 }
