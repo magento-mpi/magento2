@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Api
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Log_Model_Visitor">
+        <param name="ignores">
+            <value>
+                <api>api</api>
+            </value>
+        </param>
+    </type>
+</config>

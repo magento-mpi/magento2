@@ -43,6 +43,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Encryption $encryptor
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Dir $dirs
      */
@@ -53,12 +54,13 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $config,
+        Magento_Core_Model_Encryption $encryptor,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Dir $dirs
     ) {
         $this->_coreData = $coreData;
         $this->_dirs = $dirs;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
         $this->_filesystem = $filesystem;
     }
 

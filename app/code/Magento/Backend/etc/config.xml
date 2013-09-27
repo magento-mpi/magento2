@@ -10,12 +10,4 @@
  */
 -->
 <config>
-    <global>
-        <areas>
-            <adminhtml>
-                <frontName>backend</frontName>
-                <auth />
-            </adminhtml>
-        </areas>
-    </global>
 </config>

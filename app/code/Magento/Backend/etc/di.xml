@@ -55,9 +55,6 @@
         <param name="defaultAreaFrontName">
             <value>backend</value>
         </param>
-        <param name="primaryConfig">
-            <instance type="Magento_Core_Model_Config_PrimaryProxy"/>
-        </param>
     </type>
     <type name="Magento_Core_Model_NoRouteHandlerList">
         <param name="handlerClassesList">
@@ -67,11 +64,6 @@
                     <sortOrder>10</sortOrder>
                 </backend>
             </value>
-        </param>
-    </type>
-    <type name="Magento_Backend_Model_Auth">
-        <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
 </config>

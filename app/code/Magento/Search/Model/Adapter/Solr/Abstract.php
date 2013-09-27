@@ -49,11 +49,16 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected $_advancedIndexFieldsPrefix = '';
 
     /**
-     * Return client factory
+     * Client factory
      *
-     * @var Magento_Search_Model_Client_FactoryInterface
+     * @var Magento_Search_Model_FactoryInterface
      */
     protected $_clientFactory;
+
+    /**
+     * @var SolrClient|Magento_Search_Model_Client_Solr
+     */
+    protected $_client;
 
     /**
      * Search client helper
@@ -82,23 +87,23 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected $_eavConfig;
 
     /**
-     * Construct
-     *
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
-     * @param Magento_Search_Model_Resource_Index $resourceIndex
-     * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
+     * @param Magento_Customer_Model_Session                              $customerSession
+     * @param Magento_Search_Model_Catalog_Layer_Filter_Price             $filterPrice
+     * @param Magento_Search_Model_Resource_Index                         $resourceIndex
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext               $resourceFulltext
      * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
-     * @param Magento_Search_Helper_ClientInterface $clientHelper
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param array $options
+     * @param Magento_Core_Model_Logger                                   $logger
+     * @param Magento_Core_Model_StoreManagerInterface                    $storeManager
+     * @param Magento_Core_Model_CacheInterface                           $cache
+     * @param Magento_Eav_Model_Config                                    $eavConfig
+     * @param Magento_Search_Model_Factory_Factory                        $searchFactory
+     * @param Magento_Search_Helper_ClientInterface                       $clientHelper
+     * @param Magento_Core_Model_Registry                                 $registry
+     * @param Magento_Core_Model_Store_ConfigInterface                    $coreStoreConfig
+     * @param array                                                       $options
+     *
      * @throws Magento_Core_Exception
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Customer_Model_Session $customerSession,
@@ -110,21 +115,21 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Eav_Model_Config $eavConfig,
-        Magento_Search_Model_Client_FactoryInterface $clientFactory,
+        Magento_Search_Model_Factory_Factory $searchFactory,
         Magento_Search_Helper_ClientInterface $clientHelper,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         $options = array()
     ) {
         $this->_eavConfig = $eavConfig;
+        $this->_clientFactory = $searchFactory->getFactory();
         $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
-        $this->_clientFactory = $clientFactory;
-        $this->_clientHelper = $clientHelper;
-        $this->_coreRegistry = $registry;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
-            $logger, $storeManager, $cache);
+        parent::__construct(
+            $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
+            $logger, $storeManager, $cache
+        );
         try {
             $this->_connect($options);
         } catch (Exception $e) {
@@ -430,6 +435,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
      *
      * @param   string $filed
      * @param   string $suffix
+     * @param   int  $storeId
      * @return  string
      */
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
