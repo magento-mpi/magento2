@@ -21,9 +21,9 @@ class Magento_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Mod
     /**
      * @param string $modulePrefix
      */
-    public function __construct($modulePrefix = 'SalesArchive')
+    public function __construct(Magento_Core_Model_Resource $resource, $modulePrefix = 'SalesArchive')
     {
-        parent::__construct($modulePrefix);
+        parent::__construct($resource, $modulePrefix);
     }
 
     /**

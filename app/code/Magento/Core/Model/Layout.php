@@ -214,7 +214,6 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
      * @var Magento_Core_Model_Layout_MergeFactory
      */
     protected $_mergeFactory;
@@ -225,6 +224,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_themeFactory;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Factory_Helper $factoryHelper
      * @param Magento_Core_Helper_Data $coreData
@@ -234,6 +234,9 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param Magento_Core_Model_Layout_Argument_Processor $argumentProcessor
      * @param Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure
      * @param Magento_Core_Model_DataService_Graph $dataServiceGraph
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Layout_MergeFactory $mergeFactory
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeFactory
      * @param string $area
      */
     public function __construct(
@@ -248,6 +251,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Layout_MergeFactory $mergeFactory,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeFactory,
         $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;

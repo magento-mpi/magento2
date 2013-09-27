@@ -18,11 +18,12 @@
 class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Abstract
 {
     /**
+     * @param Magento_Core_Model_Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct($modulePrefix = 'core')
+    public function __construct(Magento_Core_Model_Resource $resource, $modulePrefix = 'core')
     {
-        parent::__construct($modulePrefix);
+        parent::__construct($resource, $modulePrefix);
     }
 
     /**
