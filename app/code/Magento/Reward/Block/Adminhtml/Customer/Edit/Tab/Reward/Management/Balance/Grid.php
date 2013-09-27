@@ -16,7 +16,7 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management_Balance;
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance;
 
 class Grid
     extends \Magento\Backend\Block\Widget\Grid\Extended

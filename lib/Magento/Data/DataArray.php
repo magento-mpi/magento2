@@ -8,7 +8,7 @@
  */
 namespace Magento\Data;
 
-class Array extends \Magento\Object
+class DataArray extends \Magento\Object
 {
     //
 }

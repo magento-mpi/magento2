@@ -12,19 +12,19 @@
         <block class="Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Bundle" before="product.composite.fieldset.options" name="product.composite.fieldset.bundle" template="product/composite/fieldset/options/bundle.phtml">
             <action method="addRenderer">
                 <argument name="type" xsi:type="string">select</argument>
-                <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Select</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type\Select</argument>
             </action>
             <action method="addRenderer">
                 <argument name="type" xsi:type="string">multi</argument>
-                <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Multi</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type\Multi</argument>
             </action>
             <action method="addRenderer">
                 <argument name="type" xsi:type="string">radio</argument>
-                <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Radio</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type\Radio</argument>
             </action>
             <action method="addRenderer">
                 <argument name="type" xsi:type="string">checkbox</argument>
-                <argument name="block" xsi:type="string">Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Checkbox</argument>
+                <argument name="block" xsi:type="string">Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type\Checkbox</argument>
             </action>
         </block>
     </referenceBlock>
