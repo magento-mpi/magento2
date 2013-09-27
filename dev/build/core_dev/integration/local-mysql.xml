@@ -27,6 +27,7 @@
         <dbName><![CDATA[{{db_name}}]]></dbName>
         <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
         <pdoType><![CDATA[]]></pdoType>
+        <adapter><![CDATA[Magento_TestFramework_Db_ConnectionAdapter]]></adapter>
         <active>1</active>
     </connection>
     <resource name="default_setup" connection="default"/>

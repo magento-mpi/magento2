@@ -27,12 +27,8 @@
         <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
         <pdoType><![CDATA[]]></pdoType>
         <active>1</active>
+        <adapter><![CDATA[Magento_TestFramework_Db_ConnectionAdapter]]></adapter>
     </connection>
     <resource name="default_setup" connection="default"/>
     <session_save><![CDATA[files]]></session_save>
-    <connection>
-        <type name="pdo_mysql">
-            <adapter><![CDATA[Magento_TestFramework_Db_Adapter_Mysql]]></adapter>
-        </type>
-    </connection>
 </config>
