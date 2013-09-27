@@ -57,8 +57,23 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
 
         $sessionMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
 
+        $wishlistFactoryMock = $this->getMockBuilder('Magento_Wishlist_Model_WishlistFactory')
+            ->setMethods(array('methods'))
+            ->getMock();
+
+        $giftMessageSave = $this->getMockBuilder('Magento_Adminhtml_Model_Giftmessage_Save')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $taxConfig = $this->getMockBuilder('Magento_Tax_Model_Config')->disableOriginalConstructor()->getMock();
+
         $this->_block = $this->getMockBuilder('Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid')
-            ->setConstructorArgs(array($taxData, $sessionMock, $orderCreateMock, $coreData, $contextMock))
+            ->setConstructorArgs(
+                array(
+                    $wishlistFactoryMock, $giftMessageSave, $taxConfig, $taxData,
+                    $sessionMock, $orderCreateMock, $coreData, $contextMock
+                )
+            )
             ->setMethods(array('_getSession'))
             ->getMock();
 
