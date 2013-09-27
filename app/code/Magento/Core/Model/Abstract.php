@@ -167,8 +167,6 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     }
 
     /**
-     * Remove not serializable fields
-     *
      * @return array
      */
     public function __sleep()

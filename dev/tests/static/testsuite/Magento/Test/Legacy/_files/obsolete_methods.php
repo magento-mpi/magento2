@@ -868,4 +868,6 @@ return array(
     array('_getProductType', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix'),
     array('_getProductType', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config'),
     array('_getSession', 'Magento_Adminhtml_Model_Sales_Order'),
+    array('setIsSerializable', 'Magento_Core_Model_App_State'),
+    array('getIsSerializable', 'Magento_Core_Model_App_State'),
 );
