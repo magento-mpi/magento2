@@ -12,7 +12,7 @@
         <type order="0">
             <label>ABC Credit Card Company</label>
         </type>
-        <type code="XYZ" order="10"/>
+        <type id="XYZ" order="10"/>
     </credit_cards>
     <groups>
         <group>

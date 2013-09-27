@@ -98,6 +98,7 @@
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
+  * Implemented a 2-legged OAuth 1.0a based authentication mechanism for both REST and SOAP API calls
 * XML Validation
   * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
   * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.

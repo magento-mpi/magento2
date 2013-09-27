@@ -28,11 +28,6 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
             ->disableOriginalConstructor()
             ->getMock();
 
-        $helperFactoryMock = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($this->_helperMock));
-
         $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')
             ->disableOriginalConstructor()
             ->getMock();
@@ -43,7 +38,7 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
 
         /** Initialize SUT. */
         $this->_errorProcessor = new Magento_Webapi_Controller_ErrorProcessor(
-            $helperFactoryMock,
+            $this->_helperMock,
             $this->_appMock,
             $this->_loggerMock
         );
@@ -204,18 +199,34 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
     {
         return array(
             'Magento_Service_ResourceNotFoundException' => array(
-                new Magento_Service_ResourceNotFoundException('Resource not found', 2345),
+                new Magento_Service_ResourceNotFoundException('Resource not found', 2345, null,
+                    array('datail1' => 'value1'), 'resource10'),
                 Magento_Webapi_Exception::HTTP_NOT_FOUND,
                 'Resource not found',
                 2345,
-                array()
+                array('datail1' => 'value1', 'resource_id' => 'resource10')
+            ),
+            'Magento_Service_ResourceNotFoundException (Empty message)' => array(
+                new Magento_Service_ResourceNotFoundException('', 2345, null,
+                    array('datail1' => 'value1'), 'resource10'),
+                Magento_Webapi_Exception::HTTP_NOT_FOUND,
+                "Resource with ID 'resource10' not found.",
+                2345,
+                array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
             'Magento_Service_AuthorizationException' => array(
-                new Magento_Service_AuthorizationException('Service authorization exception', 3456),
+                new Magento_Service_AuthorizationException('Service authorization exception', 345, null, array(), 3, 4),
                 Magento_Webapi_Exception::HTTP_UNAUTHORIZED,
                 'Service authorization exception',
-                3456,
-                array()
+                345,
+                array('user_id' => 3, 'resource_id' => 4)
+            ),
+            'Magento_Service_AuthorizationException (Empty message)' => array(
+                new Magento_Service_AuthorizationException('', 345, null, array(), 3, 4),
+                Magento_Webapi_Exception::HTTP_UNAUTHORIZED,
+                "User with ID '3' is not authorized to access resource with ID '4'.",
+                345,
+                array('user_id' => 3, 'resource_id' => 4)
             ),
             'Magento_Service_Exception' => array(
                 new Magento_Service_Exception('Generic service exception', 4567),
