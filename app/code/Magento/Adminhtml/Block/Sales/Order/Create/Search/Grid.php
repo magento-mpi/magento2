@@ -18,9 +18,9 @@
 class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Sales_Model_Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @var Magento_Adminhtml_Model_Session_Quote
@@ -45,7 +45,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param array $data
      */
     public function __construct(
@@ -56,13 +56,13 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
         $this->_catalogConfig = $catalogConfig;
         $this->_sessionQuote = $sessionQuote;
-        $this->_coreConfig = $coreConfig;
+        $this->_salesConfig = $salesConfig;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -134,9 +134,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
             ->addAttributeToSelect($attributes)
             ->addAttributeToSelect('sku')
             ->addStoreFilter()
-            ->addAttributeToFilter('type_id', array_keys(
-                $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
-            ))
+            ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
             ->addAttributeToSelect('gift_message_available');
 
         $this->setCollection($collection);

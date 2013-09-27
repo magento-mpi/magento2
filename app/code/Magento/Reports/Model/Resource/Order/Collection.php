@@ -50,9 +50,9 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     protected $_locale;
 
     /**
-     * @var Magento_Sales_Model_Config
+     * @var Magento_Sales_Model_Order_Config
      */
-    protected $_salesConfig;
+    protected $_orderConfig;
 
     /**
      * @var Magento_Sales_Model_Resource_Report_OrderFactory
@@ -68,7 +68,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Sales_Model_Config $salesConfig
+     * @param Magento_Sales_Model_Order_Config $orderConfig
      * @param Magento_Sales_Model_Resource_Report_OrderFactory $reportOrderFactory
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
@@ -81,7 +81,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Sales_Model_Config $salesConfig,
+        Magento_Sales_Model_Order_Config $orderConfig,
         Magento_Sales_Model_Resource_Report_OrderFactory $reportOrderFactory,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
@@ -91,7 +91,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
-        $this->_salesConfig = $salesConfig;
+        $this->_orderConfig = $orderConfig;
         $this->_reportOrderFactory = $reportOrderFactory;
     }
 
@@ -261,8 +261,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             $this->_getConditionSql('main_table.period', $this->getDateRange($range, $customStart, $customEnd))
         );
 
-        $statuses = $this->_salesConfig
-            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
+        $statuses = $this->_orderConfig->getStateStatuses(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -526,8 +525,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             'quantity' => 'SUM(orders_count)',
         ));
 
-        $statuses = $this->_salesConfig
-            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
+        $statuses = $this->_orderConfig->getStateStatuses(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -546,8 +544,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      */
     public function calculateSales($isFilter = 0)
     {
-        $statuses = $this->_salesConfig
-            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
+        $statuses = $this->_orderConfig->getStateStatuses(Magento_Sales_Model_Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);

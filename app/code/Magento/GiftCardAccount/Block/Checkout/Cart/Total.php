@@ -27,6 +27,7 @@ class Magento_GiftCardAccount_Block_Checkout_Cart_Total extends Magento_Checkout
      * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param array $data
      */
     public function __construct(
@@ -38,11 +39,12 @@ class Magento_GiftCardAccount_Block_Checkout_Cart_Total extends Magento_Checkout
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
+        Magento_Sales_Model_Config $salesConfig,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
         parent::__construct($catalogData, $coreData, $context, $coreConfig, $customerSession, $checkoutSession,
-            $storeManager, $data);
+            $storeManager, $salesConfig, $data);
     }
 
     public function getQuote()

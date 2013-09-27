@@ -33,11 +33,16 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     protected $_store;
 
     /**
-     * Configuration path where to collect registered totals
+     * Config group for totals declaration
      *
      * @var string
      */
-    protected $_totalsConfigNode = 'global/sales/quote/totals';
+    protected $_configGroup = 'totals';
+
+    /**
+     * @var string
+     */
+    protected $_configSection = 'quote';
 
     /**
      * Cache key for collectors
@@ -54,11 +59,6 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
      * @var Magento_Sales_Model_Quote_Address_TotalFactory
      */
     protected $_totalFactory;
@@ -69,7 +69,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Sales_Model_Quote_Address_TotalFactory $totalFactory
      * @param Magento_Core_Model_Store|null $store
@@ -79,16 +79,15 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Sales_Model_Quote_Address_TotalFactory $totalFactory,
         $store = null,
         $sourceData = null
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreConfig = $coreConfig;
         $this->_totalFactory = $totalFactory;
-        parent::__construct($configCacheType, $logger, $sourceData);
+        parent::__construct($configCacheType, $logger, $salesConfig, $sourceData);
         $this->_store = $store ?: $storeManager->getStore();
         $this->_initModels()->_initCollectors()->_initRetrievers();
     }
@@ -139,24 +138,6 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
         );
 
         return $model;
-    }
-
-    /**
-     * Initialize total models configuration and objects
-     *
-     * @return Magento_Sales_Model_Quote_Address_Total_Collector
-     */
-    protected function _initModels()
-    {
-        $totalsConfig = $this->_coreConfig->getNode($this->_totalsConfigNode);
-
-        foreach ($totalsConfig->children() as $totalCode => $totalConfig) {
-            $class = $totalConfig->getClassName();
-            if (!empty($class)) {
-                $this->_models[$totalCode] = $this->_initModelInstance($class, $totalCode, $totalConfig);
-            }
-        }
-        return $this;
     }
 
     /**

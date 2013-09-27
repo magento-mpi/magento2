@@ -15,9 +15,9 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
     protected $_totals = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Sales_Model_Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @var Magento_Core_Model_StoreManagerInterface
@@ -25,12 +25,10 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
     protected $_storeManager;
 
     /**
-     * Constructor
-     *
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -40,13 +38,13 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
         Magento_Customer_Model_Session $customerSession,
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_coreConfig = $coreConfig;
+        $this->_salesConfig = $salesConfig;
         $this->_storeManager = $storeManager;
         parent::__construct(
             $catalogData,
@@ -56,6 +54,7 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
             $checkoutSession,
             $data
         );
+
     }
 
     public function getTotals()
@@ -77,10 +76,11 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
         $blockName = $code . '_total_renderer';
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
-            $block = $this->_defaultRenderer;
-            $config = $this->_coreConfig->getNode("global/sales/quote/totals/{$code}/renderer");
-            if ($config) {
-                $block = (string) $config;
+            $renderer = $this->_salesConfig->getTotalsRenderer('quote', 'totals', $code, 'frontend');
+            if (!empty($renderer)) {
+                $block = $renderer;
+            } else {
+                $block = $this->_defaultRenderer;
             }
 
             $block = $this->getLayout()->createBlock($block, $blockName);

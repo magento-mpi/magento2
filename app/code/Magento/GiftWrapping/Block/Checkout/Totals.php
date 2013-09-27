@@ -37,6 +37,7 @@ class Magento_GiftWrapping_Block_Checkout_Totals extends Magento_Checkout_Block_
      * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param array $data
      */
     public function __construct(
@@ -48,11 +49,12 @@ class Magento_GiftWrapping_Block_Checkout_Totals extends Magento_Checkout_Block_
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Sales_Model_Config $salesConfig,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         parent::__construct($catalogData, $coreData, $context, $coreConfig, $customerSession, $checkoutSession,
-            $storeManager, $data);
+            $storeManager, $salesConfig, $data);
     }
 
     /**
