@@ -13,7 +13,7 @@ class Magento_Test_Integrity_Magento_Payment_Model_ConfigTest extends Integrity_
     public function testSchemaUsingInvalidXml()
     {
         $expectedErrors = array(
-            "Element 'type': The attribute 'code' is required but missing.",
+            "Element 'type': The attribute 'id' is required but missing.",
             "Element 'type': Missing child element(s). Expected is ( label ).",
             "Element 'group': The attribute 'id' is required but missing.",
             "Element 'group': Missing child element(s). Expected is ( label )."
@@ -24,8 +24,8 @@ class Magento_Test_Integrity_Magento_Payment_Model_ConfigTest extends Integrity_
     public function testFileSchemaUsingInvalidXml()
     {
         $expectedErrors = array(
-            "Element 'type': The attribute 'code' is required but missing.",
-            "Element 'type': The attribute 'code' is required but missing.",
+            "Element 'type': The attribute 'id' is required but missing.",
+            "Element 'type': The attribute 'id' is required but missing.",
             "Element 'group': The attribute 'id' is required but missing."
         );
         parent::testFileSchemaUsingInvalidXml($expectedErrors);
