@@ -161,53 +161,5 @@
             <word>enterprise</word>
             <path>static_tests_no_js.xml</path>
         </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>enterprise</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/formatter/testfiles/Foo.php</path>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <word>enterprise</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/formatter/testfiles/FooInterface.php</path>
-        </item>
-        <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/formatter/testfiles/Inline.php</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-appCodeMagento.txt</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-downloader.txt</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-devTestsIntegration.txt</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-devTestsIntegration.txt</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-devTestsStatic.txt</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-downloader.txt</path>
-        </item>
-        <item>
-            <word>Magento_JobQueue</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-libMagento.txt</path>
-        </item>
     </whitelist>
 </config>

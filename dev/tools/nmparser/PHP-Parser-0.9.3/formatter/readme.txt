@@ -1,1 +1,0 @@
-Run FormatCode.php as a php script.
