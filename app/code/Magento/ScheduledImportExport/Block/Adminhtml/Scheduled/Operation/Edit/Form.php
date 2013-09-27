@@ -165,7 +165,7 @@ abstract class Form
         ));
 
         $entities = $this->_optionArrayPool->get(
-            'Magento\ImportExport\Model\Source\' . uc_words($operation->getOperationType()) . '_Entity'
+            'Magento\ImportExport\Model\Source\\' . uc_words($operation->getOperationType()) . '\Entity'
         )->toOptionArray();
 
         $fieldset->addField('entity', 'select', array(
