@@ -38,7 +38,10 @@ class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     {
         $installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Core_Model_Resource_Setup',
-            array('resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
+            array(
+                'resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION,
+                'moduleName' => 'Magento_Core',
+            )
         );
         $this->_connection = $installer->getConnection();
         $this->_tableName = $installer->getTable('table_two_column_idx');

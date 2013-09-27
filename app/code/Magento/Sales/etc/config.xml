@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <sales_setup>
-                <setup>
-                    <module>Magento_Sales</module>
-                    <class>Magento_Sales_Model_Resource_Setup</class>
-                </setup>
-            </sales_setup>
-        </resources>
-    </global>
     <default>
         <sales>
             <totals_sort>

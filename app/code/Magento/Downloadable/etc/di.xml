@@ -23,4 +23,11 @@
             <value>Virtual / Downloadable</value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <downloadable_setup>Magento_Catalog_Model_Resource_Setup</downloadable_setup>
+            </value>
+        </param>
+    </type>
 </config>

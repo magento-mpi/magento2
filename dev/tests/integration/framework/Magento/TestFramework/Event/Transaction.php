@@ -118,7 +118,7 @@ class Magento_TestFramework_Event_Transaction
      * @return Magento_DB_Adapter_Interface|Magento_TestFramework_Db_Adapter_TransactionInterface
      * @throws Magento_Exception
      */
-    protected function _getAdapter($connectionName = 'write')
+    protected function _getAdapter($connectionName = 'core_write')
     {
         /** @var $resource Magento_Core_Model_Resource */
         $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');

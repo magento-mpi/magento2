@@ -35,7 +35,7 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
     /**
      * Catalog search resource helper
      *
-     * @var Magento_CatalogSearch_Model_Resource_Helper_Mysql4
+     * @var Magento_CatalogSearch_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -47,7 +47,7 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
@@ -56,7 +56,7 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_CatalogSearch_Model_Resource_Helper $resourceHelper,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_storeManager = $storeManager;

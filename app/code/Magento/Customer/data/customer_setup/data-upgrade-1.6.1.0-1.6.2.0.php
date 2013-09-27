@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Customer_Model_Entity_Setup */
+/* @var $installer Magento_Customer_Model_Resource_Setup */
 $installer = $this;
 
 $disableAGCAttribute = Mage::getSingleton('Magento_Eav_Model_Config')

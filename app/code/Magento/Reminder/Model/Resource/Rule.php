@@ -325,7 +325,7 @@ class Magento_Reminder_Model_Resource_Rule extends Magento_Rule_Model_Resource_A
             'log_sent_at_min' => 'MIN(l.sent_at)'
         ));
 
-        /** @var $helper Magento_Core_Model_Resource_Helper_Mysql4 */
+        /** @var $helper Magento_Core_Model_Resource_Helper */
         $helper = Mage::getResourceHelper('Magento_Core');
         $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
             'finset' => $helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))

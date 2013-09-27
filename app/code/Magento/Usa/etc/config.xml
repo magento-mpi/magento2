@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <usa_setup>
-                <setup>
-                    <module>Magento_Usa</module>
-                </setup>
-            </usa_setup>
-        </resources>
-    </global>
     <default>
         <system>
             <media_storage_configuration>

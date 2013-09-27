@@ -28,7 +28,7 @@ class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Re
     /**
      * Core resource helper
      *
-     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     * @var Magento_Core_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -41,7 +41,7 @@ class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Re
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource_Helper $resourceHelper
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -50,7 +50,7 @@ class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Re
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+        Magento_Core_Model_Resource_Helper $resourceHelper
     ) {
         parent::__construct($eventManager, $coreString, $catalogSearchData, $resource, $coreStoreConfig);
         $this->_storeManager = $storeManager;

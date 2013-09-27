@@ -68,38 +68,26 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     protected $_quoteFactory;
 
     /**
+     * @param Magento_Core_Model_Session_Context $context
      * @param Magento_Sales_Model_QuoteFactory $quoteFactory
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Core_Model_Session_Validator $validator
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Session_Context $context,
         Magento_Sales_Model_QuoteFactory $quoteFactory,
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Core_Model_Session_Validator $validator,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_quoteFactory = $quoteFactory;
         $this->_customerFactory = $customerFactory;
         $this->_storeManager = $storeManager;
         $this->_orderFactory = $orderFactory;
-        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($context, $data);
         $this->init('adminhtml_quote');
         if ($this->_storeManager->hasSingleStore()) {
             $this->setStoreId($this->_storeManager->getStore(true)->getId());

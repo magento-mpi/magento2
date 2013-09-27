@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <cataloginventory_setup>
-                <setup>
-                    <module>Magento_CatalogInventory</module>
-                    <class>Magento_Eav_Model_Entity_Setup</class>
-                </setup>
-            </cataloginventory_setup>
-        </resources>
-    </global>
     <default>
         <cataloginventory>
             <options>

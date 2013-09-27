@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <cms_setup>
-                <setup>
-                    <module>Magento_Cms</module>
-                    <class>Magento_Cms_Model_Resource_Setup</class>
-                </setup>
-            </cms_setup>
-        </resources>
-    </global>
     <default>
         <web>
             <default>

@@ -80,7 +80,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $regex = '/(?:\:\:|\->)getResourceHelper\(\s*\'([a-z\d_]+)\'\s*\)/ix';
         $matches = Magento_TestFramework_Utility_Classes::getAllMatches($contents, $regex);
         foreach ($matches as $moduleName) {
-            $classes[] = "{$moduleName}_Model_Resource_Helper_Mysql4";
+            $classes[] = "{$moduleName}_Model_Resource_Helper";
         }
     }
 

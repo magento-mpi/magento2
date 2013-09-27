@@ -27,17 +27,17 @@ class Magento_GiftCard_Model_Source_Open extends Magento_Eav_Model_Entity_Attrib
     /**
      * Resource helper
      *
-     * @var Magento_Eav_Model_Resource_Helper_Mysql4
+     * @var Magento_Eav_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
     /**
      * @param Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttributeFactory
-     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Helper_Data $coreData
      */
     public function __construct(
-        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
         Magento_Eav_Model_Resource_Entity_AttributeFactory $eavAttributeFactory,
         Magento_Core_Helper_Data $coreData
     ) {

@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <wishlist_setup>
-                <setup>
-                    <module>Magento_Wishlist</module>
-                </setup>
-            </wishlist_setup>
-        </resources>
-    </global>
     <default>
         <wishlist>
             <general>

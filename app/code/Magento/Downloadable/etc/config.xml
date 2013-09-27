@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <downloadable_setup>
-                <setup>
-                    <module>Magento_Downloadable</module>
-                    <class>Magento_Catalog_Model_Resource_Setup</class>
-                </setup>
-            </downloadable_setup>
-        </resources>
-    </global>
     <default>
         <catalog>
             <downloadable>

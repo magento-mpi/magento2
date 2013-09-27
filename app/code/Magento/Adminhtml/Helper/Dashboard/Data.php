@@ -27,6 +27,11 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
     protected $_storeManager;
 
     /**
+     * @var string
+     */
+    protected $_installDate;
+
+    /**
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
@@ -34,6 +39,8 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Encryption $encryptor
+     * @param string $installDate
+     * @param bool $dbCompatibleMode      
      */
     public function __construct(
         Magento_Core_Model_StoreManager $storeManager,
@@ -42,10 +49,15 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Encryption $encryptor
+        Magento_Core_Model_Encryption $encryptor,
+        $installDate,
+        $dbCompatibleMode = true
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
+        $this->_installDate = $installDate;
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, 
+            $encryptor, $dbCompatibleMode
+        );
     }
 
     /**
@@ -97,7 +109,7 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
      */
     public function getChartDataHash($data)
     {
-        $secret = (string)$this->_config->getNode(Magento_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE);
+        $secret = $this->_installDate;
         return md5($data . $secret);
     }
 }

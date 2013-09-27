@@ -10,23 +10,6 @@
 class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
 {
     /**
-     * Install date xpath
-     */
-    const XML_PATH_INSTALL_DATE = 'global/install/date';
-
-    /**
-     * Configuration template for the application installation date
-     */
-    const CONFIG_TEMPLATE_INSTALL_DATE = '<config><global><install><date>%s</date></install></global></config>';
-
-    /**
-     * Application installation timestamp
-     *
-     * @var int|null
-     */
-    protected $_installDate;
-
-    /**
      * @var Magento_Core_Model_Config_Loader_Primary
      */
     protected $_loader;
@@ -52,7 +35,8 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
      * @param Magento_Core_Model_Config_LoaderInterface $loader
      */
     public function __construct(
-        $baseDir, array $params,
+        $baseDir,
+        array $params,
         Magento_Core_Model_Dir $dir = null,
         Magento_Core_Model_Config_LoaderInterface $loader = null
     ) {
@@ -68,15 +52,9 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
         ));
 
         $this->_loader = $loader ?: new Magento_Core_Model_Config_Loader_Primary(
-            new Magento_Core_Model_Config_Loader_Local(
-                $this->_dir->getDir(Magento_Core_Model_Dir::CONFIG),
-                $this->getParam(Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_CONFIG),
-                $this->getParam(Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_FILE)
-            ),
             $this->_dir->getDir(Magento_Core_Model_Dir::CONFIG)
         );
         $this->_loader->load($this);
-        $this->_loadInstallDate();
     }
 
     /**
@@ -102,27 +80,6 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
     }
 
     /**
-     * Load application installation date
-     */
-    protected function _loadInstallDate()
-    {
-        $installDateNode = $this->getNode(self::XML_PATH_INSTALL_DATE);
-        if ($installDateNode) {
-            $this->_installDate = strtotime((string)$installDateNode);
-        }
-    }
-
-    /**
-     * Retrieve application installation date as a timestamp or NULL, if it has not been installed yet
-     *
-     * @return int|null
-     */
-    public function getInstallDate()
-    {
-        return $this->_installDate;
-    }
-
-    /**
      * Retrieve directories
      *
      * @return Magento_Core_Model_Dir
@@ -139,7 +96,6 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
     {
         $this->loadString('<config/>');
         $this->_loader->load($this);
-        $this->_loadInstallDate();
     }
 
     /**

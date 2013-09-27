@@ -217,7 +217,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
 
         $this->_entityTypeId    = $entityType->getEntityTypeId();
         $this->_dataSourceModel = Magento_ImportExport_Model_Import::getDataSourceModel();
-        $this->_connection      = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
+        $this->_connection      = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('core_write');
     }
 
     /**

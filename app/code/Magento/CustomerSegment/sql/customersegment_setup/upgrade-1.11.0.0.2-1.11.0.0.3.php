@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_CustomerSegment_Model_Resource_Setup */
+/** @var $installer Magento_Eav_Model_Entity_Setup */
 $installer = $this;
 
 $installer->getConnection()->addColumn($installer->getTable('magento_customersegment_segment'), 'apply_to', array(

@@ -63,7 +63,8 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
      * @param Magento_Core_Model_ConfigInterface $applicationConfig
      * @param Magento_Core_Model_Config_Primary $primaryConfig
      * @param Magento_Core_Model_RouterList $routerList
-     * @param $defaultAreaFrontName
+     * @param string $defaultAreaFrontName
+     * @param string $backendFrontName
      */
     public function __construct(
         Magento_Eav_Model_Config $eavConfig,
@@ -74,13 +75,15 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
         Magento_Core_Model_ConfigInterface $applicationConfig,
         Magento_Core_Model_Config_Primary $primaryConfig,
         Magento_Core_Model_RouterList $routerList,
-        $defaultAreaFrontName
+        $defaultAreaFrontName,
+        $backendFrontName
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_session = $session;
         $this->_productsFactory = $productsFactory;
         parent::__construct(
-            $context, $coreData, $applicationConfig, $primaryConfig, $routerList, $defaultAreaFrontName
+            $context, $coreData, $applicationConfig, $primaryConfig, $routerList,
+            $defaultAreaFrontName, $backendFrontName
         );
     }
 

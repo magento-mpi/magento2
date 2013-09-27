@@ -126,7 +126,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
-        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper */
+        /** @var Magento_Core_Model_Resource_Helper $resourceHelper */
         $resourceHelper = Mage::getResourceHelper('Magento_Core');
         $daysDiffSql = $resourceHelper->getDateDiff(
             'quote.updated_at', $select->getAdapter()->formatDate($currentTime)

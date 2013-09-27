@@ -222,6 +222,7 @@ class Magento_DB_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements 
      * Begin new DB transaction for connection
      *
      * @return Magento_DB_Adapter_Pdo_Mysql
+     * @throws Exception
      */
     public function beginTransaction()
     {

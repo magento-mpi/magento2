@@ -65,6 +65,11 @@ class Magento_Install_Model_Installer extends Magento_Object
     protected $_setupFactory;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Model_Db_UpdaterInterface $dbUpdater
@@ -72,6 +77,7 @@ class Magento_Install_Model_Installer extends Magento_Object
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_Core_Model_Resource_SetupFactory $setupFactory
+     * @param Magento_ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
@@ -82,6 +88,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
         Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_Core_Model_Resource_SetupFactory $setupFactory,
+        Magento_ObjectManager $objectManager,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -91,6 +98,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         $this->_cacheState = $cacheState;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_setupFactory = $setupFactory;
+        $this->_objectManager = $objectManager;
         parent::__construct($data);
     }
 
@@ -193,9 +201,7 @@ class Magento_Install_Model_Installer extends Magento_Object
             ->setConfigData($data)
             ->install();
 
-        /** @var $primaryConfig  Magento_Core_Model_Config_Primary*/
-        $primaryConfig = Mage::getSingleton('Magento_Core_Model_Config_Primary');
-        $primaryConfig->reinit();
+        $this->_objectManager->get('Magento_Core_Model_Config_Local')->reload();
 
         /** @var $config Magento_Core_Model_Config */
         $config = Mage::getSingleton('Magento_Core_Model_Config');
@@ -219,7 +225,7 @@ class Magento_Install_Model_Installer extends Magento_Object
          */
         /** @var $setupModel Magento_Core_Model_Resource_Setup */
         $setupModel = $this->_setupFactory->create(
-            'Magento_Core_Model_Resource_Setup', array('resourceName' => 'core_setup')
+            'Magento_Core_Model_Resource_Setup', array('resourceName' => 'core_setup', 'moduleName' => 'Magento_Core')
         );
 
         if (!empty($data['use_rewrites'])) {

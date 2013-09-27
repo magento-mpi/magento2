@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <salesrule_setup>
-                <setup>
-                    <module>Magento_SalesRule</module>
-                    <class>Magento_SalesRule_Model_Resource_Setup</class>
-                </setup>
-            </salesrule_setup>
-        </resources>
-    </global>
     <default>
         <promo>
             <auto_generated_coupon_codes>

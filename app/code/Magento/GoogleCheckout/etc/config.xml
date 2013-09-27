@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <googlecheckout_setup>
-                <setup>
-                    <module>Magento_GoogleCheckout</module>
-                    <class>Magento_GoogleCheckout_Model_Resource_Setup</class>
-                </setup>
-            </googlecheckout_setup>
-        </resources>
-    </global>
     <default>
         <carriers>
             <googlecheckout>

@@ -8,16 +8,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <user_setup>
-                <setup>
-                    <module>Magento_User</module>
-                    <class>Magento_User_Model_Resource_Setup</class>
-                </setup>
-            </user_setup>
-        </resources>
-    </global>
     <default>
         <admin>
             <emails>

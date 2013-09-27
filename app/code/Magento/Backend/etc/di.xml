@@ -55,6 +55,9 @@
         <param name="defaultAreaFrontName">
             <value>backend</value>
         </param>
+        <param name="backendFrontName">
+            <value type="argument">Magento_Backend_Helper_Data::PARAM_BACKEND_FRONT_NAME</value>
+        </param>
     </type>
     <type name="Magento_Core_Model_NoRouteHandlerList">
         <param name="handlerClassesList">
