@@ -11,9 +11,7 @@
 /**
  * Import entity customer combined model
  *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_ImportExport_Model_Import_Entity_CustomerComposite
     extends Magento_ImportExport_Model_Import_EntityAbstract
@@ -133,6 +131,8 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
      * @param Magento_ImportExport_Model_Import_Entity_Eav_CustomerFactory $customerFactory
      * @param Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressFactory $addressFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
