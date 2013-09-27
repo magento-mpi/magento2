@@ -42,19 +42,17 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     protected function _getConnectionRead()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $connection = $objectManager->create(
-            'Magento_TestFramework_Db_Adapter_Mysql',
-            array(
-                'profiler' => array(
-                    'class' => 'Magento_Core_Model_Resource_Db_Profiler',
-                    'enabled' => 'true'
-                ),
-                'host' => 'host',
-                'type' => 'type'
-            )
+        $localConfig = $objectManager->get('Magento_Core_Model_Config_Local');
+        $connectionConfig = $localConfig->getConnection('default');
+        $connectionConfig['profiler'] = array(
+            'class' => 'Magento_Core_Model_Resource_Db_Profiler',
+            'enabled' => 'true'
         );
+        $connectionConfig['dbname'] = $connectionConfig['dbName'];
 
-        return $connection;
+        return $objectManager->create(
+            'Magento_TestFramework_Db_Adapter_Mysql', array('config' => $connectionConfig)
+        );
     }
 
     /**
@@ -81,7 +79,6 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
         /** @var Magento_Core_Model_Resource_Db_Profiler $profiler */
         $profiler = $connection->getProfiler();
         $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Profiler', $profiler);
-        $this->assertAttributeEquals($profiler->getType(), 'type', $profiler);
 
         $queryProfiles = $profiler->getQueryProfiles($queryType);
         $this->assertCount(1, $queryProfiles);
@@ -115,7 +112,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     public function testProfilerDuringSqlException()
     {
         /** @var Zend_Db_Adapter_Pdo_Abstract $connection */
-        $connection = $this->_model->getConnection('core_read');
+        $connection = $this->_getConnectionRead();
 
         try {
             $connection->query('SELECT * FROM unknown_table');

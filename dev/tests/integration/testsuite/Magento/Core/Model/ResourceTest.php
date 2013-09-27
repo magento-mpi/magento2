@@ -19,14 +19,13 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
         $this->_model = Mage::getModel('Magento_Core_Model_Resource');
     }
 
-    /**
-     * @magentoConfigFixture global/resources/db/table_prefix prefix_
-     */
     public function testGetTableName()
     {
         $tablePrefix = 'prefix_';
         $tableSuffix = 'suffix';
         $tableNameOrig = 'core_website';
+
+        $this->_model = Mage::getModel('Magento_Core_Model_Resource', array('tablePrefix' => 'prefix_'));
 
         $tableName = $this->_model->getTableName(array($tableNameOrig, $tableSuffix));
         $this->assertContains($tablePrefix, $tableName);
@@ -45,12 +44,17 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
         $connection = $objectManager->create(
             'Magento_TestFramework_Db_Adapter_Mysql',
             array(
-                'profiler' => array(
-                    'class' => 'Magento_Core_Model_Resource_Db_Profiler',
-                    'enabled' => 'true'
-                ),
-                'host' => 'host',
-                'type' => 'type'
+                'config' => array(
+                    'profiler' => array(
+                        'class' => 'Magento_Core_Model_Resource_Db_Profiler',
+                        'enabled' => 'true'
+                    ),
+                    'username' => 'username',
+                    'password' => 'password',
+                    'host' => 'host',
+                    'type' => 'type',
+                    'dbname' => 'dbname'
+                )
             )
         );
 
@@ -59,7 +63,5 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Profiler', $profiler);
         $this->assertTrue($profiler->getEnabled());
-        $this->assertEquals($profiler->getHost(), 'host');
-        $this->assertEquals($profiler->getType(), 'type');
     }
 }
