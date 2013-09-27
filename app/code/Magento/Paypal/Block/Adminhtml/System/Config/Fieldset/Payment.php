@@ -21,16 +21,18 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
 
     /**
      * @param Magento_Backend_Block_Context $context
+     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_Backend_Model_Config $backendConfig
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
+        Magento_Backend_Model_Auth_Session $authSession,
         Magento_Backend_Model_Config $backendConfig,
         array $data = array()
     ) {
         $this->_backendConfig = $backendConfig;
-        parent::__construct($context, $data);
+        parent::__construct($context, $authSession, $data);
     }
 
     /**

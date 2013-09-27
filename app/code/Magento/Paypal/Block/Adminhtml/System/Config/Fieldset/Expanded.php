@@ -15,22 +15,16 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded
     extends Magento_Backend_Block_System_Config_Form_Fieldset
 {
     /**
-     * @var Magento_Backend_Model_Auth_Session
-     */
-    protected $_backendAuthSession;
-
-    /**
      * @param Magento_Backend_Block_Context $context
-     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
-        Magento_Backend_Model_Auth_Session $backendAuthSession,
+        Magento_Backend_Model_Auth_Session $authSession,
         array $data = array()
     ) {
-        $this->_backendAuthSession = $backendAuthSession;
-        parent::__construct($context, $data);
+        parent::__construct($context, $authSession, $data);
     }
 
     /**
@@ -41,7 +35,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded
      */
     protected function _isCollapseState($element)
     {
-        $extra = $this->_backendAuthSession->getUser()->getExtra();
+        $extra = $this->_authSession->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }
