@@ -34,7 +34,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Messages extends Magento_Adminh
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->sessionQuote = $sessionQuote;
+        $this->_sessionQuote = $sessionQuote;
         parent::__construct($coreData, $context, $data);
     }
 
