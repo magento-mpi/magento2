@@ -13,6 +13,30 @@ class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_F
     protected $_template = 'Magento_Paygate::form/cc.phtml';
 
     /**
+     * Url
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * @param Magento_Core_Model_UrlInterface $url
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_UrlInterface $url,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_url = $url;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
+    /**
      * Retreive payment method form html
      *
      * @return string
@@ -54,7 +78,7 @@ class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_F
      */
     public function getAdminCancelUrl()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
+        return $this->_url->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
     }
 
     /**

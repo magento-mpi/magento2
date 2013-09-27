@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Paygate_Block_Authorizenet_Form_Cc">
+        <param name="url">
+            <instance type="Magento_Backend_Model_Url" />
+        </param>
+    </type>
+    <type name="Magento_Paygate_Model_Authorizenet">
+        <param name="session">
+            <instance type="Magento_Adminhtml_Model_Session_Quote" />
+        </param>
+    </type>
+</config>
