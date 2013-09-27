@@ -9,7 +9,7 @@
 /**
  * Base class for all Service based routing tests
  */
-abstract class Magento_Webapi_Routing_BaseService extends Magento_Test_TestCase_WebapiAbstract
+abstract class Magento_Webapi_Routing_BaseService extends Magento_TestFramework_TestCase_WebapiAbstract
 {
 
     /**

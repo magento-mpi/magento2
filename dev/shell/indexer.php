@@ -10,8 +10,8 @@
 
 require_once __DIR__ . '/../../app/bootstrap.php';
 $params = array(
-    Mage::PARAM_RUN_CODE => 'admin',
-    Mage::PARAM_RUN_TYPE => 'store',
+    Magento_Core_Model_App::PARAM_RUN_CODE => 'admin',
+    Magento_Core_Model_App::PARAM_RUN_TYPE => 'store',
 );
 
 $entryPoint = new Magento_Index_Model_EntryPoint_Shell(

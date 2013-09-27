@@ -27,7 +27,7 @@ class Magento_Adminhtml_Controller_Newsletter_Problem extends Magento_Adminhtml_
         }
 
         $this->getLayout()->getMessagesBlock()->setMessages(
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages(true)
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getMessages(true)
         );
         $this->loadLayout();
 
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Controller_Newsletter_Problem extends Magento_Adminhtml_
         if($this->getRequest()->getParam('_unsubscribe')) {
             $problems = (array) $this->getRequest()->getParam('problem', array());
             if (count($problems)>0) {
-                $collection = Mage::getResourceModel('Magento_Newsletter_Model_Resource_Problem_Collection');
+                $collection = $this->_objectManager->create('Magento_Newsletter_Model_Resource_Problem_Collection');
                 $collection
                     ->addSubscriberInfo()
                     ->addFieldToFilter($collection->getResource()->getIdFieldName(),
@@ -53,14 +53,14 @@ class Magento_Adminhtml_Controller_Newsletter_Problem extends Magento_Adminhtml_
                 $collection->walk('unsubscribe');
             }
 
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->addSuccess(__('We unsubscribed the people you identified.'));
         }
 
         if($this->getRequest()->getParam('_delete')) {
             $problems = (array) $this->getRequest()->getParam('problem', array());
             if (count($problems)>0) {
-                $collection = Mage::getResourceModel('Magento_Newsletter_Model_Resource_Problem_Collection');
+                $collection = $this->_objectManager->create('Magento_Newsletter_Model_Resource_Problem_Collection');
                 $collection
                     ->addFieldToFilter($collection->getResource()->getIdFieldName(),
                                        array('in'=>$problems))
@@ -68,10 +68,10 @@ class Magento_Adminhtml_Controller_Newsletter_Problem extends Magento_Adminhtml_
                 $collection->walk('delete');
             }
 
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->addSuccess(__('The problems you identified have been deleted.'));
         }
-                $this->getLayout()->getMessagesBlock()->setMessages(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages(true));
+                $this->getLayout()->getMessagesBlock()->setMessages($this->_objectManager->get('Magento_Adminhtml_Model_Session')->getMessages(true));
 
         $this->loadLayout(false);
         $this->renderLayout();

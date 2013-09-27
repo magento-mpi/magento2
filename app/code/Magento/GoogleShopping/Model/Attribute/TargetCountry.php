@@ -18,6 +18,42 @@
 class Magento_GoogleShopping_Model_Attribute_TargetCountry extends Magento_GoogleShopping_Model_Attribute_Default
 {
     /**
+     * Config
+     *
+     * @var Magento_GoogleShopping_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_GoogleShopping_Model_Config $config
+     * @param Magento_GoogleShopping_Helper_Data $gsData
+     * @param Magento_GoogleShopping_Helper_Product $gsProduct
+     * @param Magento_GoogleShopping_Helper_Price $gsPrice
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_GoogleShopping_Model_Config $config,
+        Magento_GoogleShopping_Helper_Data $gsData,
+        Magento_GoogleShopping_Helper_Product $gsProduct,
+        Magento_GoogleShopping_Helper_Price $gsPrice,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_GoogleShopping_Model_Resource_Attribute $resource,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_config = $config;
+        parent::__construct($productFactory, $gsData, $gsProduct, $gsPrice, $context, $registry, $resource,
+            $resourceCollection, $data);
+    }
+
+    /**
      * Set current attribute to entry (for specified product)
      *
      * @param Magento_Catalog_Model_Product $product
@@ -26,8 +62,7 @@ class Magento_GoogleShopping_Model_Attribute_TargetCountry extends Magento_Googl
      */
     public function convertAttribute($product, $entry)
     {
-        $value = Mage::getSingleton('Magento_GoogleShopping_Model_Config')
-            ->getTargetCountry($product->getStoreId());
+        $value = $this->_config->getTargetCountry($product->getStoreId());
         return $this->_setAttribute($entry, 'target_country', self::ATTRIBUTE_TYPE_TEXT, $value);
     }
 }

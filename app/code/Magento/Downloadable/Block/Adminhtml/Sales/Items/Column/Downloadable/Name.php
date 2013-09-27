@@ -32,6 +32,7 @@ class Magento_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name 
 
     /**
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Catalog_Model_Product_OptionFactory $optionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory
@@ -40,6 +41,7 @@ class Magento_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name 
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
+        Magento_Catalog_Model_Product_OptionFactory $optionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory,
@@ -48,7 +50,7 @@ class Magento_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name 
     ) {
         $this->_purchasedFactory = $purchasedFactory;
         $this->_itemsFactory = $itemsFactory;
-        parent::__construct($coreString, $coreData, $context, $data);
+        parent::__construct($coreString, $optionFactory, $coreData, $context, $data);
     }
 
     public function getLinks()

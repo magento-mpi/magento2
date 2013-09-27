@@ -447,55 +447,49 @@ class Magento_Backend_Model_Menu_Item
 
     public function __sleep()
     {
-        if (Mage::getIsSerializable()) {
-            $helperClass = get_class($this->_moduleHelper);
-            // Save original class name of the helper
-            if (substr($helperClass, -1 * strlen('Interceptor')) === 'Interceptor') {
-                $helperClass = get_parent_class($helperClass);
-            }
-            $this->_moduleHelperName = $helperClass;
-            if ($this->_submenu) {
-                $this->_serializedSubmenu = $this->_submenu->serialize();
-            }
-            return array(
-                '_parentId',
-                '_moduleHelperName',
-                '_sortIndex',
-                '_dependsOnConfig',
-                '_id',
-                '_resource',
-                '_path',
-                '_action',
-                '_dependsOnModule',
-                '_tooltip',
-                '_title',
-                '_serializedSubmenu'
-            );
-        } else {
-            return array_keys(get_object_vars($this));
+        $helperClass = get_class($this->_moduleHelper);
+        // Save original class name of the helper
+        if (substr($helperClass, -1 * strlen('Interceptor')) === 'Interceptor') {
+            $helperClass = get_parent_class($helperClass);
         }
+        $this->_moduleHelperName = $helperClass;
+        if ($this->_submenu) {
+            $this->_serializedSubmenu = $this->_submenu->serialize();
+        }
+        return array(
+            '_parentId',
+            '_moduleHelperName',
+            '_sortIndex',
+            '_dependsOnConfig',
+            '_id',
+            '_resource',
+            '_path',
+            '_action',
+            '_dependsOnModule',
+            '_tooltip',
+            '_title',
+            '_serializedSubmenu'
+        );
     }
 
     public function __wakeup()
     {
-        if (Mage::getIsSerializable()) {
-            $this->_moduleHelper = Magento_Core_Model_ObjectManager::getInstance()->get($this->_moduleHelperName);
-            $this->_validator = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Backend_Model_Menu_Item_Validator');
-            $this->_acl = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_AuthorizationInterface');
-            $this->_storeConfig =  Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_Store_Config');
-            $this->_menuFactory = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Backend_Model_MenuFactory');
-            $this->_urlModel = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Backend_Model_Url');
-            $this->_moduleList = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_ModuleListInterface');
-            if ($this->_serializedSubmenu) {
-                $this->_submenu = $this->_menuFactory->create();
-                $this->_submenu->unserialize($this->_serializedSubmenu);
-            }
+        $this->_moduleHelper = Magento_Core_Model_ObjectManager::getInstance()->get($this->_moduleHelperName);
+        $this->_validator = Magento_Core_Model_ObjectManager::getInstance()
+            ->get('Magento_Backend_Model_Menu_Item_Validator');
+        $this->_acl = Magento_Core_Model_ObjectManager::getInstance()
+            ->get('Magento_AuthorizationInterface');
+        $this->_storeConfig =  Magento_Core_Model_ObjectManager::getInstance()
+            ->get('Magento_Core_Model_Store_Config');
+        $this->_menuFactory = Magento_Core_Model_ObjectManager::getInstance()
+            ->get('Magento_Backend_Model_MenuFactory');
+        $this->_urlModel = Magento_Core_Model_ObjectManager::getInstance()
+            ->get('Magento_Backend_Model_Url');
+        $this->_moduleList = Magento_Core_Model_ObjectManager::getInstance()
+            ->get('Magento_Core_Model_ModuleListInterface');
+        if ($this->_serializedSubmenu) {
+            $this->_submenu = $this->_menuFactory->create();
+            $this->_submenu->unserialize($this->_serializedSubmenu);
         }
     }
 }

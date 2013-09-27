@@ -86,7 +86,8 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     {
         $address = $this->getMockBuilder('Magento_Customer_Model_Address')
             ->disableOriginalConstructor()
-            ->setMethods(array('hasDataChanges', 'getId', 'addData', 'setData', 'setCustomerId', 'setPostIndex'))
+            ->setMethods(array('hasDataChanges', 'getId', 'addData', 'setData', 'setCustomerId', 'setPostIndex',
+                '__sleep', '__wakeup'))
             ->getMock();
         $address->expects($this->any())
             ->method('hasDataChanges')

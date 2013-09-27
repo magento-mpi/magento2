@@ -29,7 +29,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
                 'class_type' => $this->_processClassType((string)$this->getRequest()->getPost('class_type')),
                 'class_name' => $this->_processClassName((string)$this->getRequest()->getPost('class_name'))
             );
-            $class = Mage::getModel('Magento_Tax_Model_Class')
+            $class = $this->_objectManager->create('Magento_Tax_Model_Class')
                 ->setData($classData)
                 ->save();
             $responseContent = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
@@ -99,7 +99,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
             Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
         );
         if (!in_array($classType, $validClassTypes)) {
-            Mage::throwException(__('Invalid type of tax class specified.'));
+            throw new Magento_Core_Exception(__('Invalid type of tax class specified.'));
         }
         return $classType;
     }
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
     {
         $className = trim($this->_objectManager->get('Magento_Tax_Helper_Data')->escapeHtml($className));
         if ($className == '') {
-            Mage::throwException(__('Invalid name of tax class specified.'));
+            throw new Magento_Core_Exception(__('Invalid name of tax class specified.'));
         }
         return $className;
     }

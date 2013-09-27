@@ -493,7 +493,10 @@ final class Magento_Downloader_Controller
                         return false;
                     }
                     include_once self::$_instance->getBootstrapPath();
-                    Mage::setIsDownloader();
+
+                    Magento_Core_Model_ObjectManager::getInstance()
+                        ->get('Magento_Core_Model_App_State')
+                        ->setIsDownloader();
                 }
                 Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
                 if (self::isInstalled()) {

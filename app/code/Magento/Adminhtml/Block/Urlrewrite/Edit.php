@@ -47,17 +47,25 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     protected $_adminhtmlData = null;
 
     /**
+     * @var Magento_Core_Model_Url_RewriteFactory
+     */
+    protected $_rewriteFactory;
+
+    /**
+     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_rewriteFactory = $rewriteFactory;
         $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($coreData, $context, $data);
     }
@@ -247,7 +255,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     protected function _getUrlRewrite()
     {
         if (!$this->hasData('url_rewrite')) {
-            $this->setUrlRewrite(Mage::getModel('Magento_Core_Model_Url_Rewrite'));
+            $this->setUrlRewrite($this->_rewriteFactory->create());
         }
         return $this->getUrlRewrite();
     }

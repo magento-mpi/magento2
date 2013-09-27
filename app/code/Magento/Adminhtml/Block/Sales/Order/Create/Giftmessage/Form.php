@@ -35,6 +35,31 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     protected $_giftMessage;
 
     /**
+     * @var Magento_Adminhtml_Model_Session_Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_sessionQuote = $sessionQuote;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Set entity for form
      *
      * @param Magento_Object $entity
@@ -58,7 +83,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
 
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        return $this->_sessionQuote;
     }
 
     /**

@@ -18,6 +18,31 @@
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Catalog_Model_Product_Type_Configurable
+     */
+    protected $_configurableType;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Type_Configurable $configurableType
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Product_Type_Configurable $configurableType,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_configurableType = $configurableType;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare block children and data
      *
      */
@@ -63,14 +88,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
         ));
 
         $product = $this->getProduct();
-        /** @var $configurableType Magento_Catalog_Model_Product_Type_Configurable */
-        $configurableType = Mage::getSingleton('Magento_Catalog_Model_Product_Type_Configurable');
         $usedAttributes = $product->isConfigurable()
-            ? $configurableType->getUsedProductAttributes($product)
+            ? $this->_configurableType->getUsedProductAttributes($product)
             : array();
         foreach ($usedAttributes as $attribute) {
             /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-            if ($configurableType->canUseAttribute($attribute, $product)) {
+            if ($this->_configurableType->canUseAttribute($attribute, $product)) {
                 $fieldset->addField('attribute_' . $attribute->getAttributeId(), 'checkbox', array(
                     'label' => $attribute->getFrontendLabel(),
                     'title' => $attribute->getFrontendLabel(),

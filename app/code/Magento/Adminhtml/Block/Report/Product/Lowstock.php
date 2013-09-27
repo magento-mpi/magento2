@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock extends Magento_Adminhtml_
 
     public function getStoreSwitcherHtml()
     {
-        if (Mage::app()->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return '';
         }
         return $this->getChildHtml('store_switcher');

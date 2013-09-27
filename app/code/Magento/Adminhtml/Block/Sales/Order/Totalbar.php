@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totalbar extends Magento_Adminhtml_Blo
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(__('Please correct the parent block for this block.'));
+            throw new Magento_Core_Exception(__('Please correct the parent block for this block.'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
         $this->setSource($this->getParentBlock()->getSource());

@@ -32,18 +32,26 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_GiftMessage_Model_MessageFactory
+     */
+    protected $_messageFactory;
+
+    /**
+     * @param Magento_GiftMessage_Model_MessageFactory $messageFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_GiftMessage_Model_MessageFactory $messageFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_messageFactory = $messageFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -121,7 +129,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
     public function getEntity()
     {
         if(is_null($this->_entity)) {
-            $this->setEntity(Mage::getModel('Magento_GiftMessage_Model_Message')->getEntityModelByType('order'));
+            $this->setEntity($this->_messageFactory->create()->getEntityModelByType('order'));
             $this->getEntity()->load($this->getRequest()->getParam('entity'));
         }
         return $this->_entity;

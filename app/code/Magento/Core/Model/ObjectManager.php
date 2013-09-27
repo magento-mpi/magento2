@@ -71,7 +71,8 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
             $definitions
         );
 
-        $appMode = $primaryConfig->getParam(Mage::PARAM_MODE, Magento_Core_Model_App_State::MODE_DEFAULT);
+        $appMode = $primaryConfig
+            ->getParam(Magento_Core_Model_App::PARAM_MODE, Magento_Core_Model_App_State::MODE_DEFAULT);
         $factory = new Magento_ObjectManager_Factory_Factory($config, $this, $definitions, $primaryConfig->getParams());
 
         $sharedInstances['Magento_Core_Model_Config_Primary'] = $primaryConfig;

@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Abandoned extends Magento_Adminhtm
 
     public function getStoreSwitcherHtml()
     {
-        if (Mage::app()->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return '';
         }
         return $this->getChildHtml('store_switcher');

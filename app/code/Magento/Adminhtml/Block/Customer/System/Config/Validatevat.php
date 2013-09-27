@@ -133,8 +133,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
         $this->addData(array(
             'button_label' => __($buttonLabel),
             'html_id' => $element->getHtmlId(),
-            'ajax_url' => Mage::getSingleton('Magento_Backend_Model_Url')
-                ->getUrl('adminhtml/customer_system_config_validatevat/validate')
+            'ajax_url' => $this->_urlBuilder->getUrl('adminhtml/customer_system_config_validatevat/validate')
         ));
 
         return $this->_toHtml();

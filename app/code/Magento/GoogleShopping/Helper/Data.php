@@ -23,14 +23,24 @@ class Magento_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreString = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Helper_Context $context
     ) {
         $this->_coreString = $coreString;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -92,7 +102,7 @@ class Magento_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
             if (strip_tags($row) == $row) {
                 $row = preg_replace('/@ (.*)/', __("See '\\1'"), $row);
                 if (!is_null($product)) {
-                    $row .= ' ' . __("for product '%1' (in '%2' store)", $product->getName(), Mage::app()->getStore($product->getStoreId())->getName());
+                    $row .= ' ' . __("for product '%1' (in '%2' store)", $product->getName(), $this->_storeManager->getStore($product->getStoreId())->getName());
                 }
                 $result[] = $row;
                 continue;

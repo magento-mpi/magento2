@@ -37,6 +37,8 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
 
     /**
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory
@@ -44,6 +46,8 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
      */
     public function __construct(
         Magento_GiftWrapping_Helper_Data $giftWrappingData,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory,
@@ -51,7 +55,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingCollFactory = $wrappingCollFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
     }
 
     /**
