@@ -45,18 +45,21 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
     protected $_storeManager;
 
     /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
      * @param Magento_Rma_Helper_Eav $rmaEav
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
-     * @param Magento_Core_Model_ConfigInterface $coreConfig
-     * @param Magento_Core_Model_Dir $coreDir
-     * @param Magento_Shipping_Model_Config $shippingConfig
      * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Sales_Model_Order_Pdf_TotalFactory $pdfTotalFactory
-     * @param Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory
+     * @param Magento_Core_Model_Dir $dirs
+     * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
+     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
@@ -70,12 +73,10 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
-        Magento_Core_Model_ConfigInterface $coreConfig,
-        Magento_Core_Model_Dir $coreDir,
-        Magento_Shipping_Model_Config $shippingConfig,
         Magento_Core_Model_Translate $translate,
-        Magento_Sales_Model_Order_Pdf_TotalFactory $pdfTotalFactory,
-        Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory,
+        Magento_Core_Model_Dir $dirs,
+        Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
+        Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
@@ -84,8 +85,8 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         $this->_rmaData = $rmaData;
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
-        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $coreConfig, $coreDir,
-            $shippingConfig, $translate, $pdfTotalFactory, $pdfItemsFactory, $data);
+        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $dirs, $pdfConfig,
+            $totalFactory);
     }
 
     /**
@@ -104,7 +105,7 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         $style = new Zend_Pdf_Style();
         $this->_setFontBold($style, 10);
 
-        if (!(is_array($rmaArray) && (count($rmaArray) == 1))){
+        if (!(is_array($rmaArray) && (count($rmaArray) == 1))) {
             throw new Magento_Core_Exception(__('Only one RMA is available for printing'));
         }
         $rma = $rmaArray[0];
@@ -203,14 +204,14 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         $this->_setFontRegular($page);
 
         $yStartAddresses = $this->y - 25;
-        foreach ($shippingAddress as $value){
+        foreach ($shippingAddress as $value) {
             if ($value!=='') {
                 $page->drawText(strip_tags(ltrim($value)), 35, $yStartAddresses, 'UTF-8');
                 $yStartAddresses -=10;
             }
         }
         $yStartAddresses = $this->y - 25;
-        foreach ($returnAddress as $value){
+        foreach ($returnAddress as $value) {
             if ($value!=='') {
                 $page->drawText(strip_tags(ltrim($value)), 315, $yStartAddresses, 'UTF-8');
                 $yStartAddresses -=10;
@@ -341,19 +342,19 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
 
         $productSku = $this->_coreString->str_split($item->getProductSku(), 25);
         $productSku = isset($productSku[0]) ? $productSku[0] : '';
-        $page->drawText($productSku, $this->getProductSkuX(),$this->y, 'UTF-8');
+        $page->drawText($productSku, $this->getProductSkuX(), $this->y, 'UTF-8');
 
         $condition = $this->_coreString->str_split(
             $this->_getOptionAttributeStringValue($item->getCondition()),
             25
         );
-        $page->drawText($condition[0], $this->getConditionX(),$this->y, 'UTF-8');
+        $page->drawText($condition[0], $this->getConditionX(), $this->y, 'UTF-8');
 
         $resolution = $this->_coreString->str_split(
             $this->_getOptionAttributeStringValue($item->getResolution()),
             25
         );
-        $page->drawText($resolution[0], $this->getResolutionX(),$this->y, 'UTF-8');
+        $page->drawText($resolution[0], $this->getResolutionX(), $this->y, 'UTF-8');
         $page->drawText(
             $this->_rmaData->parseQuantity($item->getQtyRequested(), $item),
             $this->getQtyRequestedX(),
@@ -369,7 +370,7 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         );
 
         $status = $this->_coreString->str_split($item->getStatusLabel(), 25);
-        $page->drawText($status[0], $this->getStatusX(),$this->y, 'UTF-8');
+        $page->drawText($status[0], $this->getStatusX(), $this->y, 'UTF-8');
 
         $productOptions = $item->getOptions();
         if (is_array($productOptions) && !empty($productOptions)) {
@@ -387,7 +388,7 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
      */
     protected function _drawCustomOptions($optionsArray = array(), $page)
     {
-        $this->_setFontRegular($page,6);
+        $this->_setFontRegular($page, 6);
         foreach ($optionsArray as $value) {
             $this->y -= 8;
             $optionRowString = $value['label'] . ': ' .

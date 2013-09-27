@@ -19,25 +19,6 @@
                 </setup>
             </giftregistry_setup>
         </resources>
-        <template>
-            <email>
-                <magento_giftregistry_owner_email_template translate="label" module="Magento_GiftRegistry">
-                    <label>New Registry</label>
-                    <file>email/owner.html</file>
-                    <type>html</type>
-                </magento_giftregistry_owner_email_template>
-                <magento_giftregistry_sharing_email_template translate="label" module="Magento_GiftRegistry">
-                    <label>Registry Sharing</label>
-                    <file>email/sharing.html</file>
-                    <type>html</type>
-                </magento_giftregistry_sharing_email_template>
-                <magento_giftregistry_update_email_template translate="label" module="Magento_GiftRegistry">
-                    <label>Registry Update</label>
-                    <file>email/update.html</file>
-                    <type>html</type>
-                </magento_giftregistry_update_email_template>
-            </email>
-        </template>
     </global>
     <default>
         <magento_giftregistry>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template module="Fixture_ModuleOne" id="template_one" label="Template One" file="one.html" type="html"/>
+    <template module="Fixture_ModuleTwo" id="template_two" label="Template 2" file="2.txt" type="text"/>
+</config>

@@ -43,7 +43,7 @@ class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
         Magento_Tax_Model_Calculation $taxCalculation,
         Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory,
         array $data = array()
-    ){
+    ) {
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;
         $this->_taxOrdersFactory = $ordersFactory;

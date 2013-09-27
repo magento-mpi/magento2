@@ -97,10 +97,13 @@ return array(
     '/config/global/catalog/product/flat/attribute_nodes'
         => 'Use /config/global/catalog/product/flat/attribute_groups',
     '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
+    '/config/global/pdf' => 'Use configuration in pdf.xml',
     '/config/install' => 'Configurations moved to DI file settings',
     '/config/install/design' => 'Configurations moved to DI file settings',
     '/config/adminhtml/design' => 'Configurations moved to DI file settings',
     '/config/frontend/design' => 'Configurations moved to DI file settings',
     '/config/crontab' => 'All cron configurations moved to crontab.xml',
-    '/config/vde' => 'Was moved to di',
+    '/config/vde' => 'Configurations moved to DI file settings',
+    '/config/global/currency/import/services' => 'Configurations moved to DI file settings',
+    '/config/global/template' => 'Use /config/template of email_templates.xml',
 );
