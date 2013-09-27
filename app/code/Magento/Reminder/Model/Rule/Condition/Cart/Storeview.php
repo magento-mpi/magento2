@@ -69,7 +69,6 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Storeview
      */
     public function loadValueOptions()
     {
-        //var_dump($this->_store);
         $this->setValueOption($this->_store->getStoreValuesForForm());
         return $this;
     }

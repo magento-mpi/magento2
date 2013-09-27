@@ -109,9 +109,9 @@ class Magento_Install_Model_Installer extends Magento_Object
     /**
      * User user
      *
-     * @var Magento_User_Model_User
+     * @var Magento_User_Model_UserFactory
      */
-    protected $_userModel;
+    protected $_userModelFactory;
 
     /**
      * Installer DB model
@@ -146,7 +146,7 @@ class Magento_Install_Model_Installer extends Magento_Object
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_User_Model_User $userModel
+     * @param Magento_User_Model_UserFactory $userModelFactory
      * @param Magento_Install_Model_Installer_Filesystem $filesystem
      * @param Magento_Install_Model_Installer_Pear $installerPear
      * @param Magento_Install_Model_Installer_Db $installerDb
@@ -166,7 +166,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         Magento_Core_Model_App $app,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_User_Model_User $userModel,
+        Magento_User_Model_UserFactory $userModelFactory,
         Magento_Install_Model_Installer_Filesystem $filesystem,
         Magento_Install_Model_Installer_Pear $installerPear,
         Magento_Install_Model_Installer_Db $installerDb,
@@ -186,7 +186,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         $this->_app = $app;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
-        $this->_userModel = $userModel;
+        $this->_userModelFactory = $userModelFactory;
         $this->_filesystem = $filesystem;
         $this->_installerPear = $installerPear;
         $this->_installerDb = $installerDb;
@@ -407,7 +407,7 @@ class Magento_Install_Model_Installer extends Magento_Object
             ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 
         /** @var $user Magento_User_Model_User */
-        $user = $this->_userModel;
+        $user = $this->_userModelFactory->create();
         $user->loadByUsername($data['username']);
         $user->addData($data)
             ->setForceNewPassword(true) // run-time flag to force saving of the entered password
