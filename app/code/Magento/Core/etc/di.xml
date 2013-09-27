@@ -380,4 +380,9 @@
             <instance type="Magento_Core_Model_View_Design_Proxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Config_Cache">
+        <param name="configCacheType">
+            <instance type="Magento_Core_Model_Cache_Type_Config_Proxy" />
+        </param>
+    </type>
 </config>
