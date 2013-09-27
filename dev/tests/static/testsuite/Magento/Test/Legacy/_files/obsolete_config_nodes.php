@@ -97,6 +97,7 @@ return array(
     '/config/global/catalog/product/flat/attribute_nodes'
         => 'Use /config/global/catalog/product/flat/attribute_groups',
     '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
+    '/config/global/pdf' => 'Use configuration in pdf.xml',
     '/config/install' => 'Configurations moved to DI file settings',
     '/config/install/design' => 'Configurations moved to DI file settings',
     '/config/adminhtml/design' => 'Configurations moved to DI file settings',
@@ -108,4 +109,6 @@ return array(
     '/config/global/ignoredModules' => 'Was replaced using di',
     '/config/global/helpers' => 'Was replaced using di',
     '/config/global/external_cache' => 'Was replaced using di',
+    '/config/global/currency/import/services' => 'Configurations moved to DI file settings',
+    '/config/global/template' => 'Use /config/template of email_templates.xml',
 );

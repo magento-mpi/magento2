@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template id="sendfriend_email_template" label="Send Product Link to Friend" file="product_share.html" type="html"/>
+</config>

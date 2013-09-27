@@ -50,10 +50,10 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Magento_Core_Model_Config_Modules_Reader', array(
-                'dirs' => $dirs,
                 'moduleList' => $modulesList
             )
         );
+        $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/Magento/Test/etc');
 
         /** @var Magento_Core_Model_Config_FileResolver $fileResolver */
         $fileResolver = $objectManager->create(

@@ -60,6 +60,8 @@ app/code/Magento/Core/Model/Design/Fallback
 app/code/Magento/Core/Model/Design/Source/Design.php
 app/code/Magento/Core/Model/Dir
 app/code/Magento/Core/Model/Dir.php
+app/code/Magento/Core/Model/Email/Template/Config
+app/code/Magento/Core/Model/Email/Template/Config.php
 app/code/Magento/Core/Model/EntryPoint
 app/code/Magento/Core/Model/EntryPointAbstract.php
 app/code/Magento/Core/Model/Layout.php
@@ -68,6 +70,8 @@ app/code/Magento/Core/Model/Layout/Update.php
 app/code/Magento/Core/Model/Layout/Argument
 app/code/Magento/Core/Model/Locale/Validator.php
 app/code/Magento/Core/Model/LocaleInterface.php
+app/code/Magento/Core/Model/Module/Dir
+app/code/Magento/Core/Model/Module/Dir.php
 app/code/Magento/Core/Model/ObjectManager
 app/code/Magento/Core/Model/Observer.php
 app/code/Magento/Core/Model/Page
@@ -148,6 +152,9 @@ app/code/Magento/Sales/Block/Order/Link.php
 app/code/Magento/Sales/Block/Recurring/Profile/Grid.php
 app/code/Magento/Sales/Block/Recurring/Profile/Related/Orders/Grid.php
 app/code/Magento/Sales/Block/Recurring/Profile/View
+app/code/Magento/Sales/Model/Order/Pdf/Config
+app/code/Magento/Sales/Model/Order/Pdf/Config.php
+app/code/Magento/Sales/Model/Order/Pdf/Total/Factory.php
 app/code/Magento/SalesRule/Model/Plugin
 app/code/Magento/Theme
 app/code/Magento/User

@@ -1,8 +1,6 @@
 <?php
 /**
- * Logging configuration data container.
- *
- * Provides fieldset configuration data based on current config scope
+ * Logging configuration data container. Provides fieldset configuration data.
  *
  * {license_notice}
  *
@@ -11,10 +9,4 @@
  */
 class Magento_Logging_Model_Config_Data extends Magento_Config_Data
 {
-    /**
-     * Scope priority loading scheme
-     *
-     * @var array
-     */
-    protected $_scopePriorityScheme = array('global');
 }

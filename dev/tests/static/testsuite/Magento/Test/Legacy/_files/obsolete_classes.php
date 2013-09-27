@@ -545,6 +545,8 @@ return array(
     array('Mage_Adminhtml_Rss_OrderController'),
     array('Mage_Adminhtml_SystemController', 'Magento_Backend_Controller_Adminhtml_System'),
     array('Mage_Adminhtml_System_ConfigController', 'Magento_Backend_Controller_Adminhtml_System_Config'),
+    array('Magento_Backend_Model_Config_Source_Currency_Service',
+        'Magento_Directory_Model_Currency_Import_Source_Service'),
     array('Mage_Backend_Model_Menu_Config_Menu'),
     array('Mage_Backend_Model_Menu_Director_Dom'),
     array('Mage_Backend_Model_Menu_Factory', 'Mage_Backend_Model_MenuFactory'),

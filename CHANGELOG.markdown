@@ -29,7 +29,8 @@
   * /config/global/page/layouts node was removed from the config.xml and related data was moved into page_layouts.xml
   * /config/global/theme node was removed from the config.xml and related data was moved to di.xml
   * /config/global/payment node was removed from config.xml and related data was moved to payment.xml and di.xml
-  * Improved Install, Category, Product, Customer, Wishlist configuration segments:
+  * Removed "translate" node from configuration XML files
+  * Improved Install, Category, Product, Customer, Wishlist, PDF, VDE, Currency, Email Template configuration segments:
     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
     * New configuration files are validated with XSD
     * Format of the configuration changed to make possible its validation

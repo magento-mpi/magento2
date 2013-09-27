@@ -24,7 +24,7 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services exten
     protected $_template = 'system/currency/rate/services.phtml';
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Currency_ServiceFactory
+     * @var Magento_Directory_Model_Currency_Import_Source_ServiceFactory
      */
     protected $_srcCurrencyFactory;
 
@@ -35,14 +35,14 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services exten
 
     /**
      * @param Magento_Backend_Model_Session $adminSession
-     * @param Magento_Backend_Model_Config_Source_Currency_ServiceFactory $srcCurrencyFactory
+     * @param Magento_Directory_Model_Currency_Import_Source_ServiceFactory $srcCurrencyFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Model_Session $adminSession,
-        Magento_Backend_Model_Config_Source_Currency_ServiceFactory $srcCurrencyFactory,
+        Magento_Directory_Model_Currency_Import_Source_ServiceFactory $srcCurrencyFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
@@ -62,7 +62,7 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services exten
         $this->setChild(
             'import_services',
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
-                ->setOptions($this->_srcCurrencyFactory->create()->toOptionArray(0))
+                ->setOptions($this->_srcCurrencyFactory->create()->toOptionArray())
                 ->setId('rate_services')
                 ->setName('rate_services')
                 ->setValue($this->_adminSession->getCurrencyRateService(true))
