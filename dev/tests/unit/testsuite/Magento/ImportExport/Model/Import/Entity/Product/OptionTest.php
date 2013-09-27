@@ -282,6 +282,11 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     protected $_iteratorPageSize = 100;
 
     /**
+     * @var Magento_Catalog_Helper_Data
+     */
+    protected $_catalogDataMock;
+
+    /**
      * Init entity adapter model
      */
     protected function setUp()
@@ -305,33 +310,16 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
 
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
 
-        $importFactory = $this->getMock(
-            'Magento_ImportExport_Model_ImportFactory', array('create'), array(), '', false
-        );
-
-        $importModel = $this->getMock('Magento_ImportExport_Model_Import', array(), array(), '', false);
-        $importFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($importModel));
-
-        $eavConfig = $this->getMock('Magento_Eav_Model_Config', array('getEntityType'), array(), '', false);
-        $typeModel = $this->getMock('Magento_Eav_Model_Entity_Type', array(), array(), '', false);
-        $eavConfig->expects($this->once())
-            ->method('getEntityType')
-            ->will($this->returnValue($typeModel));
-
         $this->_model = new Magento_ImportExport_Model_Import_Entity_Product_Option(
-            $this->getMock('Magento_Core_Helper_String', array(), array(), '', false),
-            $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Helper_Data', array(), array(), '', false),
-            $importFactory,
-            $eavConfig,
+            $this->getMock('Magento_ImportExport_Model_Resource_Import_Data', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false),
             $this->getMock('Magento_ImportExport_Model_Resource_Helper_Mysql4', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false),
             $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false),
-            $this->getMock('Magento_Catalog_Model_Resource_Product_Option_CollectionFactory', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory', array(), array(), '', false),
+            $this->getMock('Magento_Catalog_Model_Resource_Product_Option_CollectionFactory',
+                array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory',
+                array(), array(), '', false),
             $this->_catalogDataMock,
             $coreStoreConfig,
             $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
