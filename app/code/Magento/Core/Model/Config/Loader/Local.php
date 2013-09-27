@@ -82,6 +82,6 @@ class Magento_Core_Model_Config_Loader_Local
         $converter = new Magento_Config_Converter_Dom_Flat($this->_idAttributes);
 
         $result = $converter->convert($localConfig->getDom());
-        return isset($result['config']) ? $result['config'] : array();
+        return !empty($result['config']) ? $result['config'] : array();
     }
 }
