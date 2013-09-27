@@ -57,7 +57,7 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
     protected $_app;
 
     /**
-     * @var Magento_Data_CollectionFactory
+     * @var Magento_ImportExport_Model_Export_Factory
      */
     protected $_collectionFactory;
 
@@ -78,7 +78,7 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
             'Magento_ImportExport_Model_Resource_Helper_Mysql4', array(), array(), '', false
         );
         $this->_app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
-        $this->_collectionFactory = $this->getMock('Magento_Data_CollectionFactory', array(), array(), '', false);
+        $this->_collectionFactory = $this->getMock('Magento_ImportExport_Model_Export_Factory', array(), array(), '', false);
         $this->_eavConfig = $this->getMock(
             'Magento_Eav_Model_Config', array(), array(), '', false
         );
