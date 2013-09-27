@@ -40,7 +40,7 @@
     <type name="Magento_Core_Model_Db_Updater">
         <param name="resourceList">
             <value>
-                <salesrule_setup>Magento_Sales_Model_Resource_Setup</salesrule_setup>
+                <salesrule_setup>Magento_SalesRule_Model_Resource_Setup</salesrule_setup>
             </value>
         </param>
     </type>

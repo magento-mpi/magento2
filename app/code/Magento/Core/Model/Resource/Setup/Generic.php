@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +24,7 @@ class Magento_Core_Model_Resource_Setup_Generic extends Magento_Core_Model_Resou
         Magento_Core_Model_Resource_Setup_Context $context,
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName,
-        $moduleName = 'Magento_Widget',
+        $moduleName,
         $connectionName = ''
     ) {
         $this->_migrationFactory = $migrationFactory;
