@@ -26,16 +26,20 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Messages extends Magento_Adminh
      * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Message $message
+     * @param Magento_Core_Model_Message_CollectionFactory $messageFactory
      * @param array $data
      */
     public function __construct(
         Magento_Adminhtml_Model_Session_Quote $sessionQuote,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Message $message,
+        Magento_Core_Model_Message_CollectionFactory $messageFactory,
         array $data = array()
     ) {
         $this->_sessionQuote = $sessionQuote;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($coreData, $context, $message, $messageFactory, $data);
     }
 
     /**

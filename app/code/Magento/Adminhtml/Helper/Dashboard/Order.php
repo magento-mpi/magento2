@@ -18,36 +18,49 @@
 class Magento_Adminhtml_Helper_Dashboard_Order extends Magento_Adminhtml_Helper_Dashboard_Abstract
 {
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManger;
-
-    /**
      * @var Magento_Reports_Model_Resource_Order_Collection
      */
     protected $_orderCollection;
 
     /**
      * @param Magento_Reports_Model_Resource_Order_Collection $orderCollection
-     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Locale $locale
+     * @param Magento_Core_Model_Date $dateModel
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_Config_Resource $configResource
      */
     public function __construct(
         Magento_Reports_Model_Resource_Order_Collection $orderCollection,
-        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Locale $locale,
+        Magento_Core_Model_Date $dateModel,
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_Config_Resource $configResource
     ) {
         $this->_orderCollection = $orderCollection;
-        $this->_storeManger = $storeManager;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct(
+            $eventManager,
+            $coreHttp,
+            $context,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $configResource
+        );
     }
 
     protected function _initCollection()
