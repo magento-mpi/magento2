@@ -25,12 +25,12 @@ class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
     /** @var \Magento\TestFramework\Utility\Files  */
     protected $_utilityFiles;
 
-    /** @var Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector */
+    /** @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector */
     protected $_phraseCollector;
 
     protected function setUp()
     {
-        $this->_parser = new Adapter\Js();
+        $this->_parser = new \Magento\Tools\I18n\Code\Parser\Adapter\Js();
         $this->_utilityFiles = \Magento\TestFramework\Utility\Files::init();
         $this->_phraseCollector = new PhraseCollector(new Tokenizer());
     }
