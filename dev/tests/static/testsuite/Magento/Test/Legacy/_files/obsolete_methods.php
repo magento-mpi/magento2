@@ -491,6 +491,7 @@ return array(
     array('getSortedChildBlocks', '', 'getChildNames() + $this->getLayout()->getBlock($name)'),
     array('getSortedChildren', '', 'getChildNames'),
     array('getSortedElements', 'Magento_Data_Form_Element_Fieldset', 'getElements'),
+    array('getStateModelClass', 'Magento_Centinel_Model_Config'),
     array('getStatrupPageUrl'),
     array('getStore', 'Magento_Captcha_Helper_Data'),
     array('getStoreButtonsHtml', 'Magento_Backend_Block_System_Config_Tabs'),
