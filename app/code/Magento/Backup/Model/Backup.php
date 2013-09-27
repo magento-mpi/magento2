@@ -311,7 +311,7 @@ class Backup extends \Magento\Object
         try {
             $this->_getStream()->write($string);
         }
-        catch (\Magento\Filesystem\Exception $e) {
+        catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Backup\Exception(__('Something went wrong writing to the backup file "%1".',
                 $this->getFileName()));
         }

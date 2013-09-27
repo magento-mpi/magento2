@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Config;
 
-class Storage extends \Magento\Core\Model\Config\StorageAbstract
+class Storage extends \Magento\Core\Model\Config\AbstractStorage
 {
     /**
      * @param \Magento\Core\Model\Config\Cache $cache

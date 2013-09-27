@@ -139,7 +139,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
 
         $callback = function ($dir) {
             if (($dir == 'base_dir/var/log') || ($dir == 'base_dir/var/session')) {
-                throw new \Magento\Filesystem\Exception();
+                throw new \Magento\Filesystem\FilesystemException();
             }
         };
         $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);

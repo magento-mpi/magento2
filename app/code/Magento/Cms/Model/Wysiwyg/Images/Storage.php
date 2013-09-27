@@ -361,7 +361,7 @@ class Storage extends \Magento\Object
                 'id'            => $this->_cmsWysiwygImages->convertPathToId($newPath)
             );
             return $result;
-        } Catch (\Magento\Filesystem\Exception $e) {
+        } Catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Core\Exception(__('We cannot create a new directory.'));
         }
     }
@@ -391,7 +391,7 @@ class Storage extends \Magento\Object
         }
         try {
             $this->_filesystem->delete($path);
-        } catch (\Magento\Filesystem\Exception $e) {
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Core\Exception(__('We cannot delete directory %1.', $path));
         }
 

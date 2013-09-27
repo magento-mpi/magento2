@@ -85,7 +85,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Filesystem\Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage Failed to read contents of 'non-existing-file.txt'
      */
     public function testReadException()
@@ -119,7 +119,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     public function testWriteException()
     {
         $filename = __DIR__;
-        $this->setExpectedException('Magento\Filesystem\Exception', "Failed to write contents to '{$filename}'");
+        $this->setExpectedException('Magento\Filesystem\FilesystemException', "Failed to write contents to '{$filename}'");
         $this->_adapter->write($filename, 'any contents');
     }
 
@@ -174,7 +174,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Filesystem\Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage Failed to change mode of 'non-existing-file.txt'
      */
     public function testChangePermissionsException()
@@ -189,7 +189,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Filesystem\Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage Failed to get hash of 'non-existing-file.txt'
      */
     public function testGetFileMd5Exception()
@@ -244,7 +244,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Filesystem\Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage Failed to rename 'non-existing-file.txt' to 'any-new-file.txt'
      */
     public function testRenameException()
@@ -270,7 +270,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     public function testCreateDirectoryException()
     {
         $filename = __FILE__;
-        $this->setExpectedException('Magento\Filesystem\Exception', "Failed to create '{$filename}'");
+        $this->setExpectedException('Magento\Filesystem\FilesystemException', "Failed to create '{$filename}'");
         $this->_adapter->createDirectory($filename, 0755);
     }
 
@@ -304,7 +304,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     public function testTouchException()
     {
         $filename = __FILE__ . '/invalid';
-        $this->setExpectedException('Magento\Filesystem\Exception', "Failed to touch '{$filename}'");
+        $this->setExpectedException('Magento\Filesystem\FilesystemException', "Failed to touch '{$filename}'");
         $this->_adapter->touch($filename);
     }
 
@@ -325,7 +325,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Filesystem\Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage Failed to copy 'non-existing-file.txt' to 'any-new-file.txt'
      */
     public function testCopyException()
@@ -342,7 +342,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Filesystem\Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage Failed to get modification time of 'non-existing-file.txt'
      */
     public function testGetMTimeException()
@@ -375,7 +375,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Filesystem\Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage Failed to get file size of 'non-existing-file.txt'
      */
     public function testGetFileSizeException()
@@ -419,7 +419,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Filesystem\Exception
+     * @expectedException \Magento\Filesystem\FilesystemException
      * @expectedExceptionMessage The directory '/unknown_directory' does not exist.
      */
     public function testGetNestedKeysInUnknownDirectory()
@@ -462,7 +462,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     public function testSearchKeysException()
     {
         $pattern = str_repeat('1', 20000); // Overflow the glob() length limit (Win - 260b, Linux - 1k-8k)
-        $this->setExpectedException('Magento\Filesystem\Exception', "Failed to resolve the file pattern '{$pattern}'");
+        $this->setExpectedException('Magento\Filesystem\FilesystemException', "Failed to resolve the file pattern '{$pattern}'");
         $this->_adapter->searchKeys($pattern);
     }
 }

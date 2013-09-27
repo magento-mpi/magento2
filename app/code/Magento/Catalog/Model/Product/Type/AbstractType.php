@@ -446,7 +446,7 @@ abstract class AbstractType
 
                         try {
                             $this->_filesystem->createDirectory($path, 0777);
-                        } catch (\Magento\Filesystem\Exception $e) {
+                        } catch (\Magento\Filesystem\FilesystemException $e) {
                             \Mage::throwException(
                                 __("We can't create writeable directory \"%1\".", $path)
                             );

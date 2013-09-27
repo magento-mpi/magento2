@@ -272,7 +272,7 @@ class Images extends \Magento\Core\Helper\AbstractHelper
                 if (!$this->_filesystem->isWritable($currentPath)) {
                     $this->_filesystem->createDirectory($currentPath);
                 }
-            } catch (\Magento\Filesystem\Exception $e) {
+            } catch (\Magento\Filesystem\FilesystemException $e) {
                 $message = __('The directory %1 is not writable by server.', $currentPath);
                 throw new \Magento\Core\Exception($message);
             }
