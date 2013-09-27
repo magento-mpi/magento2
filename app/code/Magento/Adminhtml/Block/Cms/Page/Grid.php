@@ -92,13 +92,11 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
             'index'     => 'identifier'
         ));
 
-
-
         $this->addColumn('root_template', array(
             'header'    => __('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
-            'options'   => $this->_pageLayout->getOpstions(),
+            'options'   => $this->_pageLayout->getOptions(),
         ));
 
         /**
