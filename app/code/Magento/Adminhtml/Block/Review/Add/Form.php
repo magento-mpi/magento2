@@ -26,6 +26,12 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widg
     protected $_reviewData = null;
 
     /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param Magento_Core_Model_System_Store $systemStore
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
@@ -34,6 +40,7 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widg
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_System_Store $systemStore,
         Magento_Review_Helper_Data $reviewData,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
@@ -42,6 +49,7 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widg
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
+        $this->_systemStore = $systemStore;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -75,12 +83,12 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Backend_Block_Widg
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('select_stores', 'multiselect', array(
                 'label'     => __('Visible In'),
                 'required'  => true,
                 'name'      => 'select_stores[]',
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values'    => $this->_systemStore->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');

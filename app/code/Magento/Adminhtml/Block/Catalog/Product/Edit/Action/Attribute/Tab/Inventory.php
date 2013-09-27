@@ -20,13 +20,34 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventor
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * @var Magento_CatalogInventory_Model_Source_Backorders
+     */
+    protected $_backorders;
+
+    /**
+     * @param Magento_CatalogInventory_Model_Source_Backorders $backorders
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogInventory_Model_Source_Backorders $backorders,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_backorders = $backorders;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve Backorders Options
      *
      * @return array
      */
     public function getBackordersOption()
     {
-        return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Backorders')->toOptionArray();
+        return $this->_backorders->toOptionArray();
     }
 
     /**

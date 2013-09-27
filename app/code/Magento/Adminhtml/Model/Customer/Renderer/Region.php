@@ -36,11 +36,19 @@ class Magento_Adminhtml_Model_Customer_Renderer_Region implements Magento_Data_F
     protected $_adminhtmlData = null;
 
     /**
+     * @var Magento_Directory_Model_CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Adminhtml_Helper_Data $adminhtmlData
      */
     public function __construct(
+        Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Adminhtml_Helper_Data $adminhtmlData
     ) {
+        $this->_countryFactory = $countryFactory;
         $this->_adminhtmlData = $adminhtmlData;
     }
 
@@ -56,7 +64,7 @@ class Magento_Adminhtml_Model_Customer_Renderer_Region implements Magento_Data_F
         $regionCollection = false;
         if ($countryId) {
             if (!isset(self::$_regionCollections[$countryId])) {
-                self::$_regionCollections[$countryId] = Mage::getModel('Magento_Directory_Model_Country')
+                self::$_regionCollections[$countryId] = $this->_countryFactory->create()
                     ->setId($countryId)
                     ->getLoadedRegionCollection()
                     ->toOptionArray();

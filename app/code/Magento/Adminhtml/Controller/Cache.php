@@ -208,7 +208,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
         $allTypes = array_keys($this->_cacheTypeList->getTypes());
         $invalidTypes = array_diff($types, $allTypes);
         if (count($invalidTypes) > 0) {
-            Mage::throwException(__("Specified cache type(s) don't exist: " . join(', ', $invalidTypes)));
+            throw new Magento_Core_Exception(__("Specified cache type(s) don't exist: " . join(', ', $invalidTypes)));
         }
     }
 
@@ -243,7 +243,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
     public function cleanImagesAction()
     {
         try {
-            Mage::getModel('Magento_Catalog_Model_Product_Image')->clearCache();
+            $this->_objectManager->create('Magento_Catalog_Model_Product_Image')->clearCache();
             $this->_eventManager->dispatch('clean_catalog_images_cache_after');
             $this->_getSession()->addSuccess(
                 __('The image cache was cleaned.')

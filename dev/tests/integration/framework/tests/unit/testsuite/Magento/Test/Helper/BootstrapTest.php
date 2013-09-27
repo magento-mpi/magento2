@@ -35,7 +35,7 @@ class Magento_Test_Helper_BootstrapTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_fixtureInitParams = array(
-        Mage::PARAM_APP_DIRS => array(
+        Magento_Core_Model_App::PARAM_APP_DIRS => array(
             Magento_Core_Model_Dir::CONFIG     => __DIR__,
             Magento_Core_Model_Dir::VAR_DIR    => __DIR__,
         ),

@@ -129,7 +129,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
         $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
         $fieldset->setRenderer($renderer);
 
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $fieldset->addField("w_{$website->getId()}_label", 'note', array(
                 'label' => $website->getName(),
                 'fieldset_html_class' => 'website',

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftCard
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_GiftCard_Model_Observer">
+        <param name="session">
+            <instance type="Magento_Backend_Model_Session" />
+        </param>
+        <param name="urlModel">
+            <instance type="Magento_Backend_Model_Url" />
+        </param>
+    </type>
+</config>

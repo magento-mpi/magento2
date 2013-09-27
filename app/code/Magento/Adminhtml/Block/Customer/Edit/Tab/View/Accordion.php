@@ -25,18 +25,34 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var Magento_Wishlist_Model_Resource_Item_CollectionFactory
+     */
+    protected $_itemsFactory;
+
+    /**
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemsFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
+        Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemsFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_itemsFactory = $itemsFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -54,10 +70,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
 
         // add shopping cart block of each website
         foreach ($this->_coreRegistry->registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
-            $website = Mage::app()->getWebsite($websiteId);
+            $website = $this->_storeManager->getWebsite($websiteId);
 
             // count cart items
-            $cartItemsCount = Mage::getModel('Magento_Sales_Model_Quote')
+            $cartItemsCount = $this->_quoteFactory->create()
                 ->setWebsite($website)->loadByCustomer($customer)
                 ->getItemsCollection(false)
                 ->addFieldToFilter('parent_item_id', array('null' => true))
@@ -77,7 +93,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
         }
 
         // count wishlist items
-        $wishlistCount = Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
+        $wishlistCount = $this->_itemsFactory->create()
             ->addCustomerIdFilter($customer->getId())
             ->addStoreData()
             ->getSize();

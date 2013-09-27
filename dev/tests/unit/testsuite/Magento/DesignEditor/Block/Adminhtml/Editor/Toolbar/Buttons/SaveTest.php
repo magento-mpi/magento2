@@ -212,7 +212,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
         if ($type == Magento_Core_Model_Theme::TYPE_VIRTUAL) {
             $theme = $this->_getVirtualThemeMock($type, $isAssigned);
         } else {
-            $theme = $this->getMock('Magento_Core_Model_Theme', null, array(), '', false);
+            $theme = $this->getMock('Magento_Core_Model_Theme', array('__sleep', '__wakeup'), array(), '', false);
         }
 
         $theme->setType($type);
@@ -238,7 +238,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
 
         // 2. Get Theme mock
         /** @var $theme Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
-        $theme = $this->getMock('Magento_Core_Model_Theme', array('getDomainModel'), array(), '', false);
+        $theme = $this->getMock(
+            'Magento_Core_Model_Theme',
+            array('getDomainModel', '__sleep', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $theme->expects($this->any())
             ->method('getDomainModel')
             ->with($type)

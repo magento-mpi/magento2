@@ -21,6 +21,47 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
     extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
 {
     /**
+     * @var Magento_Catalog_Model_Config_Source_Category
+     */
+    protected $_category;
+
+    /**
+     * @var Magento_Core_Model_StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @var Magento_Core_Model_Website_Factory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Config_Source_Category $category
+     * @param Magento_Core_Model_StoreFactory $storeFactory
+     * @param Magento_Core_Model_Website_Factory $websiteFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Config_Source_Category $category,
+        Magento_Core_Model_StoreFactory $storeFactory,
+        Magento_Core_Model_Website_Factory $websiteFactory,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_category = $category;
+        $this->_storeFactory = $storeFactory;
+        $this->_websiteFactory = $websiteFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare group specific fieldset
      *
      * @param Magento_Data_Form $form
@@ -39,7 +80,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
 
         $storeAction = $this->_coreRegistry->registry('store_action');
         if ($storeAction == 'edit' || $storeAction == 'add') {
-            $websites = Mage::getModel('Magento_Core_Model_Website')->getCollection()->toOptionArray();
+            $websites = $this->_websiteFactory->create()->getCollection()->toOptionArray();
             $fieldset->addField('group_website_id', 'select', array(
                 'name'      => 'group[website_id]',
                 'label'     => __('Web Site'),
@@ -76,7 +117,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
             'disabled'  => $groupModel->isReadOnly(),
         ));
 
-        $categories = Mage::getModel('Magento_Catalog_Model_Config_Source_Category')->toOptionArray();
+        $categories = $this->_category->toOptionArray();
 
         $fieldset->addField('group_root_category_id', 'select', array(
             'name'      => 'group[root_category_id]',
@@ -88,7 +129,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
         ));
 
         if ($this->_coreRegistry->registry('store_action') == 'edit') {
-            $stores = Mage::getModel('Magento_Core_Model_Store')->getCollection()
+            $stores = $this->_storeFactory->create()->getCollection()
                 ->addGroupFilter($groupModel->getId())->toOptionArray();
             $fieldset->addField('group_default_store_id', 'select', array(
                 'name'      => 'group[default_store_id]',

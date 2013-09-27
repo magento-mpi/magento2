@@ -20,14 +20,14 @@ class Magento_Adminhtml_Controller_Catalog_Product_Gallery extends Magento_Admin
     public function uploadAction()
     {
         try {
-            $uploader = Mage::getModel('Magento_Core_Model_File_Uploader', array('fileId' => 'image'));
+            $uploader = $this->_objectManager->create('Magento_Core_Model_File_Uploader', array('fileId' => 'image'));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $imageAdapter = $this->_objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create();
             $uploader->addValidateCallback('catalog_product_image', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save(
-                Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
+                $this->_objectManager->get('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
             );
 
             $this->_eventManager->dispatch('catalog_product_gallery_upload_image_after', array(
@@ -38,7 +38,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Gallery extends Magento_Admin
             unset($result['tmp_name']);
             unset($result['path']);
 
-            $result['url'] = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')
+            $result['url'] = $this->_objectManager->get('Magento_Catalog_Model_Product_Media_Config')
                 ->getTmpMediaUrl($result['file']);
             $result['file'] = $result['file'] . '.tmp';
 

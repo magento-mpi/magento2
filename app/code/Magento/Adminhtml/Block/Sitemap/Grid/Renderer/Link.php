@@ -22,15 +22,23 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminht
     protected $_filesystem;
 
     /**
+     * @var Magento_Sitemap_Model_SitemapFactory
+     */
+    protected $_sitemapFactory;
+
+    /**
+     * @param Magento_Sitemap_Model_SitemapFactory $sitemapFactory
      * @param Magento_Backend_Block_Context $context
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
+        Magento_Sitemap_Model_SitemapFactory $sitemapFactory,
         Magento_Backend_Block_Context $context,
         Magento_Filesystem $filesystem,
         array $data = array()
     ) {
+        $this->_sitemapFactory = $sitemapFactory;
         $this->_filesystem = $filesystem;
         parent::__construct($context, $data);
     }
@@ -44,7 +52,7 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminht
     public function render(Magento_Object $row)
     {
         /** @var $sitemap Magento_Sitemap_Model_Sitemap */
-        $sitemap = Mage::getModel('Magento_Sitemap_Model_Sitemap');
+        $sitemap = $this->_sitemapFactory->create();
         $url = $this->escapeHtml($sitemap->getSitemapUrl($row->getSitemapPath(), $row->getSitemapFilename()));
 
         $fileName = preg_replace('/^\//', '', $row->getSitemapPath() . $row->getSitemapFilename());

@@ -14,6 +14,35 @@
 class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable extends Magento_Catalog_Block_Product_View_Type_Configurable
 {
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreRegistry, $catalogProduct, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve product
      *
      * @return Magento_Catalog_Model_Product
@@ -25,7 +54,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable ex
         }
         $product = $this->getData('product');
         if (is_null($product->getTypeInstance()->getStoreFilter($product))) {
-            $product->getTypeInstance()->setStoreFilter(Mage::app()->getStore($product->getStoreId()), $product);
+            $product->getTypeInstance()->setStoreFilter(
+                $this->_storeConfig->getStore($product->getStoreId()),
+                $product
+            );
         }
 
         return $product;
@@ -38,7 +70,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable ex
      */
     public function getCurrentStore()
     {
-        return Mage::app()->getStore($this->getProduct()->getStoreId());
+        return $this->_storeManager->getStore($this->getProduct()->getStoreId());
     }
 
     /**

@@ -15,7 +15,7 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends Magento_Adminhtml_Block_Widget
+class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends Magento_Backend_Block_Widget
 {
     /**
      * Form element
@@ -57,18 +57,42 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Bundle_Model_Source_Option_Type
+     */
+    protected $_optionTypes;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_yesno;
+
+    /**
+     * @param Magento_Backend_Model_Config_Source_Yesno $yesno
+     * @param Magento_Bundle_Model_Source_Option_Type $optionTypes
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Config_Source_Yesno $yesno,
+        Magento_Bundle_Model_Source_Option_Type $optionTypes,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_storeManager = $storeManager;
+        $this->_optionTypes = $optionTypes;
+        $this->_yesno = $yesno;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -126,7 +150,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
 
     public function isMultiWebsites()
     {
-        return !Mage::app()->hasSingleStore();
+        return !$this->_storeManager->hasSingleStore();
     }
 
     protected function _prepareLayout()
@@ -233,7 +257,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
                 'extra_params' => 'onchange="bOption.changeType(event)"'
             ))
             ->setName($this->getFieldName().'[{{index}}][type]')
-            ->setOptions(Mage::getSingleton('Magento_Bundle_Model_Source_Option_Type')->toOptionArray());
+            ->setOptions($this->_optionTypes->toOptionArray());
 
         return $select->getHtml();
     }
@@ -246,7 +270,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{index}}][required]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions($this->_yesno->toOptionArray());
 
         return $select->getHtml();
     }

@@ -37,6 +37,11 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
     protected $_installConfig;
 
     /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
      * Application Root Directory
      *
      * @var string
@@ -47,11 +52,13 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
      * @param Magento_Install_Model_InstallerProxy $installer
      * @param Magento_Filesystem $filesystem
      * @param Magento_Install_Model_Config $installConfig
+     * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
         Magento_Install_Model_InstallerProxy $installer,
         Magento_Filesystem $filesystem,
-        Magento_Install_Model_Config $installConfig
+        Magento_Install_Model_Config $installConfig,
+        Magento_Core_Model_Dir $dir
     ) {
         parent::__construct($installer);
         $this->_filesystem = $filesystem;
@@ -89,6 +96,26 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
             }
         }
         return $res;
+    }
+
+    /**
+     * Check file system path
+     *
+     * @deprecated since 1.7.1.0
+     * @param   string $path
+     * @param   bool $recursive
+     * @param   bool $existence
+     * @param   string $mode
+     * @return  bool
+     * @throws Magento_Exception
+     */
+    protected function _checkPath($path, $recursive, $existence, $mode)
+    {
+        $appRootDir = $this->_dir->getDir('app');
+        if (!is_readable($appRootDir)) {
+            throw new Magento_Exception("Application root directory '$appRootDir' is not readable.");
+        }
+        return $this->_checkFullPath(dirname($appRootDir) . $path, $recursive, $existence);
     }
 
     /**

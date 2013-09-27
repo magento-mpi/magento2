@@ -25,17 +25,25 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Shipping_Model_Config
+     */
+    protected $_shippingConfig;
+
+    /**
+     * @param Magento_Shipping_Model_Config $shippingConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Shipping_Model_Config $shippingConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_shippingConfig = $shippingConfig;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -88,7 +96,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
     {
 
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('Magento_Shipping_Model_Config')->getAllCarriers(
+        $carrierInstances = $this->_shippingConfig->getAllCarriers(
             $this->getInvoice()->getStoreId()
         );
         $carriers['custom'] = __('Custom Value');

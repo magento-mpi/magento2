@@ -25,14 +25,58 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
     protected $_catalogData = null;
 
     /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory]
+     */
+    protected $_setsFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_type;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Status
+     */
+    protected $_status;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @var Magento_Core_Model_WebsiteFactory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * @param Magento_Core_Model_WebsiteFactory $websiteFactory
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setsFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Product_Type $type
+     * @param Magento_Catalog_Model_Product_Status $status
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_WebsiteFactory $websiteFactory,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $setsFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Product_Type $type,
+        Magento_Catalog_Model_Product_Status $status,
+        Magento_Catalog_Model_Product_Visibility $visibility,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -40,6 +84,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
+        $this->_websiteFactory = $websiteFactory;
+        $this->_setsFactory = $setsFactory;
+        $this->_productFactory = $productFactory;
+        $this->_type = $type;
+        $this->_status = $status;
+        $this->_visibility = $visibility;
         $this->_catalogData = $catalogData;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -59,13 +109,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
     protected function _getStore()
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
-        return Mage::app()->getStore($storeId);
+        return $this->_storeManager->getStore($storeId);
     }
 
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $collection = $this->_productFactory->create()->getCollection()
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
@@ -189,13 +239,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
+                'options' => $this->_type->getOptionArray(),
                 'header_css_class'  => 'col-type',
                 'column_css_class'  => 'col-type'
         ));
 
-        $sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
+        $sets = $this->_setsFactory->create()
+            ->setEntityTypeFilter($this->_productFactory->create()->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -248,7 +298,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
                 'width' => '70px',
                 'index' => 'visibility',
                 'type'  => 'options',
-                'options' => Mage::getModel('Magento_Catalog_Model_Product_Visibility')->getOptionArray(),
+                'options' => $this->_visibility->getOptionArray(),
                 'header_css_class'  => 'col-visibility',
                 'column_css_class'  => 'col-visibility'
         ));
@@ -259,12 +309,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
                 'width' => '70px',
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
+                'options' => $this->_status->getOptionArray(),
                 'header_css_class'  => 'col-status',
                 'column_css_class'  => 'col-status'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
                     'header'=> __('Websites'),
@@ -272,7 +322,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => Mage::getModel('Magento_Core_Model_Website')->getCollection()->toOptionHash(),
+                    'options'   => $this->_websiteFactory->create()->getCollection()->toOptionHash(),
                     'header_css_class'  => 'col-websites',
                     'column_css_class'  => 'col-websites'
             ));
@@ -320,7 +370,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Backend_Block
              'confirm' => __('Are you sure?')
         ));
 
-        $statuses = Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray();
+        $statuses = $this->_status->getOptionArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(

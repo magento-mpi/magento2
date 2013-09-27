@@ -20,15 +20,15 @@ class Magento_PageCache_Model_System_Config_Source_Controls implements Magento_C
     /**
      * Page cache data
      *
-     * @var Magento_PageCache_Helper_Data
+     * @var Magento_PageCache_Model_CacheControlFactory
      */
     protected $_pageCacheData = null;
 
     /**
-     * @param Magento_PageCache_Helper_Data $pageCacheData
+     * @param Magento_PageCache_Model_CacheControlFactory $pageCacheData
      */
     public function __construct(
-        Magento_PageCache_Helper_Data $pageCacheData
+        Magento_PageCache_Model_CacheControlFactory $pageCacheData
     ) {
         $this->_pageCacheData = $pageCacheData;
     }

@@ -18,6 +18,31 @@
 
 class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
 {
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Reports_Model_Resource_Event
+     */
+    protected $_event;
+
+    public function __construct(
+        Magento_Reports_Model_Resource_Event $event,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        $this->_event = $event;
+        $this->_productFactory = $productFactory;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $coreConfig, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -53,13 +78,13 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magen
             }
 
             // prepare products collection and apply visitors log to it
-            $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+            $productCollection = $this->_productFactory->create()->getCollection()
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->addStoreFilter($this->getQuote()->getStoreId())
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image');
-            Mage::getResourceSingleton('Magento_Reports_Model_Resource_Event')->applyLogToCollection(
+            $this->_event->applyLogToCollection(
                 $productCollection, Magento_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->getCustomerId(), 0, $skipProducts
             );
 

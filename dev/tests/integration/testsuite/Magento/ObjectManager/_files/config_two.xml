@@ -12,7 +12,7 @@
     <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_UpdaterOne" />
     <type name="Magento_Core_Model_Config_Loader_Local" shared="false">
         <param name="customFile">
-            <value type="argument">Mage::PARAM_CUSTOM_LOCAL_CONFIG</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
         <param name="newParam">
             <value>paramValue</value>

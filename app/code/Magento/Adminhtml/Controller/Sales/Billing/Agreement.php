@@ -156,7 +156,7 @@ class Magento_Adminhtml_Controller_Sales_Billing_Agreement extends Magento_Admin
     protected function _initBillingAgreement()
     {
         $agreementId = $this->getRequest()->getParam('agreement');
-        $agreementModel = Mage::getModel('Magento_Sales_Model_Billing_Agreement')->load($agreementId);
+        $agreementModel = $this->_objectManager->create('Magento_Sales_Model_Billing_Agreement')->load($agreementId);
 
         if (!$agreementModel->getId()) {
             $this->_getSession()->addError(__('Please specify the correct billing agreement ID and try again.'));
@@ -175,7 +175,7 @@ class Magento_Adminhtml_Controller_Sales_Billing_Agreement extends Magento_Admin
     protected function _initCustomer()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer = $this->_objectManager->create('Magento_Customer_Model_Customer');
 
         if ($customerId) {
             $customer->load($customerId);

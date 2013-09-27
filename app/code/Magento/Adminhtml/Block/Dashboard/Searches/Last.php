@@ -20,6 +20,31 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Last extends Magento_Adminhtml_
 {
     protected $_collection;
 
+    /**
+     * @var Magento_CatalogSearch_Model_Resource_Query_CollectionFactory
+     */
+    protected $_queriesFactory;
+
+    /**
+     * @param Magento_CatalogSearch_Model_Resource_Query_CollectionFactory $queriesFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CatalogSearch_Model_Resource_Query_CollectionFactory $queriesFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_queriesFactory = $queriesFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -31,17 +56,16 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Last extends Magento_Adminhtml_
         if (!$this->_coreData->isModuleEnabled('Magento_CatalogSearch')) {
             return parent::_prepareCollection();
         }
-        $this->_collection = Mage::getModel('Magento_CatalogSearch_Model_Query')
-            ->getResourceCollection();
+        $this->_collection = $this->_queriesFactory->create();
         $this->_collection->setRecentQueryFilter();
 
         if ($this->getRequest()->getParam('store')) {
             $this->_collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
         } else if ($this->getRequest()->getParam('website')) {
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } else if ($this->getRequest()->getParam('group')) {
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = $this->_storeManager->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => $storeIds));
         }
 

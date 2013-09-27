@@ -25,6 +25,8 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid
 
     /**
      * @param Magento_Core_Helper_Url $coreUrl
+     * @param Magento_Sales_Model_Order_CreditmemoFactory $creditmemoFactory
+     * @param Magento_Sales_Model_Resource_Order_Creditmemo_Grid_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -33,6 +35,8 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid
      */
     public function __construct(
         Magento_Core_Helper_Url $coreUrl,
+        Magento_Sales_Model_Order_CreditmemoFactory $creditmemoFactory,
+        Magento_Sales_Model_Resource_Order_Creditmemo_Grid_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -40,7 +44,9 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct(
+            $creditmemoFactory, $collectionFactory, $coreData, $context, $storeManager, $urlModel, $data
+        );
     }
 
     protected function _construct()

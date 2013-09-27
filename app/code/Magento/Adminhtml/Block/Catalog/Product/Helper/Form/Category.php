@@ -30,6 +30,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
     protected $_backendData = null;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
@@ -38,6 +44,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
      * @param array $attributes
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Category_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Data_Form_Element_CollectionFactory $factoryCollection,
@@ -45,6 +52,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
         Magento_Core_Model_Layout $layout,
         array $attributes = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_backendData = $backendData;
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
         $this->_layout = $layout;
@@ -81,7 +89,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
      */
     protected function _getCategoriesCollection()
     {
-        return Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection');
+        return $this->_collectionFactory->create();
     }
 
     /**

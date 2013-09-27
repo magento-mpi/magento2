@@ -33,7 +33,7 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
     protected function _getSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+            $this->_adminSession = $this->_objectManager->get('Magento_Backend_Model_Auth_Session');
         }
         return $this->_adminSession;
     }
@@ -93,9 +93,9 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
      */
     protected function _showLastExecutionTime($flagCode, $refreshCode)
     {
-        $flag = Mage::getModel('Magento_Reports_Model_Flag')->setReportFlagCode($flagCode)->loadSelf();
+        $flag = $this->_objectManager->create('Magento_Reports_Model_Flag')->setReportFlagCode($flagCode)->loadSelf();
         $updatedAt = ($flag->hasData())
-            ? Mage::app()->getLocale()->storeDate(
+            ? $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getLocale()->storeDate(
                 0, new Zend_Date($flag->getLastUpdate(), Magento_Date::DATETIME_INTERNAL_FORMAT), true
             )
             : 'undefined';
@@ -103,7 +103,7 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
         $refreshStatsLink = $this->getUrl('*/report_statistics');
         $directRefreshLink = $this->getUrl('*/report_statistics/refreshRecent', array('code' => $refreshCode));
 
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')
+        $this->_objectManager->get('Magento_Adminhtml_Model_Session')
             ->addNotice(__('Last updated: %1. To refresh last day\'s <a href="%2">statistics</a>, '
                 . 'click <a href="%3">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
         return $this;
