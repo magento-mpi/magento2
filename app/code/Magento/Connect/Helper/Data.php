@@ -45,8 +45,8 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Locale $locale
-     * @param Magento_Core_Model_Date $dateModel
+     * @param Magento_Core_Model_Locale_Proxy $locale
+     * @param Magento_Core_Model_Date_Proxy $dateModel
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_Config_Resource $configResource
      * @param Magento_Filesystem $filesystem
@@ -60,8 +60,8 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Dir $dirs,
         Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Locale $locale,
-        Magento_Core_Model_Date $dateModel,
+        Magento_Core_Model_Locale_Proxy $locale,
+        Magento_Core_Model_Date_Proxy $dateModel,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_Config_Resource $configResource,
         Magento_Filesystem $filesystem

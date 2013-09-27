@@ -73,12 +73,17 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_SalesArchive_Model_Resource_Helper_Mysql4 $salesHelper,
         $resourceName
     ) {
         $this->_salesHelper = $salesHelper;
         parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
+            $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
         );
     }
 

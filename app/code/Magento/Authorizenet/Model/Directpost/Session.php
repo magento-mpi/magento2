@@ -31,7 +31,7 @@ class Magento_Authorizenet_Model_Directpost_Session extends Magento_Core_Model_S
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Url $url
+     * @param Magento_Core_Model_Url_Proxy $url
      * @param array $data
      * @param null $sessionName
      *
@@ -51,7 +51,7 @@ class Magento_Authorizenet_Model_Directpost_Session extends Magento_Core_Model_S
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Url $url,
+        Magento_Core_Model_Url_Proxy $url,
         array $data = array(),
         $sessionName = null
     ) {

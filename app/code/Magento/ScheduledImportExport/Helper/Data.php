@@ -41,8 +41,8 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
      * @param Magento_File_Size $fileSize
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Locale $locale
-     * @param Magento_Core_Model_Date $dateModel
+     * @param Magento_Core_Model_Locale_Proxy $locale
+     * @param Magento_Core_Model_Date_Proxy $dateModel
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_Config_Resource $configResource
      */
@@ -56,8 +56,8 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
         Magento_File_Size $fileSize,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Locale $locale,
-        Magento_Core_Model_Date $dateModel,
+        Magento_Core_Model_Locale_Proxy $locale,
+        Magento_Core_Model_Date_Proxy $dateModel,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_Config_Resource $configResource
     ) {

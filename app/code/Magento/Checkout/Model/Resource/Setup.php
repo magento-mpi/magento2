@@ -54,7 +54,8 @@ class Magento_Checkout_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         $resourceName,
         Magento_Core_Model_CacheInterface $cache,
-        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
+        Magento_Customer_Helper_Address $customerAddress
     ) {
         parent::__construct(
             $logger,

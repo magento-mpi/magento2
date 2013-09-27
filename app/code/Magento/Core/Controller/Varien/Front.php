@@ -65,9 +65,9 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     protected $_response;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var Magento_Core_Model_App_Proxy
      */
-    protected $_app;
+    protected $_appProxy;
 
     /**
      * @param Magento_Backend_Helper_Data $backendData
@@ -78,7 +78,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Url $url
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_App $appProxy
+     * @param Magento_Core_Model_App_Proxy $appProxy
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http $response
@@ -93,7 +93,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Url $url,
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_App $appProxy,
+        Magento_Core_Model_App_Proxy $appProxy,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Controller_Response_Http $response,
@@ -109,7 +109,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         $this->_coreConfig = $coreConfig;
         $this->_url = $url;
         $this->_appState = $appState;
-        $this->_app = $appProxy;
+        $this->_appProxy = $appProxy;
         $this->_storeManager = $storeManager;
         $this->_request = $request;
         $this->_response = $response;
@@ -357,7 +357,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
                 $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
             );
 
-            $this->_app->getFrontController()->getResponse()
+            $this->_appProxy->getFrontController()->getResponse()
                 ->setRedirect($redirectUrl, $redirectCode)
                 ->sendResponse();
             exit;

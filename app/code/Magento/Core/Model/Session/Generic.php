@@ -21,7 +21,7 @@ class Magento_Core_Model_Session_Generic extends Magento_Core_Model_Session_Abst
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Url $url
+     * @param Magento_Core_Model_Url_Proxy $url
      * @param $sessionNamespace
      * @param array $data
      * @param null $sessionName
@@ -42,7 +42,7 @@ class Magento_Core_Model_Session_Generic extends Magento_Core_Model_Session_Abst
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Url $url,
+        Magento_Core_Model_Url_Proxy $url,
         $sessionNamespace,
         array $data = array(),
         $sessionName = null

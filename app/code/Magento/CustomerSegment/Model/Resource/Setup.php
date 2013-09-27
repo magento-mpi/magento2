@@ -53,13 +53,19 @@ class Magento_CustomerSegment_Model_Resource_Setup extends Magento_Eav_Model_Ent
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_CacheInterface $cache,
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
         $resourceName
     ) {
         $this->_migrationFactory = $migrationFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource,
-            $modulesReader, $cache, $resourceName);
+        parent::__construct($logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
+            $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName, $cache,
+            $attrGrCollFactory);
     }
 
     /**

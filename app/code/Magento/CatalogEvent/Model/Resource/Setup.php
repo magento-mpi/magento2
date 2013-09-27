@@ -39,7 +39,6 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,

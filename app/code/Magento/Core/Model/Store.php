@@ -275,7 +275,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Url_Proxy $urlModel
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Resource_Config_Data $configDataResource
@@ -292,7 +292,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Url_Proxy $urlModel,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Resource_Config_Data $configDataResource,

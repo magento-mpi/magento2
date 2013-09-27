@@ -32,7 +32,7 @@ class Magento_Newsletter_Model_Session extends Magento_Core_Model_Session_Abstra
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Url $url
+     * @param Magento_Core_Model_Url_Proxy $url
      * @param array $data
      * @param null $sessionName
      *
@@ -52,7 +52,7 @@ class Magento_Newsletter_Model_Session extends Magento_Core_Model_Session_Abstra
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Url $url,
+        Magento_Core_Model_Url_Proxy $url,
         array $data = array(),
         $sessionName = null
     ) {

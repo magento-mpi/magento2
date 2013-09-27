@@ -43,13 +43,13 @@ class Magento_Core_Model_View_Service
      *
      *
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_View_Design $design
+     * @param Magento_Core_Model_View_Design_Proxy $design
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
      * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_View_Design $design,
+        Magento_Core_Model_View_Design_Proxy $design,
         Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
         Magento_Core_Model_Dir $dir
     ) {

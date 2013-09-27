@@ -124,7 +124,7 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
     /**
      * @var Magento_Backend_Model_Url_Proxy
      */
-    protected $_url;
+    protected $_proxy;
 
     /**
      * @param Magento_Core_Model_StoreFactory $storeFactory
@@ -133,7 +133,7 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Cookie $cookie
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Backend_Model_Url $url
+     * @param Magento_Backend_Model_Url_Proxy $proxy
      * @param bool $isSingleStoreAllowed
      * @param string $scopeCode
      * @param string $scopeType
@@ -146,7 +146,7 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Cookie $cookie,
         Magento_Core_Model_App_State $appState,
-        Magento_Backend_Model_Url $url,
+        Magento_Backend_Model_Url_Proxy $proxy,
         $isSingleStoreAllowed,
         $scopeCode,
         $scopeType,
@@ -161,7 +161,7 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
         $this->_isSingleStoreAllowed = $isSingleStoreAllowed;
         $this->_appState = $appState;
         $this->_cookie = $cookie;
-        $this->_url = $url;
+        $this->_proxy = $proxy;
         if ($currentStore) {
             $this->_currentStore = $currentStore;
         }
@@ -381,7 +381,7 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
             }
 
             if (0 == $store->getId()) {
-                $store->setUrlModel($this->_url);
+                $store->setUrlModel($this->_proxy);
             }
         }
 

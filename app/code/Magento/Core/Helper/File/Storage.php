@@ -48,12 +48,12 @@ class Magento_Core_Helper_File_Storage extends Magento_Core_Helper_Abstract
     /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_File_Storage $storage
+     * @param Magento_Core_Model_File_Storage_Proxy $storage
      */
     public function __construct(
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_File_Storage $storage
+        Magento_Core_Model_File_Storage_Proxy $storage
     ) {
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_storage = $storage;

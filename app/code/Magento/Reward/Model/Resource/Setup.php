@@ -56,6 +56,9 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Resource_Resource $resourceResource,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
+        Magento_Core_Model_Theme_CollectionFactory $themeFactory,
         $resourceName,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
@@ -64,7 +67,8 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     ) {
         $this->_pageFactory = $pageFactory;
         parent::__construct($logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
-            $modulesReader, $resourceName, $cache, $attrGrCollFactory, $migrationFactory, $coreData);
+            $modulesReader, $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName,
+            $cache, $attrGrCollFactory, $coreData);
     }
 
     /**

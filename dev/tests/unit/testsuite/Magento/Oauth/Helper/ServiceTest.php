@@ -37,8 +37,8 @@ class Magento_Oauth_Helper_ServiceTest extends PHPUnit_Framework_TestCase
             $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock(),
             $this->_storeConfigMock,
             $this->getMockBuilder('Magento_Core_Model_StoreManager')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento_Core_Model_Locale')->disableOriginalConstructor()->getMock(),
-            $this->getMockBuilder('Magento_Core_Model_Date')->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder('Magento_Core_Model_Locale_Proxy')->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder('Magento_Core_Model_Date_Proxy')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento_Core_Model_App_State')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento_Core_Model_Config_Resource')->disableOriginalConstructor()->getMock()
         );

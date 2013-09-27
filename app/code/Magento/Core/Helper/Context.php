@@ -55,12 +55,12 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     protected $_app;
 
     /**
-     * @var Magento_Core_Model_Url_Factory
+     * @var Magento_Core_Model_Url
      */
     protected $_urlFactory;
 
     /**
-     * @var Magento_Core_Model_Url
+     * @var Magento_Core_Model_Url_Proxy
      */
     protected $_urlModel;
 
@@ -75,7 +75,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_UrlFactory $urlFactory
-     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Url_Proxy $urlModel
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
@@ -88,7 +88,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_App $app,
         Magento_Core_Model_UrlFactory $urlFactory,
-        Magento_Core_Model_Url $urlModel
+        Magento_Core_Model_Url_Proxy $urlModel
     ) {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;

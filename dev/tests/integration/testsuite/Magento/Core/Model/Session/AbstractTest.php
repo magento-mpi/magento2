@@ -35,7 +35,7 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
                 $objectManager->get('Magento_Core_Model_App_State'),
                 $objectManager->get('Magento_Core_Model_StoreManager'),
                 $objectManager->get('Magento_Core_Model_Dir'),
-                $objectManager->get('Magento_Core_Model_Url'),
+                $objectManager->get('Magento_Core_Model_Url_Proxy'),
             ));
     }
 

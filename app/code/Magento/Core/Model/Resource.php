@@ -83,13 +83,13 @@ class Magento_Core_Model_Resource
      * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_App_Proxy $app
      */
     public function __construct(
         Magento_Core_Model_Config_Resource $resourceConfig,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Dir $dirs,
-        Magento_Core_Model_App $app
+        Magento_Core_Model_App_Proxy $app
     ) {
         $this->_resourceConfig = $resourceConfig;
         $this->_cache = $cache;
