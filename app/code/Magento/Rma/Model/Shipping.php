@@ -76,7 +76,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     protected $_regionFactory;
 
     /**
-     * @var \Magento\Shipping\Model\Shipment\ReturnFactory
+     * @var \Magento\Shipping\Model\Shipment\ReturnShipmentFactory
      */
     protected $_returnFactory;
 
@@ -98,7 +98,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Shipping\Model\Shipment\ReturnFactory $returnFactory
+     * @param \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Resource\Shipping $resource
@@ -113,7 +113,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Shipping\Model\Shipment\ReturnFactory $returnFactory,
+        \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Resource\Shipping $resource,
@@ -195,7 +195,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
             );
         }
 
-        /** @var $request \Magento\Shipping\Model\Shipment\Return */
+        /** @var $request \Magento\Shipping\Model\Shipment\ReturnShipment */
         $request = $this->_returnFactory->create();
         $request->setOrderShipment($this);
 

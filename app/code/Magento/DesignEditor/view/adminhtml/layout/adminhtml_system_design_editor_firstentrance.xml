@@ -42,7 +42,7 @@
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Backend\Block\Template" name="available.theme.list.container" as="theme_container" template="Magento_DesignEditor::theme/selector/first_entrance.phtml">
-            <block class="Magento\DesignEditor\Block\Adminhtml\Theme\Selector\ListSelector\Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available.phtml">
+            <block class="Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available.phtml">
                 <block class="Magento\DesignEditor\Block\Adminhtml\Theme" name="design.editor.theme" as="theme" template="Magento_DesignEditor::theme/available.phtml"/>
             </block>
         </block>
