@@ -61,7 +61,6 @@ class Magento_Theme_Model_Uploader_Service
      * @param Magento_Io_File $fileIo
      * @param Magento_File_Size $fileSize
      * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
-     * @param Magento_Core_Model_Config $coreConfig
      * @param array $uploadLimits keys are 'css' and 'js' for file type, values defines maximum file size, example: 2M
      */
     public function __construct(

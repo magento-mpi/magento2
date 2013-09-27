@@ -21,7 +21,12 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
     /**
      * @var Magento_Core_Model_Config
      */
-    protected $_config;
+    protected $_coreConfig;
+
+    /**
+     * @var Magento_Backend_Model_Config_Structure
+     */
+    private $_structure;
 
     /**
      * @param Magento_Core_Model_Context $context
@@ -31,11 +36,16 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Email_Template_Config $emailConfig
+     * @param Magento_Backend_Model_Config_Structure $structure
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Context $context,
@@ -45,15 +55,32 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Email_Template_Config $emailConfig,
+        Magento_Backend_Model_Config_Structure $structure,
         array $data = array()
     ) {
-        $this->_config = $config;
-        parent::__construct($context, $registry, $appEmulation, $filesystem, $viewUrl, $viewFileSystem,
-            $design, $emailFilterFactory, $storeManager, $dir, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $appEmulation,
+            $filesystem,
+            $viewUrl,
+            $viewFileSystem,
+            $design,
+            $coreStoreConfig,
+            $coreConfig,
+            $emailFilterFactory,
+            $storeManager,
+            $dir,
+            $emailConfig,
+            $data
+        );
+        $this->_structure = $structure;
     }
 
     /**
@@ -112,9 +139,7 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
             return array();
         }
 
-        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
-        $templatePaths = $configStructure
+        $templatePaths = $this->_structure
             ->getFieldPathsByAttribute('source_model', 'Magento_Backend_Model_Config_Source_Email_Template');
 
         if (!count($templatePaths)) {

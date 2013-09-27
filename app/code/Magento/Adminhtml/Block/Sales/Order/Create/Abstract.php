@@ -18,13 +18,35 @@
 abstract class Magento_Adminhtml_Block_Sales_Order_Create_Abstract extends Magento_Backend_Block_Widget
 {
     /**
+     * @var Magento_Adminhtml_Model_Session_Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @var Magento_Adminhtml_Model_Sales_Order_Create
+     */
+    protected $_orderCreate;
+
+    public function __construct(
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_sessionQuote = $sessionQuote;
+        $this->_orderCreate = $orderCreate;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve create order model object
      *
      * @return Magento_Adminhtml_Model_Sales_Order_Create
      */
     public function getCreateOrderModel()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
+        return $this->_orderCreate;
     }
 
     /**
@@ -34,7 +56,7 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Abstract extends Magen
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        return $this->_sessionQuote;
     }
 
     /**

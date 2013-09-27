@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <attribute_type name="text">
+        <label translate="true">Text</label>
+    </attribute_type>
+    <attribute_group>
+        <label translate="true">Text</label>
+    </attribute_group>
+</config>

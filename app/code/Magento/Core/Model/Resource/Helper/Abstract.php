@@ -45,8 +45,10 @@ abstract class Magento_Core_Model_Resource_Helper_Abstract
      * @param Magento_Core_Model_Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct(Magento_Core_Model_Resource $resource, $modulePrefix)
-    {
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        $modulePrefix
+    ) {
         $this->_resource = $resource;
         $this->_modulePrefix = (string)$modulePrefix;
     }
@@ -192,10 +194,7 @@ abstract class Magento_Core_Model_Resource_Helper_Abstract
         $matches    = array();
         $definition = trim($column['type']);
         if (!preg_match('/([^(]*)(\\((.*)\\))?/', $definition, $matches)) {
-            throw Mage::exception(
-                'Magento_Core',
-                __("Wrong old style column type definition: {$definition}.")
-            );
+            throw new Magento_Core_Exception(__("Wrong old style column type definition: {$definition}."));
         }
 
         $length = null;
@@ -286,10 +285,7 @@ abstract class Magento_Core_Model_Resource_Helper_Abstract
                 $type = Magento_DB_Ddl_Table::TYPE_DATE;
                 break;
             default:
-                throw Mage::exception(
-                    'Magento_Core',
-                    __("Unknown old style column type definition: {$definition}.")
-                );
+                throw new Magento_Core_Exception(__("Unknown old style column type definition: {$definition}."));
         }
 
         $result = array(

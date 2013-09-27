@@ -2,63 +2,46 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-
 /**
  * OAuth Consumer Edit Block
  *
- * @category   Magento
- * @package    Magento_Oauth
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
-    /**
-     * Consumer model
-     *
-     * @var Magento_Oauth_Model_Consumer
-     */
-    protected $_model;
+    /** Key used to store subscription data into the registry */
+    const REGISTRY_KEY_CURRENT_CONSUMER = 'current_consumer';
 
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
+    /** Keys used to retrieve values from consumer data array */
+    const DATA_ENTITY_ID = 'entity_id';
+
+    /** @var array $_consumerData */
+    protected $_consumerData;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
-    }
-
-    /**
-     * Get consumer model
-     *
-     * @return Magento_Oauth_Model_Consumer
-     */
-    public function getModel()
-    {
-        if (null === $this->_model) {
-            $this->_model = $this->_coreRegistry->registry('current_consumer');
+        $this->_consumerData = $registry->registry(self::REGISTRY_KEY_CURRENT_CONSUMER);
+        if (!$this->_consumerData
+            || !$this->_consumerData[self::DATA_ENTITY_ID]
+            || !$this->_authorization->isAllowed('Magento_Oauth::consumer_delete')
+        ) {
+            $this->_removeButton('delete');
         }
-        return $this->_model;
     }
 
     /**
@@ -67,12 +50,12 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Adminhtm
     protected function _construct()
     {
         parent::_construct();
+        $this->_objectId = 'id';
         $this->_blockGroup = 'Magento_Oauth';
         $this->_controller = 'adminhtml_oauth_consumer';
-        $this->_mode = 'edit';
 
-        $this->_addButton('save_and_continue', array(
-            'label'     => __('Save and Continue Edit'),
+        $this->_addButton('save_and_continue_edit', array(
+            'label' => __('Save and Continue Edit'),
             'class' => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -84,13 +67,6 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Adminhtm
         $this->_updateButton('save', 'label', __('Save'));
         $this->_updateButton('save', 'id', 'save_button');
         $this->_updateButton('delete', 'label', __('Delete'));
-
-        if (!$this->getModel()
-            || !$this->getModel()->getId()
-            || !$this->_authorization->isAllowed('Magento_Oauth::consumer_delete')
-        ) {
-            $this->_removeButton('delete');
-        }
     }
 
     /**
@@ -100,10 +76,10 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Adminhtm
      */
     public function getHeaderText()
     {
-        if ($this->getModel()->getId()) {
-            return __('Edit Consumer');
+        if ($this->_consumerData[self::DATA_ENTITY_ID]) {
+            return __('Edit Add-On');
         } else {
-            return __('New Consumer');
+            return __('New Add-On');
         }
     }
 }

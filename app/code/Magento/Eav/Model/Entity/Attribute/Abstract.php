@@ -79,23 +79,63 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Eav_Model_Entity_TypeFactory
+     */
+    protected $_eavTypeFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @var Magento_Eav_Model_Factory_Helper
+     */
+    protected $_factoryHelper;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $factoryHelper
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $factoryHelper,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_coreData = $coreData;
+        $this->_eavConfig = $eavConfig;
+        $this->_eavTypeFactory = $eavTypeFactory;
+        $this->_storeManager = $storeManager;
+        $this->_resourceHelper = $resourceHelper;
+        $this->_factoryHelper = $factoryHelper;
     }
 
     /**
@@ -120,13 +160,13 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
-            $entityType = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode($entityType);
+            $entityType = $this->_eavTypeFactory->create()->loadByCode($entityType);
         }
         if ($entityType instanceof Magento_Eav_Model_Entity_Type) {
             $entityTypeId = $entityType->getId();
         }
         if (empty($entityTypeId)) {
-            throw Mage::exception('Magento_Eav', __('Invalid entity supplied'));
+            throw new Magento_Eav_Exception(__('Invalid entity supplied'));
         }
         $this->_getResource()->loadByCode($this, $entityTypeId, $code);
         $this->_afterLoad();
@@ -284,7 +324,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
      */
     public function getEntityType()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($this->getEntityTypeId());
+        return $this->_eavConfig->getEntityType($this->getEntityTypeId());
     }
 
     /**
@@ -334,9 +374,9 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
             if (!$this->getBackendModel()) {
                 $this->setBackendModel($this->_getDefaultBackendModel());
             }
-            $backend = Mage::getModel($this->getBackendModel());
+            $backend = $this->_factoryHelper->create($this->getBackendModel());
             if (!$backend) {
-                throw Mage::exception('Magento_Eav', 'Invalid backend model specified: ' . $this->getBackendModel());
+                throw new Magento_Eav_Exception(__('Invalid backend model specified: ' . $this->getBackendModel()));
             }
             $this->_backend = $backend->setAttribute($this);
         }
@@ -355,7 +395,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
             if (!$this->getFrontendModel()) {
                 $this->setFrontendModel($this->_getDefaultFrontendModel());
             }
-            $this->_frontend = Mage::getModel($this->getFrontendModel())
+            $this->_frontend = $this->_factoryHelper->create($this->getFrontendModel())
                 ->setAttribute($this);
         }
 
@@ -374,9 +414,9 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
             if (!$this->getSourceModel()) {
                 $this->setSourceModel($this->_getDefaultSourceModel());
             }
-            $source = Mage::getModel($this->getSourceModel());
+            $source = $this->_factoryHelper->create($this->getSourceModel());
             if (!$source) {
-                throw Mage::exception('Magento_Eav',
+                throw new Magento_Eav_Exception(
                     __('Source model "%1" not found for attribute "%2"',$this->getSourceModel(), $this->getAttributeCode())
                 );
             }
@@ -538,7 +578,6 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
      */
     public function _getFlatColumnsDdlDefinition()
     {
-        $helper  = Mage::getResourceHelper('Magento_Eav');
         $columns = array();
         switch ($this->getBackendType()) {
             case 'static':
@@ -551,7 +590,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
                 $size = ($prop['LENGTH'] ? $prop['LENGTH'] : null);
 
                 $columns[$this->getAttributeCode()] = array(
-                    'type'      => $helper->getDdlTypeByColumnType($type),
+                    'type'      => $this->_resourceHelper->getDdlTypeByColumnType($type),
                     'length'    => $size,
                     'unsigned'  => $prop['UNSIGNED'] ? true: false,
                     'nullable'   => $prop['NULLABLE'],
@@ -767,7 +806,7 @@ abstract class Magento_Eav_Model_Entity_Attribute_Abstract
      */
     public function getFlatUpdateSelect($store = null) {
         if ($store === null) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->getFlatUpdateSelect($store->getId());
             }
             return $this;

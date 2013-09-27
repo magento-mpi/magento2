@@ -50,32 +50,26 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     protected $_session;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Customer_Model_Session $session
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Layout $layout,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Customer_Model_Session $session,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        Magento_Customer_Model_Session $session
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_layout = $layout;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_session = $session;
-        $this->_storeManager = $storeManager;
-        parent::__construct($context);
+        parent::__construct($context, $storeManager);
     }
 
     /**

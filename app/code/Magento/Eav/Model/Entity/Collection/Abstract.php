@@ -93,18 +93,58 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * @var Magento_Eav_Model_EntityFactory
+     */
+    protected $_eavEntityFactory;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @var Magento_Eav_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource $coreResource
+     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource $coreResource,
+        Magento_Eav_Model_EntityFactory $eavEntityFactory,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory
     ) {
         $this->_eventManager = $eventManager;
+        $this->_eavConfig = $eavConfig;
+        $this->_resource = $coreResource;
+        $this->_eavEntityFactory = $eavEntityFactory;
+        $this->_resourceHelper = $resourceHelper;
+        $this->_helperFactory = $helperFactory;
         parent::__construct($logger, $fetchStrategy, $entityFactory);
         $this->_construct();
         $this->setConnection($this->getEntity()->getReadConnection());
@@ -167,7 +207,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     protected function _init($model, $entityModel)
     {
         $this->setItemObjectClass($model);
-        $entity = Mage::getResourceSingleton($entityModel);
+        $entity = $this->_helperFactory->create($entityModel);
         $this->setEntity($entity);
 
         return $this;
@@ -185,9 +225,9 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
         if ($entity instanceof Magento_Eav_Model_Entity_Abstract) {
             $this->_entity = $entity;
         } elseif (is_string($entity) || $entity instanceof Magento_Core_Model_Config_Element) {
-            $this->_entity = Mage::getModel('Magento_Eav_Model_Entity')->setType($entity);
+            $this->_entity = $this->_eavEntityFactory->create()->setType($entity);
         } else {
-            throw Mage::exception('Magento_Eav', __('Invalid entity supplied: %1', print_r($entity, 1)));
+            throw new Magento_Eav_Exception(__('Invalid entity supplied: %1', print_r($entity, 1)));
         }
         return $this;
     }
@@ -201,7 +241,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     public function getEntity()
     {
         if (empty($this->_entity)) {
-            throw Mage::exception('Magento_Eav', __('Entity is not initialized'));
+            throw new Magento_Eav_Exception(__('Entity is not initialized'));
         }
         return $this->_entity;
     }
@@ -242,7 +282,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     public function addItem(Magento_Object $object)
     {
         if (get_class($object) !== $this->_itemObjectClass) {
-            throw Mage::exception('Magento_Eav', __('Attempt to add an invalid object'));
+            throw new Magento_Eav_Exception(__('Attempt to add an invalid object'));
         }
         return parent::addItem($object);
     }
@@ -306,7 +346,9 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
         if (!empty($conditionSql)) {
             $this->getSelect()->where($conditionSql, null, Magento_DB_Select::TYPE_CONDITION);
         } else {
-            Mage::throwException('Invalid attribute identifier for filter (' . get_class($attribute) . ')');
+            throw new Magento_Core_Exception(
+                __('Invalid attribute identifier for filter (' . get_class($attribute) . ')')
+            );
         }
 
         return $this;
@@ -403,8 +445,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     public function addAttributeToSelect($attribute, $joinType = false)
     {
         if (is_array($attribute)) {
-            Mage::getSingleton('Magento_Eav_Model_Config')
-                ->loadCollectionAttributes($this->getEntity()->getType(), $attribute);
+            $this->_eavConfig->loadCollectionAttributes($this->getEntity()->getType(), $attribute);
             foreach ($attribute as $a) {
                 $this->addAttributeToSelect($a, $joinType);
             }
@@ -424,12 +465,10 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
             if (isset($this->_joinAttributes[$attribute])) {
                 $attrInstance = $this->_joinAttributes[$attribute]['attribute'];
             } else {
-                $attrInstance = Mage::getSingleton('Magento_Eav_Model_Config')
-                    ->getCollectionAttribute($this->getEntity()->getType(), $attribute);
+                $attrInstance = $this->_eavConfig->getCollectionAttribute($this->getEntity()->getType(), $attribute);
             }
             if (empty($attrInstance)) {
-                throw Mage::exception(
-                    'Magento_Eav',
+                throw new Magento_Eav_Exception(
                     __('Invalid attribute requested: %1', (string)$attribute)
                 );
             }
@@ -483,8 +522,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     {
         // validate alias
         if (isset($this->_joinFields[$alias])) {
-            throw Mage::exception(
-                'Magento_Eav',
+            throw new Magento_Eav_Exception(
                 __('Joint field or attribute expression with this alias is already declared')
             );
         }
@@ -592,8 +630,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     {
         // validate alias
         if (isset($this->_joinAttributes[$alias])) {
-            throw Mage::exception(
-                'Magento_Eav',
+            throw new Magento_Eav_Exception(
                 __('Invalid alias, already exists in joint attributes')
             );
         }
@@ -605,7 +642,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
         }
 
         if (!$bindAttribute || (!$bindAttribute->isStatic() && !$bindAttribute->getId())) {
-            throw Mage::exception('Magento_Eav', __('Invalid foreign key'));
+            throw new Magento_Eav_Exception(__('Invalid foreign key'));
         }
 
         // try to explode combined entity/attribute if supplied
@@ -625,11 +662,11 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
             if (isset($this->_joinEntities[$entity])) {
                 $entity = $this->_joinEntities[$entity];
             } else {
-                $entity = Mage::getModel('Magento_Eav_Model_Entity')->setType($attrArr[0]);
+                $entity = $this->_eavEntityFactory->create()->setType($attrArr[0]);
             }
         }
         if (!$entity || !$entity->getTypeId()) {
-            throw Mage::exception('Magento_Eav', __('Invalid entity type'));
+            throw new Magento_Eav_Exception(__('Invalid entity type'));
         }
 
         // cache entity
@@ -642,7 +679,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
             $attribute = $entity->getAttribute($attribute);
         }
         if (!$attribute) {
-            throw Mage::exception('Magento_Eav', __('Invalid attribute type'));
+            throw new Magento_Eav_Exception(__('Invalid attribute type'));
         }
 
         if (empty($filter)) {
@@ -683,13 +720,12 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
     {
         // validate alias
         if (isset($this->_joinFields[$alias])) {
-            throw Mage::exception(
-                'Magento_Eav',
+            throw new Magento_Eav_Exception(
                 __('A joined field with this alias is already declared.')
             );
         }
 
-        $table = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName($table);
+        $table = $this->_resource->getTableName($table);
         $tableAlias = $this->_getAttributeTableAlias($alias);
 
         // validate bind
@@ -753,19 +789,18 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
             $tableName = $table;
         }
 
-        $tableName = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName($tableName);
+        $tableName = $this->_resource->getTableName($tableName);
         if (empty($tableAlias)) {
             $tableAlias = $tableName;
         }
 
         // validate fields and aliases
         if (!$fields) {
-            throw Mage::exception('Magento_Eav', __('Invalid joint fields'));
+            throw new Magento_Eav_Exception(__('Invalid joint fields'));
         }
         foreach ($fields as $alias=>$field) {
             if (isset($this->_joinFields[$alias])) {
-                throw Mage::exception(
-                    'Magento_Eav',
+                throw new Magento_Eav_Exception(
                     __('A joint field with this alias (%1) is already declared.', $alias)
                 );
             }
@@ -1088,8 +1123,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
             if (!$attributeId) {
                 continue;
             }
-            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getCollectionAttribute($entity->getType(), $attributeCode);
+            $attribute = $this->_eavConfig->getCollectionAttribute($entity->getType(), $attributeCode);
             if ($attribute && !$attribute->isStatic()) {
                 $tableAttributes[$attribute->getBackendTable()][] = $attributeId;
                 if (!isset($attributeTypes[$attribute->getBackendTable()])) {
@@ -1107,7 +1141,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
                 $attributeTypes[$table]
             );
         }
-        $selectGroups = Mage::getResourceHelper('Magento_Eav')->getLoadAttributesSelectGroups($selects);
+        $selectGroups = $this->_resourceHelper->getLoadAttributesSelectGroups($selects);
         foreach ($selectGroups as $selects) {
             if (!empty($selects)) {
                 try {
@@ -1175,13 +1209,13 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
         $entityIdField  = $this->getEntity()->getEntityIdField();
         $entityId       = $valueInfo[$entityIdField];
         if (!isset($this->_itemsById[$entityId])) {
-            throw Mage::exception('Magento_Eav',
+            throw new Magento_Eav_Exception(
                 __('Data integrity: No header row found for attribute')
             );
         }
         $attributeCode = array_search($valueInfo['attribute_id'], $this->_selectAttributes);
         if (!$attributeCode) {
-            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getCollectionAttribute(
+            $attribute = $this->_eavConfig->getCollectionAttribute(
                 $this->getEntity()->getType(),
                 $valueInfo['attribute_id']
             );
@@ -1229,7 +1263,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
 
         $attribute = $this->getAttribute($attributeCode);
         if (!$attribute) {
-            throw Mage::exception('Magento_Eav', __('Invalid attribute name: %1', $attributeCode));
+            throw new Magento_Eav_Exception(__('Invalid attribute name: %1', $attributeCode));
         }
 
         if ($attribute->isStatic()) {
@@ -1288,7 +1322,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
         }
 
         if (!$attribute) {
-            throw Mage::exception('Magento_Eav', __('Invalid attribute name: %1', $attributeCode));
+            throw new Magento_Eav_Exception(__('Invalid attribute name: %1', $attributeCode));
         }
 
         if ($attribute->getBackend()->isStatic()) {

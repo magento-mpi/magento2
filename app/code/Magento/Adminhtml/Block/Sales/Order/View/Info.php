@@ -18,26 +18,53 @@
 class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Block_Sales_Order_Abstract
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Customer_Model_GroupFactory
      */
-    protected $_storeManager;
+    protected $_groupFactory;
+
+    /**
+     * @var Magento_Eav_Model_AttributeDataFactory
+     */
+    protected $_attrDataFactory;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Customer_Model_GroupFactory $groupFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Customer_Model_GroupFactory $groupFactory,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Eav_Model_AttributeDataFactory $attrDataFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $registry, $data);
+        $this->_customerFactory = $customerFactory;
+        $this->_groupFactory = $groupFactory;
+        $this->_eavConfig = $eavConfig;
         $this->_storeManager = $storeManager;
+        $this->_attrDataFactory = $attrDataFactory;
+        parent::__construct($coreData, $context, $registry, $data);
     }
 
     /**
@@ -46,7 +73,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(__('Please correct the parent block for this block.'));
+            throw new Magento_Core_Exception(__('Please correct the parent block for this block.'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
 
@@ -65,7 +92,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
                 $deleted = __(' [deleted]');
                 return nl2br($this->getOrder()->getStoreName()) . $deleted;
             }
-            $store = Mage::app()->getStore($storeId);
+            $store = $this->_storeManager->getStore($storeId);
             $name = array(
                 $store->getWebsite()->getName(),
                 $store->getGroup()->getName(),
@@ -79,7 +106,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     public function getCustomerGroupName()
     {
         if ($this->getOrder()) {
-            return Mage::getModel('Magento_Customer_Model_Group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
+            return $this->_groupFactory->create()->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
         }
         return null;
     }
@@ -123,13 +150,11 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     {
         $accountData = array();
 
-        /* @var $config Magento_Eav_Model_Config */
-        $config     = Mage::getSingleton('Magento_Eav_Model_Config');
         $entityType = 'customer';
-        $customer   = Mage::getModel('Magento_Customer_Model_Customer');
-        foreach ($config->getEntityAttributeCodes($entityType) as $attributeCode) {
+        $customer   = $this->_customerFactory->create();
+        foreach ($this->_eavConfig->getEntityAttributeCodes($entityType) as $attributeCode) {
             /* @var $attribute Magento_Customer_Model_Attribute */
-            $attribute = $config->getAttribute($entityType, $attributeCode);
+            $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
             if (!$attribute->getIsVisible() || $attribute->getIsSystem()) {
                 continue;
             }
@@ -137,8 +162,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
             $orderValue = $this->getOrder()->getData($orderKey);
             if ($orderValue != '') {
                 $customer->setData($attribute->getAttributeCode(), $orderValue);
-                $dataModel  = Magento_Customer_Model_Attribute_Data::factory($attribute, $customer);
-                $value      = $dataModel->outputValue(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_HTML);
+                $dataModel  = $this->_attrDataFactory->create($attribute, $customer);
+                $value      = $dataModel->outputValue(Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_HTML);
                 $sortOrder  = $attribute->getSortOrder() + $attribute->getIsUserDefined() ? 200 : 0;
                 $sortOrder  = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
                 $accountData[$sortOrder] = array(

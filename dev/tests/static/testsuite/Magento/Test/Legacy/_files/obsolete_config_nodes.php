@@ -21,6 +21,9 @@ return array(
     '/config/global/models/*/resourceModel'    => '',
     '/config/global/page/layouts'              => 'Moved to page_layouts.xml',
     '/config/global/cms/layouts'               => 'This was never used and is no longer supported',
+    '/config/global/payment/cc/types/*/validator' =>
+        'This configuration was moved to DI configuration of Magento_Centinel_Model_StateFactory',
+    '/config/global/payment'                   => 'Move them to payment.xml.',
     '/config/adminhtml/menu'                   => 'Move them to adminhtml.xml.',
     '/config/adminhtml/acl'                    => 'Move them to adminhtml.xml.',
     '/config/*[self::global|self::adminhtml|self::frontend]/di' => 'This configuration moved to di.xml file',
@@ -94,10 +97,13 @@ return array(
     '/config/global/catalog/product/flat/attribute_nodes'
         => 'Use /config/global/catalog/product/flat/attribute_groups',
     '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
+    '/config/global/pdf' => 'Use configuration in pdf.xml',
     '/config/install' => 'Configurations moved to DI file settings',
     '/config/install/design' => 'Configurations moved to DI file settings',
     '/config/adminhtml/design' => 'Configurations moved to DI file settings',
     '/config/frontend/design' => 'Configurations moved to DI file settings',
     '/config/crontab' => 'All cron configurations moved to crontab.xml',
-    '/config/vde' => 'Was moved to di',
+    '/config/vde' => 'Configurations moved to DI file settings',
+    '/config/global/currency/import/services' => 'Configurations moved to DI file settings',
+    '/config/global/template' => 'Use /config/template of email_templates.xml',
 );

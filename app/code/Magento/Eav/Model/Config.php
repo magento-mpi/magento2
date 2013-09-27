@@ -85,16 +85,36 @@ class Magento_Eav_Model_Config
     protected $_collectionAttributes              = array();
 
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var Magento_Core_Model_App
      */
-    protected $_cacheState;
+    protected $_app;
 
     /**
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @var Magento_Eav_Model_Entity_TypeFactory
      */
-    public function __construct(Magento_Core_Model_Cache_StateInterface $cacheState)
-    {
+    protected $_entityTypeFactory;
+
+    /**
+     * @var Magento_Eav_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Eav_Model_Entity_TypeFactory $entityTypeFactory
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     */
+    public function __construct(
+        Magento_Core_Model_App $app,
+        Magento_Eav_Model_Entity_TypeFactory $entityTypeFactory,
+        Magento_Core_Model_Cache_StateInterface $cacheState,
+        Magento_Eav_Model_Factory_Helper $helperFactory
+    ) {
+        $this->_app = $app;
+        $this->_entityTypeFactory = $entityTypeFactory;
         $this->_cacheState = $cacheState;
+        $this->_helperFactory = $helperFactory;
     }
 
     /**
@@ -243,7 +263,7 @@ class Magento_Eav_Model_Config
          * try load information about entity types from cache
          */
         if ($this->_isCacheEnabled()
-            && ($cache = Mage::app()->loadCache(self::ENTITIES_CACHE_ID))) {
+            && ($cache = $this->_app->loadCache(self::ENTITIES_CACHE_ID))) {
 
             $this->_entityData = unserialize($cache);
             foreach ($this->_entityData as $typeCode => $data) {
@@ -254,7 +274,7 @@ class Magento_Eav_Model_Config
             return $this;
         }
 
-        $entityTypesData = Mage::getModel('Magento_Eav_Model_Entity_Type')->getCollection()->getData();
+        $entityTypesData = $this->_entityTypeFactory->create()->getCollection()->getData();
         $types           = array();
 
         /**
@@ -275,7 +295,7 @@ class Magento_Eav_Model_Config
         $this->_entityData = $types;
 
         if ($this->_isCacheEnabled()) {
-            Mage::app()->saveCache(serialize($this->_entityData), self::ENTITIES_CACHE_ID,
+            $this->_app->saveCache(serialize($this->_entityData), self::ENTITIES_CACHE_ID,
                 array(Magento_Eav_Model_Cache_Type::CACHE_TAG, Magento_Eav_Model_Entity_Attribute::CACHE_TAG)
             );
         }
@@ -311,7 +331,7 @@ class Magento_Eav_Model_Config
         }
 
 
-        $entityType = Mage::getModel('Magento_Eav_Model_Entity_Type');
+        $entityType = $this->_entityTypeFactory->create();
         if (isset($this->_entityData[$code])) {
             $entityType->setData($this->_entityData[$code]);
         } else {
@@ -322,7 +342,7 @@ class Magento_Eav_Model_Config
             }
 
             if (!$entityType->getId()) {
-                Mage::throwException(__('Invalid entity_type specified: %1', $code));
+                throw new Magento_Core_Exception(__('Invalid entity_type specified: %1', $code));
             }
         }
         $this->_addEntityTypeReference($entityType->getId(), $entityType->getEntityTypeCode());
@@ -348,7 +368,7 @@ class Magento_Eav_Model_Config
         }
         Magento_Profiler::start('EAV: '.__METHOD__, array('group' => 'EAV', 'method' => __METHOD__));
 
-        $attributesInfo = Mage::getResourceModel($entityType->getEntityAttributeCollection())
+        $attributesInfo = $this->_helperFactory->create($entityType->getEntityAttributeCollection())
             ->setEntityTypeFilter($entityType)
             ->getData();
 
@@ -406,16 +426,16 @@ class Magento_Eav_Model_Config
         if (isset($this->_attributeData[$entityTypeCode][$code])) {
             $data = $this->_attributeData[$entityTypeCode][$code];
             unset($this->_attributeData[$entityTypeCode][$code]);
-            $attribute = Mage::getModel($data['attribute_model'], array('data' => $data));
+            $attribute = $this->_helperFactory->create($data['attribute_model'], array('data' => $data));
         } else {
             if (is_numeric($code)) {
-                $attribute = Mage::getModel($entityType->getAttributeModel())->load($code);
+                $attribute = $this->_helperFactory->create($entityType->getAttributeModel())->load($code);
                 if ($attribute->getEntityTypeId() != $entityType->getId()) {
                     return false;
                 }
                 $attributeKey = $this->_getAttributeKey($entityTypeCode, $attribute->getAttributeCode());
             } else {
-                $attribute = Mage::getModel($entityType->getAttributeModel())
+                $attribute = $this->_helperFactory->create($entityType->getAttributeModel())
                     ->loadByCode($entityType, $code)
                     ->setAttributeCode($code);
             }
@@ -449,7 +469,7 @@ class Magento_Eav_Model_Config
         $entityType     = $this->getEntityType($entityType);
         $attributeSetId = 0;
         if (($object instanceof Magento_Object) && $object->getAttributeSetId()) {
-             $attributeSetId = $object->getAttributeSetId();
+            $attributeSetId = $object->getAttributeSetId();
         }
         $storeId = 0;
         if (($object instanceof Magento_Object) && $object->getStoreId()) {
@@ -461,7 +481,7 @@ class Magento_Eav_Model_Config
         }
 
         if ($attributeSetId) {
-            $attributesInfo = Mage::getResourceModel($entityType->getEntityAttributeCollection())
+            $attributesInfo = $this->_helperFactory->create($entityType->getEntityAttributeCollection())
                 ->setEntityTypeFilter($entityType)
                 ->setAttributeSetFilter($attributeSetId)
                 ->addStoreLabel($storeId)
@@ -512,7 +532,7 @@ class Magento_Eav_Model_Config
         Magento_Profiler::start('EAV: '.__METHOD__ . ':'.$entityTypeCode,
             array('group' => 'EAV', 'method' => __METHOD__, 'entity_type_code' => $entityTypeCode));
 
-        $attributesInfo = Mage::getResourceModel($entityType->getEntityAttributeCollection())
+        $attributesInfo = $this->_helperFactory->create($entityType->getEntityAttributeCollection())
             ->setEntityTypeFilter($entityType)
             ->setCodeFilter($attributes)
             ->getData();
@@ -604,7 +624,7 @@ class Magento_Eav_Model_Config
             return $this;
         }
         $attributeCollection = $entityType->getEntityAttributeCollection();
-        $attributesInfo = Mage::getResourceModel($attributeCollection)
+        $attributesInfo = $this->_helperFactory->create($attributeCollection)
             ->useLoadDataFields()
             ->setEntityTypeFilter($entityType)
             ->setCodeFilter($attributes)
@@ -646,7 +666,7 @@ class Magento_Eav_Model_Config
         } else {
             $model = $entityType->getAttributeModel();
         }
-        $attribute = Mage::getModel($model)->setData($attributeData);
+        $attribute = $this->_helperFactory->create($model)->setData($attributeData);
         $this->_addAttributeReference(
             $attributeData['attribute_id'],
             $attributeData['attribute_code'],

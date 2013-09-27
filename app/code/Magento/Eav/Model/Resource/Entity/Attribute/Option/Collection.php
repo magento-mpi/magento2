@@ -26,12 +26,45 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
     protected $_optionValueTable;
 
     /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_coreResource;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource $coreResource
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource $coreResource,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_coreResource = $coreResource;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
     {
         $this->_init('Magento_Eav_Model_Entity_Attribute_Option', 'Magento_Eav_Model_Resource_Entity_Attribute_Option');
-        $this->_optionValueTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_attribute_option_value');
+        $this->_optionValueTable = $this->_coreResource->getTableName('eav_attribute_option_value');
     }
 
     /**
@@ -50,13 +83,13 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
      * Add store filter to collection
      *
      * @param int $storeId
-     * @param bolean $useDefaultValue
+     * @param boolean $useDefaultValue
      * @return Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection
      */
     public function setStoreFilter($storeId = null, $useDefaultValue = true)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
         $adapter = $this->getConnection();
 

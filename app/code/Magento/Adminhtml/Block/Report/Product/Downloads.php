@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Report_Product_Downloads extends Magento_Adminhtml
 
     public function getStoreSwitcherHtml()
     {
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             return $this->getChildHtml('store_switcher');
         }
         return '';

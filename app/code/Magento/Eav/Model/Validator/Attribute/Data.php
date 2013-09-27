@@ -38,9 +38,17 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
     protected $_data = array();
 
     /**
-     * @var Magento_Eav_Model_Attribute_Data
+     * @var Magento_Eav_Model_AttributeDataFactory
      */
-    protected $_dataModelFactory;
+    protected $_attrDataFactory;
+
+    /**
+     * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
+     */
+    public function __construct(Magento_Eav_Model_AttributeDataFactory $attrDataFactory)
+    {
+        $this->_attrDataFactory = $attrDataFactory;
+    }
 
     /**
      * Set list of attributes for validation in isValid method.
@@ -117,7 +125,7 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
             if (!$attribute->getDataModel() && !$attribute->getFrontendInput()) {
                 continue;
             }
-            $dataModel = $this->getAttributeDataModelFactory()->factory($attribute, $entity);
+            $dataModel = $this->_attrDataFactory->create($attribute, $entity);
             $dataModel->setExtractedData($data);
             if (!isset($data[$attributeCode])) {
                 $data[$attributeCode] = null;
@@ -173,31 +181,6 @@ class Magento_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Valid
         }
 
         return $attributesByCode;
-    }
-
-    /**
-     * Get factory object for creating Attribute Data Model
-     *
-     * @return Magento_Eav_Model_Attribute_Data
-     */
-    public function getAttributeDataModelFactory()
-    {
-        if (!$this->_dataModelFactory) {
-            $this->_dataModelFactory = new Magento_Eav_Model_Attribute_Data;
-        }
-        return $this->_dataModelFactory;
-    }
-
-    /**
-     * Set factory object for creating Attribute Data Model
-     *
-     * @param Magento_Eav_Model_Attribute_Data $factory
-     * @return Magento_Eav_Model_Validator_Attribute_Data
-     */
-    public function setAttributeDataModelFactory($factory)
-    {
-        $this->_dataModelFactory = $factory;
-        return $this;
     }
 
     /**

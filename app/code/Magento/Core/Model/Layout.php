@@ -1419,6 +1419,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      *
      * @param string|Magento_Core_Block_Abstract $block
      * @param array $attributes
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Block_Abstract
      */
     protected function _getBlockInstance($block, array $attributes = array())
@@ -1429,7 +1430,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             }
         }
         if (!$block instanceof Magento_Core_Block_Abstract) {
-            Mage::throwException(__('Invalid block type: %1', $block));
+            throw new Magento_Core_Exception(__('Invalid block type: %1', $block));
         }
         return $block;
     }
@@ -1544,13 +1545,14 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * Get block singleton
      *
      * @param string $type
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Helper_Abstract
      */
     public function getBlockSingleton($type)
     {
         if (!isset($this->_helpers[$type])) {
             if (!$type) {
-                Mage::throwException(__('Invalid block type: %1', $type));
+                throw new Magento_Core_Exception(__('Invalid block type: %1', $type));
             }
 
             $helper = $this->_blockFactory->createBlock($type);

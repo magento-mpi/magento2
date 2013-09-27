@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
 
         $this->setId($this->getId() . '_Uploader');
 
-        $uploadUrl = Mage::getModel('Magento_Backend_Model_Url')->addSessionParam()->getUrl('*/*/upload');
+        $uploadUrl = $this->_urlBuilder->addSessionParam()->getUrl('*/*/upload');
         $this->getConfig()->setUrl($uploadUrl);
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('file');

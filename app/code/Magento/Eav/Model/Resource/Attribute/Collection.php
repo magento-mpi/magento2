@@ -39,6 +39,39 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     protected $_entityType;
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Default attribute entity type code
      *
      * @return string
@@ -73,8 +106,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     public function getEntityType()
     {
         if ($this->_entityType === null) {
-            $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getEntityType($this->_getEntityTypeCode());
+            $this->_entityType = $this->_eavConfig->getEntityType($this->_getEntityTypeCode());
         }
         return $this->_entityType;
     }
@@ -87,7 +119,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
      */
     public function setWebsite($website)
     {
-        $this->_website = Mage::app()->getWebsite($website);
+        $this->_website = $this->_storeManager->getWebsite($website);
         $this->addBindParam('scope_website_id', $this->_website->getId());
         return $this;
     }
@@ -100,7 +132,7 @@ abstract class Magento_Eav_Model_Resource_Attribute_Collection
     public function getWebsite()
     {
         if ($this->_website === null) {
-            $this->_website = Mage::app()->getStore()->getWebsite();
+            $this->_website = $this->_storeManager->getStore()->getWebsite();
         }
         return $this->_website;
     }

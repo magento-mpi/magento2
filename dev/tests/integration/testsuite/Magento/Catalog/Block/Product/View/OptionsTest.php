@@ -28,20 +28,23 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->_product = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->_product->load(1);
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->unregister('current_product');
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $this->_product);
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_View_Options');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Catalog_Block_Product_View_Options');
     }
 
     public function testSetGetProduct()
     {
         $this->assertSame($this->_product, $this->_block->getProduct());
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->_block->setProduct($product);
         $this->assertSame($product, $this->_block->getProduct());
     }

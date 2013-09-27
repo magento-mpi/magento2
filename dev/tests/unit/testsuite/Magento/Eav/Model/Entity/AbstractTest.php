@@ -19,7 +19,17 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Abstract');
+        $this->_model = $this->getMockForAbstractClass(
+            'Magento_Eav_Model_Entity_Abstract',
+            array(
+                $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false),
+                $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false),
+                $this->getMock('Magento_Eav_Model_Entity_Attribute_Set', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_LocaleInterface'),
+                $this->getMock('Magento_Eav_Model_Resource_Helper_Mysql4', array(), array(), '', false),
+                $this->getMock('Magento_Eav_Model_Factory_Helper', array(), array(), '', false),
+            )
+        );
     }
 
     protected function tearDown()
@@ -117,7 +127,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
             $mock->expects($this->any())
                 ->method('getBackendTable')
-                ->will($this->returnValue($code.'_table'));
+                ->will($this->returnValue($code . '_table'));
 
             $attributes[$code] = $mock;
         }
@@ -261,7 +271,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
         $backendModel->expects($this->never())
             ->method('getEntityValueId');
 
-        $backendModel->expects((isset($productData['entity_id'])?$this->never():$this->once()))
+        $backendModel->expects((isset($productData['entity_id']) ? $this->never() : $this->once()))
             ->method('getEntityIdField')
             ->will($this->returnValue('entity_id'));
 
@@ -274,14 +284,22 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
         $attributes[$attributeCode] = $attribute;
 
         $data = array(
-            'type' => $entityType,
-            'entityTable' => 'entityTable',
-            'attributesByCode' => $attributes,
+            $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false),
+            $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false),
+            $this->getMock('Magento_Eav_Model_Entity_Attribute_Set', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_LocaleInterface'),
+            $this->getMock('Magento_Eav_Model_Resource_Helper_Mysql4', array(), array(), '', false),
+            $this->getMock('Magento_Eav_Model_Factory_Helper', array(), array(), '', false),
+            array(
+                'type' => $entityType,
+                'entityTable' => 'entityTable',
+                'attributesByCode' => $attributes
+            )
         );
         /** @var $model PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass(
             'Magento_Eav_Model_Entity_Abstract',
-            array($data),
+            $data,
             '',
             true,
             true,

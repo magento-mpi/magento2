@@ -39,6 +39,18 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
     protected $_productFactory;
 
     /**
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var Magento_Reports_Model_Resource_Event
+     */
+    protected $_reportsEventResource;
+
+    /**
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Reports_Model_Resource_Event $reportsEventResource
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
      * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -51,6 +63,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Reports_Model_Resource_Event $reportsEventResource,
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Magento_Data_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
@@ -62,6 +76,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
         Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
         array $data = array()
     ) {
+        $this->_catalogConfig = $catalogConfig;
+        $this->_reportsEventResource = $reportsEventResource;
         parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_adminhtmlSales = $adminhtmlSales;
         $this->_productFactory = $productFactory;
@@ -103,7 +119,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
             }
 
             // prepare products collection and apply visitors log to it
-            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+            $attributes = $this->_catalogConfig->getProductAttributes();
             if (!in_array('status', $attributes)) {
                 // Status attribute is required even if it is not used in product listings
                 array_push($attributes, 'status');
@@ -112,7 +128,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);
-            Mage::getResourceSingleton('Magento_Reports_Model_Resource_Event')->applyLogToCollection(
+            $this->_reportsEventResource->applyLogToCollection(
                 $productCollection,
                 Magento_Reports_Model_Event::EVENT_PRODUCT_COMPARE,
                 $this->_getCustomer()->getId(),

@@ -17,6 +17,30 @@
  */
 class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Adminhtml_Block_Report_Grid_Shopcart
 {
+    /**
+     * @var Magento_Reports_Model_Resource_Customer_CollectionFactory
+     */
+    protected $_customersFactory;
+
+    /**
+     * @param Magento_Reports_Model_Resource_Customer_CollectionFactory $customersFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Reports_Model_Resource_Customer_CollectionFactory $customersFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_customersFactory = $customersFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -27,7 +51,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Admi
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Customer_Collection')
+        $collection = $this->_customersFactory->create()
           ->addAttributeToSelect('firstname')
           ->addAttributeToSelect('lastname');
 

@@ -83,11 +83,23 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
 
 
         /** @var $model Magento_Catalog_Model_Resource_Abstract */
-        $model = $this->getMock('Magento_Catalog_Model_Resource_Abstract', null, array(array(
-            'type' => $entityType,
-            'entityTable' => 'entityTable',
-            'attributesByCode' => $attributes,
-        )));
+        $model = $this->getMock(
+            'Magento_Catalog_Model_Resource_Abstract',
+            null,
+            array(
+                $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
+                $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false, false),
+                $this->getMock('Magento_Eav_Model_Entity_Attribute_Set', array(), array(), '', false, false),
+                $this->getMock('Magento_Core_Model_LocaleInterface'),
+                $this->getMock('Magento_Eav_Model_Resource_Helper_Mysql4', array(), array(), '', false, false),
+                $this->getMock('Magento_Eav_Model_Factory_Helper', array(), array(), '', false, false),
+                array(
+                    'type' => $entityType,
+                    'entityTable' => 'entityTable',
+                    'attributesByCode' => $attributes,
+                )
+            )
+        );
 
         $model->walkAttributes('backend/afterSave', array($object));
     }

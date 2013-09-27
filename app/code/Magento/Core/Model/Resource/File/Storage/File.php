@@ -132,6 +132,7 @@ class Magento_Core_Model_Resource_File_Storage_File
      * Save directory to storage
      *
      * @param array $dir
+     * @throws Magento_Core_Exception
      * @return bool
      */
     public function saveDir($dir)
@@ -149,7 +150,7 @@ class Magento_Core_Model_Resource_File_Storage_File
             $this->_filesystem->ensureDirectoryExists($path);
         } catch (Exception $e) {
             $this->_logger->log($e->getMessage());
-            Mage::throwException(__('Unable to create directory: %1', $path));
+            throw new Magento_Core_Exception(__('Unable to create directory: %1', $path));
         }
 
         return true;
@@ -161,6 +162,7 @@ class Magento_Core_Model_Resource_File_Storage_File
      * @param string $filePath
      * @param string $content
      * @param bool $overwrite
+     * @throws Magento_Core_Exception
      * @return bool
      */
     public function saveFile($filePath, $content, $overwrite = false)
@@ -176,7 +178,7 @@ class Magento_Core_Model_Resource_File_Storage_File
             }
         } catch (Magento_Filesystem_Exception $e) {
             $this->_logger->log($e->getMessage());
-            Mage::throwException(__('Unable to save file: %1', $filePath));
+            throw new Magento_Core_Exception(__('Unable to save file: %1', $filePath));
         }
 
         return false;

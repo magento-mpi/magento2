@@ -90,7 +90,8 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
     protected function _testAttribute($method, $entityCode, $expectedResult)
     {
         $attributeName = 'description';
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute($entityCode, $attributeName);
+        $attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+            ->getAttribute($entityCode, $attributeName);
         $isHtml = $attribute->getIsHtmlAllowedOnFront();
         $isWysiwyg = $attribute->getIsWysiwygEnabled();
         $attribute->setIsHtmlAllowedOnFront(0)->setIsWysiwygEnabled(0);

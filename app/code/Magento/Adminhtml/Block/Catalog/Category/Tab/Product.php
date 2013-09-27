@@ -17,7 +17,6 @@
  */
 class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Backend_Block_Widget_Grid_Extended
 {
-
     /**
      * Core registry
      *
@@ -26,6 +25,12 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Backe
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -34,6 +39,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Backe
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -41,6 +47,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Backe
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_productFactory = $productFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -84,7 +91,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Backe
         if ($this->getCategory()->getId()) {
             $this->setDefaultFilter(array('in_category'=>1));
         }
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $collection = $this->_productFactory->create()->getCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')

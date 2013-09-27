@@ -127,43 +127,55 @@ class Magento_Search_Model_Resource_Collection
     protected $_searchData;
 
     /**
-     * Store manager
-     *
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * Construct
-     *
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource $coreResource
+     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Search_Helper_Data $searchData
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource $coreResource,
+        Magento_Eav_Model_EntityFactory $eavEntityFactory,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Search_Helper_Data $searchData,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy,
-            $coreStoreConfig, $entityFactory);
         $this->_searchData = $searchData;
         $this->_catalogSearchData = $catalogSearchData;
         $this->_storeManager = $storeManager;
+        parent::__construct(
+            $eventManager,
+            $logger,
+            $fetchStrategy,
+            $entityFactory,
+            $eavConfig,
+            $coreResource,
+            $eavEntityFactory,
+            $resourceHelper,
+            $helperFactory,
+            $catalogData,
+            $catalogProductFlat,
+            $coreStoreConfig
+        );
     }
 
     /**

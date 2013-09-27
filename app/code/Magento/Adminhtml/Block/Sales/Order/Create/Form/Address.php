@@ -33,21 +33,41 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     protected $_adminhtmlAddresses = null;
 
     /**
+     * @var Magento_Customer_Model_AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @var Magento_Customer_Model_FormFactory
+     */
+    protected $_customerFormFactory;
+
+    /**
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param Magento_Customer_Model_FormFactory $customerFormFactory
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        Magento_Customer_Model_FormFactory $customerFormFactory,
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
         Magento_Data_Form_Factory $formFactory,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_addressFactory = $addressFactory;
+        $this->_customerFormFactory = $customerFormFactory;
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
-        parent::__construct($formFactory, $coreData, $context, $data);
+        parent::__construct($formFactory, $sessionQuote, $orderCreate, $coreData, $context, $data);
     }
 
     /**
@@ -78,7 +98,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
     protected function _getAddressForm()
     {
         if (is_null($this->_addressForm)) {
-            $this->_addressForm = Mage::getModel('Magento_Customer_Model_Form')
+            $this->_addressForm = $this->_customerFormFactory->create()
                 ->setFormCode('adminhtml_customer_address')
                 ->setStore($this->getStore());
         }
@@ -99,12 +119,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
             ->getAddressById(null)
             ->setCountryId($this->_coreData->getDefaultCountry($this->getStore()));
         $data[0] = $addressForm->setEntity($emptyAddress)
-            ->outputData(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
+            ->outputData(Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_JSON);
 
         foreach ($this->getAddressCollection() as $address) {
             $addressForm->setEntity($address);
             $data[$address->getId()] = $addressForm->outputData(
-                Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON
+                Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_JSON
             );
         }
         return $this->_coreData->jsonEncode($data);
@@ -122,7 +142,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
         ));
 
         /* @var $addressModel Magento_Customer_Model_Address */
-        $addressModel = Mage::getModel('Magento_Customer_Model_Address');
+        $addressModel = $this->_addressFactory->create();
 
         $addressForm = $this->_getAddressForm()
             ->setEntity($addressModel);

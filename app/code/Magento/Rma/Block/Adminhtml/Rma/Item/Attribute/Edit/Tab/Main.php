@@ -20,38 +20,47 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
      *
      * @var Magento_Rma_Helper_Eav
      */
-    protected $_rmaEav = null;
+    protected $_rmaEav;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_YesnoFactory
-     */
-    protected $_configFactory;
-
-    /**
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Rma_Helper_Eav $rmaEav
-     * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Backend_Model_Config_Source_YesnoFactory configFctory
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Backend_Model_Config_Source_YesnoFactory $yesnoFactory
+     * @param Magento_Eav_Model_Adminhtml_System_Config_Source_InputtypeFactory $inputTypeFactory
      * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
+     * @param Magento_Rma_Helper_Eav $rmaEav
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
-        Magento_Rma_Helper_Eav $rmaEav,
-        Magento_Eav_Helper_Data $eavData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Backend_Model_Config_Source_YesnoFactory $configFactory,
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Backend_Model_Config_Source_YesnoFactory $yesnoFactory,
+        Magento_Eav_Model_Adminhtml_System_Config_Source_InputtypeFactory $inputTypeFactory,
         Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
+        Magento_Rma_Helper_Eav $rmaEav,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        $this->_configFactory = $configFactory;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $attributeConfig, $data);
+        parent::__construct(
+            $registry,
+            $formFactory,
+            $coreData,
+            $context,
+            $eavData,
+            $locale,
+            $yesnoFactory,
+            $inputTypeFactory,
+            $attributeConfig,
+            $data
+        );
     }
 
     /**
@@ -166,7 +175,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         ));
 
         /** @var $config Magento_Backend_Model_Config_Source_Yesno */
-        $config = $this->_configFactory->create();
+        $config = $this->_yesnoFactory->create();
         $yesnoSource = $config->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(

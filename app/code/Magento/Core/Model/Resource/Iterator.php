@@ -62,11 +62,11 @@ class Magento_Core_Model_Resource_Iterator extends Magento_Object
 
         if (is_string($query)) {
             if (!$conn instanceof Zend_Db_Adapter_Abstract) {
-                Mage::throwException(__('Invalid connection'));
+                throw new Magento_Core_Exception(__('Invalid connection'));
             }
             return $conn->query($query);
         }
 
-        Mage::throwException(__('Invalid query'));
+        throw new Magento_Core_Exception(__('Invalid query'));
     }
 }

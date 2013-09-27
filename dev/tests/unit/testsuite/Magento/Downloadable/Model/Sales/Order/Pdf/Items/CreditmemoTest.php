@@ -29,7 +29,33 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
     protected function setUp()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $orderConstructorArgs = $objectManager->getConstructArguments('Magento_Sales_Model_Order');
+        $arguments = array(
+            'productFactory' => $this->getMock(
+                'Magento_Catalog_Model_ProductFactory', array(), array(), '', false
+            ),
+            'templateMailerFactory' => $this->getMock(
+                'Magento_Core_Model_Email_Template_MailerFactory', array(), array(), '', false
+            ),
+            'emailInfoFactory' => $this->getMock(
+                'Magento_Core_Model_Email_InfoFactory', array(), array(), '', false
+            ),
+            'orderItemCollFactory' => $this->getMock(
+                'Magento_Sales_Model_Resource_Order_Item_CollectionFactory', array(), array(), '', false
+            ),
+            'serviceOrderFactory' => $this->getMock(
+                'Magento_Sales_Model_Service_OrderFactory', array(), array(), '', false
+            ),
+            'currencyFactory' => $this->getMock(
+                'Magento_Directory_Model_CurrencyFactory', array(), array(), '', false
+            ),
+            'orderHistoryFactory' => $this->getMock(
+                'Magento_Sales_Model_Order_Status_HistoryFactory', array(), array(), '', false
+            ),
+            'orderTaxCollFactory' => $this->getMock(
+                'Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory', array(), array(), '', false
+            ),
+        );
+        $orderConstructorArgs = $objectManager->getConstructArguments('Magento_Sales_Model_Order', $arguments);
         $this->_order = $this->getMock('Magento_Sales_Model_Order', array('formatPriceTxt'), $orderConstructorArgs);
         $this->_order
             ->expects($this->any())
@@ -41,7 +67,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
         );
 
         $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false);
-        $locale = $this->getMock('Magento_Core_Model_Locale_Proxy', array(), array(), '', false, false);
+        $locale = $this->getMock('Magento_Core_Model_Locale', array(), array(), '', false, false);
         $modelConstructorArgs = $objectManager
             ->getConstructArguments('Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo', array(
                 'helper' => new Magento_Core_Helper_String($context, $locale)

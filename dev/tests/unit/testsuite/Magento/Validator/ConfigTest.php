@@ -12,7 +12,17 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @var Magento_Validator_Config
      */
-    protected $_config = null;
+    protected $_config;
+
+    /**
+     * @var Magento_TestFramework_Helper_ObjectManager
+     */
+    protected $_objectManager;
+
+    protected function setUp()
+    {
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+    }
 
     /**
      * @expectedException InvalidArgumentException
@@ -33,7 +43,13 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
         if (null === $files) {
             $files = glob(__DIR__ . '/_files/validation/positive/*/validation.xml');
         }
-        $this->_config = new Magento_Validator_Config($files);
+        $this->_config = $this->_objectManager->getObject(
+            'Magento_Validator_Config',
+            array(
+                'configFiles' => $files,
+                'builderFactory' => new Magento_Validator_BuilderFactory(new Magento_ObjectManager_ObjectManager()),
+            )
+        );
     }
 
     /**

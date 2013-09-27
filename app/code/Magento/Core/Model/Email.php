@@ -41,6 +41,7 @@ class Magento_Core_Model_Email extends Magento_Object
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_LayoutFactory $layoutFactory
      * @param array $data
      */
     public function __construct(

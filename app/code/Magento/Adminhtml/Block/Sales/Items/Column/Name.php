@@ -27,18 +27,20 @@ class Magento_Adminhtml_Block_Sales_Items_Column_Name extends Magento_Adminhtml_
 
     /**
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Catalog_Model_Product_OptionFactory $optionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
+        Magento_Catalog_Model_Product_OptionFactory $optionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($optionFactory, $coreData, $context, $data);
     }
 
     /**

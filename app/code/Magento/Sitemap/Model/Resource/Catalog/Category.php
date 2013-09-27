@@ -33,26 +33,30 @@ class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model
     protected $_attributesCache    = array();
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @var Magento_Catalog_Model_Resource_Category
      */
     protected $_categoryResource;
 
     /**
-     * @param Magento_Catalog_Model_Resource_Category $categoryResource
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Resource_Category $categoryResource
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Category $categoryResource,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Resource_Category $categoryResource
     ) {
+        $this->_storeManager = $storeManager;
         $this->_categoryResource = $categoryResource;
         parent::__construct($resource);
     }
 
-    /**
-     * Init resource model (catalog/category)
-     *
-     */
     protected function _construct()
     {
         $this->_init('catalog_category_entity', 'entity_id');
@@ -68,8 +72,8 @@ class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model
     {
         $categories = array();
 
-        $store = Mage::app()->getStore($storeId);
         /* @var $store Magento_Core_Model_Store */
+        $store = $this->_storeManager->getStore($storeId);
 
         if (!$store) {
             return false;

@@ -76,4 +76,20 @@ class Magento_Oauth_Model_Resource_Token extends Magento_Core_Model_Resource_Db_
             return 0;
         }
     }
+
+    /**
+     * Select a single token of the specified type for the specified consumer.
+     *
+     * @param int $consumerId - The consumer id
+     * @param string $type - The token type (e.g. 'verifier')
+     * @return array|boolean - Row data (array) or false if there is no corresponding row
+     */
+    public function selectTokenByType($consumerId, $type)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getMainTable())
+            ->where('consumer_id = ?', $consumerId)->where('type = ?', $type);
+        return $adapter->fetchRow($select);
+    }
 }

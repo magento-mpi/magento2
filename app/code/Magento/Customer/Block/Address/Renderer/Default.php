@@ -35,16 +35,24 @@ class Magento_Customer_Block_Address_Renderer_Default
     protected $_customerAddress = null;
 
     /**
+     * @var Magento_Eav_Model_AttributeDataFactory
+     */
+    protected $_attrDataFactory;
+
+    /**
      * @param Magento_Customer_Helper_Address $customerAddress
      * @param Magento_Core_Block_Context $context
+     * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
      * @param array $data
      */
     public function __construct(
         Magento_Customer_Helper_Address $customerAddress,
         Magento_Core_Block_Context $context,
+        Magento_Eav_Model_AttributeDataFactory $attrDataFactory,
         array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;
+        $this->_attrDataFactory = $attrDataFactory;
         parent::__construct($context, $data);
     }
 
@@ -89,16 +97,16 @@ class Magento_Customer_Block_Address_Renderer_Default
     {
         switch ($this->getType()->getCode()) {
             case 'html':
-                $dataFormat = Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_HTML;
+                $dataFormat = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_HTML;
                 break;
             case 'pdf':
-                $dataFormat = Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_PDF;
+                $dataFormat = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_PDF;
                 break;
             case 'oneline':
-                $dataFormat = Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_ONELINE;
+                $dataFormat = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_ONELINE;
                 break;
             default:
-                $dataFormat = Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_TEXT;
+                $dataFormat = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT;
                 break;
         }
 
@@ -116,10 +124,10 @@ class Magento_Customer_Block_Address_Renderer_Default
             } else if ($attribute->getAttributeCode() == 'region') {
                 $data['region'] = __($address->getRegion());
             } else {
-                $dataModel = Magento_Customer_Model_Attribute_Data::factory($attribute, $address);
+                $dataModel = $this->_attrDataFactory->create($attribute, $address);
                 $value     = $dataModel->outputValue($dataFormat);
                 if ($attribute->getFrontendInput() == 'multiline') {
-                    $values    = $dataModel->outputValue(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_ARRAY);
+                    $values    = $dataModel->outputValue(Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_ARRAY);
                     // explode lines
                     foreach ($values as $k => $v) {
                         $key = sprintf('%s%d', $attribute->getAttributeCode(), $k + 1);

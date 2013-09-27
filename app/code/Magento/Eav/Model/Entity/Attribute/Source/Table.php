@@ -26,12 +26,28 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
     protected $_coreData = null;
 
     /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory
+     */
+    protected $_attrOptCollFactory;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory
+     */
+    protected $_attrOptionFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $attrOptCollFactory
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $attrOptionFactory
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $attrOptCollFactory,
+        Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $attrOptionFactory
     ) {
         $this->_coreData = $coreData;
+        $this->_attrOptCollFactory = $attrOptCollFactory;
+        $this->_attrOptionFactory = $attrOptionFactory;
     }
 
     /**
@@ -51,7 +67,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
             $this->_optionsDefault = array();
         }
         if (!isset($this->_options[$storeId])) {
-            $collection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $collection = $this->_attrOptCollFactory->create()
                 ->setPositionOrder('asc')
                 ->setAttributeFilter($this->getAttribute()->getId())
                 ->setStoreFilter($this->getAttribute()->getStoreId())
@@ -130,7 +146,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
         $valueExpr = $collection->getSelect()->getAdapter()
             ->getCheckSql("{$valueTable2}.value_id > 0", "{$valueTable2}.value", "{$valueTable1}.value");
 
-        Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
+        $this->_attrOptionFactory->create()
             ->addOptionValueToCollection($collection, $this->getAttribute(), $valueExpr);
 
         $collection->getSelect()
@@ -230,7 +246,6 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
-            ->getFlatUpdateSelect($this->getAttribute(), $store);
+        return $this->_attrOptionFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

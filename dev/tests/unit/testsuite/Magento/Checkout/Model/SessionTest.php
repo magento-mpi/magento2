@@ -40,9 +40,9 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
             'Magento_Checkout_Model_Session',
             array('init'),
             array(
+                $orderFactory,
                 $validatorMock,
                 $logger,
-                $orderFactory,
                 $eventManager,
                 $coreHttp,
                 $coreStoreConfig,
@@ -54,7 +54,7 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
                 $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Url_Proxy', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_Url', array(), array(), '', false),
             ),
             ''
         );
@@ -88,7 +88,7 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
         /** @var $order PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Model_Order */
         $order = $this->getMockBuilder('Magento_Sales_Model_Order')
             ->disableOriginalConstructor()
-            ->setMethods(array('getIncrementId', 'loadByIncrementId'))
+            ->setMethods(array('getIncrementId', 'loadByIncrementId', '__sleep', '__wakeup'))
             ->getMock();
 
         $order->expects($this->once())

@@ -10,14 +10,12 @@
 
 /**
  * Sales order view block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Block_Order_View extends Magento_Core_Block_Template
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'order/view.phtml';
 
     /**
@@ -28,24 +26,33 @@ class Magento_Sales_Block_Order_View extends Magento_Core_Block_Template
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Customer_Model_Session $customerSession
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Customer_Model_Session $customerSession,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
     protected function _prepareLayout()
     {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
         $this->setChild(
@@ -54,6 +61,9 @@ class Magento_Sales_Block_Order_View extends Magento_Core_Block_Template
         );
     }
 
+    /**
+     * @return string
+     */
     public function getPaymentInfoHtml()
     {
         return $this->getChildHtml('payment_info');
@@ -76,10 +86,10 @@ class Magento_Sales_Block_Order_View extends Magento_Core_Block_Template
      */
     public function getBackUrl()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::getUrl('*/*/history');
+        if ($this->_customerSession->isLoggedIn()) {
+            return $this->getUrl('*/*/history');
         }
-        return Mage::getUrl('*/*/form');
+        return $this->getUrl('*/*/form');
     }
 
     /**
@@ -89,25 +99,37 @@ class Magento_Sales_Block_Order_View extends Magento_Core_Block_Template
      */
     public function getBackTitle()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if ($this->_customerSession->isLoggedIn()) {
             return __('Back to My Orders');
         }
         return __('View Another Order');
     }
 
+    /**
+     * @param object $order
+     * @return string
+     */
     public function getInvoiceUrl($order)
     {
-        return Mage::getUrl('*/*/invoice', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/invoice', array('order_id' => $order->getId()));
     }
 
+    /**
+     * @param object $order
+     * @return string
+     */
     public function getShipmentUrl($order)
     {
-        return Mage::getUrl('*/*/shipment', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/shipment', array('order_id' => $order->getId()));
     }
 
+    /**
+     * @param object $order
+     * @return string
+     */
     public function getCreditmemoUrl($order)
     {
-        return Mage::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
     }
 
 }

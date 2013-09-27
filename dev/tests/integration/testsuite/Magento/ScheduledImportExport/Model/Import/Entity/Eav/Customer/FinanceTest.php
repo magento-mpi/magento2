@@ -27,7 +27,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             ->registry('Magento_ScheduledImportExport_Model_Website');
         if ($testWebsite) {
             // Clear test website info from application cache.
-            Mage::app()->clearWebsiteCache($testWebsite->getId());
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->clearWebsiteCache($testWebsite->getId());
         }
     }
 
@@ -54,12 +55,14 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         /** @var $testWebsite Magento_Core_Model_Website */
         $testWebsite = $objectManager->get('Magento_Core_Model_Registry')
             ->registry('Magento_ScheduledImportExport_Model_Website');
-        Mage::app()->getWebsite($testWebsite->getId());
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
         $websiteCodes = array();
+        $websites = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsites();
         /** @var $website Magento_Core_Model_Website */
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($websites as $website) {
             $websiteCodes[$website->getId()] = $website->getCode();
         }
 
@@ -68,14 +71,16 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             'username' => $userName
         ));
         /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Backend_Model_Auth_Session');
         $session->setUser($user);
 
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
 
         $source = new Magento_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
-        $model = Mage::getModel('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
         $model->setParameters(
             array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
         );
@@ -88,10 +93,12 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $customerBalanceKey =
             Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
 
-        $customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        $customerCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Customer_Collection');
         /** @var $customer Magento_Customer_Model_Customer */
         foreach ($customerCollection as $customer) {
-            $rewardCollection = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
+            $rewardCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Reward_Model_Resource_Reward_Collection');
             $rewardCollection->addFieldToFilter('customer_id', $customer->getId());
             /** @var $rewardPoints Magento_Reward_Model_Reward */
             foreach ($rewardCollection as $rewardPoints) {
@@ -107,7 +114,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 );
             }
 
-            $customerBalance = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance_Collection');
+            $customerBalance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_CustomerBalance_Model_Resource_Balance_Collection');
             $customerBalance->addFieldToFilter('customer_id', $customer->getId());
             /** @var $balance Magento_CustomerBalance_Model_Balance */
             foreach ($customerBalance as $balance) {
@@ -137,13 +145,15 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     public function testImportDataDelete()
     {
         /* clean up the database from prior tests before importing */
-        $rewards  = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
+        $rewards  = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Reward_Model_Resource_Reward_Collection');
         foreach ($rewards as $reward) {
             $reward->delete();
         }
 
         $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
-        $model = Mage::getModel('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
         $model->setParameters(
             array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE)
         );
@@ -151,8 +161,10 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $model->validateData();
         $model->importData();
 
-        $rewards  = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
-        $balances = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance_Collection');
+        $rewards  = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Reward_Model_Resource_Reward_Collection');
+        $balances = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_CustomerBalance_Model_Resource_Balance_Collection');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 

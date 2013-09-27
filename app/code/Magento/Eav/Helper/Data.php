@@ -23,6 +23,13 @@ class Magento_Eav_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_entityTypeFrontendClasses = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @var Magento_Eav_Model_Entity_Attribute_Config
      */
     protected $_attributeConfig;

@@ -22,13 +22,6 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     protected $_attribute = null;
 
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
      * Eav data
      *
      * @var Magento_Eav_Helper_Data
@@ -41,25 +34,48 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     protected $_attributeConfig;
     
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_YesnoFactory
+     */
+    protected $_yesnoFactory;
+
+    /**
+     * @var Magento_Eav_Model_Adminhtml_System_Config_Source_InputtypeFactory
+     */
+    protected $_inputTypeFactory;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Backend_Model_Config_Source_YesnoFactory $yesnoFactory
+     * @param Magento_Eav_Model_Adminhtml_System_Config_Source_InputtypeFactory $inputTypeFactory
      * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
-        Magento_Eav_Helper_Data $eavData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Backend_Model_Config_Source_YesnoFactory $yesnoFactory,
+        Magento_Eav_Model_Adminhtml_System_Config_Source_InputtypeFactory $inputTypeFactory,
         Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         $this->_eavData = $eavData;
+        $this->_locale = $locale;
+        $this->_yesnoFactory = $yesnoFactory;
+        $this->_inputTypeFactory = $inputTypeFactory;
         $this->_attributeConfig = $attributeConfig;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
@@ -111,7 +127,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
 
         $this->_addElementTypes($fieldset);
 
-        $yesno = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesno = $this->_yesnoFactory->create()->toOptionArray();
 
         $labels = $attributeObject->getFrontendLabel();
         $fieldset->addField(
@@ -138,14 +154,12 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
             'required' => true,
         ));
 
-        $inputTypes = Mage::getModel('Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype')->toOptionArray();
-
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',
             'label' => __('Catalog Input Type for Store Owner'),
             'title' => __('Catalog Input Type for Store Owner'),
             'value' => 'text',
-            'values'=> $inputTypes
+            'values'=> $this->_inputTypeFactory->create()->toOptionArray()
         ));
 
         $fieldset->addField(
@@ -174,7 +188,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
             'value' => $attributeObject->getDefaultValue(),
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('default_value_date', 'date', array(
             'name'   => 'default_value_date',
             'label'  => __('Default Value'),

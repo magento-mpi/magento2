@@ -61,7 +61,7 @@ class Magento_Core_Model_Store_StorageFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $log
      * @param Magento_Core_Model_ConfigInterface $config
-     * @param Magento_Core_Model_App_Proxy $app
+     * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_App_State $appState
      * @param string $defaultStorageClassName
      * @param string $installedStoreClassName
@@ -71,7 +71,7 @@ class Magento_Core_Model_Store_StorageFactory
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $log,
         Magento_Core_Model_ConfigInterface $config,
-        Magento_Core_Model_App_Proxy $app,
+        Magento_Core_Model_App $app,
         Magento_Core_Model_App_State $appState,
         $defaultStorageClassName = 'Magento_Core_Model_Store_Storage_Default',
         $installedStoreClassName = 'Magento_Core_Model_Store_Storage_Db'

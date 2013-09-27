@@ -17,4 +17,3 @@ Magento_Autoload_IncludePath::addIncludePath(array(
     $rootDir . '/app/code/',
     $rootDir . '/app'
 ));
-Mage::setIsSerializable(false);

@@ -28,11 +28,35 @@ class Magento_Eav_Model_Entity extends Magento_Eav_Model_Entity_Abstract
 
     /**
      * Resource initialization
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Resource $coreResource
+     * @param array $data
      */
-    public function __construct()
-    {
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
-        $this->setConnection($resource->getConnection('eav_read'));
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Resource $coreResource,
+        $data = array()
+    ) {
+        parent::__construct(
+            $resource,
+            $eavConfig,
+            $attrSetEntity,
+            $locale,
+            $resourceHelper,
+            $helperFactory,
+            $data
+        );
+        $this->setConnection($coreResource->getConnection('eav_read'));
     }
-
 }

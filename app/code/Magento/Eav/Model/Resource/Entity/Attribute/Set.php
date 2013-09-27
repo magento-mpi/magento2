@@ -19,6 +19,23 @@
 class Magento_Eav_Model_Resource_Entity_Attribute_Set extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_GroupFactory
+     */
+    protected $_attrGroupFactory;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_GroupFactory $attrGroupFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Resource_Entity_Attribute_GroupFactory $attrGroupFactory
+    ) {
+        parent::__construct($resource);
+        $this->_attrGroupFactory = $attrGroupFactory;
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -50,8 +67,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Set extends Magento_Core_Model
                 /* @var $group Magento_Eav_Model_Entity_Attribute_Group */
                 $group->delete();
             }
-            Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group')
-                ->updateDefaultGroup($object->getId());
+            $this->_attrGroupFactory->create()->updateDefaultGroup($object->getId());
         }
         if ($object->getRemoveAttributes()) {
             foreach ($object->getRemoveAttributes() as $attribute) {

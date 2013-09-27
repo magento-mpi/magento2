@@ -47,6 +47,39 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     protected $_entityType;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Resource initialization
      *
      * @throws Magento_Core_Exception
@@ -54,10 +87,10 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     protected function _construct()
     {
         if (empty($this->_moduleName)) {
-            Mage::throwException(__('Current module pathname is undefined'));
+            throw new Magento_Core_Exception(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            Mage::throwException(__('Current module EAV entity is undefined'));
+            throw new Magento_Core_Exception(__('Current module EAV entity is undefined'));
         }
     }
 
@@ -82,7 +115,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
      */
     public function setStore($store)
     {
-        $this->_store = Mage::app()->getStore($store);
+        $this->_store = $this->_storeManager->getStore($store);
         return $this;
     }
 
@@ -94,7 +127,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     public function getStore()
     {
         if ($this->_store === null) {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this->_store;
     }
@@ -107,7 +140,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($entityType);
+        $this->_entityType = $this->_eavConfig->getEntityType($entityType);
         return $this;
     }
 

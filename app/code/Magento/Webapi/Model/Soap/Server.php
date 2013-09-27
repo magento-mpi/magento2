@@ -33,7 +33,7 @@ class Magento_Webapi_Model_Soap_Server
     /** @var Magento_Core_Model_StoreManagerInterface */
     protected $_storeManager;
 
-    /** @var Magento_Webapi_Model_Soap_Server_FactoryInterface */
+    /** @var Magento_Webapi_Model_Soap_Server_Factory */
     protected $_soapServerFactory;
 
     /**
@@ -127,27 +127,6 @@ class Magento_Webapi_Model_Soap_Server
     public function getEndpointUri()
     {
         return $this->_storeManager->getStore()->getBaseUrl() . $this->_applicationConfig->getAreaFrontName();
-    }
-
-    /**
-     * Get SOAP Header names from request.
-     *
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @TODO Remove this method if it is not used after SOAP authentication implementation
-     */
-    public function getRequestHeaders()
-    {
-        $dom = $this->_domDocumentFactory->createDomDocument();
-        $dom->loadXML($this->_request);
-        $headers = array();
-        /** @var DOMElement $header */
-        foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
-            list($headerNs, $headerName) = explode(":", $header->nodeName);
-            $headers[] = $headerName;
-        }
-
-        return $headers;
     }
 
     /**

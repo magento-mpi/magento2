@@ -13,7 +13,8 @@ class Magento_Reports_Block_WidgetTest extends PHPUnit_Framework_TestCase
 {
     public function testViewedProductsWidget()
     {
-        $model = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget_Instance');
         $config = $model->setType('Magento_Reports_Block_Product_Widget_Viewed')->getWidgetConfigAsArray();
 
         $this->assertArrayHasKey('parameters', $config);
@@ -44,7 +45,8 @@ class Magento_Reports_Block_WidgetTest extends PHPUnit_Framework_TestCase
 
     public function testComparedProductsWidget()
     {
-        $model = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget_Instance');
         $config = $model->setType('Magento_Reports_Block_Product_Widget_Compared')->getWidgetConfigAsArray();
 
         $this->assertArrayHasKey('parameters', $config);

@@ -23,16 +23,26 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
     /** @var Magento_Core_Model_Registry */
     protected $_registry;
 
+    /** @var Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory */
+    protected $_attrOptCollFactory;
+
     /**
      * @inheritdoc
      */
     protected $_template = 'Magento_Adminhtml::catalog/product/attribute/options.phtml';
 
     /**
+     * @var Magento_Eav_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $attrOptCollFactory
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param array $data
      */
     public function __construct(
@@ -40,11 +50,15 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $registry,
+        Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $attrOptCollFactory,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
-        parent::__construct($coreData, $context, $data);
+        $this->_attrOptCollFactory = $attrOptCollFactory;
+        $this->_helperFactory = $helperFactory;
     }
 
     /**
@@ -136,12 +150,12 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
     protected function _getOptionValuesCollection(Magento_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         if ($this->canManageOptionDefaultOnly()) {
-            $options = Mage::getModel($attribute->getSourceModel())
+            $options = $this->_helperFactory->create($attribute->getSourceModel())
                 ->setAttribute($attribute)
                 ->getAllOptions();
             return $options;
         } else {
-            return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            return $this->_attrOptCollFactory->create()
                 ->setAttributeFilter($attribute->getId())
                 ->setPositionOrder('asc', true)
                 ->load();
@@ -224,7 +238,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
         $values = $this->getData('store_option_values_'.$storeId);
         if (is_null($values)) {
             $values = array();
-            $valuesCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $valuesCollection = $this->_attrOptCollFactory->create()
                 ->setAttributeFilter($this->getAttributeObject()->getId())
                 ->setStoreFilter($storeId, false)
                 ->load();

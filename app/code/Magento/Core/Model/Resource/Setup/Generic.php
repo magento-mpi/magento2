@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Magento_Core_Model_Resource_Setup_Generic extends Magento_Core_Model_Resource_Setup
 {
     /**

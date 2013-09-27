@@ -14,6 +14,8 @@
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
     extends Magento_Catalog_Model_Resource_Product_Collection
@@ -40,36 +42,57 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
     protected $_configurationHelper;
 
     /**
-     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource $coreResource
+     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Registry $registryManager
      * @param Magento_Catalog_Model_Product_Type_Configurable $productType
      * @param Magento_Catalog_Helper_Product_Configuration $configurationHelper
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource $coreResource,
+        Magento_Eav_Model_EntityFactory $eavEntityFactory,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Registry $registryManager,
         Magento_Catalog_Model_Product_Type_Configurable $productType,
-        Magento_Catalog_Helper_Product_Configuration $configurationHelper,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Catalog_Helper_Product_Configuration $configurationHelper
     ) {
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;
         $this->_configurationHelper = $configurationHelper;
         parent::__construct(
-            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+            $eventManager,
+            $logger,
+            $fetchStrategy,
+            $entityFactory,
+            $eavConfig,
+            $coreResource,
+            $eavEntityFactory,
+            $resourceHelper,
+            $helperFactory,
+            $catalogData,
+            $catalogProductFlat,
+            $coreStoreConfig
         );
     }
 

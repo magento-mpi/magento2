@@ -12,7 +12,6 @@
 class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_PAYMENT_METHODS = 'payment';
-    const XML_PATH_PAYMENT_GROUPS = 'global/payment/groups';
 
     /**
      * Core store config
@@ -20,6 +19,9 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
+    
+    /** @var Magento_Payment_Model_Config  */
+    protected $_paymentConfig;
 
     /**
      * Layout
@@ -58,6 +60,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Payment_Model_Method_Factory $paymentMethodFactory
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_App_Emulation $appEmulation
+     * @param Magento_Payment_Model_Config $paymentConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
@@ -65,7 +68,8 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Model_Layout $layout,
         Magento_Payment_Model_Method_Factory $paymentMethodFactory,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_App_Emulation $appEmulation
+        Magento_Core_Model_App_Emulation $appEmulation,
+        Magento_Payment_Model_Config $paymentConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -73,6 +77,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_methodFactory = $paymentMethodFactory;
         $this->_config = $config;
         $this->_appEmulation = $appEmulation;
+        $this->_paymentConfig = $paymentConfig;
     }
 
     /**
@@ -280,7 +285,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
             }
         }
         if ($asLabelValue && $withGroups) {
-            $groups = $this->_config->getNode(self::XML_PATH_PAYMENT_GROUPS)->asCanonicalArray();
+            $groups = $this->_paymentConfig->getGroups();
             foreach ($groups as $code => $title) {
                 $methods[$code] = $title; // for sorting, see below
             }

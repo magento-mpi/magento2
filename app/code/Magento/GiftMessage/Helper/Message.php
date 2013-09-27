@@ -55,13 +55,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
     protected $_giftMessageFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param Magento_GiftMessage_Model_MessageFactory $giftMessageFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LayoutFactory $layoutFactory
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -69,23 +63,43 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Locale_Proxy $locale
+     * @param Magento_Core_Model_Date_Proxy $dateModel
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_Config_Resource $configResource
      */
     public function __construct(
         Magento_GiftMessage_Model_MessageFactory $giftMessageFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LayoutFactory $layoutFactory,
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Locale_Proxy $locale,
+        Magento_Core_Model_Date_Proxy $dateModel,
+        Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_Config_Resource $configResource
     ) {
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
         $this->_storeManager = $storeManager;
         $this->_giftMessageFactory = $giftMessageFactory;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct(
+            $eventManager,
+            $coreHttp,
+            $context,
+            $config,
+            $coreStoreConfig,
+            $storeManager,
+            $locale,
+            $dateModel,
+            $appState,
+            $configResource
+        );
     }
 
     /**

@@ -35,12 +35,26 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
     /**
      * Initialize resource
      */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setType(Magento_Catalog_Model_Product::ENTITY)
-             ->setConnection('catalog_read', 'catalog_write');
-        $this->_productWebsiteTable  = $this->getTable('catalog_product_website');
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        $data = array()
+    ) {
+        parent::__construct(
+            $resource,
+            $eavConfig,
+            $attrSetEntity,
+            $locale,
+            $resourceHelper,
+            $helperFactory,
+            $data
+        );
+        $this->setType(Magento_Catalog_Model_Product::ENTITY)->setConnection('catalog_read', 'catalog_write');
+        $this->_productWebsiteTable = $this->getTable('catalog_product_website');
         $this->_productCategoryTable = $this->getTable('catalog_category_product');
     }
 

@@ -53,23 +53,33 @@ class Magento_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
     protected $_productFactory;
 
     /**
-     * Main constructor
-     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Sales_Model_Resource_Order_Item_CollectionFactory $ordersFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory     
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Sales_Model_Resource_Order_Item_CollectionFactory $ordersFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,        
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_ordersFactory = $ordersFactory;
-        $this->_productFactory = $productFactory;
-        parent::__construct($data);
+        $this->_productFactory = $productFactory;        
+        parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $helperFactory, $data);
     }
 
     /**

@@ -20,8 +20,9 @@
   * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
   * /config/global/page/layouts node was removed from the config.xml and related data was moved into page_layouts.xml
   * /config/global/theme node was removed from the config.xml and related data was moved to di.xml
+  * /config/global/payment node was removed from config.xml and related data was moved to payment.xml and di.xml
   * Removed "translate" node from configuration XML files
-  * Improved Install, Category, Product, Customer, Wishlist configuration segments:
+  * Improved Install, Category, Product, Customer, Wishlist, PDF, VDE, Currency, Email Template configuration segments:
     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
     * New configuration files are validated with XSD
     * Format of the configuration changed to make possible its validation
@@ -47,12 +48,6 @@
   * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
   * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
   * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
-* Сrontab segment improvements:
-  * crontab configurations were moved from config.xml to new crontab.xml with new format
-  * XSD validation schema for crontab.xml was added
-* Install segment was moved from config.xml to di.xml for next configuration nodes:
-  * config/install/databases
-  * config/install/eula_file
 * Сrontab segment improvements:
   * crontab configurations were moved from config.xml to new crontab.xml with new format
   * XSD validation schema for crontab.xml was added
@@ -89,9 +84,20 @@
     * sales_convert_quote_payment_to_order_payment
     * sales_convert_quote_item_to_order_item
     * sales_quote_config_get_product_attributes
+  * Static method `getObjectManager` of Mage class was eliminated
+  * Static method `register` of Mage class was eliminated
+  * Static method `unregister` of Mage class was eliminated
+  * Static method `registry` of Mage class was eliminated
+  * Static method `resetRegistry` of Mage class was eliminated
+  * Static method `getConfig` of Mage class was eliminated
+  * Static method `getStoreConfig` of Mage class was eliminated
+  * Static method `getStoreConfigFlag` of Mage class was eliminated
+  * Static method `log` of Mage class was eliminated
+  * Static method `logException` of Mage class was eliminated
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
+  * Implemented a 2-legged OAuth 1.0a based authentication mechanism for both REST and SOAP API calls
 * XML Validation
   * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
   * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
@@ -127,12 +133,24 @@
   * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getSingleton, Mage::getBaseUrl, Mage::isInstalled, Mage::getBaseDir static calls in module Magento_Cms
   * Eliminated Mage::app, Mage::getModel, Mage::throwException, Mage::getUrl, Mage::getIsDeveloperMode, Mage::getSingleton, Mage::getBaseUrl, Mage::getResourceHelper, Mage::getResourceSingleton static calls in module Magento_CatalogSearch
   * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
+  * Eliminated Mage::DEFAULT_ERROR_HANDLER, Mage::DEFAULT_TIMEZONE, Mage::VERSION, Mage::PARAM_APP_DIRS, Mage::PARAM_APP_URIS, Mage::PARAM_CUSTOM_LOCAL_FILE, Mage::PARAM_CUSTOM_LOCAL_CONFIG, Mage::PARAM_MODE, Mage::PARAM_RUN_CODE, Mage::PARAM_RUN_TYPE, Mage::PARAM_BASEDIR, Mage::PARAM_BAN_CACHE, Mage::PARAM_ALLOWED_MODULES, Mage::PARAM_CACHE_OPTIONS, Mage::PARAM_EDITION constants from code
   * Eliminated Mage:: static methods in Magento_Widget
   * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
   * Eliminated Mage:: static methods in Magento_Sendfriend
   * Eliminated Mage:: static methods in Magento_Usa
   * Eliminated Mage:: static methods in Magento_ProductAlert
   * Eliminated Mage:: static methods in Magento_Directory
+  * Eliminated Mage:: static methods in Magento_SalesRule
+  * Eliminated Mage:: static methods in Magento_Sales
+  * Eliminated Mage:: static methods in Magento_Rule
+  * Eliminated Mage:: static methods in Magento_Rss
+  * Eliminated Mage:: static methods in Magento_Review
+  * Eliminated Mage:: static methods in Magento_Widget
+  * Eliminated Mage:: static methods in Magento_Directory
+  * Eliminated Mage:: static methods in Magento_Sitemap
+  * Eliminated Mage:: static methods in Magento_Theme
+  * Eliminated Mage:: static methods in Magento_Rating
+  * Eliminated Mage:: static methods in Magento_Downloadable
   * Eliminated Mage:: static methods in Centinel, Connect, Contacts, GiftMessage, GoogleAnalytics
   * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
   * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
@@ -143,6 +161,8 @@
   * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
   * Eliminated Mage::helper and Mage::dispatchEvent in code
   * Eliminated Mage:: static methods in Magento_Cms, Magento_Log, Magento_Rating, Magento_Rss, Magento_Rule, Magento_CatalogRule, Magento_SalesRule, Magento_Weee, Magento_Captcha, Magento_CatalogInventory
+  * Eliminated Mage:: static methods in Magento_GoogleShopping, Magento_Page, Magento_PageCache, Magento_PaypalUk, Magento_Bundle
+  * Eliminated Mage::getVersion, Mage::getVersionInfo, Mage::getEdition, Mage::setEdition, Mage::reset, Mage::getRoot, Mage::objects, Mage::setIsSerializable, Mage::setIsDownloader, Mage::setUpdateMode, Mage::getUpdateMode
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed inability to create gift registry on frontend

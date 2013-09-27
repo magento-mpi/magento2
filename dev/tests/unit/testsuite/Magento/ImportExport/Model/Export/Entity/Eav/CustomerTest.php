@@ -104,7 +104,10 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
             $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $objectManagerHelper->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
+            $arguments = $objectManagerHelper->getConstructArguments(
+                'Magento_Eav_Model_Entity_Attribute_Abstract',
+                array('eavTypeFactory' => $this->getMock('Magento_Eav_Model_Entity_TypeFactory'))
+            );
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract',
                 $arguments, '', true, true, true, array('_construct')

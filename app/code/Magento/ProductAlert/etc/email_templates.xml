@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template id="catalog_productalert_email_stock_template" label="Stock Alert" file="stock_alert.html" type="html"/>
+    <template id="catalog_productalert_email_price_template" label="Price Alert" file="price_alert.html" type="html"/>
+    <template id="catalog_productalert_cron_error_email_template" label="Cron Error Warning" file="cron_error.html" type="html"/>
+</config>

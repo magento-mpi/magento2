@@ -27,18 +27,26 @@ class Magento_Adminhtml_Block_Page_Header extends Magento_Adminhtml_Block_Templa
     protected $_backendData = null;
 
     /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Auth_Session $authSession,
         Magento_Backend_Helper_Data $backendData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_backendData = $backendData;
+        $this->_authSession = $authSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -49,7 +57,7 @@ class Magento_Adminhtml_Block_Page_Header extends Magento_Adminhtml_Block_Templa
 
     public function getUser()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
+        return $this->_authSession->getUser();
     }
 
     public function getLogoutLink()

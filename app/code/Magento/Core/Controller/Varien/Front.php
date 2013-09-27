@@ -65,9 +65,9 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     protected $_response;
 
     /**
-     * @var Magento_Core_Model_App_Proxy
+     * @var Magento_Core_Model_App
      */
-    protected $_appProxy;
+    protected $_app;
 
     /**
      * @param Magento_Backend_Helper_Data $backendData
@@ -78,7 +78,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Url $url
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_App_Proxy $appProxy
+     * @param Magento_Core_Model_App $appProxy
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http $response
@@ -93,7 +93,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Url $url,
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_App_Proxy $appProxy,
+        Magento_Core_Model_App $appProxy,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Controller_Response_Http $response,
@@ -109,7 +109,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         $this->_coreConfig = $coreConfig;
         $this->_url = $url;
         $this->_appState = $appState;
-        $this->_appProxy = $appProxy;
+        $this->_app = $appProxy;
         $this->_storeManager = $storeManager;
         $this->_request = $request;
         $this->_response = $response;
@@ -193,6 +193,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     /**
      * Dispatch user request
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Controller_Varien_Front
      */
     public function dispatch()
@@ -226,7 +227,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         }
         Magento_Profiler::stop('routers_match');
         if ($routingCycleCounter > 100) {
-            Mage::throwException('Front controller reached 100 router match iterations');
+            throw new Magento_Core_Exception('Front controller reached 100 router match iterations');
         }
         // This event gives possibility to launch something before sending output (allow cookie setting)
         $this->_eventManager->dispatch('controller_front_send_response_before', array('front' => $this));
@@ -356,7 +357,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
                 $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
             );
 
-            $this->_appProxy->getFrontController()->getResponse()
+            $this->_app->getFrontController()->getResponse()
                 ->setRedirect($redirectUrl, $redirectCode)
                 ->sendResponse();
             exit;

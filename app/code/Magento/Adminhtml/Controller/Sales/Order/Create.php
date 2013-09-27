@@ -34,7 +34,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        return $this->_objectManager->get('Magento_Adminhtml_Model_Session_Quote');
     }
 
     /**
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
+        return $this->_objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create');
     }
 
     /**
@@ -64,7 +64,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      */
     protected function _getGiftmessageSaveModel()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Giftmessage_Save');
+        return $this->_objectManager->get('Magento_Adminhtml_Model_Giftmessage_Save');
     }
 
     /**
@@ -328,7 +328,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
     {
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
+        $order = $this->_objectManager->create('Magento_Sales_Model_Order')->load($orderId);
         if (!$this->_objectManager->get('Magento_Sales_Helper_Reorder')->canReorder($order)) {
             return $this->_forward('noRoute');
         }
@@ -395,7 +395,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         $result = $this->getLayout()->renderElement('content');
         if ($request->getParam('as_js_varname')) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setUpdateResult($result);
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setUpdateResult($result);
             $this->_redirect('*/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
@@ -427,7 +427,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         }
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
+        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
     }
 
@@ -481,7 +481,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
                 ->createOrder();
 
             $this->_getSession()->clear();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You created the order.'));
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(__('You created the order.'));
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
             } else {
@@ -546,7 +546,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         $configureResult = new Magento_Object();
         $configureResult->setOk(true);
         $configureResult->setProductId($productId);
-        $sessionQuote = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        $sessionQuote = $this->_objectManager->get('Magento_Adminhtml_Model_Session_Quote');
         $configureResult->setCurrentStoreId($sessionQuote->getStore()->getId());
         $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
@@ -569,23 +569,23 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         try {
             $quoteItemId = (int) $this->getRequest()->getParam('id');
             if (!$quoteItemId) {
-                Mage::throwException(__('Quote item id is not received.'));
+                throw new Magento_Core_Exception(__('Quote item id is not received.'));
             }
 
-            $quoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
+            $quoteItem = $this->_objectManager->create('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                Mage::throwException(__('Quote item is not loaded.'));
+                throw new Magento_Core_Exception(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
-            $optionCollection = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->getCollection()
+            $optionCollection = $this->_objectManager->create('Magento_Sales_Model_Quote_Item_Option')->getCollection()
                     ->addItemFilter(array($quoteItemId));
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setProductId($quoteItem->getProductId());
-            $sessionQuote = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+            $sessionQuote = $this->_objectManager->get('Magento_Adminhtml_Model_Session_Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
         } catch (Exception $e) {
@@ -608,7 +608,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      */
     public function showUpdateResultAction()
     {
-        $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
+        $session = $this->_objectManager->get('Magento_Adminhtml_Model_Session');
         if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())) {
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();

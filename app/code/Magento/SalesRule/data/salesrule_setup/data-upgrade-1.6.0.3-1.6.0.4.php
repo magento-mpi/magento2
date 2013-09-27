@@ -8,8 +8,8 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Core_Model_Resource_Setup_Migration */
-$installer = $this->_migrationFactory->create(array('resourceName' => 'core_setup'));
+/** @var $this Magento_SalesRule_Model_Resource_Setup */
+$installer = $this->getMigrationModel();
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('salesrule', 'conditions_serialized',

@@ -31,9 +31,11 @@ class Magento_Catalog_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Url_Proxy $url
+     * @param Magento_Core_Model_Url $url
      * @param array $data
-     * @param string $sessionName
+     * @param null $sessionName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Session_Validator $validator,
@@ -49,12 +51,14 @@ class Magento_Catalog_Model_Session extends Magento_Core_Model_Session_Abstract
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Url_Proxy $url,
+        Magento_Core_Model_Url $url,
         array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory, $message, $cookie,
-            $request, $appState, $storeManager, $dir, $url, $data);
+        parent::__construct(
+            $validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory,
+            $message, $cookie, $request, $appState, $storeManager, $dir, $url, $data
+        );
         $this->init('catalog', $sessionName);
     }
 

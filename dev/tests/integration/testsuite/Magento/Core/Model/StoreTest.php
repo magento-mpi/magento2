@@ -98,7 +98,8 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());
-        $website = Mage::app()->getWebsite();
+        $website = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getWebsite();
         $this->_model->setWebsite($website);
         $actualResult = $this->_model->getWebsite();
         $this->assertSame($website, $actualResult);
@@ -107,7 +108,8 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function testSetGetGroup()
     {
         $this->assertFalse($this->_model->getGroup());
-        $storeGroup = Mage::app()->getGroup();
+        $storeGroup = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getGroup();
         $this->_model->setGroup($storeGroup);
         $actualResult = $this->_model->getGroup();
         $this->assertSame($storeGroup, $actualResult);
@@ -177,7 +179,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function testGetBaseUrlInPub()
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_URIS => array(Magento_Core_Model_Dir::PUB => '')
+            Magento_Core_Model_App::PARAM_APP_URIS => array(Magento_Core_Model_Dir::PUB => '')
         ));
         $this->_model = $this->_getStoreModel();
         $this->_model->load('default');
@@ -293,7 +295,8 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         );
 
         /* emulate admin store */
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         $crud = new Magento_TestFramework_Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
@@ -321,7 +324,8 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $this->_model->setData($data);
 
         /* emulate admin store */
-        Mage::app()->getStore()->setId(Magento_Core_Model_App::ADMIN_STORE_ID);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId(Magento_Core_Model_App::ADMIN_STORE_ID);
         $this->_model->save();
     }
 

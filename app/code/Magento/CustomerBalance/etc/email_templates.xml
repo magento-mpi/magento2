@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template id="customer_magento_customerbalance_email_template" label="Store Credit Update" file="update_notification.html" type="html"/>
+</config>

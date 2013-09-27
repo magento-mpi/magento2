@@ -51,10 +51,10 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
         $moduleReader = $objectManager->create(
             'Magento_Core_Model_Config_Modules_Reader',
             array(
-                'dirs' => $dirs,
                 'moduleList' => $moduleList
             )
         );
+        $moduleReader->setModuleDir('Magento_Last', 'etc', __DIR__ . '/LayoutTest/Magento/Last/etc');
 
         /** @var Magento_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
         $dsCfgReaderFactory = $objectManager->create('Magento_Core_Model_DataService_Config_Reader_Factory');

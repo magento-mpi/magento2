@@ -31,7 +31,7 @@ class Magento_AdminNotification_Model_NotificationServiceTest extends PHPUnit_Fr
         );
         $notification = $this->getMock(
             'Magento_AdminNotification_Model_Inbox',
-            array('load', 'getId', 'save','setIsRead'),
+            array('load', 'getId', 'save','setIsRead', '__sleep', '__wakeup'),
             array(),
             '',
             false

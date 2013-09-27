@@ -28,12 +28,22 @@ class Magento_GoogleShopping_Helper_Price
     protected $_coreRegistry = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -49,12 +59,12 @@ class Magento_GoogleShopping_Helper_Price
             case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
                 // Workaround to avoid loading stock status by admin's website
                 if ($store instanceof Magento_Core_Model_Store) {
-                    $oldStore = Mage::app()->getStore();
-                    Mage::app()->setCurrentStore($store);
+                    $oldStore = $this->_storeManager->getStore();
+                    $this->_storeManager->setCurrentStore($store);
                 }
                 $subProducts = $product->getTypeInstance()->getAssociatedProducts($product);
                 if ($store instanceof Magento_Core_Model_Store) {
-                    Mage::app()->setCurrentStore($oldStore);
+                    $this->_storeManager->setCurrentStore($oldStore);
                 }
                 if (!count($subProducts)) {
                     return null;
@@ -74,8 +84,8 @@ class Magento_GoogleShopping_Helper_Price
 
             case Magento_Catalog_Model_Product_Type::TYPE_BUNDLE:
                 if ($store instanceof Magento_Core_Model_Store) {
-                    $oldStore = Mage::app()->getStore();
-                    Mage::app()->setCurrentStore($store);
+                    $oldStore = $this->_storeManager->getStore();
+                    $this->_storeManager->setCurrentStore($store);
                 }
 
                 $this->_coreRegistry->unregister('rule_data');
@@ -87,7 +97,7 @@ class Magento_GoogleShopping_Helper_Price
                 $minPrice = $product->getPriceModel()->getTotalPrices($product, 'min', $inclTax);
 
                 if ($store instanceof Magento_Core_Model_Store) {
-                    Mage::app()->setCurrentStore($oldStore);
+                    $this->_storeManager->setCurrentStore($oldStore);
                 }
                 return $minPrice;
 

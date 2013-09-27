@@ -107,18 +107,73 @@ abstract class Magento_Eav_Model_Form
     protected $_validator = null;
 
     /**
-     * Checks correct module choice
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Core_Model_Config_Modules_Reader
+     */
+    protected $_modulesReader;
+
+    /**
+     * @var Magento_Eav_Model_AttributeDataFactory
+     */
+    protected $_attrDataFactory;
+
+    /**
+     * @var Magento_Eav_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_httpRequest;
+
+    /**
+     * @var Magento_Validator_ConfigFactory
+     */
+    protected $_validatorConfigFactory;
+
+    /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Controller_Request_Http $httpRequest
+     * @param Magento_Validator_ConfigFactory $validatorConfigFactory
      *
      * @throws Magento_Core_Exception
      */
-    public function __construct()
-    {
+    public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Eav_Model_AttributeDataFactory $attrDataFactory,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Core_Controller_Request_Http $httpRequest,
+        Magento_Validator_ConfigFactory $validatorConfigFactory
+    ) {
         if (empty($this->_moduleName)) {
-            Mage::throwException(__('Current module pathname is undefined'));
+            throw new Magento_Core_Exception(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            Mage::throwException(__('Current module EAV entity is undefined'));
+            throw new Magento_Core_Exception(__('Current module EAV entity is undefined'));
         }
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        $this->_modulesReader = $modulesReader;
+        $this->_attrDataFactory = $attrDataFactory;
+        $this->_helperFactory = $helperFactory;
+        $this->_httpRequest = $httpRequest;
+        $this->_validatorConfigFactory = $validatorConfigFactory;
     }
 
     /**
@@ -128,7 +183,7 @@ abstract class Magento_Eav_Model_Form
      */
     protected function _getFormAttributeCollection()
     {
-        return Mage::getResourceModel($this->_moduleName . '_Model_Resource_Form_Attribute_Collection');
+        return $this->_helperFactory->create($this->_moduleName . '_Model_Resource_Form_Attribute_Collection');
     }
 
     /**
@@ -153,7 +208,7 @@ abstract class Magento_Eav_Model_Form
      */
     public function setStore($store)
     {
-        $this->_store = Mage::app()->getStore($store);
+        $this->_store = $this->_storeManager->getStore($store);
         return $this;
     }
 
@@ -180,7 +235,7 @@ abstract class Magento_Eav_Model_Form
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($entityType);
+        $this->_entityType = $this->_eavConfig->getEntityType($entityType);
         return $this;
     }
 
@@ -204,7 +259,7 @@ abstract class Magento_Eav_Model_Form
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this->_store;
     }
@@ -218,7 +273,7 @@ abstract class Magento_Eav_Model_Form
     public function getFormCode()
     {
         if (empty($this->_formCode)) {
-            Mage::throwException(__('Form code is not defined'));
+            throw new Magento_Core_Exception(__('Form code is not defined'));
         }
         return $this->_formCode;
     }
@@ -246,7 +301,7 @@ abstract class Magento_Eav_Model_Form
     public function getEntity()
     {
         if (is_null($this->_entity)) {
-            Mage::throwException(__('Entity instance is not defined'));
+            throw new Magento_Core_Exception(__('Entity instance is not defined'));
         }
         return $this->_entity;
     }
@@ -342,7 +397,7 @@ abstract class Magento_Eav_Model_Form
      */
     protected function _getAttributeDataModel(Magento_Eav_Model_Entity_Attribute $attribute)
     {
-        $dataModel = Magento_Eav_Model_Attribute_Data::factory($attribute, $this->getEntity());
+        $dataModel = $this->_attrDataFactory->create($attribute, $this->getEntity());
         $dataModel->setIsAjaxRequest($this->getIsAjaxRequest());
 
         return $dataModel;
@@ -356,7 +411,7 @@ abstract class Magento_Eav_Model_Form
      */
     public function prepareRequest(array $data)
     {
-        $request = clone Mage::app()->getRequest();
+        $request = clone $this->_httpRequest;
         $request->setParamSources();
         $request->clearParams();
         $request->setParams($data);
@@ -394,9 +449,9 @@ abstract class Magento_Eav_Model_Form
     protected function _getValidator(array $data)
     {
         if (is_null($this->_validator)) {
-            $configFiles = Mage::getSingleton('Magento_Core_Model_Config_Modules_Reader')
-                ->getConfigurationFiles('validation.xml');
-            $validatorFactory = new Magento_Validator_Config($configFiles);
+            $configFiles = $this->_modulesReader->getConfigurationFiles('validation.xml');
+            /** @var $validatorFactory Magento_Validator_Config */
+            $validatorFactory = $this->_validatorConfigFactory->create(array('configFiles' => $configFiles));
             $builder = $validatorFactory->createValidatorBuilder('eav_entity', 'form');
 
             $builder->addConfiguration('eav_data_validator', array(
@@ -478,7 +533,7 @@ abstract class Magento_Eav_Model_Form
      * @param string $format
      * @return array
      */
-    public function outputData($format = Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
+    public function outputData($format = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $data = array();
         /** @var $attribute Magento_Eav_Model_Attribute */

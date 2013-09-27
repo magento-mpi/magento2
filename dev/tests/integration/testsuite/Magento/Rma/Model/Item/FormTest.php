@@ -18,7 +18,8 @@ class Magento_Rma_Model_Item_FormTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento_Rma_Model_Item_Form');
+        $this->_model= Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Rma_Model_Item_Form');
         $this->_model->setFormCode('default');
     }
 

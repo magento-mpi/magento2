@@ -10,7 +10,12 @@
 <config>
     <type name="Magento_Eav_Model_Entity_Collection_Abstract">
         <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+            <instance type="Magento_Core_Model_Event_Manager_Proxy"/>
+        </param>
+    </type>
+    <type name="Magento_Eav_Model_Resource_Helper_Mysql4">
+        <param name="modulePrefix">
+            <value>eav</value>
         </param>
     </type>
 </config>

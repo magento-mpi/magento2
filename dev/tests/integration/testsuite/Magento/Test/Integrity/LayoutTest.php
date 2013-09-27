@@ -71,7 +71,8 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     protected function _composeXml(Magento_Core_Model_Theme $theme)
     {
         /** @var Magento_Core_Model_Layout_Merge $layoutUpdate */
-        $layoutUpdate = Mage::getModel('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
+        $layoutUpdate = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
         return $layoutUpdate->getFileLayoutUpdatesXml();
     }
 
@@ -118,7 +119,8 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function areasAndThemesDataProvider()
     {
         $result = array();
-        $themeCollection = Mage::getModel('Magento_Core_Model_Theme')->getCollection();
+        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme')->getCollection();
         /** @var $theme Magento_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
             $result[] = array($theme);
@@ -173,11 +175,14 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function pageTypesDeclarationDataProvider()
     {
         /** @var $themeUpdates Magento_Core_Model_Layout_File_Source_Theme */
-        $themeUpdates = Mage::getModel('Magento_Core_Model_Layout_File_Source_Theme');
+        $themeUpdates = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout_File_Source_Theme');
         /** @var $themeUpdatesOverride Magento_Core_Model_Layout_File_Source_Override_Theme */
-        $themeUpdatesOverride = Mage::getModel('Magento_Core_Model_Layout_File_Source_Override_Theme');
+        $themeUpdatesOverride = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout_File_Source_Override_Theme');
         /** @var $themeCollection Magento_Core_Model_Theme_Collection */
-        $themeCollection = Mage::getModel('Magento_Core_Model_Theme_Collection');
+        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme_Collection');
         $themeCollection->addDefaultPattern('*');
         /** @var $themeLayouts Magento_Core_Model_Layout_File[] */
         $themeLayouts = array();
@@ -260,7 +265,8 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     {
         if (!isset(self::$_cachedFiles[$cacheKey])) {
             /* @var $fileList Magento_Core_Model_Layout_File[] */
-            $fileList = Mage::getModel($sourceClass)->getFiles($theme);
+            $fileList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create($sourceClass)->getFiles($theme);
             $files = array();
             foreach ($fileList as $file) {
                 $files[$file->getModule() . '/' . $file->getName()] = true;
@@ -276,7 +282,8 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function overrideBaseFilesDataProvider()
     {
         return $this->_retrieveFilesForEveryTheme(
-            Mage::getModel('Magento_Core_Model_Layout_File_Source_Override_Base')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout_File_Source_Override_Base')
         );
     }
 
@@ -286,7 +293,8 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function overrideThemeFilesDataProvider()
     {
         return $this->_retrieveFilesForEveryTheme(
-            Mage::getModel('Magento_Core_Model_Layout_File_Source_Override_Theme')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout_File_Source_Override_Theme')
         );
     }
 
@@ -301,7 +309,8 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $result = array();
         /** @var $themeCollection Magento_Core_Model_Theme_Collection */
-        $themeCollection = Mage::getModel('Magento_Core_Model_Theme_Collection');
+        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme_Collection');
         $themeCollection->addDefaultPattern('*');
         /** @var $theme Magento_Core_Model_Theme */
         foreach ($themeCollection as $theme) {

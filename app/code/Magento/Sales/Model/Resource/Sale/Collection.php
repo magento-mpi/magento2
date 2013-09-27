@@ -8,25 +8,22 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Collection
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collection_Db
 {
-
     /**
      * Totals data
      *
      * @var array
      */
     protected $_totals = array(
-        'lifetime' => 0, 'base_lifetime' => 0, 'base_avgsale' => 0, 'num_orders' => 0);
-
+        'lifetime' => 0,
+        'base_lifetime' => 0,
+        'base_avgsale' => 0,
+        'num_orders' => 0
+    );
 
     /**
      * Customer model
@@ -57,21 +54,46 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Sales_Model_Resource_Order
+     */
+    protected $_orderResource;
+
+    /**
+     * @var Magento_Core_Model_Resource_Store_CollectionFactory
+     */
+    protected $_storeCollFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Set sales order entity and establish read connection
+     *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Sales_Model_Resource_Order $resource
+     * @param Magento_Core_Model_Resource_Store_CollectionFactory $storeCollFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @todo: incorrect constructor
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Sales_Model_Resource_Order $resource
+        Magento_Sales_Model_Resource_Order $resource,
+        Magento_Core_Model_Resource_Store_CollectionFactory $storeCollFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($logger, $fetchStrategy, $entityFactory, $resource->getReadConnection());
+        $this->_orderResource = $resource;
+        $this->_storeCollFactory = $storeCollFactory;
+        $this->_storeManager = $storeManager;
+        parent::__construct($logger, $fetchStrategy, $entityFactory, $this->_orderResource->getReadConnection());
     }
 
     /**
@@ -101,7 +123,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
      * Set filter by order state
      *
      * @param string|array $state
-     * @param bool_type $exclude
+     * @param bool $exclude
      * @return Magento_Sales_Model_Resource_Sale_Collection
      */
     public function setOrderStateFilter($state, $exclude = false)
@@ -110,8 +132,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
         $this->_orderStateValue     = (!is_array($state)) ? array($state) : $state;
         return $this;
     }
-    
-    
+
     /**
      * Before load action
      *
@@ -121,7 +142,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     {
         $this->getSelect()
             ->from(
-                array('sales' => Mage::getResourceSingleton('Magento_Sales_Model_Resource_Order')->getMainTable()),
+                array('sales' => $this->_orderResource->getMainTable()),
                 array(
                     'store_id',
                     'lifetime'      => new Zend_Db_Expr('SUM(sales.base_grand_total)'),
@@ -140,10 +161,10 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
         if (!is_null($this->_orderStateValue)) {
             $condition = '';
             switch ($this->_orderStateCondition) {
-                case 'IN' : 
+                case 'IN' :
                     $condition = 'in';
                     break;
-                case 'NOT IN' : 
+                case 'NOT IN' :
                     $condition = 'nin';
                     break;
             }
@@ -157,6 +178,8 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
     /**
      * Load data
      *
+     * @param bool $printQuery
+     * @param bool $logQuery
      * @return  Magento_Data_Collection_Db
      */
     public function load($printQuery = false, $logQuery = false)
@@ -176,7 +199,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
         $data = $this->getData();
         $this->resetData();
 
-        $stores = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection')
+        $stores = $this->_storeCollFactory->create()
             ->setWithoutDefaultFilter()
             ->load()
             ->toOptionHash();
@@ -186,14 +209,14 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
             $storeId     = $v['store_id'];
             $storeName   = isset($stores[$storeId]) ? $stores[$storeId] : null;
             $storeObject->setStoreName($storeName)
-                ->setWebsiteId(Mage::app()->getStore($storeId)->getWebsiteId())
+                ->setWebsiteId($this->_storeManager->getStore($storeId)->getWebsiteId())
                 ->setAvgNormalized($v['avgsale'] * $v['num_orders']);
             $this->_items[$storeId] = $storeObject;
             foreach ($this->_totals as $key => $value) {
                 $this->_totals[$key] += $storeObject->getData($key);
             }
         }
-        
+
         if ($this->_totals['num_orders']) {
             $this->_totals['avgsale'] = $this->_totals['base_lifetime'] / $this->_totals['num_orders'];
         }

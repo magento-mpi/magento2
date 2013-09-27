@@ -23,35 +23,44 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     protected $_customerData;
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Yesno
-     */
-    protected $_sourceFactory;
-
-    /**
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
-     * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Backend_Model_Config_Source_YesnoFactory $yesnoFactory
+     * @param Magento_Eav_Model_Adminhtml_System_Config_Source_InputtypeFactory $inputTypeFactory
      * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
-     * @param Magento_Backend_Model_Config_Source_YesnoFactory $sourceFactory
+     * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
-        Magento_CustomerCustomAttributes_Helper_Data $customerData,
-        Magento_Eav_Helper_Data $eavData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Backend_Model_Config_Source_YesnoFactory $yesnoFactory,
+        Magento_Eav_Model_Adminhtml_System_Config_Source_InputtypeFactory $inputTypeFactory,
         Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
-        Magento_Backend_Model_Config_Source_YesnoFactory $sourceFactory,
+        Magento_CustomerCustomAttributes_Helper_Data $customerData,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        $this->_sourceFactory = $sourceFactory;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $attributeConfig, $data);
+        parent::__construct(
+            $registry,
+            $formFactory,
+            $coreData,
+            $context,
+            $eavData,
+            $locale,
+            $yesnoFactory,
+            $inputTypeFactory,
+            $attributeConfig,
+            $data
+        );
     }
 
     /**
@@ -174,7 +183,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         ), 'date_range_min');
 
         /** @var $source Magento_Backend_Model_Config_Source_Yesno */
-        $source = $this->_sourceFactory->create();
+        $source = $this->_yesnoFactory->create();
         $yesnoSource = $source->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(

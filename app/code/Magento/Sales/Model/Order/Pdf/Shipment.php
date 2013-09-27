@@ -10,13 +10,68 @@
 
 /**
  * Sales Order Shipment PDF model
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Pdf_Shipment extends Magento_Sales_Model_Order_Pdf_Abstract
 {
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Core_Model_Dir $coreDir
+     * @param Magento_Shipping_Model_Config $shippingConfig
+     * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
+     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $pdfTotalFactory
+     * @param Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_Core_Model_Translate $translate,
+        Magento_Core_Model_Dir $coreDir,
+        Magento_Shipping_Model_Config $shippingConfig,
+        Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
+        Magento_Sales_Model_Order_Pdf_Total_Factory $pdfTotalFactory,
+        Magento_Sales_Model_Order_Pdf_ItemsFactory $pdfItemsFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
+        parent::__construct(
+            $paymentData,
+            $coreData,
+            $coreString,
+            $coreStoreConfig,
+            $translate,
+            $coreDir,
+            $shippingConfig,
+            $pdfConfig,
+            $pdfTotalFactory,
+            $pdfItemsFactory,
+            $data
+        );
+    }
+
     /**
      * Draw table header for product items
      *
@@ -78,8 +133,8 @@ class Magento_Sales_Model_Order_Pdf_Shipment extends Magento_Sales_Model_Order_P
         $this->_setFontBold($style, 10);
         foreach ($shipments as $shipment) {
             if ($shipment->getStoreId()) {
-                Mage::app()->getLocale()->emulate($shipment->getStoreId());
-                Mage::app()->setCurrentStore($shipment->getStoreId());
+                $this->_locale->emulate($shipment->getStoreId());
+                $this->_storeManager->setCurrentStore($shipment->getStoreId());
             }
             $page  = $this->newPage();
             $order = $shipment->getOrder();
@@ -96,10 +151,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment extends Magento_Sales_Model_Order_P
                     $order->getStoreId()
             ));
             /* Add document text and number */
-            $this->insertDocumentNumber(
-                $page,
-                __('Packing Slip # ') . $shipment->getIncrementId()
-            );
+            $this->insertDocumentNumber($page, __('Packing Slip # ') . $shipment->getIncrementId());
             /* Add table */
             $this->_drawHeader($page);
             /* Add body */
@@ -114,7 +166,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment extends Magento_Sales_Model_Order_P
         }
         $this->_afterGetPdf();
         if ($shipment->getStoreId()) {
-            Mage::app()->getLocale()->revert();
+            $this->_locale->revert();
         }
         return $pdf;
     }

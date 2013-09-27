@@ -109,7 +109,7 @@ class Magento_Core_Model_Theme_Registration
 
         $tempId = $theme->getFullPath();
         if (in_array($tempId, $inheritanceChain)) {
-            Mage::throwException(__('Circular-reference in theme inheritance detected for "%1"', $tempId));
+            throw new Magento_Core_Exception(__('Circular-reference in theme inheritance detected for "%1"', $tempId));
         }
         array_push($inheritanceChain, $tempId);
         $parentTheme = $theme->getParentTheme();

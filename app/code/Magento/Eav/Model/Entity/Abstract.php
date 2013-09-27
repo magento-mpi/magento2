@@ -161,6 +161,36 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     protected static $_attributeBackendTables   = array();
 
     /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Eav_Model_Entity_Attribute_Set
+     */
+    protected $_attrSetEntity;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @var Magento_Eav_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
      * Set connections for entity operations
      *
      * @param Zend_Db_Adapter_Abstract|string $read
@@ -177,9 +207,29 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
 
     /**
      * Main constructor
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param array $data
      */
-    public function __construct($data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_resource = $resource;
+        $this->_attrSetEntity = $attrSetEntity;
+        $this->_locale = $locale;
+        $this->_resourceHelper = $resourceHelper;
+        $this->_helperFactory = $helperFactory;
         parent::__construct();
         $properties = get_object_vars($this);
         foreach ($data as $key => $value) {
@@ -204,7 +254,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     protected function _getReadAdapter()
     {
         if (is_string($this->_read)) {
-            $this->_read = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection($this->_read);
+            $this->_read = $this->_resource->getConnection($this->_read);
         }
         return $this->_read;
     }
@@ -217,7 +267,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     protected function _getWriteAdapter()
     {
         if (is_string($this->_write)) {
-            $this->_write = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection($this->_write);
+            $this->_write = $this->_resource->getConnection($this->_write);
         }
         return $this->_write;
     }
@@ -260,7 +310,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
      */
     public function getTable($alias)
     {
-        return Mage::getSingleton('Magento_Core_Model_Resource')->getTableName($alias);
+        return $this->_resource->getTableName($alias);
     }
 
     /**
@@ -273,7 +323,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
      */
     public function setType($type)
     {
-        $this->_type = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($type);
+        $this->_type = $this->_eavConfig->getEntityType($type);
         return $this;
     }
 
@@ -286,7 +336,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     public function getEntityType()
     {
         if (empty($this->_type)) {
-            throw Mage::exception('Magento_Eav', __('Entity is not initialized'));
+            throw new Magento_Eav_Exception(__('Entity is not initialized'));
         }
         return $this->_type;
     }
@@ -335,7 +385,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
         }
 
         if (!is_array($attributes)) {
-            throw Mage::exception('Magento_Eav', __('Unknown parameter'));
+            throw new Magento_Eav_Exception(__('Unknown parameter'));
         }
 
         foreach ($attributes as $attrCode) {
@@ -359,7 +409,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config');
+        return $this->_eavConfig;
     }
 
     /**
@@ -446,7 +496,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     {
         $entityTypeId = $this->getEntityType()->getId();
         if (!isset(self::$_defaultAttributes[$entityTypeId][$attributeCode])) {
-            $attribute = Mage::getModel($this->getEntityType()->getAttributeModel())
+            $attribute = $this->_helperFactory->create($this->getEntityType()->getAttributeModel())
                 ->setAttributeCode($attributeCode)
                 ->setBackendType(Magento_Eav_Model_Entity_Attribute_Abstract::TYPE_STATIC)
                 ->setIsGlobal(1)
@@ -519,8 +569,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
      */
     public function loadAllAttributes($object = null)
     {
-        $attributeCodes = Mage::getSingleton('Magento_Eav_Model_Config')
-            ->getEntityAttributeCodes($this->getEntityType(), $object);
+        $attributeCodes = $this->_eavConfig->getEntityAttributeCodes($this->getEntityType(), $object);
 
         /**
          * Check and init default attributes
@@ -557,8 +606,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
         }
 
         // initialize set info
-        Mage::getSingleton('Magento_Eav_Model_Entity_Attribute_Set')
-            ->addSetInfo($this->getEntityType(), $attributes, $setId);
+        $this->_attrSetEntity->addSetInfo($this->getEntityType(), $attributes, $setId);
 
         foreach ($attributes as $code => $attribute) {
             /* @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
@@ -636,7 +684,6 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
         }
         $results = array();
         foreach ($this->getAttributesByCode() as $attrCode => $attribute) {
-
             if (isset($args[0]) && is_object($args[0]) && !$this->_isApplicableAttribute($args[0], $attribute)) {
                 continue;
             }
@@ -675,7 +722,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
                 if ($collectExceptionMessages) {
                     $results[$attrCode] = $e->getMessage();
                 } else {
-                    $e = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Exception',
+                    $e = $this->_helperFactory->create('Magento_Eav_Model_Entity_Attribute_Exception',
                         array('message' => $e->getMessage())
                     );
                     $e->setAttributeCode($attrCode)->setPart($part);
@@ -746,7 +793,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
             if (!$table) {
                 $table = Magento_Eav_Model_Entity::DEFAULT_ENTITY_TABLE;
             }
-            $this->_entityTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName($table);
+            $this->_entityTable = $this->_resource->getTableName($table);
         }
 
         return $this->_entityTable;
@@ -793,7 +840,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
                 /**
                  * entity type prefix include DB table name prefix
                  */
-                //Mage::getSingleton('Magento_Core_Model_Resource')->getTableName($prefix);
+                //$this->_resource->getTableName($prefix);
             } else {
                 $this->_valueTablePrefix = $this->getEntityTable();
             }
@@ -1006,7 +1053,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
             $select = $this->_getLoadAttributesSelect($object, $table);
             $selects[$eavType][] = $select->columns('*');
         }
-        $selectGroups = Mage::getResourceHelper('Magento_Eav')->getLoadAttributesSelectGroups($selects);
+        $selectGroups = $this->_resourceHelper->getLoadAttributesSelectGroups($selects);
         foreach ($selectGroups as $selects) {
             if (!empty($selects)) {
                 $select = $this->_prepareLoadSelect($selects);
@@ -1122,7 +1169,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     protected function _getOrigObject($object)
     {
         $className  = get_class($object);
-        $origObject = Mage::getModel($className);
+        $origObject = $this->_helperFactory->create($className);
         $origObject->setData(array());
         $this->load($origObject, $object->getData($this->getEntityIdField()));
 
@@ -1303,7 +1350,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
         }
 
         if ($fieldProp['DATA_TYPE'] == 'decimal') {
-            $value = Mage::app()->getLocale()->getNumber($value);
+            $value = $this->_locale->getNumber($value);
         }
 
         return $value;
@@ -1498,7 +1545,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
         if (($type == 'int' || $type == 'decimal' || $type == 'datetime') && $value === '') {
             $value = null;
         } else if ($type == 'decimal') {
-            $value = Mage::app()->getLocale()->getNumber($value);
+            $value = $this->_locale->getNumber($value);
         }
         $backendTable = $attribute->getBackendTable();
         if (!isset(self::$_attributeBackendTables[$backendTable])) {

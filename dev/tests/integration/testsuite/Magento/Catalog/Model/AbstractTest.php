@@ -35,7 +35,8 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
             self::$_isStubClass = true;
         }
 
-        $this->_model = Mage::getModel(self::STUB_CLASS);
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(self::STUB_CLASS);
 
         $resourceProperty = new ReflectionProperty(get_class($this->_model), '_resourceName');
         $resourceProperty->setAccessible(true);
@@ -136,13 +137,18 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetStore()
     {
         $store = $this->_model->getStore();
-        $this->assertSame($store, Mage::app()->getStore());
+        $this->assertSame(
+            $store,
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()
+        );
     }
 
     public function testGetWebsiteStoreIds()
     {
         $ids = $this->_model->getWebsiteStoreIds();
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
         $this->assertEquals(array($storeId => $storeId), $ids);
     }
 

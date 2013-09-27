@@ -66,6 +66,55 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
     protected $_sets;
 
     /**
+     * @var Magento_Eav_Model_Entity_AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @var Magento_Eav_Model_Entity_Attribute_SetFactory
+     */
+    protected $_attSetFactory;
+
+    /***
+     * @var Magento_Eav_Model_Entity_StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @var Magento_Eav_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Eav_Model_Entity_AttributeFactory $attributeFactory
+     * @param Magento_Eav_Model_Entity_Attribute_SetFactory $attSetFactory
+     * @param Magento_Eav_Model_Entity_StoreFactory $storeFactory
+     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Eav_Model_Entity_AttributeFactory $attributeFactory,
+        Magento_Eav_Model_Entity_Attribute_SetFactory $attSetFactory,
+        Magento_Eav_Model_Entity_StoreFactory $storeFactory,
+        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_attributeFactory = $attributeFactory;
+        $this->_attSetFactory = $attSetFactory;
+        $this->_storeFactory = $storeFactory;
+        $this->_helperFactory = $helperFactory;
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
@@ -119,7 +168,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
      */
     protected function _getAttributeCollection()
     {
-        $collection = Mage::getModel('Magento_Eav_Model_Entity_Attribute')->getCollection();
+        $collection = $this->_attributeFactory->create()->getCollection();
         $objectsModel = $this->getAttributeModel();
         if ($objectsModel) {
             $collection->setModel($objectsModel);
@@ -136,7 +185,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
     public function getAttributeSetCollection()
     {
         if (empty($this->_sets)) {
-            $this->_sets = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')->getResourceCollection()
+            $this->_sets = $this->_attSetFactory->create()->getResourceCollection()
                 ->setEntityTypeFilter($this->getId());
         }
         return $this->_sets;
@@ -164,7 +213,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
         // Start transaction to run SELECT ... FOR UPDATE
         $this->_getResource()->beginTransaction();
 
-        $entityStoreConfig = Mage::getModel('Magento_Eav_Model_Entity_Store')
+        $entityStoreConfig = $this->_storeFactory->create()
             ->loadByEntityStore($this->getId(), $storeId);
 
         if (!$entityStoreConfig->getId()) {
@@ -175,7 +224,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
                 ->save();
         }
 
-        $incrementInstance = Mage::getModel($this->getIncrementModel())
+        $incrementInstance = $this->_helperFactory->create($this->getIncrementModel())
             ->setPrefix($entityStoreConfig->getIncrementPrefix())
             ->setPadLength($this->getIncrementPadLength())
             ->setPadChar($this->getIncrementPadChar())
@@ -309,7 +358,7 @@ class Magento_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
      */
     public function getEntity()
     {
-        return Mage::getResourceSingleton($this->_data['entity_model']);
+        return $this->_helperFactory->create($this->_data['entity_model']);
     }
 
     /**

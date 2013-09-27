@@ -44,7 +44,7 @@ class Magento_Eav_Model_Entity_Increment_Alphanum extends Magento_Eav_Model_Enti
         for ($i = $lid; $i >= 0; $i--) {
             $p = strpos($chars, $lastId{$i});
             if (false===$p) {
-                throw Mage::exception('Magento_Eav', __('Invalid character encountered in increment ID: %1', $lastId));
+                throw new Magento_Eav_Exception(__('Invalid character encountered in increment ID: %1', $lastId));
             }
             if ($bumpNextChar) {
                 $p++;

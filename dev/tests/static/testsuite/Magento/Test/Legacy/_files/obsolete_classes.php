@@ -545,6 +545,8 @@ return array(
     array('Mage_Adminhtml_Rss_OrderController'),
     array('Mage_Adminhtml_SystemController', 'Magento_Backend_Controller_Adminhtml_System'),
     array('Mage_Adminhtml_System_ConfigController', 'Magento_Backend_Controller_Adminhtml_System_Config'),
+    array('Magento_Backend_Model_Config_Source_Currency_Service',
+        'Magento_Directory_Model_Currency_Import_Source_Service'),
     array('Mage_Backend_Model_Menu_Config_Menu'),
     array('Mage_Backend_Model_Menu_Director_Dom'),
     array('Mage_Backend_Model_Menu_Factory', 'Mage_Backend_Model_MenuFactory'),
@@ -957,4 +959,7 @@ return array(
     array('Mage_Sales_Model_Order_Creditmemo_Api'),
     array('Magento_ImportExport_Model_Config'),
     array('Magento_Data_Collection_Factory', 'Magento_Data_CollectionFactory'),
+    array('Magento_Adminhtml_Block_Customer_System_Config_ValidatevatFactory'),
+    array('Magento_Customer_Model_Attribute_Data'),
+    array('Magento_Eav_Model_Attribute_Data'),
 );

@@ -16,7 +16,8 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_OptionsTest extends PHPUnit_
 {
     public function testGetTemplate()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_Wishlist_Block_Customer_Wishlist_Item_Options');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Wishlist_Block_Customer_Wishlist_Item_Options');
         $this->assertEmpty($block->getTemplate());
         $product = new Magento_Object(array('type_id' => 'test'));
         $item = new Magento_Object(array('product' => $product));

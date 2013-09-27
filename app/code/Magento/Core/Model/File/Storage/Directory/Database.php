@@ -183,6 +183,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
      * Import directories to storage
      *
      * @param  array $dirs
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Model_File_Storage_Directory_Database
      */
     public function importDirectories($dirs)
@@ -208,7 +209,7 @@ class Magento_Core_Model_File_Storage_Directory_Database extends Magento_Core_Mo
                     $directory->setUploadTime($dateSingleton->date());
                     $directory->save();
                 } else {
-                    Mage::throwException(__('Parent directory does not exist: %1', $dir['path']));
+                    throw new Magento_Core_Exception(__('Parent directory does not exist: %1', $dir['path']));
                 }
             } catch (Exception $e) {
                 $this->_logger->logException($e);

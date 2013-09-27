@@ -28,13 +28,6 @@ class Magento_Centinel_Model_Config
     protected $_serviceConfigPath = 'payment_services/centinel';
 
     /**
-     * Path of cards config
-     *
-     * @var string
-     */
-    protected $_cardTypesConfigPath = 'global/payment/cc/types';
-
-    /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
@@ -88,21 +81,6 @@ class Magento_Centinel_Model_Config
     public function getStore()
     {
         return $this->_store;
-    }
-
-    /**
-     * Return validation state class for card with type $cardType
-     *
-     * @param string $cardType
-     * @return string
-     */
-    public function getStateModelClass($cardType)
-    {
-        $node = $this->_coreConfig->getNode($this->_cardTypesConfigPath . '/' . $cardType . '/validator/centinel/state');
-        if (!$node) {
-            return false;
-        }
-        return $node->asArray();
     }
 
     /**

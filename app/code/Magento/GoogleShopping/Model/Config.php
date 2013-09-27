@@ -37,18 +37,28 @@ class Magento_GoogleShopping_Model_Config extends Magento_Object
     protected $_coreStoreConfig;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreData = $coreData;
+        $this->_storeManager = $storeManager;
         parent::__construct($data);
     }
 
@@ -171,7 +181,7 @@ class Magento_GoogleShopping_Model_Config extends Magento_Object
      */
     public function isValidDefaultCurrencyCode($storeId = null)
     {
-        return Mage::app()->getStore($storeId)->getDefaultCurrencyCode() == $this->getTargetCurrency($storeId);
+        return $this->_storeManager->getStore($storeId)->getDefaultCurrencyCode() == $this->getTargetCurrency($storeId);
     }
 
     /**

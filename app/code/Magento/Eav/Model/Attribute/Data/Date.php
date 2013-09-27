@@ -116,14 +116,14 @@ class Magento_Eav_Model_Attribute_Data_Date extends Magento_Eav_Model_Attribute_
      * @param string $format
      * @return string|array
      */
-    public function outputValue($format = Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         if ($value) {
             switch ($format) {
-                case Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_TEXT:
-                case Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_HTML:
-                case Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_PDF:
+                case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT:
+                case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_HTML:
+                case Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_PDF:
                     $this->_dateFilterFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
                     break;
             }

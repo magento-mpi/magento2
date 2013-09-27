@@ -55,18 +55,18 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
         $this->_title(__('Tax Rules'));
 
         $taxRuleId  = $this->getRequest()->getParam('rule');
-        $ruleModel  = Mage::getModel('Magento_Tax_Model_Calculation_Rule');
+        $ruleModel  = $this->_objectManager->create('Magento_Tax_Model_Calculation_Rule');
         if ($taxRuleId) {
             $ruleModel->load($taxRuleId);
             if (!$ruleModel->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->unsRuleData();
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This rule no longer exists.'));
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->unsRuleData();
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(__('This rule no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
 
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRuleData(true);
+        $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getRuleData(true);
         if (!empty($data)) {
             $ruleModel->setData($data);
         }
@@ -85,13 +85,13 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
         $postData = $this->getRequest()->getPost();
         if ($postData) {
 
-            $ruleModel = Mage::getSingleton('Magento_Tax_Model_Calculation_Rule');
+            $ruleModel = $this->_objectManager->get('Magento_Tax_Model_Calculation_Rule');
             $ruleModel->setData($postData);
 
             try {
                 $ruleModel->save();
 
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The tax rule has been saved.'));
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(__('The tax rule has been saved.'));
 
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('rule' => $ruleModel->getId()));
@@ -101,12 +101,12 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
                 $this->_redirect('*/*/');
                 return;
             } catch (Magento_Core_Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong saving this tax rule.'));
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong saving this tax rule.'));
             }
 
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setRuleData($postData);
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setRuleData($postData);
             $this->_redirectReferer();
             return;
         }
@@ -116,10 +116,10 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
     public function deleteAction()
     {
         $ruleId = (int)$this->getRequest()->getParam('rule');
-        $ruleModel = Mage::getSingleton('Magento_Tax_Model_Calculation_Rule')
+        $ruleModel = $this->_objectManager->get('Magento_Tax_Model_Calculation_Rule')
             ->load($ruleId);
         if (!$ruleModel->getId()) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This rule no longer exists'));
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(__('This rule no longer exists'));
             $this->_redirect('*/*/');
             return;
         }
@@ -127,14 +127,14 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
         try {
             $ruleModel->delete();
 
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The tax rule has been deleted.'));
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(__('The tax rule has been deleted.'));
             $this->_redirect('*/*/');
 
             return;
         } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong deleting this tax rule.'));
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong deleting this tax rule.'));
         }
 
         $this->_redirectReferer();

@@ -90,12 +90,6 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->will($this->returnValueMap($getReturnMap));
     }
 
-    protected function tearDown()
-    {
-        // Unsets object manager
-        Mage::reset();
-    }
-
     public function testInitialization()
     {
         $collection = $this->_makeCollectionMock(array('load')); // At least one method has to be specified
@@ -297,7 +291,6 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
      */
     protected function _setMageObjectManager()
     {
-        Mage::reset();
         $mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();

@@ -24,14 +24,17 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
     protected $_stringHelper;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
-     * @param array $arguments
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_String $stringHelper
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        array $arguments = array()
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Helper_String $stringHelper
     ) {
-        $this->_stringHelper = $coreString;
+        parent::__construct($locale, $logger);
+        $this->_stringHelper = $stringHelper;
     }
 
     /**
@@ -127,7 +130,7 @@ class Magento_Eav_Model_Attribute_Data_Text extends Magento_Eav_Model_Attribute_
      * @param string $format
      * @return string|array
      */
-    public function outputValue($format = Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = Magento_Eav_Model_AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         $value = $this->_applyOutputFilter($value);

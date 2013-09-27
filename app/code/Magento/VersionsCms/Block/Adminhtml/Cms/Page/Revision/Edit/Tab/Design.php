@@ -29,6 +29,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design
 
     /**
      * @param Magento_VersionsCms_Helper_Data $cmsData
+     * @param Magento_Page_Model_Source_Layout $pageLayout
+     * @param Magento_Core_Model_Theme_LabelFactory $labelFactory
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -37,6 +39,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design
      */
     public function __construct(
         Magento_VersionsCms_Helper_Data $cmsData,
+        Magento_Page_Model_Source_Layout $pageLayout,
+        Magento_Core_Model_Theme_LabelFactory $labelFactory,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
@@ -44,7 +48,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
+        parent::__construct($pageLayout, $labelFactory, $coreRegistry, $formFactory, $coreData, $context, $data);
     }
 
     /**

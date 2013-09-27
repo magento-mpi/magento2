@@ -110,12 +110,18 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
      */
     public function testCreateValidatorBuilder()
     {
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_validatorConfig->expects($this->once())
             ->method('createValidatorBuilder')
             ->with('test', 'class', array())
-            ->will($this->returnValue(new Magento_Validator_Builder(array())));
-        $factory = new Magento_Core_Model_Validator_Factory($this->_objectManager, $this->_config,
-            $this->_translateAdapter);
+            ->will($this->returnValue(
+                $objectManager->getObject('Magento_Validator_Builder', array('constraints' => []))
+            ));
+        $factory = new Magento_Core_Model_Validator_Factory(
+            $this->_objectManager,
+            $this->_config,
+            $this->_translateAdapter
+        );
         $this->assertInstanceOf('Magento_Validator_Builder',
             $factory->createValidatorBuilder('test', 'class', array()));
     }

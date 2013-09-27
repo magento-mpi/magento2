@@ -17,6 +17,9 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magento_Adminhtml_Block_Widget
 {
+    /**
+     * @var Magento_Catalog_Model_Product
+     */
     protected $_product;
 
     protected $_template = 'catalog/product/composite/configure.phtml';
@@ -29,17 +32,25 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Catalog_Model_Product
+     */
+    protected $_catalogProduct;
+
+    /**
+     * @param Magento_Catalog_Model_Product $product
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Product $product,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_catalogProduct = $product;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -55,7 +66,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
             if ($this->_coreRegistry->registry('current_product')) {
                 $this->_product = $this->_coreRegistry->registry('current_product');
             } else {
-                $this->_product = Mage::getSingleton('Magento_Catalog_Model_Product');
+                $this->_product = $this->_catalogProduct;
             }
         }
         return $this->_product;

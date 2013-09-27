@@ -29,7 +29,7 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
     public function getStores()
     {
         if(!$this->_stores) {
-            $this->_stores = Mage::app()->getStore()->getResourceCollection()->load();
+            $this->_stores = $this->_storeManager->getStore()->getResourceCollection()->load();
         }
 
         return $this->_stores;

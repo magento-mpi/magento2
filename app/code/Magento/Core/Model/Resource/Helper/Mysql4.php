@@ -18,6 +18,17 @@
 class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Abstract
 {
     /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param string $modulePrefix
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        $modulePrefix = 'core'
+    ) {
+        parent::__construct($resource, $modulePrefix);
+    }
+
+    /**
      * Returns array of quoted orders with direction
      *
      * @param Magento_DB_Select $select

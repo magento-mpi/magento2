@@ -28,6 +28,7 @@ class Magento_Search_Block_Adminhtml_Search_Grid extends Magento_Backend_Block_W
     protected $_registryManager;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel

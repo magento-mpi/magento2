@@ -25,13 +25,13 @@ class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Session_Validator $validator
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
@@ -42,15 +42,17 @@ class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Url_Proxy $url
+     * @param Magento_Core_Model_Url $url
      * @param array $data
-     * @param string $sessionName
+     * @param null $sessionName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Session_Validator $validator,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
@@ -61,13 +63,15 @@ class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Url_Proxy $url,
+        Magento_Core_Model_Url $url,
         array $data = array(),
         $sessionName = null
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig,
-            $messageFactory, $message, $cookie, $request, $appState, $storeManager, $dir, $url, $data);
+        parent::__construct(
+            $validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory,
+            $message, $cookie, $request, $appState, $storeManager, $dir, $url, $data
+        );
         $this->init('core', $sessionName);
     }
 

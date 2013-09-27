@@ -17,13 +17,39 @@
  */
 class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
 {
-
     /**
      * Storage action on selected item
      *
      * @var string
      */
     protected $_sidebarStorageAction = 'add_order_item';
+
+    /**
+     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     */
+    protected $_ordersFactory;
+
+    /**
+     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $ordersFactory
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Model_Resource_Order_CollectionFactory $ordersFactory,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        $this->_ordersFactory = $ordersFactory;
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $coreConfig, $data);
+    }
 
     protected function _construct()
     {
@@ -46,7 +72,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Magento
     public function getLastOrder()
     {
         $storeIds = $this->getQuote()->getStore()->getWebsite()->getStoreIds();
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+        $collection = $this->_ordersFactory->create()
             ->addFieldToFilter('customer_id', $this->getCustomerId())
             ->addFieldToFilter('store_id', array('in' => $storeIds))
             ->setOrder('created_at', 'desc')

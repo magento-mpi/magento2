@@ -17,6 +17,46 @@
  */
 class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     */
+    protected $_customersFactory;
+
+    /**
+     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     */
+    protected $_groupsFactory;
+
+    /**
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customersFactory
+     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Customer_Model_Resource_Customer_CollectionFactory $customersFactory,
+        Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        $this->_customersFactory = $customersFactory;
+        $this->_groupsFactory = $groupsFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -29,7 +69,7 @@ class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widg
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
+        $collection = $this->_customersFactory->create()
             ->addNameToSelect()
             ->addAttributeToSelect('email')
             ->addAttributeToSelect('created_at')
@@ -71,7 +111,7 @@ class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widg
             'index'     => 'email'
         ));
 
-        $groups = Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')
+        $groups = $this->_groupsFactory->create()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();
@@ -117,13 +157,13 @@ class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widg
             'gmtoffset' => true
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header'    => __('Web Site'),
                 'align'     => 'center',
                 'width'     => '80px',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(true),
+                'options'   => $this->_systemStore->getWebsiteOptionHash(true),
                 'index'     => 'website_id',
             ));
         }

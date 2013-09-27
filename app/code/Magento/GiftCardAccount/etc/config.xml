@@ -48,27 +48,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <template>
-            <email>
-                <giftcard_giftcardaccount_email_template translate="label" module="Magento_GiftCardAccount">
-                    <label>Gift Card Code/Balance</label>
-                    <file>email/card_information.html</file>
-                    <type>html</type>
-                </giftcard_giftcardaccount_email_template>
-            </email>
-        </template>
-        <pdf>
-            <totals>
-                <magento_giftcardaccount translate="title">
-                    <title>Gift Cards</title>
-                    <source_field>gift_cards_amount</source_field>
-                    <amount_prefix>-</amount_prefix>
-                    <font_size>7</font_size>
-                    <display_zero>0</display_zero>
-                    <sort_order>550</sort_order>
-                </magento_giftcardaccount>
-            </totals>
-        </pdf>
     </global>
     <default>
         <giftcard>

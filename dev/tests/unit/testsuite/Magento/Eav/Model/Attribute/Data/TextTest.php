@@ -18,7 +18,9 @@ class Magento_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $helper = $this->getMock('Magento_Core_Helper_String', null, array(), '', false, false);
+        $locale = $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false, false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false, false);
+        $helper = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false, false);
 
         $attributeData = array(
             'store_label' => 'Test',
@@ -33,11 +35,15 @@ class Magento_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCa
 
         $attributeClass = 'Magento_Eav_Model_Entity_Attribute_Abstract';
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments($attributeClass, array('data' => $attributeData));
+        $eavTypeFactory = $this->getMock('Magento_Eav_Model_Entity_TypeFactory', array(), array(), '', false, false);
+        $arguments = $objectManagerHelper->getConstructArguments(
+            $attributeClass,
+            array('eavTypeFactory' => $eavTypeFactory, 'data' => $attributeData)
+        );
 
         /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract|PHPUnit_Framework_MockObject_MockObject */
         $attribute = $this->getMock($attributeClass, array('_init'), $arguments);
-        $this->_model = new Magento_Eav_Model_Attribute_Data_Text($helper);
+        $this->_model = new Magento_Eav_Model_Attribute_Data_Text($locale, $logger, $helper);
         $this->_model->setAttribute($attribute);
     }
 

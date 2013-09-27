@@ -18,19 +18,18 @@
  */
 class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
 {
-
     /**
      * Connect data
      *
      * @var Magento_Connect_Helper_Data
      */
-    protected $_connectData = null;
+    protected $_connectData;
 
     /**
+     * @param Magento_Connect_Helper_Data $connectData
      * @param Magento_Core_Model_Session_Validator $validator
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Connect_Helper_Data $connectData
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
@@ -41,14 +40,16 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Url_Proxy $url
+     * @param Magento_Core_Model_Url $url
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Connect_Helper_Data $connectData,
         Magento_Core_Model_Session_Validator $validator,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Connect_Helper_Data $connectData,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
@@ -59,12 +60,14 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Url_Proxy $url,
+        Magento_Core_Model_Url $url,
         array $data = array()
     ) {
         $this->_connectData = $connectData;
-        parent::__construct($validator, $logger, $eventManager, $coreHttp, $messageFactory, $message, $cookie,
-            $request, $appState, $storeManager, $dir, $url, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct(
+            $validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $messageFactory,
+            $message, $cookie, $request, $appState, $storeManager, $dir, $url, $data
+        );
         $this->init('adminhtml');
     }
 

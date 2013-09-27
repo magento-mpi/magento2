@@ -104,6 +104,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
      * Retrieve application store object without Store_Exception
      *
      * @param string|int|Magento_Core_Model_Store $storeId
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Model_Store
      */
     public function getSafeStore($storeId = null)
@@ -116,9 +117,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
                 return new Magento_Object();
             }
 
-            Mage::throwException(
-                __('Requested invalid store "%1"', $storeId)
-            );
+            throw new Magento_Core_Exception(__('Requested invalid store "%1"', $storeId));
         }
     }
 

@@ -21,11 +21,15 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Checkout_Block_Cart_Item_Renderer');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Checkout_Block_Cart_Item_Renderer');
         /** @var $item Magento_Sales_Model_Quote_Item */
-        $item = Mage::getModel('Magento_Sales_Model_Quote_Item');
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $item = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Quote_Item');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1);
         $item->setProduct($product);
         $this->_block->setItem($item);

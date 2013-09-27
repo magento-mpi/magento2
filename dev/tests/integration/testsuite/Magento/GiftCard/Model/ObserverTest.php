@@ -22,7 +22,9 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         'Magento_Filesystem',
         'Magento_Core_Model_View_Url',
         'Magento_Core_Model_View_FileSystem',
-        'Magento_Core_Model_View_Design'
+        'Magento_Core_Model_View_Design',
+        'Magento_Core_Model_Store_Config',
+        'Magento_Core_Model_Email_Template_Config',
     );
 
     /**
@@ -32,8 +34,10 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $this->_checkOrderItemProductOptions($order, true);
 
         $event = new Magento_Event(array('order' => $order));
@@ -60,10 +64,11 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         );
 
         $emailTemplateMock->expects($this->once())
-            ->method('getSentSuccess')
-            ->will($this->returnValue(true));
-
-        $model = Mage::getModel('Magento_GiftCard_Model_Observer', array(
+            ->method('_getMail')
+            ->will($this->returnValue($zendMailMock));
+        /** @var $model Magento_GiftCard_Model_Observer */
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_GiftCard_Model_Observer', array(
             'data' => array('email_template_model' => $emailTemplateMock)
         ));
         $model->generateGiftCardAccounts($observer);
@@ -89,5 +94,20 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $options = $orderItem->getProductOptions();
         $this->assertEquals($expectedEmpty, empty($options['email_sent']));
         $this->assertEquals($expectedEmpty, empty($options['giftcard_created_codes']));
+    }
+
+    /**
+     * List of block constructor arguments
+     *
+     * @return array
+     */
+    protected function _prepareConstructorArguments()
+    {
+        $arguments = array();
+        foreach ($this->_blockInjections as $injectionClass) {
+            $arguments[] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create($injectionClass);
+        }
+        return $arguments;
     }
 }

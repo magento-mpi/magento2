@@ -167,16 +167,12 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     }
 
     /**
-     * Remove not serializable fields
-     *
      * @return array
      */
     public function __sleep()
     {
         $properties = array_keys(get_object_vars($this));
-        if (Mage::getIsSerializable()) {
-            $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager', '_coreRegistry'));
-        }
+        $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager', '_coreRegistry'));
         return $properties;
     }
 
@@ -185,12 +181,10 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
      */
     public function __wakeup()
     {
-        if (Mage::getIsSerializable()) {
-            $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-            $this->_eventDispatcher = $objectManager->get('Magento_Core_Model_Event_Manager');
-            $this->_cacheManager = $objectManager->get('Magento_Core_Model_CacheInterface');
-            $this->_coreRegistry = $objectManager->get('Magento_Core_Model_Registry');
-        }
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $this->_eventDispatcher = $objectManager->get('Magento_Core_Model_Event_Manager');
+        $this->_cacheManager = $objectManager->get('Magento_Core_Model_CacheInterface');
+        $this->_coreRegistry = $objectManager->get('Magento_Core_Model_Registry');
     }
 
     /**
@@ -213,12 +207,13 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     /**
      * Get resource instance
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _getResource()
     {
         if (empty($this->_resourceName) && empty($this->_resource)) {
-            Mage::throwException(__('Resource is not set.'));
+            throw new Magento_Core_Exception(__('Resource is not set.'));
         }
 
         return $this->_resource ?: Mage::getResourceSingleton($this->_resourceName);
@@ -237,12 +232,13 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     /**
      * Get collection instance
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollection) && empty($this->_collectionName)) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Model collection resource name is not defined.')
             );
         }
@@ -619,7 +615,7 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
             return;
         }
         if (!Mage::app()->getStore()->isAdmin()) {
-            Mage::throwException(__('Cannot complete this operation from non-admin area.'));
+            throw new Magento_Core_Exception(__('Cannot complete this operation from non-admin area.'));
         }
     }
 

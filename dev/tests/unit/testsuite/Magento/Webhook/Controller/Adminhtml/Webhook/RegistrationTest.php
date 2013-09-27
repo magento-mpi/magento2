@@ -102,14 +102,6 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
             ->getMock();
     }
 
-    /**
-     * Reset object manager.
-     */
-    protected function tearDown()
-    {
-        Mage::reset();
-    }
-
     public function testActivateActionException()
     {
         $expectedMessage = 'not subscribed';
@@ -297,7 +289,6 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
      */
     protected function _setMageObjectManager()
     {
-        Mage::reset();
         $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();

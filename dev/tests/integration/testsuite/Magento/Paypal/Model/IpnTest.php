@@ -18,7 +18,8 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Paypal_Model_Ipn');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Paypal_Model_Ipn');
     }
 
     /**
@@ -59,7 +60,8 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
 
         $this->_model->processIpnRequest($ipnData, $this->_createMockedHttpAdapter());
 
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $this->_assertOrder($order, $currencyCode);
     }
@@ -82,11 +84,13 @@ class Magento_Paypal_Model_IpnTest extends PHPUnit_Framework_TestCase
 
         $this->_model->processIpnRequest($ipnData, $this->_createMockedHttpAdapter());
 
-        $recurringProfile = Mage::getModel('Magento_Sales_Model_Recurring_Profile');
+        $recurringProfile = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Recurring_Profile');
         $recurringProfile->loadByInternalReferenceId('5-33949e201adc4b03fbbceafccba893ce');
         $orderIds = $recurringProfile->getChildOrderIds();
         $this->assertEquals(1, count($orderIds));
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->load($orderIds[0]);
         $this->_assertOrder($order, $currencyCode);
     }

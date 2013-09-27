@@ -19,14 +19,16 @@
 class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**
-     * Application cache model
-     *
      * @var Magento_Core_Model_CacheInterface
      */
     protected $_cache;
 
     /**
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory
+     */
+    protected $_attrGrCollFactory;
+
+    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -39,11 +41,13 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param Magento_Core_Model_Theme_CollectionFactory $themeFactory
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param $resourceName
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -55,13 +59,26 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         Magento_Core_Model_Resource_Theme_CollectionFactory $themeResourceFactory,
         Magento_Core_Model_Theme_CollectionFactory $themeFactory,
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        $resourceName
+        $resourceName,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
     ) {
         parent::__construct(
-            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
-            $resourceResource, $themeResourceFactory, $themeFactory, $migrationFactory, $resourceName
+            $logger,
+            $eventManager,
+            $resourcesConfig,
+            $config,
+            $moduleList,
+            $resource,
+            $modulesReader,
+            $resourceResource,
+            $themeResourceFactory,
+            $themeFactory,
+            $migrationFactory,
+            $resourceName
         );
         $this->_cache = $cache;
+        $this->_attrGrCollFactory = $attrGrCollFactory;
     }
 
     /**
@@ -93,6 +110,25 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @var string
      */
     protected $_defaultAttributeSetName = 'Default';
+
+    /**
+     * Create migration setup
+     *
+     * @param array $data
+     * @return Magento_Core_Model_Resource_Setup_Migration
+     */
+    public function createMigrationSetup(array $data = array())
+    {
+        return $this->_migrationFactory->create($data);
+    }
+
+    /**
+     * @return Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory
+     */
+    public function getAttributeGroupCollectionFactory()
+    {
+        return $this->_attrGrCollFactory->create();
+    }
 
     /**
      * Clean cache
@@ -221,7 +257,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
             $entityTypeId = $this->getEntityType($entityTypeId, 'entity_type_id');
         }
         if (!is_numeric($entityTypeId)) {
-            throw Mage::exception('Magento_Eav', __('Wrong entity ID'));
+            throw new Magento_Eav_Exception(__('Wrong entity ID'));
         }
 
         return $entityTypeId;
@@ -345,7 +381,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
             $setId = $this->getAttributeSet($entityTypeId, $setId, 'attribute_set_id');
         }
         if (!is_numeric($setId)) {
-            throw Mage::exception('Magento_Eav', __('Wrong attribute set ID'));
+            throw new Magento_Eav_Exception(__('Wrong attribute set ID'));
         }
 
         return $setId;
@@ -549,7 +585,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         }
 
         if (!is_numeric($groupId)) {
-            throw Mage::exception('Magento_Eav', __('Wrong attribute group ID'));
+            throw new Magento_Eav_Exception(__('Wrong attribute group ID'));
         }
         return $groupId;
     }
@@ -677,7 +713,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         if (isset($data['attribute_code']) &&
            !Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
         {
-            throw Mage::exception('Magento_Eav',
+            throw new Magento_Eav_Exception(
                 __('Maximum length of attribute code must be less than %1 symbols', $attributeCodeMaxLength)
             );
         }
@@ -780,7 +816,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
 
                 // Default value
                 if (!isset($values[0])) {
-                    Mage::throwException(__('Default option value is not defined'));
+                    throw new Magento_Core_Exception(__('Default option value is not defined'));
                 }
                 $condition = array('option_id =?' => $intOptionId);
                 $this->_conn->delete($optionValueTable, $condition);
@@ -1336,7 +1372,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         if (!empty($customTypes)) {
             foreach ($customTypes as $type => $fieldType) {
                 if (count($fieldType) != 2) {
-                    throw Mage::exception('Magento_Eav', __('Wrong type definition for %1', $type));
+                    throw new Magento_Eav_Exception(__('Wrong type definition for %1', $type));
                 }
                 $types[$type] = $fieldType;
             }
@@ -1416,7 +1452,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
             $connection->commit();
         } catch (Exception $e) {
            $connection->rollBack();
-           throw Mage::exception('Magento_Eav', __('Can\'t create table: %1', $tableName));
+            throw new Magento_Eav_Exception(__('Can\'t create table: %1', $tableName));
         }
 
         return $this;
