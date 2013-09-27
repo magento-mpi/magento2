@@ -147,7 +147,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * @param Magento_Core_Model_Resource $coreResource
      * @param Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory $optionCollFactory
      * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
-     * @param Magento_Catalog_Model_Resource_ConfigFactory $catalogConfigFactory
+     * @param Magento_Catalog_Model_Resource_ConfigFactory $catalogConfFactory
      * @param Magento_Catalog_Model_Entity_AttributeFactory $catalogAttrFactory
      * @param Magento_Wishlist_Model_Resource_Item $resource
      */
