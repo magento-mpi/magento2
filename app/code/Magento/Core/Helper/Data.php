@@ -18,7 +18,6 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     const XML_PATH_DEFAULT_COUNTRY              = 'general/country/default';
     const XML_PATH_PROTECTED_FILE_EXTENSIONS    = 'general/file/protected_extensions';
     const XML_PATH_PUBLIC_FILES_VALID_PATHS     = 'general/file/public_files_valid_paths';
-    const XML_PATH_ENCRYPTION_MODEL             = 'global/helpers/core/encryption_model';
     const XML_PATH_DEV_ALLOW_IPS                = 'dev/restrict/allow_ips';
     const XML_PATH_CONNECTION_TYPE              = 'global/resources/default_setup/connection/type';
 
@@ -53,7 +52,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * @var Magento_Core_Model_Encryption
      */
-    protected $_encryptor = null;
+    protected $_encryptor;
 
     protected $_allowedFormats = array(
         Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL,
@@ -114,6 +113,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Encryption $encryptor
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -122,6 +122,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Encryption $encryptor,
         $dbCompatibleMode = true
     ) {
         $this->_eventManager = $eventManager;
@@ -132,23 +133,16 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_cacheConfig = $context->getCacheConfig();
         $this->_encryptorFactory = $context->getEncryptorFactory();
         $this->_fieldsetConfig = $context->getFieldsetConfig();
+        $this->_encryptor = $encryptor;
+        $this->_encryptor->setHelper($this);
         $this->_dbCompatibleMode = $dbCompatibleMode;
     }
 
     /**
-     * @return Magento_Core_Model_EncryptionInterface
+     * @return Magento_Core_Model_Encryption
      */
     public function getEncryptor()
     {
-        if ($this->_encryptor === null) {
-            $encryptionModel = (string)$this->_config->getNode(self::XML_PATH_ENCRYPTION_MODEL);
-
-            if (!$encryptionModel) {
-                $encryptionModel = 'Magento_Core_Model_Encryption';
-            }
-            $this->_encryptor = $this->_encryptorFactory->create($encryptionModel);
-            $this->_encryptor->setHelper($this);
-        }
         return $this->_encryptor;
     }
 

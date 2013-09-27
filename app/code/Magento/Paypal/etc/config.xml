@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <sales>
-            <order>
-                <statuses>
-                    <pending_paypal translate="label">
-                        <label>Pending PayPal</label>
-                    </pending_paypal>
-                </statuses>
-            </order>
-        </sales>
-    </global>
     <default>
         <paypal>
             <style>

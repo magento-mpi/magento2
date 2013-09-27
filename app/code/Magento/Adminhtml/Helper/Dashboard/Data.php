@@ -38,8 +38,9 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Encryption $encryptor
      * @param string $installDate
-     * @param bool $dbCompatibleMode
+     * @param bool $dbCompatibleMode      
      */
     public function __construct(
         Magento_Core_Model_StoreManager $storeManager,
@@ -48,12 +49,15 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Encryption $encryptor,
         $installDate,
         $dbCompatibleMode = true
     ) {
         $this->_storeManager = $storeManager;
         $this->_installDate = $installDate;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $dbCompatibleMode);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, 
+            $encryptor, $dbCompatibleMode
+        );
     }
 
     /**

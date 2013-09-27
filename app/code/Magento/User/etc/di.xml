@@ -27,6 +27,15 @@
             <instance type="Magento_Core_Model_Acl_Cache_Proxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Config">
+        <param name="areas">
+            <value>
+                <adminhtml>
+                    <auth_credential_storage>Magento_User_Model_User</auth_credential_storage>
+                </adminhtml>
+            </value>
+        </param>
+    </type>
     <preference for="Magento_Backend_Model_Auth_Credential_StorageInterface" type="Magento_User_Model_User" />
     <type name="Magento_Core_Model_Db_Updater">
         <param name="resourceList">

@@ -10,15 +10,4 @@
  */
 -->
 <config>
-    <adminhtml>
-        <sales>
-            <order>
-                <create>
-                    <available_product_types>
-                        <bundle />
-                    </available_product_types>
-                </create>
-            </order>
-        </sales>
-    </adminhtml>
 </config>

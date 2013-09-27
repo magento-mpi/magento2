@@ -10,13 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <helpers>
-            <core>
-                <encryption_model>Magento_Pci_Model_Encryption</encryption_model>
-            </core>
-        </helpers>
-    </global>
     <default>
         <admin>
             <security>

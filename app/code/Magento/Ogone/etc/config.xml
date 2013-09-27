@@ -10,44 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <sales>
-            <order>
-                <statuses>
-                    <pending_ogone translate="label">
-                        <label>Pending Ogone</label>
-                    </pending_ogone>
-                    <cancel_ogone translate="label">
-                        <label>Cancelled Ogone</label>
-                    </cancel_ogone>
-                    <decline_ogone translate="label">
-                        <label>Declined Ogone</label>
-                    </decline_ogone>
-                    <processing_ogone translate="label">
-                        <label>Processing Ogone Payment</label>
-                    </processing_ogone>
-                    <processed_ogone translate="label">
-                        <label>Processed Ogone Payment</label>
-                    </processed_ogone>
-                    <waiting_authorozation translate="label">
-                        <label>Waiting Authorization</label>
-                    </waiting_authorozation>
-                </statuses>
-                <states>
-                    <pending_payment>
-                        <statuses>
-                            <pending_ogone />
-                        </statuses>
-                    </pending_payment>
-                    <processing>
-                        <statuses>
-                            <processed_ogone />
-                        </statuses>
-                    </processing>
-                </states>
-            </order>
-        </sales>
-    </global>
     <default>
         <payment>
             <ogone>

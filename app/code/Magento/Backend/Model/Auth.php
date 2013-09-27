@@ -29,30 +29,11 @@ class Magento_Backend_Model_Auth
     protected $_credentialStorage = null;
 
     /**
-     * Backend data
-     *
-     * @var Magento_Backend_Helper_Data
-     */
-    protected $_backendData = null;
-
-    /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-    
-    /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Backend_Helper_Data $backendData
-     * @param Magento_Backend_Model_Auth_StorageInterface $authStorage
+     * @param Magento_Core_Model_Event_Manager                       $eventManager
+     * @param Magento_Backend_Helper_Data                            $backendData
+     * @param Magento_Backend_Model_Auth_StorageInterface            $authStorage
      * @param Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Config                              $coreConfig
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -115,13 +96,14 @@ class Magento_Backend_Model_Auth
     protected function _initCredentialStorage()
     {
         $areaConfig = $this->_coreConfig->getAreaConfig($this->_backendData->getAreaCode());
-        $storage = Mage::getModel($areaConfig['auth']['credential_storage']);
 
-        if ($storage instanceof Magento_Backend_Model_Auth_Credential_StorageInterface) {
-            $this->_credentialStorage = $storage;
-            return;
+        if (isset($areaConfig['auth_credential_storage'])) {
+            $storage = Mage::getModel($areaConfig['auth_credential_storage']);
+            if ($storage instanceof Magento_Backend_Model_Auth_Credential_StorageInterface) {
+                $this->_credentialStorage = $storage;
+                return;
+            }
         }
-
         self::throwException(
             __('There are no authentication credential storage.')
         );

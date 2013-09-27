@@ -44,6 +44,13 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
     protected $_appState;
 
     /**
+     * if it set to true, we will ignore applying scheme updates
+     *
+     * @var bool
+     */
+    protected $_skipModuleUpdate;
+
+    /**
      * Map that contains setup model names per resource name
      *
      * @var array
@@ -67,6 +74,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Module_ResourceResolverInterface $resourceResolver
      * @param array $resourceList
+     * @param bool $skipModuleUpdate
      */
     public function __construct(
         Magento_Core_Model_Config $config,
@@ -74,7 +82,8 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Module_ResourceResolverInterface $resourceResolver,
-        array $resourceList
+        array $resourceList,
+        $skipModuleUpdate = false
     ) {
         $this->_config = $config;
         $this->_factory = $factory;
@@ -82,6 +91,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
         $this->_moduleList = $moduleList;
         $this->_resourceResolver = $resourceResolver;
         $this->_resourceList = $resourceList;
+        $this->_skipModuleUpdate = (bool)$skipModuleUpdate;
     }
 
     /**
@@ -95,12 +105,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
             return false;
         }
 
-        $ignoreDevMode = (bool)(string)$this->_config->getNode(self::XML_PATH_IGNORE_DEV_MODE);
-        if (($this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER) && false == $ignoreDevMode) {
-            return false;
-        }
-
-        return (bool)(string)$this->_config->getNode(self::XML_PATH_SKIP_PROCESS_MODULES_UPDATES);
+        return $this->_skipModuleUpdate;
     }
 
     /**
@@ -108,7 +113,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
      */
     public function updateScheme()
     {
-        if (true == $this->_shouldSkipProcessModulesUpdates()) {
+        if ($this->_shouldSkipProcessModulesUpdates()) {
             return;
         }
 

@@ -10,37 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <sales>
-            <quote>
-                <totals>
-                    <reward>
-                        <class>Magento_Reward_Model_Total_Quote_Reward</class>
-                        <after>weee,discount,tax,tax_subtotal,grand_total</after>
-                        <before>giftcardaccount,customerbalance</before>
-                        <renderer>Magento_Reward_Block_Checkout_Total</renderer>
-                    </reward>
-                </totals>
-            </quote>
-            <order_invoice>
-                <totals>
-                    <reward>
-                        <class>Magento_Reward_Model_Total_Invoice_Reward</class>
-                        <after>grand_total</after>
-                        <before>giftcardaccount,customerbalance</before>
-                    </reward>
-                </totals>
-            </order_invoice>
-            <order_creditmemo>
-                <totals>
-                    <reward>
-                        <class>Magento_Reward_Model_Total_Creditmemo_Reward</class>
-                        <after>weee,discount,tax,grand_total,customerbalance,giftcardaccount</after>
-                    </reward>
-                </totals>
-            </order_creditmemo>
-        </sales>
-    </global>
     <default>
         <magento_reward>
             <general>

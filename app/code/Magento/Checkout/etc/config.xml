@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <sales>
-            <quote>
-                <totals>
-                    <nominal>
-                        <renderer>Magento_Checkout_Block_Total_Nominal</renderer>
-                    </nominal>
-                </totals>
-            </quote>
-        </sales>
-    </global>
     <default>
         <checkout>
             <options>

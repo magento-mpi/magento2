@@ -17,4 +17,5 @@ return array(
     '/config/global/enterprise/banner' => 'This configuration moved to Di configuration of Magento_Banner_Model_Config',
     '/config/global/enterprise/giftcardaccount' =>
         'This configuration moved to Di configuration of Magento_GiftCardAccountModelPool',
+    '/config/global/skip_process_modules_updates' => 'Was replaced using di',
 );

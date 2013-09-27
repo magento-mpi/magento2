@@ -44,8 +44,10 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
 
     /**
      * Config key for path to aliases map file
+     *
+     * @var string
      */
-    const CONFIG_KEY_PATH_TO_MAP_FILE = 'global/migration/path_to_aliases_map_file';
+    protected $_confPathToMapFile;
 
     /**
      * List of possible entity types sorted by possibility of usage
@@ -137,6 +139,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
      * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
+     * @param $confPathToMapFile
      */
     public function __construct(
         Magento_Core_Model_Resource_Setup_Context $context,
@@ -145,13 +148,14 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         Magento_Core_Helper_Data $helper,
         Magento_Core_Model_Dir $dir,
         $resourceName,
+        $confPathToMapFile,
         $moduleName = 'Magento_Core',
         $connectionName = ''
     ) {
         $this->_filesystem = $filesystem;
         $this->_coreHelper = $helper;
         $this->_baseDir = $dir->getDir();
-        $this->_pathToMapFile = $config->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
+        $this->_pathToMapFile = $confPathToMapFile;
 
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }

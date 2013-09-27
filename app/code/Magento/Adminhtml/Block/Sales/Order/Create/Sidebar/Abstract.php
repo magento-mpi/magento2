@@ -25,16 +25,16 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Magent
     protected $_sidebarStorageAction = 'add';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Sales_Model_Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
      * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param array $data
      */
     public function __construct(
@@ -42,11 +42,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Magent
         Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
         array $data = array()
     ) {
         parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
-        $this->_coreConfig = $coreConfig;
+        $this->_salesConfig = $salesConfig;
     }
 
     /**
@@ -142,7 +142,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Magent
         $items = array();
         $collection = $this->getItemCollection();
         if ($collection) {
-            $productTypes = $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray();
+            $productTypes = $this->_salesConfig->getAvailableProductTypes();
             if (is_array($collection)) {
                 $items = $collection;
             } else {
@@ -169,7 +169,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Magent
                         }
                     }
                 }
-                if (!isset($productTypes[$type])) {
+                if (!in_array($type, $productTypes)) {
                     unset($items[$key]);
                 }
             }

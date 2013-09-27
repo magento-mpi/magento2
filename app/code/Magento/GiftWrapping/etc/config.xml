@@ -10,52 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <sales>
-            <quote>
-                <totals>
-                    <giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Quote_Giftwrapping</class>
-                        <after>subtotal</after>
-                        <renderer>Magento_GiftWrapping_Block_Checkout_Totals</renderer>
-                    </giftwrapping>
-                    <tax_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping</class>
-                        <after>tax</after>
-                        <before>grand_total</before>
-                    </tax_giftwrapping>
-                </totals>
-            </quote>
-            <order_invoice>
-                <totals>
-                    <giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Invoice_Giftwrapping</class>
-                        <after>cost_total</after>
-                        <before>giftcardaccount</before>
-                    </giftwrapping>
-                    <tax_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Invoice_Tax_Giftwrapping</class>
-                        <after>tax</after>
-                        <before>grand_total</before>
-                    </tax_giftwrapping>
-                </totals>
-            </order_invoice>
-            <order_creditmemo>
-                <totals>
-                    <giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Creditmemo_Giftwrapping</class>
-                        <after>subtotal</after>
-                        <before>giftcardaccount</before>
-                    </giftwrapping>
-                    <tax_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Creditmemo_Tax_Giftwrapping</class>
-                        <after>tax</after>
-                        <before>grand_total</before>
-                    </tax_giftwrapping>
-                </totals>
-            </order_creditmemo>
-        </sales>
-    </global>
     <default>
         <system>
             <media_storage_configuration>

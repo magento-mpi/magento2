@@ -33,7 +33,9 @@ class Magento_Newsletter_Model_Resource_Setup extends Magento_Core_Model_Resourc
         $connectionName = ''
     ) {
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
-        $this->_setupMigration = $setupMigrationFactory->create(array('resourceName' => 'core_setup'));
+        $this->_setupMigration = $setupMigrationFactory->create(
+            array('resourceName' => 'core_setup')
+        );
     }
 
 

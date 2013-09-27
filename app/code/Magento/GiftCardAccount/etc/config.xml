@@ -10,37 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <sales>
-            <quote>
-                <totals>
-                    <giftcardaccount>
-                        <class>Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount</class>
-                        <after>weee,discount,tax,tax_subtotal,grand_total</after>
-                        <before>customerbalance</before>
-                        <renderer>Magento_GiftCardAccount_Block_Checkout_Cart_Total</renderer>
-                    </giftcardaccount>
-                </totals>
-            </quote>
-            <order_invoice>
-                <totals>
-                    <giftcardaccount>
-                        <class>Magento_GiftCardAccount_Model_Total_Invoice_Giftcardaccount</class>
-                        <after>discount,tax,grand_total</after>
-                        <before>customerbalance</before>
-                    </giftcardaccount>
-                </totals>
-            </order_invoice>
-            <order_creditmemo>
-                <totals>
-                    <giftcardaccount>
-                        <class>Magento_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount</class>
-                        <after>weee,discount,tax,grand_total,customerbalance</after>
-                    </giftcardaccount>
-                </totals>
-            </order_creditmemo>
-        </sales>
-    </global>
     <default>
         <giftcard>
             <giftcardaccount_email>

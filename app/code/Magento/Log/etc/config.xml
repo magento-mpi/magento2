@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <ignoredModules>
-            <entities>
-                <install />
-                <adminhtml />
-                <admin />
-            </entities>
-        </ignoredModules>
-    </global>
     <default>
         <log>
             <visitor>

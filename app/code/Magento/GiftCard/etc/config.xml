@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <adminhtml>
-        <sales>
-            <order>
-                <create>
-                    <available_product_types>
-                        <giftcard />
-                    </available_product_types>
-                </create>
-            </order>
-        </sales>
-    </adminhtml>
     <default>
         <giftcard>
             <email>

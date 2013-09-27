@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <section name="quote">
+        <group name="totals">
+            <item name="nominal" instance="Magento_Sales_Model_Quote_Address_Total_Nominal" sort_order="50"/>
+            <item name="subtotal" instance="Magento_Sales_Model_Quote_Address_Total_Subtotal" sort_order="100"/>
+            <item name="shipping" instance="Magento_Sales_Model_Quote_Address_Total_Shipping" sort_order="250"/>
+            <item name="msrp" instance="Magento_Sales_Model_Quote_Address_Total_Msrp" sort_order="600"/>
+            <item name="grand_total" instance="Magento_Sales_Model_Quote_Address_Total_Grand" sort_order="550"/>
+        </group>
+        <group name="nominal_totals">
+            <item name="recurring_initial_fee" instance="Magento_Sales_Model_Quote_Address_Total_Nominal_Recurring_Initial" sort_order="10"/>
+            <item name="recurring_trial_payment" instance="Magento_Sales_Model_Quote_Address_Total_Nominal_Recurring_Trial" sort_order="50"/>
+            <item name="nominal_subtotal" instance="Magento_Sales_Model_Quote_Address_Total_Nominal_Subtotal" sort_order="250"/>
+            <item name="nominal_shipping" instance="Magento_Sales_Model_Quote_Address_Total_Nominal_Shipping" sort_order="1250"/>
+        </group>
+    </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="subtotal" instance="Magento_Sales_Model_Order_Invoice_Total_Subtotal" sort_order="50"/>
+            <item name="discount" instance="Magento_Sales_Model_Order_Invoice_Total_Discount" sort_order="100"/>
+            <item name="shipping" instance="Magento_Sales_Model_Order_Invoice_Total_Shipping" sort_order="150"/>
+            <item name="tax" instance="Magento_Sales_Model_Order_Invoice_Total_Tax" sort_order="200"/>
+            <item name="cost_total" instance="Magento_Sales_Model_Order_Invoice_Total_Cost" sort_order="250"/>
+            <item name="grand_total" instance="Magento_Sales_Model_Order_Invoice_Total_Grand" sort_order="350"/>
+        </group>
+    </section>
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="subtotal" instance="Magento_Sales_Model_Order_Creditmemo_Total_Subtotal" sort_order="50"/>
+            <item name="discount" instance="Magento_Sales_Model_Order_Creditmemo_Total_Discount" sort_order="150"/>
+            <item name="shipping" instance="Magento_Sales_Model_Order_Creditmemo_Total_Shipping" sort_order="200"/>
+            <item name="tax" instance="Magento_Sales_Model_Order_Creditmemo_Total_Tax" sort_order="250"/>
+            <item name="cost_total" instance="Magento_Sales_Model_Order_Creditmemo_Total_Cost" sort_order="300"/>
+            <item name="grand_total" instance="Magento_Sales_Model_Order_Creditmemo_Total_Grand" sort_order="400"/>
+        </group>
+    </section>
+</config>

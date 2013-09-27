@@ -91,6 +91,7 @@ return array(
     array('_getSectionConfig', 'Magento_Core_Model_Config'),
     array('_getSelectHtml', 'Magento_ImportExport_Block_Adminhtml_Export_Filter'),
     array('_getSetData', 'Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main'),
+    array('_getSession', 'Magento_Paygate_Model_Authorizenet', 'Magento_Paygate_Model_Authorizenet::_session'),
     array('_getSHAInSet', '', 'Magento_Ogone_Model_Api::getHash'),
     array('_getStoreByGroup', 'Magento_Core_Model_App'),
     array('_getStoreByWebsite', 'Magento_Core_Model_App'),

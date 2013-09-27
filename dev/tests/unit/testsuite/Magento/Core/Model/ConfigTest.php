@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento_Core_Model_Config
- * 
  * {license_notice}
  *
  * @category    Magento
@@ -49,6 +47,16 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                     </default>
                 </config>';
 
+        $areas = array('adminhtml' => array(
+            'base_controller' => 'base_controller',
+            'routers' => array(
+                'admin' => array(
+                    'class' => 'class'
+                )
+            ),
+            'frontName' => 'backend'
+        ));
+
         $configBase = new Magento_Core_Model_Config_Base($xml);
         $this->_objectManagerMock = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
         $configStorageMock = $this->getMock('Magento_Core_Model_Config_StorageInterface');
@@ -57,7 +65,6 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
         $this->_sectionPoolMock = $this->getMock('Magento_Core_Model_Config_SectionPool', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
 
         $this->_model = new Magento_Core_Model_Config(
             $this->_objectManagerMock,
@@ -66,7 +73,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             $this->_moduleListMock,
             $this->_configScopeMock,
             $this->_sectionPoolMock,
-            $coreStoreConfig
+            $areas
         );
     }
     public function testSetNodeData()

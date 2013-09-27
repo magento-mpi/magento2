@@ -26,6 +26,7 @@ class Magento_Sales_Helper_Reorder extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Encryption $encryptor
      * @param Magento_Customer_Model_Session $customerSession
      */
     public function __construct(
@@ -34,10 +35,11 @@ class Magento_Sales_Helper_Reorder extends Magento_Core_Helper_Data
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Encryption $encryptor,
         Magento_Customer_Model_Session $customerSession
     ) {
         $this->_customerSession = $customerSession;
-        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig, $encryptor);
     }
 
     /**
