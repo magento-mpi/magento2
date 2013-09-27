@@ -24,7 +24,9 @@ class ArgumentsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 
     protected function setUp()
     {
-        $this->_phraseCollector = new PhraseCollector(new Tokenizer());
+        $this->_phraseCollector = new \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector(
+            new \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer()
+        );
     }
 
     public function testArguments()
