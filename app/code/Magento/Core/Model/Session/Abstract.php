@@ -143,7 +143,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_Url_Proxy $url
+     * @param Magento_Core_Model_Url $url
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -162,7 +162,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_Url_Proxy $url,
+        Magento_Core_Model_Url $url,
         array $data = array()
     ) {
         $this->_validator = $validator;
