@@ -43,17 +43,25 @@ class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_productFactory = $productFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -527,7 +535,7 @@ class Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Backend_Block
         );
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
-                $product = Mage::getModel('Magento_Catalog_Model_Product')->load($item->getOrderItem()->getProductId());
+                $product = $this->_productFactory->create()->load($item->getOrderItem()->getProductId());
                 if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                     $item->setCanReturnToStock(true);
                 } else {

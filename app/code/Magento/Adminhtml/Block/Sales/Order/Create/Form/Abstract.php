@@ -33,18 +33,22 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
 
     /**
      * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Data_Form_Factory $formFactory,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
     }
 
     /**
