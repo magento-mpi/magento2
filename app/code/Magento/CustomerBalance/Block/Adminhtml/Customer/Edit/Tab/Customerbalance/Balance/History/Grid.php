@@ -11,7 +11,7 @@
 /**
  * Customer balance history grid
  */
-namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance_History;
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History;
 
 class Grid
     extends \Magento\Adminhtml\Block\Widget\Grid
