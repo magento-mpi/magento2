@@ -55,8 +55,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         /** @var $testWebsite Magento_Core_Model_Website */
         $testWebsite = $objectManager->get('Magento_Core_Model_Registry')
             ->registry('Magento_ScheduledImportExport_Model_Website');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
-            ->getWebsite($testWebsite->getId());
+        $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
         $websiteCodes = array();
@@ -71,16 +70,15 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             'username' => $userName
         ));
         /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Backend_Model_Auth_Session');
+        $session = $objectManager->get('Magento_Backend_Model_Auth_Session');
         $session->setUser($user);
 
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
 
         $source = new Magento_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
+        /** @var Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance $model */
+        $model = $objectManager->create('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
         $model->setParameters(
             array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
         );
@@ -93,12 +91,10 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $customerBalanceKey =
             Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
 
-        $customerCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Customer_Model_Resource_Customer_Collection');
+        $customerCollection = $objectManager->create('Magento_Customer_Model_Resource_Customer_Collection');
         /** @var $customer Magento_Customer_Model_Customer */
         foreach ($customerCollection as $customer) {
-            $rewardCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Reward_Model_Resource_Reward_Collection');
+            $rewardCollection = $objectManager->create('Magento_Reward_Model_Resource_Reward_Collection');
             $rewardCollection->addFieldToFilter('customer_id', $customer->getId());
             /** @var $rewardPoints Magento_Reward_Model_Reward */
             foreach ($rewardCollection as $rewardPoints) {
@@ -114,8 +110,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 );
             }
 
-            $customerBalance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_CustomerBalance_Model_Resource_Balance_Collection');
+            $customerBalance = $objectManager->create('Magento_CustomerBalance_Model_Resource_Balance_Collection');
             $customerBalance->addFieldToFilter('customer_id', $customer->getId());
             /** @var $balance Magento_CustomerBalance_Model_Balance */
             foreach ($customerBalance as $balance) {

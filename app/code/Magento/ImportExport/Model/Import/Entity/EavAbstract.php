@@ -15,6 +15,11 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     extends Magento_ImportExport_Model_Import_EntityAbstract
 {
     /**
+     * Attribute collection name
+     */
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Data_Collection';
+
+    /**
      * Website manager (currently Magento_Core_Model_App works as website manager)
      *
      * @var Magento_Core_Model_App
@@ -85,7 +90,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
      * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_App $app
-     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
      * @param Magento_Eav_Model_Config $eavConfig
      * @param array $data
      */
@@ -97,7 +102,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
         Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_App $app,
-        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
         Magento_Eav_Model_Config $eavConfig,
         array $data = array()
     ) {
@@ -108,7 +113,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
         $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : $app;
         $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : $app;
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
-            : $collectionFactory->create();
+            : $collectionFactory->create(static::ATTRIBUTE_COLLECTION_NAME);
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];

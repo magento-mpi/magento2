@@ -22,6 +22,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
     extends Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
 {
     /**#@+
+     * Attribute collection name
+     */
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Customer_Model_Resource_Address_Attribute_Collection';
+    /**#@-*/
+
+    /**#@+
      * Permanent column names
      *
      * Names that begins with underscore is not an attribute.
@@ -208,7 +214,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
      * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_App $app
-     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_ImportExport_Model_Resource_Customer_StorageFactory $storageFactory
      * @param Magento_Customer_Model_AddressFactory $addressFactory
@@ -226,7 +232,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
         Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_App $app,
-        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_ImportExport_Model_Export_Factory $collectionFactory,
         Magento_Eav_Model_Config $eavConfig,
         Magento_ImportExport_Model_Resource_Customer_StorageFactory $storageFactory,
         Magento_Customer_Model_AddressFactory $addressFactory,
