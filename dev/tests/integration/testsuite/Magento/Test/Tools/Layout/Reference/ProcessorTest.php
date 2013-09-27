@@ -54,7 +54,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        \Magento_System_Dirs::rm($this->_varDir);
+        \Magento\System\Dirs::rm($this->_varDir);
     }
 
     public function testGetReferences()
