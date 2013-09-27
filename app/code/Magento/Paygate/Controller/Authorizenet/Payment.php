@@ -24,6 +24,10 @@ class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Contr
      */
     protected $_session;
 
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Checkout_Model_Session $session
+     */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
         Magento_Checkout_Model_Session $session

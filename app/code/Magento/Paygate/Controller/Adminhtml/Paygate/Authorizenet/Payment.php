@@ -24,6 +24,10 @@ class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends 
      */
     protected $_sessionQuote;
 
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     */
     public function __construct(
         Magento_Backend_Controller_Context $context,
         Magento_Adminhtml_Model_Session_Quote $sessionQuote
