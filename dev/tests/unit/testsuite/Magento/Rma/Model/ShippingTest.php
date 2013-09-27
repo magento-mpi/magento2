@@ -24,7 +24,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
 
         $orderFactory = $this->getMock('Magento\Sales\Model\OrderFactory', array('create'), array(), '', false);
         $regionFactory = $this->getMock('Magento\Directory\Model\RegionFactory', array('create'), array(), '', false);
-        $returnFactory = $this->getMock('Magento\Shipping\Model\Shipment\ReturnFactory',
+        $returnFactory = $this->getMock('Magento\Shipping\Model\Shipment\ReturnShipmentFactory',
             array('create'), array(), '', false);
         $rmaFactory = $this->getMock('Magento\Rma\Model\RmaFactory', array('create'), array(), '', false);
 
