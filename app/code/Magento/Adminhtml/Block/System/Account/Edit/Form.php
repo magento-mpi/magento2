@@ -111,7 +111,7 @@ class Magento_Adminhtml_Block_System_Account_Edit_Form extends Magento_Backend_B
             'name'   => 'interface_locale',
             'label'  => __('Interface Locale'),
             'title'  => __('Interface Locale'),
-            'values' => $this->_locale->getLocale()->getTranslatedOptionLocales(),
+            'values' => $this->_locale->getTranslatedOptionLocales(),
             'class'  => 'select',
         ));
 

@@ -76,8 +76,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends Magento_
                 $storeId = $this->getForm()->getDataObject()->getStoreId();
             }
             $store = $this->_storeManager->getStore($storeId);
-            $html.= '<strong>' . $this->_locale->getLocale()
-                    ->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
+            $html.= '<strong>' . $this->_locale->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
             if ($this->_taxData->priceIncludesTax($store)) {
                 if ($attribute->getAttributeCode()!=='cost') {
                     $addJsObserver = true;

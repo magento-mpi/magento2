@@ -182,8 +182,7 @@ abstract class Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $element->setValues($attribute->getFrontend()->getSelectOptions());
                 } else if ($inputType == 'date') {
-                    $format = $this->_locale->getLocale()
-                        ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                    $format = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                     $element->setImage($this->getViewFileUrl('images/grid-cal.gif'));
                     $element->setDateFormat($format);
                 }

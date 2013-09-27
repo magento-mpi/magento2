@@ -93,7 +93,7 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Bac
             'required' => true,
         ));
 
-        $dateFormat = $this->_locale->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('date_from', 'date', array(
             'label'    => __('Date From'),
             'title'    => __('Date From'),

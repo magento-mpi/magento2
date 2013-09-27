@@ -114,7 +114,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form extends Magento_Adminhtml_
         }
         if (!is_null($this->getStoreId())) {
             $data['store_id'] = $this->getStoreId();
-            $currency = $this->_locale->getLocale()->currency($this->getStore()->getCurrentCurrencyCode());
+            $currency = $this->_locale->currency($this->getStore()->getCurrentCurrencyCode());
             $symbol = $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
             $data['currency_symbol'] = $symbol;
             $data['shipping_method_reseted'] = !(bool)$this->getQuote()->getShippingAddress()->getShippingMethod();

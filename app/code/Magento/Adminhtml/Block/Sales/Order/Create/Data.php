@@ -73,7 +73,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_
      */
     public function getCurrencyName($code)
     {
-        return $this->_locale->getLocale()->currency($code)->getName();
+        return $this->_locale->currency($code)->getName();
     }
 
     /**
@@ -84,7 +84,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_
      */
     public function getCurrencySymbol($code)
     {
-        $currency = $this->_locale->getLocale()->currency($code);
+        $currency = $this->_locale->currency($code);
         return $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
     }
 
