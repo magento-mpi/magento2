@@ -23,4 +23,28 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
+    <type name="Magento_Payment_Model_Config_Reader">
+        <param name="fileName">
+            <value>payment.xml</value>
+        </param>
+        <param name="converter">
+            <instance type="Magento_Payment_Model_Config_Converter" />
+        </param>
+        <param name="schemaLocator">
+            <instance type="Magento_Payment_Model_Config_SchemaLocator" />
+        </param>
+    </type>
+    <virtualType name="Magento_Payment_Model_Config_Data" type="Magento_Config_Data">
+        <param name='reader'>
+            <instance type="Magento_Payment_Model_Config_Reader" />
+        </param>
+        <param name="cacheId">
+            <value>payment_config</value>
+        </param>
+    </virtualType>
+    <type name="Magento_Payment_Model_Config">
+        <param name="dataStorage">
+            <instance type="Magento_Payment_Model_Config_Data" />
+        </param>
+    </type>
 </config>

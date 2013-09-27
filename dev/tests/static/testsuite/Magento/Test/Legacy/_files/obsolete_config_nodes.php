@@ -21,6 +21,9 @@ return array(
     '/config/global/models/*/resourceModel'    => '',
     '/config/global/page/layouts'              => 'Moved to page_layouts.xml',
     '/config/global/cms/layouts'               => 'This was never used and is no longer supported',
+    '/config/global/payment/cc/types/*/validator' =>
+        'This configuration was moved to DI configuration of Magento_Centinel_Model_StateFactory',
+    '/config/global/payment'                   => 'Move them to payment.xml.',
     '/config/adminhtml/menu'                   => 'Move them to adminhtml.xml.',
     '/config/adminhtml/acl'                    => 'Move them to adminhtml.xml.',
     '/config/*[self::global|self::adminhtml|self::frontend]/di' => 'This configuration moved to di.xml file',
