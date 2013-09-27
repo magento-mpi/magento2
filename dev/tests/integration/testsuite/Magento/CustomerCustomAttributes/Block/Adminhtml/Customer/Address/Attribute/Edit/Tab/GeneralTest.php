@@ -40,7 +40,7 @@ class GeneralTest
             ->createBlock(
                 'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General'
             );
-        $prepareFormMethod = new ReflectionMethod(
+        $prepareFormMethod = new \ReflectionMethod(
             'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General',
             '_prepareForm');
         $prepareFormMethod->setAccessible(true);

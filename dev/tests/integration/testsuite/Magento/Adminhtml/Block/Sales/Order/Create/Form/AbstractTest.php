@@ -37,7 +37,7 @@ class AbstractTest
         $block = $this->getMockForAbstractClass('Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', $arguments);
         $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', '_addAttributesToForm');
         $method->setAccessible(true);
 

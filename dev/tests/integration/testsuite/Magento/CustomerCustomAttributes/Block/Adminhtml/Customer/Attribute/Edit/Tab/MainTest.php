@@ -40,7 +40,7 @@ class MainTest
             ->createBlock(
                 'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main'
             );
-        $prepareFormMethod = new ReflectionMethod(
+        $prepareFormMethod = new \ReflectionMethod(
             'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

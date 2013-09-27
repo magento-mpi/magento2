@@ -166,7 +166,7 @@ class ObjectManager
         if (!method_exists($className, '__construct')) {
             return $constructArguments;
         }
-        $method = new ReflectionMethod($className, '__construct');
+        $method = new \ReflectionMethod($className, '__construct');
 
         foreach ($method->getParameters() as $parameter) {
             $parameterName = $parameter->getName();

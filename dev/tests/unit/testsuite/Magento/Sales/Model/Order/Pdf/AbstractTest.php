@@ -100,7 +100,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             ->method('drawLineBlocks')
             ->will($this->returnValue($page));
 
-        $reflectionMethod = new ReflectionMethod('Magento\Sales\Model\Order\Pdf\AbstractPdf', 'insertTotals');
+        $reflectionMethod = new \ReflectionMethod('Magento\Sales\Model\Order\Pdf\AbstractPdf', 'insertTotals');
         $reflectionMethod->setAccessible(true);
         $actual = $reflectionMethod->invoke($model, $page, $source);
 

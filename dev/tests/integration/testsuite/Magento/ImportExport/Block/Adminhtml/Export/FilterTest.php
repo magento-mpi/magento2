@@ -27,7 +27,7 @@ class FilterTest
             ->setDefaultDesignTheme();
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\ImportExport\Block\Adminhtml\Export\Filter');
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
                     'Magento\ImportExport\Block\Adminhtml\Export\Filter', '_getDateFromToHtmlWithValue');
         $method->setAccessible(true);
 

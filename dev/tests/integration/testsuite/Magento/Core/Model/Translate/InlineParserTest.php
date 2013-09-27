@@ -83,7 +83,7 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($isJsonProperty->getValue($this->_inlineParser));
 
-        $setIsJsonMethod = new ReflectionMethod($this->_inlineParser, 'setIsJson');
+        $setIsJsonMethod = new \ReflectionMethod($this->_inlineParser, 'setIsJson');
         $setIsJsonMethod->setAccessible(true);
         $setIsJsonMethod->invoke($this->_inlineParser, true);
 

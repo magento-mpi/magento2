@@ -48,7 +48,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $dirs \Magento\Core\Model\Dir */
         $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
 
-        $prepareFileName = new ReflectionMethod($dirs, '_setDir');
+        $prepareFileName = new \ReflectionMethod($dirs, '_setDir');
         $prepareFileName->setAccessible(true);
         $prepareFileName->invoke($dirs, \Magento\Core\Model\Dir::THEMES, $dirPath);
 

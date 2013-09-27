@@ -30,7 +30,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Core\Model\Registry')->register('magento_catalogevent_event', $event);
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form');
-        $prepareFormMethod = new ReflectionMethod(
+        $prepareFormMethod = new \ReflectionMethod(
             'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

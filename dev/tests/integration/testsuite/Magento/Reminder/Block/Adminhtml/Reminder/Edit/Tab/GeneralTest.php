@@ -33,7 +33,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
 
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General');
-        $prepareFormMethod = new ReflectionMethod(
+        $prepareFormMethod = new \ReflectionMethod(
             'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

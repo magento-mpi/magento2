@@ -49,7 +49,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $formBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
-        $prepareForm = new ReflectionMethod(
+        $prepareForm = new \ReflectionMethod(
             'Magento\ImportExport\Block\Adminhtml\Import\Edit\Form',
             '_prepareForm'
         );

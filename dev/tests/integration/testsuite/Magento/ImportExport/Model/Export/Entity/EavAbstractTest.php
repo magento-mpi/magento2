@@ -76,7 +76,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetExportAttrCodes()
     {
         $this->_model->setParameters($this->_getSkippedAttributes());
-        $method = new ReflectionMethod($this->_model, '_getExportAttributeCodes');
+        $method = new \ReflectionMethod($this->_model, '_getExportAttributeCodes');
         $method->setAccessible(true);
         $attributes = $method->invoke($this->_model);
         foreach (self::$_skippedAttributes as $code) {

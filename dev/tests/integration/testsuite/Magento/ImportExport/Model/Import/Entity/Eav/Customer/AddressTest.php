@@ -147,7 +147,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         }
 
         // invoke _initAddresses
-        $initAddresses = new ReflectionMethod($this->_testClassName, '_initAddresses');
+        $initAddresses = new \ReflectionMethod($this->_testClassName, '_initAddresses');
         $initAddresses->setAccessible(true);
         $initAddresses->invoke($this->_entityAdapter);
 
@@ -227,7 +227,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
 
         // invoke _saveAddressEntities
-        $saveAddressEntities = new ReflectionMethod($this->_testClassName, '_saveAddressEntities');
+        $saveAddressEntities = new \ReflectionMethod($this->_testClassName, '_saveAddressEntities');
         $saveAddressEntities->setAccessible(true);
         $saveAddressEntities->invoke($entityAdapter, $entityData);
 
@@ -265,7 +265,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $attributeArray[$attributeTable][$addressId][$attributeId] = $attributeValue;
 
         // invoke _saveAddressAttributes
-        $saveAttributes = new ReflectionMethod($this->_testClassName, '_saveAddressAttributes');
+        $saveAttributes = new \ReflectionMethod($this->_testClassName, '_saveAddressAttributes');
         $saveAttributes->setAccessible(true);
         $saveAttributes->invoke($this->_entityAdapter, $attributeArray);
 
@@ -327,7 +327,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         }
 
         // invoke _saveCustomerDefaults
-        $saveDefaults = new ReflectionMethod($this->_testClassName, '_saveCustomerDefaults');
+        $saveDefaults = new \ReflectionMethod($this->_testClassName, '_saveCustomerDefaults');
         $saveDefaults->setAccessible(true);
         $saveDefaults->invoke($this->_entityAdapter, $defaults);
 

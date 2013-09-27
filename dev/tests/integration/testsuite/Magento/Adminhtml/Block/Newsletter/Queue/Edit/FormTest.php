@@ -30,7 +30,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form');
-        $prepareFormMethod = new ReflectionMethod(
+        $prepareFormMethod = new \ReflectionMethod(
             'Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
 
