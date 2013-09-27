@@ -78,11 +78,6 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     protected $_importConfig;
 
     /**
-     * @var Magento_ImportExport_Model_Config
-     */
-    protected $_config;
-
-    /**
      * @var Magento_ImportExport_Model_Import_Entity_Factory
      */
     protected $_entityFactory;
@@ -123,7 +118,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
      * @param Magento_Core_Model_Log_AdapterFactory $adapterFactory
      * @param Magento_ImportExport_Helper_Data $importExportData
      * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_ImportExport_Model_Config $config
+     * @param Magento_ImportExport_Model_Import_ConfigInterface $importConfig
      * @param Magento_ImportExport_Model_Import_Entity_Factory $entityFactory
      * @param Magento_ImportExport_Model_Resource_Import_Data $importData
      * @param Magento_ImportExport_Model_Export_Adapter_CsvFactory $csvFactory
