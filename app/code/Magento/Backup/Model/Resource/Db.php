@@ -31,7 +31,7 @@ class Db
     /**
      * Backup resource helper
      *
-     * @var \Magento\Backup_Model_Resource_Helper_Mysql4
+     * @var \Magento\Backup\Model\Resource\Helper\Mysql4
      */
     protected $_resourceHelper;
 

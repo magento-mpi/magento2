@@ -25,7 +25,7 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_checkoutData;
 
     /**
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_coreUrl;
 
