@@ -36,13 +36,66 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
      */
     protected $_coreStringMock;
 
+    /**
+     * @var Magento_ImportExport_Model_ImportFactory
+     */
+    protected $_importFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
     protected function setUp()
     {
         $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $this->_coreStringMock = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+
+        $this->_importFactory = $this->getMock('Magento_ImportExport_Model_ImportFactory', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false);
+        $this->_resourceHelper = $this->getMock(
+            'Magento_ImportExport_Model_Resource_Helper_Mysql4', array(), array(), '', false
+        );
+        $this->_app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $this->_collectionFactory = $this->getMock('Magento_Data_CollectionFactory', array(), array(), '', false);
+        $this->_eavConfig = $this->getMock(
+            'Magento_Eav_Model_Config', array(), array(), '', false
+        );
+
         $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_Entity_EavAbstract',
-            array($this->_coreDataMock, $this->_coreStringMock, $coreStoreConfig, $this->_getModelDependencies())
+            array(
+                $this->_coreDataMock,
+                $this->_coreStringMock,
+                $coreStoreConfig,
+                $this->_importFactory,
+                $this->_resourceHelper,
+                $this->_resource,
+                $this->_app,
+                $this->_collectionFactory,
+                $this->_eavConfig,
+                $this->_getModelDependencies()
+            )
         );
     }
 

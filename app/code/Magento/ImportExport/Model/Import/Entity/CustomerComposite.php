@@ -125,28 +125,29 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_ImportExport_Model_ImportFactory $importFactory
-     * @param Magento_Core_Model_Resource $resource
      * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource $resource
      * @param Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataFactory $dataFactory
      * @param Magento_ImportExport_Model_Import_Entity_Eav_CustomerFactory $customerFactory
      * @param Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressFactory $addressFactory
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_ImportExport_Model_ImportFactory $importFactory,
-        Magento_Core_Model_Resource $resource,
         Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource $resource,
         Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataFactory $dataFactory,
         Magento_ImportExport_Model_Import_Entity_Eav_CustomerFactory $customerFactory,
         Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressFactory $addressFactory,
         array $data = array()
-    ) {
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $importFactory, $resource, $data);
+    )
+    {
+        parent::__construct(
+            $coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $data
+        );
 
         $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
             __('Orphan rows that will be skipped due default row errors')
