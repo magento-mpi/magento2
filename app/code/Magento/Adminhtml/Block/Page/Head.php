@@ -29,17 +29,23 @@ class Magento_Adminhtml_Block_Page_Head extends Magento_Page_Block_Html_Head
 
     /**
      * @param Magento_Core_Model_Session $session
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDatabase
      * @param Magento_Core_Helper_Data $coreData
-     * @param \Magento_Core_Block_Template_Context $context
-     * @param \Magento_ObjectManager $objectManager
-     * @param \Magento_Core_Model_Page $page
-     * @param \Magento_Core_Model_Page_Asset_MergeService $assetMergeService
-     * @param \Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Core_Model_Page $page
+     * @param Magento_Core_Model_Page_Asset_MergeService $assetMergeService
+     * @param Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Session $session,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Helper_File_Storage_Database $fileStorageDatabase,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
@@ -51,7 +57,7 @@ class Magento_Adminhtml_Block_Page_Head extends Magento_Page_Block_Html_Head
     ) {
         $this->_session = $session;
         parent::__construct(
-            $fileStorageDatabase, $coreData, $context, $objectManager, $page,
+            $locale, $dir, $storeManager, $fileStorageDatabase, $coreData, $context, $objectManager, $page,
             $assetMergeService, $assetMinifyService, $data
         );
     }
