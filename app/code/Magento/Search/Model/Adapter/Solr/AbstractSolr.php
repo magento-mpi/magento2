@@ -153,7 +153,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         }
 
         if (!is_object($this->_client)) {
-            throw new RuntimeException('Solr client is not set.');
+            throw new \RuntimeException('Solr client is not set.');
         }
 
         return $this->_client;

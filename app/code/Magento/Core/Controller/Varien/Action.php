@@ -213,7 +213,7 @@ class Action extends \Magento\Core\Controller\Varien\AbstractAction
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
         if ($this->_isLayoutLoaded) {
-            throw new RuntimeException('Layout must be loaded only once.');
+            throw new \RuntimeException('Layout must be loaded only once.');
         }
         // if handles were specified in arguments load them first
         if (false !== $handles && '' !== $handles) {
