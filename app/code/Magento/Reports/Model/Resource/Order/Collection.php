@@ -39,7 +39,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper
+     * @param Magento_Core_Model_Resource_Helper $coreResourceHelper
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
@@ -48,7 +48,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper,
+        Magento_Core_Model_Resource_Helper $coreResourceHelper,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {

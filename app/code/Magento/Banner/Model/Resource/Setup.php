@@ -33,6 +33,7 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
 
     /**
      * @param Magento_Core_Model_Resource_Setup_Context $context
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -45,6 +46,7 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      */
     public function __construct(
         Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Core_Model_Config $config,
         Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Helper_Data $coreData,
@@ -58,8 +60,8 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         $this->_themeCollFactory = $themeCollFactory;
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;
-        parent::__construct(
-            $context, $cache, $migrationFactory, $coreData, $resourceName, $moduleName, $connectionName
+        parent::__construct($context, $config, $cache, $migrationFactory, $coreData,
+            $resourceName, $moduleName, $connectionName
         );
     }
 

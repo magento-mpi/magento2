@@ -37,7 +37,7 @@
     </type>
     <type name="Magento_Core_Model_Config_ValidationState">
         <param name="appMode">
-            <value type="argument">Mage::PARAM_MODE</value>
+            <value type="argument">Magento_Core_Model_App::PARAM_MODE</value>
         </param>
     </type>
     <type name="Magento_Core_Model_Config_Loader_Local">

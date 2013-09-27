@@ -14,7 +14,7 @@ class Magento_Logging_Block_Adminhtml_Grid_Filter_Ip extends Magento_Backend_Blo
     /**
      * Core resource helper
      *
-     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     * @var Magento_Core_Model_Resource_Helper
      */
     protected $_resourceHelper;
 

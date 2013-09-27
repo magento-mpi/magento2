@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <virtualType name="Magento_GoogleShopping_Model_Resource_Helper" type="Magento_Core_Model_Resource_Helper_Mysql4">
+    <virtualType name="Magento_GoogleShopping_Model_Resource_Helper" type="Magento_Core_Model_Resource_Helper">
         <param name="modulePrefix">
             <value>Core</value>
         </param>
