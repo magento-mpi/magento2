@@ -148,6 +148,7 @@
   * Eliminated Mage:: static methods in Magento_Usa
   * Eliminated Mage:: static methods in Magento_ProductAlert
   * Eliminated Mage:: static methods in Magento_Directory
+  * Eliminated Mage:: static methods in Magento_Paygate
   * Eliminated Mage:: static methods in Magento_SalesRule
   * Eliminated Mage:: static methods in Magento_Sales
   * Eliminated Mage:: static methods in Magento_Rule

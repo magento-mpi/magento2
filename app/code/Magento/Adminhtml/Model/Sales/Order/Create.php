@@ -1054,7 +1054,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
     protected function _parseCustomPrice($price)
     {
-        $price = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getLocale()->getNumber($price);
+        $price = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getNumber($price);
         $price = $price > 0 ? $price : 0;
         return $price;
     }
