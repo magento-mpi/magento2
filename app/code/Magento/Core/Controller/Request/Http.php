@@ -56,17 +56,36 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     protected $_beforeForwardInfo = array();
 
     /**
-     * @var Magento_Backend_Helper_DataProxy
+     * @var Magento_Backend_Helper_Data
      */
     protected $_helper;
 
     /**
-     * @param Magento_Backend_Helper_DataProxy $helper
-     * @param null $uri
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Backend_Helper_DataProxy
+     */
+    protected $_app;
+
+    /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Backend_Helper_Data $helper
+     * @param string|Zend_Uri $uri
      * @param array $directFrontNames
      */
-    public function __construct(Magento_Backend_Helper_DataProxy $helper, $uri = null, $directFrontNames = array())
-    {
+    public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_App $app,
+        Magento_Backend_Helper_Data $helper,
+        $uri = null,
+        $directFrontNames = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_app = $app;
         $this->_helper = $helper;
         $this->_directFrontNames = $directFrontNames;
         parent::__construct($uri);
@@ -120,10 +139,10 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
             $storeCode = $pathParts[0];
 
             if ($this->_isFrontArea($storeCode)) {
-                $stores = Mage::getObjectManager()->get('Magento_Core_Model_StoreManager')->getStores(true, true);
+                $stores = $this->_storeManager->getStores(true, true);
                 if (isset($stores[$storeCode]) && $stores[$storeCode]->isUseStoreInUrl()) {
                     if (!$this->isDirectAccessFrontendName($storeCode)) {
-                        Mage::getObjectManager()->get('Magento_Core_Model_StoreManager')->setCurrentStore($storeCode);
+                        $this->_storeManager->setCurrentStore($storeCode);
                         $pathInfo = '/'.(isset($pathParts[1]) ? $pathParts[1] : '');
                     } elseif (!empty($storeCode)) {
                         $this->setActionName('noRoute');
@@ -237,7 +256,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     public function setRouteName($route)
     {
         $this->_route = $route;
-        $router = Mage::getObjectManager()->get('Magento_Core_Model_App')->getFrontController()
+        $router = $this->_app->getFrontController()
             ->getRouterList()->getRouterByRoute($route);
         if (!$router) {
             return $this;
@@ -385,7 +404,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
         if ($this->_requestedRouteName === null) {
             if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[0])) {
                 $frontName = $this->_rewritedPathInfo[0];
-                $router = Mage::getObjectManager()->get('Magento_Core_Model_App')->getFrontController()
+                $router = $this->_app->getFrontController()
                     ->getRouterList()->getRouterByFrontName($frontName);
                 $this->_requestedRouteName = $router->getRouteByFrontName($frontName);
             } else {

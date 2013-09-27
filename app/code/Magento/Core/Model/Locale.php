@@ -86,7 +86,13 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param  $locale
+     * @param Magento_Core_Helper_Translate $translate
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Locale_Config $config
+     * @param Magento_Core_Model_App $app
+     * @param string $locale
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -711,8 +717,6 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
             $this->_locale = $locale;
             $this->_localeCode = $this->_locale->toString();
 
-            Mage::getObjectManager()->get('Magento_Core_Helper_Translate')
-                ->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_ADMINHTML, true);
             $this->_translate->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_ADMINHTML, true);
         }
     }
