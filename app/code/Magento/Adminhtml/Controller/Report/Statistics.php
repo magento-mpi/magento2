@@ -104,7 +104,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
     {
         try {
             $collectionsNames = $this->_getCollectionNames();
-            $currentDate = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getLocale()->date();
+            $currentDate = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->date();
             $date = $currentDate->subHour(25);
             foreach ($collectionsNames as $collectionName) {
                 $this->_objectManager->create($collectionName)->aggregate($date);

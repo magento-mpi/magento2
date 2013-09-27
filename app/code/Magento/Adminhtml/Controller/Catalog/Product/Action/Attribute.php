@@ -53,7 +53,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
         try {
             if ($attributesData) {
-                $dateFormat = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getLocale()
+                $dateFormat = $this->_objectManager->get('Magento_Core_Model_LocaleInterface')
                     ->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
