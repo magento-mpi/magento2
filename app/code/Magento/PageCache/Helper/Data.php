@@ -64,7 +64,6 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_isNoCacheCookieLocked = (bool)$cookie->get(self::NO_CACHE_LOCK_COOKIE);
         $this->_cookie = $cookie;
         $this->_ccFactory = $ccFactory;
-        $this->_isNoCacheCookieLocked = (bool)$this->_getCookie()->get(self::NO_CACHE_LOCK_COOKIE);
         $this->_cacheControls = $cacheControls;
     }
 
