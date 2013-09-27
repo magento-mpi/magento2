@@ -63,7 +63,6 @@ return array(
     array('_ratingOptionTable', 'Magento_Rating_Model_Resource_Rating_Option_Collection'),
     array('_readerFactory', 'Magento_Core_Model_ObjectManager_ConfigLoader'),
     array('_resourceConfig', 'Magento_Core_Model_Resource_Setup'),
-    array('_resourceConfig', 'Magento_Core_Model_Resource'),
     array('_saveTemplateFlag', 'Magento_Newsletter_Model_Queue'),
     array('_searchTextFields'),
     array('_setAttributes', 'Magento_Catalog_Model_Product_Type_Abstract'),
