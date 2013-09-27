@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <renderers>
+        <page type="invoice">
+            <renderer product_type="downloadable">Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice</renderer>
+        </page>
+        <page type="creditmemo">
+            <renderer product_type="downloadable">Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo</renderer>
+        </page>
+    </renderers>
+</config>

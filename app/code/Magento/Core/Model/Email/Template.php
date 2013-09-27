@@ -56,7 +56,6 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     /**
      * Configuration path for default email templates
      */
-    const XML_PATH_TEMPLATE_EMAIL               = 'global/template/email';
     const XML_PATH_SENDING_SET_RETURN_PATH      = 'system/smtp/set_return_path';
     const XML_PATH_SENDING_RETURN_PATH_EMAIL    = 'system/smtp/return_path_email';
     const XML_PATH_DESIGN_EMAIL_LOGO            = 'design/email/logo';
@@ -93,8 +92,6 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     protected $_logger;
 
-    static protected $_defaultTemplates;
-
     /**
      * Core store config
      *
@@ -103,9 +100,9 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Core_Model_Email_Template_Config
      */
-    protected $_coreConfig;
+    private $_emailConfig;
 
     /**
      * Constructor
@@ -134,7 +131,10 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      * @param Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_Email_Template_Config $emailConfig
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Context $context,
@@ -149,6 +149,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_Email_Template_Config $emailConfig,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -159,6 +160,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $this->_coreConfig = $coreConfig;
         $this->_emailFilterFactory = $emailFilterFactory;
         $this->_dir = $dir;
+        $this->_emailConfig = $emailConfig;
         parent::__construct($design, $context, $registry, $appEmulation, $storeManager, $data);
     }
 
@@ -264,16 +266,12 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     public function loadDefault($templateId)
     {
-        $defaultTemplates = $this->getDefaultTemplates();
-        if (!isset($defaultTemplates[$templateId])) {
-            return $this;
-        }
+        $templateFile = $this->_emailConfig->getTemplateFilename($templateId);
+        $templateType = $this->_emailConfig->getTemplateType($templateId);
+        $templateTypeCode = $templateType == 'html' ? self::TYPE_HTML : self::TYPE_TEXT;
+        $this->setTemplateType($templateTypeCode);
 
-        $data = &$defaultTemplates[$templateId];
-        $this->setTemplateType($data['type'] == 'html' ? self::TYPE_HTML : self::TYPE_TEXT);
-
-        $module = $this->_coreConfig->determineOmittedNamespace($data['@']['module'], true);
-        $templateText = $this->loadBaseContents($module, $data['file']);
+        $templateText = $this->_filesystem->read($templateFile);
 
         if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $templateText, $matches)) {
             $this->setTemplateSubject($matches[1]);
@@ -299,68 +297,6 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $this->setId($templateId);
 
         return $this;
-    }
-
-    /**
-     * Look for base template and read its contents
-     *
-     * @param string $module A fully qualified module name (<Namespace>_<Name>)
-     * @param string $filename File path relative to module/view folder
-     * @return string
-     * @throws Exception if the requested filename is not found
-     */
-    public function loadBaseContents($module, $filename)
-    {
-        $includeFilename = $this->_coreConfig->getModuleDir('view', $module) . DIRECTORY_SEPARATOR . $filename;
-        $contents = $this->_filesystem->read($includeFilename);
-        if (!$contents) {
-            throw new Exception(sprintf('Failed to include file "%s".', $includeFilename));
-        }
-        return $contents;
-    }
-
-    /**
-     * Retrieve default templates from config
-     *
-     * @return array
-     */
-    public function getDefaultTemplates()
-    {
-        if (is_null(self::$_defaultTemplates)) {
-            self::$_defaultTemplates = $this->_coreConfig->getNode(self::XML_PATH_TEMPLATE_EMAIL)->asArray();
-        }
-
-        return self::$_defaultTemplates;
-    }
-
-    /**
-     * Get default templates as options array
-     *
-     * @return array
-     */
-    public function getDefaultTemplatesAsOptionsArray()
-    {
-        $options = array(array('value' => '', 'label' => '', 'group' => ''));
-        $groups = array();
-        foreach ($this->getDefaultTemplates() as $templateId => $row) {
-            $module = $row['@']['module'];
-            $moduleFullName = $this->_coreConfig->determineOmittedNamespace($module, true);
-            $options[] = array(
-                'value' => $templateId,
-                'label' => __($row['label']),
-                'group' => $moduleFullName,
-            );
-            $groups[$module] = 1;
-        }
-        uasort($options, function ($firstElement, $secondElement) {
-            $key = 'label';
-            if ($firstElement[$key] == $secondElement[$key]) {
-                return 0;
-            }
-            return ($firstElement[$key] < $secondElement[$key]) ? -1 : 1;
-        });
-
-        return $options;
     }
 
     /**

@@ -18,15 +18,6 @@
                 </setup>
             </wishlist_setup>
         </resources>
-        <template>
-            <email>
-                <wishlist_email_email_template translate="label" module="Magento_Wishlist">
-                    <label>Wishlist Sharing</label>
-                    <file>email/share_notification.html</file>
-                    <type>html</type>
-                </wishlist_email_email_template>
-            </email>
-        </template>
     </global>
     <default>
         <wishlist>

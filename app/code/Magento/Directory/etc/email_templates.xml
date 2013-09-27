@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template id="currency_import_error_email_template" label="Currency Update Warnings" file="currency_update_notification.html" type="text"/>
+</config>

@@ -62,6 +62,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
                 $objectManager->get('Magento_Core_Model_Email_Template_FilterFactory'),
                 $objectManager->get('Magento_Core_Model_StoreManager'),
                 $objectManager->get('Magento_Core_Model_Dir'),
+                $objectManager->get('Magento_Core_Model_Email_Template_Config'),
             )
         );
         $emailTemplate->expects($this->once())
@@ -117,6 +118,7 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
                 $objectManager->get('Magento_Core_Model_Email_Template_FilterFactory'),
                 $objectManager->get('Magento_Core_Model_StoreManager'),
                 $objectManager->get('Magento_Core_Model_Dir'),
+                $objectManager->get('Magento_Core_Model_Email_Template_Config'),
             )
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));

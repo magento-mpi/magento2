@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <totals>
+        <total name="magento_giftcardaccount">
+            <title translate="true">Gift Cards</title>
+            <source_field>gift_cards_amount</source_field>
+            <amount_prefix>-</amount_prefix>
+            <font_size>7</font_size>
+            <display_zero>0</display_zero>
+            <sort_order>550</sort_order>
+        </total>
+    </totals>
+</config>

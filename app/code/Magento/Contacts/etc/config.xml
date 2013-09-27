@@ -18,15 +18,6 @@
                 </setup>
             </contacts_setup>
         </resources>
-        <template>
-            <email>
-                <contacts_email_email_template translate="label" module="Magento_Contacts">
-                    <label>Contact Form</label>
-                    <file>email/submitted_form.html</file>
-                    <type>text</type>
-                </contacts_email_email_template>
-            </email>
-        </template>
     </global>
     <default>
         <contacts>

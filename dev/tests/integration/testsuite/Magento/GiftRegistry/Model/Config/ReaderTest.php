@@ -24,33 +24,13 @@ class Magento_GiftRegistry_Model_Config_ReaderTest extends PHPUnit_Framework_Tes
             )
         );
 
-        /** @var Magento_Core_Model_Module_Declaration_FileResolver $modulesDeclarations */
-        $modulesDeclarations = $objectManager->create(
-            'Magento_Core_Model_Module_Declaration_FileResolver', array(
-                'applicationDirs' => $dirs,
-            )
-        );
-
-
-        /** @var Magento_Core_Model_Module_Declaration_Reader_Filesystem $filesystemReader */
-        $filesystemReader = $objectManager->create(
-            'Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
-                'fileResolver' => $modulesDeclarations,
-            )
-        );
-
-        /** @var Magento_Core_Model_ModuleList $modulesList */
-        $modulesList = $objectManager->create(
-            'Magento_Core_Model_ModuleList', array(
-                'reader' => $filesystemReader,
-            )
-        );
+        $moduleDirs = $objectManager->create('Magento_Core_Model_Module_Dir',
+            array('applicationDirs' => $dirs));
 
         /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Magento_Core_Model_Config_Modules_Reader', array(
-                'dirs' => $dirs,
-                'moduleList' => $modulesList
+                'moduleDirs' => $moduleDirs,
             )
         );
 

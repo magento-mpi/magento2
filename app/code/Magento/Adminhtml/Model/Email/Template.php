@@ -21,13 +21,32 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
     /**
      * @var Magento_Core_Model_Config
      */
-    protected $_config;
+    protected $_coreConfig;
 
     /**
      * @var Magento_Backend_Model_Config_Structure
      */
-    protected $_structure;
+    private $_structure;
 
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_App_Emulation $appEmulation
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_Email_Template_Config $emailConfig
+     * @param Magento_Backend_Model_Config_Structure $structure
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -41,11 +60,10 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
         Magento_Core_Model_Email_Template_FilterFactory $emailFilterFactory,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_Email_Template_Config $emailConfig,
         Magento_Backend_Model_Config_Structure $structure,
         array $data = array()
     ) {
-        $this->_config = $coreConfig;
-        $this->_structure = $structure;
         parent::__construct(
             $context,
             $registry,
@@ -59,8 +77,10 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
             $emailFilterFactory,
             $storeManager,
             $dir,
+            $emailConfig,
             $data
         );
+        $this->_structure = $structure;
     }
 
     /**
