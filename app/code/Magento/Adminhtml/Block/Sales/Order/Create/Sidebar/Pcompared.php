@@ -28,6 +28,16 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magen
      */
     protected $_event;
 
+    /**
+     * @param Magento_Reports_Model_Resource_Event $event
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Sales_Model_Config $salesConfig
+     * @param array $data
+     */
     public function __construct(
         Magento_Reports_Model_Resource_Event $event,
         Magento_Catalog_Model_ProductFactory $productFactory,
@@ -35,12 +45,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magen
         Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
         array $data = array()
     ) {
         $this->_event = $event;
         $this->_productFactory = $productFactory;
-        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $coreConfig, $data);
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $salesConfig, $data);
     }
 
     protected function _construct()

@@ -18,31 +18,6 @@
                 </setup>
             </usa_setup>
         </resources>
-        <sales>
-            <shipping>
-                <carriers>
-                    <ups>
-                        <class>Magento_Usa_Model_Shipping_Carrier_Ups</class>
-                    </ups>
-                    <usps>
-                        <class>Magento_Usa_Model_Shipping_Carrier_Usps</class>
-                    </usps>
-                    <fedex>
-                        <class>Magento_Usa_Model_Shipping_Carrier_Fedex</class>
-                    </fedex>
-                    <dhl>
-                        <class>Magento_Usa_Model_Shipping_Carrier_Dhl</class>
-                    </dhl>
-                    <dhlint>
-                        <class>Magento_Usa_Model_Shipping_Carrier_Dhl_International</class>
-                    </dhlint>
-                </carriers>
-            </shipping>
-            <tax>
-                <methods>
-                </methods>
-            </tax>
-        </sales>
     </global>
     <default>
         <system>

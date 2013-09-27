@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_Sales" version="1.6.0.11" active="true">
+    <module name="Magento_Sales" version="1.6.0.12" active="true">
         <sequence>
             <module name="Magento_Rule"/>
             <module name="Magento_Catalog"/>
