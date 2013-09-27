@@ -864,4 +864,5 @@ return array(
     array('reset', 'Mage'),
     array('_getProductType', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix'),
     array('_getProductType', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config'),
+    array('_getSession', 'Magento_Adminhtml_Model_Sales_Order'),
 );

@@ -85,6 +85,6 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
 
     public function getShowButtons()
     {
-        return  $this->_problemCollection->getSize() > 0;
+        return $this->_problemCollection->getSize() > 0;
     }
 }// Class Magento_Adminhtml_Block_Newsletter_Problem END

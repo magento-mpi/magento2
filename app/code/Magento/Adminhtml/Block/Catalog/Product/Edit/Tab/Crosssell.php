@@ -42,8 +42,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
     /**
      * @var Magento_Catalog_Model_Product_Type
      */
-
     protected $_type;
+
     /**
      * @var Magento_Catalog_Model_Product_Status
      */

@@ -17,7 +17,10 @@
  */
 class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magento_Adminhtml_Block_Widget
 {
-    protected $_productInstance;
+    /**
+     * @var Magento_Catalog_Model_Product
+     */
+    protected $_product;
 
     protected $_template = 'catalog/product/composite/configure.phtml';
 
@@ -31,7 +34,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
     /**
      * @var Magento_Catalog_Model_Product
      */
-    protected $_product;
+    protected $_catalogProduct;
 
     /**
      * @param Magento_Catalog_Model_Product $product
@@ -47,7 +50,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_product = $product;
+        $this->_catalogProduct = $product;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -59,14 +62,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
      */
     public function getProduct()
     {
-        if (!$this->_productInstance) {
+        if (!$this->_product) {
             if ($this->_coreRegistry->registry('current_product')) {
-                $this->_productInstance = $this->_coreRegistry->registry('current_product');
+                $this->_product = $this->_coreRegistry->registry('current_product');
             } else {
-                $this->_productInstance = $this->_product;
+                $this->_product = $this->_catalogProduct;
             }
         }
-        return $this->_productInstance;
+        return $this->_product;
     }
 
     /**
@@ -77,7 +80,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
      */
     public function setProduct(Magento_Catalog_Model_Product $product = null)
     {
-        $this->_productInstance = $product;
+        $this->_product = $product;
         return $this;
     }
 }
