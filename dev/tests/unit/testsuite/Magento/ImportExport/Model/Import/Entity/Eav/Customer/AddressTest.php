@@ -470,6 +470,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             $this->getMock('Magento_Directory_Model_Resource_Region_CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento_Customer_Model_CustomerFactory', array(), array(), '', false),
             $this->getMock('Magento_Customer_Model_Resource_Address_CollectionFactory', array(), array(), '', false),
+            $this->getMock('Magento_Customer_Model_Resource_Address_Attribute_CollectionFactory',
+                array(), array(), '', false
+            ),
             $this->_getModelDependencies()
         );
 
