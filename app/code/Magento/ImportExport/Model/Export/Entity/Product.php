@@ -332,9 +332,8 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = $this->_resourceModel;
         $select = $this->_connection->select()
-            ->from($resource->getTableName('catalog_product_entity_tier_price'))
+            ->from($this->_resourceModel->getTableName('catalog_product_entity_tier_price'))
             ->where('entity_id IN(?)', $productIds);
 
         $rowTierPrices = array();
@@ -365,9 +364,8 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = $this->_resourceModel;
         $select = $this->_connection->select()
-            ->from($resource->getTableName('catalog_product_entity_group_price'))
+            ->from($this->_resourceModel->getTableName('catalog_product_entity_group_price'))
             ->where('entity_id IN(?)', $productIds);
 
         $rowGroupPrices = array();
@@ -398,17 +396,16 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = $this->_resourceModel;
         $select = $this->_connection->select()
                 ->from(
-                        array('mg' => $resource->getTableName('catalog_product_entity_media_gallery')),
+                        array('mg' => $this->_resourceModel->getTableName('catalog_product_entity_media_gallery')),
                         array(
                             'mg.entity_id', 'mg.attribute_id', 'filename' => 'mg.value', 'mgv.label',
                             'mgv.position', 'mgv.disabled'
                         )
                 )
                 ->joinLeft(
-                        array('mgv' => $resource->getTableName('catalog_product_entity_media_gallery_value')),
+                        array('mgv' => $this->_resourceModel->getTableName('catalog_product_entity_media_gallery_value')),
                         '(mg.value_id = mgv.value_id AND mgv.store_id = 0)',
                         array()
                 )
@@ -468,23 +465,22 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = $this->_resourceModel;
         $adapter = $this->_connection;
         $select = $adapter->select()
             ->from(
-                array('cpl' => $resource->getTableName('catalog_product_link')),
+                array('cpl' => $this->_resourceModel->getTableName('catalog_product_link')),
                 array(
                     'cpl.product_id', 'cpe.sku', 'cpl.link_type_id',
                     'position' => 'cplai.value', 'default_qty' => 'cplad.value'
                 )
             )
             ->joinLeft(
-                array('cpe' => $resource->getTableName('catalog_product_entity')),
+                array('cpe' => $this->_resourceModel->getTableName('catalog_product_entity')),
                 '(cpe.entity_id = cpl.linked_product_id)',
                 array()
             )
             ->joinLeft(
-                array('cpla' => $resource->getTableName('catalog_product_link_attribute')),
+                array('cpla' => $this->_resourceModel->getTableName('catalog_product_link_attribute')),
                 $adapter->quoteInto(
                     '(cpla.link_type_id = cpl.link_type_id AND cpla.product_link_attribute_code = ?)',
                     'position'
@@ -492,7 +488,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
                 array()
             )
             ->joinLeft(
-                array('cplaq' => $resource->getTableName('catalog_product_link_attribute')),
+                array('cplaq' => $this->_resourceModel->getTableName('catalog_product_link_attribute')),
                 $adapter->quoteInto(
                     '(cplaq.link_type_id = cpl.link_type_id AND cplaq.product_link_attribute_code = ?)',
                     'qty'
@@ -500,12 +496,12 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
                 array()
             )
             ->joinLeft(
-                array('cplai' => $resource->getTableName('catalog_product_link_attribute_int')),
+                array('cplai' => $this->_resourceModel->getTableName('catalog_product_link_attribute_int')),
                 '(cplai.link_id = cpl.link_id AND cplai.product_link_attribute_id = cpla.product_link_attribute_id)',
                 array()
             )
             ->joinLeft(
-                array('cplad' => $resource->getTableName('catalog_product_link_attribute_decimal')),
+                array('cplad' => $this->_resourceModel->getTableName('catalog_product_link_attribute_decimal')),
                 '(cplad.link_id = cpl.link_id AND cplad.product_link_attribute_id = cplaq.product_link_attribute_id)',
                 array()
             )
