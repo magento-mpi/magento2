@@ -30,37 +30,37 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         $contents = file_get_contents($file);
         $classes = \Magento\TestFramework\Utility\Classes::getAllMatches($contents, '/
             # ::getResourceModel ::getBlockSingleton ::getModel ::getSingleton
-            \:\:get(?:ResourceModel | BlockSingleton | Model | Singleton)?\(\s*[\'"]([a-z\d_]+)[\'"]\s*[\),]
+            \:\:get(?:ResourceModel | BlockSingleton | Model | Singleton)?\(\s*[\'"]([a-z\d\\\\]+)[\'"]\s*[\),]
 
             # various methods, first argument
             | \->(?:initReport | addBlock | createBlock | setDataHelperName | _?initLayoutMessages
                 | setAttributeModel | setBackendModel | setFrontendModel | setSourceModel | setModel
-            )\(\s*\'([a-z\d_]+)\'\s*[\),]
+            )\(\s*\'([a-z\d\\\\]+)\'\s*[\),]
 
             # various methods, second argument
-            | \->add(?:ProductConfigurationHelper | OptionsRenderCfg)\(.+?,\s*\'([a-z\d_]+)\'\s*[\),]
+            | \->add(?:ProductConfigurationHelper | OptionsRenderCfg)\(.+?,\s*\'([a-z\d\\\\]+)\'\s*[\),]
 
             # \Mage::helper ->helper
-            | (?:Mage\:\:|\->)helper\(\s*\'([a-z\d_]+)\'\s*\)
+            | (?:Mage\:\:|\->)helper\(\s*\'([a-z\d\\\\]+)\'\s*\)
 
             # misc
-            | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d_]+)[\'"]
-            | \'resource_model\'\s*=>\s*[\'"]([a-z\d_]+)[\'"]
-            | (?:_parentResourceModelName | _checkoutType | _apiType)\s*=\s*\'([a-z\d_]+)\'
-            | \'renderer\'\s*=>\s*\'([a-z\d_]+)\'
+            | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d\\\\]+)[\'"]
+            | \'resource_model\'\s*=>\s*[\'"]([a-z\d\\\\]+)[\'"]
+            | (?:_parentResourceModelName | _checkoutType | _apiType)\s*=\s*\'([a-z\d\\\\]+)\'
+            | \'renderer\'\s*=>\s*\'([a-z\d\\\\]+)\'
             /ix'
         );
 
         // without modifier "i". Starting from capital letter is a significant characteristic of a class name
         \Magento\TestFramework\Utility\Classes::getAllMatches($contents, '/(?:\-> | parent\:\:)(?:_init | setType)\(\s*
-                \'([A-Z][a-z\d][A-Za-z\d_]+)\'(?:,\s*\'([A-Z][a-z\d][A-Za-z\d_]+)\')
+                \'([A-Z][a-z\d][A-Za-z\d\\\\]+)\'(?:,\s*\'([A-Z][a-z\d][A-Za-z\d\\\\]+)\')
             \s*\)/x',
             $classes
         );
 
         $this->_collectResourceHelpersPhp($contents, $classes);
 
-        $this->_assertClassesExist($classes);
+        $this->_assertClassesExist($classes, $file);
     }
 
     /**
@@ -79,10 +79,10 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     protected function _collectResourceHelpersPhp($contents, &$classes)
     {
-        $regex = '/(?:\:\:|\->)getResourceHelper\(\s*\'([a-z\d_]+)\'\s*\)/ix';
+        $regex = '/(?:\:\:|\->)getResourceHelper\(\s*\'([a-z\d\\\\]+)\'\s*\)/ix';
         $matches = \Magento\TestFramework\Utility\Classes::getAllMatches($contents, $regex);
         foreach ($matches as $moduleName) {
-            $classes[] = "{$moduleName}_Model_Resource_Helper";
+            $classes[] = "{$moduleName}\\Model\\Resource\\Helper\\Mysql4";
         }
     }
 
@@ -113,7 +113,8 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         $xml = simplexml_load_file($path);
 
         $classes = \Magento\TestFramework\Utility\Classes::getXmlNodeValues($xml,
-            '/layout//*[contains(text(), "_Block_") or contains(text(), "_Model_") or contains(text(), "_Helper_")]'
+            '/layout//*[contains(text(), "\\\\Block\\\\")  or contains(text(),
+                "\\\\Model\\\\") or contains(text(), "\\\\Helper\\\\")]'
         );
         foreach (\Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml,
             '/layout//@helper', 'helper') as $class) {
@@ -121,11 +122,11 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         }
         foreach (\Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml,
             '/layout//@module', 'module') as $module) {
-            $classes[] = "{$module}_Helper_Data";
+            $classes[] = str_replace('_', '\\', "{$module}_Helper_Data");
         }
         $classes = array_merge($classes, \Magento\TestFramework\Utility\Classes::collectLayoutClasses($xml));
 
-        $this->_assertClassesExist(array_unique($classes));
+        $this->_assertClassesExist(array_unique($classes), $path);
     }
 
     /**
