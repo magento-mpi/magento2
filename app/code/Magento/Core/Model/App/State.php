@@ -63,7 +63,8 @@ class Magento_Core_Model_App_State
      */
     public function isInstalled()
     {
-        return Mage::isInstalled();
+        return (bool)Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Config_Primary')
+            ->getInstallDate();
     }
 
     /**

@@ -14,13 +14,6 @@
 final class Mage
 {
     /**
-     * Application root absolute path
-     *
-     * @var string
-     */
-    static private $_appRoot;
-
-    /**
      * Is allow throw Exception about headers already sent
      *
      * @var bool

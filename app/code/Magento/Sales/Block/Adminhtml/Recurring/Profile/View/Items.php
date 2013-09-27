@@ -23,6 +23,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
     protected $_storeManager;
 
     /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -30,6 +31,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -37,7 +39,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Magento
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($productFactory, $coreData, $context, $registry, $data);
     }
 
     /**

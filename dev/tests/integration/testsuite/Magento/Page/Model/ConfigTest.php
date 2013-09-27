@@ -16,10 +16,10 @@ class Magento_Page_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        /** @var $cache Magento_Core_Model_Cache */
-        $cache = Mage::getModel('Magento_Core_Model_Cache');
-        $cache->clean();
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $cache Magento_Core_Model_Cache */
+        $cache = $objectManager->create('Magento_Core_Model_Cache');
+        $cache->clean();
         $fileResolverMock = $this->getMockBuilder('Magento_Config_FileResolverInterface')
             ->disableOriginalConstructor()
             ->getMock();

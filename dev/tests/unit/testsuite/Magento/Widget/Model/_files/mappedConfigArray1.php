@@ -7,13 +7,13 @@
  */
 return array(
     '@' => array(
-        'type' => 'Mage_Cms_Block_Widget_Page_Link',
-        'module' => 'Mage_Cms',
+        'type' => 'Magento_Cms_Block_Widget_Page_Link',
+        'module' => 'Magento_Cms',
     ),
     'name' => 'CMS Page Link',
     'description' => 'Link to a CMS Page',
     'is_email_compatible' => '1',
-    'placeholder_image' => 'Mage_Cms::images/widget_page_link.gif',
+    'placeholder_image' => 'Magento_Cms::images/widget_page_link.gif',
     'parameters' => array(
         'page_id' => array(
             '@' => array(
@@ -21,7 +21,7 @@ return array(
             ),
             'type' => 'label',
             'helper_block' => array(
-                'type' => 'Mage_Adminhtml_Block_Cms_Page_Widget_Chooser',
+                'type' => 'Magento_Adminhtml_Block_Cms_Page_Widget_Chooser',
                 'data' => array(
                     'button' => array(
                         'open' => 'Select Page...',

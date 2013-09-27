@@ -61,19 +61,25 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     protected $_helper;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_App $app
      * @param Magento_Backend_Helper_Data $helper
      * @param string|Zend_Uri $uri
      * @param array $directFrontNames
      */
     public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Backend_Helper_Data $helper,
         $uri = null,
         $directFrontNames = array()
     ) {
         $this->_helper = $helper;
         $this->_directFrontNames = $directFrontNames;
+        $this->_storeManager = $storeManager;
         parent::__construct($uri);
     }
 
@@ -125,10 +131,10 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
             $storeCode = $pathParts[0];
 
             if ($this->_isFrontArea($storeCode)) {
-                $stores = Mage::app()->getStores(true, true);
+                $stores = $this->_storeManager->getStores(true, true);
                 if (isset($stores[$storeCode]) && $stores[$storeCode]->isUseStoreInUrl()) {
                     if (!$this->isDirectAccessFrontendName($storeCode)) {
-                        Mage::app()->setCurrentStore($storeCode);
+                        $this->_storeManager->setCurrentStore($storeCode);
                         $pathInfo = '/'.(isset($pathParts[1]) ? $pathParts[1] : '');
                     } elseif (!empty($storeCode)) {
                         $this->setActionName('noRoute');
@@ -242,7 +248,8 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     public function setRouteName($route)
     {
         $this->_route = $route;
-        $router = Mage::app()->getFrontController()
+        $router = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App')
+            ->getFrontController()
             ->getRouterList()->getRouterByRoute($route);
         if (!$router) {
             return $this;
@@ -390,7 +397,8 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
         if ($this->_requestedRouteName === null) {
             if ($this->_rewritedPathInfo !== null && isset($this->_rewritedPathInfo[0])) {
                 $frontName = $this->_rewritedPathInfo[0];
-                $router = Mage::app()->getFrontController()
+                $router = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App')
+                    ->getFrontController()
                     ->getRouterList()->getRouterByFrontName($frontName);
                 $this->_requestedRouteName = $router->getRouteByFrontName($frontName);
             } else {

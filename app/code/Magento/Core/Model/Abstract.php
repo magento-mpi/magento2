@@ -107,11 +107,9 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     protected $_cacheManager;
 
     /**
-     * Core registry
-     *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var Magento_Core_Model_Logger
@@ -138,7 +136,6 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
         $this->_resource = $resource;
         $this->_resourceCollection = $resourceCollection;
         $this->_logger = $context->getLogger();
-
         if ($this->_resource) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();
         }
@@ -216,7 +213,7 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
             throw new Magento_Core_Exception(__('Resource is not set.'));
         }
 
-        return $this->_resource ?: Mage::getResourceSingleton($this->_resourceName);
+        return $this->_resource ?: Magento_Core_Model_ObjectManager::getInstance()->get($this->_resourceName);
     }
 
     /**
@@ -244,7 +241,9 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
         }
         return $this->_resourceCollection
             ? clone $this->_resourceCollection
-            : Mage::getResourceModel($this->_collectionName, array('resource' => $this->_getResource()));
+            : Magento_Core_Model_ObjectManager::getInstance()->create(
+                $this->_collectionName, array('resource' => $this->_getResource())
+            );
     }
 
     /**
@@ -614,7 +613,10 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
         if ($this->_coreRegistry->registry('isSecureArea')) {
             return;
         }
-        if (!Mage::app()->getStore()->isAdmin()) {
+        /* Store manager does not work well in this place when injected via context */
+        if (!Magento_Core_Model_ObjectManager::getInstance()
+            ->get('Magento_Core_Model_StoreManager')->getStore()->isAdmin()
+        ) {
             throw new Magento_Core_Exception(__('Cannot complete this operation from non-admin area.'));
         }
     }

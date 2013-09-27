@@ -145,7 +145,8 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
     }
 
     $errorMessage .= ": {$errorStr}  in {$errorFile} on line {$errorLine}";
-    if (Mage::getIsDeveloperMode()) {
+    $appState = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App_State');
+    if ($appState == Magento_Core_Model_App_State::MODE_DEVELOPER) {
         throw new Exception($errorMessage);
     } else {
         $dirs = new Magento_Core_Model_Dir('.');

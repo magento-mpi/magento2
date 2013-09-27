@@ -22,7 +22,7 @@
         </action>
     </referenceBlock>
     <referenceBlock name="some_element_1"/>
-    <block name="test.nonexisting.block" class="Mage_Core_Block_Text_List"/>
+    <block name="test.nonexisting.block" class="Magento_Core_Block_Text_List"/>
     <remove name="test.nonexisting.block"/>
     <referenceBlock name="test.nonexisting.block">
         <action method="getSomething"/>

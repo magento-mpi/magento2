@@ -50,6 +50,11 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
     protected $_locale;
 
     /**
+     * @var Magento_Core_Model_Design
+     */
+    protected $_design;
+
+    /**
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_View_DesignInterface $viewDesign
@@ -76,6 +81,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
         $this->_app = $app;
         $this->_storeManager = $storeManager;
         $this->_viewDesign = $viewDesign;
+        $this->_design = $design;
         $this->_translate = $translate;
         $this->_helperTranslate = $helperTranslate;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -181,7 +187,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
         $this->_viewDesign->setDesignTheme($storeTheme, $area);
 
         if ($area == Magento_Core_Model_App_Area::AREA_FRONTEND) {
-            $designChange = $this->_viewDesign->loadChange($storeId);
+            $designChange = $this->_design->loadChange($storeId);
             if ($designChange->getData()) {
                 $this->_viewDesign->setDesignTheme($designChange->getDesign(), $area);
             }
@@ -201,7 +207,10 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
     protected function _emulateLocale($storeId, $area = Magento_Core_Model_App_Area::AREA_FRONTEND)
     {
         $initialLocaleCode = $this->_locale->getLocaleCode();
-        $newLocaleCode = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
+        $newLocaleCode = $this->_coreStoreConfig->getConfig(
+            Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+            $storeId
+        );
         $this->_locale->setLocaleCode($newLocaleCode);
         $this->_helperTranslate->initTranslate($newLocaleCode, $area, true);
         return $initialLocaleCode;

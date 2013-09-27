@@ -20,7 +20,7 @@ class Magento_Core_Model_Url_SecurityInfoTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeMock = $this->getMock('Mage_Core_Model_Store', array('getConfig'), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento_Core_Model_Store', array('getConfig'), array(), '', false);
         $storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface');
         $storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
         $this->_model = new Magento_Core_Model_Url_SecurityInfo(

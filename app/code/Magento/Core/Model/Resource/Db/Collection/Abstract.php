@@ -455,7 +455,7 @@ abstract class Magento_Core_Model_Resource_Db_Collection_Abstract extends Magent
     public function getResource()
     {
         if (empty($this->_resource)) {
-            $this->_resource = Mage::getResourceModel($this->getResourceModelName());
+            $this->_resource = Magento_Core_Model_ObjectManager::getInstance()->create($this->getResourceModelName());
         }
         return $this->_resource;
     }

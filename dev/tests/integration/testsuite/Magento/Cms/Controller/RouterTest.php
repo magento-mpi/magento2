@@ -27,7 +27,17 @@ class Magento_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
                 $this->getMock('Magento_Core_Model_Event_Config', array(), array(), '', false),
                 $this->getMock('Magento_EventFactory', array(), array(), '', false),
                 $this->getMock('Magento_Event_ObserverFactory', array(), array(), '', false)
-            )
+            ),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_UrlInterface'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Config_Primary'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Cms_Model_PageFactory'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_StoreManagerInterface'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_StoreManagerInterface')
         );
     }
 

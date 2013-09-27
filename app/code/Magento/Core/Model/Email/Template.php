@@ -14,8 +14,8 @@
  * Example:
  *
  * // Loading of template
- * $emailTemplate  = Mage::getModel('Magento_Core_Model_Email_Template')
- *    ->load($this->_coreStoreConfig->getConfig('path_to_email_template_id_config'));
+ * Magento_Core_Model_Email_TemplateFactory $templateFactory
+ * $templateFactory->create()->load($this->_coreStoreConfig->getConfig('path_to_email_template_id_config'));
  * $variables = array(
  *    'someObject' => $this->_coreResourceEmailTemplate
  *    'someString' => 'Some string value'

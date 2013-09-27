@@ -222,7 +222,8 @@ abstract class Magento_Core_Model_Resource_Abstract
     {
         $type = strtolower($type);
         if ($type == 'decimal' || $type == 'numeric' || $type == 'float') {
-            $value = Mage::getObjectManager()->get('Magento_Core_Model_LocaleInterface')->getNumber($value);
+            $value = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_LocaleInterface')
+                ->getNumber($value);
         }
         return $value;
     }

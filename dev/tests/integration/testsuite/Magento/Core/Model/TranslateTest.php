@@ -75,8 +75,8 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
                 $objectManager->get('Magento_Core_Model_Theme_FlyweightFactory'),
                 $objectManager->get('Magento_Core_Model_Config'),
                 $objectManager->get('Magento_Core_Model_Store_Config'),
-                Mage::getSingleton('Magento_Core_Model_ThemeFactory'),
-                Mage::getSingleton('Magento_Core_Model_App'),
+                $objectManager->get('Magento_Core_Model_ThemeFactory'),
+                $objectManager->get('Magento_Core_Model_App'),
                 array('frontend' => 'test_default')
             )
         );

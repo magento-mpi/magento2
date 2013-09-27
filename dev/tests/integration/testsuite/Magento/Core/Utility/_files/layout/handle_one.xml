@@ -8,7 +8,7 @@
  */
 -->
 <layout>
-    <block class="Mage_Core_Block_Text" name="some_text_block">
+    <block class="Magento_Core_Block_Text" name="some_text_block">
         <action method="setText">
             <text>Some Default Text</text>
         </action>

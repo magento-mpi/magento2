@@ -205,8 +205,9 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         switch($this->getSessionSaveMethod()) {
             case 'db':
                 ini_set('session.save_handler', 'user');
-                $sessionResource = Mage::getResourceSingleton('Magento_Core_Model_Resource_Session');
                 /* @var $sessionResource Magento_Core_Model_Resource_Session */
+                $sessionResource = Magento_Core_Model_ObjectManager::getInstance()
+                    ->get('Magento_Core_Model_Resource_Session');
                 $sessionResource->setSaveHandler();
                 break;
             case 'memcache':

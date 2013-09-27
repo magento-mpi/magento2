@@ -268,7 +268,7 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
         $expectedCode,
         $expectedDetails
     ) {
-        /** All masked exceptions must be Mage_Webapi_Exception */
+        /** All masked exceptions must be Magento_Webapi_Exception */
         $expectedType = 'Magento_Webapi_Exception';
         $this->assertInstanceOf(
             $expectedType,

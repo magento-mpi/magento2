@@ -31,28 +31,20 @@ class Magento_Core_Model_Context implements Magento_ObjectManager_ContextInterfa
     protected $_appState;
 
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventDispatcher
      * @param Magento_Core_Model_CacheInterface $cacheManager
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventDispatcher,
         Magento_Core_Model_CacheInterface $cacheManager,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_StoreManager $storeManager
+        Magento_Core_Model_App_State $appState
     ) {
         $this->_eventDispatcher = $eventDispatcher;
         $this->_cacheManager = $cacheManager;
         $this->_appState = $appState;
-        $this->_storeManager = $storeManager;
         $this->_logger = $logger;
     }
 

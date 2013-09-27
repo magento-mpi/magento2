@@ -7,9 +7,9 @@
  * Model for multi-filtering all data which set to models
  * Example:
  * <code>
- * /** @var $filter Magento_Core_Model_Input_Filter {@*}
- * $filter = Mage::getModel('Magento_Core_Model_Input_Filter');
- * $filter->setFilters(array(
+ * /** @var $filterFactory Magento_Core_Model_Input_FilterFactory {@*}
+ * $filter = $filterFactory->create()
+ *     ->setFilters(array(
  *      'list_values' => array(
  *          'children_filters' => array( //filters will applied to all children
  *              array(
