@@ -113,31 +113,46 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_rewardFactory;
 
     /**
-     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_ImportExport_Model_Resource_Customer_StorageFactory $storageFactory
+     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_ScheduledImportExport_Helper_Data $importExportData
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
      * @param Magento_Reward_Model_RewardFactory $rewardFactory
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Auth_Session $authSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_App $app,
+        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_ImportExport_Model_Resource_Customer_StorageFactory $storageFactory,
+        Magento_Backend_Model_Auth_Session $authSession,
         Magento_ScheduledImportExport_Helper_Data $importExportData,
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
         Magento_Reward_Model_RewardFactory $rewardFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
+        parent::__construct($coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
+            $app, $collectionFactory, $eavConfig, $storageFactory, $data);
 
         $this->_rewardFactory = $rewardFactory;
         $this->_customerFactory = $customerFactory;

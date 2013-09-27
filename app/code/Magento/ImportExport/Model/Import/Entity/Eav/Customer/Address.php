@@ -200,6 +200,23 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
      */
     protected $_addressFactory;
 
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_ImportExport_Model_Resource_Customer_StorageFactory $storageFactory
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionColFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Customer_Model_Resource_Address_CollectionFactory $addressColFactory
+     * @param array $data
+     */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,

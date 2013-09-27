@@ -165,7 +165,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_App $app
-     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
      * @param Magento_ImportExport_Model_Resource_CollectionByPagesIteratorFactory $resourceColFactory
      * @param array $data
      */
