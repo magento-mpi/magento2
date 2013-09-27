@@ -44,8 +44,10 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
 
     /**
      * Config key for path to aliases map file
+     *
+     * @var string
      */
-    const CONFIG_KEY_PATH_TO_MAP_FILE = 'global/migration/path_to_aliases_map_file';
+    protected $_confPathToMapFile;
 
     /**
      * List of possible entity types sorted by possibility of usage
@@ -138,8 +140,8 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Data $helper
-     * @param string $resourceName
-     * @param Magento_Filesystem $filesystem
+     * @param $resourceName
+     * @param $confPathToMapFile
      * @param array $data
      */
     public function __construct(
@@ -153,10 +155,12 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Data $helper,
         $resourceName,
+        $confPathToMapFile,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
         $this->_coreHelper = $helper;
+        $this->_confPathToMapFile = $confPathToMapFile;
         if (!isset($data['resource_config'])
             || !isset($data['connection_config'])
             || !isset($data['module_config'])
@@ -215,7 +219,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         if (isset($data['path_to_map_file'])) {
             $this->_pathToMapFile = $data['path_to_map_file'];
         } else {
-            $this->_pathToMapFile = $this->_config->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
+            $this->_pathToMapFile = $this->_confPathToMapFile;
         }
 
         if (isset($data['aliases_map'])) {

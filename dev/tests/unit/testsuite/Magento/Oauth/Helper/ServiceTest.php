@@ -29,13 +29,17 @@ class Magento_Oauth_Helper_ServiceTest extends PHPUnit_Framework_TestCase
         $this->_storeConfigMock = $this->getMockBuilder('Magento_Core_Model_Store_Config')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_encryptorMock = $this->getMockBuilder('Magento_Core_Model_Encryption')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_coreHelper = new Magento_Core_Helper_Data(
             $this->getMockBuilder('Magento_Core_Model_Event_Manager')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento_Core_Helper_Http')->disableOriginalConstructor()->getMock(),
             $this->_coreContextMock,
             $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock(),
-            $this->_storeConfigMock
+            $this->_storeConfigMock,
+            $this->_encryptorMock
         );
 
         $this->_oauthHelper = new Magento_Oauth_Helper_Service(

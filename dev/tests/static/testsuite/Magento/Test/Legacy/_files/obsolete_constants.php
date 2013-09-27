@@ -153,6 +153,7 @@ return array(
     array('XML_PATH_STATIC_FILE_SIGNATURE', 'Magento_Core_Helper_Data',
         'Magento_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
     ),
+    array('XML_PATH_TEMPLATE_EMAIL', 'Magento_Core_Model_Email_Template'),
     array('XML_PATH_TEMPLATE_FILTER', 'Magento_Newsletter_Helper_Data',
         'Use directly model Magento_Newsletter_Model_Template_Filter'
     ),
@@ -219,7 +220,11 @@ return array(
     array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Export'),
     array('CONFIG_KEY_FORMATS', 'Magento_ImportExport_Model_Export'),
     array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Import'),
-    array('REGEX_RUN_MODEL'),
-    array('XML_PATH_FRONT_NAME'),
-    array('XML_PATH_DISABLED_CACHE_TYPES'),
+    array('REGEX_RUN_MODEL', 'Magento_Cron_Model_Observer'),
+    array('XML_PATH_FRONT_NAME', 'Magento_DesignEditor_Helper_Data'),
+    array('XML_PATH_DISABLED_CACHE_TYPES', 'Magento_DesignEditor_Helper_Data'),
+    array('XML_PATH_ENCRYPTION_MODEL', 'Magento_Core_Helper_Data'),
+    array('CONFIG_KEY_PATH_TO_MAP_FILE', 'Magento_Core_Model_Resource_Setup_Migration'),
+    array('XML_PATH_IGNORE_DEV_MODE', 'Magento_Core_Model_Db_UpdaterInterface'),
+    array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento_Core_Model_Db_UpdaterInterface'),
 );

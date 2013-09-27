@@ -49,6 +49,13 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_ignoredUserAgents;
 
     /**
+     * Core event manager proxy
+     *
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -61,6 +68,13 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_coreConfig;
 
     /**
+     * Ignored Modules
+     *
+     * @var array
+     */
+    protected $_ignores;
+
+    /*
      * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
@@ -81,46 +95,57 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_customerFactory;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param array $data
+     * @param Magento_Core_Model_Context               $context
+     * @param Magento_Core_Model_Registry              $registry
+     * @param Magento_Core_Model_Store_Config          $coreStoreConfig
+     * @param Magento_Core_Model_Event_Manager         $eventManager
+     * @param Magento_Customer_Model_CustomerFactory   $customerFactory
+     * @param Magento_Sales_Model_QuoteFactory         $quoteFactory
+     * @param Magento_Core_Model_Session               $session
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Helper_Http                 $coreHttp
+     * @param Magento_Core_Model_Config                $coreConfig
+     * @param array                                    $data
+     * @param array                                    $ignoredUserAgents
+     * @param array                                    $ignores
+     * @param Magento_Core_Model_Resource_Abstract     $resource
+     * @param Magento_Data_Collection_Db               $resourceCollection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Sales_Model_QuoteFactory $quoteFactory,
         Magento_Core_Model_Session $session,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array(),
         array $ignoredUserAgents = array(),
-        array $data = array()
+        array $ignores = array(),
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null
     ) {
-        $this->_quoteFactory = $quoteFactory;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_eventManager = $eventManager;
         $this->_customerFactory = $customerFactory;
+        $this->_quoteFactory = $quoteFactory;
         $this->_session = $session;
         $this->_storeManager = $storeManager;
         $this->_coreHttp = $coreHttp;
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         $this->_ignoredUserAgents = $ignoredUserAgents;
+
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_ignores = $ignores;
     }
 
     /**
-     * Onject initialization
+     * Object initialization
      */
     protected function _construct()
     {
@@ -228,7 +253,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
             $this->setFirstVisitAt(now());
             $this->setIsNewVisitor(true);
             $this->save();
-            $this->_eventDispatcher->dispatch('visitor_init', array('visitor' => $this));
+            $this->_eventManager->dispatch('visitor_init', array('visitor' => $this));
         }
         return $this;
     }
@@ -370,11 +395,9 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     public function isModuleIgnored($observer)
     {
-        $ignores = $this->_coreConfig->getNode('global/ignoredModules/entities')->asArray();
-
-        if (is_array($ignores) && $observer) {
+        if (is_array($this->_ignores) && $observer) {
             $curModule = $observer->getEvent()->getControllerAction()->getRequest()->getRouteName();
-            if (isset($ignores[$curModule])) {
+            if (isset($this->_ignores[$curModule])) {
                 return true;
             }
         }

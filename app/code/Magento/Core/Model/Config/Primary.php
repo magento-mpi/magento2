@@ -191,17 +191,6 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
             ),
         ));
 
-        $dynamicConfigurators = $this->getNode('global/configurators');
-        if ($dynamicConfigurators) {
-            $dynamicConfigurators = $dynamicConfigurators->asArray();
-            if (count($dynamicConfigurators)) {
-                foreach ($dynamicConfigurators as $configuratorClass) {
-                    /** @var $dynamicConfigurator Magento_Core_Model_ObjectManager_DynamicConfigInterface*/
-                    $dynamicConfigurator = $objectManager->create($configuratorClass);
-                    $objectManager->configure($dynamicConfigurator->getConfiguration());
-                }
-            }
-        }
         Magento_Profiler::stop('initial');
     }
 

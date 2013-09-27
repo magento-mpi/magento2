@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <template id="magento_reward_notification_balance_update_template" label="Balance Update" file="balance_update.html" type="html"/>
+    <template id="magento_reward_notification_expiry_warning_template" label="Points Expiry Warning" file="expiry_warning.html" type="html"/>
+</config>
