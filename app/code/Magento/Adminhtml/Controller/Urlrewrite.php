@@ -264,7 +264,9 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
                         throw new Magento_Core_Exception(
                             __('Chosen product does not associated with the chosen store or category.'));
                     } else {
-                        throw new Magento_Core_Exception(__('Chosen category does not associated with the chosen store.'));
+                        throw new Magento_Core_Exception(
+                            __('Chosen category does not associated with the chosen store.')
+                        );
                     }
                 } elseif ($rewrite->getId() && $rewrite->getId() != $model->getId()) {
                     $model->setTargetPath($rewrite->getRequestPath());
