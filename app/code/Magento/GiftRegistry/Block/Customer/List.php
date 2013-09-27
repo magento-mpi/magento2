@@ -10,9 +10,6 @@
 
 /**
  * Customer giftregistry list block
- *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
 class Magento_GiftRegistry_Block_Customer_List
     extends Magento_Customer_Block_Account_Dashboard
@@ -41,6 +38,7 @@ class Magento_GiftRegistry_Block_Customer_List
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
      * @param Magento_GiftRegistry_Model_EntityFactory $entityFactory
      * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -50,16 +48,17 @@ class Magento_GiftRegistry_Block_Customer_List
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Customer_Model_Session $customerSession,
+        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
         Magento_GiftRegistry_Model_EntityFactory $entityFactory,
         Magento_GiftRegistry_Model_TypeFactory $typeFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
         $this->typeFactory = $typeFactory;
         $this->storeManager = $storeManager;
+        parent::__construct($coreData,$context, $customerSession, $subscriberFactory, $data);
     }
 
     /**

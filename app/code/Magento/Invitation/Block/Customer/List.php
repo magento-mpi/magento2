@@ -10,9 +10,6 @@
 
 /**
  * Customer invitation list block
- *
- * @category   Magento
- * @package    Magento_Invitation
  */
 class Magento_Invitation_Block_Customer_List extends Magento_Customer_Block_Account_Dashboard
 {
@@ -22,13 +19,6 @@ class Magento_Invitation_Block_Customer_List extends Magento_Customer_Block_Acco
      * @var Magento_Invitation_Model_InvitationFactory
      */
     protected $_invitationFactory;
-
-    /**
-     * Customer Session
-     *
-     * @var Magento_Customer_Model_Session
-     */
-    protected $_customerSession;
 
     /**
      * Invitation Status
@@ -42,6 +32,7 @@ class Magento_Invitation_Block_Customer_List extends Magento_Customer_Block_Acco
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Invitation_Model_InvitationFactory $invitationFactory
      * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
      * @param Magento_Invitation_Model_Source_Invitation_Status $invitationStatus
      * @param array $data
      */
@@ -50,13 +41,13 @@ class Magento_Invitation_Block_Customer_List extends Magento_Customer_Block_Acco
         Magento_Core_Block_Template_Context $context,
         Magento_Invitation_Model_InvitationFactory $invitationFactory,
         Magento_Customer_Model_Session $customerSession,
+        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
         Magento_Invitation_Model_Source_Invitation_Status $invitationStatus,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
         $this->_invitationFactory = $invitationFactory;
-        $this->_customerSession = $customerSession;
         $this->_invitationStatus = $invitationStatus;
+        parent::__construct($coreData, $context, $customerSession, $subscriberFactory, $data);
     }
 
     /**
