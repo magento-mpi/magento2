@@ -21,6 +21,39 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Store
     extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
 {
     /**
+     * @var Magento_Core_Model_Website_Factory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * @var Magento_Core_Model_Store_Group_Factory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @param Magento_Core_Model_Store_Group_Factory $groupFactory
+     * @param Magento_Core_Model_Website_Factory $websiteFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Group_Factory $groupFactory,
+        Magento_Core_Model_Website_Factory $websiteFactory,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_groupFactory = $groupFactory;
+        $this->_websiteFactory = $websiteFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare store specific fieldset
      *
      * @param Magento_Data_Form $form
@@ -120,8 +153,8 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Store
      */
     protected function _getStoreGroups()
     {
-        $websites = Mage::getModel('Magento_Core_Model_Website')->getCollection();
-        $allgroups = Mage::getModel('Magento_Core_Model_Store_Group')->getCollection();
+        $websites = $this->_websiteFactory->create()->getCollection();
+        $allgroups = $this->_groupFactory->create()->getCollection();
         $groups = array();
         foreach ($websites as $website) {
             $values = array();

@@ -15,6 +15,47 @@
 class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var Magento_Core_Model_Source_Email_Variables
+     */
+    protected $_variables;
+
+    /**
+     * @var Magento_Core_Model_VariableFactory
+     */
+    protected $_variableFactory;
+
+    /**
+     * @param Magento_Core_Model_VariableFactory $variableFactory
+     * @param Magento_Core_Model_Source_Email_Variables $variables
+     * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_VariableFactory $variableFactory,
+        Magento_Core_Model_Source_Email_Variables $variables,
+        Magento_Backend_Model_Session $backendSession,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_variableFactory = $variableFactory;
+        $this->_variables = $variables;
+        $this->_backendSession = $backendSession;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare layout.
      * Add files to use dialog windows
      *
@@ -152,7 +193,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ba
             $form->addValues($this->getEmailTemplate()->getData());
         }
 
-        $values = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getData('email_template_form_data', true);
+        $values = $this->_backendSession->getData('email_template_form_data', true);
         if ($values) {
             $form->setValues($values);
         }
@@ -180,10 +221,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ba
     public function getVariables()
     {
         $variables = array();
-        $variables[] = Mage::getModel('Magento_Core_Model_Source_Email_Variables')
-            ->toOptionArray(true);
-        $customVariables = Mage::getModel('Magento_Core_Model_Variable')
-            ->getVariablesOptionArray(true);
+        $variables[] = $this->_variables->toOptionArray(true);
+        $customVariables = $this->_variableFactory->create()->getVariablesOptionArray(true);
         if ($customVariables) {
             $variables[] = $customVariables;
         }

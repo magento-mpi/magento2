@@ -21,6 +21,31 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Website
     extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
 {
     /**
+     * @var Magento_Core_Model_Store_GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @param Magento_Core_Model_Store_GroupFactory $groupFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_GroupFactory $groupFactory,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_groupFactory = $groupFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare website specific fieldset
      *
      * @param Magento_Data_Form $form
@@ -62,7 +87,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Website
         ));
 
         if ($this->_coreRegistry->registry('store_action') == 'edit') {
-            $groups = Mage::getModel('Magento_Core_Model_Store_Group')->getCollection()
+            $groups = $this->_groupFactory->create()->getCollection()
                 ->addWebsiteFilter($websiteModel->getId())
                 ->setWithoutStoreViewFilter()
                 ->toOptionArray();
