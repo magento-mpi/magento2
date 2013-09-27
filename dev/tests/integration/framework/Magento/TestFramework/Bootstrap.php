@@ -243,6 +243,7 @@ class Magento_TestFramework_Bootstrap
      * @param SimpleXMLElement $dbConfig
      * @return string
      * @throws Magento_Exception
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _determineDbVendorName(SimpleXMLElement $dbConfig)
     {
