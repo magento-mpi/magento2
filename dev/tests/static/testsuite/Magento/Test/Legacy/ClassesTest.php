@@ -22,8 +22,8 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     public function testPhpCode($file)
     {
-        $classes = self::collectPhpCodeClasses(file_get_contents($file));
-        $this->_assertNonFactoryName($classes);
+        $classes = \Magento\TestFramework\Utility\Classes::collectPhpCodeClasses(file_get_contents($file));
+        $this->_assertNonFactoryName($classes, $file);
     }
 
     /**
@@ -35,64 +35,6 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Scan contents as PHP-code and find class name occurrences
-     *
-     * @param string $contents
-     * @param array &$classes
-     * @return array
-     */
-    public static function collectPhpCodeClasses($contents, &$classes = array())
-    {
-        \Magento\TestFramework\Utility\Classes::getAllMatches($contents, '/
-            # ::getModel ::getSingleton ::getResourceModel ::getResourceSingleton
-            \:\:get(?:Resource)?(?:Model | Singleton)\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
-
-            # addBlock createBlock getBlockSingleton
-            | (?:addBlock | createBlock | getBlockSingleton)\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
-
-            # \Mage::helper ->helper
-            | (?:Mage\:\:|\->)helper\(\s*[\'"]([^\'"]+)[\'"]\s*\)
-
-            # various methods, first argument
-            | \->(?:initReport | setDataHelperName | setEntityModelClass | _?initLayoutMessages
-                | setAttributeModel | setBackendModel | setFrontendModel | setSourceModel | setModel
-            )\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
-
-            # various methods, second argument
-            | \->add(?:ProductConfigurationHelper | OptionsRenderCfg)\(.+,\s*[\'"]([^\'"]+)[\'"]\s*[\),]
-
-            # models in install or setup
-            | [\'"](?:resource_model | attribute_model | entity_model | entity_attribute_collection
-                | source | backend | frontend | input_renderer | frontend_input_renderer
-            )[\'"]\s*=>\s*[\'"]([^\'"]+)[\'"]
-
-            # misc
-            | function\s_getCollectionClass\(\)\s+{\s+return\s+[\'"]([a-z\d_\/]+)[\'"]
-            | (?:_parentResourceModelName | _checkoutType | _apiType)\s*=\s*\'([a-z\d_\/]+)\'
-            | \'renderer\'\s*=>\s*\'([a-z\d_\/]+)\'
-            | protected\s+\$_(?:form|info|backendForm|iframe)BlockType\s*=\s*[\'"]([^\'"]+)[\'"]
-
-            /Uix',
-            $classes
-        );
-
-        // check ->_init | parent::_init
-        $skipForInit = implode('|',
-            array(
-                'id', '[\w\d_]+_id', 'pk', 'code', 'status', 'serial_number',
-                'entity_pk_value', 'currency_code', 'unique_key',
-            )
-        );
-        \Magento\TestFramework\Utility\Classes::getAllMatches($contents, '/
-            (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*\)
-            | (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*,\s*[\'"]((?!(' . $skipForInit . '))[^\'"]+)[\'"]\s*\)
-            /Uix',
-            $classes
-        );
-        return $classes;
-    }
-
-    /**
      * @param string $path
      * @dataProvider configFileDataProvider
      */
@@ -101,10 +43,10 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         $xml = simplexml_load_file($path);
 
         $classes = \Magento\TestFramework\Utility\Classes::collectClassesInConfig($xml);
-        $this->_assertNonFactoryName($classes);
+        $this->_assertNonFactoryName($classes, $path);
 
         $modules = \Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml, '//@module', 'module');
-        $this->_assertNonFactoryName(array_unique($modules));
+        $this->_assertNonFactoryName(array_unique($modules), $path, false, true);
     }
 
     /**
@@ -112,7 +54,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return \Magento\TestFramework\Utility\Files::init()->getMainConfigFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles();
     }
 
     /**
@@ -130,11 +72,11 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         $classes =
             array_merge($classes, \Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml,
                     '/layout//@module', 'module'));
-        $this->_assertNonFactoryName(array_unique($classes));
+        $this->_assertNonFactoryName(array_unique($classes), $path);
 
         $tabs =
             \Magento\TestFramework\Utility\Classes::getXmlNodeValues($xml, '/layout//action[@method="addTab"]/block');
-        $this->_assertNonFactoryName(array_unique($tabs), true);
+        $this->_assertNonFactoryName(array_unique($tabs), $path, true);
     }
 
     /**
@@ -154,7 +96,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
      * @param bool $softComparison
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _assertNonFactoryName($names, $softComparison = false)
+    protected function _assertNonFactoryName($names, $file, $softComparison = false, $moduleBlock = false)
     {
         if (!$names) {
             return;
@@ -164,16 +106,22 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
             try {
                 if ($softComparison) {
                     $this->assertNotRegExp('/\//', $name);
-                } else {
+                } elseif ($moduleBlock) {
                     $this->assertFalse(false === strpos($name, '_'));
                     $this->assertRegExp('/^([A-Z][A-Za-z\d_]+)+$/', $name);
+                } else {
+                    if (strpos($name, 'Magento') === false) {
+                        continue;
+                    }
+                    $this->assertFalse(false === strpos($name, '\\'));
+                    $this->assertRegExp('/^([A-Z\\\\][A-Za-z\d\\\\]+)+$/', $name);
                 }
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            } catch (\PHPUnit_Framework_AssertionFailedError $e) {
                 $factoryNames[] = $name;
             }
         }
         if ($factoryNames) {
-            $this->fail('Obsolete factory name(s) detected:' . "\n" . implode("\n", $factoryNames));
+            $this->fail("Obsolete factory name(s) detected in $file:" . "\n" . implode("\n", $factoryNames));
         }
     }
 }
