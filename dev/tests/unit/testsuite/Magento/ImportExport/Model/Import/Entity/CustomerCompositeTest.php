@@ -9,6 +9,11 @@
  * @license     {license_link}
  */
 
+/**
+ * Customer composite test
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUnit_Framework_TestCase
 {
     /**

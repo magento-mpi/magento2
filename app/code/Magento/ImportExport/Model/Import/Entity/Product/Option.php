@@ -287,6 +287,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_ImportExport_Model_Resource_Import_Data $importData,
