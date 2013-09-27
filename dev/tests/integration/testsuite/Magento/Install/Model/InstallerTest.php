@@ -125,6 +125,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
      */
     public function testInstallEncryptionKeySizeViolation()
     {
+        $this->markTestIncomplete('MAGETWO-13717');
         // isolate the application from the configuration pollution, if the test fails
         $this->_emulateInstallerConfigDir(self::$_tmpDir);
 
@@ -147,6 +148,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetValidEncryptionKeySizeViolation()
     {
+        $this->markTestIncomplete('MAGETWO-13717');
         $this->_model->getValidEncryptionKey(str_repeat('1', 57));
     }
 
