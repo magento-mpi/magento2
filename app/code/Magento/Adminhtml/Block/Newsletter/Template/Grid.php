@@ -18,6 +18,12 @@
 class Magento_Adminhtml_Block_Newsletter_Template_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
+     * @var Magento_Newsletter_Model_Resource_Template_Collection
+     */
+    protected $_templateCollection;
+
+    /**
+     * @param Magento_Newsletter_Model_Resource_Template_Collection $templateCollection
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -25,22 +31,21 @@ class Magento_Adminhtml_Block_Newsletter_Template_Grid extends Magento_Backend_B
      * @param array $data
      */
     public function __construct(
+        Magento_Newsletter_Model_Resource_Template_Collection $templateCollection,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
+        $this->_templateCollection = $templateCollection;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->setEmptyText(__('No Templates Found'));
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceSingleton('Magento_Newsletter_Model_Resource_Template_Collection')
-            ->useOnlyActual();
-
-        $this->setCollection($collection);
+        $this->setCollection($this->_templateCollection->useOnlyActual());
 
         return parent::_prepareCollection();
     }
@@ -131,6 +136,5 @@ class Magento_Adminhtml_Block_Newsletter_Template_Grid extends Magento_Backend_B
     {
         return $this->getUrl('*/*/edit', array('id'=>$row->getId()));
     }
-
 }
 

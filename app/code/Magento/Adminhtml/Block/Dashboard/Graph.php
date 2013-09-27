@@ -104,18 +104,20 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
 
     /**
      * @param Magento_Adminhtml_Helper_Dashboard_Data $dashboardData
+     * @param Magento_Reports_Model_Resource_Order_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Adminhtml_Helper_Dashboard_Data $dashboardData,
+        Magento_Reports_Model_Resource_Order_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_dashboardData = $dashboardData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($collectionFactory, $coreData, $context, $data);
     }
 
     /**
@@ -197,10 +199,11 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
-        $timezoneLocal = Mage::app()->getStore()
-            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        $timezoneLocal = $this->_storeConfig->getConfig(
+            Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE
+        );
 
-        list ($dateStart, $dateEnd) = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')
+        list ($dateStart, $dateEnd) = $this->_collectionFactory->create()
             ->getDateRange($this->getDataHelper()->getParam('period'), '', '', true);
 
         $dateStart->setTimezone($timezoneLocal);
@@ -384,7 +387,7 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
                                     break;
                                 case '1y':
                                 case '2y':
-                                    $formats = Mage::app()->getLocale()->getTranslationList('datetime');
+                                    $formats = $this->_locale->getTranslationList('datetime');
                                     $format = isset($formats['yyMM']) ? $formats['yyMM'] : 'MM/yyyy';
                                     $format = str_replace(array("yyyy", "yy", "MM"), array("Y", "y", "m"), $format);
                                     $this->_axisLabels[$idx][$_index] = date($format, strtotime($_label));

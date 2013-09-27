@@ -178,7 +178,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
     protected function _initCustomer()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer = $this->_objectManager->create('Magento_Customer_Model_Customer');
 
         if ($customerId) {
             $customer->load($customerId);
@@ -195,9 +195,9 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
      */
     protected function _initProfile()
     {
-        $profile = Mage::getModel('Magento_Sales_Model_Recurring_Profile')->load($this->getRequest()->getParam('profile'));
+        $profile = $this->_objectManager->create('Magento_Sales_Model_Recurring_Profile')->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
-            Mage::throwException(__('The profile you specified does not exist.'));
+            throw new Magento_Core_Exception(__('The profile you specified does not exist.'));
         }
         $this->_coreRegistry->register('current_recurring_profile', $profile);
         return $profile;

@@ -116,7 +116,7 @@ class Magento_TestFramework_Application
 
         $generationDir = "$installDir/generation";
         $this->_initParams = array(
-            Mage::PARAM_APP_DIRS => array(
+            Magento_Core_Model_App::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
                 Magento_Core_Model_Dir::VAR_DIR     => $installDir,
                 Magento_Core_Model_Dir::MEDIA       => "$installDir/media",
@@ -124,7 +124,7 @@ class Magento_TestFramework_Application
                 Magento_Core_Model_Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
                 Magento_Core_Model_Dir::GENERATION => $generationDir,
             ),
-            Mage::PARAM_MODE => $appMode
+            Magento_Core_Model_App::PARAM_MODE => $appMode
         );
     }
 
@@ -173,8 +173,8 @@ class Magento_TestFramework_Application
      */
     public function initialize($overriddenParams = array())
     {
-        $overriddenParams[Mage::PARAM_BASEDIR] = BP;
-        $overriddenParams[Mage::PARAM_MODE] = $this->_appMode;
+        $overriddenParams['base_dir'] = BP;
+        $overriddenParams[Magento_Core_Model_App::PARAM_MODE] = $this->_appMode;
         Mage::$headersSentThrowsException = false;
         $config = new Magento_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Magento_TestFramework_Helper_Bootstrap::getObjectManager()) {

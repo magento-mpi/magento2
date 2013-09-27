@@ -91,7 +91,7 @@ class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_Tes
     public function testLayoutDirective($area, $directiveParams, $expectedOutput)
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_DIRS => array(
+            Magento_Core_Model_App::PARAM_APP_DIRS => array(
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));

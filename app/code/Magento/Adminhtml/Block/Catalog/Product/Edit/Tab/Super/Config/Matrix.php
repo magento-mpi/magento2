@@ -33,6 +33,24 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Catalog_Model_Product_Type_Configurable
+     */
+    protected $_configurableType;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Type_Configurable $configurableType
+     * @param Magento_Catalog_Model_Config $config
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_App $application
@@ -41,6 +59,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Product_Type_Configurable $configurableType,
+        Magento_Catalog_Model_Config $config,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_App $application,
@@ -48,6 +69,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_configurableType = $configurableType;
+        $this->_productFactory = $productFactory;
+        $this->_config = $config;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $data);
         $this->_application = $application;
@@ -63,16 +87,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     public function renderPrice($price)
     {
         return $this->_locale->currency($this->_application->getBaseCurrencyCode())->toCurrency(sprintf('%f', $price));
-    }
-
-    /**
-     * Get configurable product type
-     *
-     * @return Magento_Catalog_Model_Product_Type_Configurable
-     */
-    protected function _getProductType()
-    {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Type_Configurable');
     }
 
     /**
@@ -167,7 +181,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     public function getAttributes()
     {
         if (!$this->hasData('attributes')) {
-            $attributes = (array)$this->_getProductType()->getConfigurableAttributesAsArray($this->getProduct());
+            $attributes = (array)$this->_configurableType->getConfigurableAttributesAsArray($this->getProduct());
             $productData = (array)$this->getRequest()->getParam('product');
             if (isset($productData['configurable_attributes_data'])) {
                 $configurableData = $productData['configurable_attributes_data'];
@@ -194,7 +208,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      */
     public function getUsedAttributes()
     {
-        return $this->_getProductType()->getUsedProductAttributes($this->getProduct());
+        return $this->_configurableType->getUsedProductAttributes($this->getProduct());
     }
 
     /**
@@ -227,12 +241,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
         $product = $this->getProduct();
         $ids = $this->getProduct()->getAssociatedProductIds();
         if ($ids === null) { // form data overrides any relations stored in database
-            return $this->_getProductType()->getUsedProducts($product);
+            return $this->_configurableType->getUsedProducts($product);
         }
         $products = array();
         foreach ($ids as $productId) {
             /** @var $product Magento_Catalog_Model_Product */
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+            $product = $this->_productFactory->create()->load($productId);
             if ($product->getId()) {
                 $products[] = $product;
             }
@@ -248,10 +262,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      */
     public function getAttributeFrontendClass($code)
     {
-        /** @var $config Magento_Catalog_Model_Config */
-        $config = Mage::getSingleton('Magento_Catalog_Model_Config');
         /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = $config->getAttribute(Magento_Catalog_Model_Product::ENTITY, $code);
+        $attribute = $this->_config->getAttribute(Magento_Catalog_Model_Product::ENTITY, $code);
         return $attribute instanceof Magento_Eav_Model_Entity_Attribute_Abstract
             ? $attribute->getFrontend()->getClass()
             : '';

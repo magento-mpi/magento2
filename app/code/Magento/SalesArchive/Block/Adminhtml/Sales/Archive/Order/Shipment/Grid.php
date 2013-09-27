@@ -24,6 +24,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
     protected $_coreUrl = null;
 
     /**
+     * @param Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -32,6 +33,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory,
         Magento_Core_Helper_Url $coreUrl,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -40,7 +42,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $data);
     }
 
     public function _construct()

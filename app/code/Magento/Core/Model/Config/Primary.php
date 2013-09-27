@@ -60,8 +60,8 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
         $this->_params = $params;
         $this->_dir = $dir ?: new Magento_Core_Model_Dir(
             $baseDir,
-            $this->getParam(Mage::PARAM_APP_URIS, array()),
-            $this->getParam(Mage::PARAM_APP_DIRS, array())
+            $this->getParam(Magento_Core_Model_App::PARAM_APP_URIS, array()),
+            $this->getParam(Magento_Core_Model_App::PARAM_APP_DIRS, array())
         );
         Magento_Autoload_IncludePath::addIncludePath(array(
             $this->_dir->getDir(Magento_Core_Model_Dir::GENERATION)
@@ -70,8 +70,8 @@ class Magento_Core_Model_Config_Primary extends Magento_Core_Model_Config_Base
         $this->_loader = $loader ?: new Magento_Core_Model_Config_Loader_Primary(
             new Magento_Core_Model_Config_Loader_Local(
                 $this->_dir->getDir(Magento_Core_Model_Dir::CONFIG),
-                $this->getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG),
-                $this->getParam(Mage::PARAM_CUSTOM_LOCAL_FILE)
+                $this->getParam(Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_CONFIG),
+                $this->getParam(Magento_Core_Model_App::PARAM_CUSTOM_LOCAL_FILE)
             ),
             $this->_dir->getDir(Magento_Core_Model_Dir::CONFIG)
         );

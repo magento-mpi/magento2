@@ -9,8 +9,8 @@
  */
 
 class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
- extends Magento_Adminhtml_Block_Widget
- implements Magento_Adminhtml_Block_Widget_Tab_Interface
+ extends Magento_Backend_Block_Widget
+ implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * @var Magento_Core_Model_StoreManager
@@ -27,6 +27,14 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     protected $_coreRegistry = null;
 
     /**
+     * Email config options factory
+     *
+     * @var Magento_Backend_Model_Config_Source_Email_TemplateFactory
+     */
+    protected $_templateOptions;
+
+    /**
+     * @param Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateOptions
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
@@ -34,12 +42,14 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateOptions,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_templateOptions = $templateOptions;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
@@ -145,7 +155,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     public function getEmailTemplates()
     {
         $result = array();
-        $template = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template');
+        $template = $this->_templateOptions->create();
         $template->setPath(Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE);
         foreach ($template->toOptionArray() as $one) {
             $result[$one['value']] = $this->escapeHtml($one['label']);

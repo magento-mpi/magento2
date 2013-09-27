@@ -31,6 +31,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Magento_Adminh
     protected $_dataCollectionFactory;
 
     /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
      * @param Magento_Data_CollectionFactory $dataCollectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -40,6 +46,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Magento_Adminh
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
         Magento_Data_CollectionFactory $dataCollectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -50,6 +57,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Magento_Adminh
     ) {
         $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_quoteFactory = $quoteFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -66,10 +74,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Magento_Adminh
 
     protected function _prepareCollection()
     {
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        $quote = $this->_quoteFactory->create();
         // set website to quote, if any
         if ($this->getWebsiteId()) {
-            $quote->setWebsite(Mage::app()->getWebsite($this->getWebsiteId()));
+            $quote->setWebsite($this->_storeManager->getWebsite($this->getWebsiteId()));
         }
         $quote->loadByCustomer($this->_coreRegistry->registry('current_customer'));
 

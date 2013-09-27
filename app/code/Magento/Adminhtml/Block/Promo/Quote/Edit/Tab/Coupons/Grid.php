@@ -26,6 +26,12 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_SalesRule_Model_Resource_Coupon_CollectionFactory
+     */
+    protected $_salesRuleCoupon;
+
+    /**
+     * @param Magento_SalesRule_Model_Resource_Coupon_CollectionFactory $salesRuleCoupon
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -34,6 +40,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
      * @param array $data
      */
     public function __construct(
+        Magento_SalesRule_Model_Resource_Coupon_CollectionFactory $salesRuleCoupon,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -42,6 +49,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_salesRuleCoupon = $salesRuleCoupon;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -67,7 +75,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
         /**
          * @var Magento_SalesRule_Model_Resource_Coupon_Collection $collection
          */
-        $collection = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon_Collection')
+        $collection = $this->_salesRuleCoupon->create()
             ->addRuleToFilter($priceRule)
             ->addGeneratedCouponsFilter();
 
@@ -107,7 +115,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
             ),
             'renderer' => 'Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid_Column_Renderer_Used',
             'filter_condition_callback' => array(
-                Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon_Collection'), 'addIsUsedFilterCallback'
+                $this->_salesRuleCoupon->create(), 'addIsUsedFilterCallback'
             )
         ));
 

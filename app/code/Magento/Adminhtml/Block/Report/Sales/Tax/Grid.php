@@ -19,6 +19,39 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
 {
     protected $_columnGroupBy = 'period';
 
+    /**
+     * @var Magento_Sales_Model_Order_ConfigFactory
+     */
+    protected $_configFactory;
+
+    /**
+     * @param Magento_Sales_Model_Order_ConfigFactory $configFactory
+     * @param Magento_Sales_Model_Resource_Order_Collection_Factory $resourceFactory
+     * @param Magento_Reports_Model_Grouped_CollectionFactory $collectionFactory
+     * @param Magento_Reports_Helper_Data $reportsData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Sales_Model_Order_ConfigFactory $configFactory,
+        Magento_Sales_Model_Resource_Order_Collection_Factory $resourceFactory,
+        Magento_Reports_Model_Grouped_CollectionFactory $collectionFactory,
+        Magento_Reports_Helper_Data $reportsData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_configFactory = $configFactory;
+        parent::__construct(
+            $resourceFactory, $collectionFactory, $reportsData, $coreData, $context, $storeManager, $urlModel, $data
+        );
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -103,13 +136,13 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
      * Preparing collection
      * Filter canceled statuses for orders in taxes
      *
-     *@return Magento_Adminhtml_Block_Report_Sales_Tax_Grid
+     * @return Magento_Adminhtml_Block_Report_Sales_Tax_Grid
      */
     protected function _prepareCollection()
     {
         $filterData = $this->getFilterData();
-        if(!$filterData->hasData('order_statuses')) {
-            $orderConfig = Mage::getModel('Magento_Sales_Model_Order_Config');
+        if (!$filterData->hasData('order_statuses')) {
+            $orderConfig = $this->_configFactory->create();
             $statusValues = array();
             $canceledStatuses = $orderConfig->getStateStatuses(Magento_Sales_Model_Order::STATE_CANCELED);
             foreach ($orderConfig->getStatuses() as $code => $label) {

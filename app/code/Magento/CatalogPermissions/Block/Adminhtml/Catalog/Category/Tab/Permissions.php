@@ -54,6 +54,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
      * @param Magento_CatalogPermissions_Model_Resource_Permission_CollectionFactory $permissionCollFactory
      * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
+     * @param Magento_Catalog_Model_Resource_Category_Tree $categoryTree
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -65,6 +66,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
         Magento_CatalogPermissions_Model_Resource_Permission_CollectionFactory $permissionCollFactory,
         Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory,
         Magento_CatalogPermissions_Helper_Data $catalogPermData,
+        Magento_Catalog_Model_Resource_Category_Tree $categoryTree,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -75,7 +77,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
         $this->_permissionCollFactory = $permissionCollFactory;
         $this->_groupCollFactory = $groupCollFactory;
         $this->_catalogPermData = $catalogPermData;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($categoryTree, $coreData, $context, $registry, $data);
     }
 
     /**

@@ -20,6 +20,45 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     */
+    protected $_customerGroup;
+
+    /**
+     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $customerGroup
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Model_Resource_Group_CollectionFactory $customerGroup,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_storeManager = $context->getStoreManager();
+        $this->_systemStore = $systemStore;
+        $this->_customerGroup = $customerGroup;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare content for tab
      *
      * @return string
@@ -102,8 +141,8 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             ),
         ));
 
-        if (Mage::app()->isSingleStoreMode()) {
-            $websiteId = Mage::app()->getStore(true)->getWebsiteId();
+        if ($this->_storeManager->isSingleStoreMode()) {
+            $websiteId = $this->_storeManager->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
                 'name'     => 'website_ids[]',
                 'value'    => $websiteId
@@ -115,7 +154,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
                 'label'     => __('Websites'),
                 'title'     => __('Websites'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => $this->_systemStore->getWebsiteValuesForForm(),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
@@ -127,10 +166,10 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'label'     => __('Customer Groups'),
             'title'     => __('Customer Groups'),
             'required'  => true,
-            'values'    => Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')->toOptionArray()
+            'values'    => $this->_customerGroup->create()->toOptionArray()
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),

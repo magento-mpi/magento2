@@ -99,7 +99,7 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
 
         $template = $this->_initTemplate('id');
         if (!$template->getId() && $id) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->addError(__('This email template no longer exists.'));
             $this->_redirect('*/*/');
             return;
@@ -110,7 +110,7 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
                 ->setTemplateCode($request->getParam('template_code'))
                 ->setTemplateText($request->getParam('template_text'))
                 ->setTemplateStyles($request->getParam('template_styles'))
-                ->setModifiedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
+                ->setModifiedAt($this->_objectManager->get('Magento_Core_Model_Date')->gmtDate())
                 ->setOrigTemplateCode($request->getParam('orig_template_code'))
                 ->setOrigTemplateVariables($request->getParam('orig_template_variables'));
 
@@ -124,14 +124,14 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
             }
 
             $template->save();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setFormData(false);
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->addSuccess(__('The email template has been saved.'));
             $this->_redirect('*/*');
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                 ->setData('email_template_form_data', $request->getParams());
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_forward('new');
         }
 
@@ -144,7 +144,7 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
             try {
                 $template->delete();
                  // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                     ->addSuccess(__('The email template has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
@@ -155,7 +155,7 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
                 $this->_getSession()->addError(__('An error occurred while deleting email template data. Please review log and try again.'));
                 $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 // save data in session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
                     ->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
                 $this->_redirect('*/*/edit', array('id' => $template->getId()));
@@ -163,7 +163,7 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
             }
         }
         // display error message
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')
+        $this->_objectManager->get('Magento_Adminhtml_Model_Session')
             ->addError(__('We can\'t find an email template to delete.'));
         // go to grid
         $this->_redirect('*/*/');
@@ -210,7 +210,7 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
         $this->_title(__('Email Templates'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
-        $model = Mage::getModel('Magento_Adminhtml_Model_Email_Template');
+        $model = $this->_objectManager->create('Magento_Adminhtml_Model_Email_Template');
         if ($id) {
             $model->load($id);
         }

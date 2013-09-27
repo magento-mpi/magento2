@@ -20,6 +20,31 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
     extends Magento_Adminhtml_Block_Catalog_Form
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -52,7 +77,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
          * Initialize product object as form property
          * for using it in elements generation
          */
-        $form->setDataObject(Mage::getModel('Magento_Catalog_Model_Product'));
+        $form->setDataObject($this->_productFactory->create());
         $this->_setFieldset($attributes, $fieldset, $this->getFormExcludedFieldList());
         $form->setFieldNameSuffix('attributes');
         $this->setForm($form);

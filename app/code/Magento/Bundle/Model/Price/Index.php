@@ -12,7 +12,6 @@
 /**
  * Bundle Product Price Index
  *
- * @method Magento_Bundle_Model_Resource_Price_Index _getResource()
  * @method Magento_Bundle_Model_Resource_Price_Index getResource()
  * @method Magento_Bundle_Model_Price_Index setEntityId(int $value)
  * @method int getWebsiteId()
@@ -30,6 +29,39 @@
  */
 class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
 {
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
+    }
+
     /**
      * Initialize resource model
      *
@@ -91,10 +123,9 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
                 $productObjects[$product->getEntityId()] = $product;
             }
         }
-        $websiteId  = Mage::app()->getStore($collection->getStoreId())
+        $websiteId  = $this->_storeManager->getStore($collection->getStoreId())
             ->getWebsiteId();
-        $groupId    = Mage::getSingleton('Magento_Customer_Model_Session')
-            ->getCustomerGroupId();
+        $groupId    = $this->_customerSession->getCustomerGroupId();
 
         $addOptionsToResult = false;
         $prices = $this->_getResource()->loadPriceIndex($productIds, $websiteId, $groupId);
@@ -125,8 +156,7 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     public function addPriceIndexToProduct($product)
     {
         $websiteId  = $product->getStore()->getWebsiteId();
-        $groupId    = Mage::getSingleton('Magento_Customer_Model_Session')
-            ->getCustomerGroupId();
+        $groupId    = $this->_customerSession->getCustomerGroupId();
         $prices = $this->_getResource()
             ->loadPriceIndex($product->getId(), $websiteId, $groupId);
         if (isset($prices[$product->getId()])) {

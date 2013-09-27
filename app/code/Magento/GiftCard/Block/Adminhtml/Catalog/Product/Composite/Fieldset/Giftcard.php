@@ -12,33 +12,6 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftca
     extends Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard
 {
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        array $data = array()
-    ) {
-        parent::__construct($registry, $taxData, $catalogData, $coreData, $context, $data);
-        $this->_storeManager = $storeManager;
-    }
-
-    /**
      * Checks whether block is last fieldset in popup
      *
      * @return bool

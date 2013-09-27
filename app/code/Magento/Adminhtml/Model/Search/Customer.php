@@ -25,16 +25,19 @@ class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
     protected $_adminhtmlData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
+     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $collectionFactory
      * @param Magento_Adminhtml_Helper_Data $adminhtmlData
      */
     public function __construct(
+        Magento_Customer_Model_Resource_Customer_CollectionFactory $collectionFactory,
         Magento_Adminhtml_Helper_Data $adminhtmlData
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_adminhtmlData = $adminhtmlData;
     }
 
@@ -51,7 +54,7 @@ class Magento_Adminhtml_Model_Search_Customer extends Magento_Object
             return $this;
         }
 
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
+        $collection = $this->_collectionFactory->create()
             ->addNameToSelect()
             ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left')
             ->addAttributeToFilter(array(

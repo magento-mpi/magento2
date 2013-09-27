@@ -30,20 +30,22 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Magent
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $orderCreate
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Adminhtml_Model_Sales_Order_Create $orderCreate,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($sessionQuote, $orderCreate, $coreData, $context, $data);
         $this->_coreConfig = $coreConfig;
     }
 

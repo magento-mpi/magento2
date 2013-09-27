@@ -17,7 +17,50 @@
  */
 class Magento_Adminhtml_Block_Page_Head extends Magento_Page_Block_Html_Head
 {
+    /**
+     * @var string
+     */
     protected $_template = 'page/head.phtml';
+
+    /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @param Magento_Core_Model_Session $session
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDatabase
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Core_Model_Page $page
+     * @param Magento_Core_Model_Page_Asset_MergeService $assetMergeService
+     * @param Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Session $session,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDatabase,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_ObjectManager $objectManager,
+        Magento_Core_Model_Page $page,
+        Magento_Core_Model_Page_Asset_MergeService $assetMergeService,
+        Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService,
+        array $data = array()
+    ) {
+        $this->_session = $session;
+        parent::__construct(
+            $locale, $dir, $storeManager, $fileStorageDatabase, $coreData, $context, $objectManager, $page,
+            $assetMergeService, $assetMinifyService, $data
+        );
+    }
 
     /**
      * Retrieve Session Form Key
@@ -26,6 +69,6 @@ class Magento_Adminhtml_Block_Page_Head extends Magento_Page_Block_Html_Head
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('Magento_Core_Model_Session')->getFormKey();
+        return $this->_session->getFormKey();
     }
 }

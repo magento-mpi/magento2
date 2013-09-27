@@ -32,6 +32,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Sales_Model_Resource_Order_Grid_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $collectionFactory
      * @param Magento_Sales_Helper_Reorder $salesReorder
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -41,6 +47,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $collectionFactory,
         Magento_Sales_Helper_Reorder $salesReorder,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -51,6 +58,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_salesReorder = $salesReorder;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -64,7 +72,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
+        $collection = $this->_collectionFactory->create()
             ->addFieldToSelect('entity_id')
             ->addFieldToSelect('increment_id')
             ->addFieldToSelect('customer_id')
@@ -112,7 +120,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
             'currency'  => 'order_currency_code',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'    => __('Purchase Point'),
                 'index'     => 'store_id',

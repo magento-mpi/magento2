@@ -54,7 +54,7 @@ class Magento_Adminhtml_Controller_Catalog_Category_Widget extends Magento_Admin
         $categoryId = (int)$this->getRequest()->getPost('id');
         if ($categoryId) {
 
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = $this->_objectManager->create('Magento_Catalog_Model_Category')->load($categoryId);
             if ($category->getId()) {
                 $this->_coreRegistry->register('category', $category);
                 $this->_coreRegistry->register('current_category', $category);

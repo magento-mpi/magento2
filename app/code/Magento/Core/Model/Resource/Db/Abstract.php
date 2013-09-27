@@ -138,9 +138,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
     public function __sleep()
     {
         $properties = array_keys(get_object_vars($this));
-        if (Mage::getIsSerializable()) {
-            $properties = array_diff($properties, array('_resources', '_connections'));
-        }
+        $properties = array_diff($properties, array('_resources', '_connections'));
         return $properties;
     }
 
@@ -149,9 +147,7 @@ abstract class Magento_Core_Model_Resource_Db_Abstract extends Magento_Core_Mode
      */
     public function __wakeup()
     {
-        if (Mage::getIsSerializable()) {
-            $this->_resources = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Resource');
-        }
+        $this->_resources = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Resource');
     }
 
     /**

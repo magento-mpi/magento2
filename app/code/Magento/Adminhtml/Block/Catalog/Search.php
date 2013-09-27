@@ -25,6 +25,5 @@ class Magento_Adminhtml_Block_Catalog_Search extends Magento_Adminhtml_Block_Wid
         $this->_headerText = __('Search');
         $this->_addButtonLabel = __('Add New Search Term');
         parent::_construct();
-
     }
 }
