@@ -35,16 +35,28 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
     /**
      * @param Magento_Cms_Model_Page_UrlrewriteFactory $urlRewriteFactory
      * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param Magento_Core_Model_Source_Urlrewrite_TypesFactory $typesFactory
+     * @param Magento_Core_Model_Source_Urlrewrite_OptionsFactory $optionFactory
+     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Backend_Model_Session $backendSession
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Cms_Model_Page_UrlrewriteFactory $urlRewriteFactory,
         Magento_Cms_Model_PageFactory $pageFactory,
+        Magento_Core_Model_Source_Urlrewrite_TypesFactory $typesFactory,
+        Magento_Core_Model_Source_Urlrewrite_OptionsFactory $optionFactory,
+        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Backend_Model_Session $backendSession,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
@@ -54,7 +66,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
     ) {
         $this->_urlRewriteFactory = $urlRewriteFactory;
         $this->_pageFactory = $pageFactory;
-        parent::__construct($adminhtmlData, $registry, $formFactory, $coreData, $context, $data);
+        parent::__construct(
+            $typesFactory, $optionFactory, $rewriteFactory, $systemStore, $backendSession, $adminhtmlData, $registry,
+            $formFactory, $coreData, $context, $data
+        );
     }
 
     /**

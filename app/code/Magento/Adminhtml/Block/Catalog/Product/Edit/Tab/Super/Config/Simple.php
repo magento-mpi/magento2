@@ -32,6 +32,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
 
     /**
      * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
@@ -41,6 +42,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
      */
     public function __construct(
         Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Magento_Data_Form_Factory $formFactory,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
@@ -49,7 +51,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
-        parent::__construct($formFactory, $catalogData, $coreData, $context, $registry, $data);
+        parent::__construct($wysiwygConfig, $formFactory, $catalogData, $coreData, $context, $registry, $data);
     }
 
     protected function _prepareForm()

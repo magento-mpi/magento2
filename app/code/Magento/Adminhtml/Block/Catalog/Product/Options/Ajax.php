@@ -52,6 +52,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backe
     ) {
         $this->_coreRegistry = $registry;
         $this->_coreData = $coreData;
+        $this->_productFactory = $productFactory;
         parent::__construct($context, $data);
     }
 

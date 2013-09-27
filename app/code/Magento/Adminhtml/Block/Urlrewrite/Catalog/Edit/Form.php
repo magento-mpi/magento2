@@ -43,17 +43,29 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
      * @param Magento_Catalog_Model_Url $catalogUrl
+     * @param Magento_Core_Model_Source_Urlrewrite_TypesFactory $typesFactory
+     * @param Magento_Core_Model_Source_Urlrewrite_OptionsFactory $optionFactory
+     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Backend_Model_Session $backendSession
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
         Magento_Catalog_Model_Url $catalogUrl,
+        Magento_Core_Model_Source_Urlrewrite_TypesFactory $typesFactory,
+        Magento_Core_Model_Source_Urlrewrite_OptionsFactory $optionFactory,
+        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Backend_Model_Session $backendSession,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
@@ -64,7 +76,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
         $this->_productFactory = $productFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_catalogUrl = $catalogUrl;
-        parent::__construct($adminhtmlData, $registry, $formFactory, $coreData, $context, $data);
+        parent::__construct(
+            $typesFactory, $optionFactory, $rewriteFactory, $systemStore, $backendSession, $adminhtmlData, $registry,
+            $formFactory, $coreData, $context, $data
+        );
     }
 
     /**

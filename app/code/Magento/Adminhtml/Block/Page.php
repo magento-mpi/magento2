@@ -49,10 +49,10 @@ class Magento_Adminhtml_Block_Page extends Magento_Backend_Block_Template
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
         $this->_locale = $context->getLocale();
         $this->_application = $application;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
