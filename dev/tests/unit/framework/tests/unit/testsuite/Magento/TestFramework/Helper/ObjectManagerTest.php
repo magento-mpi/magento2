@@ -82,7 +82,7 @@ class Magento_TestFramework_Helper_ObjectManagerTest extends PHPUnit_Framework_T
         /** @var $resourceMock Magento_Core_Model_Resource_Resource */
         $resourceMock = $this->getMock(
             'Magento_Core_Model_Resource_Resource',
-            array('_getReadAdapter', 'getIdFieldName'),
+            array('_getReadAdapter', 'getIdFieldName', '__sleep', '__wakeup'),
             array(),
             '',
             false

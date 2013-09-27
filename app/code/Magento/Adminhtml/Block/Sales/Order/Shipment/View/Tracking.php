@@ -25,17 +25,25 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Magento
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Shipping_Model_Config
+     */
+    protected $_shippingConfig;
+
+    /**
+     * @param Magento_Shipping_Model_Config $shippingConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Shipping_Model_Config $shippingConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_shippingConfig = $shippingConfig;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -119,7 +127,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Magento
     public function getCarriers()
     {
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('Magento_Shipping_Model_Config')->getAllCarriers(
+        $carrierInstances = $this->_shippingConfig->getAllCarriers(
             $this->getShipment()->getStoreId()
         );
         $carriers['custom'] = __('Custom Value');
@@ -133,7 +141,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Magento
 
     public function getCarrierTitle($code)
     {
-        $carrier = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($code);
+        $carrier = $this->_shippingConfig->getCarrierInstance($code);
         if ($carrier) {
             return $carrier->getConfigData('title');
         } else {

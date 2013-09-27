@@ -21,6 +21,30 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
     protected $_storeManager;
 
     /**
+     * System store
+     *
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * Session
+     *
+     * @var Magento_Core_Model_Session_Abstract
+     */
+    protected $_session;
+
+    /**
+     * Option factory
+     *
+     * @var Magento_Rating_Model_Rating_OptionFactory
+     */
+    protected $_optionFactory;
+
+    /**
+     * @param Magento_Rating_Model_Rating_OptionFactory $optionFactory
+     * @param Magento_Core_Model_Session_Abstract $session
+     * @param Magento_Core_Model_System_Store $systemStore
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -29,6 +53,9 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
      * @param array $data
      */
     public function __construct(
+        Magento_Rating_Model_Rating_OptionFactory $optionFactory,
+        Magento_Core_Model_Session_Abstract $session,
+        Magento_Core_Model_System_Store $systemStore,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -36,6 +63,9 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_optionFactory = $optionFactory;
+        $this->_session = $session;
+        $this->_systemStore = $systemStore;
         $this->_storeManager = $storeManager;
         parent::__construct($coreRegistry, $formFactory, $coreData, $context, $data);
     }
@@ -63,20 +93,20 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
             'required' => true,
         ));
 
-        foreach (Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreCollection() as $store) {
+        foreach ($this->_systemStore->getStoreCollection() as $store) {
             $fieldset->addField('rating_code_' . $store->getId(), 'text', array(
                 'label' => $store->getName(),
                 'name' => 'rating_codes[' . $store->getId() . ']',
             ));
         }
 
-        if (Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRatingData()) {
-            $form->setValues(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRatingData());
-            $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRatingData();
+        if ($this->_session->getRatingData()) {
+            $form->setValues($this->_session->getRatingData());
+            $data = $this->_session->getRatingData();
             if (isset($data['rating_codes'])) {
                $this->_setRatingCodes($data['rating_codes']);
             }
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setRatingData(null);
+            $this->_session->setRatingData(null);
         } elseif ($this->_coreRegistry->registry('rating_data')) {
             $form->setValues($this->_coreRegistry->registry('rating_data')->getData());
             if ($this->_coreRegistry->registry('rating_data')->getRatingCodes()) {
@@ -85,7 +115,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
         }
 
         if ($this->_coreRegistry->registry('rating_data')) {
-            $collection = Mage::getModel('Magento_Rating_Model_Rating_Option')
+            $collection = $this->_optionFactory->create()
                 ->getResourceCollection()
                 ->addRatingFilter($this->_coreRegistry->registry('rating_data')->getId())
                 ->load();
@@ -117,7 +147,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
             $field = $fieldset->addField('stores', 'multiselect', array(
                 'label' => __('Visible In'),
                 'name' => 'stores[]',
-                'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values' => $this->_systemStore->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);

@@ -28,17 +28,25 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Sales_Model_Order_Shipment_ItemFactory
+     */
+    protected $_shipmentItemFactory;
+
+    /**
+     * @param Magento_Sales_Model_Order_Shipment_ItemFactory $shipmentItemFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_Order_Shipment_ItemFactory $shipmentItemFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_shipmentItemFactory = $shipmentItemFactory;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -51,7 +59,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
     public function getCollection()
     {
         if ($this->getShipment()->getId()) {
-            $collection = Mage::getModel('Magento_Sales_Model_Order_Shipment_Item')->getCollection()
+            $collection = $this->_shipmentItemFactory->create()->getCollection()
                     ->setShipmentFilter($this->getShipment()->getId());
         } else {
             $collection = $this->getShipment()->getAllItems();

@@ -206,7 +206,7 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
     public function getStorage()
     {
         if (!$this->_coreRegistry->registry('storage')) {
-            $storage = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
+            $storage = $this->_objectManager->create('Magento_Cms_Model_Wysiwyg_Images_Storage');
             $this->_coreRegistry->register('storage', $storage);
         }
         return $this->_coreRegistry->registry('storage');

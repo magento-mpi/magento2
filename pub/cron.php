@@ -16,7 +16,7 @@ umask(0);
 
 try {
     $params = array(
-        Mage::PARAM_RUN_CODE => 'admin',
+        Magento_Core_Model_App::PARAM_RUN_CODE => 'admin',
         Magento_Core_Model_Store::CUSTOM_ENTRY_POINT_PARAM => true
     );
     $config = new Magento_Core_Model_Config_Primary(BP, $params);

@@ -59,7 +59,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Magento_Ad
                 'width' => 50,
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
+                'options' => $this->_status->getOptionArray(),
         ));
         return $this;
     }

@@ -27,6 +27,18 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Sales_Model_Order_Creditmemo
+     */
+    protected $_orderCreditmemo;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Order_Collection_Factory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory
+     * @param Magento_Sales_Model_Order_Creditmemo $orderCreditmemo
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -35,6 +47,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_Resource_Order_Collection_Factory $collectionFactory,
+        Magento_Sales_Model_Order_Creditmemo $orderCreditmemo,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -43,6 +57,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_orderCreditmemo = $orderCreditmemo;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -66,7 +82,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel($this->_getCollectionClass())
+        $collection = $this->_collectionFactory->create($this->_getCollectionClass())
             ->addFieldToSelect('entity_id')
             ->addFieldToSelect('created_at')
             ->addFieldToSelect('increment_id')
@@ -111,7 +127,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
             'header'    => __('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->getStates(),
+            'options'   => $this->_orderCreditmemo->getStates(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

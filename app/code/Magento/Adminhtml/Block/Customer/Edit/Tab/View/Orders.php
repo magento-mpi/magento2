@@ -25,6 +25,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Sales_Model_Resource_Order_Grid_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -33,6 +39,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -41,6 +48,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -63,7 +71,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
+        $collection = $this->_collectionFactory->create()
             ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
             ->setIsCustomerMode(true);
         $this->setCollection($collection);
@@ -103,7 +111,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
             'currency'  => 'order_currency_code',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'    => __('Purchase Point'),
                 'index'     => 'store_id',

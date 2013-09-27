@@ -21,24 +21,24 @@ class Magento_Adminhtml_Block_Page extends Magento_Backend_Block_Template
     protected $_template = 'admin/page.phtml';
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Core_Model_App
      */
-    protected $_storeManager;
+    protected $_application;
 
     /**
+     * @param Magento_Core_Model_App $application
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_App $application,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
+        $this->_application = $application;
         parent::__construct($coreData, $context, $data);
-        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -49,7 +49,7 @@ class Magento_Adminhtml_Block_Page extends Magento_Backend_Block_Template
     {
         parent::_construct();
 
-        $action = Mage::app()->getFrontController()->getAction();
+        $action = $this->_application->getFrontController()->getAction();
         if ($action) {
             $this->addBodyClass($action->getFullActionName('-'));
         }
@@ -63,7 +63,7 @@ class Magento_Adminhtml_Block_Page extends Magento_Backend_Block_Template
     public function getLang()
     {
         if (!$this->hasData('lang')) {
-            $this->setData('lang', substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2));
+            $this->setData('lang', substr($this->_locale->getLocaleCode(), 0, 2));
         }
         return $this->getData('lang');
     }

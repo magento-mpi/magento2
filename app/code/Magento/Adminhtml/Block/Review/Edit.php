@@ -28,6 +28,12 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Review_Model_ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @param Magento_Review_Model_ReviewFactory $reviewFactory
      * @param Magento_Review_Helper_Action_Pager $reviewActionPager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -35,6 +41,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
      * @param array $data
      */
     public function __construct(
+        Magento_Review_Model_ReviewFactory $reviewFactory,
         Magento_Review_Helper_Action_Pager $reviewActionPager,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -43,6 +50,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
     ) {
         $this->_coreRegistry = $registry;
         $this->_reviewActionPager = $reviewActionPager;
+        $this->_reviewFactory = $reviewFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -158,7 +166,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
         }
 
         if ($this->getRequest()->getParam($this->_objectId)) {
-            $reviewData = Mage::getModel('Magento_Review_Model_Review')
+            $reviewData = $this->_reviewFactory->create()
                 ->load($this->getRequest()->getParam($this->_objectId));
             $this->_coreRegistry->register('review_data', $reviewData);
         }

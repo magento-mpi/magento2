@@ -36,11 +36,11 @@ class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
 
         $initParams = $object->getInitParams();
         $this->assertInternalType('array', $initParams, 'Wrong initialization parameters type');
-        $this->assertArrayHasKey(Mage::PARAM_APP_DIRS, $initParams, 'Directories are not configured');
-        $this->assertArrayHasKey(Mage::PARAM_MODE, $initParams, 'Application mode is not configured');
+        $this->assertArrayHasKey(Magento_Core_Model_App::PARAM_APP_DIRS, $initParams, 'Directories are not configured');
+        $this->assertArrayHasKey(Magento_Core_Model_App::PARAM_MODE, $initParams, 'Application mode is not configured');
         $this->assertEquals(
             Magento_Core_Model_App_State::MODE_DEVELOPER,
-            $initParams[Mage::PARAM_MODE],
+            $initParams[Magento_Core_Model_App::PARAM_MODE],
             'Wrong application mode configured'
         );
     }

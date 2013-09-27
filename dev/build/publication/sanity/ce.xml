@@ -103,7 +103,7 @@
             <path>dev/tests/functional/runtests.sh</path>
         </item>
         <item>
-            <path>app/Mage.php</path>
+            <path>app/code/Magento/Core/Model/App.php</path>
         </item>
         <item>
             <word>enterprise</word>

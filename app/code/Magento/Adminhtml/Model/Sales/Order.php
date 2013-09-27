@@ -18,13 +18,33 @@
 class Magento_Adminhtml_Model_Sales_Order
 {
     /**
-     * Retrieve adminhtml session singleton
-     *
-     * @return Magento_Adminhtml_Model_Session
+     * @var Magento_Backend_Model_Session
      */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
+    protected $_session;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory]
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Backend_Model_Session $session
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Backend_Model_Session $session
+    ) {
+        $this->_productFactory = $productFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_session = $session;
     }
 
     public function checkRelation(Magento_Sales_Model_Order $order)
@@ -32,9 +52,9 @@ class Magento_Adminhtml_Model_Sales_Order
         /**
          * Check customer existing
          */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($order->getCustomerId());
+        $customer = $this->_customerFactory->create()->load($order->getCustomerId());
         if (!$customer->getId()) {
-            $this->_getSession()->addNotice(
+            $this->_session->addNotice(
                 __(' The customer does not exist in the system anymore.')
             );
         }
@@ -47,21 +67,21 @@ class Magento_Adminhtml_Model_Sales_Order
             $productIds[] = $item->getProductId();
         }
 
-        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $productCollection = $this->_productFactory->create()->getCollection()
             ->addIdFilter($productIds)
             ->load();
 
         $hasBadItems = false;
         foreach ($order->getAllItems() as $item) {
             if (!$productCollection->getItemById($item->getProductId())) {
-                $this->_getSession()->addError(
+                $this->_session->addError(
                    __('The item %1 (SKU %2) does not exist in the catalog anymore.', $item->getName(), $item->getSku()
                 ));
                 $hasBadItems = true;
             }
         }
         if ($hasBadItems) {
-            $this->_getSession()->addError(
+            $this->_session->addError(
                 __('Some items in this order are no longer in our catalog.')
             );
         }

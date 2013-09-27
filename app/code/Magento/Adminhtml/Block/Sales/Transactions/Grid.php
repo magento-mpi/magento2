@@ -32,6 +32,18 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
     protected $_paymentData = null;
 
     /**
+     * @var Magento_Sales_Model_Order_Payment_Transaction
+     */
+    protected $_transaction;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Order_Payment_Transaction_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Sales_Model_Order_Payment_Transaction $transaction
+     * @param Magento_Sales_Model_Resource_Order_Payment_Transaction_CollectionFactory $collectionFactory
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -41,6 +53,8 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_Order_Payment_Transaction $transaction,
+        Magento_Sales_Model_Resource_Order_Payment_Transaction_CollectionFactory $collectionFactory,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -51,6 +65,8 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_paymentData = $paymentData;
+        $this->_transaction = $transaction;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -77,7 +93,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
     {
         $collection = $this->getCollection();
         if (!$collection) {
-            $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection');
+            $collection = $this->_collectionFactory->create();
         }
         $order = $this->_coreRegistry->registry('current_order');
         if ($order) {
@@ -142,7 +158,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
             'header' => __('Transaction Type'),
             'index' => 'txn_type',
             'type' => 'options',
-            'options' => Mage::getSingleton('Magento_Sales_Model_Order_Payment_Transaction')->getTransactionTypes(),
+            'options' => $this->_transaction->getTransactionTypes(),
             'header_css_class' => 'col-transaction-type',
             'column_css_class' => 'col-transaction-type'
         ));

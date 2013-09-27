@@ -41,18 +41,18 @@ class Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
     {
         $wishlistItemId = (int) $this->getRequest()->getParam('id');
         if (!$wishlistItemId) {
-            Mage::throwException(__('No wishlist item ID is defined.'));
+            throw new Magento_Core_Exception(__('No wishlist item ID is defined.'));
         }
 
         /* @var $wishlistItem Magento_Wishlist_Model_Item */
-        $wishlistItem = Mage::getModel('Magento_Wishlist_Model_Item')
+        $wishlistItem = $this->_objectManager->create('Magento_Wishlist_Model_Item')
             ->loadWithOptions($wishlistItemId);
 
         if (!$wishlistItem->getWishlistId()) {
-            Mage::throwException(__('Please load the wish list item.'));
+            throw new Magento_Core_Exception(__('Please load the wish list item.'));
         }
 
-        $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')
+        $this->_wishlist = $this->_objectManager->create('Magento_Wishlist_Model_Wishlist')
             ->load($wishlistItem->getWishlistId());
 
         $this->_wishlistItem = $wishlistItem;
@@ -112,7 +112,7 @@ class Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
             $updateResult->setMessage($e->getMessage());
         }
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
+        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
 
         return false;

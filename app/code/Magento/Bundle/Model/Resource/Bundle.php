@@ -19,6 +19,25 @@
 class Magento_Bundle_Model_Resource_Bundle extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Catalog_Model_Resource_Product_Relation
+     */
+    protected $_productRelation;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Catalog_Model_Resource_Product_Relation $productRelation
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_Relation $productRelation,
+        Magento_Core_Model_Resource $resource
+    ) {
+        parent::__construct($resource);
+        $this->_productRelation = $productRelation;
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
@@ -110,8 +129,7 @@ class Magento_Bundle_Model_Resource_Bundle extends Magento_Core_Model_Resource_D
      */
     public function saveProductRelations($parentId, $childIds)
     {
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Relation')
-            ->processRelations($parentId, $childIds);
+        $this->_productRelation->processRelations($parentId, $childIds);
 
         return $this;
     }

@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Image extends Magento_
     {
         $url = false;
         if ($this->getValue()) {
-            $url = Mage::getBaseUrl('media').'catalog/product/'. $this->getValue();
+            $url = $this->_urlBuilder->getBaseUrl('media') . 'catalog/product/' . $this->getValue();
         }
         return $url;
     }
@@ -31,17 +31,16 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Image extends Magento_
         $html = '';
         if ($attribute = $this->getEntityAttribute()) {
             if (!$attribute->getIsRequired()) {
-                $html.= parent::_getDeleteCheckbox();
-            }
-            else {
-                $html.= '<input value="'.$this->getValue().'" id="'.$this->getHtmlId().'_hidden" type="hidden" class="required-entry" />';
-                $html.= '<script type="text/javascript">
+                $html .= parent::_getDeleteCheckbox();
+            } else {
+                $inputField = '<input value="%s" id="%s_hidden" type="hidden" class="required-entry" />';
+                $html .= sprintf($inputField, $this->getValue(), $this->getHtmlId());
+                $html .= '<script type="text/javascript">
                     syncOnchangeValue(\''.$this->getHtmlId().'\', \''.$this->getHtmlId().'_hidden\');
                 </script>';
             }
-        }
-        else {
-            $html.= parent::_getDeleteCheckbox();
+        } else {
+            $html .= parent::_getDeleteCheckbox();
         }
         return $html;
     }

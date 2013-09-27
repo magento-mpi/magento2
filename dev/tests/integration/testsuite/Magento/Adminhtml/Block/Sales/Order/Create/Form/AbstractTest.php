@@ -26,6 +26,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             ->setDefaultDesignTheme();
         $arguments = array(
             $objectManager->get('Magento_Data_Form_Factory'),
+            $objectManager->get('Magento_Adminhtml_Model_Session_Quote'),
+            $objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create'),
             $objectManager->get('Magento_Core_Helper_Data'),
             $objectManager->get('Magento_Backend_Block_Template_Context'),
         );
