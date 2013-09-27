@@ -95,7 +95,7 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
     {
         $flag = $this->_objectManager->create('Magento_Reports_Model_Flag')->setReportFlagCode($flagCode)->loadSelf();
         $updatedAt = ($flag->hasData())
-            ? $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->getLocale()->storeDate(
+            ? $this->_objectManager->get('Magento_Core_Model_LocaleInterface')->storeDate(
                 0, new Zend_Date($flag->getLastUpdate(), Magento_Date::DATETIME_INTERNAL_FORMAT), true
             )
             : 'undefined';

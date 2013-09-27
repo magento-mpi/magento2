@@ -51,20 +51,46 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
     protected $_skipModuleUpdate;
 
     /**
+     * Map that contains setup model names per resource name
+     *
+     * @var array
+     */
+    protected $_resourceList;
+
+    /**
+     * @var Magento_Core_Model_ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
+     * @var Magento_Core_Model_Module_ResourceResolverInterface
+     */
+    protected $_resourceResolver;
+
+    /**
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Resource_SetupFactory $factory
      * @param Magento_Core_Model_App_State $appState
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Module_ResourceResolverInterface $resourceResolver
+     * @param array $resourceList
      * @param bool $skipModuleUpdate
      */
     public function __construct(
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Resource_SetupFactory $factory,
         Magento_Core_Model_App_State $appState,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Module_ResourceResolverInterface $resourceResolver,
+        array $resourceList,
         $skipModuleUpdate = false
     ) {
         $this->_config = $config;
         $this->_factory = $factory;
         $this->_appState = $appState;
+        $this->_moduleList = $moduleList;
+        $this->_resourceResolver = $resourceResolver;
+        $this->_resourceList = $resourceList;
         $this->_skipModuleUpdate = (bool)$skipModuleUpdate;
     }
 
@@ -94,22 +120,25 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
         Magento_Profiler::start('apply_db_schema_updates');
         $this->_appState->setUpdateMode(true);
 
-        $resources = $this->_config->getNode('global/resources')->children();
         $afterApplyUpdates = array();
-        foreach ($resources as $resName => $resource) {
-            if (!$resource->setup) {
-                continue;
-            }
-            $className = $this->_defaultClass;
-            if (isset($resource->setup->class)) {
-                $className = $resource->setup->getClassName();
-            }
+        foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
+            foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
+                $className = isset($this->_resourceList[$resourceName])
+                    ? $this->_resourceList[$resourceName]
+                    : $this->_defaultClass;
 
-            $setupClass = $this->_factory->create($className, array('resourceName' => $resName));
-            $setupClass->applyUpdates();
+                $setupClass = $this->_factory->create(
+                    $className,
+                    array(
+                        'resourceName' => $resourceName,
+                        'moduleName' => $moduleName,
+                    )
+                );
+                $setupClass->applyUpdates();
 
-            if ($setupClass->getCallAfterApplyAllUpdates()) {
-                $afterApplyUpdates[] = $setupClass;
+                if ($setupClass->getCallAfterApplyAllUpdates()) {
+                    $afterApplyUpdates[] = $setupClass;
+                }
             }
         }
 
@@ -131,17 +160,15 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
         if (!$this->_isUpdatedSchema) {
             return;
         }
-        $resources = $this->_config->getNode('global/resources')->children();
-        foreach ($resources as $resName => $resource) {
-            if (!$resource->setup) {
-                continue;
+        foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
+            foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
+                $className = isset($this->_resourceList[$resourceName])
+                    ? $this->_resourceList[$resourceName]
+                    : $this->_defaultClass;
+                $setupClass = $this->_factory->create($className, array('resourceName' => $resourceName,
+                    'moduleName' => $moduleName,));
+                $setupClass->applyDataUpdates();
             }
-            $className = $this->_defaultClass;
-            if (isset($resource->setup->class)) {
-                $className = $resource->setup->getClassName();
-            }
-            $setupClass = $this->_factory->create($className, array('resourceName' => $resName));
-            $setupClass->applyDataUpdates();
         }
     }
 }

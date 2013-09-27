@@ -21,4 +21,11 @@
             <instance type="Magento_Backend_Helper_Data_Proxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <salesarchive_setup>Magento_SalesArchive_Model_Resource_Setup</salesarchive_setup>
+            </value>
+        </param>
+    </type>
 </config>

@@ -124,7 +124,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     /**
      * CatalogSearch resource helper
      *
-     * @var Magento_CatalogSearch_Model_Resource_Helper_Mysql4
+     * @var Magento_CatalogSearch_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -142,7 +142,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
@@ -156,7 +156,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
+        Magento_CatalogSearch_Model_Resource_Helper $resourceHelper
     ) {
         $this->_catalogProductType = $catalogProductType;
         $this->_eavConfig = $eavConfig;

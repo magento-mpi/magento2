@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <customer_setup>
-                <setup>
-                    <module>Magento_Customer</module>
-                    <class>Magento_Customer_Model_Resource_Setup</class>
-                </setup>
-            </customer_setup>
-        </resources>
-    </global>
     <default>
         <customer>
             <account_share>

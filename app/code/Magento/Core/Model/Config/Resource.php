@@ -1,109 +1,63 @@
 <?php
 /**
- * Resource configuration. Uses application configuration to retrieve resource information.
- * Uses latest loaded configuration object to make resource connection available on early stages of bootstrapping.
+ * Resource configuration. Uses application configuration to retrieve resource connection information.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */ 
-class Magento_Core_Model_Config_Resource
+class Magento_Core_Model_Config_Resource extends Magento_Config_Data_Scoped
+    implements Magento_Core_Model_Config_ResourceInterface
 {
-    /**
-     * @var Magento_Core_Model_ConfigInterface
-     */
-    protected $_config;
+    const DEFAULT_READ_CONNECTION  = 'read';
+    const DEFAULT_WRITE_CONNECTION = 'write';
+    const DEFAULT_SETUP_CONNECTION = 'default';
 
     /**
-     * @param Magento_Core_Model_ConfigInterface $config
+     * @param Magento_Core_Model_Resource_Config_Reader $reader
+     * @param Magento_Config_ScopeInterface $configScope
+     * @param Magento_Config_CacheInterface $cache
+     * @param string $cacheId
      */
-    public function __construct(Magento_Core_Model_ConfigInterface $config)
-    {
-        $this->_config = $config;
+    public function __construct(
+        Magento_Core_Model_Resource_Config_Reader $reader,
+        Magento_Config_ScopeInterface $configScope,
+        Magento_Config_CacheInterface $cache,
+        $cacheId = 'resourcesCache'
+    ) {
+        parent::__construct($reader, $configScope, $cache, $cacheId);
     }
 
     /**
-     * Set application config
+     * Retrieve resource connection instance name
      *
-     * @param Magento_Core_Model_ConfigInterface $config
+     * @param string $resourceName
+     * @return string
      */
-    public function setConfig(Magento_Core_Model_ConfigInterface $config)
+    public function getConnectionName($resourceName)
     {
-        $this->_config = $config;
-    }
+        $connectionName = self::DEFAULT_SETUP_CONNECTION;
 
-    /**
-     * Get resource configuration for resource name
-     *
-     * @param string $name
-     * @return Magento_Simplexml_Object
-     */
-    public function getResourceConfig($name)
-    {
-        return $this->_config->getNode('global/resources/' . $name);
-    }
+        if (!isset($this->_connectionNames[$resourceName])) {
 
-    /**
-     * Retrieve resource connection configuration by name
-     *
-     * @param $name
-     * @return Magento_Simplexml_Element
-     */
-    public function getResourceConnectionConfig($name)
-    {
-        $config = $this->getResourceConfig($name);
-        if ($config) {
-            $conn = $config->connection;
-            if ($conn) {
-                if (!empty($conn->use)) {
-                    return $this->getResourceConnectionConfig((string)$conn->use);
+            $resourcesConfig = $this->get();
+            $pointerResourceName = $resourceName;
+            while (true) {
+                if (isset($resourcesConfig[$pointerResourceName]['connection'])) {
+                    $connectionName = $resourcesConfig[$pointerResourceName]['connection'];
+                    $this->_connectionNames[$resourceName] = $connectionName;
+                    break;
+                } elseif (isset($resourcesConfig[$pointerResourceName]['extends'])) {
+                    $pointerResourceName = $resourcesConfig[$pointerResourceName]['extends'];
                 } else {
-                    return $conn;
+                    break;
                 }
             }
-        }
-        return false;
-    }
-
-    /**
-     * Retrieve reosurce type configuration
-     *
-     * @param $type
-     * @return Magento_Simplexml_Element
-     */
-    public function getResourceTypeConfig($type)
-    {
-        return $this->_config->getNode('global/resource/connection/types/' . $type);
-    }
-
-    /**
-     * Retrieve database table prefix
-     *
-     * @return string
-     */
-    public function getTablePrefix()
-    {
-        return (string) $this->_config->getNode('global/resources/db/table_prefix');
-    }
-
-    /**
-     * Retrieve resource connection model name
-     *
-     * @param string $moduleName
-     * @return string
-     */
-    public function getResourceConnectionModel($moduleName = null)
-    {
-        $config = null;
-        if (!is_null($moduleName)) {
-            $setupResource = $moduleName . '_setup';
-            $config        = $this->getResourceConnectionConfig($setupResource);
-        }
-        if (!$config) {
-            $config = $this->getResourceConnectionConfig(Magento_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+        } else {
+            $connectionName = $this->_connectionNames[$resourceName];
         }
 
-        return (string) $config->model;
+        return $connectionName;
     }
 }

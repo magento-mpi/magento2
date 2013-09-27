@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <resource name="test_name" extends="test_extends" connection="test_connection" />
+    <resource name="test_name_two" />
+</config>

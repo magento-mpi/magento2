@@ -35,9 +35,9 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
     protected $_configureRoute = '*/checkout/configureOrderedItem';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Sales_Model_Config
      */
-    protected $_coreConfig;
+    protected $_salesConfig;
 
     /**
      * @var Magento_Catalog_Model_ProductFactory
@@ -70,7 +70,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Sales_Model_Config $salesConfig
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param array $data
      */
@@ -84,13 +84,14 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Sales_Model_Config $salesConfig,
         Magento_Catalog_Model_ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_catalogConfig = $catalogConfig;
         $this->_stockStatus = $stockStatus;
         $this->_ordersFactory = $ordersFactory;
+        $this->_salesConfig = $salesConfig;
         parent::__construct(
             $collectionFactory,
             $coreData,
@@ -100,7 +101,6 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
             $coreRegistry,
             $data
         );
-        $this->_coreConfig = $coreConfig;
         $this->_productFactory = $productFactory;
     }
 
@@ -171,12 +171,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
                         ->setStore($this->_getStore())
                         ->addAttributeToSelect($attributes)
                         ->addAttributeToSelect('sku')
-                        ->addAttributeToFilter('type_id',
-                            array_keys(
-                                $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')
-                                    ->asArray()
-                            )
-                        )->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+                        ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
+                        ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
                         ->addStoreFilter($this->_getStore())
                         ->addIdFilter($productIds);
                     $this->_stockStatus->addIsInStockFilterToCollection($products);

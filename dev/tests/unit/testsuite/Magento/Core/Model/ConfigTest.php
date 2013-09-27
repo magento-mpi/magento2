@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -39,16 +38,13 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $xml = '<config>
-                    <global>
-                        <resources>
-                            <module_setup>
-                                <setup>
-                                    <module>Module</module>
-                                    <class>Module_Model_Resource_Setup</class>
-                                </setup>
-                            </module_setup>
-                        </resources>
-                    </global>
+                    <default>
+                        <first>
+                            <custom>
+                                <node>value</node>
+                            </custom>
+                        </first>
+                    </default>
                 </config>';
 
         $areas = array('adminhtml' => array(
@@ -90,29 +86,10 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetNode()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Config_Element', $this->_model->getNode(
-            'global/resources/module_setup/setup/module'));
-    }
-
-    public function testGetAreas()
-    {
-        $expected = array(
-            'adminhtml' => array(
-                'base_controller' => 'base_controller',
-                'routers' => array(
-                    'admin' => array(
-                        'class' => 'class'
-                    ),
-                ),
-                'frontName' => 'backend',
-            ),
+        $this->assertInstanceOf(
+            'Magento_Core_Model_Config_Element',
+            $this->_model->getNode('default/first/custom/node')
         );
-
-        $areaCode = 'adminhtml';
-        $this->_configScopeMock->expects($this->any())
-            ->method('getCurrentScope')
-            ->will($this->returnValue($areaCode));
-        $this->assertEquals($expected, $this->_model->getAreas());
     }
 
     public function testSetValue()

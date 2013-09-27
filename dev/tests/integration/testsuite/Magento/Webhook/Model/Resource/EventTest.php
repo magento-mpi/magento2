@@ -14,13 +14,16 @@
 class Magento_Webhook_Model_Resource_EventTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoConfigFixture global/resources/db/table_prefix prefix_
+     * @covers Magento_Webhook_Model_Resource_Event::init
      */
     public function testInit()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $resource = $objectManager->create('Magento_Core_Model_Resource', array('tablePrefix' => 'prefix_'));
+
         /** @var Magento_Webhook_Model_Resource_Event $eventResource */
-        $eventResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Resource_Event');
+        $eventResource = $objectManager->create('Magento_Webhook_Model_Resource_Event', array('resource' => $resource));
+
         $this->assertEquals('prefix_webhook_event', $eventResource->getMainTable());
         $this->assertEquals('event_id', $eventResource->getIdFieldName());
     }

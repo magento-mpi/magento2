@@ -67,6 +67,16 @@ class Magento_Interception_FactoryDecorator implements Magento_ObjectManager_Fac
     }
 
     /**
+     * Set application arguments
+     *
+     * @param array $arguments
+     */
+    public function setArguments($arguments)
+    {
+        $this->_factory->setArguments($arguments);
+    }
+
+    /**
      * Create instance of requested type with requested arguments
      *
      * @param string $type

@@ -23,7 +23,7 @@ class Magento_Index_Model_Indexer_Config_SchemaLocatorTest extends PHPUnit_Frame
             'Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false
         );
 
-        $this->_modulesReaderMock->expects($this->once())
+        $this->_modulesReaderMock->expects($this->any())
             ->method('getModuleDir')
             ->with('etc', 'Magento_Index')
             ->will($this->returnValue('some_path'));
@@ -36,7 +36,7 @@ class Magento_Index_Model_Indexer_Config_SchemaLocatorTest extends PHPUnit_Frame
      */
     public function testGetSchema()
     {
-        $expectedSchema = 'some_path' . DIRECTORY_SEPARATOR . 'indexers.xsd';
+        $expectedSchema = 'some_path' . DIRECTORY_SEPARATOR . 'indexers_merged.xsd';
         $this->assertEquals($expectedSchema, $this->_model->getSchema());
     }
 
@@ -45,6 +45,7 @@ class Magento_Index_Model_Indexer_Config_SchemaLocatorTest extends PHPUnit_Frame
      */
     public function testGetPerFileSchema()
     {
-        $this->assertEquals(null, $this->_model->getPerFileSchema());
+        $expectedSchema = 'some_path' . DIRECTORY_SEPARATOR . 'indexers.xsd';
+        $this->assertEquals($expectedSchema, $this->_model->getPerFileSchema());
     }
 }

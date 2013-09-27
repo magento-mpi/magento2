@@ -32,7 +32,7 @@ class Magento_Sales_Model_Order_Total_Config_Base extends Magento_Sales_Model_Co
      *
      * @var string
      */
-    protected $_totalsConfigNode = 'totals';
+    protected $_configGroup = 'totals';
 
     /**
      * @var Magento_Sales_Model_Order_TotalFactory
@@ -43,15 +43,17 @@ class Magento_Sales_Model_Order_Total_Config_Base extends Magento_Sales_Model_Co
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Sales_Model_Order_TotalFactory $orderTotalFactory
+     * @param Magento_Sales_Model_Config $salesConfig,
      * @param null $sourceData
      */
     public function __construct(
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Logger $logger,
         Magento_Sales_Model_Order_TotalFactory $orderTotalFactory,
+        Magento_Sales_Model_Config $salesConfig,
         $sourceData = null
     ) {
-        parent::__construct($configCacheType, $logger, $sourceData);
+        parent::__construct($configCacheType, $logger, $salesConfig, $sourceData);
         $this->_orderTotalFactory = $orderTotalFactory;
     }
 

@@ -195,7 +195,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
         if (isset($data['next_customer_id'])) {
             $this->_nextCustomerId = $data['next_customer_id'];
         } else {
-            /** @var $resourceHelper Magento_ImportExport_Model_Resource_Helper_Mysql4 */
+            /** @var $resourceHelper Magento_ImportExport_Model_Resource_Helper */
             $resourceHelper = Mage::getResourceHelper('Magento_ImportExport');
             $this->_nextCustomerId = $resourceHelper->getNextAutoincrement($this->_customerEntity->getEntityTable());
         }

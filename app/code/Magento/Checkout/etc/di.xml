@@ -33,4 +33,11 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <checkout_setup>Magento_Checkout_Model_Resource_Setup</checkout_setup>
+            </value>
+        </param>
+    </type>
 </config>

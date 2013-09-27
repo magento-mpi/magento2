@@ -178,8 +178,48 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     protected $_paygateData = null;
 
     /**
+     * Session
+     *
+     * @var Magento_Core_Model_Session_Abstract
+     */
+    protected $_session;
+
+    /**
+     * Order factory
+     *
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * Result factory
+     *
+     * @var Magento_Paygate_Model_Authorizenet_ResultFactory
+     */
+    protected $_resultFactory;
+
+    /**
+     * Request factory
+     *
+     * @var Magento_Paygate_Model_Authorizenet_RequestFactory
+     */
+    protected $_requestFactory;
+
+    /**
+     * Cards factory
+     *
+     * @var Magento_Paygate_Model_Authorizenet_CardsFactory
+     */
+    protected $_cardsFactory;
+
+    /**
      * Construct
      *
+     * @param Magento_Paygate_Model_Authorizenet_CardsFactory $cardsFactory
+     * @param Magento_Paygate_Model_Authorizenet_RequestFactory $requestFactory
+     * @param Magento_Paygate_Model_Authorizenet_ResultFactory $resultFactory
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Core_Model_Session_Abstract $session
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Paygate_Helper_Data $paygateData
@@ -192,6 +232,11 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      * @param array $data
      */
     public function __construct(
+        Magento_Paygate_Model_Authorizenet_CardsFactory $cardsFactory,
+        Magento_Paygate_Model_Authorizenet_RequestFactory $requestFactory,
+        Magento_Paygate_Model_Authorizenet_ResultFactory $resultFactory,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Core_Model_Session_Abstract $session,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Paygate_Helper_Data $paygateData,
@@ -203,6 +248,11 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
         Magento_Centinel_Model_Service $centinelService,
         array $data = array()
     ) {
+        $this->_cardsFactory = $cardsFactory;
+        $this->_requestFactory = $requestFactory;
+        $this->_resultFactory = $resultFactory;
+        $this->_orderFactory = $orderFactory;
+        $this->_session = $session;
         $this->_paygateData = $paygateData;
         parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
             $locale, $centinelService, $data);
@@ -309,7 +359,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      */
     public function setPartialAuthorizationLastActionState($state)
     {
-        $this->_getSession()->setData($this->_partialAuthorizationLastActionStateSessionKey, $state);
+        $this->_session->setData($this->_partialAuthorizationLastActionStateSessionKey, $state);
         return $this;
     }
 
@@ -320,7 +370,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      */
     public function getPartialAuthorizationLastActionState()
     {
-        return $this->_getSession()->getData($this->_partialAuthorizationLastActionStateSessionKey);
+        return $this->_session->getData($this->_partialAuthorizationLastActionStateSessionKey);
     }
 
     /**
@@ -330,7 +380,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      */
     public function unsetPartialAuthorizationLastActionState()
     {
-        $this->_getSession()->setData($this->_partialAuthorizationLastActionStateSessionKey, false);
+        $this->_session->setData($this->_partialAuthorizationLastActionStateSessionKey, false);
         return $this;
     }
 
@@ -344,7 +394,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     public function authorize(Magento_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(__('This is an invalid amount for authorization.'));
+            throw new Magento_Core_Exception(__('This is an invalid amount for authorization.'));
         }
 
         $this->_initCardsStorage($payment);
@@ -370,7 +420,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     public function capture(Magento_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(__('This is an invalid amount for capture.'));
+            throw new Magento_Core_Exception(__('This is an invalid amount for capture.'));
         }
         $this->_initCardsStorage($payment);
         if ($this->_isPreauthorizeCapture($payment)) {
@@ -445,7 +495,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $cardsStorage->getCapturedAmount() - $cardsStorage->getRefundedAmount()
             ) < $requestedAmount
         ) {
-            Mage::throwException(__('This is an invalid amount for refund.'));
+            throw new Magento_Core_Exception(__('This is an invalid amount for refund.'));
         }
 
         $messages = array();
@@ -493,7 +543,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      */
     public function cancelPartialAuthorization(Magento_Payment_Model_Info $payment) {
         if (!$payment->getAdditionalInformation($this->_splitTenderIdKey)) {
-            Mage::throwException(__('This is an invalid split tenderId ID.'));
+            throw new Magento_Core_Exception(__('This is an invalid split tenderId ID.'));
         }
 
         $request = $this->_getRequest();
@@ -507,12 +557,12 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
         switch ($result->getResponseCode()) {
             case self::RESPONSE_CODE_APPROVED:
                 $payment->setAdditionalInformation($this->_splitTenderIdKey, null);
-                $this->_getSession()->setData($this->_partialAuthorizationChecksumSessionKey, null);
+                $this->_session->setData($this->_partialAuthorizationChecksumSessionKey, null);
                 $this->getCardsStorage($payment)->flushCards();
                 $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_ALL_CANCELED);
                 return;
             default:
-                Mage::throwException(__('Something went wrong while canceling the payment.'));
+                throw new Magento_Core_Exception(__('Something went wrong while canceling the payment.'));
         }
 
     }
@@ -592,17 +642,17 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 }
                 if ($result->getResponseReasonCode() == self::RESPONSE_REASON_CODE_PARTIAL_APPROVE) {
                     $checksum = $this->_generateChecksum($request, $this->_partialAuthorizationChecksumDataKeys);
-                    $this->_getSession()->setData($this->_partialAuthorizationChecksumSessionKey, $checksum);
+                    $this->_session->setData($this->_partialAuthorizationChecksumSessionKey, $checksum);
                     if ($this->_processPartialAuthorizationResponse($result, $payment)) {
                         return $this;
                     }
                 }
-                Mage::throwException($defaultExceptionMessage);
+                throw new Magento_Core_Exception($defaultExceptionMessage);
             case self::RESPONSE_CODE_DECLINED:
             case self::RESPONSE_CODE_ERROR:
-                Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
+                throw new Magento_Core_Exception($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
-                Mage::throwException($defaultExceptionMessage);
+                throw new Magento_Core_Exception($defaultExceptionMessage);
         }
         return $this;
     }
@@ -626,7 +676,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
             $payment->setAmount($amount);
             $firstPlacingRequest= $this->_buildRequest($payment);
             $newChecksum = $this->_generateChecksum($firstPlacingRequest, $this->_partialAuthorizationChecksumDataKeys);
-            $previosChecksum = $this->_getSession()->getData($this->_partialAuthorizationChecksumSessionKey);
+            $previosChecksum = $this->_session->getData($this->_partialAuthorizationChecksumSessionKey);
             if ($newChecksum != $previosChecksum) {
                 $quotePayment = $payment->getOrder()->getQuote()->getPayment();
                 $this->cancelPartialAuthorization($payment);
@@ -641,7 +691,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
 
         $amount = $amount - $this->getCardsStorage()->getProcessedAmount();
         if ($amount <= 0) {
-            Mage::throwException(__('This is an invalid amount for partial authorization.'));
+            throw new Magento_Core_Exception(__('This is an invalid amount for partial authorization.'));
         }
         $payment->setAmount($amount);
         $request = $this->_buildRequest($payment);
@@ -673,7 +723,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $this->getCardsStorage()->updateCard($card);
             }
         }
-        $this->_getSession()->setData($this->_partialAuthorizationChecksumSessionKey, null);
+        $this->_session->setData($this->_partialAuthorizationChecksumSessionKey, null);
         return $this;
     }
 
@@ -714,7 +764,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 $cardsStorage->getProcessedAmount() - $cardsStorage->getCapturedAmount()
             ) < $requestedAmount
         ) {
-            Mage::throwException(__('This is an invalid amount for capture.'));
+            throw new Magento_Core_Exception(__('This is an invalid amount for capture.'));
         }
 
         $messages = array();
@@ -809,7 +859,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
         $exceptionMessage = $this->_paygateData->getTransactionMessage(
             $payment, self::REQUEST_TYPE_PRIOR_AUTH_CAPTURE, $realAuthTransactionId, $card, $amount, $exceptionMessage
         );
-        Mage::throwException($exceptionMessage);
+        throw new Magento_Core_Exception($exceptionMessage);
     }
 
     /**
@@ -893,7 +943,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
         $exceptionMessage = $this->_paygateData->getTransactionMessage(
             $payment, self::REQUEST_TYPE_VOID, $realAuthTransactionId, $card, false, $exceptionMessage
         );
-        Mage::throwException($exceptionMessage);
+        throw new Magento_Core_Exception($exceptionMessage);
     }
 
     /**
@@ -976,7 +1026,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
         $exceptionMessage = $this->_paygateData->getTransactionMessage(
             $payment, self::REQUEST_TYPE_CREDIT, $realCaptureTransactionId, $card, $amount, $exceptionMessage
         );
-        Mage::throwException($exceptionMessage);
+        throw new Magento_Core_Exception($exceptionMessage);
     }
 
     /**
@@ -986,7 +1036,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      */
     protected function _initCardsStorage($payment)
     {
-        $this->_cardsStorage = Mage::getModel('Magento_Paygate_Model_Authorizenet_Cards')->setPayment($payment);
+        $this->_cardsStorage = $this->_cardsFactory->create()->setPayment($payment);
     }
 
     /**
@@ -1151,7 +1201,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
      */
     protected function _getRequest()
     {
-        $request = Mage::getModel('Magento_Paygate_Model_Authorizenet_Request')
+        $request = $this->_requestFactory->create()
             ->setXVersion(3.1)
             ->setXDelimData('True')
             ->setXRelayResponse('False')
@@ -1282,7 +1332,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     {
         $debugData = array('request' => $request->getData());
 
-        $result = Mage::getModel('Magento_Paygate_Model_Authorizenet_Result');
+        $result = $this->_resultFactory->create();
 
         $client = new Magento_HTTP_ZendClient();
 
@@ -1310,7 +1360,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
 
             $debugData['result'] = $result->getData();
             $this->_debug($debugData);
-            Mage::throwException($this->_wrapGatewayError($e->getMessage()));
+            throw new Magento_Core_Exception($this->_wrapGatewayError($e->getMessage()));
         }
 
         $responseBody = $response->getBody();
@@ -1342,7 +1392,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
                 ;
         }
         else {
-             Mage::throwException(
+             throw new Magento_Core_Exception(
                 __('Something went wrong in the payment gateway.')
             );
         }
@@ -1362,20 +1412,6 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     protected function _wrapGatewayError($text)
     {
         return __('Gateway error: %1', $text);
-    }
-
-    /**
-     * Retrieve session object
-     *
-     * @return Magento_Core_Model_Session_Abstract
-     */
-    protected function _getSession()
-    {
-        if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
-        } else {
-            return Mage::getSingleton('Magento_Checkout_Model_Session');
-        }
     }
 
     /**
@@ -1510,14 +1546,14 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
              * load new order object and set information into this object.
              */
             $currentOrderId = $payment->getOrder()->getId();
-            $copyOrder = Mage::getModel('Magento_Sales_Model_Order')->load($currentOrderId);
+            $copyOrder = $this->_orderFactory->create()->load($currentOrderId);
             $copyOrder->getPayment()->setAdditionalInformation($this->_isGatewayActionsLockedKey, 1);
             foreach($messages as $message) {
                 $copyOrder->addStatusHistoryComment($message);
             }
             $copyOrder->save();
         }
-        Mage::throwException($this->_paygateData->convertMessagesToMessage($messages));
+        throw new Magento_Core_Exception($this->_paygateData->convertMessagesToMessage($messages));
     }
 
     /**
@@ -1576,7 +1612,7 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
             $responseXmlDocument = new Magento_Simplexml_Element($responseBody);
             libxml_use_internal_errors(false);
         } catch (Exception $e) {
-            Mage::throwException(__('Payment updating error.'));
+            throw new Magento_Core_Exception(__('Payment updating error.'));
         }
 
         $response = new Magento_Object;

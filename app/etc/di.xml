@@ -28,7 +28,15 @@
     <preference for="Magento_Core_Model_Event_ConfigInterface" type="Magento_Core_Model_Event_Config" />
     <preference for="Magento_Interception_PluginList" type="Magento_Interception_PluginList_PluginList" />
     <type name="Magento_Core_Model_App_State">
+        <param name="installDate">
+            <value type="argument">Magento_Core_Model_App_State::PARAM_INSTALL_DATE</value>
+        </param>
         <param name="mode">
+            <value type="argument">Magento_Core_Model_App::PARAM_MODE</value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Config_ValidationState">
+        <param name="appMode">
             <value type="argument">Magento_Core_Model_App::PARAM_MODE</value>
         </param>
     </type>
@@ -74,11 +82,6 @@
     <type name="Magento_Core_Model_Config">
         <param name="storage">
             <instance type="Magento_Core_Model_Config_Storage" />
-        </param>
-    </type>
-    <type name="Magento_Core_Model_Config_Resource">
-        <param name="config">
-            <instance type="Magento_Core_Model_Config_Primary" />
         </param>
     </type>
     <type name="Magento_Core_Model_Config_Storage">
@@ -212,6 +215,14 @@
             <value>
                 <first>global</first>
             </value>
+        </param>
+    </type>
+    <type name="Magento_Core_Model_Resource">
+        <param name="resourceConfig">
+            <instance type="Magento_Core_Model_Config_Resource_Primary" />
+        </param>
+        <param name="tablePrefix">
+            <value type="argument">Magento_Core_Model_Resource::PARAM_TABLE_PREFIX</value>
         </param>
     </type>
 </config>

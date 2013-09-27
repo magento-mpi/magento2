@@ -42,9 +42,9 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
     /**
      * Config primary
      *
-     * @var Magento_Core_Model_Config_Primary
+     * @var Magento_Core_Model_App_State
      */
-    protected $_configPrimary;
+    protected $_appState;
 
     /**
      * Url
@@ -66,7 +66,7 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_UrlInterface $url
-     * @param Magento_Core_Model_Config_Primary $configPrimary
+     * @param Magento_Core_Model_App_State $appState
      * @param Magento_Cms_Model_PageFactory $pageFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Controller_Response_Http $response
@@ -75,7 +75,7 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_UrlInterface $url,
-        Magento_Core_Model_Config_Primary $configPrimary,
+        Magento_Core_Model_App_State $appState,
         Magento_Cms_Model_PageFactory $pageFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Controller_Response_Http $response
@@ -83,7 +83,7 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
         parent::__construct($controllerFactory);
         $this->_eventManager = $eventManager;
         $this->_url = $url;
-        $this->_configPrimary = $configPrimary;
+        $this->_appState = $appState;
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
         $this->_response = $response;
@@ -99,7 +99,7 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
      */
     public function match(Magento_Core_Controller_Request_Http $request)
     {
-        if (!$this->_configPrimary->getInstallDate()) {
+        if (!$this->_appState->isInstalled()) {
             $this->_response->setRedirect($this->_url->getUrl('install'))
                 ->sendResponse();
             exit;

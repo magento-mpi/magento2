@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Test_Value::show_toolbar" title="Lorem ipsum" sortOrder="12">
+                <resource id="Test_Value::global_search" title="some string for title" sortOrder="66" disabled="true">
+                    <resource id="Test_Value::dev" title="123" disabled="false" sortOrder="500" />
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

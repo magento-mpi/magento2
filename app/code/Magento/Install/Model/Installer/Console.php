@@ -69,13 +69,6 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
     protected $_dataModel;
 
     /**
-     * Resource config
-     *
-     * @var Magento_Core_Model_Config_Resource
-     */
-    protected $_resourceConfig;
-
-    /**
      * DB updater
      *
      * @var Magento_Core_Model_Db_UpdaterInterface
@@ -83,16 +76,13 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
     protected $_dbUpdater;
 
     /**
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Core_Model_Db_UpdaterInterface $daUpdater
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Model_Config_Resource $resourceConfig,
         Magento_Core_Model_Db_UpdaterInterface $daUpdater,
         Magento_Filesystem $filesystem
     ) {
-        $this->_resourceConfig = $resourceConfig;
         $this->_dbUpdater = $daUpdater;
         $this->_getInstaller()->setDataModel($this->_getDataModel());
         $this->_filesystem = $filesystem;
@@ -331,18 +321,10 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
      */
     protected function _cleanUpDatabase()
     {
-        $dbConfig = $this->_resourceConfig
-            ->getResourceConnectionConfig(Magento_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
-        $modelName = 'Magento_Install_Model_Installer_Db_' . ucfirst($dbConfig->model);
-
-        if (!class_exists($modelName)) {
-            $this->addError('Database uninstall is not supported for the ' . ucfirst($dbConfig->model) . '.');
-            return false;
-        }
-
+        $modelName = 'Magento_Install_Model_Installer_Db_Mysql4';
         /** @var $resourceModel Magento_Install_Model_Installer_Db_Abstract */
         $resourceModel = Mage::getModel($modelName);
-        $resourceModel->cleanUpDatabase($dbConfig);
+        $resourceModel->cleanUpDatabase();
     }
 
     /**

@@ -10,25 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <paypal_setup>
-                <setup>
-                    <module>Magento_Paypal</module>
-                    <class>Magento_Paypal_Model_Resource_Setup</class>
-                </setup>
-            </paypal_setup>
-        </resources>
-        <sales>
-            <order>
-                <statuses>
-                    <pending_paypal translate="label">
-                        <label>Pending PayPal</label>
-                    </pending_paypal>
-                </statuses>
-            </order>
-        </sales>
-    </global>
     <default>
         <paypal>
             <style>

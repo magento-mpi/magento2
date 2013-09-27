@@ -10,13 +10,4 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <webapi_setup>
-                <setup>
-                    <module>Magento_Webapi</module>
-                </setup>
-            </webapi_setup>
-        </resources>
-    </global>
 </config>

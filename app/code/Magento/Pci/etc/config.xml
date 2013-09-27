@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <pci_setup>
-                <setup>
-                    <module>Magento_Pci</module>
-                    <class>Magento_Core_Model_Resource_Setup</class>
-                </setup>
-            </pci_setup>
-        </resources>
-    </global>
     <default>
         <admin>
             <security>

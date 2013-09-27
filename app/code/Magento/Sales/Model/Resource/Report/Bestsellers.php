@@ -23,7 +23,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
     protected $_productResource;
 
     /**
-     * @var Magento_Sales_Model_Resource_Helper_Mysql4
+     * @var Magento_Sales_Model_Resource_Helper
      */
     protected $_salesResourceHelper;
 
@@ -31,13 +31,13 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Catalog_Model_Resource_Product $productResource
-     * @param Magento_Sales_Model_Resource_Helper_Mysql4 $salesResourceHelper
+     * @param Magento_Sales_Model_Resource_Helper $salesResourceHelper
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource $resource,
         Magento_Catalog_Model_Resource_Product $productResource,
-        Magento_Sales_Model_Resource_Helper_Mysql4 $salesResourceHelper
+        Magento_Sales_Model_Resource_Helper $salesResourceHelper
     ) {
         parent::__construct($logger, $resource);
         $this->_productResource = $productResource;

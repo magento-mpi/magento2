@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_GoogleCheckout_Model_Resource_Setup */
+/** @var $installer Magento_Catalog_Model_Resource_Setup */
 $installer = $this;
 
 /**
