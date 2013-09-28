@@ -27,7 +27,7 @@ return array
         '<?xml version="1.0"?><config><option name="name_one" renderer="true12"><inputType name="name_one"/>'
         . '</option></config>',
         array("Element 'option', attribute 'renderer': [facet 'pattern'] The value 'true12' is not accepted by the "
-        . "pattern '[a-zA-Z_]+'.", "Element 'option', attribute 'renderer': 'true12' is not a valid value of the atomic"
+        . "pattern '[a-zA-Z_\\\\\\\\]+'.", "Element 'option', attribute 'renderer': 'true12' is not a valid value of the atomic"
         . " type 'modelName'.")),
     'disabled_attribute_with_invalid_value' => array(
         '<?xml version="1.0"?><config><option name="name_one"><inputType name="name_one" disabled="7"/>'

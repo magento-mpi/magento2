@@ -79,7 +79,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->with(__DIR__ . '/_files/Fixture/ModuleTwo/etc/email_templates_two.xml')
             ->will($this->returnValue('Fixture_ModuleTwo'))
         ;
-        $constraint = function (DOMDOcument $actual) {
+        $constraint = function (\DOMDOcument $actual) {
             try {
                 $expected = __DIR__ . '/_files/email_templates_merged.xml';
                 PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());

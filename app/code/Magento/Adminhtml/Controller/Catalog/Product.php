@@ -341,7 +341,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
 
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\' . $blockClassSuffix)
+                ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\\' . $blockClassSuffix)
                 ->toHtml()
         );
     }
