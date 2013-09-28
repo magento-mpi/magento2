@@ -37,7 +37,7 @@ class ObjectManager
      *
      * @param \PHPUnit_Framework_TestCase $testObject
      */
-    public function __construct(PHPUnit_Framework_TestCase $testObject)
+    public function __construct(\PHPUnit_Framework_TestCase $testObject)
     {
         $this->_testObject = $testObject;
     }

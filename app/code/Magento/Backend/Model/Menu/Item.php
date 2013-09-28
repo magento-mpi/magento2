@@ -480,7 +480,7 @@ class Item
         $this->_validator = \Magento\Core\Model\ObjectManager::getInstance()
             ->get('Magento\Backend\Model\Menu\Item\Validator');
         $this->_acl = \Magento\Core\Model\ObjectManager::getInstance()
-            ->get('Magento_AuthorizationInterface');
+            ->get('Magento\AuthorizationInterface');
         $this->_storeConfig =  \Magento\Core\Model\ObjectManager::getInstance()
             ->get('Magento\Core\Model\Store\Config');
         $this->_menuFactory = \Magento\Core\Model\ObjectManager::getInstance()

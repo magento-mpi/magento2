@@ -72,8 +72,8 @@ class CustomerValidateTest extends \PHPUnit_Framework_TestCase
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(0, $this->_model->getErrorsCount());
 
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL] =
-            strtoupper($this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]);
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL] =
+            strtoupper($this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]);
         $this->_model->validateRow($this->_customerData, 1);
         $this->assertEquals(1, $this->_model->getErrorsCount());
         $this->assertArrayHasKey(\Magento\ImportExport\Model\Import\Entity\Eav\Customer::ERROR_DUPLICATE_EMAIL_SITE,
@@ -85,7 +85,7 @@ class CustomerValidateTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateRowInvalidEmail()
     {
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]
             = 'wrong_email@format';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(1, $this->_model->getErrorsCount());
@@ -99,7 +99,7 @@ class CustomerValidateTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateRowInvalidWebsite()
     {
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE]
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE]
             = 'not_existing_web_site';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(1, $this->_model->getErrorsCount());
@@ -113,7 +113,7 @@ class CustomerValidateTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateRowInvalidStore()
     {
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_STORE]
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_STORE]
             = 'not_existing_web_store';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(1, $this->_model->getErrorsCount());
@@ -157,7 +157,7 @@ class CustomerValidateTest extends \PHPUnit_Framework_TestCase
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(0, $this->_model->getErrorsCount());
 
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]
             = 'new.customer@example.com';
         $this->_model->validateRow($this->_customerData, 1);
         $this->assertGreaterThan(0, $this->_model->getErrorsCount());
@@ -173,7 +173,7 @@ class CustomerValidateTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateEmailForDeleteBehavior()
     {
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]
             = 'new.customer@example.com';
 
         $this->_model->setParameters(array(

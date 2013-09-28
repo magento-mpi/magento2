@@ -110,7 +110,7 @@ class Context extends \Magento\Core\Block\Template\Context
     /**
      * Retrieve Authorization
      *
-     * @return \Magento_AuthorizationInterface
+     * @return \Magento\AuthorizationInterface
      */
     public function getAuthorization()
     {

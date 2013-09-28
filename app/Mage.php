@@ -188,7 +188,8 @@ final class Mage
      */
     public static function exception($module = 'Magento_Core', $message = '', $code = 0)
     {
-        $className = $module . '_Exception';
+        $module = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $module);
+        $className = $module . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Exception';
         return new $className($message, $code);
     }
 

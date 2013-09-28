@@ -118,13 +118,13 @@ class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_
      */
     public function delete($table, $where = '')
     {
-        PHPUnit_Framework_TestCase::assertEquals('catalog_product_option_type_title', $table);
-        PHPUnit_Framework_TestCase::assertInternalType('array', $where);
-        PHPUnit_Framework_TestCase::assertEquals(
+        \PHPUnit_Framework_TestCase::assertEquals('catalog_product_option_type_title', $table);
+        \PHPUnit_Framework_TestCase::assertInternalType('array', $where);
+        \PHPUnit_Framework_TestCase::assertEquals(
             Magento_Catalog_Model_Resource_Product_Option_ValueTest::$valueTitleData['id'],
             $where['option_type_id = ?']
         );
-        PHPUnit_Framework_TestCase::assertEquals(
+        \PHPUnit_Framework_TestCase::assertEquals(
             Magento_Catalog_Model_Resource_Product_Option_ValueTest::$valueTitleData['store_id'],
             $where['store_id = ?']
         );

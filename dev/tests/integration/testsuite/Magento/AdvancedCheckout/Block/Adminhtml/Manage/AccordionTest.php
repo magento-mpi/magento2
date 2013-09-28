@@ -85,7 +85,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth\Session')
             ->setUpdatedAt(time())->setUser($user);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento_AuthorizationInterface',
+            'Magento\AuthorizationInterface',
             array('data' => array('policy' => new \Magento\Authorization\Policy\DefaultPolicy()))
         );
     }
