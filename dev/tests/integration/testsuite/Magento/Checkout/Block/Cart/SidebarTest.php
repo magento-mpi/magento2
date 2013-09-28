@@ -27,7 +27,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             'default',
             $this->_block->getTemplateFile(),
             'template' => null,
-            'item_renders' => 'default|\Magento\Checkout\Block\Cart\Item\Renderer|cart/item/default.phtml',
+            'item_renders' => 'default|Magento\Checkout\Block\Cart\Item\Renderer|cart/item/default.phtml',
         ), $this->_block->getCacheKeyInfo());
     }
 }
