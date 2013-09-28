@@ -6,10 +6,12 @@
  *
  * @copyright {copyright}
  * @license {license_link}
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\GoogleAdwords\Model\Config\Backend;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 abstract class ConversionAbstract extends \Magento\Core\Model\Config\Value
 {
     /**

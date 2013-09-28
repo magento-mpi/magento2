@@ -6,10 +6,12 @@
  *
  * @copyright {copyright}
  * @license {license_link}
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\GoogleAdwords\Model\Config\Source;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Language implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**

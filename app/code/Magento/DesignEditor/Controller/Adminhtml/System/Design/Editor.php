@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
+
 /**
  * Backend controller for the design editor
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
-
 class Editor extends \Magento\Adminhtml\Controller\Action
 {
     /**

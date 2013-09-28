@@ -11,10 +11,12 @@
 /**
  * Backend form widget
  *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 namespace Magento\Backend\Block\Widget;
 
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 class Form extends \Magento\Backend\Block\Widget
 {
     /**

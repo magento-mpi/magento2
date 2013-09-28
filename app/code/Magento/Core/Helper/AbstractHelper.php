@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Helper;
+
 /**
  * Abstract helper
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-namespace Magento\Core\Helper;
-
 abstract class AbstractHelper
 {
     /**

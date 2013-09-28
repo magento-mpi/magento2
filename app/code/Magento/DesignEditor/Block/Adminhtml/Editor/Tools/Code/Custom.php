@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
+
 /**
  * Block that renders Custom tab
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
-
 class Custom extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**

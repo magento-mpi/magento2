@@ -12,10 +12,12 @@
  *
  * @category    Magento
  * @package     Magento_Core
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Backend\Block\Widget\Grid;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ColumnSet extends \Magento\Core\Block\Template
 {
     /**

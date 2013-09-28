@@ -7,10 +7,12 @@
  * @copyright {@copyright}
  * @license   {@license_link}
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Core\Model\ObjectManager;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class DefinitionFactory
 {
     /**

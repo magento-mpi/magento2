@@ -8,22 +8,22 @@
  * @license     {license_link}
  */
 
-// @codingStandardsIgnoreStart
-/**
- * Abstract theme list
- *
- * @method \Magento\Core\Model\Resource\Theme\Collection getCollection()
- * @method bool|null getIsFirstEntrance()
- * @method bool|null getHasThemeAssigned()
- * @method \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList setHasThemeAssigned(bool $flag)
- * @method \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList|\Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Available setCollection(\Magento\Core\Model\Resource\Theme\Collection $collection)
- * @method \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList setIsFirstEntrance(bool $flag)
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
-// @codingStandardsIgnoreEnd
 namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
 
+ // @codingStandardsIgnoreStart
+ /**
+  * Abstract theme list
+  *
+  * @method \Magento\Core\Model\Resource\Theme\Collection getCollection()
+  * @method bool|null getIsFirstEntrance()
+  * @method bool|null getHasThemeAssigned()
+  * @method \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList setHasThemeAssigned(bool $flag)
+  * @method \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList|\Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Available setCollection(\Magento\Core\Model\Resource\Theme\Collection $collection)
+  * @method \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList setIsFirstEntrance(bool $flag)
+  *
+  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+  */
+// @codingStandardsIgnoreEnd
 abstract class AbstractSelectorList
     extends \Magento\Backend\Block\Template
 {

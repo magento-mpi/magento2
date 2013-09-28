@@ -19,6 +19,9 @@
  */
 namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Account extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**

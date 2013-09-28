@@ -14,10 +14,12 @@
  * @category   Magento
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Backend\Block\System\Config;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Edit extends \Magento\Backend\Block\Widget
 {
     const DEFAULT_SECTION_BLOCK = 'Magento\Backend\Block\System\Config\Form';

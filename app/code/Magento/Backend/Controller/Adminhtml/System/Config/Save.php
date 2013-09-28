@@ -15,10 +15,12 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Config;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Save extends \Magento\Backend\Controller\System\AbstractConfig
 {
     /**

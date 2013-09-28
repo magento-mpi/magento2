@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector;
+
 /**
  * Theme selectors tabs container
  *
@@ -15,8 +17,6 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector;
-
 class StoreView extends \Magento\Backend\Block\Template
 {
     /**

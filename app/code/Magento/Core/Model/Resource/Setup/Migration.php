@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Resource\Setup;
+
 /**
  * Resource setup model with methods needed for migration process between Magento versions
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-namespace Magento\Core\Model\Resource\Setup;
-
 class Migration extends \Magento\Core\Model\Resource\Setup
 {
     /**#@+

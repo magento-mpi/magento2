@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model\Wysiwyg\Images;
+
 /**
  * Wysiwyg Images model
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Cms\Model\Wysiwyg\Images;
-
 class Storage extends \Magento\Object
 {
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';

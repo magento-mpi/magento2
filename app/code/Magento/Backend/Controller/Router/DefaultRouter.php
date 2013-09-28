@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 
 namespace Magento\Backend\Controller\Router;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+ */
 class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
 {
     /**

@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
+
 /**
  * Block that renders JS tab
  *
@@ -17,8 +19,6 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
-
 class Tips
     extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles\AbstractTab
 {

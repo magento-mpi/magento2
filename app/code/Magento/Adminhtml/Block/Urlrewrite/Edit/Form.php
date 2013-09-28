@@ -18,10 +18,12 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Edit;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**

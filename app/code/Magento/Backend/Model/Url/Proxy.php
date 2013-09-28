@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 namespace Magento\Backend\Model\Url;
 
+/**
+* @SuppressWarnings(PHPMD.ExcessivePublicCount)
+*/
 class Proxy extends \Magento\Backend\Model\Url
 {
     /**

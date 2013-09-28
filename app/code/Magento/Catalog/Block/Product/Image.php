@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product;
+
 /**
  * @method setImageType(string)
  * @method string getImageType()
@@ -28,8 +30,6 @@
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Catalog\Block\Product;
-
 class Image extends \Magento\Core\Block\Template
 {
     /**

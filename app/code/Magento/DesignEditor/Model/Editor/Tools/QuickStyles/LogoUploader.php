@@ -16,10 +16,12 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class LogoUploader
     extends \Magento\Backend\Model\Config\Backend\Image\Logo
 {

@@ -14,10 +14,12 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Cart extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**

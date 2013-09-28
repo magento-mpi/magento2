@@ -13,10 +13,12 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Adminhtml\Model\Sales\Order;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Random
 {
     /**

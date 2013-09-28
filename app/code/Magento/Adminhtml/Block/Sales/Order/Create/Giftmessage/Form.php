@@ -15,11 +15,12 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
- *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**

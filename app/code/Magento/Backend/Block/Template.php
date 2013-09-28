@@ -15,10 +15,12 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 namespace Magento\Backend\Block;
 
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 class Template extends \Magento\Core\Block\Template
 {
     /**

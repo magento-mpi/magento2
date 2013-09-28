@@ -14,11 +14,12 @@
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
- *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Store
     extends \Magento\Adminhtml\Block\System\Store\Edit\AbstractForm
 {

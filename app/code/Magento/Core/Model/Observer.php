@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Core Observer model
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Core\Model;
-
 class Observer
 {
     /**

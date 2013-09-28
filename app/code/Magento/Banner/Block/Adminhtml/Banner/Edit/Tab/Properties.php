@@ -15,10 +15,12 @@
  * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Properties extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {

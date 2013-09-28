@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Widget\Grid;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Backend\Block\Widget\Grid;
-
 class Export
     extends \Magento\Backend\Block\Widget
     implements \Magento\Backend\Block\Widget\Grid\ExportInterface

@@ -20,11 +20,13 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
 {
     /**

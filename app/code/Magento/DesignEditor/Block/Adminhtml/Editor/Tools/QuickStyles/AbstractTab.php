@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
+
 /**
  * Block that renders Quick Styles tabs
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
-
 abstract class AbstractTab
     extends \Magento\Backend\Block\Widget\Form
 {

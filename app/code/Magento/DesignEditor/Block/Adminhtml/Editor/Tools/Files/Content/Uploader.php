@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content;
+
 /**
  * Files uploader block
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content;
-
 class Uploader
     extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Uploader
 {

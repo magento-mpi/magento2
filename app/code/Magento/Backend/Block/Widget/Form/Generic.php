@@ -11,10 +11,12 @@
 /**
  * Backend form widget
  *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 namespace Magento\Backend\Block\Widget\Form;
 
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 class Generic extends \Magento\Backend\Block\Widget\Form
 {
     /**

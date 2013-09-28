@@ -6,10 +6,12 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Core\Model;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ObjectManager extends \Magento\ObjectManager\ObjectManager
 {
     /**

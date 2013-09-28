@@ -18,13 +18,15 @@
  * @category   Magento
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
+ */
+namespace Magento\Core\Block;
+
+/**
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-namespace Magento\Core\Block;
-
 abstract class AbstractBlock extends \Magento\Object
     implements \Magento\Core\Block
 {

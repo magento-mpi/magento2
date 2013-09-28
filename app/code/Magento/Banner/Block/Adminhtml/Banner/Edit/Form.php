@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit;
+
 /**
  * Class \Magento\Banner\Block\Adminhtml\Banner\Edit\Form
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\Banner\Block\Adminhtml\Banner\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**

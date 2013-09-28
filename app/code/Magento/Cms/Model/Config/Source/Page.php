@@ -6,10 +6,12 @@
  * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Cms\Model\Config\Source;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Page implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;

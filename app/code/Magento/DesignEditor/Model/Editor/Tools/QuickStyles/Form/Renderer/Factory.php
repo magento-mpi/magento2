@@ -14,10 +14,12 @@
  * @method \Magento\Core\Model\Theme getTheme()
  * @method setTheme($theme)
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Factory
 {
     /**

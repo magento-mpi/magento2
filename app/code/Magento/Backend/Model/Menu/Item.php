@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model\Menu;
+
 /**
  * Menu item. Should be used to create nested menu structures with \Magento\Backend\Model\Menu
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-namespace Magento\Backend\Model\Menu;
-
 class Item
 {
     /**

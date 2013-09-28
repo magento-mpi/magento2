@@ -15,10 +15,12 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Backend\Grid;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ColumnSet
     extends \Magento\Backend\Block\Widget\Grid\ColumnSet
 {

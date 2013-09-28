@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
 /**
  * Logo uploader element renderer
  *
@@ -17,8 +19,6 @@
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
-
 class LogoUploader
     extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader
 {

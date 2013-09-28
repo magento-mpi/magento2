@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
+
 /**
  * Block that renders Quick Styles > Buttons & Icons tab
  *
@@ -17,8 +19,6 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
-
 class Buttons
     extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles\AbstractTab
 {

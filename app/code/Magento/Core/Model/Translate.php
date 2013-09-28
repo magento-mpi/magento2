@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Translate model
  *
@@ -15,8 +17,6 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-namespace Magento\Core\Model;
-
 class Translate
 {
     /**

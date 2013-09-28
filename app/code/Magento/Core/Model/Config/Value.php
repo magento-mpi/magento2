@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Config;
 
 /**
  * Config data model
@@ -29,8 +30,6 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-namespace Magento\Core\Model\Config;
-
 class Value extends \Magento\Core\Model\AbstractModel
 {
     const ENTITY = 'core_config_data';

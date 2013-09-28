@@ -6,11 +6,12 @@
  * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
- *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Design
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface

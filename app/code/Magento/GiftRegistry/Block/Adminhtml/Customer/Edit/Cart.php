@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
+
 /**
  * Adminhtml customer cart items grid block
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
-
 class Cart
     extends \Magento\Adminhtml\Block\Widget\Grid
 {
