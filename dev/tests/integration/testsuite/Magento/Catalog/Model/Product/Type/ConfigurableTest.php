@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Type;
+
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
  */
-namespace Magento\Catalog\Model\Product\Type;
-
 class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
     /**
