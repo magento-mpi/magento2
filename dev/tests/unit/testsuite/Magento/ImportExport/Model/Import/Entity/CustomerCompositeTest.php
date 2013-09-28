@@ -66,8 +66,8 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $data = array(
             'translator' => $translator,
             'context' => $context,
-            'locale' => $this->getMock('Magento_Core_Model_Locale_Proxy', array(), array(), '', false),
-            'dateModel' => $this->getMock('Magento_Core_Model_Date_Proxy', array(), array(), '', false)
+            'locale' => $this->getMock('Magento_Core_Model_Locale', array(), array(), '', false),
+            'dateModel' => $this->getMock('Magento_Core_Model_Date', array(), array(), '', false)
         );
         $this->_coreHelper = $objectManager->getObject('Magento_Core_Helper_Data', $data);
         $this->_stringHelper = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);

@@ -76,6 +76,8 @@ class Magento_Core_Utility_Layout
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         return array(
+            'mergeFactory'       => $objectManager->get('Magento_Core_Model_Layout_MergeFactory'),
+            'themeFactory'       => $objectManager->get('Magento_Core_Model_Resource_Theme_CollectionFactory'),
             'logger'             => $objectManager->get('Magento_Core_Model_Logger'),
             'eventManager'       => $objectManager->get('Magento_Core_Model_Event_Manager'),
             'factoryHelper'      => $objectManager->get('Magento_Core_Model_Factory_Helper'),
@@ -87,8 +89,6 @@ class Magento_Core_Utility_Layout
             'scheduledStructure' => $objectManager->create('Magento_Core_Model_Layout_ScheduledStructure', array()),
             'dataServiceGraph'   => $objectManager->create('Magento_Core_Model_DataService_Graph', array()),
             'coreStoreConfig'    => $objectManager->create('Magento_Core_Model_Store_Config'),
-            'mergeFactory'       => $objectManager->get('Magento_Core_Model_Layout_MergeFactory', array()),
-            'themeFactory'       => $objectManager->get('Magento_Core_Model_Resource_Theme_CollectionFactory', array()),
         );
     }
 }

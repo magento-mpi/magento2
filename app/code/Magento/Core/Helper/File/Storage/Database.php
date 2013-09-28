@@ -66,14 +66,14 @@ class Magento_Core_Helper_File_Storage_Database extends Magento_Core_Helper_Abst
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_File_Storage_DatabaseFactory $dbStorageFactory
-     * @param Magento_Core_Model_File_Storage_File_Proxy $fileStorage
+     * @param Magento_Core_Model_File_Storage_File $fileStorage
      * @param Magento_Core_Model_Dir $dir
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_File_Storage_DatabaseFactory $dbStorageFactory,
-        Magento_Core_Model_File_Storage_File_Proxy $fileStorage,
+        Magento_Core_Model_File_Storage_File $fileStorage,
         Magento_Core_Model_Dir $dir,
         Magento_Filesystem $filesystem
     ) {

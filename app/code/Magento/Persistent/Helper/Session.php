@@ -76,8 +76,8 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
      * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Persistent_Model_SessionFactory $sessionFactory
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Locale_Proxy $locale
-     * @param Magento_Core_Model_Date_Proxy $dateModel
+     * @param Magento_Core_Model_Locale $locale
+     * @param Magento_Core_Model_Date $dateModel
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_Config_Resource $configResource
      */
@@ -92,8 +92,8 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
         Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Persistent_Model_SessionFactory $sessionFactory,
         Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Locale_Proxy $locale,
-        Magento_Core_Model_Date_Proxy $dateModel,
+        Magento_Core_Model_Locale $locale,
+        Magento_Core_Model_Date $dateModel,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_Config_Resource $configResource
     ) {

@@ -24,11 +24,11 @@ class Magento_Core_Helper_String extends Magento_Core_Helper_Abstract
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Locale_Proxy $locale
+     * @param Magento_Core_Model_Locale $locale
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Locale_Proxy $locale)
+        Magento_Core_Model_Locale $locale)
     {
         parent::__construct($context);
         $this->_locale = $locale;

@@ -54,7 +54,7 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
                 $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Url_Proxy', array(), array(), '', false),
+                $this->getMock('Magento_Core_Model_Url', array(), array(), '', false),
             ),
             ''
         );
