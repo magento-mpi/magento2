@@ -11,5 +11,5 @@
 
 /** @var $config \Magento\Catalog\Model\Product\Media\Config */
 $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Product\Media\Config');
-Magento_Io_File::rmdirRecursive($config->getBaseMediaPath());
-Magento_Io_File::rmdirRecursive($config->getBaseTmpMediaPath());
+\Magento\Io\File::rmdirRecursive($config->getBaseMediaPath());
+\Magento\Io\File::rmdirRecursive($config->getBaseTmpMediaPath());

@@ -27,7 +27,7 @@ class TaxTest extends \Magento\Backend\Utility\Controller
     {
         $this->getRequest()->setPost($postData);
 
-        $this->dispatch('backend/admin/tax_class/ajaxSave');
+        $this->dispatch('backend/admin/tax_tax/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
         $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
