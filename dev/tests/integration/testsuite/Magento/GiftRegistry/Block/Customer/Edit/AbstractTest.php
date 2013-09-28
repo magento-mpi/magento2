@@ -20,7 +20,7 @@ class AbstractTest
     /**
      * Stub class name
      */
-    const STUB_CLASS = 'Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit\Stub';
+    const STUB_CLASS = 'Magento_GiftRegistry_Block_Customer_Edit_AbstractEdit_Stub';
 
     public function testGetCalendarDateHtml()
     {
