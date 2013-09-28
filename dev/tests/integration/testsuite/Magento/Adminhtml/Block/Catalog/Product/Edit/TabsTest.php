@@ -40,6 +40,6 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs');
         $this->assertArrayHasKey(0, $block->getTabsIds());
-        $this->assertNotEmpty($layout->getBlock('catalog_product_edit_tabs'));
+        $this->assertNotEmpty($layout->getBlock('catalog\product\edit\tabs'));
     }
 }
