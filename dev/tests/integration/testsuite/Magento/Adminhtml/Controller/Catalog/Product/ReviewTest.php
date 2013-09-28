@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Controller\Catalog\Product;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Controller\Catalog\Product;
-
 class ReviewTest extends \Magento\Backend\Utility\Controller
 {
     /**

@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Dashboard;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Dashboard;
-
 class GraphTest extends \PHPUnit_Framework_TestCase
 {
     /**

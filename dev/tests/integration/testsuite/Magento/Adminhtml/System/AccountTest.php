@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\System;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\System;
-
 class AccountTest extends \Magento\Backend\Utility\Controller
 {
     /**

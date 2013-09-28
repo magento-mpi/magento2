@@ -9,12 +9,13 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Controller\Customer;
+
 /**
  * @magentoAppArea adminhtml
  * @magentoDataFixture customerGroupDataFixture
  */
-namespace Magento\Adminhtml\Controller\Customer;
-
 class GroupTest extends \Magento\Backend\Utility\Controller
 {
     protected static $_customerGroupId;

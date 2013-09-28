@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Block\Customer;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Customer;
-
 class OnlineTest extends \PHPUnit_Framework_TestCase
 {
     /**

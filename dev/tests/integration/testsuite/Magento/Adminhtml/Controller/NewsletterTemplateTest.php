@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Controller;
-
 class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
 {
     /**

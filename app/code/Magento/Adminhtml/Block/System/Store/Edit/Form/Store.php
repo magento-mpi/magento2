@@ -20,7 +20,7 @@
 namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
 
 class Store
-    extends \Magento\Adminhtml\Block\System\Store\Edit\FormAbstract
+    extends \Magento\Adminhtml\Block\System\Store\Edit\AbstractForm
 {
     /**
      * @var \Magento\Core\Model\Website\Factory

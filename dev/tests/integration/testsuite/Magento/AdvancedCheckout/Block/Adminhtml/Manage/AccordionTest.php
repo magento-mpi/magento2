@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
-
 class AccordionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */
