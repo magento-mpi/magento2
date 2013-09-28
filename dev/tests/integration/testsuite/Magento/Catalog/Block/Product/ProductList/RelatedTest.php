@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\ListProduct;
+
 /**
  * Test class for \Magento\Catalog\Block\Product\List\Related.
  *
  * @magentoDataFixture Magento/Catalog/_files/products_related.php
  */
-namespace Magento\Catalog\Block\Product\ListProduct;
-
 class RelatedTest extends \PHPUnit_Framework_TestCase
 {
     public function testAll()

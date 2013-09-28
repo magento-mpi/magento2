@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\View;
+
 /**
  * Test class for \Magento\Catalog\Block\Product\View\Options.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-namespace Magento\Catalog\Block\Product\View;
-
 class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**

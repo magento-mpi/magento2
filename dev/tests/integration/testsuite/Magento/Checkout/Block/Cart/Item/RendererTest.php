@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Checkout\Block\Cart\Item;
+
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_with_image.php
  */
-namespace Magento\Checkout\Block\Cart\Item;
-
 class RendererTest extends \PHPUnit_Framework_TestCase
 {
     /**

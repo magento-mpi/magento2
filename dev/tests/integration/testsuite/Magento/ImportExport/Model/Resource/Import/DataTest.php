@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Resource\Import;
+
 /**
  * Test Import Data resource model
  *
  * @magentoDataFixture Magento/ImportExport/_files/import_data.php
  */
-namespace Magento\ImportExport\Model\Resource\Import;
-
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**

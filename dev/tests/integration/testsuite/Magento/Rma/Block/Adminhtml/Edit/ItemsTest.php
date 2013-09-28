@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Edit;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Rma\Block\Adminhtml\Edit;
-
 class ItemsTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
+
 /**
  * @magentoConfigFixture current_store magento_reward/general/is_enabled            1
  * @magentoConfigFixture current_store customer/magento_customerbalance/is_enabled  1
  */
-namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
-
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()

@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Controller\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\User\Controller\Adminhtml;
-
 class UserTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()

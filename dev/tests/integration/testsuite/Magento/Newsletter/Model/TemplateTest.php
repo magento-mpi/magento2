@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Newsletter\Model;
+
 /**
  * @magentoDataFixture Magento/Core/_files/store.php
  */
-namespace Magento\Newsletter\Model;
-
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**

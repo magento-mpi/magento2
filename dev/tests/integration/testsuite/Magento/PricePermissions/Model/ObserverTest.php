@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\PricePermissions\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\PricePermissions\Model;
-
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */

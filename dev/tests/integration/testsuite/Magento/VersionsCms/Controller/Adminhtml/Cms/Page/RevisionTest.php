@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
-
 class RevisionTest extends \Magento\Backend\Utility\Controller
 {
     /**

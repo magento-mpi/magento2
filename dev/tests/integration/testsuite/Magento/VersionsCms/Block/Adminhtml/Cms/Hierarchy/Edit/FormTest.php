@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
-
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */

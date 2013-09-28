@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource\Role;
+
 /**
  * Role collection test
  * @magentoAppArea adminhtml
  */
-namespace Magento\User\Model\Resource\Role;
-
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**

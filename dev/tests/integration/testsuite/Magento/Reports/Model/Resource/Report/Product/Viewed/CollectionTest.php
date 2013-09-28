@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reports\Model\Resource\Report\Product\Viewed;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Reports\Model\Resource\Report\Product\Viewed;
-
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**

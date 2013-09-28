@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit;
-
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form */

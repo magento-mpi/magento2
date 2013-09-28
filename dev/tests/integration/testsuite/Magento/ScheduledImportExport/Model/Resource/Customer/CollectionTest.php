@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\ScheduledImportExport\Model\Resource\Customer;
+
 /**
  * Test collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
  *
  * @magentoConfigFixture current_store magento_reward/general/is_enabled            1
  * @magentoConfigFixture current_store customer/magento_customerbalance/is_enabled  1
  */
-namespace Magento\ScheduledImportExport\Model\Resource\Customer;
-
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**

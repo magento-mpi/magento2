@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
-
 class MainTest extends \PHPUnit_Framework_TestCase
 {
     public function testPackageThemeElement()

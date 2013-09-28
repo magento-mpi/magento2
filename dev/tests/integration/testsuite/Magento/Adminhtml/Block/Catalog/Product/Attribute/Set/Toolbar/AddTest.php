@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar;
-
 class AddTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtmlFormId()
