@@ -92,7 +92,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_Core_Model_Event_Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {
@@ -100,7 +100,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_Core_Helper_Http
+     * @return \Magento\Core\Helper\Http
      */
     public function getHttpHelper()
     {
@@ -108,7 +108,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {
@@ -116,7 +116,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_Core_Model_Store_Config
+     * @return \Magento\Core\Model\Store\Config
      */
     public function getStoreConfig()
     {
@@ -124,7 +124,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento_Core_Model_Session_Validator
+     * @return \Magento\Core\Model\Session\Validator
      */
     public function getValidator()
     {

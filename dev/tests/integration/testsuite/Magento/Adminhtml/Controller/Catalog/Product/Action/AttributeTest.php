@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Controller\Catalog\Product\Action;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Controller\Catalog\Product\Action;
-
 class AttributeTest extends \Magento\Backend\Utility\Controller
 {
     /**

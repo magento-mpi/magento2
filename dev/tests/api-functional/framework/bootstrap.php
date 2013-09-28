@@ -38,8 +38,8 @@ $bootstrap = new \Magento\TestFramework\Bootstrap(
     $testsTmpDir
 );
 $bootstrap->runBootstrap();
-Magento_TestFramework_Helper_Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
-Magento_TestFramework_Utility_Files::init(new \Magento\TestFramework\Utility\Files($magentoBaseDir));
+\Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
+\Magento\TestFramework\Utility\Files::init(new \Magento\TestFramework\Utility\Files($magentoBaseDir));
 
 /** Magento installation */
 if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {

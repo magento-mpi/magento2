@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Page;
+
 /**
  * Test \Magento\Adminhtml\Block\Page\Header
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Page;
-
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     /**

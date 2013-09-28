@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Controller\Sales\Order;
-
 class CreateTest extends \Magento\Backend\Utility\Controller
 {
     public function testLoadBlockAction()

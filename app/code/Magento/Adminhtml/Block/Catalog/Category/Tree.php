@@ -178,7 +178,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         }
 
         return $this->_coreData->jsonEncode(
-            $categoryById[Magento_Catalog_Model_Category::TREE_ROOT_ID]['children']
+            $categoryById[\Magento\Catalog\Model\Category::TREE_ROOT_ID]['children']
         );
     }
 

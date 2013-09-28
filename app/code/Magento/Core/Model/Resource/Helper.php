@@ -275,8 +275,8 @@ class Helper extends \Magento\Core\Model\Resource\Helper\AbstractHelper
     /**
      * Returns expression of days passed from $startDate to $endDate
      *
-     * @param  string|Zend_Db_Expr $startDate
-     * @param  string|Zend_Db_Expr $endDate
+     * @param  string|\Zend_Db_Expr $startDate
+     * @param  string|\Zend_Db_Expr $endDate
      * @return \Zend_Db_Expr
      */
     public function getDateDiff($startDate, $endDate)

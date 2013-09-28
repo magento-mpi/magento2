@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
-
 class AccordionTest extends \PHPUnit_Framework_TestCase
 {
     /**

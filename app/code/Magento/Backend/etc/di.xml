@@ -43,7 +43,7 @@
         <param name="routerList">
             <value>
                 <admin>
-                    <instance>Magento\Backend\Controller\Router\Default</instance>
+                    <instance>Magento\Backend\Controller\Router\DefaultRouter</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>10</sortOrder>
                 </admin>

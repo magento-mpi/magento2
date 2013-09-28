@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Controller\Sales\Order;
-
 class CreditmemoTest extends \Magento\Backend\Utility\Controller
 {
     /**
