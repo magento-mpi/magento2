@@ -120,7 +120,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $file
      * @param string $schemaFile
-     * @throws PHPUnit_Framework_AssertionFailedError if file is invalid
+     * @throws \PHPUnit_Framework_AssertionFailedError if file is invalid
      */
     protected function _validateConfigFile($file, $schemaFile)
     {

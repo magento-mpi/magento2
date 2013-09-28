@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
-
 class ContentTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()

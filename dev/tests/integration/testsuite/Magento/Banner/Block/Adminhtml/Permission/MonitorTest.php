@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Block\Adminhtml\Permission;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Banner\Block\Adminhtml\Permission;
-
 class MonitorTest extends \PHPUnit_Framework_TestCase
 {
     /**

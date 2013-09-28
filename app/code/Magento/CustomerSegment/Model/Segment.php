@@ -161,7 +161,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return $this->_conditionFactory->create('Combine_Root');
+        return $this->_conditionFactory->create('Combine\Root');
     }
 
     /**
