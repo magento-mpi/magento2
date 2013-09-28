@@ -28,9 +28,9 @@ class RelatedTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('product', $product);
-        /** @var $block \Magento\Catalog\Block\Product\ListProduct\Related */
+        /** @var $block \Magento\Catalog\Block\Product\ProductList\Related */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
-            ->createBlock('Magento\Catalog\Block\Product\ListProduct\Related');
+            ->createBlock('Magento\Catalog\Block\Product\ProductList\Related');
         $block->setLayout(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout'));
         $block->setTemplate('product/list/related.phtml');
 
