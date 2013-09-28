@@ -107,7 +107,7 @@ class GenerateEmailTemplates
      */
     protected $_error = false;
 
-    protected function _is_writable($filePath)
+    protected function _isWritable($filePath)
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $f = @fopen($filePath, 'a');
@@ -206,7 +206,7 @@ class GenerateEmailTemplates
             return;
         }
 
-        if (!is_dir($outputName) && file_exists($outputName) && !$this->_is_writable($outputName)) {
+        if (!is_dir($outputName) && file_exists($outputName) && !$this->_isWritable($outputName)) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("Output file '%s' is not writable", $outputName));
             $this->_error = true;
             return;
@@ -240,12 +240,12 @@ class GenerateEmailTemplates
      * @param int $flags
      * @return array
      */
-    protected function glob_recursive($pattern, $flags = 0)
+    protected function globRecursive($pattern, $flags = 0)
     {
         $files = glob($pattern, $flags);
         foreach (glob(dirname($pattern) . DS . '*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
         {
-            $files = array_merge($files, $this->glob_recursive($dir . DS . basename($pattern), $flags));
+            $files = array_merge($files, $this->globRecursive($dir . DS . basename($pattern), $flags));
         }
         return $files;
     }
@@ -262,7 +262,7 @@ class GenerateEmailTemplates
         $result = array();
         $prefix = (substr($path, -1) == DS ? $path : $path . DS);
 
-        $files = $this->glob_recursive($prefix . $pattern);
+        $files = $this->globRecursive($prefix . $pattern);
         foreach ($files as $filename) {
             $result[pathinfo($filename, PATHINFO_FILENAME)]=$filename;
         }
