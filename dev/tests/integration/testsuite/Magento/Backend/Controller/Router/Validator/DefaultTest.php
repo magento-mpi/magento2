@@ -12,9 +12,6 @@
 namespace Magento\Backend\Controller\Router\Validator;
 
 /**
- * Test namespace Magento\Backend\Controller\Router;
-
-class DefaultRouter
  * @magentoAppArea adminhtml
  */
 class DefaultTest extends \PHPUnit_Framework_TestCase

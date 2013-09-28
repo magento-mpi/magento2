@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
 /**
  * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Price.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**

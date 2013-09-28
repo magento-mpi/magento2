@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block;
-
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()

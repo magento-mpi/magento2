@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
+
 /**
  * @magentoAppIsolation enabled
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
-
 class WebsiteTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Widget;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Widget;
-
 class GridTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMassactionBlock()

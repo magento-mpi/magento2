@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Webapi\User\Factory
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -14,6 +10,11 @@
  */
 namespace Magento\Webhook\Model\Webapi\User;
 
+/**
+ * \Magento\Webhook\Model\Webapi\User\Factory
+ *
+ * @magentoDbIsolation enabled
+ */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** Values being sent to user service */

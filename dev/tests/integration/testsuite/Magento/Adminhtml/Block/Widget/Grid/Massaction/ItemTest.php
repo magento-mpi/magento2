@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Widget\Grid\Massaction;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Widget\Grid\Massaction;
-
 class ItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAdditionalActionBlock()

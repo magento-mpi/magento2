@@ -9,11 +9,12 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- *
- * @magentoDbIsolation enabled
  */
 namespace Magento\Webhook\Model;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\Subscription */

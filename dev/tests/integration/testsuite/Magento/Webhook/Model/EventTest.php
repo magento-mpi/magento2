@@ -6,10 +6,12 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @magentoDbIsolation enabled
  */
 namespace Magento\Webhook\Model;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class EventTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Webhook\Model\Event */

@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Page\Asset;
+
 /**
  * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
  */
-namespace Magento\Core\Model\Page\Asset;
-
 class MergedTest extends \PHPUnit_Framework_TestCase
 {
     /**

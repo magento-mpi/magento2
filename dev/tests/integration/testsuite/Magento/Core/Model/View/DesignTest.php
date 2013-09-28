@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\View;
+
 /**
  * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
  */
-namespace Magento\Core\Model\View;
-
 class DesignTest extends \PHPUnit_Framework_TestCase
 {
     /**

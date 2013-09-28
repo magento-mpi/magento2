@@ -12,12 +12,11 @@
 namespace Magento\ImportExport\Model\Import\Entity\Eav;
 
 /**
- * Test for namespace Magento\ImportExport\Model\Import\Entity\Eav;
- * class Customer which covers validation logic
+ * Test for class \Magento\ImportExport\Model\Import\Entity\Eav\Customer which covers validation logic
  *
  * @magentoDataFixture Magento/ImportExport/_files/customers.php
  */
-class CustomerTest extends \PHPUnit_Framework_TestCase
+class CustomerValidateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model object which used for tests
