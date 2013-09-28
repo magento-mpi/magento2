@@ -31,7 +31,10 @@ class Magento_Test_CookieTest extends PHPUnit_Framework_TestCase
         $this->_model = new Magento_TestFramework_Cookie(
             $coreStoreConfig,
             $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
-            new Magento_TestFramework_Request($helperMock),
+            new Magento_TestFramework_Request(
+                $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false),
+                $helperMock
+            ),
             new Magento_TestFramework_Response(
                 $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
             )
