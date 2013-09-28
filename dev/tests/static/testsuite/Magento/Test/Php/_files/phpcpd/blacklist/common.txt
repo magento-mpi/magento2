@@ -34,6 +34,7 @@ Magento/Catalog/Model/Template
 Magento/Cms/Model
 Magento/GiftMessage/Model
 Magento/GiftWrapping/Model
+Magento/GoogleShopping/Model/Attribute
 Magento/Newsletter
 Magento/Oauth/Controller
 Magento/Sales/Block/Order
