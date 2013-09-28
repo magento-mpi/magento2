@@ -76,7 +76,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
                 throw new \Exception(__('Please specify a correct Import Service.'));
             }
             try {
-                /** @var \Magento\Directory\Model\Currency\Import\Interface $importModel */
+                /** @var \Magento\Directory\Model\Currency\Import\ImportInterface $importModel */
                 $importModel = $this->_objectManager->get('Magento\Directory\Model\Currency\Import\Factory')
                     ->create($service);
             } catch (\Exception $e) {
