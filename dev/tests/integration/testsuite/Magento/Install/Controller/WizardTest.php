@@ -26,7 +26,7 @@ class WizardTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public static function setUpBeforeClass()
     {
         $tmpDir =
-            \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR . __CLASS__;
+            \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR . 'WizardTest';
         if (is_file($tmpDir)) {
             unlink($tmpDir);
         } elseif (is_dir($tmpDir)) {
