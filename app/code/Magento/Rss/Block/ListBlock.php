@@ -132,20 +132,20 @@ class ListBlock extends \Magento\Core\Block\Template
     public function getRssCatalogFeeds()
     {
         $this->resetRssFeed();
-        $this->CategoriesRssFeed();
+        $this->categoriesRssFeed();
         return $this->getRssFeeds();
     }
 
     public function getRssMiscFeeds()
     {
         $this->resetRssFeed();
-        $this->NewProductRssFeed();
-        $this->SpecialProductRssFeed();
-        $this->SalesRuleProductRssFeed();
+        $this->newProductRssFeed();
+        $this->specialProductRssFeed();
+        $this->salesRuleProductRssFeed();
         return $this->getRssFeeds();
     }
 
-    public function NewProductRssFeed()
+    public function newProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/new';
         if ((bool)$this->_storeConfig->getConfig($path)) {
@@ -153,7 +153,7 @@ class ListBlock extends \Magento\Core\Block\Template
         }
     }
 
-    public function SpecialProductRssFeed()
+    public function specialProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/special';
         if ((bool)$this->_storeConfig->getConfig($path)) {
@@ -161,7 +161,7 @@ class ListBlock extends \Magento\Core\Block\Template
         }
     }
 
-    public function SalesRuleProductRssFeed()
+    public function salesRuleProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/salesrule';
         if ((bool)$this->_storeConfig->getConfig($path)) {
@@ -169,7 +169,7 @@ class ListBlock extends \Magento\Core\Block\Template
         }
     }
 
-    public function CategoriesRssFeed()
+    public function categoriesRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS . '/catalog/category';
         if ((bool)$this->_storeConfig->getConfig($path)) {
