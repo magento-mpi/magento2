@@ -259,6 +259,8 @@ lib/Magento/Simplexml/Element.php
 lib/Magento/System/Args.php
 lib/Magento/System/Dirs.php
 lib/Magento/System/Ftp.php
+lib/Magento/Translate/Adapter.php
+lib/Magento/Translate/AdapterInterface.php
 lib/Magento/Util.php
 lib/Magento/Validator/Composite/VarienObject.php
 lib/Magento/Validator/Constraint.php
