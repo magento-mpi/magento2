@@ -230,7 +230,7 @@
                     <sortOrder>20</sortOrder>
                 </standard>
                 <default>
-                    <instance>Magento\Core\Controller\Varien\Router\Default</instance>
+                    <instance>Magento\Core\Controller\Varien\Router\DefaultRouter</instance>
                     <disable type="bool">false</disable>
                     <sortOrder>100</sortOrder>
                 </default>
