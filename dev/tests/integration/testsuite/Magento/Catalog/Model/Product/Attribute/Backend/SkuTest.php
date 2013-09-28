@@ -9,12 +9,13 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
 /**
  * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Sku.
  * @magentoAppArea adminhtml
  */
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 class SkuTest extends \PHPUnit_Framework_TestCase
 {
     /**
