@@ -31,7 +31,7 @@ class Compared
     protected $_adminhtmlSales;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Compare\ListFactory|null
+     * @var \Magento\Catalog\Model\Product\Compare\ListCompareFactory|null
      */
     protected $_compareListFactory;
 
@@ -55,7 +55,7 @@ class Compared
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory
+     * @param \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory
      * @param array $data
      */
     public function __construct(
@@ -68,7 +68,7 @@ class Compared
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
+        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
         array $data = array()
     ) {
         $this->_catalogStockStatus = $catalogStockStatus;

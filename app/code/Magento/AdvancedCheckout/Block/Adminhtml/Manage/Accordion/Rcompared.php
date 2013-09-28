@@ -31,7 +31,7 @@ class Rcompared
     protected $_adminhtmlSales;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Compare\ListFactory
+     * @var \Magento\Catalog\Model\Product\Compare\ListCompareFactory
      */
     protected $_compareListFactory;
 
@@ -61,7 +61,7 @@ class Rcompared
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory
+     * @param \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory
      * @param array $data
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Rcompared
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
+        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
         array $data = array()
     ) {
         $this->_catalogConfig = $catalogConfig;
