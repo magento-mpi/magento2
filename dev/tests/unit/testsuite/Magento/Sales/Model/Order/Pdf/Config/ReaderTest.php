@@ -78,7 +78,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 $expected = __DIR__ . '/_files/pdf_merged.xml';
                 \PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());
                 return true;
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            } catch (\PHPUnit_Framework_AssertionFailedError $e) {
                 return false;
             }
         };

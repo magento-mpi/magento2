@@ -46,7 +46,7 @@ class Transaction
      *
      * @param \PHPUnit_Framework_TestCase $test
      */
-    public function startTest(PHPUnit_Framework_TestCase $test)
+    public function startTest(\PHPUnit_Framework_TestCase $test)
     {
         $this->_processTransactionRequests('startTest', $test);
     }
@@ -56,7 +56,7 @@ class Transaction
      *
      * @param \PHPUnit_Framework_TestCase $test
      */
-    public function endTest(PHPUnit_Framework_TestCase $test)
+    public function endTest(\PHPUnit_Framework_TestCase $test)
     {
         $this->_processTransactionRequests('endTest', $test);
     }
@@ -92,7 +92,7 @@ class Transaction
      *
      * @param \PHPUnit_Framework_TestCase $test
      */
-    protected function _startTransaction(PHPUnit_Framework_TestCase $test)
+    protected function _startTransaction(\PHPUnit_Framework_TestCase $test)
     {
         if (!$this->_isTransactionActive) {
             $this->_getAdapter()->beginTransparentTransaction();

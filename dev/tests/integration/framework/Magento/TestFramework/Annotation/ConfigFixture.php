@@ -97,7 +97,7 @@ class ConfigFixture
      *
      * @param \PHPUnit_Framework_TestCase $test
      */
-    protected function _assignConfigData(PHPUnit_Framework_TestCase $test)
+    protected function _assignConfigData(\PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
         if (!isset($annotations['method']['magentoConfigFixture'])) {
@@ -151,7 +151,7 @@ class ConfigFixture
      *
      * @param \PHPUnit_Framework_TestCase $test
      */
-    public function startTest(PHPUnit_Framework_TestCase $test)
+    public function startTest(\PHPUnit_Framework_TestCase $test)
     {
         $this->_currentTest = $test;
         $this->_assignConfigData($test);
@@ -164,7 +164,7 @@ class ConfigFixture
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function endTest(PHPUnit_Framework_TestCase $test)
+    public function endTest(\PHPUnit_Framework_TestCase $test)
     {
         $this->_currentTest = null;
         $this->_restoreConfigData();

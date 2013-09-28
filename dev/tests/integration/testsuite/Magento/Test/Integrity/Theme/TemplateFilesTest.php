@@ -40,7 +40,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstrac
                     ->get('Magento\Core\Model\View\FileSystem')
                     ->getFilename($file, $params);
                 $this->assertFileExists($templateFilename);
-            } catch (PHPUnit_Framework_ExpectationFailedException $e) {
+            } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
                 $invalidTemplates[] = "File \"$templateFilename\" does not exist." . PHP_EOL
                     . "Parameters: {$area}/{$themeId} {$module}::{$file}" . PHP_EOL
                     . 'Layout update: ' . $xml;
