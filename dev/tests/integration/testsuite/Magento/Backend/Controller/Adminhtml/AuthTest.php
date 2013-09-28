@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Controller\Adminhtml;
+
 /**
  * Test class for \Magento\Backend\Controller\Adminhtml\Auth
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Controller\Adminhtml;
-
 class AuthTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**

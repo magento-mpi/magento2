@@ -9,13 +9,14 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Controller\Adminhtml;
+
 /**
  * Test class for \Magento\Backend\Controller\Adminhtml\Index.
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Controller\Adminhtml;
-
 class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**

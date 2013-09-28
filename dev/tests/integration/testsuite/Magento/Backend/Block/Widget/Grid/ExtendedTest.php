@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Widget\Grid;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Block\Widget\Grid;
-
 class ExtendedTest extends \PHPUnit_Framework_TestCase
 {
     /**

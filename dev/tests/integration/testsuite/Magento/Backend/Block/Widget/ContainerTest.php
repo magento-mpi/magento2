@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Widget;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Block\Widget;
-
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPseudoConstruct()
