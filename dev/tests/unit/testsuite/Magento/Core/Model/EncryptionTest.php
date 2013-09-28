@@ -15,11 +15,15 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetHelperGetHash($input)
     {
+        $helper = $this->getMockBuilder('Magento\Core\Helper\Data')
+                      ->disableOriginalConstructor()
+                      ->setMockClassName('Magento_Core_Helper_Data_Stub')
+                      ->getMock();
         $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->once())
             ->method('get')
-            ->with($this->stringContains('Magento\Core\Helper\Data'))
-            ->will($this->returnValue($this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)));
+            ->with($this->stringContains('Magento_Core_Helper_Data_Stub'))
+            ->will($this->returnValue($helper));
         $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         /**
@@ -35,9 +39,13 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
      */
     public function setHelperGetHashDataProvider()
     {
+        $helper = $this->getMockBuilder('Magento\Core\Helper\Data')
+                      ->disableOriginalConstructor()
+                      ->setMockClassName('Magento_Core_Helper_Data_Stub')
+                      ->getMock();
         return array(
-            'string' => array('Magento\Core\Helper\Data'),
-            'object' => array($this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)),
+            'string' => array('Magento_Core_Helper_Data_Stub'),
+            'object' => array($helper),
         );
     }
 
