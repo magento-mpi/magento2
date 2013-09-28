@@ -360,7 +360,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      * @return \Zend_Db_Statement_Interface
      * @throws PDOException
      */
-    public function raw_query($sql)
+    public function rawQuery($sql)
     {
         try {
             $result = $this->query($sql);
@@ -383,9 +383,9 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      * @param string|int $field
      * @return boolean
      */
-    public function raw_fetchRow($sql, $field = null)
+    public function rawFetchRow($sql, $field = null)
     {
-        $result = $this->raw_query($sql);
+        $result = $this->rawQuery($sql);
         if (!$result) {
             return false;
         }
@@ -639,7 +639,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      */
     public function multiQuery($sql)
     {
-        return $this->multi_query($sql);
+        return $this->multiMagentoQuery($sql);
     }
 
     /**
@@ -648,16 +648,16 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      * @param string $sql
      * @return array
      */
-    public function multi_query($sql)
+    public function multiMagentoQuery($sql)
     {
-        ##$result = $this->raw_query($sql);
+        ##$result = $this->rawQuery($sql);
 
         #$this->beginTransaction();
         try {
             $stmts = $this->_splitMultiQuery($sql);
             $result = array();
             foreach ($stmts as $stmt) {
-                $result[] = $this->raw_query($stmt);
+                $result[] = $this->rawQuery($stmt);
             }
             #$this->commit();
         } catch (\Exception $e) {
@@ -750,7 +750,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
                     $this->quoteIdentifier($foreignKeys[$key]['FK_NAME'])
                 );
                 $this->resetDdlCache($tableName, $schemaName);
-                $this->raw_query($sql);
+                $this->rawQuery($sql);
             }
         }
         return $this;
@@ -779,7 +779,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
                 $this->quoteIdentifier($columnName),
                 $this->quoteIdentifier($refColumnName),
                 $this->quoteIdentifier($refColumnName));
-            $this->raw_query($sql);
+            $this->rawQuery($sql);
         } elseif ($onDelete == \Magento\DB\Adapter\AdapterInterface::FK_ACTION_SET_NULL) {
             $sql = sprintf("UPDATE %s AS p LEFT JOIN %s AS r ON p.%s = r.%s SET p.%s = NULL WHERE r.%s IS NULL",
                 $this->quoteIdentifier($tableName),
@@ -788,7 +788,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
                 $this->quoteIdentifier($refColumnName),
                 $this->quoteIdentifier($columnName),
                 $this->quoteIdentifier($refColumnName));
-            $this->raw_query($sql);
+            $this->rawQuery($sql);
         }
 
         return $this;
@@ -852,7 +852,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
             $primaryKey
         );
 
-        $result = $this->raw_query($sql);
+        $result = $this->rawQuery($sql);
 
         $this->resetDdlCache($tableName, $schemaName);
 
@@ -899,7 +899,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
             $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
             implode(', ', $alterDrop));
 
-        $result = $this->raw_query($sql);
+        $result = $this->rawQuery($sql);
         $this->resetDdlCache($tableName, $schemaName);
 
         return $result;
@@ -958,7 +958,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
             $this->quoteIdentifier($newColumnName),
             $definition);
 
-        $result = $this->raw_query($sql);
+        $result = $this->rawQuery($sql);
 
         if ($flushData) {
             $this->showTableStatus($tableName, $schemaName);
@@ -993,7 +993,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
             $this->quoteIdentifier($columnName),
             $definition);
 
-        $this->raw_query($sql);
+        $this->rawQuery($sql);
         if ($flushData) {
             $this->showTableStatus($tableName, $schemaName);
         }
@@ -1017,7 +1017,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
         }
         $query = sprintf('SHOW TABLE STATUS%s LIKE %s', $fromDbName,  $this->quote($tableName));
 
-        return $this->raw_fetchRow($query);
+        return $this->rawFetchRow($query);
     }
 
     /**
@@ -1033,7 +1033,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
         $ddl = $this->loadDdlCache($cacheKey, self::DDL_CREATE);
         if ($ddl === false) {
             $sql = 'SHOW CREATE TABLE ' . $this->quoteIdentifier($tableName);
-            $ddl = $this->raw_fetchRow($sql, 'Create Table');
+            $ddl = $this->rawFetchRow($sql, 'Create Table');
             $this->saveDdlCache($cacheKey, self::DDL_CREATE, $ddl);
         }
 
@@ -1276,14 +1276,14 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
         $whereCond = implode(' AND ', $where);
         $sql = sprintf('SELECT COUNT(*) as `cnt` FROM `%s` WHERE %s', $table, $whereCond);
 
-        $cnt = $this->raw_fetchRow($sql, 'cnt');
+        $cnt = $this->rawFetchRow($sql, 'cnt');
         if ($cnt > 1) {
             $sql = sprintf('DELETE FROM `%s` WHERE %s LIMIT %d',
                 $table,
                 $whereCond,
                 $cnt - 1
             );
-            $this->raw_query($sql);
+            $this->rawQuery($sql);
         }
 
         return $this;
@@ -1804,7 +1804,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
         $table = $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
         $sql   = sprintf('ALTER TABLE %s ENGINE=%s', $table, $engine);
 
-        return $this->raw_query($sql);
+        return $this->rawQuery($sql);
     }
 
     /**
@@ -1820,7 +1820,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
         $table = $this->quoteIdentifier($this->_getTableName($tableName, $schemaName));
         $sql   = sprintf("ALTER TABLE %s COMMENT='%s'", $table, $comment);
 
-        return $this->raw_query($sql);
+        return $this->rawQuery($sql);
     }
 
     /**
@@ -1833,9 +1833,9 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      */
     public function insertForce($table, array $bind)
     {
-        $this->raw_query("SET @OLD_INSERT_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO'");
+        $this->rawQuery("SET @OLD_INSERT_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO'");
         $result = $this->insert($table, $bind);
-        $this->raw_query("SET SQL_MODE=IFNULL(@OLD_INSERT_SQL_MODE,'')");
+        $this->rawQuery("SET SQL_MODE=IFNULL(@OLD_INSERT_SQL_MODE,'')");
 
         return $result;
     }
@@ -2483,7 +2483,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
         $cycle = true;
         while ($cycle === true) {
             try {
-                $result = $this->raw_query($query);
+                $result = $this->rawQuery($query);
                 $cycle  = false;
             } catch (\Exception $e) {
                 if (in_array(strtolower($indexType), array('primary', 'unique'))) {
@@ -2530,7 +2530,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
 
         $this->resetDdlCache($tableName, $schemaName);
 
-        return $this->raw_query($sql);
+        return $this->rawQuery($sql);
     }
 
     /**
@@ -2575,7 +2575,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
             $query .= ' ON UPDATE ' . strtoupper($onUpdate);
         }
 
-        $result = $this->raw_query($query);
+        $result = $this->rawQuery($query);
         $this->resetDdlCache($tableName);
         return $result;
     }
@@ -2605,9 +2605,9 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      */
     public function startSetup()
     {
-        $this->raw_query("SET SQL_MODE=''");
-        $this->raw_query("SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0");
-        $this->raw_query("SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO'");
+        $this->rawQuery("SET SQL_MODE=''");
+        $this->rawQuery("SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0");
+        $this->rawQuery("SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO'");
 
         return $this;
     }
@@ -2619,8 +2619,8 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      */
     public function endSetup()
     {
-        $this->raw_query("SET SQL_MODE=IFNULL(@OLD_SQL_MODE,'')");
-        $this->raw_query("SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS=0, 0, 1)");
+        $this->rawQuery("SET SQL_MODE=IFNULL(@OLD_SQL_MODE,'')");
+        $this->rawQuery("SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS=0, 0, 1)");
 
         return $this;
     }
