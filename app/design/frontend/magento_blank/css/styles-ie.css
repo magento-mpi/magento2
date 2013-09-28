@@ -14,7 +14,6 @@
 * html .note-msg,
 * html .notice-msg { height:24px; }
 .block li.item,
-.block-poll li,
 .opc li.section { vertical-align:top; }
 * html .window-overlay {}
 
@@ -66,8 +65,6 @@ button.btn-checkout {}
 .block .block-content,
 .block .actions,
 .block li.item,
-.block-poll li,
-.block-poll .label,
 .block-layered-nav .currently li,
 .block-account .block-content li a,
 .mini-products-list .product-details,

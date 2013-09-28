@@ -190,7 +190,6 @@ return array(
     array('addRowItemRender', 'Magento_Checkout_Block_Multishipping_Overview'),
     array('addSaleableFilterToCollection'),
     array('addSearchQfFilter'),
-    array('addStoresFilter', 'Magento_Poll_Model_Resource_Poll_Collection'),
     array('addTemplateData', 'Magento_Newsletter_Model_Queue'),
     array('addToAlersAction'),
     array('addToChildGroup'),

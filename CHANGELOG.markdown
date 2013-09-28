@@ -1,3 +1,4 @@
+* Removed the Poll module including references and dependencies to/on it.
 * Removed from configuration XML files and implemented into di the following nodes:
   * Skip_process_modules_updates
   * external_cache

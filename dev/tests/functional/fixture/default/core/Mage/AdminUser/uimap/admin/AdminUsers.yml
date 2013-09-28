@@ -250,7 +250,6 @@ new_admin_role:
                                         content-elements-pages-delete_page: //*[@data-id='Magento_Cms::page_delete']//*[@class='jstree-checkbox']
                                         content-elements-blocks: //*[@data-id='Magento_Cms::block']//*[@class='jstree-checkbox']
                                         content-elements-frontend_apps: //*[@data-id='Magento_Widget::widget_instance']//*[@class='jstree-checkbox']
-                                        content-elements-polls: //*[@data-id='Magento_Poll::poll']//*[@class='jstree-checkbox']
                                         content-elements-media_gallery: //*[@data-id='Magento_Cms::media_gallery']//*[@class='jstree-checkbox']
                                         content-design: //*[@data-id='Magento_Adminhtml::design']//*[@class='jstree-checkbox']
                                         content-design-the_designer: //*[@data-id='Magento_DesignEditor::editor']//*[@class='jstree-checkbox']

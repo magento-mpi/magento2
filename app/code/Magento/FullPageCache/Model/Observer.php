@@ -676,24 +676,6 @@ class Magento_FullPageCache_Model_Observer
     }
 
     /**
-     * Set poll hash in cookie on poll vote
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_FullPageCache_Model_Observer
-     */
-    public function registerPollChange(Magento_Event_Observer $observer)
-    {
-        if (!$this->isCacheEnabled()) {
-            return $this;
-        }
-
-        $cookieValue = $observer->getEvent()->getPoll()->getId();
-        $this->_cookie->set(Magento_FullPageCache_Model_Cookie::COOKIE_POLL, $cookieValue);
-
-        return $this;
-    }
-
-    /**
      * Clean order sidebar cache
      *
      * @param Magento_Event_Observer $observer

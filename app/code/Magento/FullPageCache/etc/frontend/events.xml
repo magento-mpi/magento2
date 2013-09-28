@@ -69,9 +69,6 @@
     <event name="sales_order_place_after">
         <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerNewOrder" />
     </event>
-    <event name="poll_vote_add">
-        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerPollChange" />
-    </event>
     <event name="catalog_controller_product_init_before">
         <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="updateProductInfo" />
     </event>
