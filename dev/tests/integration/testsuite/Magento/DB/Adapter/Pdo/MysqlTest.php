@@ -90,7 +90,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
         $phpErrorReporting = error_reporting();
         /** @var $pdoConnection PDO */
         $pdoConnection = $this->_getDbAdapter()->getConnection();
-        $pdoWarningsEnabled = $pdoConnection->getAttribute(PDO::ATTR_ERRMODE) & PDO::ERRMODE_WARNING;
+        $pdoWarningsEnabled = $pdoConnection->getAttribute(\PDO::ATTR_ERRMODE) & PDO::ERRMODE_WARNING;
         if (!$pdoWarningsEnabled) {
             error_reporting($phpErrorReporting & ~E_WARNING);
         }

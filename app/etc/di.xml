@@ -109,7 +109,7 @@
             <instance type="Magento\Core\Model\Config\Proxy" />
         </param>
     </type>
-    <type name="Magento_Filesystem" shared="false">
+    <type name="Magento\Filesystem" shared="false">
         <param name="adapter">
             <instance type="Magento\Filesystem\Adapter\Local" />
         </param>
