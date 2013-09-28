@@ -42,7 +42,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
      * Add information on context of a module, config file belongs to
      *
      * {@inheritdoc}
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      */
     protected function _readFileContents($filename)
     {

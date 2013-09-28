@@ -27,12 +27,12 @@ return array
         '<?xml version="1.0"?><config><entity name="test_name" label="test_label" model="afwer34" '
             . 'behaviorModel="test" /></config>',
         array("Element 'entity', attribute 'model': [facet 'pattern'] The value 'afwer34' is not "
-            . "accepted by the pattern '[A-Za-z_]+'.",
+            . "accepted by the pattern '[A-Za-z_\\\\\\\\]+'.",
         "Element 'entity', attribute 'model': 'afwer34' is not a valid value of the atomic type 'modelName'.")),
     'entity_behaviorModel_with_invalid_value' => array(
         '<?xml version="1.0"?><config><entity name="test_name" label="test_label" model="test" behaviorModel="666" />'
         . '</config>',
         array("Element 'entity', attribute 'behaviorModel': [facet 'pattern'] The value '666' is not accepted by "
-            . "the pattern '[A-Za-z_]+'.",
+            . "the pattern '[A-Za-z_\\\\\\\\]+'.",
         "Element 'entity', attribute 'behaviorModel': '666' is not a valid value of the atomic type 'modelName'.")),
 );

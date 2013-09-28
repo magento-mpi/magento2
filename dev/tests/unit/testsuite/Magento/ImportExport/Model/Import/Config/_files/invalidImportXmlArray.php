@@ -17,12 +17,12 @@ return array
     'entity_with_invalid_model_value' => array(
         '<?xml version="1.0"?><config><entity name="some_name" model="12345"/></config>',
         array("Element 'entity', attribute 'model': [facet 'pattern'] The value '12345' is not accepted by "
-            . "the pattern '[A-Za-z_]+'.",
+            . "the pattern '[A-Za-z_\\\\\\\\]+'.",
         "Element 'entity', attribute 'model': '12345' is not a valid value of the atomic type 'modelName'.")),
     'entity_with_invalid_behaviormodel_value' => array(
         '<?xml version="1.0"?><config><entity name="some_name" behaviorModel="=--09"/></config>',
         array("Element 'entity', attribute 'behaviorModel': [facet 'pattern'] The value '=--09' is not "
-            . "accepted by the pattern '[A-Za-z_]+'.",
+            . "accepted by the pattern '[A-Za-z_\\\\\\\\]+'.",
         "Element 'entity', attribute 'behaviorModel': '=--09' is not a valid value of the atomic type 'modelName'.")),
     'entity_with_notallowed_attribute' => array(
         '<?xml version="1.0"?><config><entity name="some_name" notallowd="aasd"/></config>',
@@ -41,7 +41,7 @@ return array
     'producttype_with_invalid_model_attribute_value' => array(
         '<?xml version="1.0"?><config><productType name="some_name" model="test1"/></config>',
         array("Element 'productType', attribute 'model': [facet 'pattern'] The value 'test1' is not "
-            . "accepted by the pattern '[A-Za-z_]+'.",
+            . "accepted by the pattern '[A-Za-z_\\\\\\\\]+'.",
         "Element 'productType', attribute 'model': 'test1' is not a valid value of the atomic type 'modelName'.")),
     'producttype_with_notallowed' => array(
         '<?xml version="1.0"?><config><productType name="some_name" model="test" notallowed="test"/></config>',

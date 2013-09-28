@@ -37,7 +37,7 @@ return array(
         '<?xml version="1.0"?><config><indexer name="name" instance="10"/><indexer name="name_one" '
         . 'instance="One_Two1" /></config>',
         array("Element 'indexer', attribute 'instance': [facet 'pattern'] The value '10' is not accepted by the pattern"
-        . " '[a-zA-Z_]+'.", "Element 'indexer', attribute 'instance': '10' is not a valid value of the atomic type "
+        . " '[a-zA-Z_\\\\\\\\]+'.", "Element 'indexer', attribute 'instance': '10' is not a valid value of the atomic type "
         . "'instanceType'.", "Element 'indexer', attribute 'instance': [facet 'pattern'] The value 'One_Two1' is not "
         . "accepted by the pattern '[a-zA-Z_]+'.", "Element 'indexer', attribute 'instance': 'One_Two1' is not a valid "
         . "value of the atomic type 'instanceType'.")),

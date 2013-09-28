@@ -95,7 +95,7 @@ class Config
      * @param string $templateId Name of an email template
      * @param string $fieldName Name of a field value of which to return
      * @return string
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      */
     protected function _getInfo($templateId, $fieldName)
     {

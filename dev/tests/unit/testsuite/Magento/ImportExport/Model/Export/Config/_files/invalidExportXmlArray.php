@@ -23,7 +23,7 @@ return array(
         '<?xml version="1.0"?><config><entity name="Name/one" model="model_one"/><productType name="name_one" '
         . ' model="1"/><fileFormat name="name_one" model="model1"/></config>',
         array("Element 'productType', attribute 'model': [facet 'pattern'] The value '1' is not accepted by the "
-        . "pattern '[A-Za-z_]+'.", "Element 'productType', attribute 'model': '1' is not a valid value of the atomic "
+        . "pattern '[A-Za-z_\\\\\\\\]+'.", "Element 'productType', attribute 'model': '1' is not a valid value of the atomic "
         . "type 'modelName'.", "Element 'fileFormat', attribute 'model': [facet 'pattern'] The value 'model1' is not "
         . "accepted by the pattern '[A-Za-z_]+'.", "Element 'fileFormat', attribute 'model': 'model1' is not a valid "
         . "value of the atomic type 'modelName'.")),

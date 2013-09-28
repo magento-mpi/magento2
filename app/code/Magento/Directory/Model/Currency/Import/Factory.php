@@ -37,7 +37,7 @@ class Factory
      * @param string $serviceName
      * @param array $data
      * @throws \InvalidArgumentException
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      * @return \Magento\Directory\Model\Currency\Import\ImportInterface
      */
     public function create($serviceName, array $data = array())

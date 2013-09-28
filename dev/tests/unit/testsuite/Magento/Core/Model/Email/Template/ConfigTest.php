@@ -74,7 +74,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $getterMethod
      * @dataProvider getterMethodUnknownTemplateDataProvider
-     * @expectedException UnexpectedValueException
+     * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Email template 'unknown' is not defined
      */
     public function testGetterMethodUnknownTemplate($getterMethod)
