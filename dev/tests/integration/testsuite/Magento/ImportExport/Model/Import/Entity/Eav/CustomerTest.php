@@ -16,7 +16,7 @@ namespace Magento\ImportExport\Model\Import\Entity\Eav;
  *
  * @magentoDataFixture Magento/ImportExport/_files/customers.php
  */
-class CustomerValidateTest extends \PHPUnit_Framework_TestCase
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model object which used for tests
