@@ -102,15 +102,15 @@ class Grouped
                 }
                 $scope = $this->_entityModel->getRowScope($rowData);
                 if (\Magento\ImportExport\Model\Import\Entity\Product::SCOPE_DEFAULT == $scope) {
-                    $productData = $newSku[$rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_SKU]];
+                    $productData = $newSku[$rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_SKU]];
                 } else {
                     $colAttrSet = \Magento\ImportExport\Model\Import\Entity\Product::COL_ATTR_SET;
                     $rowData[$colAttrSet] = $productData['attr_set_code'];
-                    $rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_TYPE] = $productData['type_id'];
+                    $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_TYPE] = $productData['type_id'];
                 }
                 $productId = $productData['entity_id'];
 
-                if ($this->_type != $rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_TYPE]) {
+                if ($this->_type != $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_TYPE]) {
                     continue;
                 }
                 $linksData['product_ids'][$productId] = true;

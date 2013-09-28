@@ -41,7 +41,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     public function testIsAllowedSessionIdGetParam()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_GET[Magento_Core_Model_Session_AbstractSession::SESSION_ID_QUERY_PARAM] = 'session_id';
+        $_GET[\Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM] = 'session_id';
         $this->assertFalse($this->_model->isAllowed());
     }
 

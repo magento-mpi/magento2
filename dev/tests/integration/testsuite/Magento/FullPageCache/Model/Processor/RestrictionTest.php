@@ -34,7 +34,7 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
     public function testIsAllowedNoCacheCookie()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_COOKIE[Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE] = '1';
+        $_COOKIE[\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE] = '1';
         $this->assertFalse($this->_model->isAllowed());
     }
 
