@@ -59,7 +59,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
         /* Prepare toolbar block */
         $toolbar = $parent->getToolbarBlock();
-        $this->assertInstanceOf('Magento\Catalog\Block\Product\ListProduct\Toolbar', $toolbar, 'Default Toolbar');
+        $this->assertInstanceOf('Magento\Catalog\Block\Product\ProductList\Toolbar', $toolbar, 'Default Toolbar');
 
         $parent->setChild('toolbar', $toolbar);
         /* In order to initialize toolbar collection block toHtml should be called before toolbar toHtml */
