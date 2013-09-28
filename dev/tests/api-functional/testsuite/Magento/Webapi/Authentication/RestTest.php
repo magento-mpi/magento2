@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../../../../lib/OAuth/bootstrap.php';
 
 /**
  * Test authentication mechanisms in REST.
@@ -14,6 +13,8 @@ require_once __DIR__ . '/../../../../lib/OAuth/bootstrap.php';
  * @magentoApiDataFixture consumerFixture
  */
 namespace Magento\Webapi\Authentication;
+
+require_once __DIR__ . '/../../../../lib/OAuth/bootstrap.php';
 
 class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {

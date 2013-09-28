@@ -8,9 +8,9 @@
  * @license    {license_link}
  */
 
-include('ModuleTranslations.php');
-
 namespace Magento\Tools\Translate;
+
+include('ModuleTranslations.php');
 
 class DirectoryFilter extends FilterIterator
 {

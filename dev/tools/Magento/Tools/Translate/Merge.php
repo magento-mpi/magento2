@@ -14,10 +14,10 @@
 //- translate file
 //- write to file non translate
 
+namespace Magento\Tools\Translate;
+
 define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 define('DS', DIRECTORY_SEPARATOR);
-
-namespace Magento\Tools\Translate;
 
 class Merge
 {

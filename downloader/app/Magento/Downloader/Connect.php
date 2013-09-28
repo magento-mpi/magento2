@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Downloader;
+
 error_reporting(E_ALL & ~E_NOTICE);
 
 // just a shortcut
@@ -34,8 +36,6 @@ if (strpos($_includePath, $_libDir) === false) {
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloader;
-
 class Connect
 {
 

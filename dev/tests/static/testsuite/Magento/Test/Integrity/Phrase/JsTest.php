@@ -1,9 +1,5 @@
 <?php
 
-use Magento\Tools\I18n\Code\Parser\Adapter;
-use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
-use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
-
 /**
  * Scan javascript files for invocations of mage.__() function, verifies that all the translations
  * were output to the page.
@@ -14,6 +10,10 @@ use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
  * @license   {license_link}
  */
 namespace Magento\Test\Integrity\Phrase;
+
+use Magento\Tools\I18n\Code\Parser\Adapter;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
 
 class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 {

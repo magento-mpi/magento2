@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Downloader\Model;
+
 include_once "Magento/Connect.php";
 
 /**
@@ -17,8 +19,6 @@ include_once "Magento/Connect.php";
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Downloader\Model;
 
 class Connect extends \Magento\Downloader\Model
 {

@@ -8,6 +8,8 @@
  * @license    {license_link}
  */
 
+namespace Magento\Tools\Translate;
+
 define('USAGE', <<<USAGE
  Create translation file(s) from e-mail templates of locale
   php -f GenerateEmailTemplates.php -- --locale <locale_NAME> --output <file|directory>
@@ -39,8 +41,6 @@ define('ACTION_SPLIT', 3);
 define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS . 'template' . DS);
 
 include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
-
-namespace Magento\Tools\Translate;
 
 class GenerateEmailTemplates
 {
