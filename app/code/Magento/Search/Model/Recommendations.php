@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
- /**
-  * Enterprise search recommendations model
-  *
-  * @SuppressWarnings(PHPMD.LongVariable)
-  */
 namespace Magento\Search\Model;
 
+/**
+ * Enterprise search recommendations model
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Recommendations
 {
     /**

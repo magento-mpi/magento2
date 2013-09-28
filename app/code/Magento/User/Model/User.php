@@ -37,12 +37,12 @@
  * @method \Magento\User\Model\User setExtra(string $value)
  */
 
+namespace Magento\User\Model;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\User\Model;
-
 class User
     extends \Magento\Core\Model\AbstractModel
     implements \Magento\Backend\Model\Auth\Credential\StorageInterface

@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
+
 /**
  * Theme form, Css editor tab
  *
@@ -17,8 +19,6 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
-
 class Css
     extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract
 {

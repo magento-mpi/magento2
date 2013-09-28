@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
 /**
  * TargetRule Catalog Product List Abstract Block
@@ -16,8 +17,6 @@
  * @package    Magento_TargetRule
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
-
 abstract class AbstractProductList
     extends \Magento\TargetRule\Block\Product\AbstractProduct
 {

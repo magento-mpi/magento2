@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\User\Edit\Tab;
+
 /**
  * Cms page edit form main tab
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-
-namespace Magento\User\Block\User\Edit\Tab;
-
 class Main extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**

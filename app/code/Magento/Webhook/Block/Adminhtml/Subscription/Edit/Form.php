@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Webhook\Block\Adminhtml\Subscription\Edit;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /** Key used to store subscription data into the registry */

@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\MultipleWishlist\Model\Search\Strategy;
+
 /**
  * Wishlist search by name and last name strategy
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\MultipleWishlist\Model\Search\Strategy;
-
 class Name implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyInterface
 {
     /**

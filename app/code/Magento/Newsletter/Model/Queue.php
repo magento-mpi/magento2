@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Newsletter\Model;
+
 /**
  * Newsletter queue model.
  *
@@ -35,8 +37,6 @@
  * @method \Magento\Newsletter\Model\Queue setQueueFinishAt(string $value)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Newsletter\Model;
-
 class Queue extends \Magento\Core\Model\Template
 {
     /**

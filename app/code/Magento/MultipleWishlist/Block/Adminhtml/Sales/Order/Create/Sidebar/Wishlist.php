@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\MultipleWishlist\Block\Adminhtml\Sales\Order\Create\Sidebar;
+
 /**
  * Adminhtml customer orders grid block
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\MultipleWishlist\Block\Adminhtml\Sales\Order\Create\Sidebar;
-
 class Wishlist
     extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Wishlist
 {

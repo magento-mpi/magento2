@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Webhook\Block\Adminhtml\Registration\Create;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /** Constants for API user details */

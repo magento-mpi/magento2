@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
+
 /**
  * Theme form tab abstract block
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
-
 abstract class TabAbstract
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface

@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\MultipleWishlist\Controller;
+
 /**
  * Multiple wishlist frontend search controller
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-
-namespace Magento\MultipleWishlist\Controller;
-
 class Index extends \Magento\Wishlist\Controller\Index
 {
     /**

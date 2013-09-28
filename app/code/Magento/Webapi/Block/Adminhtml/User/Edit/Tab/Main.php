@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
+ */
+namespace Magento\Webapi\Block\Adminhtml\User\Edit\Tab;
+
+/**
  * @method \Magento\Webapi\Block\Adminhtml\User\Edit setApiUser() setApiUser(\Magento\Webapi\Model\Acl\User $user)
  * @method \Magento\Webapi\Model\Acl\User getApiUser() getApiUser()
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\Webapi\Block\Adminhtml\User\Edit\Tab;
-
 class Main extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**

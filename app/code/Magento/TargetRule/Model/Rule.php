@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\TargetRule\Model;
 
 /**
  * TargetRule Rule Model
@@ -43,8 +44,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\TargetRule\Model;
-
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
     /**

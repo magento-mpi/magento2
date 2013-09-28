@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\MultipleWishlist\Helper;
+
 /**
  * Multiple wishlist helper
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\MultipleWishlist\Helper;
-
 class Data extends \Magento\Wishlist\Helper\Data
 {
     /**

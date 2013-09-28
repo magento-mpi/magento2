@@ -7,10 +7,12 @@
  * @copyright {copyright}
  * @license   {license_link}
  *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 namespace Magento\Config\Reader;
 
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 class Filesystem implements \Magento\Config\ReaderInterface
 {
     /**

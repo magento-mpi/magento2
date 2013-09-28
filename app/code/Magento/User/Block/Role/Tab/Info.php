@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\Role\Tab;
+
 /**
  * implementing now
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\User\Block\Role\Tab;
-
 class Info
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface

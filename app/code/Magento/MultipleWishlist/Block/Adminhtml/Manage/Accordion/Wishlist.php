@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion;
+
 /**
  * Accordion grid for products in wishlist
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion;
-
 class Wishlist
     extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
 {

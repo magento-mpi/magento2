@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\TargetRule\Model\Resource;
 
 /**
  * TargetRule Product Index by Rule Product List Type Resource Model
@@ -17,8 +18,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\TargetRule\Model\Resource;
-
 class Index extends \Magento\Index\Model\Resource\AbstractResource
 {
     /**

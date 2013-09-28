@@ -8,14 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Newsletter\Model\Resource\Problem;
 
 /**
  * Newsletter problems collection
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Newsletter\Model\Resource\Problem;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**

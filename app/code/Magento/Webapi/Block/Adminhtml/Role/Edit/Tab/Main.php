@@ -10,10 +10,12 @@
  * @method \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main setApiRole(\Magento\Webapi\Model\Acl\Role $role)
  * @method \Magento\Webapi\Model\Acl\Role getApiRole()
  *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Main extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**

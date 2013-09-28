@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files;
+
 /**
  * Files content block
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files;
-
 class Content extends \Magento\Backend\Block\Widget\Container
 {
     /**

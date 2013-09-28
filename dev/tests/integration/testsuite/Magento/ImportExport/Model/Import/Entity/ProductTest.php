@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Import\Entity;
+
 /**
  * Test class for \Magento\ImportExport\Model\Import\Entity\Product
  *
@@ -16,8 +18,6 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\ImportExport\Model\Import\Entity;
-
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**

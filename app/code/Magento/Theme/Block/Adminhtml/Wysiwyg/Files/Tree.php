@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files;
+
 /**
  * Files tree block
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files;
-
 class Tree extends \Magento\Backend\Block\Template
 {
     /**

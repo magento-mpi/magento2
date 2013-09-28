@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Persistent\Model;
+
 /**
  * Persistent Observer
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Persistent\Model;
-
 class Observer
 {
     /**

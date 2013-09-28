@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
+
 /**
  * Theme form, general tab
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
-
 class General
     extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract
 {

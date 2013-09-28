@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\TargetRule\Block\Checkout\Cart;
 
 /**
  * TargetRule Checkout Cart Cross-Sell Products Block
@@ -16,8 +17,6 @@
  * @package    Magento_TargetRule
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\TargetRule\Block\Checkout\Cart;
-
 class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
 {
     /**

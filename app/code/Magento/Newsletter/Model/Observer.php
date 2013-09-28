@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Newsletter\Model;
+
 /**
  * Newsletter module observer
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Newsletter\Model;
-
 class Observer
 {
     /**

@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\Role\Tab;
+
 /**
  * Rolesedit Tab Display Block
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\User\Block\Role\Tab;
-
 class Edit extends \Magento\Backend\Block\Widget\Form
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {

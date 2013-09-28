@@ -13,12 +13,14 @@
  *
  * @category   Magento
  * @package    Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  *
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\User\Block\User\Edit;
 
+/**
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()

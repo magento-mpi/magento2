@@ -12,10 +12,12 @@
  * Number of fields is necessary because of the number of fields used by multiple layers
  * of parent classes.
  *
- * @SuppressWarnings(PHPMD.TooManyFields)
  */
 namespace Magento\Test\Block;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class Adminhtml extends \PHPUnit_Framework_TestCase
 {
     /** @var  \PHPUnit_Framework_MockObject_MockObject */

@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\TestFramework\Bootstrap;
+
 /**
  * Bootstrap of the custom DocBlock annotations
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\TestFramework\Bootstrap;
-
 class DocBlock
 {
     /**

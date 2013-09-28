@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
+
 /**
  * Theme Edit Form
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Cms\Model\Wysiwyg\Images;
 

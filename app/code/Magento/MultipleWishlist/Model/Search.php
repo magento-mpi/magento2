@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\MultipleWishlist\Model;
+
 /**
  * Wishlist search module
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\MultipleWishlist\Model;
-
 class Search
 {
     /**

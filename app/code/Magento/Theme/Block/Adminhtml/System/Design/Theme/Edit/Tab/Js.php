@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
+
 /**
  * Theme form, Js editor tab
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
-
 class Js
     extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract
 {

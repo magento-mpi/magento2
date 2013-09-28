@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\TestFramework;
+
 /**
  * Encapsulates application installation, initialization and uninstall
  *
@@ -16,8 +18,6 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\TestFramework;
-
 class Application
 {
     /**
