@@ -22,7 +22,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Stub class name for class under test
      */
-    const STUB_CLASS = 'Magento\Catalog\Block\Product\AbstractProduct\Stub';
+    const STUB_CLASS = 'Magento_Catalog_Block_Product_AbstractProduct_Stub';
 
     /**
      * @var \Magento\Catalog\Block\Product\AbstractProduct
