@@ -9,7 +9,7 @@
  */
 return array(
     array('Magento\CatalogEvent\Block\Adminhtml\Event_Grid'),
-    array('Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid'),
+    array('Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors_Grid'),
     array('Magento\VersionsCms\Model\Resource\Setup'),
     array('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount_Grid'),
     array('Magento\GiftCard\Block\Email\Generated'),
