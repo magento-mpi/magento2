@@ -11,7 +11,7 @@
 
 namespace Magento\Core\Model\Design\Backend;
 
-class \ExceptionsTest extends \PHPUnit_Framework_TestCase
+class ExceptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Design\Backend\Exceptions

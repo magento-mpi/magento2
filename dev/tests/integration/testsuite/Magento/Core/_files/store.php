@@ -25,5 +25,5 @@ $store->setCode('fixturestore') // fixture_store conflicts with "current_store" 
 $store->save();
 
 /* Refresh stores memory cache */
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
     ->reinitStores();

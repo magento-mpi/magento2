@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
     ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
 $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\DesignEditor\Model\Session');

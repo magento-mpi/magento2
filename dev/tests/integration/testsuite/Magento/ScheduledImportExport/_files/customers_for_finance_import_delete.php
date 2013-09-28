@@ -21,7 +21,7 @@ $website->setData(array(
     'is_default'       => '0'
 ));
 $website->save();
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
     ->reinitStores();
 
 $additionalWebsiteId = $website->getId();

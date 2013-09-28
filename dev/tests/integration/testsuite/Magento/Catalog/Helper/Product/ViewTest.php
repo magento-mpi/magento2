@@ -8,11 +8,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Helper\Product;
 
 require \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')->getDir()
     . '/app/code/Magento/Catalog/Controller/Product.php';
-
-namespace Magento\Catalog\Helper\Product;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
 {

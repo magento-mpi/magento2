@@ -63,5 +63,5 @@ $objectManager->get('Magento\Core\Model\Registry')->register('_fixture/Magento_T
 
 $ruleData['code'] = 'Test Rule Duplicate';
 
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Tax\Model\Calculation\Rule')->setData($ruleData)->save();

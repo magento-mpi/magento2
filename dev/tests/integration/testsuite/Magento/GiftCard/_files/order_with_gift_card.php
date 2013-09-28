@@ -68,7 +68,7 @@ $order->addItem($orderItem)
     ->setPayment($payment);
 $order->save();
 
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->get('Magento\Core\Model\Config')
     ->setNode('websites/base/giftcard/giftcardaccount_general/pool_size', 1);
 /** @var $pool \Magento\GiftCardAccount\Model\Pool */
