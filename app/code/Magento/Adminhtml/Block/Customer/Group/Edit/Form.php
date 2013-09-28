@@ -25,13 +25,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_backendSession;
 
     /**
-     * @var \Magento\Tax\Model\ClassModel\Source\Customer
+     * @var \Magento\Tax\Model\TaxClass\Source\Customer
      */
     protected $_taxCustomer;
 
     /**
      * @param \Magento\Backend\Model\Session $backendSession
-     * @param \Magento\Tax\Model\ClassModel\Source\Customer $taxCustomer
+     * @param \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
@@ -40,7 +40,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Model\Session $backendSession,
-        \Magento\Tax\Model\ClassModel\Source\Customer $taxCustomer,
+        \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Helper\Data $coreData,

@@ -199,7 +199,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Core\Model\Context'),
                 $objectManager->get('Magento\Core\Model\Registry'),
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Tax\Model\ClassModel\Factory'),
+            ->create('Magento\Tax\Model\TaxClass\Factory'),
             ),
             '',
             true
