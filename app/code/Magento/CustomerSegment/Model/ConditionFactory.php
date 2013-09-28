@@ -39,7 +39,7 @@ class ConditionFactory
      */
     public function create($className, array $data = array())
     {
-        $classNamePrefix = 'Magento\CustomerSegment\Model\Segment\Condition\';
+        $classNamePrefix = 'Magento\CustomerSegment\Model\Segment\Condition\\';
         if (false === strpos($className, $classNamePrefix)) {
             $className = $classNamePrefix . $className;
         }

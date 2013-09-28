@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+
 /**
  * @magentoDataFixture Magento/CatalogRule/_files/catalog_rule_10_off_not_logged.php
  * @magentoAppArea adminhtml
- */
-namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
+ */namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
 class CatalogruleTest extends \PHPUnit_Framework_TestCase
 {

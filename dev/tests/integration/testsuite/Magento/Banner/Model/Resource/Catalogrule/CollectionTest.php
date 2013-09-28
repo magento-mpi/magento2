@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Model\Resource\Catalogrule;
+
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  * @magentoDataFixture Magento/Banner/_files/banner_catalog_rule.php
  */
-namespace Magento\Banner\Model\Resource\Catalogrule;
-
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**

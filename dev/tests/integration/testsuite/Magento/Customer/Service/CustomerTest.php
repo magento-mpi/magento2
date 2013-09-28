@@ -517,10 +517,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             // Remove updated_at as in afterSave updated_at may be changed
             $expectedCustomerData = $customer->getData();
             unset($expectedCustomerData['updated_at']);
-            PHPUnit_Framework_Assert::assertEquals($expectedCustomerData,
+            \PHPUnit_Framework_Assert::assertEquals($expectedCustomerData,
                 $actualCustomer->toArray(array_keys($expectedCustomerData)));
-            PHPUnit_Framework_Assert::assertEquals($customerData, $actualData);
-            PHPUnit_Framework_Assert::assertEquals($addressData, $actualAddresses);
+            \PHPUnit_Framework_Assert::assertEquals($customerData, $actualData);
+            \PHPUnit_Framework_Assert::assertEquals($addressData, $actualAddresses);
         };
 
         $this->_model->setBeforeSaveCallback($callback);

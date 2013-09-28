@@ -18,7 +18,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
      * @param string $themeId
      * @param string $file
      * @dataProvider viewFilesFromThemesDataProvider
-     * @throws PHPUnit_Framework_AssertionFailedError|Exception
+     * @throws \PHPUnit_Framework_AssertionFailedError|Exception
      */
     public function testViewFilesFromThemes($area, $themeId, $file)
     {
@@ -51,7 +51,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
                     $this->fail('Cannot find file(s): ' . implode(', ', $errors));
                 }
             }
-        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
             throw $e;
         } catch (\Exception $e) {
             $this->fail($e->getMessage());

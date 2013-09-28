@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
-
 class CustomersegmentTest
     extends \Magento\Backend\Utility\Controller
 {
