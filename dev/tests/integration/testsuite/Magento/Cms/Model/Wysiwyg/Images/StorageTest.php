@@ -9,6 +9,10 @@
  */
 namespace Magento\Cms\Model\Wysiwyg\Images;
 
+/**
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,7 +24,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     {
         self::$_baseDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Cms\Helper\Wysiwyg\Images')
-                ->getCurrentPath() . __CLASS__;
+                ->getCurrentPath() . 'MagentoCmsModelWysiwygImagesStorageTest';
         mkdir(self::$_baseDir, 0777);
         touch(self::$_baseDir . DIRECTORY_SEPARATOR . '1.swf');
     }

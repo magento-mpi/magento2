@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model;
+
 /**
  * Test class for \Magento\Backend\Model\Url.
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Model;
-
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**

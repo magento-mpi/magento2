@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block;
+
 /**
  * Test class for \Magento\Backend\Block\Widget
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Block;
-
 class WidgetTest extends \PHPUnit_Framework_TestCase
 {
     /**

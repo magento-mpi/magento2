@@ -109,7 +109,7 @@
             <instance type="Magento\Core\Model\Config\Proxy" />
         </param>
     </type>
-    <type name="Magento_Filesystem" shared="false">
+    <type name="Magento\Filesystem" shared="false">
         <param name="adapter">
             <instance type="Magento\Filesystem\Adapter\Local" />
         </param>
@@ -148,7 +148,7 @@
             <instance type="Magento\Core\Model\StoreManager\Proxy" />
         </param>
     </type>
-    <type name="Magento_Acl" shared="false" />
+    <type name="Magento\Acl" shared="false" />
     <type name="Magento\Core\Model\Context">
         <param name="eventDispatcher">
             <instance type="Magento\Core\Model\Event\Manager\Proxy" />
