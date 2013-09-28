@@ -115,7 +115,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
                 __('No'),
                 __('Yes')
             ),
-            'renderer' => 'Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid_Column_Renderer_Used',
+            'renderer' => 'Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid\Column\Renderer\Used',
             'filter_condition_callback' => array(
                 $this->_salesRuleCoupon->create(), 'addIsUsedFilterCallback'
             )

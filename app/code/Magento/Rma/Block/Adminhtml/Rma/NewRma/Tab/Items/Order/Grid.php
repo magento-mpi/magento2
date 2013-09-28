@@ -118,7 +118,7 @@ class Grid
      * Filter items collection due to RMA needs. Remove forbidden items, non-applicable
      * bundles (and their children) and configurables
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid
      */
     protected function _afterLoadCollection()
     {
@@ -248,7 +248,7 @@ class Grid
             'header'=> __('Remaining'),
             'type'  => 'text',
             'index' => 'available_qty',
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
             'filter' => false,
             'sortable' => false,
             'header_css_class'  => 'col-qty',
@@ -322,7 +322,7 @@ class Grid
      * Setting column filters to collection
      *
      * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
-     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid
      */
     protected function _addColumnFilterToCollection($column)
     {
