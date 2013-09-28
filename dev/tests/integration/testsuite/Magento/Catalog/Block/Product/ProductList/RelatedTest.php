@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Block\Product\ListProduct;
+namespace Magento\Catalog\Block\Product\ProductList;
 
 /**
  * Test class for \Magento\Catalog\Block\Product\List\Related.

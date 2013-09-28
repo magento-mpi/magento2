@@ -15,7 +15,7 @@ namespace Magento\Backend\Controller;
  * Test class for \Magento\Backend\Controller\ActionAbstract.
  * @magentoAppArea adminhtml
  */
-class ActionAbstractTest extends \Magento\Backend\Utility\Controller
+class AbstractActionTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Check redirection to startup page for logged user

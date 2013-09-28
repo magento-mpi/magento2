@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Block\Product\ListProduct;
+namespace Magento\Catalog\Block\Product\ProductList;
 
 class ToolbarTest extends \PHPUnit_Framework_TestCase
 {

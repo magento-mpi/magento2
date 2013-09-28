@@ -14,7 +14,7 @@ namespace Magento\Backend\Controller\Router;
 /**
  * @magentoAppArea adminhtml
  */
-class DefaultTest extends \PHPUnit_Framework_TestCase
+class DefaultRouterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Controller\Router\DefaultRouter
