@@ -539,6 +539,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
                  */
                 //if (class_exists($className, false)) {
                 if ($className) {
+                    $className = str_replace('_', '\\', $className);
                     $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
                 }
                 //}
