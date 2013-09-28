@@ -204,7 +204,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     'type' => 'Magento\Core\Block\Text\ListText',
                     'key1' => 'value1',
                 ),
-                '/text_list/'
+                '/text\\\\list/'
             ),
         );
     }

@@ -132,7 +132,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
         return array(
             array('Magento_Adminhtml', 'index', 'Magento\Adminhtml\Controller\Index'),
             array('Magento_Index', 'process', 'Magento\Index\Controller\Adminhtml\Process'),
-            array('Magento\Index\Adminhtml', 'process', 'Magento\Index\Controller\Adminhtml\Process'),
+            array('Magento_Index_Adminhtml', 'process', 'Magento\Index\Controller\Adminhtml\Process'),
         );
     }
 }
