@@ -28,7 +28,7 @@ class PhpScannerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\Tools\Di\Code\Scanner\PhpScanner();
-        $this->_testDir = str_replace('\\', '/', realpath(__FILE__ . '/../../') . '/_files');
+        $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
         $this->_testFiles = array(
             $this->_testDir . '/app/code/Magento/SomeModule/Helper/Test.php',
             $this->_testDir . '/app/code/Magento/SomeModule/Model/Test.php',

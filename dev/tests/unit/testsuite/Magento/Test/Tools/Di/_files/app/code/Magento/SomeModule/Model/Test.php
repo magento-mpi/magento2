@@ -11,15 +11,15 @@ class Test
 {
     public function __construct()
     {
-        new \Magento\SomeModule\Model\Element\Proxy();
+        new Magento_SomeModule_Model_Element_Proxy();
     }
 
     /**
-     * @param \Magento\SomeModule\ModelFactory $factory
+     * @param Magento_SomeModule_ModelFactory $factory
      * @param array $data
      */
-    public function test(\Magento\SomeModule\ModelFactory $factory, array $data = array())
+    public function test(Magento_SomeModule_ModelFactory $factory, array $data = array())
     {
-        $factory->create('Magento\SomeModule\Model\BlockFactory', array('data' => $data));
+        $factory->create('Magento_SomeModule_Model_BlockFactory', array('data' => $data));
     }
 }

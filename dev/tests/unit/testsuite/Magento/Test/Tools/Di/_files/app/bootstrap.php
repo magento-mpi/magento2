@@ -7,4 +7,4 @@
  */
 
 $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-$bootstrapFactory = $objectManager->getObject('Magento\Bootstrap\ModelFactory');
+$bootstrapFactory = $objectManager->getObject('Magento_Bootstrap_ModelFactory');
