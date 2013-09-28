@@ -72,7 +72,7 @@ class Magento_Core_Model_StoreManager implements Magento_Core_Model_StoreManager
      */
     public function __construct(
         Magento_Core_Model_Store_StorageFactory $factory,
-        Magento_Core_Controller_Request_Http_Proxy $request,
+        Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Factory_Helper $helperFactory,
         $scopeCode = '',
         $scopeType = 'store'

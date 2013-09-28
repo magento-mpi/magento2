@@ -31,9 +31,10 @@ class Magento_Core_Controller_Varien_Action_ForwardTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
             'Magento_Backend_Helper_DataProxy', false);
-        $this->_request  = new Magento_Core_Controller_Request_Http($helperMock);
+        $this->_request  = new Magento_Core_Controller_Request_Http($storeManager, $helperMock);
         $this->_response = new Magento_Core_Controller_Response_Http(
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
         );

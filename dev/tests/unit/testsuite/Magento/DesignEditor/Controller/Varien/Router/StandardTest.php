@@ -81,11 +81,12 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         );
 
         // test data to verify routers match logic
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
             'Magento_Backend_Helper_DataProxy', false);
         $matchedRequest = $this->getMock('Magento_Core_Controller_Request_Http',
             $silencedMethods,
-            array($helperMock, $vdeUrl)
+            array($storeManager, $helperMock, $vdeUrl)
         );
         $routerMockedMethods = array('match');
 
@@ -115,7 +116,9 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         return array(
             'not vde request' => array(
                 '$request' => $this->getMock(
-                    'Magento_Core_Controller_Request_Http', $silencedMethods, array($helperMock, $notVdeUrl)
+                    'Magento_Core_Controller_Request_Http', $silencedMethods, array(
+                        $storeManager, $helperMock, $notVdeUrl
+                    )
                 ),
                 '$isVde'           => false,
                 '$isLoggedIn'      => true,
@@ -123,7 +126,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             ),
             'not logged as admin' => array(
                 '$request' => $this->getMock(
-                    'Magento_Core_Controller_Request_Http', $silencedMethods, array($helperMock, $vdeUrl)
+                    'Magento_Core_Controller_Request_Http', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => false,
@@ -131,7 +134,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             ),
             'no matched routers' => array(
                 '$request' => $this->getMock(
-                    'Magento_Core_Controller_Request_Http', $silencedMethods, array($helperMock, $vdeUrl)
+                    'Magento_Core_Controller_Request_Http', $silencedMethods, array($storeManager, $helperMock, $vdeUrl)
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => true,

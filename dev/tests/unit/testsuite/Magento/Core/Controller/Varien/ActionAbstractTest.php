@@ -82,9 +82,10 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
     {
         $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
 
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
             'Magento_Backend_Helper_DataProxy', false);
-        $request = new Magento_Core_Controller_Request_Http($helperMock);
+        $request = new Magento_Core_Controller_Request_Http($storeManager, $helperMock);
         $response = new Magento_Core_Controller_Response_Http($eventManager);
         $response->headersSentThrowsException = false;
         $action = new Magento_Core_Controller_Varien_Action_Forward($request, $response);

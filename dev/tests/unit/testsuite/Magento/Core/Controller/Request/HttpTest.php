@@ -13,9 +13,10 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
             'Magento_Backend_Helper_DataProxy', false);
-        $this->_model = new Magento_Core_Controller_Request_Http($helperMock);
+        $this->_model = new Magento_Core_Controller_Request_Http($storeManager, $helperMock);
     }
 
     /**
