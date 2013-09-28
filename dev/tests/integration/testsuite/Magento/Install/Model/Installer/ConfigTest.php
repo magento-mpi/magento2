@@ -17,7 +17,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         self::$_tmpDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir')
-            ->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
+            ->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . "ConfigTest";
         mkdir(self::$_tmpDir);
     }
 
