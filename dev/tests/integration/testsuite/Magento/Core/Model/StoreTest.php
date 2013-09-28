@@ -37,14 +37,15 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'context'                 => $objectManager->get('Magento_Core_Model_Context'),
             'registry'                => $objectManager->get('Magento_Core_Model_Registry'),
             'configCacheType'         => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
-            'urlModel'                => $objectManager->get('Magento_Core_Model_Url'),
+            'url'                     => $objectManager->get('Magento_Core_Model_Url'),
             'appState'                => $objectManager->get('Magento_Core_Model_App_State'),
             'request'                 => $objectManager->get('Magento_Core_Controller_Request_Http'),
             'configDataResource'      => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
             'dir'                     => $objectManager->get('Magento_Core_Model_Dir'),
             'coreStoreConfig'         => $objectManager->get('Magento_Core_Model_Store_Config'),
-            'coreStore'               => $objectManager->get('Magento_Core_Model_Config'),
+            'coreConfig'              => $objectManager->get('Magento_Core_Model_Config'),
             'resource'                => $objectManager->get('Magento_Core_Model_Resource_Store'),
+            'storeManager'            => $objectManager->get('Magento_Core_Model_StoreManager'),
         );
 
         return $this->getMock(
