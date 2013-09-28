@@ -47,7 +47,7 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
     protected $_resource;
 
     /**
-     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     * @var Magento_ImportExport_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -75,7 +75,7 @@ class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_F
         $this->_importFactory = $this->getMock('Magento_ImportExport_Model_ImportFactory', array(), array(), '', false);
         $this->_resource = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false);
         $this->_resourceHelper = $this->getMock(
-            'Magento_ImportExport_Model_Resource_Helper_Mysql4', array(), array(), '', false
+            'Magento_ImportExport_Model_Resource_Helper', array(), array(), '', false
         );
         $this->_app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(

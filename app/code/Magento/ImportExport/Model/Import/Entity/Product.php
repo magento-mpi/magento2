@@ -377,7 +377,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      * @param Magento_ImportExport_Model_Resource_Import_Data $importData
      * @param Magento_Eav_Model_Config $config
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_ImportExport_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -405,7 +405,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         Magento_ImportExport_Model_Resource_Import_Data $importData,
         Magento_Eav_Model_Config $config,
         Magento_Core_Model_Resource $resource,
-        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_ImportExport_Model_Resource_Helper $resourceHelper,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Catalog_Helper_Data $catalogData,

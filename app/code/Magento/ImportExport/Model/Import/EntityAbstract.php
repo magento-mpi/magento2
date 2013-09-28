@@ -236,7 +236,7 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_ImportExport_Model_ImportFactory $importFactory
-     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_ImportExport_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Model_Resource $resource
      * @param array $data
      */
@@ -245,7 +245,7 @@ abstract class Magento_ImportExport_Model_Import_EntityAbstract
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_ImportExport_Model_ImportFactory $importFactory,
-        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_ImportExport_Model_Resource_Helper $resourceHelper,
         Magento_Core_Model_Resource $resource,
         array $data = array()
     ) {

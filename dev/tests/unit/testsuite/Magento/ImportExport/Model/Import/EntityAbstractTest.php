@@ -59,7 +59,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $importFactory = $this->getMock('Magento_ImportExport_Model_ImportFactory', array(), array(), '', false);
         $resourceHelper = $this->getMock(
-            'Magento_ImportExport_Model_Resource_Helper_Mysql4', array(), array(), '', false
+            'Magento_ImportExport_Model_Resource_Helper', array(), array(), '', false
         );
         $resource = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false);
 

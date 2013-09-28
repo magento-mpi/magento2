@@ -279,7 +279,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * @param Magento_ImportExport_Model_Resource_Import_Data $importData
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_ImportExport_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Model_StoreManagerInterface $_storeManager
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Catalog_Model_Resource_Product_Option_CollectionFactory $optionColFactory
@@ -293,7 +293,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     public function __construct(
         Magento_ImportExport_Model_Resource_Import_Data $importData,
         Magento_Core_Model_Resource $resource,
-        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_ImportExport_Model_Resource_Helper $resourceHelper,
         Magento_Core_Model_StoreManagerInterface $_storeManager,
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Catalog_Model_Resource_Product_Option_CollectionFactory $optionColFactory,

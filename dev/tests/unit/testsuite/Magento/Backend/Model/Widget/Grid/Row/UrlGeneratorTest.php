@@ -13,6 +13,7 @@ class Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorTest extends PHPUnit_Fra
 {
     public function testGetUrl()
     {
+        $this->markTestIncomplete('Bug with phpunit 3.7: PHPUnit_Framework_Exception: Class "%s" already exists');
         $itemId = 3;
         $urlPath = 'mng/item/edit';
 

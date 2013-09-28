@@ -125,7 +125,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_ImportExport_Model_ImportFactory $importFactory
-     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_ImportExport_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataFactory $dataFactory
      * @param Magento_ImportExport_Model_Import_Entity_Eav_CustomerFactory $customerFactory
@@ -139,7 +139,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_ImportExport_Model_ImportFactory $importFactory,
-        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_ImportExport_Model_Resource_Helper $resourceHelper,
         Magento_Core_Model_Resource $resource,
         Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataFactory $dataFactory,
         Magento_ImportExport_Model_Import_Entity_Eav_CustomerFactory $customerFactory,

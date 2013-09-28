@@ -179,7 +179,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             $coreString,
             $coreStoreConfig,
             $this->getMock('Magento_ImportExport_Model_ImportFactory', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Model_Resource_Helper_Mysql4', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Resource_Helper', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
             $this->getMock('Magento_ImportExport_Model_Export_Factory', array(), array(), '', false),

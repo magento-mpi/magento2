@@ -32,7 +32,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
             $objectManager->get('Magento_Core_Helper_String'),
             $objectManager->get('Magento_Core_Model_Store_Config'),
             $objectManager->get('Magento_ImportExport_Model_ImportFactory'),
-            $objectManager->get('Magento_ImportExport_Model_Resource_Helper_Mysql4'),
+            $objectManager->get('Magento_ImportExport_Model_Resource_Helper'),
             $objectManager->get('Magento_Core_Model_Resource'),
         ));
         $model->expects($this->any())

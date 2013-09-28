@@ -28,6 +28,9 @@ class Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest extends
 
     protected function setUp()
     {
+        $this->markTestSkipped(
+            'Bug with phpunit 3.7: PHPUnit_Framework_Exception: Class "%s" already exists'
+        );
         $this->_authorizationMock = $this->getMockBuilder('Magento_AuthorizationInterface')
             ->getMock();
 

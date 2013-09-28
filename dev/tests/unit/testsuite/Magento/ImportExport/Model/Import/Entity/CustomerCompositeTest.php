@@ -52,7 +52,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     protected $_resource;
 
     /**
-     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     * @var Magento_ImportExport_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -117,7 +117,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $this->_importFactory = $this->getMock('Magento_ImportExport_Model_ImportFactory', array(), array(), '', false);
         $this->_resource = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false);
         $this->_resourceHelper = $this->getMock(
-            'Magento_ImportExport_Model_Resource_Helper_Mysql4', array(), array(), '', false
+            'Magento_ImportExport_Model_Resource_Helper', array(), array(), '', false
         );
         $this->_dataFactory = $this->getMock(
             'Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataFactory', array(), array(), '', false

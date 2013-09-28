@@ -198,7 +198,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
      */
     protected $_coreString = null;
     /**
-     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     * @var Magento_ImportExport_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -209,7 +209,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
      * @param Magento_ImportExport_Model_Resource_Import_Data $importData
      * @param Magento_Eav_Model_Config $config
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_ImportExport_Model_Resource_Helper $resourceHelper
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
@@ -218,7 +218,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
         Magento_ImportExport_Model_Resource_Import_Data $importData,
         Magento_Eav_Model_Config $config,
         Magento_Core_Model_Resource $resource,
-        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+        Magento_ImportExport_Model_Resource_Helper $resourceHelper
     ) {
         $this->_coreString = $coreString;
         $this->_coreData = $coreData;

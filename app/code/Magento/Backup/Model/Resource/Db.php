@@ -29,7 +29,7 @@ class Magento_Backup_Model_Resource_Db
     /**
      * Backup resource helper
      *
-     * @var Magento_Backup_Model_Resource_Helper_Mysql4
+     * @var Magento_Backup_Model_Resource_HelperFactory
      */
     protected $_resourceHelper;
 

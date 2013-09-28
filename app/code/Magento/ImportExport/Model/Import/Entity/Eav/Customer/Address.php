@@ -187,7 +187,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
     protected $_importedRowPks = array();
 
     /**
-     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     * @var Magento_ImportExport_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -211,7 +211,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_ImportExport_Model_ImportFactory $importFactory
-     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_ImportExport_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_App $app
      * @param Magento_ImportExport_Model_Export_Factory $collectionFactory
@@ -229,7 +229,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_ImportExport_Model_ImportFactory $importFactory,
-        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_ImportExport_Model_Resource_Helper $resourceHelper,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_App $app,
         Magento_ImportExport_Model_Export_Factory $collectionFactory,

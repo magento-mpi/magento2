@@ -25,6 +25,9 @@
         <param name="cryptKey">
             <value type="argument">Magento_Core_Model_Encryption::PARAM_CRYPT_KEY</value>
         </param>
+        <param name='session'>
+            <instance type="Magento_Install_Model_Session" />
+        </param>
     </type>
     <type name="Magento_Install_Model_Installer_Db">
         <param name="dbConfig">
@@ -71,11 +74,6 @@
         </param>
     </type>
     <type name="Magento_Install_Block_Config">
-        <param name='session'>
-            <instance type="Magento_Install_Model_Session" />
-        </param>
-    </type>
-    <type name="Magento_Install_Block_End">
         <param name='session'>
             <instance type="Magento_Install_Model_Session" />
         </param>

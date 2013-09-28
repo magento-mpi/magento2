@@ -313,7 +313,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
         $this->_model = new Magento_ImportExport_Model_Import_Entity_Product_Option(
             $this->getMock('Magento_ImportExport_Model_Resource_Import_Data', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false),
-            $this->getMock('Magento_ImportExport_Model_Resource_Helper_Mysql4', array(), array(), '', false),
+            $this->getMock('Magento_ImportExport_Model_Resource_Helper', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false),
             $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false),
             $this->getMock('Magento_Catalog_Model_Resource_Product_Option_CollectionFactory',

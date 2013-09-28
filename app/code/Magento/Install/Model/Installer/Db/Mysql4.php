@@ -63,7 +63,7 @@ class Magento_Install_Model_Installer_Db_Mysql4 extends Magento_Install_Model_In
     public function cleanUpDatabase()
     {
         /** @var $resourceModel Magento_Core_Model_Resource */
-        $resourceModel = Mage::getModel('Magento_Core_Model_Resource');
+        $resourceModel = $this->_resourceFactory->create();
         $connection = $resourceModel->getConnection(Magento_Core_Model_Config_Resource::DEFAULT_SETUP_RESOURCE);
         $connectionConfig = $connection->getConfig();
         $connection->query('DROP DATABASE IF EXISTS ' . $connectionConfig['dbname']);

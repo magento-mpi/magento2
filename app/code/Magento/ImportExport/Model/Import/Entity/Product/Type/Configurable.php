@@ -118,7 +118,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     protected $_productTypesConfig;
 
     /**
-     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     * @var Magento_ImportExport_Model_Resource_Helper
      */
     protected $_resourceHelper;
 
@@ -136,7 +136,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac
      * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac
      * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $productTypesConfig
-     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_ImportExport_Model_Resource_Helper $resourceHelper
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $_productColFac
      * @param array $params
@@ -145,7 +145,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
         Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac,
         Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac,
         Magento_Catalog_Model_ProductTypes_ConfigInterface $productTypesConfig,
-        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_ImportExport_Model_Resource_Helper $resourceHelper,
         Magento_Core_Model_Resource $resource,
         Magento_Catalog_Model_Resource_Product_CollectionFactory $_productColFac,
         array $params
