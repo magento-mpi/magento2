@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Layer\Filter\Price;
+
 /**
  * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_advanced.php
  */
-namespace Magento\Catalog\Model\Layer\Filter\Price;
-
 class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
 {
     /**

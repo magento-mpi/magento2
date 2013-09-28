@@ -14,7 +14,7 @@ namespace Magento\Core\Block;
 /**
  * @magentoAppIsolation enabled
  */
-class AbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Block\AbstractBlock

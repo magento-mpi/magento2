@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
+
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
-
 class TreeTest extends \PHPUnit_Framework_TestCase
 {
     /**

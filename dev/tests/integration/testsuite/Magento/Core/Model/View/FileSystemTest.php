@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\View;
+
 /**
  * Tests for the view layer fallback mechanism
  * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
  */
-namespace Magento\Core\Model\View;
-
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -14,7 +14,7 @@ namespace Magento\Adminhtml\Controller\Tax;
 /**
  * @magentoAppArea adminhtml
  */
-class ClassTest extends \Magento\Backend\Utility\Controller
+class TaxTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @dataProvider ajaxSaveActionDataProvider

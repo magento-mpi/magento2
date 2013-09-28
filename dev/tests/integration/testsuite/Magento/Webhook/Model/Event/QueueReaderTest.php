@@ -2,8 +2,6 @@
 /**
  * \Magento\Webhook\Model\Event\QueueReader
  *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +9,9 @@
  */
 namespace Magento\Webhook\Model\Event;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class QueueReaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testPoll()

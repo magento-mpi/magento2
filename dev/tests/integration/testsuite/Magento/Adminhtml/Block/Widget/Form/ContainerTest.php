@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Widget\Form;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Widget\Form;
-
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetFormHtml()

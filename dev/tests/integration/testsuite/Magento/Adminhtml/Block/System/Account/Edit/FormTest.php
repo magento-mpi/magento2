@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\System\Account\Edit;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\System\Account\Edit;
-
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareForm()

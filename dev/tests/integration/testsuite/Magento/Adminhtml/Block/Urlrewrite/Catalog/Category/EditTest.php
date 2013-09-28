@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
+
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
-
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -6,10 +6,12 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
 namespace Magento\Logging\Model\Config;
 
+/**
+ * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
+ */
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
 

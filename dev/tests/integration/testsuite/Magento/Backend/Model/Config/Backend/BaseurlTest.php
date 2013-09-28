@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model\Config\Backend;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Model\Config\Backend;
-
 class BaseurlTest extends \PHPUnit_Framework_TestCase
 {
     /**

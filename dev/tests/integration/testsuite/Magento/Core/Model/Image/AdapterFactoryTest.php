@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Image;
+
 /**
  * Test class for \Magento\Core\Model\Image\AdapterFactory
  * @magentoAppArea adminhtml
  */
-namespace Magento\Core\Model\Image;
-
 class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()

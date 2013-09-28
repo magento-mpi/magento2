@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Report\Sales\Refunded;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Report\Sales\Refunded;
-
 class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**

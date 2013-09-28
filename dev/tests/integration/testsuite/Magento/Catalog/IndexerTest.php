@@ -9,10 +9,12 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @magentoDbIsolation enabled
  */
 namespace Magento\Catalog;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class IndexerTest extends \PHPUnit_Framework_TestCase
 {
     /**

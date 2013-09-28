@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Report\Sales\Sales;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Report\Sales\Sales;
-
 class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**

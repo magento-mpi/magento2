@@ -1,9 +1,6 @@
 <?php
 /**
  * \Magento\PubSub\Job\QueueHandler
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +8,9 @@
  */
 namespace Magento\PubSub\Job;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class QueueHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\ObjectManager */
