@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle_Option;
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 
 class SearchTest
     extends \PHPUnit_Framework_TestCase
@@ -28,7 +28,7 @@ class SearchTest
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
         $block = $layout->createBlock(
-            'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search',
+            'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search',
             'block2');
 
         $indexValue = 'magento_index_set_to_test';

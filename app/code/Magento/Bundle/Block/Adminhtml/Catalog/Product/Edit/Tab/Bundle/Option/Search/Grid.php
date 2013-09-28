@@ -15,7 +15,7 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle_Option_Search;
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
 
 class Grid
     extends \Magento\Backend\Block\Widget\Grid\Extended

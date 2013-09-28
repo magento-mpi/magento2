@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle_Option_Search;
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
 
 class GridTest
     extends \PHPUnit_Framework_TestCase
@@ -27,7 +27,7 @@ class GridTest
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
         $block = $layout->createBlock(
-            'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid',
+            'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid',
             'block');
         $block->setId('temp_id');
 
