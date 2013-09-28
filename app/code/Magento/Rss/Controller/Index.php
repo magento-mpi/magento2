@@ -8,9 +8,6 @@
  * @license     {license_link}
  */
 
-/**
- * Poll index controller
- */
 
 namespace Magento\Rss\Controller;
 

@@ -8,9 +8,7 @@
  * @license     {license_link}
  */
 
-/**
- * Poll edit form
- */
+
 namespace Magento\Adminhtml\Block\Rating\Edit\Tab;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic

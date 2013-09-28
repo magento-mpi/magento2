@@ -255,28 +255,6 @@ class Controllers
     }
 
     /**
-     * Custom handler for poll save fail's action
-     *
-     * @param array $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @return \Magento\Logging\Model\Event|bool
-     */
-    public function postDispatchPollValidation($config, $eventModel)
-    {
-        $out = json_decode($this->_response->getBody());
-        if (!empty($out->error)) {
-            $pollId = $this->_request->getParam('id');
-            return $eventModel->setIsSuccess(false)->setInfo($pollId == 0 ? '' : $pollId);
-        } else {
-            $poll = $this->_coreRegistry->registry('current_poll_model');
-            if ($poll && $poll->getId()) {
-                return $eventModel->setIsSuccess(true)->setInfo($poll->getId());
-            }
-        }
-        return false;
-    }
-
-    /**
      * Custom handler for customer validation fail's action
      *
      * @param array $config

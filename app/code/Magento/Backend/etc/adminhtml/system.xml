@@ -589,9 +589,6 @@
                     <label>Default No-route URL</label>
                 </field>
             </group>
-            <group id="polls" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Polls</label>
-            </group>
             <group id="cookie" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Default Cookie Settings</label>
                 <field id="cookie_lifetime" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">

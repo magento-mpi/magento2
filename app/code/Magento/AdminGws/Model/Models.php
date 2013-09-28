@@ -93,28 +93,6 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Limit CMS Poll save
-     *
-     * @param \Magento\Poll\Model\Poll $model
-     */
-    public function pollSaveBefore($model)
-    {
-        $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
-
-        if ($model->getId() && !$this->_role->hasStoreAccess($originalStoreIds)) {
-            $this->_throwSave();
-        }
-
-        if (!$this->_role->getIsWebsiteLevel()) {
-            $this->_throwSave();
-        }
-
-        $model->setData('store_ids', $this->_forceAssignToStore($this->_updateSavingStoreIds(
-            $model->getData('store_ids'), $originalStoreIds
-        )));
-    }
-
-    /**
      * Limit Rule entity saving
      *
      * @param \Magento\Rule\Model\Rule $model

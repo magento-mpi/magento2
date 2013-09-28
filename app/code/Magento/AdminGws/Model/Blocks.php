@@ -438,18 +438,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Remove control buttons if user does not have exclusive access to current poll
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\AdminGws\Model\Blocks
-     */
-    public function removePollButtons($observer)
-    {
-        $this->_removeButtons($observer, 'poll_data', array('save', 'delete'));
-        return $this;
-    }
-
-    /**
      * Remove control buttons if user does not have exclusive access to current reward rate
      *
      * @param \Magento\Event\Observer $observer

@@ -273,7 +273,6 @@ class ListText is not supposed to be used in layout anymore.'
             'setPageTitle',
             'setParentType',
             'setPaypalActionPrefix',
-            'setPollTemplate',
             'setPosition',
             'setPositioned',
             'setRewardMessage',

@@ -267,19 +267,6 @@
                 <event controller_action="adminhtml_cms_block_delete" action_alias="delete" />
             </events>
         </group>
-        <group name="poll">
-            <label translate="true">CMS Polls</label>
-            <expected_models>
-                <expected_model class="Magento\Poll\Model\Poll" />
-            </expected_models>
-            <events>
-                <event controller_action="adminhtml_poll_edit" action_alias="edit" />
-                <event controller_action="adminhtml_poll_delete" action_alias="delete" />
-                <event controller_action="adminhtml_poll_validate"
-                       action_alias="save"
-                       post_dispatch="postDispatchPollValidation" />
-            </events>
-        </group>
         <group name="customer">
             <label translate="true">Customers</label>
             <expected_models>
