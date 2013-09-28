@@ -14,7 +14,7 @@ interface EncryptionInterface
      *
      * @param \Magento\Core\Helper\Data|string $helper
      * @return \Magento\Core\Model\Encryption
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setHelper($helper);
 

@@ -24,7 +24,7 @@ class String extends \Magento\Core\Model\Layout\Argument\AbstractHandler
      *
      * @param array $argument
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function process(array $argument)
     {

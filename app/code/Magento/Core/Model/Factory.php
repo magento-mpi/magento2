@@ -33,14 +33,14 @@ class Factory
      *
      * @param string $model
      * @param array $data
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return \Magento\Core\Model\AbstractModel
      */
     public function create($model, array $data = array())
     {
         $modelInstance = $this->_objectManager->create($model, $data);
         if (false == ($modelInstance instanceof \Magento\Core\Model\AbstractModel)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 $model . ' is not instance of \Magento\Core\Model\AbstractModel'
             );
         }

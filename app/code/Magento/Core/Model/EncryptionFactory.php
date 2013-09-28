@@ -28,13 +28,13 @@ class EncryptionFactory
      * @param string $className
      * @param array $arguments
      * @return \Magento\Core\Model\EncryptionInterface
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function create($className, array $arguments = array())
     {
         $encryption = $this->_objectManager->create($className, $arguments);
         if (!$encryption instanceof \Magento\Core\Model\EncryptionInterface) {
-            throw new InvalidArgumentException("'{$className}' don't implement \Magento\Core\Model\EncryptionInterface");
+            throw new \InvalidArgumentException("'{$className}' don't implement \Magento\Core\Model\EncryptionInterface");
         }
         return $encryption;
     }

@@ -33,14 +33,14 @@ class Factory
      *
      * @param string $form
      * @param array $data
-     * @throws InvalidArgumentException
-     * @return Magento_Eav_Model_Form
+     * @throws \InvalidArgumentException
+     * @return \Magento\Eav\Model\Form
      */
     public function create($form, array $data = array())
     {
         $formInstance = $this->_objectManager->create($form, $data);
         if (false == ($formInstance instanceof \Magento\Eav\Model\Form)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 $form . ' is not instance of \Magento\Eav\Model\Form'
             );
         }

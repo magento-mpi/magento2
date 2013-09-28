@@ -73,7 +73,7 @@ class Factory
      * @param string $elementType Standard element type or Custom element class
      * @param array $config
      * @return \Magento\Data\Form\Element\AbstractElement
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function create($elementType, array $config = array())
     {

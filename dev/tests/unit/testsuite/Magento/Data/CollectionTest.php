@@ -52,7 +52,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Incorrect_ClassName does not extend \Magento\Object
      */
     public function testSetItemObjectClassException()
