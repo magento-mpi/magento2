@@ -44,7 +44,8 @@ class HelperPool
      */
     public function get($moduleName)
     {
-        $helperClassName = $moduleName . '\Model\Resource\Helper';
+        $module = str_replace('_', \Magento\Autoload\IncludePath::NS_SEPARATOR, $moduleName);
+        $helperClassName = $module . '\Model\Resource\Helper';
         $connection = strtolower($moduleName);
         if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);
