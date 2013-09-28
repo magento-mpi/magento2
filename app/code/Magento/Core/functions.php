@@ -144,10 +144,12 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
             break;
     }
 
-    $errorMessage .= ": {$errorStr}  in {$errorFile} on line {$errorLine}";
+    $errorMessage .= ": {$errorStr} in {$errorFile} on line {$errorLine}";
+    $exception = new Exception($errorMessage);
+    $errorMessage .= $exception->getTraceAsString();
     $appState = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App_State');
     if ($appState == Magento_Core_Model_App_State::MODE_DEVELOPER) {
-        throw new Exception($errorMessage);
+        throw $exception;
     } else {
         $dirs = new Magento_Core_Model_Dir('.');
         $fileSystem = new Magento_Io_File();
