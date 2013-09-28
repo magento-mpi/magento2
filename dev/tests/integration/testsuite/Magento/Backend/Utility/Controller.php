@@ -53,12 +53,12 @@ class Controller extends \Magento\TestFramework\TestCase\ControllerAbstract
     /**
      * Utilize backend session model by default
      *
-     * @param PHPUnit_Framework_Constraint $constraint
+     * @param \PHPUnit_Framework_Constraint $constraint
      * @param string|null $messageType
      * @param string $sessionModel
      */
     public function assertSessionMessages(
-        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Backend\Model\Session'
+        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Backend\Model\Session'
     ) {
         parent::assertSessionMessages($constraint, $messageType, $sessionModel);
     }
