@@ -143,7 +143,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
     {
         $searchDir = $theme->getCustomization()->getThemeFilesPath();
         $dirLength = strlen($searchDir);
-        foreach (new \RecursiveIteratorIterator(new RecursiveDirectoryIterator($searchDir)) as $fileInfo) {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($searchDir)) as $fileInfo) {
             // Check that file path is valid
             $relativePath = substr($fileInfo->getPath(), $dirLength);
             if (!$this->_validateTemplatePath($relativePath)) {
