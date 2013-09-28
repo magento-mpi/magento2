@@ -208,7 +208,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 2345,
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
-            'Magento_Service_ResourceNotFoundException (Empty message)' => array(
+            'Magento\Service\ResourceNotFoundException (Empty message)' => array(
                 new \Magento\Service\ResourceNotFoundException('', 2345, null,
                     array('datail1' => 'value1'), 'resource10'),
                 \Magento\Webapi\Exception::HTTP_NOT_FOUND,

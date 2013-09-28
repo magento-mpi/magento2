@@ -88,7 +88,7 @@ class Context
     }
 
     /**
-     * @return \Magento_Core_Model_Resource
+     * @return \Magento\Core\Model\Resource
      */
     public function getResourceModel()
     {

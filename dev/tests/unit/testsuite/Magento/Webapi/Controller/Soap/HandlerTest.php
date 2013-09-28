@@ -149,8 +149,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_apiConfigMock->expects($this->once())
             ->method('getControllerClassByOperationName')
             ->with($operation)
-            ->will($this->returnValue('Vendor_Module_Controller_Webapi_Resource'));
-        $controllerMock = $this->getMockBuilder('Vendor_Module_Controller_Webapi_Resource')
+            ->will($this->returnValue('Vendor\Module\Controller\Webapi\Resource'));
+        $controllerMock = $this->getMockBuilder('Vendor\Module\Controller\Webapi\Resource')
             ->disableOriginalConstructor()
             ->setMethods(array($action))
             ->getMock();

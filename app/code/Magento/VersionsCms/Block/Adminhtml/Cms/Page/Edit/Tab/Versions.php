@@ -82,7 +82,7 @@ class Versions
     {
         $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
 
-        /* var $collection Magento_VersionsCms_Model_Resource_Version_Collection */
+        /* var $collection \Magento\VersionsCms\Model\Resource\Version\Collection */
         $collection = \Mage::getModel('Magento\VersionsCms\Model\Page\Version')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVisibilityFilter($userId,

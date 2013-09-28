@@ -26,7 +26,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
      * Layout update resource models
      */
     const LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME = 'Magento\Core\Model\Resource\Layout\Update';
-    const LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME  = 'Magento_DesignEditor_Model_Resource_Layout_Update';
+    const LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME  = 'Magento\DesignEditor\Model\Resource\Layout\Update';
     /**#@-*/
 
     /**#@+

@@ -377,7 +377,7 @@ class Application
         $objectManager->clearCache();
 
         $resource = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_singleton/Magento_Core_Model_Resource');
+            ->registry('_singleton/Magento\Core\Model\Resource');
 
         \Magento\Data\Form::setElementRenderer(null);
         \Magento\Data\Form::setFieldsetRenderer(null);
@@ -386,7 +386,7 @@ class Application
 
         if ($resource) {
             $objectManager->get('Magento\Core\Model\Registry')
-                ->register('_singleton/Magento_Core_Model_Resource', $resource);
+                ->register('_singleton/Magento\Core\Model\Resource', $resource);
         }
     }
 

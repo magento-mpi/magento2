@@ -78,7 +78,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
-     * @return \Magento_Core_Model_Resource_Theme_Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public function getThemeCollection()
     {

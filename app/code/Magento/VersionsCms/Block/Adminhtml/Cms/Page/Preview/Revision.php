@@ -40,7 +40,7 @@ class Revision extends \Magento\Adminhtml\Block\Template
      */
     public function getRevisions()
     {
-        /* var $collection Magento_VersionsCms_Model_Resource_Revision_Collection */
+        /* var $collection Magento\VersionsCms\Model\Resource\Revision\Collection */
         $collection = \Mage::getModel('Magento\VersionsCms\Model\Page\Revision')->getCollection()
             ->addPageFilter($this->getRequest()->getParam('page_id'))
             ->joinVersions()

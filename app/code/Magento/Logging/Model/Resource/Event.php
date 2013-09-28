@@ -56,7 +56,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Convert data before save ip
      *
      * @param \Magento\Core\Model\AbstractModel $event
-     * @return $this|\Magento_Core_Model_Resource_Db_AbstractDb
+     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $event)
     {

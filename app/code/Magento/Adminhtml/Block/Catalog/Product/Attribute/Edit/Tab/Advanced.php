@@ -189,7 +189,7 @@ class Advanced
         );
 
         if ($attributeObject->getAttributeCode() == 'status' || $attributeObject->getAttributeCode() == 'tax_class_id') {
-            unset($scopes[Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE]);
+            unset($scopes[\Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE]);
         }
 
         $fieldset->addField('is_global', 'select', array(

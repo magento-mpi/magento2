@@ -73,10 +73,10 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $expectedResult = new \stdClass();
-        $constraint = function (DOMDOcument $actual) {
+        $constraint = function (\DOMDOcument $actual) {
             try {
                 $expected = __DIR__ . '/_files/pdf_merged.xml';
-                PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());
+                \PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());
                 return true;
             } catch (PHPUnit_Framework_AssertionFailedError $e) {
                 return false;

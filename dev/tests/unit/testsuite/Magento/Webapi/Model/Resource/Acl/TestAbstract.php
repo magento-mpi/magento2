@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract test class for Magento_Webapi_Model_Resource_Acl. Added to eliminate copy-paste.
+ * Abstract test class for \Magento\Webapi\Model\Resource\Acl. Added to eliminate copy-paste.
  *
  * {license_notice}
  *

@@ -40,7 +40,7 @@ try {
 function updateFieldForTable($table, $col)
 {
     /** @var $installer Mage_Core_Model_Resource_Setup */
-    $installer = \Mage::getResourceModel('Mage_Core_Model_Resource_Setup', array('resourceName' => 'core_setup'));
+    $installer = \Mage::getResourceModel('Mage\Core\Model\Resource\Setup', array('resourceName' => 'core_setup'));
     $installer->startSetup();
 
     $table = $installer->getTable($table);
