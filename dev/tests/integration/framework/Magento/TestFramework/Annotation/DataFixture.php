@@ -162,7 +162,7 @@ class DataFixture
                 $this->_applyOneFixture($oneFixture);
                 $this->_appliedFixtures[] = $oneFixture;
             }
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo $e;
         }
     }

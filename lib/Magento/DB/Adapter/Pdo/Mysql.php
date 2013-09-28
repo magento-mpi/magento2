@@ -358,17 +358,17 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      *
      * @param string $sql
      * @return \Zend_Db_Statement_Interface
-     * @throws PDOException
+     * @throws \PDOException
      */
     public function rawQuery($sql)
     {
         try {
             $result = $this->query($sql);
         } catch (\Zend_Db_Statement_Exception $e) {
-            // Convert to PDOException to maintain backwards compatibility with usage of MySQL adapter
+            // Convert to \PDOException to maintain backwards compatibility with usage of MySQL adapter
             $e = $e->getPrevious();
-            if (!($e instanceof PDOException)) {
-                $e = new PDOException($e->getMessage(), $e->getCode());
+            if (!($e instanceof \PDOException)) {
+                $e = new \PDOException($e->getMessage(), $e->getCode());
             }
             throw $e;
         }
@@ -425,7 +425,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      * @param string|Zend_Db_Select $sql The SQL statement with placeholders.
      * @param mixed $bind An array of data or data itself to bind to the placeholders.
      * @return \Zend_Db_Statement_Pdo
-     * @throws \Zend_Db_Adapter_Exception To re-throw PDOException.
+     * @throws \Zend_Db_Adapter_Exception To re-throw \PDOException.
      */
     public function query($sql, $bind = array())
     {
@@ -451,11 +451,11 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
                     $profiler->queryEndLast();
                 }
 
-                /** @var $pdoException PDOException */
+                /** @var $pdoException \PDOException */
                 $pdoException = null;
-                if ($e instanceof PDOException) {
+                if ($e instanceof \PDOException) {
                     $pdoException = $e;
-                } elseif (($e instanceof \Zend_Db_Statement_Exception) && ($e->getPrevious() instanceof PDOException)) {
+                } elseif (($e instanceof \Zend_Db_Statement_Exception) && ($e->getPrevious() instanceof \PDOException)) {
                     $pdoException = $e->getPrevious();
                 }
 
