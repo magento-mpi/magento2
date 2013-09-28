@@ -919,13 +919,6 @@ table.data-table button.l {font-size: 0.9em;}
 .sidebar .block-list .product-name { font:normal 11px/1.25 Arial, Helvetica, sans-serif; color:#444; }
 .sidebar .block-list .product-name a { color:#444; }
 
-/* Block: Poll */
-.block-poll li { margin:5px 0; }
-.block-poll input.radio { float:left; margin:1px -18px 0 0; vertical-align:top; }
-.block-poll .label { display:block; margin-left:18px; }
-.block-poll .answer {}
-.block-poll .votes { float:right; font-weight:bold; margin-left:10px; }
-
 /* Block: Tags */
 .block-tags ul,
 .block-tags li { display:inline; }
@@ -2493,7 +2486,6 @@ address.copyright { margin-top:6px; }
 .gift-item:after,
 .block-content:after,
 .block-list li.item:after,
-.block-poll li:after,
 .currently li:after,
 .order-info:after,
 .top-cart .actions:after,

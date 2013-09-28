@@ -23,7 +23,6 @@ configuration_menu_default:
         unsecure: ~
         secure: ~
         default_pages: ~
-#        polls: ~
         session_cookie_management: ~
         session_validation_settings: ~
         browser_capabilities_detection: ~
@@ -250,7 +249,6 @@ configuration_menu_website:
         unsecure: ~
         secure: ~
         default_pages: ~
-#        polls: ~
         session_cookie_management: ~
         session_validation_settings: ~
         browser_capabilities_detection: ~

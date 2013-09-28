@@ -17,15 +17,6 @@ about_us:
         form:
             fieldsets:
                 -
-                    community_poll:
-                        xpath: //div[@class='block block-poll']
-                        pageelements:
-                          poll_title: //p[@class='block-subtitle' and contains(text(),'%pollTitle%')]
-                        buttons:
-                          vote: //button[span='Vote']
-                        radiobuttons:
-                            vote: //li[span/label='%answer%']/input
-                -
                    compare_products:
                         xpath: //div[contains(div/strong/span,'Compare Products')]
                         links:
