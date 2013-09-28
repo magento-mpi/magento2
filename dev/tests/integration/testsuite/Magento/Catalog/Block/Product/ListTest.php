@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product;
+
 /**
  * Test class for \Magento\Catalog\Block\Product\List.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-namespace Magento\Catalog\Block\Product;
-
 class ListTest extends \PHPUnit_Framework_TestCase
 {
     /**

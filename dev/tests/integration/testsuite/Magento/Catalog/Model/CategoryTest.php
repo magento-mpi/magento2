@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
+
 /**
  * Test class for \Magento\Catalog\Model\Category.
  * - general behaviour is tested
@@ -16,8 +18,6 @@
  * @see \Magento\Catalog\Model\CategoryTreeTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-namespace Magento\Catalog\Model;
-
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**

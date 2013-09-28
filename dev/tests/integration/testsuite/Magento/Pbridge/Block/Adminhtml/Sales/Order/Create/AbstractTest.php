@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
-
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()

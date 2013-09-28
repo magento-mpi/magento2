@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
-
 class SendTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send */

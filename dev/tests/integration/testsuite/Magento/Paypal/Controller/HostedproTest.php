@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Paypal\Controller;
+
 /**
  * @magentoDataFixture Magento/Sales/_files/order.php
  */
-namespace Magento\Paypal\Controller;
-
 class HostedproTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     public function testCancelActionIsContentGenerated()

@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Logging\Block\Adminhtml\Grid\Filter;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Logging\Block\Adminhtml\Grid\Filter;
-
 class IpTest extends \PHPUnit_Framework_TestCase
 {
     /**

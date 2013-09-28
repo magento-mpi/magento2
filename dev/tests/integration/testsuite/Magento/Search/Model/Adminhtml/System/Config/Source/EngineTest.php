@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Search\Model\Adminhtml\System\Config\Source;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Search\Model\Adminhtml\System\Config\Source;
-
 class EngineTest extends \PHPUnit_Framework_TestCase
 {
     /**

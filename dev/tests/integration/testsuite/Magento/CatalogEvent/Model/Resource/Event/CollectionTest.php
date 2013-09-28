@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogEvent\Model\Resource\Event;
+
 /**
  * @magentoDataFixture Magento/CatalogEvent/_files/events.php
  */
-namespace Magento\CatalogEvent\Model\Resource\Event;
-
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**

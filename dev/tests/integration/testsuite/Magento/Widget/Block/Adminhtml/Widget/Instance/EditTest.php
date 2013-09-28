@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance;
-
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource\Rules;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\User\Model\Resource\Rules;
-
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**

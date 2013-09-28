@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\GoogleShopping\Block\Adminhtml\Items;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\GoogleShopping\Block\Adminhtml\Items;
-
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function testBeforeToHtml()

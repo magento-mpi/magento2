@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Checkout\Block\Multishipping;
+
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-namespace Magento\Checkout\Block\Multishipping;
-
 class OverviewTest extends \PHPUnit_Framework_TestCase
 {
     /**
