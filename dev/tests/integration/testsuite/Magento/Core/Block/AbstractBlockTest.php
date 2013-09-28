@@ -701,13 +701,14 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     protected function _createBlockWithLayout($name = 'block', $alias = null,
         $type = 'Magento\Core\Block\AbstractBlock'
     ) {
-        $mockClass = $type . 'Mock';
+        $typePart = explode('\\', $type);
+        $mockClass = array_pop($typePart) . 'Mock';
         if (!isset(self::$_mocks[$mockClass])) {
             self::$_mocks[$mockClass] = $this->getMockForAbstractClass($type, array(
                     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Block\Context'),
                     array('module_name' => 'Magento_Core')
                 ),
-                $type . 'Mock'
+                $mockClass
             );
         }
         if (is_null($this->_layout)) {
