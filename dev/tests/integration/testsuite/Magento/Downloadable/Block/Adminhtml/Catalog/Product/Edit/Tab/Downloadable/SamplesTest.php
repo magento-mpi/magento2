@@ -18,7 +18,7 @@ class SamplesTest
     {
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
-        \Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable_LinksTest
+        \Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinksTest
             ::performUploadButtonTest($block);
     }
 
