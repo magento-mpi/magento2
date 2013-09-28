@@ -134,7 +134,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     protected $_dateModel;
 
     /**
-     * @varMagento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirModel;
 

@@ -92,7 +92,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
         $property = new \ReflectionProperty($dir, '_dirs');
         $property->setAccessible(true);
         $dirs = $property->getValue($dir);
-        $dirs[Magento_Core_Model_Dir::THEMES] = dirname(__DIR__) . '/_files/design';
+        $dirs[\Magento\Core\Model\Dir::THEMES] = dirname(__DIR__) . '/_files/design';
         $property->setValue($dir, $dirs);
 
         $actualFile = $this->testGetPlaceholderImageUrl(
