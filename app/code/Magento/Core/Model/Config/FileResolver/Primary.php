@@ -33,6 +33,7 @@ class Primary implements \Magento\Config\FileResolverInterface
      * @param string $filename
      * @param string $scope
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function get($filename, $scope)
     {
