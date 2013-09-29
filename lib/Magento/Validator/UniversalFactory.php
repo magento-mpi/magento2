@@ -7,9 +7,11 @@
  */
 
 /**
- * Factory creating Magento_Validator_Validator
+ * Factory creating Magento_Validator_Builder and Magento_Validator_Validator
+ *
+ * @TODO Eliminate this factory in favor of strictly typified, not involving object manager with arbitrary class name
  */
-class Magento_Validator_ValidatorFactory
+class Magento_Validator_UniversalFactory
 {
     /**
      * @var Magento_ObjectManager

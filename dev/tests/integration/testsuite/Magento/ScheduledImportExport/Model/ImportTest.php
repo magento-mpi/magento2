@@ -20,7 +20,7 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
         $this->assertFalse($product);
 
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
-        $model = $this->getMock('Magento_ScheduledImportExport_Model_Import', array('reindexAll'),array(
+        $model = $this->getMock('Magento_ScheduledImportExport_Model_Import', array('reindexAll'), array(
             $objectManager->get('Magento_Core_Model_Logger'),
             $objectManager->get('Magento_Core_Model_Dir'),
             $objectManager->get('Magento_Core_Model_Log_AdapterFactory'),

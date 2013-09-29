@@ -22,17 +22,17 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     protected $_defaultBuilderClass = 'Magento_Validator_Builder';
 
     /**
-     * @var Magento_Validator_BuilderFactory
+     * @var Magento_Validator_UniversalFactory
      */
     protected $_builderFactory;
 
     /**
      * @param array $configFiles
-     * @param Magento_Validator_BuilderFactory $builderFactory
+     * @param Magento_Validator_UniversalFactory $builderFactory
      */
     public function __construct(
         array $configFiles,
-        Magento_Validator_BuilderFactory $builderFactory
+        Magento_Validator_UniversalFactory $builderFactory
     ) {
         parent::__construct($configFiles);
         $this->_builderFactory = $builderFactory;

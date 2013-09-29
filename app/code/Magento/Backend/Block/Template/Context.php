@@ -51,6 +51,8 @@ class Magento_Backend_Block_Template_Context extends Magento_Core_Block_Template
      * @param Magento_Core_Model_App $app
      * @param Magento_Backend_Model_Session $backendSession
      * @param Magento_Core_Model_LocaleInterface $locale
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_StoreManager $storeManager,

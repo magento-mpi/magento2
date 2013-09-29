@@ -482,7 +482,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
                 $addCustomOptions = function (Magento_Catalog_Model_Product_Option $customOption) use (
                     &$oldCustomOptions,
                     $storeId
-                    ) {
+                ) {
                     $productId = $customOption->getProductId();
                     if (!isset($oldCustomOptions[$productId])) {
                         $oldCustomOptions[$productId] = array();

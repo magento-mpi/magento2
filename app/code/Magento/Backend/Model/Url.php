@@ -8,6 +8,11 @@
  * @license     {license_link}
  */
 
+/**
+ * Class Magento_Backend_Model_Url
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Magento_Backend_Model_Url extends Magento_Core_Model_Url
 {
     /**
@@ -65,6 +70,21 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
      */
     protected $_cache;
 
+    /**
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Backend_Helper_Data $backendHelper
+     * @param Magento_Core_Model_Session $coreSession
+     * @param Magento_Backend_Model_Menu_Config $menuConfig
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Backend_Model_Auth_SessionProxy $authSession
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
         Magento_Core_Model_Store_Config $coreStoreConfig,

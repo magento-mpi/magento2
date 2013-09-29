@@ -36,6 +36,8 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Resource_Setup_Context $context,

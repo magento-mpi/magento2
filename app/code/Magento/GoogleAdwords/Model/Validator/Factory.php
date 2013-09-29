@@ -11,14 +11,14 @@
 class Magento_GoogleAdwords_Model_Validator_Factory
 {
     /**
-     * @var Magento_Validator_BuilderFactory
+     * @var Magento_Validator_UniversalFactory
      */
     protected $_validatorBuilderFactory;
 
     /**
-     * @param Magento_Validator_BuilderFactory $validatorBuilderFactory
+     * @param Magento_Validator_UniversalFactory $validatorBuilderFactory
      */
-    public function __construct(Magento_Validator_BuilderFactory $validatorBuilderFactory)
+    public function __construct(Magento_Validator_UniversalFactory $validatorBuilderFactory)
     {
         $this->_validatorBuilderFactory = $validatorBuilderFactory;
     }

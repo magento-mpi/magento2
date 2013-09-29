@@ -69,9 +69,6 @@ class Magento_Validator_Constraint_Option_Callback implements Magento_Validator_
                 throw new InvalidArgumentException(sprintf('Class "%s" was not found', $callable[0]));
             }
             if ($this->_createInstance) {
-//                echo __FILE__, PHP_EOL, __LINE__;
-//                var_export($callable[0]);
-//                die;
                 $callable[0] = new $callable[0]();
             }
         } elseif ($this->_createInstance) {

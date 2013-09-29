@@ -66,7 +66,7 @@ class Magento_User_Model_Resource_Setup extends Magento_Core_Model_Resource_Setu
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
         $this->_roleFactory = $roleFactory;
         $this->_rulesFactory = $rulesFactory;
-        parent::__construct($context,$resourceName,$moduleName,$connectionName);
+        parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
     /**

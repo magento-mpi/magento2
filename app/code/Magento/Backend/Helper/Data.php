@@ -89,6 +89,8 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Backend_Model_AuthProxy $auth
      * @param string $defaultAreaFrontName
      * @param string $backendFrontName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Helper_Context $context,

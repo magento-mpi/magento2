@@ -40,7 +40,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
                 'validatorFactory'
                     => new Magento_ValidatorFactory(new Magento_ObjectManager_ObjectManager()),
                 'oneValidatorFactory'
-                    => new Magento_Validator_ValidatorFactory(new Magento_ObjectManager_ObjectManager()),
+                    => new Magento_Validator_UniversalFactory(new Magento_ObjectManager_ObjectManager()),
                 'constraints' => $constraints
             )
         );
