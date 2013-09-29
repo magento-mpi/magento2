@@ -1,4 +1,4 @@
-* Implemented PSR-1 Coding Standard
+* Implemented PSR-1 Coding Standards
   * All Magento source code has been converted.
   * Tests have been written to enforce PSR-1 coding standards.
 * Removed the Poll module including references and dependencies to/on it.
