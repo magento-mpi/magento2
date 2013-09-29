@@ -27,7 +27,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
                 $this->getMock('Magento_Eav_Model_Entity_Attribute_Set', array(), array(), '', false),
                 $this->getMock('Magento_Core_Model_LocaleInterface'),
                 $this->getMock('Magento_Eav_Model_Resource_Helper', array(), array(), '', false),
-                $this->getMock('Magento_Eav_Model_Factory_Helper', array(), array(), '', false),
+                $this->getMock('Magento_Validator_UniversalFactory', array(), array(), '', false),
             )
         );
     }
@@ -289,7 +289,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
             $this->getMock('Magento_Eav_Model_Entity_Attribute_Set', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_LocaleInterface'),
             $this->getMock('Magento_Eav_Model_Resource_Helper', array(), array(), '', false),
-            $this->getMock('Magento_Eav_Model_Factory_Helper', array(), array(), '', false),
+            $this->getMock('Magento_Validator_UniversalFactory', array(), array(), '', false),
             array(
                 'type' => $entityType,
                 'entityTable' => 'entityTable',

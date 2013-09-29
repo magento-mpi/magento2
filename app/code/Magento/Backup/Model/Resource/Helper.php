@@ -23,15 +23,19 @@ class Magento_Backup_Model_Resource_Helper extends Magento_Core_Model_Resource_H
      *
      * @var Magento_Core_Model_Date
      */
-    protected $_coreDate = null;
+    protected $_coreDate;
 
     /**
+     * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Date $coreDate
-     * @param string $modulePrefix
+     * @param $modulePrefix
      */
-    public function __construct(Magento_Core_Model_Date $coreDate, $modulePrefix)
-    {
-        parent::__construct($modulePrefix);
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Date $coreDate,
+        $modulePrefix
+    ) {
+        parent::__construct($resource, $modulePrefix);
         $this->_coreDate = $coreDate;
     }
 

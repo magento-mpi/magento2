@@ -19,18 +19,21 @@
 class Magento_ImportExport_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
 {
     /**
-     * @param string $modulePrefix
-     */
-    public function __construct($modulePrefix = 'importexport')
-    {
-        parent::__construct($modulePrefix);
-    }
-
-    /**
      * Constants to be used for DB
      */
     const DB_MAX_PACKET_SIZE        = 1048576; // Maximal packet length by default in MySQL
     const DB_MAX_PACKET_COEFFICIENT = 0.85; // The coefficient of useful data from maximum packet length
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param string $modulePrefix
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        $modulePrefix = 'importexport'
+    ) {
+        parent::__construct($resource, $modulePrefix);
+    }
 
     /**
      * Returns maximum size of packet, that we can send to DB

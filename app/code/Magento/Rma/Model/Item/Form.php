@@ -37,7 +37,7 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Eav_Model_AttributeDataFactory $attrDataFactory
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Core_Controller_Request_Http $httpRequest
      * @param Magento_Validator_ConfigFactory $validatorConfigFactory
      * @param Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory
@@ -47,7 +47,7 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Eav_Model_AttributeDataFactory $attrDataFactory,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Core_Controller_Request_Http $httpRequest,
         Magento_Validator_ConfigFactory $validatorConfigFactory,
         Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $collectionFactory
@@ -58,7 +58,7 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
             $eavConfig,
             $modulesReader,
             $attrDataFactory,
-            $helperFactory,
+            $universalFactory,
             $httpRequest,
             $validatorConfigFactory
         );

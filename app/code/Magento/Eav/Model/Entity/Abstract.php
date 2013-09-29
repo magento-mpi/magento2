@@ -186,9 +186,42 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     protected $_resourceHelper;
 
     /**
-     * @var Magento_Eav_Model_Factory_Helper
+     * @var Magento_Validator_UniversalFactory
      */
-    protected $_helperFactory;
+    protected $_universalFactory;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
+        $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_resource = $resource;
+        $this->_attrSetEntity = $attrSetEntity;
+        $this->_locale = $locale;
+        $this->_resourceHelper = $resourceHelper;
+        $this->_universalFactory = $universalFactory;
+        parent::__construct();
+        $properties = get_object_vars($this);
+        foreach ($data as $key => $value) {
+            if (array_key_exists('_' . $key, $properties)) {
+                $this->{'_' . $key} = $value;
+            }
+        }
+    }
 
     /**
      * Set connections for entity operations
@@ -203,40 +236,6 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
         $this->_write = $write ? $write : $read;
 
         return $this;
-    }
-
-    /**
-     * Main constructor
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
-        $data = array()
-    ) {
-        $this->_eavConfig = $eavConfig;
-        $this->_resource = $resource;
-        $this->_attrSetEntity = $attrSetEntity;
-        $this->_locale = $locale;
-        $this->_resourceHelper = $resourceHelper;
-        $this->_helperFactory = $helperFactory;
-        parent::__construct();
-        $properties = get_object_vars($this);
-        foreach ($data as $key => $value) {
-            if (array_key_exists('_' . $key, $properties)) {
-                $this->{'_' . $key} = $value;
-            }
-        }
     }
 
     /**
@@ -496,7 +495,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     {
         $entityTypeId = $this->getEntityType()->getId();
         if (!isset(self::$_defaultAttributes[$entityTypeId][$attributeCode])) {
-            $attribute = $this->_helperFactory->create($this->getEntityType()->getAttributeModel())
+            $attribute = $this->_universalFactory->create($this->getEntityType()->getAttributeModel())
                 ->setAttributeCode($attributeCode)
                 ->setBackendType(Magento_Eav_Model_Entity_Attribute_Abstract::TYPE_STATIC)
                 ->setIsGlobal(1)
@@ -722,7 +721,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
                 if ($collectExceptionMessages) {
                     $results[$attrCode] = $e->getMessage();
                 } else {
-                    $e = $this->_helperFactory->create('Magento_Eav_Model_Entity_Attribute_Exception',
+                    $e = $this->_universalFactory->create('Magento_Eav_Model_Entity_Attribute_Exception',
                         array('message' => $e->getMessage())
                     );
                     $e->setAttributeCode($attrCode)->setPart($part);
@@ -1169,7 +1168,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
     protected function _getOrigObject($object)
     {
         $className  = get_class($object);
-        $origObject = $this->_helperFactory->create($className);
+        $origObject = $this->_universalFactory->create($className);
         $origObject->setData(array());
         $this->load($origObject, $object->getData($this->getEntityIdField()));
 

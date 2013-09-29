@@ -45,7 +45,7 @@ abstract class Magento_Reports_Model_Resource_Product_Index_Collection_Abstract
      * @param Magento_Core_Model_Resource $coreResource
      * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
      * @param Magento_Eav_Model_Resource_Helper $resourceHelper
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -61,7 +61,7 @@ abstract class Magento_Reports_Model_Resource_Product_Index_Collection_Abstract
         Magento_Core_Model_Resource $coreResource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
         Magento_Eav_Model_Resource_Helper $resourceHelper,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -70,7 +70,7 @@ abstract class Magento_Reports_Model_Resource_Product_Index_Collection_Abstract
     )
     {
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource,
-            $eavEntityFactory, $resourceHelper, $helperFactory, $catalogData, $catalogProductFlat, $coreStoreConfig
+            $eavEntityFactory, $resourceHelper, $universalFactory, $catalogData, $catalogProductFlat, $coreStoreConfig
         );
         $this->_customerSession = $customerSession;
         $this->_logVisitor = $logVisitor;

@@ -32,9 +32,9 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
     protected $_template = 'Magento_Adminhtml::catalog/product/attribute/options.phtml';
 
     /**
-     * @var Magento_Eav_Model_Factory_Helper
+     * @var Magento_Validator_UniversalFactory $universalFactory
      */
-    protected $_helperFactory;
+    protected $_universalFactory;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
@@ -42,7 +42,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $attrOptCollFactory
-     * @param Magento_Eav_Model_Factory_Helper $helperFactory
+     * @param Magento_Validator_UniversalFactory $universalFactory
      * @param array $data
      */
     public function __construct(
@@ -51,14 +51,14 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $registry,
         Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $attrOptCollFactory,
-        Magento_Eav_Model_Factory_Helper $helperFactory,
+        Magento_Validator_UniversalFactory $universalFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
         $this->_attrOptCollFactory = $attrOptCollFactory;
-        $this->_helperFactory = $helperFactory;
+        $this->_universalFactory = $universalFactory;
     }
 
     /**
@@ -150,7 +150,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Magento
     protected function _getOptionValuesCollection(Magento_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         if ($this->canManageOptionDefaultOnly()) {
-            $options = $this->_helperFactory->create($attribute->getSourceModel())
+            $options = $this->_universalFactory->create($attribute->getSourceModel())
                 ->setAttribute($attribute)
                 ->getAllOptions();
             return $options;

@@ -40,41 +40,6 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     protected $_website;
 
     /**
-     * @var Magento_Eav_Model_Config
-     */
-    protected $_eavConfig;
-
-    /**
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        $this->_eavConfig = $eavConfig;
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $registry, $resource, $resourceCollection, $data);
-    }
-
-    /**
      * Set active website instance
      *
      * @param Magento_Core_Model_Website|int $website

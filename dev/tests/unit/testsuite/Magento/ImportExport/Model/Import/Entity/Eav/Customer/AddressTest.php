@@ -238,7 +238,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
                     $this->getMock('Magento_Eav_Model_Entity_TypeFactory'),
                     $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false, false),
                     $this->getMock('Magento_Eav_Model_Resource_Helper', array(), array(), '', false, false),
-                    $this->getMock('Magento_Eav_Model_Factory_Helper', array(), array(), '', false, false),
+                    $this->getMock('Magento_Validator_UniversalFactory', array(), array(), '', false, false),
 
                 )
             );
