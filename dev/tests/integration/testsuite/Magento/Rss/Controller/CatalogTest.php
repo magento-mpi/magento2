@@ -94,7 +94,8 @@ class CatalogTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function testNotifyStockAction()
     {
         // workaround: trigger updating "low stock date", because RSS collection requires it to be not null
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\CatalogInventory\Model\Resource\Stock')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\CatalogInventory\Model\Resource\Stock')
             ->updateLowStockDate();
         $this->_loginAdmin();
         $this->dispatch('rss/catalog/notifystock');

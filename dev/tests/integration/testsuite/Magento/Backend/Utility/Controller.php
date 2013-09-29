@@ -46,7 +46,8 @@ class Controller extends \Magento\TestFramework\TestCase\ControllerAbstract
         $this->_auth->logout();
         $this->_auth = null;
         $this->_session = null;
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')->turnOnSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\Model\Url')->turnOnSecretKey();
         parent::tearDown();
     }
 

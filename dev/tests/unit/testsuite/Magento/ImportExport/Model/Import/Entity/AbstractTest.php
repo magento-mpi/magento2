@@ -27,8 +27,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEntity', array(),
-            '', false, true, true, array('_saveValidatedBunches')
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEntity',
+            array(), '', false, true, true, array('_saveValidatedBunches')
         );
     }
 

@@ -30,7 +30,8 @@ class TreeTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_treeBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout')
+        $this->_treeBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Layout')
             ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
     }
 

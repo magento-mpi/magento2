@@ -127,9 +127,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_SHIPPING => 'value',
                         'customer_attribute1' => 'value',
                         'customer_attribute2' => 'value',
-                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX . 'attribute1'
+                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX
+                            . 'attribute1'
                             => 'value',
-                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX . 'attribute2'
+                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX
+                            . 'attribute2'
                             => 'value'
                     )
                 )))),
@@ -157,9 +159,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_SHIPPING => 'value',
                         'customer_attribute1' => 'value',
                         'customer_attribute2' => 'value',
-                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX . 'attribute1'
+                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX
+                            . 'attribute1'
                             => 'value',
-                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX . 'attribute2'
+                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX
+                            . 'attribute2'
                             => 'value'
                     )
                 )))),
@@ -172,9 +176,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_SHIPPING => 'value',
                         'customer_attribute1' => 'value',
                         'customer_attribute2' => 'value',
-                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX . 'attribute1'
+                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX
+                            . 'attribute1'
                             => 'value',
-                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX . 'attribute2'
+                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX
+                            . 'attribute2'
                             => 'value'
                     ),
                 ),
@@ -191,9 +197,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_DEFAULT_SHIPPING => 'value',
                         'customer_attribute1' => 'value',
                         'customer_attribute2' => 'value',
-                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX . 'attribute1'
+                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX
+                            . 'attribute1'
                             => 'value',
-                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX . 'attribute2'
+                        \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COLUMN_ADDRESS_PREFIX
+                            . 'attribute2'
                             => 'value'
                     )
                 )))),

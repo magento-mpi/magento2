@@ -58,7 +58,8 @@ class FrontTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRouter()
     {
-        $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\DefaultRouter', $this->_model->getRouter('default'));
+        $this->assertInstanceOf('Magento\Core\Controller\Varien\Router\DefaultRouter',
+            $this->_model->getRouter('default'));
     }
 
     public function testGetRouters()

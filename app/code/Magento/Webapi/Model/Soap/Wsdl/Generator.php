@@ -121,7 +121,8 @@ class Generator
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($serviceClass);
             $serviceName = $this->getServiceName($serviceClass);
-            $wsdl->addService($serviceName, $portName, \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS . ':' . $bindingName, $endPointUrl, SOAP_1_2);
+            $wsdl->addService($serviceName, $portName, \Magento\Webapi\Model\Soap\Wsdl::TYPES_NS
+                . ':' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($serviceData['methods'] as $methodName => $methodData) {
                 $operationName = $this->getOperationName($serviceClass, $methodName);

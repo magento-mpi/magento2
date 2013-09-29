@@ -292,7 +292,8 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         if ($isLoadable) {
             $this->_consumerMock->expects($this->any())->method('load')->will($this->returnSelf());
         } else {
-            $this->_consumerMock->expects($this->any())->method('load')->will($this->returnValue(new \Magento\Object()));
+            $this->_consumerMock->expects($this->any())->method('load')
+                ->will($this->returnValue(new \Magento\Object()));
         }
 
         $this->_consumerMock->expects($this->any())->method('getId')->will($this->returnValue(1));

@@ -55,7 +55,8 @@ class OnepageTest extends \Magento\TestFramework\TestCase\ControllerAbstract
         $this->dispatch('checkout/onepage/progress');
         $html = $this->getResponse()->getBody();
         $this->assertContains('Checkout', $html);
-        $methodTitle = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session')
+        $methodTitle = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Checkout\Model\Session')
             ->getQuote()
             ->getPayment()
             ->getMethodInstance()

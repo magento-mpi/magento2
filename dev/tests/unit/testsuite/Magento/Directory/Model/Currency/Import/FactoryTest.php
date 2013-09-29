@@ -72,7 +72,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessage Class 'stdClass' has to implement \Magento\Directory\Model\Currency\Import\ImportInterface
+     * @expectedExceptionMessage Class 'stdClass' has to implement
+     * \Magento\Directory\Model\Currency\Import\ImportInterface
      */
     public function testCreateIrrelevantServiceClass()
     {
